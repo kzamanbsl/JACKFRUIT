@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BSA.Utility.MenuModel>
+
+@{
+    var groupByMenu = Model.OrderBy(x => x.MenuOrder).GroupBy(x => x.MenuName).ToList();
+    foreach (var menuList in groupByMenu)
+    {
+        <li class="treeview">
+            <a href="#" style="color:#ffffff">
+                <i class="fa fa-minus-circle"></i> <span>@menuList.Key</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" style="background:white;">
+
+                @foreach (var subMenuList in menuList.OrderBy(x => x.SubMenuOrder))
+                {
+                    <li>
+                        <a href="@(subMenuList.Link)">
+                            <i class="fa fa-caret-right"></i> <span>@subMenuList.SubMenuName</span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </li>
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

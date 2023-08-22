@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=192.168.0.7;Database=KGERPTest;User ID=sa;Password=kg@123;MultipleActiveResultSets=true;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -context ERPDbContext -Tables dbo.ErpSMS,dbo.SmsType,dbo.Company,dbo.vwSMSList -force

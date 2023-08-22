@@ -1,0 +1,854 @@
+
+USE AzlanFoodDb
+GO
+--Delete Table Data and Reset Identity
+
+--DELETE FROM 'TableName'
+--DBCC CHECKIDENT ([TableName], RESEED, 0);
+
+-- Schema name change
+--ALTER SCHEMA NewSchema TRANSFER [OldSchema].[TableName]
+
+
+--StockTransfer Delete
+SELECT * FROM Erp.StockTransferDetail
+DELETE FROM Erp.StockTransferDetail WHERE StockTransferId IN (SELECT StockTransferId FROM Erp.StockTransfer WHERE CompanyId=21)
+DELETE FROM Erp.StockTransferDetail
+DBCC CHECKIDENT ([Erp.StockTransferDetail], RESEED, 0);
+
+SELECT * FROM Erp.StockTransfer
+DELETE FROM Erp.StockTransfer WHERE CompanyId=21
+DELETE FROM Erp.StockTransfer
+DBCC CHECKIDENT ([Erp.StockTransfer], RESEED, 0);
+
+--MaterialReceive Delete
+SELECT * FROM Erp.MaterialReceiveDetail
+DELETE FROM Erp.MaterialReceiveDetail WHERE MaterialReceiveId IN (SELECT MaterialReceiveId FROM Erp.MaterialReceive WHERE CompanyId=21)
+DELETE FROM Erp.MaterialReceiveDetail
+DBCC CHECKIDENT ([Erp.MaterialReceiveDetail], RESEED, 0);
+
+SELECT * FROM Erp.MaterialReceive
+DELETE FROM Erp.MaterialReceive WHERE CompanyId=21
+DELETE FROM Erp.MaterialReceive
+DBCC CHECKIDENT ([Erp.MaterialReceive], RESEED, 0);
+
+--PurchaseOrder Delete
+SELECT * FROM Erp.PurchaseOrderDetail
+DELETE FROM Erp.PurchaseOrderDetail WHERE PurchaseOrderId IN (SELECT PurchaseOrderId FROM Erp.PurchaseOrder WHERE CompanyId=21)
+DELETE FROM Erp.PurchaseOrderDetail
+DBCC CHECKIDENT ([Erp.PurchaseOrderDetail], RESEED, 0);
+
+SELECT * FROM Erp.PurchaseOrder
+DELETE FROM erp.PurchaseOrder WHERE CompanyId=21
+DELETE FROM Erp.PurchaseOrder
+DBCC CHECKIDENT ([Erp.PurchaseOrder], RESEED, 0);
+
+SELECT * FROM Erp.PurchaseOrderTemplate
+DELETE FROM erp.PurchaseOrderTemplate
+DELETE FROM Erp.PurchaseOrderTemplate
+DBCC CHECKIDENT ([Erp.PurchaseOrderTemplate], RESEED, 0);
+
+--PurchaseReturn Delete
+SELECT * FROM Erp.PurchaseReturnDetail
+DELETE Erp.PurchaseReturnDetail WHERE PurchaseReturnId IN (SELECT PurchaseReturnId FROM Erp.PurchaseReturn WHERE CompanyId=21 )
+DELETE FROM Erp.PurchaseReturnDetail
+DBCC CHECKIDENT ([Erp.PurchaseReturnDetail], RESEED, 0);
+
+SELECT * FROM Erp.PurchaseReturn
+DELETE Erp.PurchaseReturn WHERE CompanyId=21
+DELETE FROM Erp.PurchaseReturn
+DBCC CHECKIDENT ([Erp.PurchaseReturn], RESEED, 0);
+
+--Payment Delete
+SELECT * FROM Erp.Payment
+DELETE Erp.Payment WHERE PaymentMasterId IN (SELECT PaymentMasterId FROM Erp.PaymentMaster WHERE CompanyId=21 )
+DELETE FROM Erp.Payment
+DBCC CHECKIDENT ([Erp.Payment], RESEED, 0);
+
+SELECT * FROM Erp.PaymentMaster
+DELETE Erp.PaymentMaster WHERE CompanyId=21
+DELETE FROM Erp.PaymentMaster
+DBCC CHECKIDENT ([Erp.PaymentMaster], RESEED, 0);
+
+--Voucher Delete
+SELECT * FROM VoucherMap
+DELETE VoucherMap WHERE CompanyId=21
+DELETE FROM VoucherMap
+DBCC CHECKIDENT ([VoucherMap], RESEED, 0);
+
+SELECT * FROM VoucherDetail
+DELETE VoucherDetail WHERE VoucherId IN (SELECT VoucherId FROM Voucher WHERE CompanyId=21 )
+DELETE FROM VoucherDetail
+DBCC CHECKIDENT ([VoucherDetail], RESEED, 0);
+
+SELECT * FROM Voucher
+DELETE Voucher WHERE CompanyId=21
+DELETE FROM Voucher
+DBCC CHECKIDENT ([Voucher], RESEED, 0);
+
+
+--MaterialReceive Delete
+SELECT * FROM Erp.MaterialReceiveDetail
+DELETE Erp.MaterialReceiveDetail WHERE MaterialReceiveId IN (SELECT MaterialReceiveId FROM Erp.MaterialReceive WHERE CompanyId=21 )
+DELETE FROM Erp.MaterialReceiveDetail
+DBCC CHECKIDENT ([Erp.MaterialReceiveDetail], RESEED, 0);
+
+SELECT * FROM Erp.MaterialReceive
+DELETE Erp.MaterialReceive WHERE CompanyId=21
+DELETE FROM Erp.MaterialReceive
+DBCC CHECKIDENT ([Erp.MaterialReceive], RESEED, 0);
+
+--OrderMaster and Order Delete
+SELECT * FROM Erp.OrderDetail
+DELETE Erp.OrderDetail WHERE OrderMasterId IN (SELECT OrderMasterId FROM Erp.OrderMaster WHERE CompanyId=21)
+DELETE FROM Erp.OrderDetail
+DBCC CHECKIDENT ([Erp.OrderDetail], RESEED, 0);
+
+SELECT * FROM Erp.OrderMaster
+DELETE Erp.OrderMaster WHERE CompanyId=21
+DELETE FROM Erp.OrderMaster
+DBCC CHECKIDENT ([Erp.OrderMaster], RESEED, 0);
+
+--OrderDeliver and OrderDeliverDetail Delete
+SELECT * FROM Erp.OrderDeliveryPreview
+DELETE Erp.OrderDeliveryPreview WHERE CompanyId=21
+DELETE FROM Erp.OrderDeliveryPreview
+DBCC CHECKIDENT ([Erp.OrderDeliveryPreview], RESEED, 0);
+
+SELECT * FROM Erp.OrderDeliverDetail
+DELETE Erp.OrderDeliverDetail WHERE OrderDeliverId IN( SELECT OrderDeliverId FROM Erp.OrderDeliver WHERE CompanyId=21)
+DELETE FROM Erp.OrderDeliverDetail
+DBCC CHECKIDENT ([Erp.OrderDeliverDetail], RESEED, 0);
+
+SELECT * FROM Erp.OrderDeliver
+DELETE Erp.OrderDeliver WHERE CompanyId=21
+DELETE FROM Erp.OrderDeliver
+DBCC CHECKIDENT ([Erp.OrderDeliver], RESEED, 0);
+
+DELETE FROM Erp.SaleReturnDetail
+DBCC CHECKIDENT ([Erp.SaleReturnDetail], RESEED, 0);
+
+DELETE FROM Erp.SaleReturn
+DBCC CHECKIDENT ([Erp.SaleReturn], RESEED, 0);
+
+--StockInfo Delete
+SELECT * FROM Erp.StockInfo
+DELETE Erp.StockInfo WHERE CompanyId=21
+DELETE FROM Erp.StockInfo
+DBCC CHECKIDENT ([Erp.StockInfo], RESEED, 0);
+
+--IssueMasterInfo and IssueDetailInfo Delete
+SELECT * FROM Erp.IssueDetailInfo
+DELETE Erp.IssueDetailInfo WHERE IssueMasterId IN (SELECT IssueMasterId FROM Erp.IssueMasterInfo WHERE CompanyId=21)
+DELETE FROM Erp.IssueDetailInfo
+DBCC CHECKIDENT ([Erp.IssueDetailInfo], RESEED, 0);
+
+SELECT * FROM Erp.IssueMasterInfo
+DELETE Erp.IssueMasterInfo WHERE CompanyId=21
+DELETE FROM Erp.IssueMasterInfo
+DBCC CHECKIDENT ([Erp.IssueMasterInfo], RESEED, 0);
+
+
+--ExpenseMaster and Expense Delete
+SELECT * FROM Erp.Expense
+DELETE Erp.Expenses WHERE ExpenseMasterId IN (SELECT ExpenseMasterId FROM Erp.ExpenseMaster WHERE CompanyId=21)
+DELETE FROM Erp.Expense
+DBCC CHECKIDENT ([Erp.Expense], RESEED, 0);
+
+SELECT * FROM Erp.ExpenseMaster
+DELETE Erp.ExpenseMaster WHERE CompanyId=21
+DELETE FROM Erp.ExpenseMaster
+DBCC CHECKIDENT ([Erp.ExpenseMaster], RESEED, 0);
+
+--Vendor Delete
+SELECT * FROM Erp.VendorOffer
+DELETE Erp.VendorOffer
+DELETE FROM Erp.VendorOffer
+DBCC CHECKIDENT ([Erp.VendorOffer], RESEED, 0);
+
+SELECT * FROM Erp.VendorDeed
+DELETE Erp.VendorDeed
+DELETE FROM Erp.VendorDeed
+DBCC CHECKIDENT ([Erp.VendorDeed], RESEED, 0);
+
+
+SELECT * FROM Erp.Vendor
+DELETE Erp.Vendor
+DELETE FROM Erp.Vendor
+DBCC CHECKIDENT ([Erp.Vendor], RESEED, 0);
+
+--ManagerProductMap, Product, Unit, SubCategory Category  Delete
+SELECT * FROM ManagerProductMap
+DELETE ManagerProductMap WHERE CompanyId=21
+DELETE FROM ManagerProductMap
+DBCC CHECKIDENT ([ManagerProductMap], RESEED, 0);
+
+SELECT * FROM Erp.ProductStore
+DELETE Erp.ProductStore WHERE CompanyId=21
+DELETE FROM Erp.ProductStore
+DBCC CHECKIDENT ([Erp.ProductStore], RESEED, 0);
+
+SELECT * FROM Erp.ProductPrice
+DELETE Erp.ProductPrice WHERE CompanyId=21
+DELETE FROM Erp.ProductPrice
+DBCC CHECKIDENT ([Erp.ProductPrice], RESEED, 0);
+
+SELECT * FROM Erp.FormulaHistory
+DELETE Erp.FormulaHistory WHERE CompanyId=21
+DELETE FROM Erp.FormulaHistory
+DBCC CHECKIDENT ([Erp.FormulaHistory], RESEED, 0);
+
+SELECT * FROM Erp.PFormulaDetail
+DELETE Erp.PFormulaDetail
+DELETE FROM Erp.PFormulaDetail
+DBCC CHECKIDENT ([Erp.PFormulaDetail], RESEED, 0);
+
+SELECT * FROM Erp.ProductFormula
+DELETE Erp.ProductFormula WHERE CompanyId=21
+DELETE FROM Erp.ProductFormula
+DBCC CHECKIDENT ([Erp.ProductFormula], RESEED, 0);
+
+SELECT * FROM Erp.BookingInstallmentSchedule
+DELETE Erp.BookingInstallmentSchedule
+DELETE FROM Erp.BookingInstallmentSchedule
+DBCC CHECKIDENT ([Erp.BookingInstallmentSchedule], RESEED, 0);
+
+SELECT * FROM Erp.BookingCostMapping
+DELETE Erp.BookingCostMapping
+DELETE FROM Erp.BookingCostMapping
+DBCC CHECKIDENT ([Erp.BookingCostMapping], RESEED, 0);
+
+SELECT * FROM Erp.ProductBookingInfo
+DELETE Erp.ProductBookingInfo
+DELETE FROM Erp.ProductBookingInfo
+DBCC CHECKIDENT ([Erp.ProductBookingInfo], RESEED, 0);
+
+SELECT * FROM Erp.FinishProductBOM
+DELETE Erp.FinishProductBOM
+DELETE FROM Erp.FinishProductBOM
+DBCC CHECKIDENT ([Erp.FinishProductBOM], RESEED, 0);
+
+SELECT * FROM dbo.PromtionalOfferDetail
+DELETE FROM dbo.PromtionalOfferDetail
+DBCC CHECKIDENT ([dbo.PromtionalOfferDetail], RESEED, 0);
+
+SELECT * FROM dbo.PromtionalOffer
+DELETE FROM dbo.PromtionalOffer
+DBCC CHECKIDENT ([dbo.PromtionalOffer], RESEED, 0);
+
+SELECT * FROM dbo.PromotionType
+DELETE FROM dbo.PromotionType
+DBCC CHECKIDENT ([dbo.PromotionType], RESEED, 0);
+
+SELECT * FROM Erp.Product
+DELETE Erp.Product WHERE CompanyId=21
+DELETE FROM Erp.Product
+DBCC CHECKIDENT ([Erp.Product], RESEED, 0);
+
+SELECT * FROM Erp.Unit
+DELETE Erp.Unit WHERE CompanyId=21
+DELETE FROM Erp.Unit
+DBCC CHECKIDENT ([Erp.Unit], RESEED, 0);
+
+SELECT * FROM ERP.ProductSubCategory
+DELETE Erp.ProductSubCategory WHERE CompanyId=21
+DELETE FROM Erp.ProductSubCategory
+DBCC CHECKIDENT ([Erp.ProductSubCategory], RESEED, 0);
+
+SELECT * FROM ERP.ProductCategory
+DELETE Erp.ProductCategory WHERE CompanyId=21
+DELETE FROM Erp.ProductCategory
+DBCC CHECKIDENT ([Erp.ProductCategory], RESEED, 0);
+
+--StockAdjust and Stock Adjust Detail Delete
+SELECT * FROM Erp.StockAdjustDetail
+DELETE Erp.StockAdjustDetail WHERE StockAdjustId IN (SELECT StockAdjustId FROM Erp.StockAdjust WHERE CompanyId=21)
+DELETE FROM Erp.StockAdjustDetail
+DBCC CHECKIDENT ([Erp.StockAdjustDetail], RESEED, 0);
+
+SELECT * FROM Erp.StockAdjust
+DELETE Erp.StockAdjust WHERE CompanyId=21
+DELETE FROM Erp.StockAdjust
+DBCC CHECKIDENT ([Erp.StockAdjust], RESEED, 0);
+
+--Requisition, RequisitionItem, RequisitionItemDetail Delete
+SELECT * FROM Erp.RequisitionItemDetail
+DELETE Erp.RequisitionItemDetail WHERE RequisitionItemId IN (SELECT RequisitionItemId FROM Erp.Requisition WHERE CompanyId=21)
+DELETE FROM Erp.RequisitionItemDetail
+--DBCC CHECKIDENT ([Erp.RequisitionItemDetail], RESEED, 0);
+
+SELECT * FROM Erp.RequisitionItem
+DELETE Erp.RequisitionItem WHERE RequisitionId IN (SELECT RequisitionId FROM Erp.Requisition WHERE CompanyId=21)
+DELETE FROM Erp.RequisitionItem
+DBCC CHECKIDENT ([Erp.RequisitionItem], RESEED, 0);
+
+SELECT * FROM Erp.Requisition
+DELETE Erp.Requisition WHERE  CompanyId=21
+DELETE FROM Erp.Requisition
+DBCC CHECKIDENT ([Erp.Requisition], RESEED, 0);
+
+--Income Delete
+SELECT * FROM Erp.Income
+DELETE Erp.Income WHERE CompanyId=21
+DELETE FROM Erp.Income
+DBCC CHECKIDENT ([Erp.Income], RESEED, 0);
+
+--Incentive and IncentiveDetail Delete
+SELECT * FROM Erp.IncentiveDetail
+DELETE Erp.IncentiveDetail WHERE IncentiveId IN (SELECT IncentiveId FROM Erp.Incentive WHERE CompanyId=21)
+DELETE FROM Erp.IncentiveDetail
+DBCC CHECKIDENT ([Erp.IncentiveDetail], RESEED, 0);
+
+SELECT * FROM Erp.Incentive
+DELETE Erp.Incentive WHERE CompanyId=21
+DELETE FROM Erp.Incentive
+DBCC CHECKIDENT ([Erp.Incentive], RESEED, 0);
+
+--DemandItemDetail Demand Delete
+SELECT * FROM Erp.DemandItemDetail
+DELETE Erp.DemandItemDetail WHERE DemandId IN (SELECT DemandId FROM Erp.Demand WHERE CompanyId=21)
+DELETE FROM Erp.DemandItemDetail
+DBCC CHECKIDENT ([Erp.DemandItemDetail], RESEED, 0);
+
+SELECT * FROM Erp.DemandItem
+DELETE Erp.DemandItem
+DELETE FROM Erp.DemandItem
+DBCC CHECKIDENT ([Erp.DemandItem], RESEED, 0);
+
+SELECT * FROM Erp.Demand
+DELETE Erp.Demand WHERE CompanyId=21
+DELETE FROM Erp.Demand
+DBCC CHECKIDENT ([Erp.Demand], RESEED, 0);
+
+
+
+--Farmer Delete
+SELECT * FROM Erp.Farmer
+DELETE Erp.Farmer WHERE CompanyId=21
+DELETE FROM Erp.Farmer
+DBCC CHECKIDENT ([Erp.Farmer], RESEED, 0);
+
+--FacingInfo Delete
+SELECT * FROM Erp.FacingInfo
+DELETE Erp.FacingInfo
+DELETE FROM Erp.FacingInfo
+DBCC CHECKIDENT ([Erp.FacingInfo], RESEED, 0);
+
+--CustomerGroupMapping, CustomerGroupInfo Delete
+SELECT * FROM Erp.CustomerGroupMapping
+DELETE Erp.CustomerGroupMapping
+DELETE FROM Erp.CustomerGroupMapping
+DBCC CHECKIDENT ([Erp.CustomerGroupMapping], RESEED, 0);
+
+SELECT * FROM Erp.CustomerGroupInfo
+DELETE Erp.CustomerGroupInfo
+DELETE FROM Erp.CustomerGroupInfo
+DBCC CHECKIDENT ([Erp.CustomerGroupInfo], RESEED, 0);
+
+--ConvertedProductDetail, ConvertedProduct Delete
+SELECT * FROM Erp.ConvertedProductDetail
+DELETE Erp.ConvertedProductDetail
+DELETE FROM Erp.ConvertedProductDetail
+DBCC CHECKIDENT ([Erp.ConvertedProductDetail], RESEED, 0);
+
+SELECT * FROM Erp.ConvertedProduct
+DELETE Erp.ConvertedProduct
+DELETE FROM Erp.ConvertedProduct
+DBCC CHECKIDENT ([Erp.ConvertedProduct], RESEED, 0);
+
+--BookingInstallmentType Delete
+SELECT * FROM Erp.BookingInstallmentType
+DELETE Erp.BookingInstallmentType
+DELETE FROM Erp.BookingInstallmentType
+DBCC CHECKIDENT ([Erp.BookingInstallmentType], RESEED, 0);
+
+--BookingCostHeads Delete
+SELECT * FROM Erp.BookingCostHeads
+DELETE Erp.BookingCostHeads
+DELETE FROM Erp.BookingCostHeads
+DBCC CHECKIDENT ([Erp.BookingCostHeads], RESEED, 0);
+
+--Ticketing Delete
+SELECT * FROM dbo.Ticketing
+DELETE dbo.Ticketing
+DELETE FROM dbo.Ticketing
+DBCC CHECKIDENT ([dbo.Ticketing], RESEED, 0);
+
+--TempFeedVoucherDetail Delete
+SELECT * FROM dbo.TempFeedVoucherDetail
+DELETE dbo.TempFeedVoucherDetail
+DELETE FROM dbo.TempFeedVoucherDetail
+DBCC CHECKIDENT ([dbo.TempFeedVoucherDetail], RESEED, 0);
+
+--TBNew Delete
+SELECT * FROM dbo.TBNew
+DELETE dbo.TBNew
+DELETE FROM dbo.TBNew
+DBCC CHECKIDENT ([dbo.TBNew], RESEED, 0);
+
+--TBack Delete
+SELECT * FROM dbo.TBack
+DELETE dbo.TBack
+DELETE FROM dbo.TBack
+DBCC CHECKIDENT ([dbo.TBack], RESEED, 0);
+
+--SupplierProduct Delete
+SELECT * FROM dbo.SupplierProduct
+DELETE dbo.SupplierProduct
+DELETE FROM dbo.SupplierProduct
+DBCC CHECKIDENT ([dbo.SupplierProduct], RESEED, 0);
+
+--SMSScheduleLog Delete
+SELECT * FROM dbo.SMSScheduleLog
+DELETE dbo.SMSScheduleLog
+DELETE FROM dbo.SMSScheduleLog
+DBCC CHECKIDENT ([dbo.SMSScheduleLog], RESEED, 0);
+
+--ShareHolder Delete
+SELECT * FROM dbo.ShareHolder
+DELETE dbo.ShareHolder
+DELETE FROM dbo.ShareHolder
+DBCC CHECKIDENT ([dbo.ShareHolder], RESEED, 0);
+
+--salaryInformatrion Delete
+SELECT * FROM dbo.salaryInformatrion
+DELETE dbo.salaryInformatrion
+DELETE FROM dbo.salaryInformatrion
+DBCC CHECKIDENT ([dbo.salaryInformatrion], RESEED, 0);
+
+--PS Delete
+SELECT * FROM dbo.PS
+DELETE dbo.PS
+DELETE FROM dbo.PS
+DBCC CHECKIDENT ([dbo.PS], RESEED, 0);
+
+
+--Prod_ReferenceSlaveConsumeption
+SELECT * FROM dbo.Prod_ReferenceSlaveConsumption
+DELETE dbo.Prod_ReferenceSlaveConsumption WHERE CompanyId=21
+DELETE FROM dbo.Prod_ReferenceSlaveConsumption
+DBCC CHECKIDENT ([dbo.Prod_ReferenceSlaveConsumption], RESEED, 0);
+
+--Prod_ReferenceSlave
+SELECT * FROM dbo.Prod_ReferenceSlave
+DELETE dbo.Prod_ReferenceSlave WHERE CompanyId=21
+DELETE FROM dbo.Prod_ReferenceSlave
+DBCC CHECKIDENT ([dbo.Prod_ReferenceSlave], RESEED, 0);
+
+--Prod_Reference
+SELECT * FROM dbo.Prod_Reference
+DELETE dbo.Prod_Reference WHERE CompanyId=21
+DELETE FROM dbo.Prod_Reference
+DBCC CHECKIDENT ([dbo.Prod_Reference], RESEED, 0);
+
+--Project Delete
+SELECT * FROM dbo.FileAttachment
+DELETE FROM dbo.FileAttachment
+DBCC CHECKIDENT ([dbo.FileAttachment], RESEED, 0);
+
+
+SELECT * FROM dbo.Asset
+DELETE FROM dbo.Asset
+DBCC CHECKIDENT ([dbo.Asset], RESEED, 0);
+
+SELECT * FROM dbo.Project
+DELETE FROM dbo.Project
+DBCC CHECKIDENT ([dbo.Project], RESEED, 0);
+
+--ProcessLeave Delete
+SELECT * FROM dbo.ProcessLeave
+DELETE FROM dbo.ProcessLeave
+DBCC CHECKIDENT ([dbo.ProcessLeave], RESEED, 0);
+
+--ProcessAttenendance Delete
+SELECT * FROM dbo.ProcessAttenendance
+DELETE FROM dbo.ProcessAttenendance
+DBCC CHECKIDENT ([dbo.ProcessAttenendance], RESEED, 0);
+
+--PfData Delete
+SELECT * FROM dbo.PfData
+DELETE FROM dbo.PfData
+DBCC CHECKIDENT ([dbo.PfData], RESEED, 0);
+
+--MonthlyTarget Delete
+SELECT * FROM dbo.MonthlyTarget
+DELETE FROM dbo.MonthlyTarget
+DBCC CHECKIDENT ([dbo.MonthlyTarget], RESEED, 0);
+
+--MoneyReceiptType Delete
+SELECT * FROM dbo.MoneyReceiptDetail
+DELETE FROM dbo.MoneyReceiptDetail
+DBCC CHECKIDENT ([dbo.MoneyReceiptDetail], RESEED, 0);
+
+SELECT * FROM dbo.MoneyReceipt
+DELETE FROM dbo.MoneyReceipt
+DBCC CHECKIDENT ([dbo.MoneyReceipt], RESEED, 0);
+
+
+--Message Delete
+SELECT * FROM dbo.[Message]
+DELETE FROM dbo.[Message]
+DBCC CHECKIDENT ([dbo.Message], RESEED, 0);
+
+--LeaveApplication_Shadow Delete
+SELECT * FROM dbo.LeaveApplication_Shadow
+DELETE FROM dbo.LeaveApplication_Shadow
+DBCC CHECKIDENT ([dbo.LeaveApplication_Shadow], RESEED, 0);
+
+--Leave Delete
+SELECT * FROM dbo.Leave
+DELETE FROM dbo.Leave
+DBCC CHECKIDENT ([dbo.Leave], RESEED, 0);
+
+--LandUser Delete
+SELECT * FROM dbo.LandUser
+DELETE FROM dbo.LandUser
+DBCC CHECKIDENT ([dbo.LandUser], RESEED, 0);
+
+SELECT * FROM dbo.LandReceiver
+DELETE FROM dbo.LandReceiver
+DBCC CHECKIDENT ([dbo.LandReceiver], RESEED, 0);
+
+SELECT * FROM dbo.LandOwner
+DELETE FROM dbo.LandOwner
+DBCC CHECKIDENT ([dbo.LandOwner], RESEED, 0);
+
+SELECT * FROM dbo.LandNLegal
+DELETE FROM dbo.LandNLegal
+DBCC CHECKIDENT ([dbo.LandNLegal], RESEED, 0);
+
+--KttlService Delete
+SELECT * FROM dbo.KttlService
+DELETE FROM dbo.KttlService
+DBCC CHECKIDENT ([dbo.KttlService], RESEED, 0);
+
+SELECT * FROM dbo.KTTLHistory
+DELETE FROM dbo.KTTLHistory
+DBCC CHECKIDENT ([dbo.KTTLHistory], RESEED, 0);
+
+SELECT * FROM dbo.KttlCustomer
+DELETE FROM dbo.KttlCustomer
+DBCC CHECKIDENT ([dbo.KttlCustomer], RESEED, 0);
+
+--KGREProject Delete
+SELECT * FROM dbo.KGREProject
+DELETE FROM dbo.KGREProject
+DBCC CHECKIDENT ([dbo.KGREProject], RESEED, 0);
+
+--KGREPlotBooking Delete
+SELECT * FROM dbo.KGREPlotBooking
+DELETE FROM dbo.KGREPlotBooking
+DBCC CHECKIDENT ([dbo.KGREPlotBooking], RESEED, 0);
+
+--KGREPlot Delete
+SELECT * FROM dbo.KGREPlot
+DELETE FROM dbo.KGREPlot
+DBCC CHECKIDENT ([dbo.KGREPlot], RESEED, 0);
+
+--KGREPayment Delete
+SELECT * FROM dbo.KGREPayment
+DELETE FROM dbo.KGREPayment
+DBCC CHECKIDENT ([dbo.KGREPayment], RESEED, 0);
+
+--KGREInstallment Delete
+SELECT * FROM dbo.KGREInstallment
+DELETE FROM dbo.KGREInstallment
+DBCC CHECKIDENT ([dbo.KGREInstallment], RESEED, 0);
+
+--KGREHistory Delete
+SELECT * FROM dbo.KGREHistory
+DELETE FROM dbo.KGREHistory
+DBCC CHECKIDENT ([dbo.KGREHistory], RESEED, 0);
+
+--KGRECostSetup Delete
+SELECT * FROM dbo.KGRECostSetup
+DELETE FROM dbo.KGRECostSetup
+DBCC CHECKIDENT ([dbo.KGRECostSetup], RESEED, 0);
+
+--KGREComments Delete
+SELECT * FROM dbo.KGREComments
+DELETE FROM dbo.KGREComments
+DBCC CHECKIDENT ([dbo.KGREComments], RESEED, 0);
+
+--KgAsset Delete
+SELECT * FROM dbo.KgAsset
+DELETE FROM dbo.KgAsset
+DBCC CHECKIDENT ([dbo.KgAsset], RESEED, 0);
+
+--FeedMay202Opening Delete
+SELECT * FROM dbo.FeedMay2022Opening
+DELETE FROM dbo.FeedMay2022Opening
+DBCC CHECKIDENT ([dbo.FeedMay2022Opening], RESEED, 0);
+
+--ErpSMS Delete
+SELECT * FROM dbo.ErpSMS
+DELETE FROM dbo.ErpSMS
+DBCC CHECKIDENT ([dbo.ErpSMS], RESEED, 0);
+
+--ErpLogInfo Delete
+SELECT * FROM dbo.ErpLogInfo
+DELETE FROM dbo.ErpLogInfo
+DBCC CHECKIDENT ([dbo.ErpLogInfo], RESEED, 0);
+
+--ErpLogInfo Delete
+SELECT * FROM dbo.EmployeeOperation
+DELETE FROM dbo.EmployeeOperation
+DBCC CHECKIDENT ([dbo.EmployeeOperation], RESEED, 0);
+
+--Employee_Shadow Delete
+SELECT * FROM dbo.Employee_Shadow
+DELETE FROM dbo.Employee_Shadow
+DBCC CHECKIDENT ([dbo.Employee_Shadow], RESEED, 0);
+
+--Employee_Audit Delete
+SELECT * FROM dbo.Employee_Audit
+DELETE FROM dbo.Employee_Audit
+DBCC CHECKIDENT ([dbo.Employee_Audit], RESEED, 0);
+
+--ECMember Delete
+SELECT * FROM dbo.ECMember
+DELETE FROM dbo.ECMember
+DBCC CHECKIDENT ([dbo.ECMember], RESEED, 0);
+
+--ECMember Delete
+SELECT * FROM dbo.DraftReportingPerson
+DELETE FROM dbo.DraftReportingPerson
+DBCC CHECKIDENT ([dbo.DraftReportingPerson], RESEED, 0);
+
+--CustomerBookingFileMapping Delete
+SELECT * FROM dbo.CustomerBookingFileMapping
+DELETE FROM dbo.CustomerBookingFileMapping
+DBCC CHECKIDENT ([dbo.CustomerBookingFileMapping], RESEED, 0);
+
+--CrmUploadHistory Delete
+SELECT * FROM dbo.CrmUploadHistory
+DELETE FROM dbo.CrmUploadHistory
+DBCC CHECKIDENT ([dbo.CrmUploadHistory], RESEED, 0);
+
+--CrmSourceMedia Delete
+SELECT * FROM dbo.CrmSourceMedia
+DELETE FROM dbo.CrmSourceMedia
+DBCC CHECKIDENT ([dbo.CrmSourceMedia], RESEED, 0);
+
+--CrmServiceStatus Delete
+SELECT * FROM dbo.CrmServiceStatus
+DELETE FROM dbo.CrmServiceStatus
+DBCC CHECKIDENT ([dbo.CrmServiceStatus], RESEED, 0);
+
+--CrmSchedule Delete
+SELECT * FROM dbo.CrmSchedule
+DELETE FROM dbo.CrmSchedule
+DBCC CHECKIDENT ([dbo.CrmSchedule], RESEED, 0);
+
+--CrmPromotionalOffer Delete
+SELECT * FROM dbo.CrmPromotionalOffer
+DELETE FROM dbo.CrmPromotionalOffer
+DBCC CHECKIDENT ([dbo.CrmPromotionalOffer], RESEED, 0);
+
+--CrmChoiceArea Delete
+SELECT * FROM dbo.CrmChoiceArea
+DELETE FROM dbo.CrmChoiceArea
+DBCC CHECKIDENT ([dbo.CrmChoiceArea], RESEED, 0);
+
+--CreditRecoverDetail Delete
+SELECT * FROM dbo.CreditRecoverDetail
+DELETE FROM dbo.CreditRecoverDetail
+DBCC CHECKIDENT ([dbo.CreditRecoverDetail], RESEED, 0);
+
+--CreditRecover Delete
+SELECT * FROM dbo.CreditRecover
+DELETE FROM dbo.CreditRecover
+DBCC CHECKIDENT ([dbo.CreditRecover], RESEED, 0);
+
+--ComplainManagement Delete
+SELECT * FROM dbo.ComplainManagement
+DELETE FROM dbo.ComplainManagement
+DBCC CHECKIDENT ([dbo.ComplainManagement], RESEED, 0);
+
+--CaseHistory Delete
+SELECT * FROM dbo.CaseHistory
+DELETE FROM dbo.CaseHistory
+DBCC CHECKIDENT ([dbo.CaseHistory], RESEED, 0);
+
+--CaseComments Delete
+SELECT * FROM dbo.CaseComments
+DELETE FROM dbo.CaseComments
+DBCC CHECKIDENT ([dbo.CaseComments], RESEED, 0);
+
+--BoardOfDirector Delete
+SELECT * FROM dbo.BoardOfDirector
+DELETE FROM dbo.BoardOfDirector
+DBCC CHECKIDENT ([dbo.BoardOfDirector], RESEED, 0);
+
+--Bag Delete
+SELECT * FROM dbo.Bag
+DELETE FROM dbo.Bag
+DBCC CHECKIDENT ([dbo.Bag], RESEED, 0);
+
+--AttendenceHistory Delete
+SELECT * FROM dbo.AttendenceHistory
+DELETE FROM dbo.AttendenceHistory
+DBCC CHECKIDENT ([dbo.AttendenceHistory], RESEED, 0);
+
+--AttendenceApproveApplication_Shadow Delete
+SELECT * FROM dbo.AttendenceApproveApplication_Shadow
+DELETE FROM dbo.AttendenceApproveApplication_Shadow
+DBCC CHECKIDENT ([dbo.AttendenceApproveApplication_Shadow], RESEED, 0);
+
+--AttendenceApproveApplication Delete
+SELECT * FROM dbo.AttendenceApproveApplication
+DELETE FROM dbo.AttendenceApproveApplication
+DBCC CHECKIDENT ([dbo.AttendenceApproveApplication], RESEED, 0);
+
+--AttendanceType Delete
+SELECT * FROM dbo.AttendanceType
+DELETE FROM dbo.AttendanceType
+DBCC CHECKIDENT ([dbo.AttendanceType], RESEED, 0);
+
+
+--Attendance_Shadow Delete
+SELECT * FROM dbo.Attendance_Shadow
+DELETE FROM dbo.Attendance_Shadow
+DBCC CHECKIDENT ([dbo.Attendance_Shadow], RESEED, 0);
+
+--AssetType Delete
+SELECT * FROM dbo.AssetTrackingFinal
+DELETE FROM dbo.AssetTrackingFinal
+DBCC CHECKIDENT ([dbo.AssetTrackingFinal], RESEED, 0);
+
+SELECT * FROM dbo.AssetType
+DELETE FROM dbo.AssetType
+DBCC CHECKIDENT ([dbo.AssetType], RESEED, 0);
+
+SELECT * FROM dbo.AssetSubLocation
+DELETE FROM dbo.AssetSubLocation
+DBCC CHECKIDENT ([dbo.AssetSubLocation], RESEED, 0);
+
+SELECT * FROM dbo.AssetLocation
+DELETE FROM dbo.AssetLocation
+DBCC CHECKIDENT ([dbo.AssetLocation], RESEED, 0);
+
+--AdvanceSalary Delete
+SELECT * FROM dbo.AdvanceSalary
+DELETE FROM dbo.AdvanceSalary
+DBCC CHECKIDENT ([dbo.AdvanceSalary], RESEED, 0);
+
+
+--Accounting_ChequeInfo Delete
+SELECT * FROM dbo.Accounting_ChequeInfo
+DELETE FROM dbo.Accounting_ChequeInfo
+DBCC CHECKIDENT ([dbo.Accounting_ChequeInfo], RESEED, 0);
+
+--Accounting_Signatory Delete
+SELECT * FROM dbo.Accounting_Signatory
+DELETE FROM dbo.Accounting_Signatory
+DBCC CHECKIDENT ([dbo.Accounting_Signatory], RESEED, 0);
+
+--BankBranch Delete
+SELECT * FROM dbo.BankBranch
+DELETE FROM dbo.BankBranch
+DBCC CHECKIDENT ([dbo.BankBranch], RESEED, 0);
+
+SELECT * FROM dbo.Bank
+DELETE FROM dbo.Bank
+DBCC CHECKIDENT ([dbo.Bank], RESEED, 0);
+
+--ReportCategory Delete
+SELECT * FROM EDoc.ReportCategory
+DELETE FROM EDoc.ReportCategory
+DBCC CHECKIDENT ([EDoc.ReportCategory], RESEED, 0);
+
+SELECT * FROM EDoc.ReportApprovalDetail
+DELETE FROM EDoc.ReportApprovalDetail
+DBCC CHECKIDENT ([EDoc.ReportApprovalDetail], RESEED, 0);
+
+SELECT * FROM EDoc.ReportApproval
+DELETE FROM EDoc.ReportApproval
+DBCC CHECKIDENT ([EDoc.ReportApproval], RESEED, 0);
+
+--WorkState Delete
+SELECT * FROM dbo.WorkState
+DELETE FROM dbo.WorkState
+DBCC CHECKIDENT ([dbo.WorkState], RESEED, 0);
+
+SELECT * FROM dbo.WorkQAFile
+DELETE FROM dbo.WorkQAFile
+DBCC CHECKIDENT ([dbo.WorkQAFile], RESEED, 0);
+
+SELECT * FROM dbo.WorkQA
+DELETE FROM dbo.WorkQA
+DBCC CHECKIDENT ([dbo.WorkQA], RESEED, 0);
+
+SELECT * FROM dbo.WorkMember
+DELETE FROM dbo.WorkMember
+DBCC CHECKIDENT ([dbo.WorkMember], RESEED, 0);
+
+--UserPermission Delete
+SELECT * FROM dbo.UserPermission
+DELETE FROM dbo.UserPermission
+DBCC CHECKIDENT ([dbo.UserPermission], RESEED, 0);
+
+--Test, TB, T Delete
+SELECT * FROM dbo.Test
+DELETE FROM dbo.Test
+DBCC CHECKIDENT ([dbo.Test], RESEED, 0);
+
+SELECT * FROM dbo.TB
+DELETE FROM dbo.TB
+DBCC CHECKIDENT ([dbo.TB], RESEED, 0);
+
+SELECT * FROM dbo.T
+DELETE FROM dbo.T
+DBCC CHECKIDENT ([dbo.T], RESEED, 0);
+
+--HolidayCategory Delete
+SELECT * FROM dbo.HolidayCategory
+DELETE FROM dbo.HolidayCategory
+DBCC CHECKIDENT ([dbo.HolidayCategory], RESEED, 0);
+
+--FileArchive Delete
+SELECT * FROM dbo.FileArchive
+DELETE FROM dbo.FileArchive
+DBCC CHECKIDENT ([dbo.FileArchive], RESEED, 0);
+
+--AdminSetUp Delete
+SELECT * FROM dbo.AdminSetUp
+DELETE FROM dbo.AdminSetUp
+DBCC CHECKIDENT ([dbo.AdminSetUp], RESEED, 0);
+
+--AdminSetUp Acc
+SELECT * FROM dbo.Acc
+DELETE FROM dbo.Acc
+DBCC CHECKIDENT ([dbo.Acc], RESEED, 0);
+
+--SubZone, Region and Zone Delete
+SELECT * FROM Erp.SubZone
+DELETE Erp.SubZone WHERE CompanyId=21
+DELETE FROM Erp.SubZone
+DBCC CHECKIDENT ([Erp.SubZone], RESEED, 0);
+
+SELECT * FROM Erp.Region
+DELETE Erp.Region WHERE CompanyId=21
+DELETE FROM Erp.Region
+DBCC CHECKIDENT ([Erp.Region], RESEED, 0);
+
+SELECT * FROM Erp.Zone
+DELETE Erp.Zone WHERE CompanyId=21
+DELETE FROM Erp.Zone
+DBCC CHECKIDENT ([Erp.Zone], RESEED, 0);
+
+SELECT * FROM Erp.VendorOpening
+DELETE FROM erp.VendorOpening
+DELETE FROM Erp.VendorOpening
+DBCC CHECKIDENT ([Erp.VendorOpening], RESEED, 0)
+
+============Need to Discouse===========
+01. dbo.User
+
+***********Head All*************
+01. dbo.Head1
+02. dbo.Head2
+03. dbo.Head3
+04. dbo.Head4
+05. dbo.Head5
+06. dbo.HeadGL

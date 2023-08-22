@@ -1,0 +1,353 @@
+﻿@model BSA.ViewModel.EmployeeViewModel
+@using BSA.Utility
+@{
+    /**/
+
+    ViewBag.Title = "Create";
+}
+<style>
+    class {
+        padding: 70px;
+        border: 1px solid #4CAF50;
+    }
+</style>
+
+@using (Html.BeginForm("CreateOrEdit", "BSAEmployees", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal" style="padding-left:20px">
+        <div class="row">
+            @{ if (Model.Employee.Id > 0)
+                {
+                    <div class="header"><h4>Update Employee Information</h4></div>
+                }
+                else
+                {
+                    <div class="header"><h4>Add New Employee</h4></div>
+                }
+            }
+        </div>
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Employee.Id)
+        <div class="row">
+            <hr style="border-color:red; padding:0px;margin-top: 10px;margin-bottom: 10px; border-width: 2px;" />
+            <!--begin tabs going in narrow content -->
+            <ul class="nav nav-tabs sidebar-tabs" id="sidebar" role="tablist">
+                <li class="active"><a href="#tab-1" role="tab" data-toggle="tab">Employee Basic Information</a></li>
+                <li><a href="#tab-2" role="tab" data-toggle="tab">Personal Information</a></li>
+                <li><a href="#tab-3" role="tab" data-toggle="tab">Job Information</a></li>
+                <li><a href="#tab-4" role="tab" data-toggle="tab">Contact Information</a></li>
+                <li><a href="#tab-5" role="tab" data-toggle="tab">Employee Status</a></li>
+             
+            </ul><!--/.nav-tabs.sidebar-tabs -->
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-1">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" style="background-color:#4CAF50;color:#FFFFFF"><b>Employee Basic Information</b></div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.EmployeeId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Employee.EmployeeId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.Name, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Employee.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.ShortName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Employee.ShortName, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.GenderId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.Employee.GenderId, new SelectList(Model.Genders, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                            @Html.ValidationMessageFor(model => model.Employee.GenderId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.BloodGroupId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.Employee.BloodGroupId, new SelectList(Model.BloodGroups, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.ReligionId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.Employee.ReligionId, new SelectList(Model.Religions, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/.tab-pane -->
+                <div class="tab-pane" id="tab-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" style="background-color:#4CAF50;color:#FFFFFF"><b>Employee Personal Information</b></div>
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.FatherName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.FatherName, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.MotherName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.MotherName, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.SpouseName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.SpouseName, new { htmlAttributes = new { @class = "form-control" } })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.DateOfBirth, new { htmlAttributes = new { @class = "datepicker", @style = "width:240px", @placeholder = "dd/mm/yyyy", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.NationalId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.NationalId, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.DrivingLicenseNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.DrivingLicenseNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.PassportNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.PassportNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.SocialId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.SocialId, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--/.tab-pane -->
+                <div class="tab-pane" id="tab-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" style="background-color:#4CAF50;color:#FFFFFF"><b>Job Information</b></div>
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.JoiningDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.JoiningDate, new { htmlAttributes = new { @class = "datepicker", @style = "width:260px", @placeholder = "dd /mm/yyyy", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.DesignationId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.Employee.DesignationId, new SelectList(Model.Designations, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.JobStatusId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.Employee.JobStatusId, new SelectList(Model.JobStatus, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.EmployeeCategoryId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.Employee.EmployeeCategoryId, new SelectList(Model.EmployeeCategories, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.OfficeTypeId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.Employee.OfficeTypeId, new SelectList(Model.OfficeTypes, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--/.tab-pane -->
+                <div class="tab-pane" id="tab-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" style="background-color:#4CAF50;color:#FFFFFF"><b>Contact Information</b></div>
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.PresentAddress, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.PresentAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.PermanentAddress, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.PermanentAddress, new { htmlAttributes = new { @class = "form-control" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.Telephone, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.MobileNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.OfficeEmail, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.OfficeEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.Email, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="tab-5">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" style="background-color:#4CAF50;color:#FFFFFF"><b>Employee Status</b></div>
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.EmployeeStatusId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.Employee.EmployeeStatusId, new SelectList(Model.EmployeeStatus, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.Remarks, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextAreaFor(model => model.Employee.Remarks, 4, 51, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--/.tab-pane -->
+            </div><!--/.tab-content -->
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="col-md-offset-6 col-md-6">
+                <div class="form-group">
+                    <div class="col-md-offset-9">
+                        <input type="submit" value="@Model.Employee.ButtonName" class="btn btn-primary" />
+                        @*<input type="submit" value="@Model.Employee.ButtonName" onclick="javascript: return SubmitForm();" class="btn btn-info" />*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker({
+                liveSearch: true,
+                showSubtext: true
+            });
+        });
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+        });
+
+    </script>
+}

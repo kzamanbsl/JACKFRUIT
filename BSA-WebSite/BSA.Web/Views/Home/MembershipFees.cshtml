@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "Membership Fees";
+}
+
+<input type="button" name="btnprint" value="Print" onclick="PrintMe('divid')" />
+<div id="divid">
+    <h4><b>MEMBERSHIP:</b></h4>
+    <p>
+        Any individual person, or company formed, established and registered under the Companies  Act, or partnership formed, established and registered under the Partnership Act, or any proprietary firm duly formed, or any other concern engaged in the business of seed trade, or any seed producers’ Representative offices which is running or has been established for running the business of seed trade, may upon applying in writing to the General Secretary of the Association, become a member in the name of the individual person, Company/firm or its/their authorized Representative, as the case may be, of the Association on payment of admission fee and subscription as par the relevant Articles of the Association.
+
+        <br />The General Secretary of the Association will place the application (s) before the Executive Committee for approval and the decision of the Executive Committee for or against any candidate for admission as member shall be final.  A candidate thus admitted by the Executive Committee shall forthwith become a member of the Association and shall be subject to all rules and regulations of the Association.
+    </p>
+
+    <h4><b>CATEGORIES OF MEMBERS:</b></h4>
+
+    <h5><b>A.	 GENERAL MEMBERS:</b></h5>
+    There will be two categories of General Members as follows:
+    <br />
+    <b>(a)	Seed Industry,</b> meaning any industry or establishment or company or organization or institution which has a minimum  of two types of capabilities, capacities and facilities out of the following six -
+    <ul>
+        <li>
+            Research & Development (R&D), Varietal development and Plant
+            Breeding.
+        </li>
+        <li>
+            Seed production and multiplication firm for any kind or variety
+            (Notified or non-notified crops) of seeds,
+        </li>
+        <li>Seed production or contract grower and system for any kind of variety (notified or non-notified crops) of seeds,</li>
+        <li>Seed processing, preservation and packaging, with internal quality control facilities.</li>
+        <li>Import/export of seeds,</li>
+        <li>Marketing and Distribution of seeds.</li>
+
+    </ul>
+    <b>(b) Seed Dealer</b> meaning any person involved in carrying on the business of seed selling, keeping or stocking for sale, bartering or otherwise supplying any seed of any kind or variety at any place of the country for agricultural purpose, under and in accordance with the terms and conditions of license granted to him by the National Seed  Board.
+
+    <h5><b>B.	ASSOCIATE MEMBER:</b></h5> Any establishment or company or organization or institution which does not qualify to be a General Member, may be admitted as an Associate Member and they shall not have any voting rights. Associate Member will not be eligible to propose any candidate, nor shall they be eligible to be candidate in any election to any post in the Executive Committee of the Association.
+
+
+    <h5><b>ADMISSION FEE, ANNUAL SUBSCRIPTION:</b></h5>
+    <p>The Admission Fee and Annual Subscription of each category of members shall be as follows:</p>
+    <hr style="border-color:#25ea94; padding:0px;margin-top: 5px;margin-bottom: 5px; border-width: 2px;" />
+    <div class="row">
+        <div class="col-md-8">
+            <table width="50%" class="table table-striped">
+                <tr>
+                    <th>SL</th>
+                    <th>Membership Category</th>
+                    <th>Admission Fee (Tk.)</th>
+                    <th>Annual Subscription (Tk.)</th>
+                </tr>
+                <tr>
+                    <td>01</td>
+                    <td>Seed Industry</td>
+                    <td align="right">50,000/-</td>
+                    <td align="right">7,000/-</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>Seed Dealer</td>
+                    <td align="right">10,000/-</td>
+                    <td align="right">3,000/-</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>Associate Member</td>
+                    <td align="right">5,000/-</td>
+                    <td align="right"> 2,000/-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <p>
+        <h3>Annual membership fee Conditions</h3>
+    </p>
+
+
+    <p>
+        (a)	The first annual subscription of each new member shall be paid in advance along with the admission fee at the time of enrollment for membership and all subsequent annual subscriptions shall become due on 1st January of each year. Annual subscription will be paid at a time every year. The Executive Committee may extend the time for payment of the annual subscription as it thinks fit.
+    </p><p>
+        (b)	Any member, who fails to pay his dues by <b>31st March of each year</b>, or within such time as may be fixed by the Executive Committee, shall cease to be a member of the Association, provided that notice under registered post has been sent to such defaulting member notifying the last date of payment of the dues.
+    </p><p>
+        (c)	 Notwithstanding the cessation of membership, all members including past members, shall remain liable to pay all their dues to the Association.
+    </p>
+
+
+    <p><b>Payments can be done by :</b></p>
+    <ol>
+        <li>Cash in Hand             </li>
+        <li>Check                   </li>
+        <li>Electronic bank transfer</li>
+    </ol>
+</div>
+<script language="javascript">
+    function PrintMe(DivID) {
+        var disp_setting = "toolbar=yes,location=no,";
+        disp_setting += "directories=yes,menubar=yes,";
+        disp_setting += "scrollbars=yes,width=650, height=600, left=100, top=25";
+        var content_vlue = document.getElementById(DivID).innerHTML;
+        var docprint = window.open("", "", disp_setting);
+        docprint.document.open();
+        docprint.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"');
+        docprint.document.write('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
+        docprint.document.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">');
+        docprint.document.write('<head><title>Membership Fees</title>');
+        docprint.document.write('<style type="text/css">body{ margin:0px;');
+        docprint.document.write('font-family:verdana,Arial;color:#000;');
+        docprint.document.write('font-family:Verdana, Geneva, sans-serif; font-size:12px;}');
+        docprint.document.write('a{color:#000;text-decoration:none;} </style>');
+        docprint.document.write('</head><body onLoad="self.print()">');
+        docprint.document.write(content_vlue);
+        docprint.document.write('</body></html>');
+        docprint.document.close();
+        docprint.focus();
+    }
+</script>

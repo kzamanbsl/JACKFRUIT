@@ -1,0 +1,87 @@
+﻿@*@model IEnumerable<BSA.Data.Models.SubMenu>*@
+
+@model IEnumerable<System.Linq.IGrouping<object, BSA.Data.Models.SubMenu>>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <b style="font-size:30px">Sub Menu</b>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-3">
+            @Html.TextBox("searchText", null, new { @class = "form-control pull-right", @autocomplete = "off", @placeholder = "Search UserID..." })
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success pull-right">Search<i class="fa fa-search"></i></button>
+        </div>
+    }
+    <div class="col-md-2">
+        <a href="@Url.Action("Create")" title="New Sub Menu" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-user"></span> Add
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <table class="table table-striped">
+
+        @foreach (var item in Model)
+        {
+            <tr style="background-color:navy;color:white;font:bold">
+                <td colspan="7"><b>@item.Key</b></td>
+            </tr>
+
+            <tr style="background-color:red;color:white;font-size:15px;font:bold">
+                <td>
+                    Order No
+                </td>
+                <td>
+                    Sub Menu
+                </td>
+
+                <td>
+                    Controller
+                </td>
+
+                <td>
+                    Action
+                </td>
+                <td>
+                    Com Id
+                </td>
+                <td>
+                    Status
+                </td>
+
+                <th class="text-center">Action</th>
+            </tr>
+            foreach (var subMenu in item.OrderBy(x => x.OrderNo))
+            {
+            <tr>
+                <td>@subMenu.OrderNo</td>
+                <td>@subMenu.Name</td>
+                <td>@subMenu.Controller</td>
+                <td>@subMenu.Action</td>
+                <td>@subMenu.Menu.CompanyId</td>
+                <td> @Html.DisplayFor(modelItem => subMenu.IsActive)</td>
+                <td class="text-center">
+                    @Html.ActionLink("Edit", "Edit", new { id = subMenu.SubMenuId }) |
+                    @Html.ActionLink("Details", "Details", new { id = subMenu.SubMenuId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = subMenu.SubMenuId })
+                </td>
+            </tr>
+            }
+
+        }
+
+    </table>
+
+</div>
+
+
+
+

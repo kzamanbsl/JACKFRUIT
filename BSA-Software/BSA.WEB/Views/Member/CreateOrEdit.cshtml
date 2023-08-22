@@ -1,0 +1,251 @@
+﻿@model BSA.ViewModel.MemberViewModel
+@using BSA.Utility
+@{
+    ViewBag.Title = "Create";
+}
+<style>
+    class {
+        padding: 70px;
+        border: 1px solid #4CAF50;
+    }
+</style>
+
+@using (Html.BeginForm("CreateOrEdit", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal" style="padding-left:20px">
+    <div class="row">
+        <div class="header"><h4>Add a New Member</h4></div>
+    </div>
+
+    <hr style="border-color:red; padding:0px;margin-top: 10px;margin-bottom: 20px; border-width: 2px;" />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MemberModel.Id)
+    @Html.HiddenFor(model => model.MemberModel.MemberType)
+    <div class="row">
+        <!--begin tabs going in narrow content -->
+        <ul class="nav nav-tabs sidebar-tabs" id="sidebar" role="tablist">
+            <li class="active"><a href="#tab-1" role="tab" data-toggle="tab">Member Basic Information</a></li>
+            <li><a href="#tab-2" role="tab" data-toggle="tab">Member Contact Information</a></li>
+            <li><a href="#tab-4" role="tab" data-toggle="tab">Member Logo</a></li>
+        </ul><!--/.nav-tabs.sidebar-tabs -->
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><b>Member Basic Information</b></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MemberModel.MemberId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.MemberModel.MemberId, new { htmlAttributes = new {@id= "txtMemberNo", @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MemberModel.MemberType, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.MemberModel.MemberType, new SelectList(Model.MemberTypes, "Text", "Text"), "---Select---", new { @id = "ddlMemberType", @class = "dropdownsize form-control" })
+                                        @Html.ValidationMessageFor(model => model.MemberModel.MemberType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MemberModel.MemberName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.MemberModel.MemberName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @*@Html.ValidationMessageFor(model => model.MemberModel.Name, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MemberModel.TIN, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.MemberModel.TIN, new { htmlAttributes = new { @class = "form-control" } })
+                                        @*@Html.ValidationMessageFor(model => model.MemberModel.Name, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--/.tab-pane -->
+
+            <div class="tab-pane" id="tab-2">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><b>Contact Information</b></div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MemberModel.AddressOne, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MemberModel.AddressOne, new { htmlAttributes = new { @class = "form-control" } })
+                                    @*@Html.ValidationMessageFor(model => model.MemberModel.PresentAddress, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MemberModel.Telephone, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MemberModel.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @*@Html.ValidationMessageFor(model => model.MemberModel.Telephone, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MemberModel.Delegate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MemberModel.Delegate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @*@Html.ValidationMessageFor(model => model.MemberModel.FatherName, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MemberModel.MobileNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MemberModel.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @*@Html.ValidationMessageFor(model => model.MemberModel.MobileNo, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MemberModel.OfficeEmail, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MemberModel.OfficeEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @*@Html.ValidationMessageFor(model => model.MemberModel.OfficeEmail, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MemberModel.Website, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MemberModel.Website, new { htmlAttributes = new { @class = "form-control" } })
+                                    @*@Html.ValidationMessageFor(model => model.MemberModel.Website, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><b>Company Logo</b></div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="file">Upload Logo:</label>
+                                <input class="btn btn-success" type="file" name="file" id="file" style="width: 100%;" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <img height="300" width="300" src="@Url.Content(Model.MemberModel.ImagePath)" alt="User Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div><!--/.tab-content -->
+
+    </div>
+
+
+
+    <div class="panel-body">
+
+        <div class="col-md-offset-6 col-md-6">
+            <div class="form-group">
+                <div class="col-md-offset-9">
+                    <input type="submit" value="@Model.MemberModel.ButtonName" class="btn btn-info" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker({
+                liveSearch: true,
+                showSubtext: true
+            });
+        });
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+
+
+        $('#ddlBank').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/BankBranch/GetBranchByBank",
+                data: { bankId: $('#ddlBank').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var bankBranch = "<select>";
+                    bankBranch = bankBranch + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        bankBranch = bankBranch + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    bankBranch = bankBranch + '</select>';
+                    $('#ddlBankBranch').html(bankBranch);
+                }
+            });
+        });
+
+
+
+        $(function () {
+            $("#ddlMemberType").change(function () {
+                var memberTypeId = $("#ddlMemberType option:selected").val(); 
+
+                $.ajax({
+                    url: '/Member/GetNewMemberNo?memberType=' + memberTypeId + "",
+                    type: "Post",
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        $('#txtMemberNo').val(response);
+                    },
+                    error: function (xhr) {
+                        //alert('error');
+                    }
+                });
+            });
+        });
+
+
+</script>
+
+}

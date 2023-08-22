@@ -1,0 +1,96 @@
+﻿@model BSA.Data.Models.Customer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Customer Details</h2>
+<hr style="border-color:red; padding:0px;margin-top: 10px;margin-bottom: 20px; border-width: 2px;" />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </dt>   
+       
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerType)
+        </dt> 
+        <dd>
+            @Html.DisplayFor(model => model.CustomerStatus)
+        </dd> 
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressOne)
+        </dt>  
+        <dt>
+            @Html.DisplayNameFor(model => model.TIN)
+        </dt>   
+        <dd>
+            @Html.DisplayFor(model => model.ContactPersonName)
+        </dd> 
+
+        <dd>
+            @Html.DisplayFor(model => model.MobileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DuePayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DuePayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nationality)
+        </dt>  
+
+        <dd>
+            @Html.DisplayFor(model => model.Telephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastPaymentDate)
+        </dt> 
+        <dt>
+            @Html.DisplayNameFor(model => model.NIDorBIN)
+        </dt> 
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt> 
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TradeLicense)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TradeLicense)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "CreateOrEdit", new { id = Model.OID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

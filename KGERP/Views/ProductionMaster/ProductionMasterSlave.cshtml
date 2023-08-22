@@ -1,0 +1,627 @@
+﻿@model KGERP.Service.ServiceModel.ProductionMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Production Process";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.ProductionMasterId > 0)
+        {
+            <span>
+                Production Process
+                @*Production History of: <a target="_blank" href="~/Expense/ExpenseDetailsReport?companyId=@Model.CompanyFK&expenseMasterId=@Model.ExpenseMasterId">@Model.ExpenseNo</a>*@
+            </span>
+        }
+        else
+        {
+            <span>
+                Production
+            </span>
+        }
+
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Production</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("ProductionMasterSlave", "ProductionMaster", FormMethod.Post, new { id = "productionMasterId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ProductionMasterId, new { id = "hideProductionMasterId" })
+                @*@Html.HiddenFor(model => model.ProductCategoryId, new { id = "hidExpenseDetailId" })*@
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
+                @*@Html.HiddenFor(model => model.ExpenseBy, new { id = "ExpenseBy" })*@
+
+                <div class="box-danger">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (Model.ProductionMasterId > 0)
+                        {
+
+                         
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+                                @*<li hidden="hidden" id="prodStatusId">@Model.ProductionStatusId</li>*@
+                                <input hidden="hidden" id="prodStatusId"  />
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:18%">
+                                            Product Name
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.NewProductName</label>
+                                        </td>
+
+                                        <th style="width:18%"> Date</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.ProductionDate.ToShortDateString()</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Production Status</th>
+                                        <th>:</th>
+                                        <td>@Model.ProductionStatusName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Created By</th>
+                                        <th>:</th>
+                                        <td>@Model.CreatedBy</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <div class="col-md-1"> </div>
+                        }
+
+                        <div class="box-body">
+
+                            @if (Model.ProductionMasterId == 0)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Production Date</label>
+                                            <input name="ProductionDate" asp-for="ProductionDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtProductionDate" placeholder="Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.ProductionDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Production Status</label>
+                                            @Html.DropDownListFor(model => model.ProductionStatusId, new SelectList(Model.ProductionStatusList, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "ddlProductionStatusId" })
+                                            @Html.ValidationMessageFor(model => model.ProductionStatusId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="masterdivId" hidden="hidden">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Product Category</label>
+                                            @Html.DropDownListFor(model => model.ProductCategoryId, new SelectList(Model.ProductCategories, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "ddlProductCategory" })
+                                            @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class=" form-group">
+                                            <label class="control-label">Product Sub Category</label>
+                                            @*<select class="form-control" name="@Model.ProductSubCategoryId" id="ddlProductSubCategory"></select>*@
+                                            @Html.DropDownListFor(model => model.ProductSubCategoryId, new SelectList(Model.ProductSubCategories, "Value", "Text"), "---Select---", new { id = "ddlProductSubCategory", @class = "form-control", required = "required" })
+
+                                            @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">New Product Name</label>
+                                            @*@Html.DropDownListFor(model => model.TerritoryId, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })*@
+                                            @Html.EditorFor(model => model.NewProductName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.NewProductName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Unit</label>
+                                            @Html.DropDownListFor(model => model.UnitId, new SelectList(Model.Units, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "ddlUnitId" })
+                                            @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input hidden="hidden" value="" id="CompanyIdFK" />
+                                    @Html.HiddenFor(model => model.productionDetailModel.ProductionDetailsId, new { id = "hidProductionDetailId"})
+
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Raw Materials:</label>
+                                        @Html.EditorFor(model => model.productionDetailModel.RawProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })
+                                        @Html.ValidationMessageFor(model => model.productionDetailModel.RawProductName, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.productionDetailModel.RawProductId, new { id = "ddlRProductFK", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.productionDetailModel.RawProductId, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row justify-content-end">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Raw Quantity</label>
+                                                @Html.TextBoxFor(model => model.productionDetailModel.RawProductQty, new { @required = "required", id = "txtRawQuantity", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Raw Quantity" })
+                                                @Html.ValidationMessageFor(model => model.productionDetailModel.RawProductQty, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" id="processedQtyId" >
+                                            <div class="form-group">
+                                                <label>Processed Quantity</label>
+                                                @Html.TextBoxFor(model => model.productionDetailModel.ProcessedQty, new { id = "txtProcessedQuantity", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Processed Quantity" })
+                                                @Html.ValidationMessageFor(model => model.productionDetailModel.ProcessedQty, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" id="packqtydivId" hidden="hidden">
+                                            <div class="form-group">
+                                                <label>Pack Quantity</label>
+                                                @Html.TextBoxFor(model => model.productionDetailModel.PackQty, new {  id = "txtPackQuantity", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Pack Quantity" })
+                                                @Html.ValidationMessageFor(model => model.productionDetailModel.PackQty, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" id="consumptiondivId" hidden="hidden">
+                                            <div class="form-group">
+                                                <label>Consumption</label>
+                                                @Html.TextBoxFor(model => model.productionDetailModel.Consumption, new { id = "txtConsumption", @onkeyup = "calculateAmount()", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Consumption" })
+                                                @Html.ValidationMessageFor(model => model.productionDetailModel.Consumption, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Unit Price</label>
+                                                @Html.TextBoxFor(model => model.productionDetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Per Unit Price", required = "Required" })
+                                                @Html.ValidationMessageFor(model => model.productionDetailModel.UnitPrice, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Unit Prod. Cost</label>
+                                                @Html.TextBoxFor(model => model.productionDetailModel.UnitProductionCost, new { id = "txtUnitProductionCost", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Prod. Cost/Unit", required = "Required" })
+                                                @Html.ValidationMessageFor(model => model.productionDetailModel.UnitProductionCost, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8" id="addbuttondiv">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" id="exCreateBtn" class="btn btn-primary btn-block">
+                                                <i class='fa fa-plus'></i>
+                                                @if (Model.ProductionMasterId > 0)
+                                                {
+                                                    <span>Add Item</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Create</span>
+                                                }
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <!--Body Will by Start Here-->
+                        @{
+                            if (Model.ProductionMasterId > 0)
+                            {
+
+                                @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                                <div class="table-responsive col-md-12  text-nowrap">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="padding:5px;text-align:left;">SL</th>
+                                                <th style="padding:5px;text-align:left;">Item</th>
+                                                <th style="padding:5px;text-align:right;">Raw Qty</th>
+                                                <th style="padding:5px;text-align:right;">Processed Qty</th>
+                                                <th style="padding:5px;text-align:right;">Pack Qty</th>
+                                                <th style="padding:5px;text-align:right;">Consumption</th>
+                                                <th style="padding:5px;text-align:right;">Unit Price</th>
+                                                <th style="padding:5px;text-align:right;">Unit Prod. Cost</th>
+                                                @if (Model.IsSubmitted == false)
+                                                {
+                                                    <th style="padding:5px;text-align:center;">Action</th>
+                                                }
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (var item in Model.DetailList)
+                                            {
+                                                <tr>
+                                                    <td style="padding: 5px; text-align: left;">@(++sl)</td>
+                                                    <td style="padding:5px;text-align:left;">@item.RawProductName</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.RawProductQty:0.00}")</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.ProcessedQty:0.00}")</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.PackQty:0.00}")</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.Consumption:0.00}")</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.UnitPrice:0.00}")</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.UnitProductionCost:0.00}")</td>
+                                                    @{ if (Model.IsSubmitted == false)
+                                                        {
+                                                            <td style="padding:5px;text-align:center;">
+                                                                <a id="@item.ProductionDetailsId" onclick="makeEditable(@item.ProductionDetailsId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                                <a id="@item.ProductionDetailsId" onclick="makeDeletale(@item.ProductionDetailsId)" class="linkPointer" data-toggle="modal" data-target="#deleteExpenseSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                            </td>
+                                                        }
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="box-footer">
+                        @if (Model.ProductionMasterId > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    @if (Model.IsSubmitted == false)
+                                    {
+                                        <a id="@Model.ProductionMasterId" onclick="makeSubmitble(@Model.ProductionMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitProductionModal" data-placement="top">
+
+                                            <i> Submit</i>
+
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                    <span style="width:100%; " class="linkPointer"><i class="fa fa-check-double"> </i>Submitted</span>
+                                    }
+                                </div>
+
+                            </div>
+
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("ProductionMasterSlave", "ProductionMaster", FormMethod.Post, new { id = "submitProductionMasterFormId", @class = "formValidator" }))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitProductionModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title">
+                        <b>
+                            <span class="submitOrDraftText"></span> Production @if (Model.IsSubmitted == false)
+                            {<span>Submit </span>}
+                            else if (Model.IsSubmitted == true)
+                            {<span>Draft </span>}
+                        </b>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.ProductionMasterId, new { id = "hidSubmitProductionMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "hidSubmitCompanyId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "hiddenActionId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>
+                            Are you sure to  @if (Model.IsSubmitted == false)
+                            {<span>Submit </span>}
+                            else if (Model.IsSubmitted == true)
+                            {<span>Draft </span>} this production?
+                        </h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetProductionSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">
+                            @if (Model.IsSubmitted == false)
+                            {<span>Make Submit </span>}
+                            else if (Model.IsSubmitted == true)
+                            {<span>Make Draft </span>}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteExpenseSlave", "Expense", FormMethod.Post, new { id = "deleteExpenseSlaveFromId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteExpenseSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Production Item</b></h5>
+                </div>
+                <div class="modal-body">
+                    @*@Html.HiddenFor(model => model, new { id = "hidDeleteExpensesId" })*@
+                    @Html.HiddenFor(model => model.ProductionMasterId, new { id = "hideProductionMasterId" })
+
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "deleteCompanyId" })
+
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this production Item?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetExpenseSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+<script type="text/javascript">
+
+          function makeEditable(rowId) {
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("GetSingleProductionDetailById", "ProductionMaster")",
+        datatype: "Json",
+        data: { id: rowId },
+        success: function (data) {
+            $('#exCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+            $("#hidProductionMasterId").val(data.ProductionMasterId);
+            $("#hidProductionDetailId").val(rowId);
+            $('#ActionId').val(2);
+            $("#CompanyFK").val(data.CompanyId);
+            $("#CompanyId").val(data.CompanyId);
+            $("#ddlRProductFK").val(data.RawProductId);
+            $("#txtProductName").val(data.RawProductName);
+            $("#txtRawQuantity").val(data.RawProductQty);
+            $("#txtPackQuantity").val(data.PackQty);
+            $("#txtConsumption").val(data.Consumption);
+            $("#txtUnitPrice").val(data.UnitPrice);
+            $("#txtUnitProductionCost").val(data.UnitProductionCost);
+            $("#txtProcessedQuantity").val(data.ProcessedQty);
+            $("#prodStatusId").val(data.ProductionStatusId);
+            makeOnLoad();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    }
+
+    function makeDeletale(rowId) {
+        $('#hidDeleteProductionId').val(rowId);
+        $('#deleteActionId').val(3);
+        }
+        function makeSubmitble(rowId) {
+            $('#hidSubmitProductionMasterId').val(rowId);
+        $('#hiddenActionId').val(10);
+        }
+
+    function resetProductionSlaveForm() {
+        $('#deleteProductionSlaveFrom')[0].reset();
+        $('#ActionId').val(1);
+    }
+    function makeOnLoad() {
+        /*var statusId = $('#ddlProductionStatusId').val();*/
+        var statusId = $('#prodStatusId').val();
+        $.ajax({
+            type: "get",
+            url: "/ProductionMaster/GetProductionStatusById",
+            data: { id: statusId },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                if (data.IsCreateProduct == true) {
+                   /* document.getElementById('masterdivId').removeAttribute('hidden');*/
+                    document.getElementById('consumptiondivId').removeAttribute('hidden');
+                    document.getElementById('packqtydivId').removeAttribute('hidden');
+                    document.getElementById('processedQtyId').setAttribute('hidden', 'hidden');
+                    var divElements = document.getElementById('addbuttondiv');
+                    divElements.classList.remove('col-md-8');
+                    divElements.classList.add('col-md-4');
+                } else {
+                   /* document.getElementById('masterdivId').setAttribute('hidden', 'hidden');*/
+                    document.getElementById('consumptiondivId').setAttribute('hidden', 'hidden');
+                    document.getElementById('packqtydivId').setAttribute('hidden', 'hidden');
+                    document.getElementById('processedQtyId').removeAttribute('hidden');
+                    var divElement = document.getElementById('addbuttondiv');
+                    divElement.classList.remove('col-md-4');
+                    divElement.classList.add('col-md-8');
+                }
+            }
+        });
+    }
+
+        $(document).ready(function () {
+
+            function SubmitForm() {
+                var r = confirm("Are you sure to save this?");
+                if (r == false) {
+                    return false;
+                }
+            }
+            $('#ddlProductCategory').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/ProductSubCategories/GetProductSubCategorySelectModelsByProductCategory",
+                    data: { productCategoryId: $('#ddlProductCategory').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var ProductSubCategory = "<select>";
+                        ProductSubCategory = ProductSubCategory + '<option value="">--Select--</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            ProductSubCategory = ProductSubCategory + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        ProductSubCategory = ProductSubCategory + '</select>';
+                        $('#ddlProductSubCategory').html(ProductSubCategory);
+                    }
+                });
+            });
+
+            $('#ddlProductionStatusId').change(function () {
+                var statusId = $('#ddlProductionStatusId').val();
+                $.ajax({
+                    type: "get",
+                    url: "/ProductionMaster/GetProductionStatusById",
+                    data: { id: statusId },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        if (data.IsCreateProduct == true) {
+                            document.getElementById('masterdivId').removeAttribute('hidden');
+                            document.getElementById('consumptiondivId').removeAttribute('hidden');
+                            document.getElementById('packqtydivId').removeAttribute('hidden');
+                            document.getElementById('processedQtyId').setAttribute('hidden', 'hidden');
+                            var divElements = document.getElementById('addbuttondiv');
+                            divElements.classList.remove('col-md-8');
+                            divElements.classList.add('col-md-4');
+                        } else {
+                            document.getElementById('masterdivId').setAttribute('hidden', 'hidden');
+                            document.getElementById('consumptiondivId').setAttribute('hidden', 'hidden');
+                            document.getElementById('packqtydivId').setAttribute('hidden', 'hidden');
+                            document.getElementById('processedQtyId').removeAttribute('hidden');
+                            var divElement = document.getElementById('addbuttondiv');
+                            divElement.classList.remove('col-md-4');
+                            divElement.classList.add('col-md-8');
+                        }
+                    }
+                });
+            });
+
+            $("#txtProductName").autocomplete({
+                                source: function (request, response) {
+
+                                    $.ajax({
+                                        url:"@Url.Action("AutoCompleteProductGet", "Configuration")",// '/AccountHeads/AutoComplete/',
+                                        //data: "{ 'prefix': '" + request.term + "'}",
+                                        data: { companyId: "@Model.CompanyId", prefix: request.term, productType : "R" },
+                                        dataType: "json",
+                                        type: "get",
+                                        cache: true,
+                                        contentType: "application/json; charset=utf-8",
+                                        success: function (data) {
+                                            response($.map(data, function (item) {
+                                                return item;
+                                            }))
+                                        },
+                                        error: function (response) {
+                                            //alert(response.responseText);
+                                        },
+                                        failure: function (response) {
+                                            //alert(response.responseText);
+                                        }
+                                    });
+                                },
+
+                                  select: function (e, i) {
+
+                                    $("#ddlRProductFK").val(i.item.val);
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "@Url.Action("ProductStockByProduct", "Procurement")",
+                                        datatype: "Json",
+                                        data: { companyId: "@Model.CompanyFK", productId: i.item.val },
+                                        success: function (data) {
+                                            var items = "";
+
+                                        }
+                                    });
+                                $('#txtPackQuantity').focus();
+                                $('#txtPackQuantity').select();
+
+
+                                },
+                                minLength: 1,
+                                cache: true
+
+                            }).focus(function () {
+                                $(this).autocomplete("search");
+                            });
+
+
+
+
+           
+
+        });
+
+
+
+</script>
+
+
+}

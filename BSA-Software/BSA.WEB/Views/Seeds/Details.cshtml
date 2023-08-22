@@ -1,0 +1,36 @@
+﻿@model BSA.Data.Models.Seed
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Varitey Details</h2>
+<hr style="border-color:red; padding:0px;margin-top: 10px;margin-bottom: 20px; border-width: 2px;" />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Created By
+        </dt>       
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt> 
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>    
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd> 
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Create", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

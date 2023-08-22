@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "SetMenu";
+}
+
+<h2>SetMenu</h2>
+
+@using (Html.BeginForm("SetMenu", "Member", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <h4><b>Set Menu</b></h4>
+        </div> 
+        <div class="col-md-2">
+            <a href="@Url.Action("CreateOrEdit")" title="New Application" class="btn btn-primary pull-right">
+                <span class="glyphicon glyphicon-user"></span> Set Menu
+            </a>
+        </div>
+    </div>
+
+    <hr style="border-color:red; padding:0px;margin-top: 10px;margin-bottom: 20px; border-width: 2px;" />
+}

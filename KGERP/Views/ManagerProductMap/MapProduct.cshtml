@@ -1,0 +1,151 @@
+﻿@model KGERP.Service.ServiceModel.ManagerProductMapModel
+@{
+    ViewData["Title"] = "Map Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var collapse = "collapse";
+}
+
+<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Map Product
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active"> Map Product</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("MapProduct", "ManagerProductMap", FormMethod.Post, new { id = "userMenuFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <section class="content">
+        <div class="box-body">
+
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-header">
+                        <h4>Manager:  @Model.EmployeeName</h4>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive text-nowrap">
+                            <table id="KgErpDataTable" style="100%; background-color:#ddd;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            SL
+                                        </th>
+                                        <th>
+                                            Category
+                                        </th>
+                                        <th>
+                                            SubCategory
+                                        </th>
+                                        <th>
+                                            Origin Name (Variety)
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                @{int sl = 0;
+                                }
+                                <tbody>
+                                    @if (Model.DataList != null)
+                                    {
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            <tr>
+                                                <td>@(++sl)</td>
+                                                <td>
+                                                    @item.ProductCategoryName
+                                                </td>
+                                                <td>
+                                                    @item.ProductSubCategoryName
+                                                </td>
+                                                <td>
+                                                    @item.ProductName
+                                                </td>
+                                                <td>
+                                                    @if (item.IsActive == true)
+                                                    {
+                                                        <a id="unassign_@item.ManagerProductMapId" style="cursor:pointer;" onclick="productAssign(@item.ManagerProductMapId,@item.EmployeeId,@item.ProductId,@item.CompanyId,false)" title="UnMap"
+                                                           data-placement="top">
+                                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a id="assign_@item.ManagerProductMapId" style="display:none;cursor:pointer;" onclick="productAssign(@item.ManagerProductMapId,@item.EmployeeId,@item.ProductId,@item.CompanyId,true)" title="Map"
+                                                           data-placement="top">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="assign_@item.ManagerProductMapId" style="cursor:pointer;" onclick="productAssign(@item.ManagerProductMapId,@item.EmployeeId,@item.ProductId,@item.CompanyId,true)" title="Map"
+                                                           data-placement="top">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a id="unassign_@item.ManagerProductMapId" style="display: none;cursor:pointer;" onclick="productAssign(@item.ManagerProductMapId,@item.EmployeeId,@item.ProductId,@item.CompanyId,false)" title="UnMap"
+                                                           data-placement="top">
+                                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+        });
+
+        function productAssign(managerProductMapId, employeeId, productId,companyId, isActive) {
+            var paramObj = { managerProductMapId: managerProductMapId, employeeId: employeeId, productId: productId, companyId:companyId, isActive: isActive }
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("MapProduct", "ManagerProductMap")",
+                data: paramObj,
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    if (data.IsActive) {
+                        $('#assign_' + data.ManagerProductMapId).hide();
+                        $('#unassign_' + data.ManagerProductMapId).show();
+
+                    } else {
+                        $('#assign_' + data.ManagerProductMapId).show();
+                        $('#unassign_' + data.ManagerProductMapId).hide();
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+

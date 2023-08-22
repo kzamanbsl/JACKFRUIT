@@ -1,0 +1,349 @@
+﻿@model KGERP.Service.ServiceModel.VendorOpeningModel
+@using KGERP.Utility;
+
+
+@{
+    ViewData["Title"] = "Customer Opening";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+    decimal TotalPrice = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+            Customer Opening
+        </span>
+
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Customer Opening</li>
+    </ol>
+</section>
+@using (Html.BeginForm("ProcurementCustomerOpening", "Procurement", FormMethod.Post, new { id = "procurementPurchaseOrderSupplierOpeningFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.VendorOpeningId, new { id = "hideVendorOpeningId" })
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+
+                <div class="box-danger">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+                        <div class="box-body">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Opening Date</label>
+                                        <input name="OpeningDate" asp-for="OpeningDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtOpeningDate" placeholder="Date" autocomplete="off">
+                                        @Html.ValidationMessageFor(model => model.OpeningDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group" style="padding:0px">
+                                        <label>Customer</label>
+                                        @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Customer Name", @id = "txtSupplierName" } })
+
+                                        @Html.HiddenFor(model => model.VendorId, new { id = "ddlCommon_SupplierFK" })
+                                        @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Opening Balance</label>
+                                        @Html.TextBoxFor(model => model.OpeningAmount, new { id = "txtOpeningAmount", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Purchasing Price", required = "Required" })
+                                        @Html.ValidationMessageFor(model => model.OpeningAmount, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-form-label">Description:</label>
+                                        @Html.TextAreaFor(model => model.Description, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-8">
+
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <button type="submit" id="poCreateBtn" class="btn btn-primary btn-block">
+                                        <i class='fa fa-plus'></i>
+                                        <span>Save</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Body Will by Start Here-->
+
+
+                        <div class="table-responsive col-md-12  text-nowrap">
+                            <table id="KgErpDataTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="padding:5px;text-align:center;">SL</th>
+                                        <th style="padding:5px;text-align:center;">Date</th>
+                                        <th style="padding:5px;text-align:center;">Customer</th>
+                                        <th style="padding:5px;text-align:center;">Description</th>
+                                        <th style="padding:5px;text-align:right;">Balance</th>
+                                        <th style="padding: 5px; text-align: center;">Status</th>
+                                        <th style="padding:5px;text-align:right;">Action</th>
+                                        <th style="padding:5px;text-align:right;">Change Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model.DataList.Count() > 0)
+                                    {
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            <tr>
+                                                <td style="padding:5px">@(++sl)</td>
+                                                <td style="padding:5px;text-align:center;">@item.OpeningDate.ToLongDateString()</td>
+                                                <td style="padding:5px;text-align:center;">@item.VendorName</td>
+                                                <td style="padding:5px;text-align:center;">@item.Description</td>
+                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.000}", item.OpeningAmount)</td>
+                                                @if (item.IsSubmit == false)
+                                                {
+                                                    <td style="padding: 5px; text-align: center; ">
+                                                        Draft
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="padding:5px;text-align:center;">Submitted</td>
+                                                }
+
+                                                @if (item.IsSubmit == false)
+                                                {
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.VendorOpeningId" onclick="makeEditble(@item.VendorOpeningId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <span class="disabled" title="Not Allowed"><i class="fa fa-edit" aria-hidden="true"></i></span>
+                                                    </td>
+
+                                                }
+
+                                                @if (item.IsSubmit == false)
+                                                {
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.VendorOpeningId" onclick="makeSubmitble(@item.VendorOpeningId);" class="linkPointer btn" title="Submit now" data-toggle="modal" style="width:100%" data-target="#submitSupplierOpeningModal" data-placement="top">Submit</a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="padding:5px;text-align:center;">Submitted</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("SubmitProcurementCustomerOpening", "Procurement", FormMethod.Post, new { id = "supplierOpeningId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitSupplierOpeningModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input hidden="hidden" id="vopeningid" />
+                    <input hidden="hidden" id="intcompanyid" />
+                    <div style="text-align:center">
+                        <h3>Are you sure to submit this customer opening?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetProcurementPurchaseOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" onclick="submitOpeningPost();" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        function makeDeletale(rowId) {
+            $('#hidDeleteProcurementPurchaseOrderSlaveId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+        function resetProcurementPurchaseRequisitionSlaveForm() {
+            $('#hidesubmitSupplierOpeningId')[0].reset();
+          $('#ActionId').val(1);
+        }
+
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+              $("#txtSupplierName").autocomplete({
+                source: function (request, response) {
+                    //console.log(request);
+                    //console.log(response);
+
+                    $.ajax({
+                        url:"@Url.Action("GetAutoCompleteSCustomer", "Procurement")",// '/AccountHeads/AutoComplete/',
+                        //data: "{ 'prefix': '" + request.term + "'}",
+                        data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                           response($.map(data, function (item) {
+                               return item;
+                           }))
+                        },
+                        error: function (response) {
+                                                                        //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                                                                        //alert(response.responseText);
+                        }
+                    });
+                },
+
+                select: function (e, i) {
+                    $("#ddlCommon_SupplierFK").val(i.item.val);
+
+                    },
+                minLength: 1,
+                cache: true
+
+            }).focus(function () {
+                $(this).autocomplete("search");
+            });
+
+        });
+        function makeEditble(rowId) {
+
+            $.ajax({
+
+                  type: "POST",
+                  url: "@Url.Action("SingleCustomerOpeningEdit", "Procurement")",
+                  datatype: "Json",
+                  data: { id: rowId },
+                  success: function (data) {
+                      console.log(data);
+                      $('#poCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                      $("#hideVendorOpeningId").val(data.VendorOpeningId);
+                      $('#ActionId').val(2);
+                      $("#CompanyFK").val(data.CompanyFK);
+                      var ticks = parseInt(data.OpeningDate.replace(/\/Date\((.*?)\)\//gi, '$1'), 10);
+                      var date = new Date(ticks);
+
+                      // Now 'date' contains the JavaScript Date object with the converted date
+                      var year = date.getFullYear();
+                      var month = String(date.getMonth() + 1).padStart(2, '0');
+                      var day = String(date.getDate()).padStart(2, '0');
+
+                      var formattedDate = year + '-' + month + '-' + day; // Format: YYYY-MM-DD
+
+                      $("#txtOpeningDate").val(formattedDate);
+                     /* $("#txtOpeningDate").val(data.OpeningDate);*/
+                      $("#txtSupplierName").val(data.VendorName);
+                      $("#ddlCommon_SupplierFK").val(data.VendorId);
+                      $('#txtOpeningAmount').val(data.OpeningAmount);
+                      $("#txtDescription").val(data.Description);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                 });
+            }
+
+        function makeSubmitble(rowId) {
+                // console.log(rowId);
+            /*$('#submitActionId').val(10);*/
+
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SingleCustomerOpeningEdit", "Procurement")",
+                        datatype: "Json",
+                    data: { id: rowId },
+                        success: function (data) {
+                            console.log(data);
+                            /*$('#submitCompanyFK').val(data.CompanyId);*/
+                            $('#vopeningid').val(rowId);
+                            $('#intcompanyid').val(data.CompanyFK);
+
+
+                        }
+                 });
+            $('#hidesubmitSupplierOpeningId').val(rowId);
+        }
+
+         function submitOpeningPost() {
+                // console.log(rowId);
+           /* $('#submitActionId').val(10);*/
+             var x = $('#vopeningid').val();
+             var y = $('#intcompanyid').val();
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SubmitCustomerOpening", "Procurement")",
+                        datatype: "Json",
+                    data: { vendorOpeningId: x, company: y },
+                    success: function (response) {
+                        window.location.href = '/Procurement/ProcurementCustomerOpening?companyId=' + response.companyId;
+                        }
+                 });
+           /* $('#hidesubmitSupplierOpeningId').val(rowId);*/
+        }
+    </script>
+}

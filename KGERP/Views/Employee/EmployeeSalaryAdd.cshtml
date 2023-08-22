@@ -1,0 +1,130 @@
+﻿
+@model KGERP.Service.ServiceModel.EmployeeVm
+@{
+    ViewBag.Title = "Employee Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    class {
+        padding: 70px;
+        border: 1px solid #4CAF50;
+    }
+</style>
+
+
+
+<div class="form-horizontal" style="padding-left:20px">
+    <div class="row">
+        <div class="header"><h4>Add  Employee Salary</h4></div>
+    </div>
+</div>
+<div class="panel-heading" style="background-color:#4CAF50;color:#FFFFFF"><b>Employee Salary Information</b></div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <br />
+            <select class="form-group form-control" id="EmpId" style="margin-left:250px;">
+                <option class="form-group form-control">--SELECT--</option>
+                @foreach (var item in Model.DataList)
+                {
+                    <option class="form-group form-control" value="@item.Id"> @item.EmployeeName</option>
+                }
+            </select>
+        </div>
+    </div>
+
+
+    <div class="col-md-4" style="margin-left:100px;">
+        <div class="form-group ">
+            <br />
+            <input class="form-group form-control" id="samnt" placeholder="Amount" />
+        </div>
+    </div>
+
+
+</div>
+<div class="text-center">
+    <button class="btn btn-primary" id="slryAdd">Save</button>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="KgErpDataTable" style="width:100%; background-color:#ddd;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>SR ID</th>
+                                        <th>Name</th>
+                                        <th>Salary Amount</th>
+
+                                    </tr>
+                                </thead>
+                                @{int sl = 0;
+                                }
+                                <tbody>
+                                    @foreach (var item in Model.DataList)
+                                    {
+                                        <tr>
+                                            <td style="width:10px;">
+                                                @(++sl)
+                                            </td>
+                                            <td>@item.EmployeeId</td>
+                                            <td>@item.EmployeeName</td>
+                                            <td>@item.Samount</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+    $("#slryAdd").click(function () {
+
+        var Empid = $('#EmpId').find(":selected").val();
+        var amm = $("#samnt").val();
+
+        var v = {
+            'Id': Empid,
+            'Samount': amm
+        }
+        $.ajax({
+
+                type: "Post",
+                url: "@Url.Action("EmployeeSalaryAddr", "Employee")",
+                datatype: "Json",
+            data: { model: v},
+            success: function (data) {
+                if (data > 0) {
+                    location.reload();
+                } else {
+                    alert("error");
+                }
+
+
+                }
+            });
+    });
+
+    </script>
+}

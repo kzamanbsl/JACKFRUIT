@@ -1,0 +1,2092 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BSAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="BankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BankBranch">
+          <Key>
+            <PropertyRef Name="BankBranchId" />
+          </Key>
+          <Property Name="BankBranchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BsaAGM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AGMYear" Type="int" />
+          <Property Name="MemberOrDealerId" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameOfDealer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Disrtict" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameOfRepresentative" Type="nvarchar" MaxLength="50" />
+          <Property Name="NoofPerson" Type="int" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="BSAEmployee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ManagerId" Type="bigint" />
+          <Property Name="HrAdminId" Type="bigint" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="CardId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="FatherName" Type="nvarchar" MaxLength="500" />
+          <Property Name="MotherName" Type="nvarchar" MaxLength="500" />
+          <Property Name="SpouseName" Type="nvarchar" MaxLength="500" />
+          <Property Name="DateOfMarriage" Type="date" />
+          <Property Name="NationalId" Type="nvarchar" MaxLength="500" />
+          <Property Name="GenderId" Type="int" />
+          <Property Name="MaritalTypeId" Type="int" />
+          <Property Name="ReligionId" Type="int" />
+          <Property Name="BloodGroupId" Type="int" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="OfficeEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="PABX" Type="nvarchar" MaxLength="100" />
+          <Property Name="DrivingLicenseNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="PassportNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="TinNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="SocialId" Type="nvarchar" MaxLength="100" />
+          <Property Name="PresentAddress" Type="nvarchar" MaxLength="600" />
+          <Property Name="PermanentAddress" Type="nvarchar" MaxLength="600" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="JoiningDate" Type="date" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="DesignationId" Type="int" />
+          <Property Name="EmployeeCategoryId" Type="int" />
+          <Property Name="ServiceTypeId" Type="int" />
+          <Property Name="JobStatusId" Type="int" />
+          <Property Name="OfficeTypeId" Type="int" />
+          <Property Name="GradeId" Type="int" />
+          <Property Name="DesignationFlag" Type="int" />
+          <Property Name="ImageFileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SignatureFileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="EndReason" Type="nvarchar" MaxLength="512" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="600" />
+          <Property Name="EmployeeOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="ModifedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="smalldatetime" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="EmployeeStatusId" Type="int" />
+        </EntityType>
+        <EntityType Name="BSAMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MemberType" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberNameEn" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberNameBn" Type="nvarchar" MaxLength="50" />
+          <Property Name="BSARegistrationNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberOrder" Type="int" />
+          <Property Name="Delegate" Type="nvarchar" MaxLength="250" />
+          <Property Name="DelegateEmail" Type="nvarchar" MaxLength="250" />
+          <Property Name="LogoUrl" Type="nvarchar" MaxLength="250" />
+          <Property Name="AddressOne" Type="nvarchar" MaxLength="550" />
+          <Property Name="AddressTwo" Type="nvarchar" MaxLength="550" />
+          <Property Name="CorporateOffice" Type="nvarchar" MaxLength="550" />
+          <Property Name="TIN" Type="nvarchar" MaxLength="550" />
+          <Property Name="Website" Type="nvarchar" MaxLength="550" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="550" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="550" />
+          <Property Name="Email" Type="nvarchar" MaxLength="550" />
+          <Property Name="OfficeEmail" Type="nvarchar" MaxLength="550" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="0" />
+          <Property Name="ModifedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="ShortName" Type="varchar" MaxLength="32" />
+          <Property Name="CompanyType" Type="int" />
+          <Property Name="MushokNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="Phone" Type="varchar" MaxLength="100" />
+          <Property Name="Fax" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Created" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="255" />
+          <Property Name="ISOCountryCodes" Type="nvarchar" MaxLength="255" />
+          <Property Name="CountryCode" Type="float" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberNo" Type="int" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerType" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegistrationNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="NID" Type="nvarchar" MaxLength="50" />
+          <Property Name="BIN" Type="nchar" MaxLength="10" />
+          <Property Name="TIN" Type="nvarchar(max)" />
+          <Property Name="TradeLicense" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ConcatPersonEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonMobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddressOne" Type="nvarchar(max)" />
+          <Property Name="AddressTwo" Type="nvarchar(max)" />
+          <Property Name="Village" Type="nvarchar" MaxLength="150" />
+          <Property Name="DivisionId" Type="bigint" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="UpazilaId" Type="int" />
+          <Property Name="Designation" Type="nvarchar" MaxLength="150" />
+          <Property Name="DateOfRegistration" Type="smalldatetime" />
+          <Property Name="DateOfBirth" Type="smalldatetime" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="150" />
+          <Property Name="Website" Type="nvarchar" MaxLength="150" />
+          <Property Name="Remarks" Type="varchar(max)" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="OverDueAmount180Days" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="OverDueAmount90Days" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DuePayment" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="LastPaymentDate" Type="smalldatetime" />
+          <Property Name="PaymentStatus" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="DesignationId" />
+          </Key>
+          <Property Name="DesignationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="DistrictId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="ShortName" Type="varchar" MaxLength="50" />
+          <Property Name="DivisionId" Type="bigint" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="DivisionId" />
+          </Key>
+          <Property Name="DivisionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="GOVTDivisionCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DropDownItem">
+          <Key>
+            <PropertyRef Name="DropDownItemId" />
+          </Key>
+          <Property Name="DropDownItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DropDownTypeId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="ModifiedDate" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="DropDownType">
+          <Key>
+            <PropertyRef Name="DropDownTypeId" />
+          </Key>
+          <Property Name="DropDownTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="10" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Education">
+          <Key>
+            <PropertyRef Name="EducationId" />
+          </Key>
+          <Property Name="EducationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="bigint" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="20" />
+          <Property Name="Examination" Type="varchar" MaxLength="200" />
+          <Property Name="ExaminationId" Type="int" />
+          <Property Name="Subject" Type="varchar" MaxLength="200" />
+          <Property Name="Institute" Type="varchar" MaxLength="200" />
+          <Property Name="PassingYear" Type="varchar" MaxLength="10" />
+          <Property Name="RollNo" Type="varchar" MaxLength="50" />
+          <Property Name="RegNo" Type="varchar" MaxLength="50" />
+          <Property Name="Result" Type="varchar" MaxLength="50" />
+          <Property Name="Remarks" Type="varchar(max)" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MemberId" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberType" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="250" />
+          <Property Name="ConcatPersonEmail" Type="nvarchar" MaxLength="250" />
+          <Property Name="LogoUrl" Type="nvarchar" MaxLength="250" />
+          <Property Name="AddressOne" Type="nvarchar" MaxLength="550" />
+          <Property Name="AddressTwo" Type="nvarchar" MaxLength="550" />
+          <Property Name="DateOfRegistration" Type="datetime" />
+          <Property Name="CorporateOffice" Type="nvarchar" MaxLength="550" />
+          <Property Name="TradeLicense" Type="nvarchar" MaxLength="550" />
+          <Property Name="Website" Type="nvarchar" MaxLength="550" />
+          <Property Name="CompanyChairman" Type="nvarchar" MaxLength="550" />
+          <Property Name="CompanyMD" Type="nvarchar" MaxLength="550" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="550" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="550" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="550" />
+          <Property Name="Email" Type="nvarchar" MaxLength="550" />
+          <Property Name="OfficeEmail" Type="nvarchar" MaxLength="550" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaritalType" Type="nvarchar" MaxLength="50" />
+          <Property Name="BankId" Type="int" />
+          <Property Name="BankBranchId" Type="int" />
+          <Property Name="BankBranch" Type="varchar" MaxLength="100" />
+          <Property Name="BankAccount" Type="varchar" MaxLength="100" />
+          <Property Name="NationalId" Type="varchar" MaxLength="50" />
+          <Property Name="Religion" Type="varchar" MaxLength="50" />
+          <Property Name="BloodGroup" Type="varchar" MaxLength="20" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="0" />
+          <Property Name="ModifedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SeedCategoryId" Type="int" />
+          <Property Name="SeedTypeId" Type="int" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProductNameBN" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SeedCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="NameBN" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SubMenu">
+          <Key>
+            <PropertyRef Name="SubMenuId" />
+          </Key>
+          <Property Name="SubMenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Controller" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Action" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Param" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbbsabd.dbo.Upazila' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Upazila">
+          <Key>
+            <PropertyRef Name="UpazilaId" />
+          </Key>
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="UpazilaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="ShortName" Type="varchar" MaxLength="10" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="CarryingRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="254" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserMenu">
+          <Key>
+            <PropertyRef Name="UserMenuId" />
+          </Key>
+          <Property Name="UserMenuId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="SubMenuId" Type="int" Nullable="false" />
+          <Property Name="IsView" Type="bit" Nullable="false" />
+          <Property Name="IsAdd" Type="bit" Nullable="false" />
+          <Property Name="IsUpdate" Type="bit" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BankBranch_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+          <End Role="BankBranch" Type="Self.BankBranch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankBranch">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DropDownItem_DropDownType">
+          <End Role="DropDownType" Type="Self.DropDownType" Multiplicity="0..1" />
+          <End Role="DropDownItem" Type="Self.DropDownItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DropDownType">
+              <PropertyRef Name="DropDownTypeId" />
+            </Principal>
+            <Dependent Role="DropDownItem">
+              <PropertyRef Name="DropDownTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Education_Examination">
+          <End Role="DropDownItem" Type="Self.DropDownItem" Multiplicity="0..1" />
+          <End Role="Education" Type="Self.Education" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DropDownItem">
+              <PropertyRef Name="DropDownItemId" />
+            </Principal>
+            <Dependent Role="Education">
+              <PropertyRef Name="ExaminationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MainMenu_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubMenu_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="SubMenu" Type="Self.SubMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="SubMenu">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Thana_District">
+          <End Role="District" Type="Self.District" Multiplicity="0..1" />
+          <End Role="Upazila" Type="Self.Upazila" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="Upazila">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMenu_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="UserMenu" Type="Self.UserMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="UserMenu">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMenu_SubMenu">
+          <End Role="SubMenu" Type="Self.SubMenu" Multiplicity="1" />
+          <End Role="UserMenu" Type="Self.UserMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubMenu">
+              <PropertyRef Name="SubMenuId" />
+            </Principal>
+            <Dependent Role="UserMenu">
+              <PropertyRef Name="SubMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CSVToTableWithID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="InStr" Type="varchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="tempid" Type="int" Nullable="false" />
+                <Property Name="Id" Type="int" Nullable="false" />
+                <Property Name="Value" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="fn_GetInTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="time">
+          <Parameter Name="EmployeeId" Type="nvarchar" Mode="In" />
+          <Parameter Name="date" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fn_GetOutTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="time">
+          <Parameter Name="EmployeeId" Type="nvarchar" Mode="In" />
+          <Parameter Name="date" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fn_LeaveStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="EmployeeId" Type="nvarchar" Mode="In" />
+          <Parameter Name="AttendenceDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fn_PresentInHoliday" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="EmployeeId" Type="nvarchar" Mode="In" />
+          <Parameter Name="start" Type="datetime" Mode="In" />
+          <Parameter Name="end" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fnCalcualtePenaltyDeduction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnCalculateAccurateAge" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="DateOfBirth" Type="date" Mode="In" />
+        </Function>
+        <Function Name="fnCalculateAdditionalSeaService" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnCalculateCoursePoint" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="MinPoint" Type="float" Mode="In" />
+          <Parameter Name="MaxPoint" Type="float" Mode="In" />
+          <Parameter Name="MinMark" Type="float" Mode="In" />
+          <Parameter Name="MaxMark" Type="float" Mode="In" />
+          <Parameter Name="Mark" Type="float" Mode="In" />
+        </Function>
+        <Function Name="fnComputeDuration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="FROMDATE" Type="datetime" Mode="In" />
+          <Parameter Name="TODATE" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fnGetAge" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="dateOfBirth" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fnGetCalculatedOpr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetCalculateDurationInYearMonthDay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="dstart" Type="datetime" Mode="In" />
+          <Parameter Name="dend" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fnGetCommandServiceDurationByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetCommandServiceDurationForMediumShipByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetDeputationServiceByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetDuration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="fromDate" Type="date" Mode="In" />
+          <Parameter Name="toDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="fnGetInstructionServiceByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetInterServiceByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetLast10OprAvarage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetSeaServiceByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetSeaServiceDurationInDaysYear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="DurationType" Type="int" Mode="In" />
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetServiceForPenstion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="datetime">
+          <Parameter Name="dateOfBirth" Type="datetime" Mode="In" />
+          <Parameter Name="dateOfJoining" Type="datetime" Mode="In" />
+          <Parameter Name="SubCategoryId" Type="int" Mode="In" />
+          <Parameter Name="CommissionDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="fnGetStaffDutiesByEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetTotalDuration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="DurationInScond" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetYear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="dateOfBirth" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetEmployeeEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetCompanyIdsByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetDropDownData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetUpazilaAssign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeId" Type="bigint" Mode="In" />
+          <Parameter Name="districtId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="udf_Num_ToWords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="Number" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="UDFConsecutivePositionDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="OfficerId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UDFSeniorityPosition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Position" Type="int" />
+                <Property Name="EmployeeId" Type="int" />
+                <Property Name="RankId" Type="int" />
+                <Property Name="RankOrder" Type="int" />
+                <Property Name="ConsecutivePositionDate" Type="varchar" MaxLength="420" />
+                <Property Name="PNO" Type="varchar" MaxLength="16" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="UpdateOfficerFullNameStr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VOfficerid" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="OfficerNameEnglish" Type="varchar" MaxLength="250" />
+                <Property Name="OfficerNameBangla" Type="varchar" MaxLength="250" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <EntityContainer Name="BSAModelStoreContainer">
+          <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankBranch" EntityType="Self.BankBranch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BsaAGM" EntityType="Self.BsaAGM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BSAEmployee" EntityType="Self.BSAEmployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BSAMember" EntityType="Self.BSAMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Division" EntityType="Self.Division" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DropDownItem" EntityType="Self.DropDownItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DropDownType" EntityType="Self.DropDownType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Education" EntityType="Self.Education" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seed" EntityType="Self.Seed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeedCategory" EntityType="Self.SeedCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubMenu" EntityType="Self.SubMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMenu" EntityType="Self.UserMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Upazila" EntityType="Self.Upazila" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Upazila].[DistrictId] AS [DistrictId], 
+    [Upazila].[UpazilaId] AS [UpazilaId], 
+    [Upazila].[Name] AS [Name], 
+    [Upazila].[ShortName] AS [ShortName], 
+    [Upazila].[Code] AS [Code], 
+    [Upazila].[CarryingRate] AS [CarryingRate], 
+    [Upazila].[IsActive] AS [IsActive]
+    FROM [dbo].[Upazila] AS [Upazila]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_BankBranch_Bank" Association="Self.FK_BankBranch_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="BankBranch" EntitySet="BankBranch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DropDownItem_DropDownType" Association="Self.FK_DropDownItem_DropDownType">
+            <End Role="DropDownType" EntitySet="DropDownType" />
+            <End Role="DropDownItem" EntitySet="DropDownItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Education_Examination" Association="Self.FK_Education_Examination">
+            <End Role="DropDownItem" EntitySet="DropDownItem" />
+            <End Role="Education" EntitySet="Education" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainMenu_Company" Association="Self.FK_MainMenu_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubMenu_Menu" Association="Self.FK_SubMenu_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="SubMenu" EntitySet="SubMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Thana_District" Association="Self.FK_Thana_District">
+            <End Role="District" EntitySet="District" />
+            <End Role="Upazila" EntitySet="Upazila" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMenu_Menu" Association="Self.FK_UserMenu_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="UserMenu" EntitySet="UserMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMenu_SubMenu" Association="Self.FK_UserMenu_SubMenu">
+            <End Role="SubMenu" EntitySet="SubMenu" />
+            <End Role="UserMenu" EntitySet="UserMenu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BSAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BSAEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="CSVToTableWithID" IsComposable="true" ReturnType="Collection(BSAModel.CSVToTableWithID_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="InStr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteLeaveHelper">
+          <Parameter Name="LeaveApplicationId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="GetPFLastMonthUpdatedByEmployeeId">
+          <Parameter Name="EmployeeId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserRole">
+          <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="note_sp_If_AttMachine_Not_Working" />
+          <FunctionImport Name="RiponBoudi" />
+          <FunctionImport Name="sp_Attendence" />
+          <FunctionImport Name="sp_AttendenceRequestToHr">
+          <Parameter Name="HrId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AttendenceRequestToManager">
+          <Parameter Name="ManagerId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AttendenceSummery">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EmpId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DailyAttendence">
+          <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DailyAttendenceTeamWise">
+            <Parameter Name="ManagerId" Mode="In" Type="Int32" />
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EmployeeAttendence">
+          <Parameter Name="EmpId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_FinalAttendence">
+          <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_FinishedGoodsStockReports">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetEmployeeEvent" />
+          <FunctionImport Name="sp_GetPersonalAttendanceApplicationStatus">
+          <Parameter Name="EmpId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="sp_getRmFormula">
+            <Parameter Name="productId" Mode="In" Type="Int32" />
+            <Parameter Name="qty" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetRmFormulaWithAvailableQty">
+          <Parameter Name="RequisitionrId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetStoreProductQuantity" />
+          <FunctionImport Name="sp_HrApproveAction_1">
+            <Parameter Name="Intime" Mode="In" Type="Time" />
+            <Parameter Name="OutTime" Mode="In" Type="Time" />
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_InOutTime">
+            <Parameter Name="EmpId" Mode="In" Type="String" />
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertDefaultEmpAttendence">
+          <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_lastUpdatedProductPrice" />
+          <FunctionImport Name="sp_ManagerActionForOnField_1">
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="ApplicationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ManagerActionForTimeApproval_1">
+            <Parameter Name="Intime" Mode="In" Type="Time" />
+            <Parameter Name="OutTime" Mode="In" Type="Time" />
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ManagerActionForTour">
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="ApplicationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Monthly_AttendenceSummery">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="SalaryTag" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_NewTeamAttendance">
+            <Parameter Name="ManagerId" Mode="In" Type="Int32" />
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_NewTeamAttendanceWithDateRange">
+            <Parameter Name="ManagerId" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RequisitionDelivery">
+            <Parameter Name="ReauisitionId" Mode="In" Type="Int32" />
+            <Parameter Name="DeliveryDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DeliverNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateAttendence">
+            <Parameter Name="Intime" Mode="In" Type="Time" />
+            <Parameter Name="OutTime" Mode="In" Type="Time" />
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateAttendenceForAttendenceModify">
+            <Parameter Name="Intime" Mode="In" Type="Time" />
+            <Parameter Name="OutTime" Mode="In" Type="Time" />
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateAttendenceForHrTimeApproval">
+            <Parameter Name="Intime" Mode="In" Type="Time" />
+            <Parameter Name="OutTime" Mode="In" Type="Time" />
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateAttendenceForManagerOnField">
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="ApplicationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateAttendenceForManagerTimeApproval">
+            <Parameter Name="Intime" Mode="In" Type="Time" />
+            <Parameter Name="OutTime" Mode="In" Type="Time" />
+            <Parameter Name="EmpStatus" Mode="In" Type="String" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="AttendenceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_YearlyHolidayEvent" />
+          <FunctionImport Name="spGetCompanyIdsByUserId">
+          <Parameter Name="userId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCustomerAccounts">
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCustomerBusinessCost">
+            <Parameter Name="vendorId" Mode="In" Type="Int32" />
+            <Parameter Name="productId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCustomerLedger">
+            <Parameter Name="VendorId" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCustomerLedgerByCustomer">
+          <Parameter Name="VendorId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCustomerPayments">
+          <Parameter Name="searchText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCustomerReceiableLadger">
+          <Parameter Name="vendorId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDeliveredProductsByOrder">
+          <Parameter Name="orderMasterId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDeliverItems">
+          <Parameter Name="StockInfoId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDeliveryInvoice">
+          <Parameter Name="OrderMasterId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDropDownData" ReturnType="Collection(BSAModel.spGetDropDownData_Result)" />
+          <FunctionImport Name="spGetDropdownLeaveCategories">
+          <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spGetEmployeeBiodataPersonalReport">
+          <Parameter Name="EmployeeId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetEmployeeBiodataServiceInfoReport">
+          <Parameter Name="EmployeeId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetLeaveBalance">
+            <Parameter Name="Id" Mode="In" Type="Int64" />
+            <Parameter Name="year" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetMemberPFSummary">
+          <Parameter Name="EmployeeID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetOrderInvoice">
+          <Parameter Name="OrderMasterId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spGetPFDetialsByEmployeeId">
+          <Parameter Name="EmployeeID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetStoreAvailableQty">
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="StockInfoId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetTeamLeaveBalance">
+          <Parameter Name="ManagerId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spGetUpazilaAssign">
+            <Parameter Name="employeeId" Mode="In" Type="Int64" />
+            <Parameter Name="districtId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spLeaveApplicationMap" />
+          <FunctionImport Name="spProcessLeave">
+            <Parameter Name="Id" Mode="In" Type="Int64" />
+            <Parameter Name="LeaveYear" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateAttendanceFromLeave">
+            <Parameter Name="LeaveApplicationId" Mode="In" Type="Int64" />
+            <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateVendorDuePayment">
+          <Parameter Name="orderDeliverId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="UDFSeniorityPosition" IsComposable="true" ReturnType="Collection(BSAModel.UDFSeniorityPosition_Result)" />
+          <FunctionImport Name="UpdateOfficerFullNameStr" IsComposable="true" ReturnType="Collection(BSAModel.UpdateOfficerFullNameStr_Result)">
+          <Parameter Name="VOfficerid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateOrderMasterStatus">
+          <Parameter Name="orderMasterId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="Banks" EntityType="BSAModel.Bank" />
+          <EntitySet Name="BankBranches" EntityType="BSAModel.BankBranch" />
+          <EntitySet Name="BSAEmployees" EntityType="BSAModel.BSAEmployee" />
+          <EntitySet Name="BSAMembers" EntityType="BSAModel.BSAMember" />
+          <EntitySet Name="Companies" EntityType="BSAModel.Company" />
+          <EntitySet Name="Countries" EntityType="BSAModel.Country" />
+          <EntitySet Name="Customers" EntityType="BSAModel.Customer" />
+          <EntitySet Name="Designations" EntityType="BSAModel.Designation" />
+          <EntitySet Name="Districts" EntityType="BSAModel.District" />
+          <EntitySet Name="Divisions" EntityType="BSAModel.Division" />
+          <EntitySet Name="DropDownItems" EntityType="BSAModel.DropDownItem" />
+          <EntitySet Name="DropDownTypes" EntityType="BSAModel.DropDownType" />
+          <EntitySet Name="Educations" EntityType="BSAModel.Education" />
+          <EntitySet Name="Employees" EntityType="BSAModel.Employee" />
+          <EntitySet Name="Menus" EntityType="BSAModel.Menu" />
+          <EntitySet Name="Seeds" EntityType="BSAModel.Seed" />
+          <EntitySet Name="SeedCategories" EntityType="BSAModel.SeedCategory" />
+          <EntitySet Name="SubMenus" EntityType="BSAModel.SubMenu" />
+          <EntitySet Name="Users" EntityType="BSAModel.User" />
+          <EntitySet Name="UserMenus" EntityType="BSAModel.UserMenu" />
+          <EntitySet Name="Upazilas" EntityType="BSAModel.Upazila" />
+          <AssociationSet Name="FK_BankBranch_Bank" Association="BSAModel.FK_BankBranch_Bank">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="BankBranch" EntitySet="BankBranches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainMenu_Company" Association="BSAModel.FK_MainMenu_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Thana_District" Association="BSAModel.FK_Thana_District">
+            <End Role="District" EntitySet="Districts" />
+            <End Role="Upazila" EntitySet="Upazilas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DropDownItem_DropDownType" Association="BSAModel.FK_DropDownItem_DropDownType">
+            <End Role="DropDownType" EntitySet="DropDownTypes" />
+            <End Role="DropDownItem" EntitySet="DropDownItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Education_Examination" Association="BSAModel.FK_Education_Examination">
+            <End Role="DropDownItem" EntitySet="DropDownItems" />
+            <End Role="Education" EntitySet="Educations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubMenu_Menu" Association="BSAModel.FK_SubMenu_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="SubMenu" EntitySet="SubMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMenu_Menu" Association="BSAModel.FK_UserMenu_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="UserMenu" EntitySet="UserMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMenu_SubMenu" Association="BSAModel.FK_UserMenu_SubMenu">
+            <End Role="SubMenu" EntitySet="SubMenus" />
+            <End Role="UserMenu" EntitySet="UserMenus" />
+          </AssociationSet>
+          <EntitySet Name="BsaAGMs" EntityType="BSAModel.BsaAGM" />
+          </EntityContainer>
+        <ComplexType Name="CSVToTableWithID_Result">
+          <Property Type="Int32" Name="tempid" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Value" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spGetDropDownData_Result">
+          <Property Type="Int32" Name="DropDownTypeId" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Name1" Nullable="false" MaxLength="128" />
+        </ComplexType>
+        <ComplexType Name="UDFSeniorityPosition_Result">
+          <Property Type="Int32" Name="Position" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="true" />
+          <Property Type="Int32" Name="RankId" Nullable="true" />
+          <Property Type="Int32" Name="RankOrder" Nullable="true" />
+          <Property Type="String" Name="ConsecutivePositionDate" Nullable="true" MaxLength="420" />
+          <Property Type="String" Name="PNO" Nullable="true" MaxLength="16" />
+        </ComplexType>
+        <ComplexType Name="UpdateOfficerFullNameStr_Result">
+          <Property Type="String" Name="OfficerNameEnglish" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="OfficerNameBangla" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="BankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="BankBranches" Relationship="BSAModel.FK_BankBranch_Bank" FromRole="Bank" ToRole="BankBranch" />
+        </EntityType>
+        <EntityType Name="BankBranch">
+          <Key>
+            <PropertyRef Name="BankBranchId" />
+          </Key>
+          <Property Name="BankBranchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Bank" Relationship="BSAModel.FK_BankBranch_Bank" FromRole="BankBranch" ToRole="Bank" />
+        </EntityType>
+        <EntityType Name="BSAEmployee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerId" Type="Int64" />
+          <Property Name="HrAdminId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="CardId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="FatherName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MotherName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SpouseName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfMarriage" Type="DateTime" Precision="0" />
+          <Property Name="NationalId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GenderId" Type="Int32" />
+          <Property Name="MaritalTypeId" Type="Int32" />
+          <Property Name="ReligionId" Type="Int32" />
+          <Property Name="BloodGroupId" Type="Int32" />
+          <Property Name="MobileNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PABX" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DrivingLicenseNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TinNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SocialId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PresentAddress" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="PermanentAddress" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="JoiningDate" Type="DateTime" Precision="0" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="DesignationId" Type="Int32" />
+          <Property Name="EmployeeCategoryId" Type="Int32" />
+          <Property Name="ServiceTypeId" Type="Int32" />
+          <Property Name="JobStatusId" Type="Int32" />
+          <Property Name="OfficeTypeId" Type="Int32" />
+          <Property Name="GradeId" Type="Int32" />
+          <Property Name="DesignationFlag" Type="Int32" />
+          <Property Name="ImageFileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureFileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="EndReason" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="EmployeeStatusId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BSAMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberNameEn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberNameBn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BSARegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberOrder" Type="Int32" />
+          <Property Name="Delegate" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DelegateEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LogoUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AddressOne" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="AddressTwo" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="CorporateOffice" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="TIN" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeEmail" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyType" Type="Int32" />
+          <Property Name="MushokNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Created" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Menus" Relationship="BSAModel.FK_MainMenu_Company" FromRole="Company" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Country1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ISOCountryCodes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CountryCode" Type="Double" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberNo" Type="Int32" />
+          <Property Name="MemberName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BIN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TIN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TradeLicense" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ConcatPersonEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressOne" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddressTwo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Village" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DivisionId" Type="Int64" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="UpazilaId" Type="Int32" />
+          <Property Name="Designation" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfRegistration" Type="DateTime" Precision="0" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Nationality" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="OverDueAmount180Days" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="OverDueAmount90Days" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DuePayment" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="LastPaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="DesignationId" />
+          </Key>
+          <Property Name="DesignationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="DistrictId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DivisionId" Type="Int64" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Upazilas" Relationship="BSAModel.FK_Thana_District" FromRole="District" ToRole="Upazila" />
+        </EntityType>
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="DivisionId" />
+          </Key>
+          <Property Name="DivisionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GOVTDivisionCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DropDownItem">
+          <Key>
+            <PropertyRef Name="DropDownItemId" />
+          </Key>
+          <Property Name="DropDownItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DropDownTypeId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="DropDownType" Relationship="BSAModel.FK_DropDownItem_DropDownType" FromRole="DropDownItem" ToRole="DropDownType" />
+          <NavigationProperty Name="Educations" Relationship="BSAModel.FK_Education_Examination" FromRole="DropDownItem" ToRole="Education" />
+        </EntityType>
+        <EntityType Name="DropDownType">
+          <Key>
+            <PropertyRef Name="DropDownTypeId" />
+          </Key>
+          <Property Name="DropDownTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DropDownItems" Relationship="BSAModel.FK_DropDownItem_DropDownType" FromRole="DropDownType" ToRole="DropDownItem" />
+        </EntityType>
+        <EntityType Name="Education">
+          <Key>
+            <PropertyRef Name="EducationId" />
+          </Key>
+          <Property Name="EducationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" />
+          <Property Name="EmployeeId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Examination" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ExaminationId" Type="Int32" />
+          <Property Name="Subject" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Institute" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PassingYear" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RollNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RegNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DropDownItem" Relationship="BSAModel.FK_Education_Examination" FromRole="Education" ToRole="DropDownItem" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Nationality" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ConcatPersonEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LogoUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AddressOne" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="AddressTwo" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfRegistration" Type="DateTime" Precision="3" />
+          <Property Name="CorporateOffice" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="TradeLicense" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyChairman" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyMD" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeEmail" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaritalType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankId" Type="Int32" />
+          <Property Name="BankBranchId" Type="Int32" />
+          <Property Name="BankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BankAccount" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NationalId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Religion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="BSAModel.FK_MainMenu_Company" FromRole="Menu" ToRole="Company" />
+          <NavigationProperty Name="SubMenus" Relationship="BSAModel.FK_SubMenu_Menu" FromRole="Menu" ToRole="SubMenu" />
+          <NavigationProperty Name="UserMenus" Relationship="BSAModel.FK_UserMenu_Menu" FromRole="Menu" ToRole="UserMenu" />
+        </EntityType>
+        <EntityType Name="Seed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SeedCategoryId" Type="Int32" />
+          <Property Name="SeedTypeId" Type="Int32" />
+          <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProductNameBN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SeedCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="NameBN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SubMenu">
+          <Key>
+            <PropertyRef Name="SubMenuId" />
+          </Key>
+          <Property Name="SubMenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Controller" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Param" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="BSAModel.FK_SubMenu_Menu" FromRole="SubMenu" ToRole="Menu" />
+          <NavigationProperty Name="UserMenus" Relationship="BSAModel.FK_UserMenu_SubMenu" FromRole="SubMenu" ToRole="UserMenu" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserMenu">
+          <Key>
+            <PropertyRef Name="UserMenuId" />
+          </Key>
+          <Property Name="UserMenuId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="SubMenuId" Type="Int32" Nullable="false" />
+          <Property Name="IsView" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdd" Type="Boolean" Nullable="false" />
+          <Property Name="IsUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="BSAModel.FK_UserMenu_Menu" FromRole="UserMenu" ToRole="Menu" />
+          <NavigationProperty Name="SubMenu" Relationship="BSAModel.FK_UserMenu_SubMenu" FromRole="UserMenu" ToRole="SubMenu" />
+        </EntityType>
+        <EntityType Name="Upazila">
+          <Key>
+            <PropertyRef Name="UpazilaId" />
+          </Key>
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="UpazilaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CarryingRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="District" Relationship="BSAModel.FK_Thana_District" FromRole="Upazila" ToRole="District" />
+        </EntityType>
+        <Association Name="FK_BankBranch_Bank">
+          <End Type="BSAModel.Bank" Role="Bank" Multiplicity="0..1" />
+          <End Type="BSAModel.BankBranch" Role="BankBranch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankBranch">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MainMenu_Company">
+          <End Type="BSAModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="BSAModel.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Thana_District">
+          <End Type="BSAModel.District" Role="District" Multiplicity="0..1" />
+          <End Type="BSAModel.Upazila" Role="Upazila" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="Upazila">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DropDownItem_DropDownType">
+          <End Type="BSAModel.DropDownType" Role="DropDownType" Multiplicity="0..1" />
+          <End Type="BSAModel.DropDownItem" Role="DropDownItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DropDownType">
+              <PropertyRef Name="DropDownTypeId" />
+            </Principal>
+            <Dependent Role="DropDownItem">
+              <PropertyRef Name="DropDownTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Education_Examination">
+          <End Type="BSAModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
+          <End Type="BSAModel.Education" Role="Education" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DropDownItem">
+              <PropertyRef Name="DropDownItemId" />
+            </Principal>
+            <Dependent Role="Education">
+              <PropertyRef Name="ExaminationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubMenu_Menu">
+          <End Type="BSAModel.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="BSAModel.SubMenu" Role="SubMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="SubMenu">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMenu_Menu">
+          <End Type="BSAModel.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="BSAModel.UserMenu" Role="UserMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="UserMenu">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMenu_SubMenu">
+          <End Type="BSAModel.SubMenu" Role="SubMenu" Multiplicity="1" />
+          <End Type="BSAModel.UserMenu" Role="UserMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubMenu">
+              <PropertyRef Name="SubMenuId" />
+            </Principal>
+            <Dependent Role="UserMenu">
+              <PropertyRef Name="SubMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BsaAGM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AGMYear" Type="Int32" />
+          <Property Name="MemberOrDealerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameOfDealer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Disrtict" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameOfRepresentative" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NoofPerson" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BSAModelStoreContainer" CdmEntityContainer="BSAEntities">
+          <FunctionImportMapping FunctionImportName="CSVToTableWithID" FunctionName="BSAModel.Store.CSVToTableWithID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BSAModel.CSVToTableWithID_Result">
+                <ScalarProperty Name="tempid" ColumnName="tempid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserRole" FunctionName="BSAModel.Store.GetUserRole" />
+          <FunctionImportMapping FunctionImportName="sp_GetEmployeeEvent" FunctionName="BSAModel.Store.sp_GetEmployeeEvent" />
+          <FunctionImportMapping FunctionImportName="spGetCompanyIdsByUserId" FunctionName="BSAModel.Store.spGetCompanyIdsByUserId" />
+          <FunctionImportMapping FunctionImportName="spGetDropDownData" FunctionName="BSAModel.Store.spGetDropDownData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BSAModel.spGetDropDownData_Result">
+                <ScalarProperty Name="DropDownTypeId" ColumnName="DropDownTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetUpazilaAssign" FunctionName="BSAModel.Store.spGetUpazilaAssign" />
+          <FunctionImportMapping FunctionImportName="UDFSeniorityPosition" FunctionName="BSAModel.Store.UDFSeniorityPosition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BSAModel.UDFSeniorityPosition_Result">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="RankId" ColumnName="RankId" />
+                <ScalarProperty Name="RankOrder" ColumnName="RankOrder" />
+                <ScalarProperty Name="ConsecutivePositionDate" ColumnName="ConsecutivePositionDate" />
+                <ScalarProperty Name="PNO" ColumnName="PNO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateOfficerFullNameStr" FunctionName="BSAModel.Store.UpdateOfficerFullNameStr">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BSAModel.UpdateOfficerFullNameStr_Result">
+                <ScalarProperty Name="OfficerNameEnglish" ColumnName="OfficerNameEnglish" />
+                <ScalarProperty Name="OfficerNameBangla" ColumnName="OfficerNameBangla" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="BSAModel.Bank">
+              <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BankBranches">
+            <EntityTypeMapping TypeName="BSAModel.BankBranch">
+              <MappingFragment StoreEntitySet="BankBranch">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="BankBranchId" ColumnName="BankBranchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BSAEmployees">
+            <EntityTypeMapping TypeName="BSAModel.BSAEmployee">
+              <MappingFragment StoreEntitySet="BSAEmployee">
+                <ScalarProperty Name="EmployeeStatusId" ColumnName="EmployeeStatusId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifedBy" ColumnName="ModifedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="EmployeeOrder" ColumnName="EmployeeOrder" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="EndReason" ColumnName="EndReason" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="SignatureFileName" ColumnName="SignatureFileName" />
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="DesignationFlag" ColumnName="DesignationFlag" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="OfficeTypeId" ColumnName="OfficeTypeId" />
+                <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+                <ScalarProperty Name="EmployeeCategoryId" ColumnName="EmployeeCategoryId" />
+                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+                <ScalarProperty Name="PresentAddress" ColumnName="PresentAddress" />
+                <ScalarProperty Name="SocialId" ColumnName="SocialId" />
+                <ScalarProperty Name="TinNo" ColumnName="TinNo" />
+                <ScalarProperty Name="PassportNo" ColumnName="PassportNo" />
+                <ScalarProperty Name="DrivingLicenseNo" ColumnName="DrivingLicenseNo" />
+                <ScalarProperty Name="PABX" ColumnName="PABX" />
+                <ScalarProperty Name="OfficeEmail" ColumnName="OfficeEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="BloodGroupId" ColumnName="BloodGroupId" />
+                <ScalarProperty Name="ReligionId" ColumnName="ReligionId" />
+                <ScalarProperty Name="MaritalTypeId" ColumnName="MaritalTypeId" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="DateOfMarriage" ColumnName="DateOfMarriage" />
+                <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+                <ScalarProperty Name="MotherName" ColumnName="MotherName" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="HrAdminId" ColumnName="HrAdminId" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BSAMembers">
+            <EntityTypeMapping TypeName="BSAModel.BSAMember">
+              <MappingFragment StoreEntitySet="BSAMember">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifedBy" ColumnName="ModifedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="OfficeEmail" ColumnName="OfficeEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="TIN" ColumnName="TIN" />
+                <ScalarProperty Name="CorporateOffice" ColumnName="CorporateOffice" />
+                <ScalarProperty Name="AddressTwo" ColumnName="AddressTwo" />
+                <ScalarProperty Name="AddressOne" ColumnName="AddressOne" />
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+                <ScalarProperty Name="DelegateEmail" ColumnName="DelegateEmail" />
+                <ScalarProperty Name="Delegate" ColumnName="Delegate" />
+                <ScalarProperty Name="MemberOrder" ColumnName="MemberOrder" />
+                <ScalarProperty Name="BSARegistrationNo" ColumnName="BSARegistrationNo" />
+                <ScalarProperty Name="MemberNameBn" ColumnName="MemberNameBn" />
+                <ScalarProperty Name="MemberNameEn" ColumnName="MemberNameEn" />
+                <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="BSAModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MushokNo" ColumnName="MushokNo" />
+                <ScalarProperty Name="CompanyType" ColumnName="CompanyType" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="BSAModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="ISOCountryCodes" ColumnName="ISOCountryCodes" />
+                <ScalarProperty Name="Country1" ColumnName="Country" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="BSAModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CustomerStatus" ColumnName="CustomerStatus" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
+                <ScalarProperty Name="DuePayment" ColumnName="DuePayment" />
+                <ScalarProperty Name="OverDueAmount90Days" ColumnName="OverDueAmount90Days" />
+                <ScalarProperty Name="OverDueAmount180Days" ColumnName="OverDueAmount180Days" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="DateOfRegistration" ColumnName="DateOfRegistration" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="UpazilaId" ColumnName="UpazilaId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="Village" ColumnName="Village" />
+                <ScalarProperty Name="AddressTwo" ColumnName="AddressTwo" />
+                <ScalarProperty Name="AddressOne" ColumnName="AddressOne" />
+                <ScalarProperty Name="ContactPersonMobile" ColumnName="ContactPersonMobile" />
+                <ScalarProperty Name="ConcatPersonEmail" ColumnName="ConcatPersonEmail" />
+                <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="TradeLicense" ColumnName="TradeLicense" />
+                <ScalarProperty Name="TIN" ColumnName="TIN" />
+                <ScalarProperty Name="BIN" ColumnName="BIN" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberNo" ColumnName="MemberNo" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Designations">
+            <EntityTypeMapping TypeName="BSAModel.Designation">
+              <MappingFragment StoreEntitySet="Designation">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="BSAModel.District">
+              <MappingFragment StoreEntitySet="District">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Divisions">
+            <EntityTypeMapping TypeName="BSAModel.Division">
+              <MappingFragment StoreEntitySet="Division">
+                <ScalarProperty Name="GOVTDivisionCode" ColumnName="GOVTDivisionCode" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DropDownItems">
+            <EntityTypeMapping TypeName="BSAModel.DropDownItem">
+              <MappingFragment StoreEntitySet="DropDownItem">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DropDownTypeId" ColumnName="DropDownTypeId" />
+                <ScalarProperty Name="DropDownItemId" ColumnName="DropDownItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DropDownTypes">
+            <EntityTypeMapping TypeName="BSAModel.DropDownType">
+              <MappingFragment StoreEntitySet="DropDownType">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DropDownTypeId" ColumnName="DropDownTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Educations">
+            <EntityTypeMapping TypeName="BSAModel.Education">
+              <MappingFragment StoreEntitySet="Education">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+                <ScalarProperty Name="RollNo" ColumnName="RollNo" />
+                <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+                <ScalarProperty Name="Institute" ColumnName="Institute" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="ExaminationId" ColumnName="ExaminationId" />
+                <ScalarProperty Name="Examination" ColumnName="Examination" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EducationId" ColumnName="EducationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="BSAModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifedBy" ColumnName="ModifedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="Religion" ColumnName="Religion" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
+                <ScalarProperty Name="BankBranch" ColumnName="BankBranch" />
+                <ScalarProperty Name="BankBranchId" ColumnName="BankBranchId" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="MaritalType" ColumnName="MaritalType" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="OfficeEmail" ColumnName="OfficeEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyMD" ColumnName="CompanyMD" />
+                <ScalarProperty Name="CompanyChairman" ColumnName="CompanyChairman" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="TradeLicense" ColumnName="TradeLicense" />
+                <ScalarProperty Name="CorporateOffice" ColumnName="CorporateOffice" />
+                <ScalarProperty Name="DateOfRegistration" ColumnName="DateOfRegistration" />
+                <ScalarProperty Name="AddressTwo" ColumnName="AddressTwo" />
+                <ScalarProperty Name="AddressOne" ColumnName="AddressOne" />
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+                <ScalarProperty Name="ConcatPersonEmail" ColumnName="ConcatPersonEmail" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="BSAModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seeds">
+            <EntityTypeMapping TypeName="BSAModel.Seed">
+              <MappingFragment StoreEntitySet="Seed">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProductNameBN" ColumnName="ProductNameBN" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="SeedTypeId" ColumnName="SeedTypeId" />
+                <ScalarProperty Name="SeedCategoryId" ColumnName="SeedCategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeedCategories">
+            <EntityTypeMapping TypeName="BSAModel.SeedCategory">
+              <MappingFragment StoreEntitySet="SeedCategory">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="NameBN" ColumnName="NameBN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubMenus">
+            <EntityTypeMapping TypeName="BSAModel.SubMenu">
+              <MappingFragment StoreEntitySet="SubMenu">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Param" ColumnName="Param" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="SubMenuId" ColumnName="SubMenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BSAModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMenus">
+            <EntityTypeMapping TypeName="BSAModel.UserMenu">
+              <MappingFragment StoreEntitySet="UserMenu">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsUpdate" ColumnName="IsUpdate" />
+                <ScalarProperty Name="IsAdd" ColumnName="IsAdd" />
+                <ScalarProperty Name="IsView" ColumnName="IsView" />
+                <ScalarProperty Name="SubMenuId" ColumnName="SubMenuId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserMenuId" ColumnName="UserMenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Upazilas">
+            <EntityTypeMapping TypeName="BSAModel.Upazila">
+              <MappingFragment StoreEntitySet="Upazila">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CarryingRate" ColumnName="CarryingRate" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UpazilaId" ColumnName="UpazilaId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BsaAGMs">
+            <EntityTypeMapping TypeName="BSAModel.BsaAGM">
+              <MappingFragment StoreEntitySet="BsaAGM">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="NoofPerson" ColumnName="NoofPerson" />
+                <ScalarProperty Name="NameOfRepresentative" ColumnName="NameOfRepresentative" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Disrtict" ColumnName="Disrtict" />
+                <ScalarProperty Name="NameOfDealer" ColumnName="NameOfDealer" />
+                <ScalarProperty Name="MemberOrDealerId" ColumnName="MemberOrDealerId" />
+                <ScalarProperty Name="AGMYear" ColumnName="AGMYear" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,469 @@
+﻿@model KGERP.Service.ServiceModel.ExpenseModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Manage Expense";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.ExpenseMasterId > 0)
+        {
+            <span>
+                Expense History of: <a target="_blank" href="~/Expense/ExpenseDetailsReport?companyId=@Model.CompanyFK&expenseMasterId=@Model.ExpenseMasterId">@Model.ExpenseNo</a>
+            </span>
+        }
+        else
+        {
+            <span>
+                Expense
+            </span>
+        }
+
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Expense</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("ExpenseSlave", "Expense", FormMethod.Post, new { id = "expenseMasterSlaveId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ExpenseMasterId, new { id = "hidExpenseMasterId" })
+                @Html.HiddenFor(model => model.ExpensesId, new { id = "hidExpenseDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
+                @Html.HiddenFor(model => model.ExpenseBy, new { id = "ExpenseBy" })
+
+                <div class="box-danger">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (Model.ExpenseMasterId > 0)
+                        {
+
+
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:18%">
+                                            Expense No
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ExpenseNo</label>
+                                        </td>
+
+                                        <th style="width:18%"> Date</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.ExpenseDate.ToShortDateString()</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Territory</th>
+                                        <th>:</th>
+                                        <td>@Model.TerritoryName</td>
+
+                                        <th>Expense By</th>
+                                        <th>:</th>
+                                        <td>@Model.ExpenseByName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Ref. No</th>
+                                        <th>:</th>
+                                        <td>@Model.ReferenceNo</td>
+
+                                        <th>Status</th>
+                                        <th>:</th>
+                                        <td>
+                                            @if (@Model.Status == (int)@EnumExpenseStatus.Draft)
+                                            {
+                                                <span> @EnumExpenseStatus.Draft.ToString()</span>
+                                            }
+                                            else if (@Model.Status == (int)@EnumExpenseStatus.Submitted)
+                                            {
+                                                <span> @EnumExpenseStatus.Submitted.ToString()</span>
+                                            }
+                                            else if (@Model.Status == (int)@EnumExpenseStatus.Approved)
+                                            {
+                                                <span> @EnumExpenseStatus.Approved.ToString()</span>
+                                            }
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Created By</th>
+                                        <th>:</th>
+                                        <td>@Model.CreatedBy</td>
+
+                                        <th>Description</th>
+                                        <th>:</th>
+                                        <td>@Model.Description</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <div class="col-md-1"> </div>
+                        }
+
+                        <div class="box-body">
+
+                            @if (Model.ExpenseMasterId == 0)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Expense Date</label>
+                                            <input name="ExpenseDate" asp-for="ExpenseDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtExpenseDate" placeholder="Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.ExpenseDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Payment Method</label>
+                                            @Html.DropDownListFor(model => model.ExpensePaymentMethodEnumFK, Model.ExpensePaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlExpensePaymentMethodEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ExpensePaymentMethodEnumFK, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Territory</label>
+                                            @Html.DropDownListFor(model => model.TerritoryId, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.TerritoryId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="txtReferenceNo" class="col-form-label">Ref. No:</label>
+                                            @Html.EditorFor(model => model.ReferenceNo, new { htmlAttributes = new { @class = "form-control", @id = "txtReferenceNo" } })
+                                            @Html.ValidationMessageFor(model => model.ReferenceNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label">Description:</label>
+                                            @Html.TextAreaFor(model => model.Description, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="txtExpenseItemName" class="col-form-label">Expense Item:</label>
+
+                                        @Html.EditorFor(model => model.ExpensesHeadGLName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Expense Item Name", @id = "txtExpenseItemName" } })
+                                        @Html.ValidationMessageFor(model => model.ExpensesHeadGLName, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.ExpensesHeadGLId, new { id = "ddlExpenseHeadGLId", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ExpensesHeadGLId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Amount</label>
+                                        @Html.TextBoxFor(model => model.Amount, new { @required = "required", id = "txtAmount", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;bExpense:1px black solid", placeholder = "Amount" })
+                                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" id="exCreateBtn" class="btn btn-primary btn-block">
+                                        <i class='fa fa-plus'></i>
+                                        @if (Model.ExpenseMasterId > 0)
+                                        {
+                                            <span>Add Item</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Create</span>
+                                        }
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!--Body Will by Start Here-->
+                        @{
+                            if (Model.ExpenseMasterId > 0)
+                            {
+
+                                @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                                <div class="table-responsive col-md-12  text-nowrap">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="padding:5px;text-align:left;">SL</th>
+                                                <th style="padding:5px;text-align:left;">Item</th>
+                                                <th style="padding:5px;text-align:right;">Price</th>
+                                                @if (Model.Status == (int)EnumExpenseStatus.Draft)
+                                                {
+                                                    <th style="padding:5px;text-align:center;">Action</th>
+                                                }
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (var item in Model.DetailList)
+                                            {
+                                                <tr>
+                                                    <td style="padding: 5px; text-align: left;">@(++sl)</td>
+                                                    <td style="padding:5px;text-align:left;">@item.ExpensesHeadGLName</td>
+                                                    <td style="padding:5px;text-align:right;">@($"{item.Amount:0.00}")</td>
+                                                    @{ if (Model.Status == (int)EnumExpenseStatus.Draft)
+                                                        {
+                                                            <td style="padding:5px;text-align:center;">
+                                                                <a id="@item.ExpensesId" onclick=" makeEditble(@item.ExpensesId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                                <a id="@item.ExpensesId" onclick="makeDeletale(@item.ExpensesId)" class="linkPointer" data-toggle="modal" data-target="#deleteExpenseSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                            </td>
+                                                        }
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="box-footer">
+                        @if (Model.ExpenseMasterId > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <a id="@Model.ExpenseMasterId" onclick="makeSubmitble(@Model.ExpenseMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitExpenseModal" data-placement="top">
+                                        @if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                                        {
+                                            <i>Undo Submit</i>
+                                        }
+                                        else
+                                        {
+                                            <i>Submit</i>
+                                        }
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("SubmitExpenseMastersFromSlave", "Expense", FormMethod.Post, new { id = "submitExpenseMasterFormId", @class = "formValidator" }))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitExpenseModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title">
+                        <b>
+                            <span class="submitOrDraftText"></span> Expense @if (Model.Status == (int)EnumExpenseStatus.Draft)
+                            {<span>Submit </span>}
+                            else if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                            {<span>Draft </span>}
+                        </b>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.ExpenseMasterId, new { id = "hidSubmitExpenseMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "hidSubmitCompanyId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>
+                            Are you sure to  @if (Model.Status == (int)EnumExpenseStatus.Draft)
+                            {<span>Submit </span>}
+                            else if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                            {<span>Draft </span>} this Expense?
+                        </h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetExpenseSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">
+                            @if (Model.Status == (int)EnumExpenseStatus.Draft)
+                            {<span>Make Submit </span>}
+                            else if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                            {<span>Make Draft </span>}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteExpenseSlave", "Expense", FormMethod.Post, new { id = "deleteExpenseSlaveFromId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteExpenseSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Expense Item</b></h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.ExpensesId, new { id = "hidDeleteExpensesId" })
+                    @Html.HiddenFor(model => model.ExpenseMasterId, new { id = "hidDeleteExpenseMasterId" })
+
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "deleteCompanyId" })
+
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this Expense Item?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetExpenseSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#txtExpenseItemName").autocomplete({
+                  source: function (request, response) {
+
+                    $.ajax({
+                        url:"@Url.Action("AutoCompleteAdministrativeExpenseHeadGlGet", "Configuration")",// '/AccountHeads/AutoComplete/',
+                        //data: "{ 'prefix': '" + request.term + "'}",
+                        data: { companyId: "@Model.CompanyId", prefix: request.term, productType : "R" },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            //alert(response.responseText);
+                        }
+                    });
+                },
+
+            select: function (e, i) {
+                $("#ddlExpenseHeadGLId").val(i.item.val);
+                $('#txtExpenseItemName').focus();
+                },
+                minLength: 1,
+                cache: true
+
+            }).focus(function () {
+                $(this).autocomplete("search");
+            });
+
+        });
+
+        function makeEditble(rowId) {
+
+            $.ajax({
+
+                  type: "POST",
+                  url: "@Url.Action("GetSingleExpenseDetailById", "Expense")",
+                  datatype: "Json",
+                  data: { id: rowId },
+                  success: function (data) {
+
+                      $('#exCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                      $("#hidExpenseMasterId").val(data.ExpenseMasterId);
+                      $('#ActionId').val(2);
+                      $("#CompanyFK").val(data.CompanyId);
+                      $("#CompanyId").val(data.CompanyId);
+                      $("#txtExpenseItemName").val(data.ExpensesHeadGLName);
+                      $("#ddlExpenseHeadGLId").val(data.ExpensesHeadGLId);
+                      $("#txtAmount").val(data.Amount);
+                      $("#hidExpenseDetailId").val(data.ExpensesId)
+
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                 });
+            }
+
+        function makeDeletale(rowId) {
+            $('#hidDeleteExpensesId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+
+        function resetExpenseSlaveForm() {
+            $('#deleteExpenseSlaveFrom')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+    </script>
+}

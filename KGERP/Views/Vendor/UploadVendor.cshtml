@@ -1,0 +1,40 @@
+﻿@model KGERP.Service.ServiceModel.VendorModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("UploadVendor", "Vendor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.CompanyId)
+    @Html.HiddenFor(x => x.VendorTypeId)
+    <table class="table">
+
+        <tr>
+            <th>Browse File</th>
+            <td>
+                <input type="file" name="UploadedFile" />
+            </td>
+            <td> <a  href="@Url.Action("DownloadDemoFile", "Vendor")"><i class="fa fa-download"></i> Download File Format</a> </td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                <input type="submit" name="Submit" value="Submit" />
+            </td>
+        </tr>
+
+    </table>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+    </script>
+
+}

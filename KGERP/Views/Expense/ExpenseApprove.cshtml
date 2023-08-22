@@ -1,0 +1,378 @@
+﻿@model KGERP.Service.ServiceModel.ExpenseModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Expense Approve";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.ExpenseMasterId > 0)
+        {
+            <span>
+                Expense History of: <a target="_blank" href="~/Expense/ExpenseDetailsReport?companyId=@Model.CompanyFK&expenseMasterId=@Model.ExpenseMasterId">@Model.ExpenseNo</a>
+            </span>
+        }
+        else
+        {
+            <span>
+                Expense
+            </span>
+        }
+
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Expense</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("ExpenseApprove", "Expense", FormMethod.Post, new { id = "expenseMasterSlaveId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ExpenseMasterId, new { id = "hidExpenseMasterId" })
+                @Html.HiddenFor(model => model.ExpensesId, new { id = "hidExpenseDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
+                @Html.HiddenFor(model => model.ExpenseBy, new { id = "ExpenseBy" })
+
+                <div class="box-danger">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+                        @if (Model.ExpenseMasterId > 0)
+                        {
+
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:18%">
+                                            Expense No
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ExpenseNo</label>
+                                        </td>
+
+                                        <th style="width:18%"> Date</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.ExpenseDate.ToShortDateString()</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Territory</th>
+                                        <th>:</th>
+                                        <td>@Model.TerritoryName</td>
+
+                                        <th>Expense By</th>
+                                        <th>:</th>
+                                        <td>@Model.ExpenseByName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Ref. No</th>
+                                        <th>:</th>
+                                        <td>@Model.ReferenceNo</td>
+
+                                        <th>Status</th>
+                                        <th>:</th>
+                                        <td>
+                                            @if (@Model.Status == (int)@EnumExpenseStatus.Draft)
+                                            {
+                                                <span> @EnumExpenseStatus.Draft.ToString()</span>
+                                            }
+                                            else if (@Model.Status == (int)@EnumExpenseStatus.Submitted)
+                                            {
+                                                <span> @EnumExpenseStatus.Submitted.ToString()</span>
+                                            }
+                                            else if (@Model.Status == (int)@EnumExpenseStatus.Approved)
+                                            {
+                                                <span> @EnumExpenseStatus.Approved.ToString()</span>
+                                            }
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Created By</th>
+                                        <th>:</th>
+                                        <td>@Model.CreatedBy</td>
+
+                                        <th>Description</th>
+                                        <th>:</th>
+                                        <td>@Model.Description</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <div class="col-md-1"> </div>
+                        }
+
+                        <!--Body Will by Start Here-->
+                        @{
+                            if (Model.ExpenseMasterId > 0)
+                            {
+
+                                @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                                <div class="table-responsive col-md-12  text-nowrap">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="padding:5px;text-align:left;">SL</th>
+                                                <th style="padding:5px;text-align:left;">Item</th>
+                                                <th style="padding:5px;text-align:right;">Price</th>
+                                                @if (Model.Status == (int)EnumExpenseStatus.Draft)
+                                                {
+                                                    <th style="padding:5px;text-align:center;">Action</th>
+                                                }
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (var item in Model.DetailList)
+                                            {
+                                                <tr>
+                                                    <td style="padding: 5px; text-align: left;">@(++sl)</td>
+                                                    <td style="padding: 5px; text-align: left;">@item.ExpensesHeadGLName</td>
+                                                    <td style="padding: 5px; text-align: right;">@($"{item.Amount:0.00}")</td>
+                                                    @{
+                                                        if (Model.Status == (int)EnumExpenseStatus.Draft)
+                                                        {
+                                                            <td style="padding: 5px; text-align: center;">
+                                                                <a id="@item.ExpensesId" onclick=" makeEditble(@item.ExpensesId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                                <a id="@item.ExpensesId" onclick="makeDeletale(@item.ExpensesId)" class="linkPointer" data-toggle="modal" data-target="#deleteExpenseSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                            </td>
+                                                        }
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Voucher Type</label>
+                                    @Html.DropDownListFor(model => model.VoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", style = "width:100%", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.VoucherTypeId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>CostCenter/Project</label>
+                                    @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Accounting_CostCenterFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Accounting Head:</label>
+
+                                    @Html.EditorFor(model => model.AccountingHeadName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @id = "txtAccountingHeadName", required = "required" } })
+
+                                    @Html.HiddenFor(model => model.Accounting_HeadFK, new { id = "ddlAccounting_HeadFK" })
+                                    @Html.ValidationMessageFor(model => model.Accounting_HeadFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Debit</label>
+                                    @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid" })
+                                    @Html.ValidationMessageFor(model => model.Debit, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer">
+                        @if (Model.ExpenseMasterId > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+
+                                    @if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                                    {
+                                        <a id="@Model.ExpenseMasterId" onclick="makeSubmitble(@Model.ExpenseMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitExpenseModal" data-placement="top">  <i>Approve</i></a>
+                                    }
+                                    @*else if (Model.Status == (int)EnumExpenseStatus.Approved)
+                                        {
+                                            <a id="@Model.ExpenseMasterId" onclick="makeSubmitble(@Model.ExpenseMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitExpenseModal" data-placement="top">  <i>Disapprove</i></a>
+                                        }*@
+                                    else
+                                    {
+                                        <button type="button" id="btnsave" disabled="disabled" style="width:100%" class="btn btn-primary">Approved</button>
+                                    }
+                                </div>
+
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="modal fade" id="submitExpenseModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            &times;
+                        </button>
+                        <h5 class="modal-title">
+                            <b>
+                                <span class="submitOrDraftText"></span> Expense @if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                                {<span>Approve </span>}
+                                @*else if (Model.Status == (int)EnumExpenseStatus.Approved)
+                                    {<span>Disapprove </span>}*@
+                            </b>
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align:center">
+                            <h3>
+                                Are you sure to  @if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                                {<span>Approve </span>}
+                                @*else if (Model.Status == (int)EnumExpenseStatus.Approved)
+                                    {<span>Disapprove </span>}*@
+                                this Expense?
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-3">
+                            <button type="button" onclick="resetExpenseSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                        </div>
+                        <div class="col-md-9">
+                            <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">
+                                @if (Model.Status == (int)EnumExpenseStatus.Submitted)
+                                {<span>Make Approve </span>}
+                                @*else if (Model.Status == (int)EnumExpenseStatus.Approved)
+                                    {<span>Make Disapprove </span>}*@
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+@section scripts {
+
+    <script type="text/javascript">
+     var CompanyId =@Html.Raw(Json.Encode(Model.CompanyId))
+       $("#txtAccountingHeadName").autocomplete({source: function (request, response) {
+
+                    $.ajax({
+                        url:"@Url.Action("GetAutoCompleteHeadGLGet", "Vouchers")",
+                        data: { prefix: request.term, companyId: "@Model.CompanyId" },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                                return item;
+                                            }))
+                        },
+                        error: function (response) {
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                             //alert(response.responseText);
+                                }
+                            });
+                        },
+             select: function (e, i) {
+
+
+                 if (CompanyId == 8 && i.item.value != undefined) {
+                     if (i.item.value.startsWith("1301001002", 1)) {
+                         var narration = $('#txtNarration').val();
+
+                         if (previousBank != '' && narration.includes(previousBank)) {
+                             narration = narration.replace(previousBank, '');
+                         }
+                         var splitStr = i.item.value.substring(i.item.value.indexOf('k') + 1);
+                         previousBank = splitStr;
+                         $('#txtNarration').val(narration + ' ' + splitStr);
+                     }
+                     else if (i.item.value.startsWith("1301001002", 1)) {
+                         var narration = $('#txtNarration').val();
+
+                         if (previousBank != '' && narration.includes(previousBank)) {
+                             narration = narration.replace(previousBank, '');
+                         }
+                         var splitStr = i.item.value.substring(i.item.value.indexOf('k') + 1);
+                         previousBank = splitStr;
+                         $('#txtNarration').val(narration + ' ' + splitStr);
+                     }
+
+                         else {
+                             var narration = $('#txtNarration').val();
+
+                             if (previousBank != '' && narration.includes(previousBank)) {
+                                 narration = narration.replace(previousBank, '');
+                                 previousBank = '';
+                                 $('#txtNarration').val(narration);
+                             }
+                         }
+                 }
+                 $("#ddlAccounting_HeadFK").val(i.item.val);
+
+                 $("#txtDebit").focus();
+
+                 $("#txtDebit").select();
+                },
+             minLength: 1,
+             cache: true
+         }).focus(function () {
+             $(this).autocomplete("search");
+         });
+
+        function resetExpenseSlaveForm() {
+            $('#deleteExpenseSlaveFrom')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+
+    </script>
+}

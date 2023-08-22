@@ -1,0 +1,122 @@
+﻿@model IEnumerable<BSA.Data.Models.UserMenu>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="row">
+    <div class="col-md-3">
+        <b style="font-size:30px">User Menu Assign</b>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-2">
+            @Html.TextBox("userId", null, new { @class = "form-control pull-right", @autocomplete = "off", @placeholder = "Search UserID..." })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("menu", null, new { @class = "form-control pull-right", @autocomplete = "off", @placeholder = "Menu..." })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("subMenu", null, new { @class = "form-control pull-right", @autocomplete = "off", @placeholder = "Sub Menu..." })
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success pull-right">Search<i class="fa fa-search"></i></button>
+        </div>
+    }
+    <div class="col-md-2">
+        <a href="@Url.Action("Create")" title="New User Menu" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-user"></span> Add
+        </a>
+    </div>
+</div>
+
+
+<div class="row">
+    <table class="table table-striped">
+        <tr style="background-color:#009270;color:#FFFFFF">
+            <th>
+                @*@Html.DisplayNameFor(model => model.UserId)*@
+                User
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Menu.Name)*@
+                Menu
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.SubMenu.Name)*@
+                Sub Menu
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.SubMenu.Controller)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubMenu.Action)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDelete)
+            </th>
+
+            <th>
+                @*@Html.DisplayNameFor(model => model.IsActive)*@
+                Active
+            </th>
+
+            <th class="text-center">Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubMenu.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubMenu.Controller)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubMenu.Action)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsView)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsUpdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDelete)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+
+            <td class="text-center">
+                @Html.ActionLink("Edit", "Edit", new { id = item.UserMenuId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UserMenuId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserMenuId })
+            </td>
+        </tr>
+        }
+
+    </table>
+</div>

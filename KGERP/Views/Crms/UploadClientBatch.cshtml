@@ -1,0 +1,299 @@
+﻿@model KGERP.Data.CustomModel.CrmUploadVm
+
+@{
+    ViewBag.Title = "Upload Client Batch File";
+    Layout = "~/Views/Shared/_LayoutCrm.cshtml";
+}
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .btn-primary {
+        color: #fff !important;
+        background-color: #3c8dbc !important;
+        border-color: #3c8dbc !important;
+    }
+
+    .bg-primary {
+        color: #fff !important;
+        background-color: #3c8dbc !important;
+        border-color: #3c8dbc !important;
+    }
+
+    .bg-warning {
+        color: #fff;
+        background-color: #f39c12;
+        border-color: #f39c12;
+    }
+
+    .bg-info {
+        color: #000;
+        background-color: #31d2f2;
+        border-color: #25cff2;
+    }
+
+    .bg-success {
+        color: #fff;
+        background-color: #00a65a;
+        border-color: #00a65a;
+    }
+
+    .bg-danger {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+</style>
+<section>
+    <table>
+        <tr>
+            <td>
+                <button class="btn btn-sm btn-secondary hvr-rectangle-out text-dark" onclick="refreshWindow()">
+                    <i class="fa fa-sync"></i> &nbsp; Refresh
+                </button>
+            </td>
+            <td>
+                <a class="btn btn-sm hvr-sweep-to-bottom text-dark border " href="@Url.Action("UploadClientBatchHistory","Crms", new {companyId=Model.CompanyId})"><i class="fa fa-list"></i> &nbsp; Upload History </a>
+            </td>
+        </tr>
+    </table>
+</section>
+<div>
+    @using (Html.BeginForm("UploadClientBatch", "Crms", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <h5>Upload Client Batch</h5>
+
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="form-group col-md-4">
+
+                <label>Select Company</label>
+                @Html.DropDownListFor(model => model.CompanyId, new List<SelectListItem> {
+                       new SelectListItem { Value = "7" , Text = "GLDL" },
+                       new SelectListItem { Value = "9" , Text = "KPL" }
+                    }, "==Select Company==", new
+                    {
+                        id = "CompanyId",
+                        @class = "form-control searchingDropdown",
+                        style = "width:100%",
+                        @required = "required"
+                    })
+                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-3">
+                <label>Select a Excel File</label>
+                <input type="file" name="ExcelFile" class="form-control" required />
+            </div>
+
+            <div class="form-group col-md-3" style="margin-top:20px;">
+                <button type="submit" onclick="clicked(event)" class="btn btn-labeled btn-primary"> <span class="btn-label"><i class="glyphicon glyphicon-upload"></i> </span>Upload</button>
+            </div>
+        </div>
+
+
+    }
+</div>
+@if (Model.ResponseList == null || Model.ResponseList.Count <= 0)
+{
+
+}
+else
+{
+
+    <div class="row">
+        <div class="col col-md-12">
+            <h3 class="text-danger"> Already exists (@Model.ResponseList.Where(e => e.ResponseStatus == "Error").Count())</h3>
+        </div>
+        <br />
+        <div class="col col-md-12">
+            <div class="table-responsive">
+                <table id="KgErpDataTable2" class="table table-striped" style="font-size:12px">
+                    <thead>
+                        <tr style="background-color:#dd4b39bf; color: #FFFFFF">
+                            <th>
+                                SL
+                            </th>
+                            <th>
+                                Full Name
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Designation
+                            </th>
+
+                            <th>
+                                Mobile No
+                            </th>
+                            <th>
+                                Mobile No 2
+                            </th>
+                            <th>
+                                Exists In As
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int sl = 0;
+                        }
+                        @foreach (var item in Model.ResponseList.Where(d => d.ResponseStatus == "Error"))
+                        {
+                            <tr>
+                                <td>
+                                    @(++sl)
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.GenderText
+                                </td>
+                                <td>
+                                    @item.JobTitle
+                                </td>
+                                <td>
+                                    @item.MobileNo
+                                </td>
+                                <td>
+                                    @item.MobileNo2
+                                </td>
+                                <td>
+                                    @item.ProjectText
+                                </td>
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br />
+        <div class="col col-md-12">
+            <h3 class="text-success"> Successfully updated (@Model.ResponseList.Where(e => e.ResponseStatus == "Success").Count())</h3>
+        </div>
+        <br />
+        <div class="col col-md-12">
+            <div class="table-responsive">
+                <table id="KgErpDataTable2" class="table table-striped" style="font-size:12px">
+                    <thead>
+                        <tr style="background-color: #4CAF50; color: #FFFFFF">
+                            <th>
+                                SL
+                            </th>
+                            <th>
+                                Full Name
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Designation
+                            </th>
+
+                            <th>
+                                Mobile No
+                            </th>
+                            <th>
+                                Mobile No 2
+                            </th>
+
+                            <th>
+                                Project Name
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int sl1 = 0;
+                        }
+                        @foreach (var item in Model.ResponseList.Where(d => d.ResponseStatus == "Success"))
+                        {
+                            <tr>
+                                <td>
+                                    @(++sl1)
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.GenderText
+                                </td>
+                                <td>
+                                    @item.JobTitle
+                                </td>
+                                <td>
+                                    @item.MobileNo
+                                </td>
+                                <td>
+                                    @item.MobileNo2
+                                </td>
+
+                                <td>
+                                    @item.ProjectText
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+}
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+@section Scripts{
+
+    <script>
+        function clicked(e) {
+            if (!confirm('Are you sure?')) {
+                e.preventDefault();
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $("#KgErpDataTable2").DataTable({
+            "bDeferRender": true,
+            sDom: '<"pull-left mrg25B"B><"clearfix"><"pull-left"l><"pull-right"f>rtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="fa fa-files-o"></i>&nbsp;Copy',
+                    orientation: 'landscape',
+                    footer: true
+
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>&nbsp;Excel',
+                    orientation: 'landscape',
+                    footer: true
+
+                },
+                {
+                    extend: 'print',
+                    footer: true,
+                    text: '<i class="fa fa-print"></i>&nbsp;Print',
+                    customize: function (win) {
+                        $(win.document.body).find('thead').prepend('<div class="header-print">' + $('#dt-header').val() + '</div>');
+                    }
+                }
+
+
+            ]
+        })
+    </script>
+}

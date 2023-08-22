@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BSAWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BsaAGM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AGMYear" Type="int" />
+          <Property Name="MemberOrDealerId" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameOfDealer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Disrtict" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameOfRepresentative" Type="nvarchar" MaxLength="50" />
+          <Property Name="NoofPerson" Type="int" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="BSAEmployee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ManagerId" Type="bigint" />
+          <Property Name="HrAdminId" Type="bigint" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="CardId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="FatherName" Type="nvarchar" MaxLength="500" />
+          <Property Name="MotherName" Type="nvarchar" MaxLength="500" />
+          <Property Name="SpouseName" Type="nvarchar" MaxLength="500" />
+          <Property Name="DateOfMarriage" Type="date" />
+          <Property Name="NationalId" Type="nvarchar" MaxLength="500" />
+          <Property Name="GenderId" Type="int" />
+          <Property Name="MaritalTypeId" Type="int" />
+          <Property Name="ReligionId" Type="int" />
+          <Property Name="BloodGroupId" Type="int" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="OfficeEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="PABX" Type="nvarchar" MaxLength="100" />
+          <Property Name="DrivingLicenseNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="PassportNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="TinNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="SocialId" Type="nvarchar" MaxLength="100" />
+          <Property Name="PresentAddress" Type="nvarchar" MaxLength="600" />
+          <Property Name="PermanentAddress" Type="nvarchar" MaxLength="600" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="JoiningDate" Type="date" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="DesignationId" Type="int" />
+          <Property Name="EmployeeCategoryId" Type="int" />
+          <Property Name="ServiceTypeId" Type="int" />
+          <Property Name="JobStatusId" Type="int" />
+          <Property Name="OfficeTypeId" Type="int" />
+          <Property Name="GradeId" Type="int" />
+          <Property Name="DesignationFlag" Type="int" />
+          <Property Name="ImageFileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SignatureFileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="EndReason" Type="nvarchar" MaxLength="512" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="600" />
+          <Property Name="EmployeeOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="ModifedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="smalldatetime" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="EmployeeStatusId" Type="int" />
+        </EntityType>
+        <EntityType Name="BSAMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MemberType" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberNameEn" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberNameBn" Type="nvarchar" MaxLength="50" />
+          <Property Name="BSARegistrationNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberOrder" Type="int" />
+          <Property Name="Delegate" Type="nvarchar" MaxLength="250" />
+          <Property Name="DelegateEmail" Type="nvarchar" MaxLength="250" />
+          <Property Name="LogoUrl" Type="nvarchar" MaxLength="250" />
+          <Property Name="AddressOne" Type="nvarchar" MaxLength="550" />
+          <Property Name="AddressTwo" Type="nvarchar" MaxLength="550" />
+          <Property Name="CorporateOffice" Type="nvarchar" MaxLength="550" />
+          <Property Name="TIN" Type="nvarchar" MaxLength="550" />
+          <Property Name="Website" Type="nvarchar" MaxLength="550" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="550" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="550" />
+          <Property Name="Email" Type="nvarchar" MaxLength="550" />
+          <Property Name="OfficeEmail" Type="nvarchar" MaxLength="550" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="0" />
+          <Property Name="ModifedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BSAMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="BSAWebModelStoreContainer">
+          <EntitySet Name="BsaAGM" EntityType="Self.BsaAGM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BSAEmployee" EntityType="Self.BSAEmployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BSAMember" EntityType="Self.BSAMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BSAMessage" EntityType="Self.BSAMessage" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BSAWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BSAWebEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BSAEmployees" EntityType="BSAWebModel.BSAEmployee" />
+          <EntitySet Name="BSAMembers" EntityType="BSAWebModel.BSAMember" />
+          <EntitySet Name="BSAMessages" EntityType="BSAWebModel.BSAMessage" />
+          <EntitySet Name="BsaAGMs" EntityType="BSAWebModel.BsaAGM" />
+        </EntityContainer>
+        <EntityType Name="BSAEmployee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerId" Type="Int64" />
+          <Property Name="HrAdminId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="CardId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="FatherName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MotherName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SpouseName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfMarriage" Type="DateTime" Precision="0" />
+          <Property Name="NationalId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GenderId" Type="Int32" />
+          <Property Name="MaritalTypeId" Type="Int32" />
+          <Property Name="ReligionId" Type="Int32" />
+          <Property Name="BloodGroupId" Type="Int32" />
+          <Property Name="MobileNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PABX" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DrivingLicenseNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TinNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SocialId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PresentAddress" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="PermanentAddress" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="JoiningDate" Type="DateTime" Precision="0" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="DesignationId" Type="Int32" />
+          <Property Name="EmployeeCategoryId" Type="Int32" />
+          <Property Name="ServiceTypeId" Type="Int32" />
+          <Property Name="JobStatusId" Type="Int32" />
+          <Property Name="OfficeTypeId" Type="Int32" />
+          <Property Name="GradeId" Type="Int32" />
+          <Property Name="DesignationFlag" Type="Int32" />
+          <Property Name="ImageFileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureFileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="EndReason" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="EmployeeStatusId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BSAMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberNameEn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberNameBn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BSARegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberOrder" Type="Int32" />
+          <Property Name="Delegate" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DelegateEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LogoUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AddressOne" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="AddressTwo" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="CorporateOffice" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="TIN" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeEmail" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="BSAMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="BsaAGM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AGMYear" Type="Int32" />
+          <Property Name="MemberOrDealerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameOfDealer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Disrtict" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameOfRepresentative" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NoofPerson" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BSAWebModelStoreContainer" CdmEntityContainer="BSAWebEntities">
+          <EntitySetMapping Name="BSAEmployees">
+            <EntityTypeMapping TypeName="BSAWebModel.BSAEmployee">
+              <MappingFragment StoreEntitySet="BSAEmployee">
+                <ScalarProperty Name="EmployeeStatusId" ColumnName="EmployeeStatusId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifedBy" ColumnName="ModifedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="EmployeeOrder" ColumnName="EmployeeOrder" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="EndReason" ColumnName="EndReason" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="SignatureFileName" ColumnName="SignatureFileName" />
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="DesignationFlag" ColumnName="DesignationFlag" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="OfficeTypeId" ColumnName="OfficeTypeId" />
+                <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+                <ScalarProperty Name="EmployeeCategoryId" ColumnName="EmployeeCategoryId" />
+                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+                <ScalarProperty Name="PresentAddress" ColumnName="PresentAddress" />
+                <ScalarProperty Name="SocialId" ColumnName="SocialId" />
+                <ScalarProperty Name="TinNo" ColumnName="TinNo" />
+                <ScalarProperty Name="PassportNo" ColumnName="PassportNo" />
+                <ScalarProperty Name="DrivingLicenseNo" ColumnName="DrivingLicenseNo" />
+                <ScalarProperty Name="PABX" ColumnName="PABX" />
+                <ScalarProperty Name="OfficeEmail" ColumnName="OfficeEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="BloodGroupId" ColumnName="BloodGroupId" />
+                <ScalarProperty Name="ReligionId" ColumnName="ReligionId" />
+                <ScalarProperty Name="MaritalTypeId" ColumnName="MaritalTypeId" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="DateOfMarriage" ColumnName="DateOfMarriage" />
+                <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+                <ScalarProperty Name="MotherName" ColumnName="MotherName" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="HrAdminId" ColumnName="HrAdminId" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BSAMembers">
+            <EntityTypeMapping TypeName="BSAWebModel.BSAMember">
+              <MappingFragment StoreEntitySet="BSAMember">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifedBy" ColumnName="ModifedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="OfficeEmail" ColumnName="OfficeEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="TIN" ColumnName="TIN" />
+                <ScalarProperty Name="CorporateOffice" ColumnName="CorporateOffice" />
+                <ScalarProperty Name="AddressTwo" ColumnName="AddressTwo" />
+                <ScalarProperty Name="AddressOne" ColumnName="AddressOne" />
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+                <ScalarProperty Name="DelegateEmail" ColumnName="DelegateEmail" />
+                <ScalarProperty Name="Delegate" ColumnName="Delegate" />
+                <ScalarProperty Name="MemberOrder" ColumnName="MemberOrder" />
+                <ScalarProperty Name="BSARegistrationNo" ColumnName="BSARegistrationNo" />
+                <ScalarProperty Name="MemberNameBn" ColumnName="MemberNameBn" />
+                <ScalarProperty Name="MemberNameEn" ColumnName="MemberNameEn" />
+                <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BSAMessages">
+            <EntityTypeMapping TypeName="BSAWebModel.BSAMessage">
+              <MappingFragment StoreEntitySet="BSAMessage">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BsaAGMs">
+            <EntityTypeMapping TypeName="BSAWebModel.BsaAGM">
+              <MappingFragment StoreEntitySet="BsaAGM">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="NoofPerson" ColumnName="NoofPerson" />
+                <ScalarProperty Name="NameOfRepresentative" ColumnName="NameOfRepresentative" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Disrtict" ColumnName="Disrtict" />
+                <ScalarProperty Name="NameOfDealer" ColumnName="NameOfDealer" />
+                <ScalarProperty Name="MemberOrDealerId" ColumnName="MemberOrDealerId" />
+                <ScalarProperty Name="AGMYear" ColumnName="AGMYear" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

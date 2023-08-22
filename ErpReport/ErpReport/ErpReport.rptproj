@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <FullPath>Debug</FullPath>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorLevel>2</ErrorLevel>
+    <OverwriteDatasets>True</OverwriteDatasets>
+    <OverwriteDataSources>True</OverwriteDataSources>
+    <TargetServerVersion>SSRS2008R2</TargetServerVersion>
+    <Platform>Win32</Platform>
+    <TargetReportFolder>ErpReport</TargetReportFolder>
+    <TargetDatasetFolder>Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
+    <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
+    <TargetServerURL>http://192.168.0.7/ReportServer_SQLEXPRESS</TargetServerURL>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
+    <FullPath>DebugLocal</FullPath>
+    <OutputPath>bin\DebugLocal</OutputPath>
+    <ErrorLevel>2</ErrorLevel>
+    <OverwriteDatasets>False</OverwriteDatasets>
+    <OverwriteDataSources>False</OverwriteDataSources>
+    <TargetServerVersion>SSRS2016</TargetServerVersion>
+    <Platform>Win32</Platform>
+    <TargetReportFolder>ErpReport</TargetReportFolder>
+    <TargetDatasetFolder>Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
+    <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
+    <TargetServerURL>http://localhost/reportserver</TargetServerURL>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <FullPath>Release</FullPath>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorLevel>2</ErrorLevel>
+    <OverwriteDatasets>False</OverwriteDatasets>
+    <OverwriteDataSources>False</OverwriteDataSources>
+    <TargetServerVersion>SSRS2016</TargetServerVersion>
+    <Platform>Win32</Platform>
+    <TargetReportFolder>ErpReport</TargetReportFolder>
+    <TargetDatasetFolder>Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
+    <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
+    <TargetServerURL>http://localhost/reportserver</TargetServerURL>
+  </PropertyGroup>
+  <PropertyGroup>
+    <State>$base64$PFNvdXJjZUNvbnRyb2xJbmZvIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmRkbDI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yIiB4bWxuczpkZGwyXzI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yLzIiIHhtbG5zOmRkbDEwMF8xMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDA4L2VuZ2luZS8xMDAvMTAwIiB4bWxuczpkZGwyMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAiIHhtbG5zOmRkbDIwMF8yMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAvMjAwIiB4bWxuczpkZGwzMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAiIHhtbG5zOmRkbDMwMF8zMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAvMzAwIiB4bWxuczpkZGw0MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAiIHhtbG5zOmRkbDQwMF80MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAvNDAwIiB4bWxuczpkZGw1MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAiIHhtbG5zOmRkbDUwMF81MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAvNTAwIiB4bWxuczpkd2Q9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vRGF0YVdhcmVob3VzZS9EZXNpZ25lci8xLjAiPg0KICA8RW5hYmxlZD5mYWxzZTwvRW5hYmxlZD4NCiAgPFByb2plY3ROYW1lPjwvUHJvamVjdE5hbWU+DQogIDxBdXhQYXRoPjwvQXV4UGF0aD4NCiAgPExvY2FsUGF0aD48L0xvY2FsUGF0aD4NCiAgPFByb3ZpZGVyPjwvUHJvdmlkZXI+DQo8L1NvdXJjZUNvbnRyb2xJbmZvPg==</State>
+    <DataSources>@(DataSource)</DataSources>
+    <DataSets>@(DataSet)</DataSets>
+    <Reports>@(Report)</Reports>
+  </PropertyGroup>
+  <ItemGroup>
+    <DataSet Include="CompanyDSet.rsd" />
+    <DataSet Include="DetailsDSet.rsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <DataSource Include="SSDataSource.rds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Report Include="AccountHeadCompanyWise.rdl" />
+    <Report Include="AccountingAdvancedLedger.rdl" />
+    <Report Include="AccountingCustomer.rdl" />
+    <Report Include="AccountingSupplier.rdl" />
+    <Report Include="ActChequeInfoReport.rdl" />
+    <Report Include="ActiveCustomer.rdl" />
+    <Report Include="AdditiveMaterialPOTemplate.rdl" />
+    <Report Include="AdvancedAttendanceSearchReport.rdl" />
+    <Report Include="AniTest.rdl" />
+    <Report Include="BalanceSheet.rdl" />
+    <Report Include="BalanceSheetGeneralReport.rdl" />
+    <Report Include="BalanceSheetNote.rdl" />
+    <Report Include="BalanceSheetNoteGeneral.rdl" />
+    <Report Include="BalanceSheetReport.rdl" />
+    <Report Include="BasicMaterialPOTemplate.rdl" />
+    <Report Include="ChartOfAccount.rdl" />
+    <Report Include="ChemicalStockReport.rdl" />
+    <Report Include="ClientUploadFile.rdl" />
+    <Report Include="CogsCostingReport.rdl" />
+    <Report Include="CollectionStatementSeed.rdl" />
+    <Report Include="CompanyMenuReport.rdl" />
+    <Report Include="CompanyWiseMonthlyCRReport.rdl" />
+    <Report Include="CompanyWiseSMSReport.rdl" />
+    <Report Include="CreditCustomerInformation.rdl" />
+    <Report Include="Customer.rdl" />
+    <Report Include="CustomerBaseMonthlyCRReport.rdl" />
+    <Report Include="CustomerFilter.rdl" />
+    <Report Include="CustomerLedger.rdl" />
+    <Report Include="CustomerLedger2.rdl" />
+    <Report Include="CustomerReport.rdl" />
+    <Report Include="CustomerReportItemWiseSale.rdl" />
+    <Report Include="CustomerReportYearlyCarryingAndIncentive.rdl" />
+    <Report Include="CustomerWiseMonthlySalesReport.rdl" />
+    <Report Include="CustomerWiseMonthlySaleYearBasisReport.rdl" />
+    <Report Include="DateWisePartySaleDetailsReport.rdl" />
+    <Report Include="DateWiseRawAttendanceReport.rdl" />
+    <Report Include="DateWiseReturnDetailsReport.rdl" />
+    <Report Include="DateWiseSaleDetailsReport.rdl" />
+    <Report Include="DateWiseSaleLedger.rdl" />
+    <Report Include="DateWiseSaleQtyAndAmount.rdl" />
+    <Report Include="DeliveryChallan.rdl" />
+    <Report Include="DeliveryInvoice.rdl" />
+    <Report Include="Department.rdl" />
+    <Report Include="DepotWiseSaleQtyAndAmount.rdl" />
+    <Report Include="DepoWiseSaleDateRange.rdl" />
+    <Report Include="Designation.rdl" />
+    <Report Include="DistrictThana.rdl" />
+    <Report Include="DistrictWiseEmployee.rdl" />
+    <Report Include="DynamicEmployee.rdl" />
+    <Report Include="EBAccountingAdvancedLedger.rdl" />
+    <Report Include="EBAccountingMovement.rdl" />
+    <Report Include="EBAccountingReceivableDetails.rdl" />
+    <Report Include="EBBalanceSheetNote.rdl" />
+    <Report Include="EBBalanceSheetReport.rdl" />
+    <Report Include="EBBankOrCashBook.rdl" />
+    <Report Include="EBChartOfAccount.rdl" />
+    <Report Include="EBCollectionStatement.rdl" />
+    <Report Include="EBCustomerReport.rdl" />
+    <Report Include="EBDateWisePartySaleDetailsReport.rdl" />
+    <Report Include="EBDateWiseReturnDetailsReport.rdl" />
+    <Report Include="EBDateWiseSaleDetailsReport.rdl" />
+    <Report Include="EBEmployee.rdl" />
+    <Report Include="EBGeneralLedger.rdl" />
+    <Report Include="EBInvoiceWisaSaleReport.rdl" />
+    <Report Include="EBItemWiseSaleStatus.rdl" />
+    <Report Include="EBKgComReceiptPaymentStatement.rdl" />
+    <Report Include="EBMonthlyAdjustmentItemWise.rdl" />
+    <Report Include="EBMonthlyPurchaseItemWise.rdl" />
+    <Report Include="EBMonthlyReturnItemWise.rdl" />
+    <Report Include="EBMonthlySaleItemWise.rdl" />
+    <Report Include="EBMonthlyTopSheet.rdl" />
+    <Report Include="EBProductList.rdl" />
+    <Report Include="EBProductStockReport.rdl" />
+    <Report Include="EBProfitLossNoteReport.rdl" />
+    <Report Include="EBProfitLossReport.rdl" />
+    <Report Include="EBReceiptPaymentStatement.rdl" />
+    <Report Include="EBSalesInvoiceReports.rdl" />
+    <Report Include="EBStockReport.rdl" />
+    <Report Include="EBStockSummeryReport.rdl" />
+    <Report Include="EBSupplierWisaSaleReport.rdl" />
+    <Report Include="EBTrailBalance.rdl" />
+    <Report Include="EBVoucherListReport.rdl" />
+    <Report Include="EBVoucherReport.rdl" />
+    <Report Include="EBVoucherReportByVoucherType.rdl" />
+    <Report Include="EBVoucherReportDateRange.rdl" />
+    <Report Include="EBVoucherReportSeed.rdl" />
+    <Report Include="EmiReportForKFMAL.rdl" />
+    <Report Include="Employee.rdl" />
+    <Report Include="EmployeeAttendanceReport.rdl" />
+    <Report Include="EmployeeList.rdl" />
+    <Report Include="FeedAccountingReceivableDetails.rdl" />
+    <Report Include="FeedBalanceSheetNote.rdl" />
+    <Report Include="FeedBalanceSheetNoteClone.rdl" />
+    <Report Include="FeedBalanceSheetReport.rdl" />
+    <Report Include="FeedBalanceSheetReportClone.rdl" />
+    <Report Include="FeedCollectionStatement.rdl" />
+    <Report Include="FeedMYIncentivePolicy.rdl" />
+    <Report Include="FeedPaymentStatement.rdl" />
+    <Report Include="FeedPRFInvoiceReports.rdl" />
+    <Report Include="FeedPurchase.rdl" />
+    <Report Include="FeedPurchaseRegister.rdl" />
+    <Report Include="FeedPurchaseReturnAdjustment.rdl" />
+    <Report Include="FeedPurchaseStatement.rdl" />
+    <Report Include="FeedReturnAdjustment.rdl" />
+    <Report Include="FeedRMConsumeViaProductionReport.rdl" />
+    <Report Include="FeedSalesStatement.rdl" />
+    <Report Include="FeedShareholderPosition.rdl" />
+    <Report Include="Feed_FinishedGoodsStockReportsDepoWise.rdl" />
+    <Report Include="Feed_MRRSearchByDateRange.rdl" />
+    <Report Include="Feed_Product-wais-ProductionReport.rdl" />
+    <Report Include="Feed_ProductionReport.rdl" />
+    <Report Include="Feed_RMComsumptionDaily.rdl" />
+    <Report Include="FilterCustomerLedger.rdl" />
+    <Report Include="FinishedFeedStockReport.rdl" />
+    <Report Include="FinishedGoodsStockReportsKFMAL.rdl" />
+    <Report Include="FinishedGoodsStockReports_1.rdl" />
+    <Report Include="FinishProductStockIn.rdl" />
+    <Report Include="FinishProductStockInLedger.rdl" />
+    <Report Include="FirmBalanceSheetNote.rdl" />
+    <Report Include="FirmBalanceSheetReport.rdl" />
+    <Report Include="FirmProfitLossReport.rdl" />
+    <Report Include="FisheriesBalanceSheetNote.rdl" />
+    <Report Include="FisheriesBalanceSheetReport.rdl" />
+    <Report Include="FisheriesCollectionStatement.rdl" />
+    <Report Include="FisheriesProfitLossNoteReport.rdl" />
+    <Report Include="FisheriesProfitLossReport.rdl" />
+    <Report Include="FoodShareholderPosition.rdl" />
+    <Report Include="GCCLAccountingReceivableDetails.rdl" />
+    <Report Include="GcclAllVoucher.rdl" />
+    <Report Include="GCCLBalanceSheetNote.rdl" />
+    <Report Include="GCCLBalanceSheetReport.rdl" />
+    <Report Include="GCCLCollectionStatement.rdl" />
+    <Report Include="GCCLCustomerAgeing.rdl" />
+    <Report Include="GCCLCustomerAgeingDetailsReport.rdl" />
+    <Report Include="GCCLCustomerListReport.rdl" />
+    <Report Include="GCCLCustomerStatement.rdl" />
+    <Report Include="GCCLFinishedStockReport.rdl" />
+    <Report Include="GCCLPackingStockReport.rdl" />
+    <Report Include="GCCLPRFInvoiceReports.rdl" />
+    <Report Include="GCCLProductionReport.rdl" />
+    <Report Include="GCCLProductionReports.rdl" />
+    <Report Include="GCCLProfitLossNoteReport.rdl" />
+    <Report Include="GCCLProfitLossReport.rdl" />
+    <Report Include="GCCLPurchaseInvoiceReports.rdl" />
+    <Report Include="GCCLPurchaseOrderReports.rdl" />
+    <Report Include="GCCLPurchaseRegister.rdl" />
+    <Report Include="GCCLRawStockReport.rdl" />
+    <Report Include="GCCLReceiptPaymentStatement.rdl" />
+    <Report Include="GCCLSalesInvoiceReports.rdl" />
+    <Report Include="GCCLSalesRegisterReport.rdl" />
+    <Report Include="GcclTerritoryReport.rdl" />
+    <Report Include="GeneralLedger-bak.rdl" />
+    <Report Include="GeneralLedger.rdl" />
+    <Report Include="GetGCCLCostOfGoodsSoldsDetails.rdl" />
+    <Report Include="GLDLAccountingReceivableDetails.rdl" />
+    <Report Include="GLDLBalanceSheetNote.rdl" />
+    <Report Include="GLDLBalanceSheetReport.rdl" />
+    <Report Include="GLDLCollectionStatement.rdl" />
+    <Report Include="GLDLProfitLossNoteReport.rdl" />
+    <Report Include="GLDLProfitLossReport.rdl" />
+    <Report Include="GLDLReceiptPaymentStatement.rdl" />
+    <Report Include="GLDLShareholderPosition.rdl" />
+    <Report Include="GloryFeedDeliveryInvoice.rdl" />
+    <Report Include="GloryFeedSupport.rdl" />
+    <Report Include="Glory_FinishedGoodsStockReportsDepoWise.rdl" />
+    <Report Include="GOLFirmBalanceSheetNote.rdl" />
+    <Report Include="GOLFirmBalanceSheetReport.rdl" />
+    <Report Include="GOLProfitLossNoteReport.rdl" />
+    <Report Include="GOLProfitLossReport.rdl" />
+    <Report Include="IndividualPanchTime.rdl" />
+    <Report Include="InvoiceWisaSaleReport.rdl" />
+    <Report Include="ItemWiseSaleStatus.rdl" />
+    <Report Include="ItemWiseStockTransferDateRange.rdl" />
+    <Report Include="KBLAccountingReceivableDetails.rdl" />
+    <Report Include="KBLBalanceSheetNote.rdl" />
+    <Report Include="KBLBalanceSheetReport.rdl" />
+    <Report Include="KBLCollectionStatement.rdl" />
+    <Report Include="KBLProfitLossNoteReport.rdl" />
+    <Report Include="KBLProfitLossReport.rdl" />
+    <Report Include="KBLShareholderPosition.rdl" />
+    <Report Include="KFBLAccountingReceivableDetails.rdl" />
+    <Report Include="KFBLBalanceSheetNote.rdl" />
+    <Report Include="KFBLBalanceSheetReport.rdl" />
+    <Report Include="KFBLCollectionStatement.rdl" />
+    <Report Include="KFBLReceiptPaymentStatement.rdl" />
+    <Report Include="KFLAccountingReceivableDetails.rdl" />
+    <Report Include="KFLCollectionStatement.rdl" />
+    <Report Include="KFMALAccountingReceivableDetails.rdl" />
+    <Report Include="KFMALCollectionStatement.rdl" />
+    <Report Include="KFMALDateWiseSaleQtyAndAmount.rdl" />
+    <Report Include="KFMALDeliveryChallan.rdl" />
+    <Report Include="KFMALDeliveryInvoice.rdl" />
+    <Report Include="KFMALDepoWiseSalesReport.rdl" />
+    <Report Include="KFMALItemWiseSalesReport.rdl" />
+    <Report Include="KFMALOrderInvoice.rdl" />
+    <Report Include="KGAccountingMovement.rdl" />
+    <Report Include="KGBalanceSheet.rdl" />
+    <Report Include="KGBankOrCashBook.rdl" />
+    <Report Include="KGECAccountingReceivableDetails.rdl" />
+    <Report Include="KGeCBalanceSheetNote.rdl" />
+    <Report Include="KGeCBalanceSheetReport.rdl" />
+    <Report Include="KGeCBalanceSheetReport_bk_20220316.rdl" />
+    <Report Include="KGECCollectionStatement.rdl" />
+    <Report Include="KGeComCurrentStock.rdl" />
+    <Report Include="KGeComInvoiceReport.rdl" />
+    <Report Include="KGeComStockReportDetail.rdl" />
+    <Report Include="KGMultipleVoucherReport.rdl" />
+    <Report Include="KGREClientLedgerReport.rdl" />
+    <Report Include="KgreDetailedClientInformationReport.rdl" />
+    <Report Include="KGVoucherReport.rdl" />
+    <Report Include="KGVoucherReportSeed.rdl" />
+    <Report Include="KPLAccountingReceivableDetails.rdl" />
+    <Report Include="KPLCollectionStatement.rdl" />
+    <Report Include="KPPLAccountingReceivableDetails.rdl" />
+    <Report Include="KPPLCollectionStatement.rdl" />
+    <Report Include="KSLAccountingReceivableDetails.rdl" />
+    <Report Include="KSLBalanceSheetReport.rdl" />
+    <Report Include="KSLCollectionStatement.rdl" />
+    <Report Include="KSSLAccountingReceivableDetails.rdl" />
+    <Report Include="KSSLBalanceSheetNote.rdl" />
+    <Report Include="KSSLBalanceSheetReport.rdl" />
+    <Report Include="KSSLCollectionStatement.rdl" />
+    <Report Include="KSSLShareholderPosition.rdl" />
+    <Report Include="KTTLAccountingReceivableDetails.rdl" />
+    <Report Include="KttlAllCustomers.rdl" />
+    <Report Include="KTTLBalanceSheetNote.rdl" />
+    <Report Include="KTTLBalanceSheetReport.rdl" />
+    <Report Include="KTTLCollectionStatement.rdl" />
+    <Report Include="KTTLProfitLossReport.rdl" />
+    <Report Include="KTTLShareholderPosition.rdl" />
+    <Report Include="Land.rdl" />
+    <Report Include="LandSearchReport.rdl" />
+    <Report Include="MaketingOfficerWiseSalesReport.rdl" />
+    <Report Include="MarketingOffierWiseCustomersReport.rdl" />
+    <Report Include="MaterialPOTemplate.rdl" />
+    <Report Include="MonthlyAdjustmentItemWise.rdl" />
+    <Report Include="MonthlyAttendance.rdl" />
+    <Report Include="MonthlyAttendanceDepartmentWise.rdl" />
+    <Report Include="MonthlyAttendenceSummery.rdl" />
+    <Report Include="MonthlyCRReport.rdl" />
+    <Report Include="MonthlyIncentive.rdl" />
+    <Report Include="MonthlyPurchaseItemWise.rdl" />
+    <Report Include="MonthlyReturnItemWise.rdl" />
+    <Report Include="MonthlySaleItemWise.rdl" />
+    <Report Include="MonthyStockTransferDeliveryReport.rdl" />
+    <Report Include="MonthyStockTransferReceiveReport.rdl" />
+    <Report Include="MonthyStockTransferStockReport.rdl" />
+    <Report Include="MrrAccountingMapReport.rdl" />
+    <Report Include="MRRReport.rdl" />
+    <Report Include="NewProfitLossReport.rdl" />
+    <Report Include="NFFLAccountingReceivableDetails.rdl" />
+    <Report Include="NFFLBalanceSheetNote.rdl" />
+    <Report Include="NFFLBalanceSheetReport.rdl" />
+    <Report Include="NFFLCollectionStatement.rdl" />
+    <Report Include="OldEmployee.rdl" />
+    <Report Include="OPLAccountingReceivableDetails.rdl" />
+    <Report Include="OPLBalanceSheetNote.rdl" />
+    <Report Include="OPLBalanceSheetReport.rdl" />
+    <Report Include="OPLCollectionStatement.rdl" />
+    <Report Include="OrderInvoice.rdl" />
+    <Report Include="OrderMap.rdl" />
+    <Report Include="PackagingAccountingReceivableDetails.rdl" />
+    <Report Include="PackagingBalanceSheetNote.rdl" />
+    <Report Include="PackagingBalanceSheetReport.rdl" />
+    <Report Include="PackagingCollectionStatement.rdl" />
+    <Report Include="PackagingReceiptPaymentStatement.rdl" />
+    <Report Include="PackagingShareholderPosition.rdl" />
+    <Report Include="PerformanceReport.rdl" />
+    <Report Include="PharmaBalanceSheetNote.rdl" />
+    <Report Include="PharmaBalanceSheetReport.rdl" />
+    <Report Include="PoultryBalanceSheetNote.rdl" />
+    <Report Include="PoultryBalanceSheetReport.rdl" />
+    <Report Include="PoultryShareholderPosition.rdl" />
+    <Report Include="PreviousEmployee.rdl" />
+    <Report Include="PrintingBalanceSheetNote.rdl" />
+    <Report Include="PrintingBalanceSheetReport.rdl" />
+    <Report Include="PrintingReceiptPaymentStatement.rdl" />
+    <Report Include="PrintingShareholderPosition.rdl" />
+    <Report Include="ProdReference.rdl" />
+    <Report Include="ProductBagInfo.rdl" />
+    <Report Include="ProductCategroyAndSubCategory.rdl" />
+    <Report Include="ProductFormula.rdl" />
+    <Report Include="ProductList.rdl" />
+    <Report Include="ProductReceive.rdl" />
+    <Report Include="ProductSupplierReport.rdl" />
+    <Report Include="ProfitLoss.rdl" />
+    <Report Include="ProfitLossNoteReportFeed.rdl" />
+    <Report Include="ProfitLossNoteReportFeedClone.rdl" />
+    <Report Include="ProfitLossNoteReportKFBL.rdl" />
+    <Report Include="ProfitLossNoteReportKgClick.rdl" />
+    <Report Include="ProfitLossNoteReportKGeC.rdl" />
+    <Report Include="ProfitLossNoteReportKPPL.rdl" />
+    <Report Include="ProfitLossNoteReportKSSL.rdl" />
+    <Report Include="ProfitLossNoteReportNFFL.rdl" />
+    <Report Include="ProfitLossNoteReportOPL.rdl" />
+    <Report Include="ProfitLossNoteReportPackaging.rdl" />
+    <Report Include="ProfitLossNoteReportPharma.rdl" />
+    <Report Include="ProfitLossNoteReportPoultry.rdl" />
+    <Report Include="ProfitLossNoteReportSeed.rdl" />
+    <Report Include="ProfitLossNoteReportSODL.rdl" />
+    <Report Include="ProfitLossNoteReportTrading.rdl" />
+    <Report Include="ProfitLossReportFeed.rdl" />
+    <Report Include="ProfitLossReportFeedClone.rdl" />
+    <Report Include="ProfitLossReportKFBL.rdl" />
+    <Report Include="ProfitLossReportKGeC.rdl" />
+    <Report Include="ProfitLossReportKPPL.rdl" />
+    <Report Include="ProfitLossReportKSSL.rdl" />
+    <Report Include="ProfitLossReportNFFL.rdl" />
+    <Report Include="ProfitLossReportOPL.rdl" />
+    <Report Include="ProfitLossReportPackaging.rdl" />
+    <Report Include="ProfitLossReportPharma.rdl" />
+    <Report Include="ProfitLossReportPoultry.rdl" />
+    <Report Include="ProfitLossReportSODL.rdl" />
+    <Report Include="ProfitLossReportTrading.rdl" />
+    <Report Include="PropertiesAccountingReceivableDetails.rdl" />
+    <Report Include="PropertiesBalanceSheetNote.rdl" />
+    <Report Include="PropertiesBalanceSheetReport.rdl" />
+    <Report Include="PropertiesCollectionDetailsStatement.rdl" />
+    <Report Include="PropertiesCollectionStatement.rdl" />
+    <Report Include="PropertiesProfitLossReport.rdl" />
+    <Report Include="PropertiesReceivedPayments.rdl" />
+    <Report Include="PropertiesShareholderPosition.rdl" />
+    <Report Include="PurchaseOrderReport.rdl" />
+    <Report Include="PurchaseReturn.rdl" />
+    <Report Include="RawMaterialStockReport.rdl" />
+    <Report Include="RealEstateBookingInfoReport.rdl" />
+    <Report Include="RealEstateCustomerTransactionHistory.rdl" />
+    <Report Include="RealEstateProjectWaisBookingReport.rdl" />
+    <Report Include="RealEstateProjectWaisCollaction.rdl" />
+    <Report Include="RealStateMoneyReceiptsReport.rdl" />
+    <Report Include="RealStateMoneyReceiptsReportListReport.rdl" />
+    <Report Include="RealStateMonthlyCollectionReport.rdl" />
+    <Report Include="RealStatePaymentStatementReport.rdl" />
+    <Report Include="ReceiptPaymentStatement.rdl" />
+    <Report Include="RequisitionReport.rdl" />
+    <Report Include="RMDeliveryReport.rdl" />
+    <Report Include="RMDemandReport.rdl" />
+    <Report Include="RMDemandReport2.rdl" />
+    <Report Include="RMInventoryStockReportDepoWise.rdl" />
+    <Report Include="RmStockReport.rdl" />
+    <Report Include="RMStockReportDepoWise.rdl" />
+    <Report Include="SafeFoodAccountingReceivableDetails.rdl" />
+    <Report Include="SafeFoodBalanceSheetNote.rdl" />
+    <Report Include="SafeFoodBalanceSheetReport.rdl" />
+    <Report Include="SafeFoodProfitLossNoteReport.rdl" />
+    <Report Include="SafeFoodProfitLossReport.rdl" />
+    <Report Include="SalesReturn.rdl" />
+    <Report Include="SeedBalanceSheetNote.rdl" />
+    <Report Include="SeedBalanceSheetReportTestApproval.rdl" />
+    <Report Include="SeedCustomerAgeingDetailsReport.rdl" />
+    <Report Include="SeedProductStockReport.rdl" />
+    <Report Include="SeedSalesInvoiceReports.rdl" />
+    <Report Include="SeedStockSummery.rdl" />
+    <Report Include="ShareholderGeneralLedger.rdl" />
+    <Report Include="ShareHolderReport.rdl" />
+    <Report Include="SODLAccountingReceivableDetails.rdl" />
+    <Report Include="SODLBalanceSheetNote.rdl" />
+    <Report Include="SODLBalanceSheetReport.rdl" />
+    <Report Include="SODLCollectionStatement.rdl" />
+    <Report Include="SODLReceiptPaymentStatement.rdl" />
+    <Report Include="SRAccountingAdvancedLedger.rdl" />
+    <Report Include="SRAccountingMovement.rdl" />
+    <Report Include="SRAccountingReceivableDetails.rdl" />
+    <Report Include="SRBalanceSheetNote.rdl" />
+    <Report Include="SRBalanceSheetReport.rdl" />
+    <Report Include="SRBankOrCashBook.rdl" />
+    <Report Include="SRChartOfAccount.rdl" />
+    <Report Include="SRCollectionStatement.rdl" />
+    <Report Include="SRCustomerDueSummary.rdl" />
+    <Report Include="SRCustomerReport.rdl" />
+    <Report Include="SRDateWisePartySaleDetailsReport.rdl" />
+    <Report Include="SRDateWiseReturnDetailsReport.rdl" />
+    <Report Include="SRDateWiseSaleDetailsReport.rdl" />
+    <Report Include="SREmployee.rdl" />
+    <Report Include="SRGeneralLedger.rdl" />
+    <Report Include="SRInvoiceWisaSaleReport.rdl" />
+    <Report Include="SRItemWiseSaleStatus.rdl" />
+    <Report Include="SRKgComReceiptPaymentStatement.rdl" />
+    <Report Include="SRMonthlyAdjustmentItemWise.rdl" />
+    <Report Include="SRMonthlyPurchaseItemWise.rdl" />
+    <Report Include="SRMonthlyReturnItemWise.rdl" />
+    <Report Include="SRMonthlySaleItemWise.rdl" />
+    <Report Include="SRMonthlyTopSheet.rdl" />
+    <Report Include="SRProductList.rdl" />
+    <Report Include="SRProductStockReport.rdl" />
+    <Report Include="SRProfitLossNoteReport.rdl" />
+    <Report Include="SRProfitLossReport.rdl" />
+    <Report Include="SRReceiptPaymentStatement.rdl" />
+    <Report Include="SRSalesInvoiceReports.rdl" />
+    <Report Include="SRStockReport.rdl" />
+    <Report Include="SRStockSummeryReport.rdl" />
+    <Report Include="SRSupplierDueSummary.rdl" />
+    <Report Include="SRSupplierWisaSaleReport.rdl" />
+    <Report Include="SRTrailBalance.rdl" />
+    <Report Include="SRVoucherListReport.rdl" />
+    <Report Include="SRVoucherReport.rdl" />
+    <Report Include="SRVoucherReportByVoucherType.rdl" />
+    <Report Include="SRVoucherReportDateRange.rdl" />
+    <Report Include="SRVoucherReportSeed.rdl" />
+    <Report Include="SSAccountingAdvancedLedger.rdl" />
+    <Report Include="SSAccountingMovement.rdl" />
+    <Report Include="SSAccountingReceivableDetails.rdl" />
+    <Report Include="SSBalanceSheetNote.rdl" />
+    <Report Include="SSBalanceSheetReport.rdl" />
+    <Report Include="SSBankOrCashBook.rdl" />
+    <Report Include="SSChartOfAccount.rdl" />
+    <Report Include="SSCollectionStatement.rdl" />
+    <Report Include="SSCustomerReport.rdl" />
+    <Report Include="SSDateWisePartySaleDetailsReport.rdl" />
+    <Report Include="SSDateWiseReturnDetailsReport.rdl" />
+    <Report Include="SSDateWiseSaleDetailsReport.rdl" />
+    <Report Include="SSEmployee.rdl" />
+    <Report Include="SSGeneralLedger.rdl" />
+    <Report Include="SSGroupSaleSummary.rdl" />
+    <Report Include="SSInvoiceWisaSaleReport.rdl" />
+    <Report Include="SSItemWiseSaleStatus.rdl" />
+    <Report Include="SSKgComReceiptPaymentStatement.rdl" />
+    <Report Include="SSMonthlyAdjustmentItemWise.rdl" />
+    <Report Include="SSMonthlyPurchaseItemWise.rdl" />
+    <Report Include="SSMonthlyReturnItemWise.rdl" />
+    <Report Include="SSMonthlySaleItemWise.rdl" />
+    <Report Include="SSMonthlyTopSheet.rdl" />
+    <Report Include="SSProductList.rdl" />
+    <Report Include="SSProductStockReport.rdl" />
+    <Report Include="SSProfitLossNoteReport.rdl" />
+    <Report Include="SSProfitLossReport.rdl" />
+    <Report Include="SSReceiptPaymentStatement.rdl" />
+    <Report Include="SSSalesInvoiceReports.rdl" />
+    <Report Include="SSStockReceive.rdl" />
+    <Report Include="SSStockReport.rdl" />
+    <Report Include="SSStockSummeryReport.rdl" />
+    <Report Include="SSStockTransfer.rdl" />
+    <Report Include="SSSupplierWisaSaleReport.rdl" />
+    <Report Include="SSTrailBalance.rdl" />
+    <Report Include="SSVoucherListReport.rdl" />
+    <Report Include="SSVoucherReport.rdl" />
+    <Report Include="SSVoucherReportByVoucherType.rdl" />
+    <Report Include="SSVoucherReportDateRange.rdl" />
+    <Report Include="SSVoucherReportSeed.rdl" />
+    <Report Include="StockAdjustReport.rdl" />
+    <Report Include="StockReceive.rdl" />
+    <Report Include="StockReport.rdl" />
+    <Report Include="StockReportAll.rdl" />
+    <Report Include="StockReportDepoWise.rdl" />
+    <Report Include="StockTransfer.rdl" />
+    <Report Include="StockTransferDateRange.rdl" />
+    <Report Include="SuplierWisePurchaseReport.rdl" />
+    <Report Include="SupplierProductReport.rdl" />
+    <Report Include="SupplierWisaSaleReport.rdl" />
+    <Report Include="Test.rdl" />
+    <Report Include="TradingAccountingReceivableDetails.rdl" />
+    <Report Include="TradingBalanceSheetNote.rdl" />
+    <Report Include="TradingBalanceSheetReport.rdl" />
+    <Report Include="TradingCollectionStatement.rdl" />
+    <Report Include="TrailBalance.rdl" />
+    <Report Include="VoucherListReport.rdl" />
+    <Report Include="VoucherReport.rdl" />
+    <Report Include="VoucherReportByVoucherType.rdl" />
+    <Report Include="VoucherReportDateRange.rdl" />
+    <Report Include="Zone.rdl" />
+    <Report Include="ZoneWiseCustomer.rdl" />
+    <Report Include="ZoneWiseSaleReport.rdl" />
+    <Report Include="ZoneWiseSalesToPartyReport.rdl" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
+</Project>
