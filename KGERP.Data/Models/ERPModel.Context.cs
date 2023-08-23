@@ -287,12 +287,12 @@ namespace KGERP.Data.Models
         public virtual DbSet<StockInfo> StockInfoes { get; set; }
         public virtual DbSet<PurchaseReturn> PurchaseReturns { get; set; }
         public virtual DbSet<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
-        public virtual DbSet<ProductionDetail> ProductionDetails { get; set; }
         public virtual DbSet<ProductionMaster> ProductionMasters { get; set; }
         public virtual DbSet<ProductionStatus> ProductionStatus1 { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<VendorOpening> VendorOpenings { get; set; }
         public virtual DbSet<MaterialReceive> MaterialReceives { get; set; }
+        public virtual DbSet<ProductionDetail> ProductionDetails { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

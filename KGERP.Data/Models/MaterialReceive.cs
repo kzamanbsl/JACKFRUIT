@@ -48,7 +48,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public string MaterialReceiveStatus { get; set; }
         public bool IsSubmitted { get; set; }
-        public Nullable<long> ProductionMasterFK { get; set; }
+        public Nullable<long> ProductionMasterId { get; set; }
     
         public virtual ProductionMaster ProductionMaster { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }

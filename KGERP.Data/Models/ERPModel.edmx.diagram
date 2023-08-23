@@ -470,14 +470,11 @@
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" />
-        <EntityTypeShape EntityType="ERPModel.ProductionDetail" Width="1.5" PointX="51.5" PointY="31.25" />
         <EntityTypeShape EntityType="ERPModel.ProductionMaster" Width="1.5" PointX="27.25" PointY="39" />
         <EntityTypeShape EntityType="ERPModel.ProductionStatus" Width="1.5" PointX="25" PointY="64.75" />
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_ProductionStatus_Company" />
-        <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_ProductCategory" />
-        <AssociationConnector Association="ERPModel.FK__Productio__Produ__60A1FE78" />
         <AssociationConnector Association="ERPModel.FK__Productio__Produ__5DC591CD" />
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_ProductionStatus" />
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_ProductSubCategory" />
@@ -490,10 +487,13 @@
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
         <EntityTypeShape EntityType="ERPModel.MaterialReceive" Width="1.5" PointX="30.5" PointY="56.125" />
+        <EntityTypeShape EntityType="ERPModel.ProductionDetail" Width="1.5" PointX="51.5" PointY="31.25" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceive_ProductionMaster" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_MaterialReceive" />
+        <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
+        <AssociationConnector Association="ERPModel.FK__Productio__Produ__60A1FE78" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

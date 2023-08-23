@@ -393,7 +393,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -437,7 +437,7 @@ warning 6002: The table/view 'SRSeed.dbo.Attendance_Shadow' does not have a prim
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -509,7 +509,7 @@ warning 6002: The table/view 'SRSeed.dbo.AttendanceType' does not have a primary
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1290,7 +1290,7 @@ warning 6002: The table/view 'SRSeed.dbo.AttendenceApproveApplication_Shadow' do
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1361,7 +1361,7 @@ warning 6002: The table/view 'SRSeed.dbo.Employee_Audit' does not have a primary
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1455,7 +1455,7 @@ warning 6002: The table/view 'SRSeed.dbo.Employee_Shadow' does not have a primar
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2394,7 +2394,7 @@ warning 6002: The table/view 'SRSeed.dbo.EmployeeLeaveDetail' does not have a pr
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2484,7 +2484,7 @@ warning 6002: The table/view 'SRSeed.dbo.LeaveApplication_Shadow' does not have 
           <Key>
             <PropertyRef Name="ManagerProductMapId" />
           </Key>
-          <Property Name="ManagerProductMapId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManagerProductMapId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeId" Type="bigint" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
@@ -2695,7 +2695,7 @@ warning 6002: The table/view 'SRSeed.dbo.LeaveApplication_Shadow' does not have 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2720,7 +2720,7 @@ warning 6002: The table/view 'SRSeed.dbo.ProcessAttenendance' does not have a pr
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2847,7 +2847,7 @@ warning 6002: The table/view 'SRSeed.dbo.ProcessLeave' does not have a primary k
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2913,7 +2913,7 @@ warning 6002: The table/view 'SRSeed.dbo.PS' does not have a primary key defined
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3044,7 +3044,7 @@ warning 6002: The table/view 'SRSeed.dbo.ServerConfig' does not have a primary k
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3439,7 +3439,7 @@ warning 6002: The table/view 'SRSeed.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3699,7 +3699,7 @@ warning 6002: The table/view 'SRSeed.Erp.ConvertedProductDetail' does not have a
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -3890,7 +3890,7 @@ warning 6002: The table/view 'SRSeed.Erp.FormulaHistory' does not have a primary
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="MaterialReceiveStatus" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsSubmitted" Type="bit" Nullable="false" />
-          <Property Name="ProductionMasterFK" Type="bigint" />
+          <Property Name="ProductionMasterId" Type="bigint" />
         </EntityType>
         <EntityType Name="MaterialReceiveDetail">
           <Key>
@@ -4665,7 +4665,7 @@ warning 6002: The table/view 'SRSeed.Erp.FormulaHistory' does not have a primary
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -4775,8 +4775,8 @@ warning 6002: The table/view 'SRSeed.Erp.RequisitionItemDetail' does not have a 
           </Key>
           <Property Name="StockInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="3" />
           <Property Name="Code" Type="varchar" MaxLength="10" />
           <Property Name="StockType" Type="char" MaxLength="1" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -5130,7 +5130,7 @@ warning 6002: The table/view 'SRSeed.Erp.RequisitionItemDetail' does not have a 
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5161,7 +5161,7 @@ warning 6002: The table/view 'SRSeed.dbo.vw_Attendence' does not have a primary 
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5180,7 +5180,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwAllHeads' does not have a primary key
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5203,7 +5203,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwDemandForSaleInvoice' does not have a
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5226,7 +5226,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwFTPFileInfo' does not have a primary 
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5263,7 +5263,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwKGRECustomer' does not have a primary
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5277,7 +5277,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwProductPrice' does not have a primary
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5309,7 +5309,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwSeedMaterialRcvList' does not have a 
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5337,7 +5337,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwSMSList' does not have a primary key 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5367,7 +5367,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamInfoList' does not have a primary
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -6802,7 +6802,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
               <PropertyRef Name="ProductionMasterId" />
             </Principal>
             <Dependent Role="MaterialReceive">
-              <PropertyRef Name="ProductionMasterFK" />
+              <PropertyRef Name="ProductionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10300,7 +10300,6 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
             <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetails" />
           </AssociationSet>
-          <EntitySet Name="ProductionDetails" EntityType="ERPModel.ProductionDetail" />
           <EntitySet Name="ProductionMasters" EntityType="ERPModel.ProductionMaster" />
           <EntitySet Name="ProductionStatus1" EntityType="ERPModel.ProductionStatus" />
           <AssociationSet Name="FK_ProductionMaster_Company" Association="ERPModel.FK_ProductionMaster_Company">
@@ -10311,17 +10310,9 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Company" EntitySet="Companies" />
             <End Role="ProductionStatu" EntitySet="ProductionStatus1" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProductionMaster_ProductCategory" Association="ERPModel.FK_ProductionMaster_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategories" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Productio__Produ__60A1FE78" Association="ERPModel.FK__Productio__Produ__60A1FE78">
-            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
-            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
           </AssociationSet>
           <AssociationSet Name="FK__Productio__Produ__5DC591CD" Association="ERPModel.FK__Productio__Produ__5DC591CD">
             <End Role="ProductionStatu" EntitySet="ProductionStatus1" />
@@ -10362,6 +10353,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
           <EntitySet Name="MaterialReceives" EntityType="ERPModel.MaterialReceive" />
+          <EntitySet Name="ProductionDetails" EntityType="ERPModel.ProductionDetail" />
           <AssociationSet Name="FK_MaterialReceive_ProductionMaster" Association="ERPModel.FK_MaterialReceive_ProductionMaster">
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
             <End Role="MaterialReceive" EntitySet="MaterialReceives" />
@@ -10377,6 +10369,14 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_PurchaseReturn_MaterialReceive" Association="ERPModel.FK_PurchaseReturn_MaterialReceive">
             <End Role="MaterialReceive" EntitySet="MaterialReceives" />
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Productio__Produ__60A1FE78" Association="ERPModel.FK__Productio__Produ__60A1FE78">
+            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
+            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -18259,8 +18259,8 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
           </Key>
           <Property Name="StockInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="StockType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -18445,28 +18445,6 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ProductionDetail">
-          <Key>
-            <PropertyRef Name="ProductionDetailsId" />
-          </Key>
-          <Property Name="ProductionDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="RawProductId" Type="Int32" Nullable="false" />
-          <Property Name="RawProductQty" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="PackQty" Type="Double" Nullable="false" />
-          <Property Name="Consumption" Type="Double" Nullable="false" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="UnitProductionCost" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="COGS" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="ProductionDetail" ToRole="Product" />
-          <NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionDetail" ToRole="ProductionMaster" />
-          <Property Name="ProcessedQty" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
         <EntityType Name="ProductionMaster">
           <Key>
             <PropertyRef Name="ProductionMasterId" />
@@ -18487,12 +18465,12 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_ProductionMaster_Company" FromRole="ProductionMaster" ToRole="Company" />
           <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductionMaster" ToRole="ProductCategory" />
-          <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionMaster" ToRole="ProductionDetail" />
           <NavigationProperty Name="ProductionStatu" Relationship="ERPModel.FK__Productio__Produ__5DC591CD" FromRole="ProductionMaster" ToRole="ProductionStatu" />
           <NavigationProperty Name="ProductionStatu1" Relationship="ERPModel.FK_ProductionMaster_ProductionStatus" FromRole="ProductionMaster" ToRole="ProductionStatu" />
           <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductionMaster" ToRole="ProductSubCategory" />
           <NavigationProperty Name="Unit" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="ProductionMaster" ToRole="Unit" />
           <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="ProductionMaster" ToRole="MaterialReceive" />
+          <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionMaster" ToRole="ProductionDetail" />
         </EntityType>
         <EntityType Name="ProductionStatus">
           <Key>
@@ -18536,18 +18514,6 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductionDetails_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ProductionDetail">
-              <PropertyRef Name="RawProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProductionMaster_ProductCategory">
           <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
           <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
@@ -18557,18 +18523,6 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="ProductionMaster">
               <PropertyRef Name="ProductCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Productio__Produ__60A1FE78">
-          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="1" />
-          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductionMaster">
-              <PropertyRef Name="ProductionMasterId" />
-            </Principal>
-            <Dependent Role="ProductionDetail">
-              <PropertyRef Name="ProductionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18752,11 +18706,33 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="MaterialReceiveStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="IsSubmitted" Type="Boolean" Nullable="false" />
-          <Property Name="ProductionMasterFK" Type="Int64" />
+          <Property Name="ProductionMasterId" Type="Int64" />
           <NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="MaterialReceive" ToRole="ProductionMaster" />
           <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="MaterialReceive" ToRole="PurchaseOrder" />
           <NavigationProperty Name="MaterialReceiveDetails" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceive" ToRole="MaterialReceiveDetail" />
           <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="MaterialReceive" ToRole="PurchaseReturn" />
+        </EntityType>
+        <EntityType Name="ProductionDetail">
+          <Key>
+            <PropertyRef Name="ProductionDetailsId" />
+          </Key>
+          <Property Name="ProductionDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="RawProductId" Type="Int32" Nullable="false" />
+          <Property Name="RawProductQty" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PackQty" Type="Double" Nullable="false" />
+          <Property Name="Consumption" Type="Double" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="UnitProductionCost" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="COGS" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ProcessedQty" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="ProductionDetail" ToRole="Product" />
+          <NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionDetail" ToRole="ProductionMaster" />
         </EntityType>
         <Association Name="FK_MaterialReceive_ProductionMaster">
           <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="0..1" />
@@ -18766,7 +18742,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
               <PropertyRef Name="ProductionMasterId" />
             </Principal>
             <Dependent Role="MaterialReceive">
-              <PropertyRef Name="ProductionMasterFK" />
+              <PropertyRef Name="ProductionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18803,6 +18779,30 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="PurchaseReturn">
               <PropertyRef Name="MaterialReceiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionDetails_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductionDetail">
+              <PropertyRef Name="RawProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Productio__Produ__60A1FE78">
+          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="1" />
+          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductionMaster">
+              <PropertyRef Name="ProductionMasterId" />
+            </Principal>
+            <Dependent Role="ProductionDetail">
+              <PropertyRef Name="ProductionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -24185,27 +24185,6 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProductionDetails">
-            <EntityTypeMapping TypeName="ERPModel.ProductionDetail">
-              <MappingFragment StoreEntitySet="ProductionDetail">
-                <ScalarProperty Name="ProcessedQty" ColumnName="ProcessedQty" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="COGS" ColumnName="COGS" />
-                <ScalarProperty Name="UnitProductionCost" ColumnName="UnitProductionCost" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Consumption" ColumnName="Consumption" />
-                <ScalarProperty Name="PackQty" ColumnName="PackQty" />
-                <ScalarProperty Name="RawProductQty" ColumnName="RawProductQty" />
-                <ScalarProperty Name="RawProductId" ColumnName="RawProductId" />
-                <ScalarProperty Name="ProductionMasterId" ColumnName="ProductionMasterId" />
-                <ScalarProperty Name="ProductionDetailsId" ColumnName="ProductionDetailsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProductionMasters">
             <EntityTypeMapping TypeName="ERPModel.ProductionMaster">
               <MappingFragment StoreEntitySet="ProductionMaster">
@@ -24283,7 +24262,7 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
           <EntitySetMapping Name="MaterialReceives">
             <EntityTypeMapping TypeName="ERPModel.MaterialReceive">
               <MappingFragment StoreEntitySet="MaterialReceive">
-                <ScalarProperty Name="ProductionMasterFK" ColumnName="ProductionMasterFK" />
+                <ScalarProperty Name="ProductionMasterId" ColumnName="ProductionMasterId" />
                 <ScalarProperty Name="IsSubmitted" ColumnName="IsSubmitted" />
                 <ScalarProperty Name="MaterialReceiveStatus" ColumnName="MaterialReceiveStatus" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -24311,6 +24290,27 @@ warning 6002: The table/view 'SRSeed.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductionDetails">
+            <EntityTypeMapping TypeName="ERPModel.ProductionDetail">
+              <MappingFragment StoreEntitySet="ProductionDetail">
+                <ScalarProperty Name="ProcessedQty" ColumnName="ProcessedQty" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="COGS" ColumnName="COGS" />
+                <ScalarProperty Name="UnitProductionCost" ColumnName="UnitProductionCost" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Consumption" ColumnName="Consumption" />
+                <ScalarProperty Name="PackQty" ColumnName="PackQty" />
+                <ScalarProperty Name="RawProductQty" ColumnName="RawProductQty" />
+                <ScalarProperty Name="RawProductId" ColumnName="RawProductId" />
+                <ScalarProperty Name="ProductionMasterId" ColumnName="ProductionMasterId" />
+                <ScalarProperty Name="ProductionDetailsId" ColumnName="ProductionDetailsId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

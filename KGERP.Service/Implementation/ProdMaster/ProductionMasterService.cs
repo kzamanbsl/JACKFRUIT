@@ -135,7 +135,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                             materialReceive.CompanyId = productionMasterModel.CompanyId;
                             materialReceive.MaterialType = "R";
                             materialReceive.ReceiveNo = receivedNo;
-                            materialReceive.ProductionMasterFK = productionMasterModel.ProductionMasterId;
+                            materialReceive.ProductionMasterId = productionMasterModel.ProductionMasterId;
                             materialReceive.TotalAmount = 0;
                             materialReceive.Discount = 0;
                             materialReceive.TruckFare = 0;
