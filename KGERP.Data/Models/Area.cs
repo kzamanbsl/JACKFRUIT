@@ -12,39 +12,30 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SubZone
+    public partial class Area
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SubZone()
-        {
-            this.ExpenseMasters = new HashSet<ExpenseMaster>();
-        }
-    
-        public int SubZoneId { get; set; }
+        public int AreaId { get; set; }
         public int ZoneId { get; set; }
+        public int RegionId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public System.DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
         public int CompanyId { get; set; }
+        public string AreaIncharge { get; set; }
         public string SalesOfficerName { get; set; }
         public string Designation { get; set; }
         public string Email { get; set; }
         public string MobileOffice { get; set; }
         public string MobilePersonal { get; set; }
-        public int AccountHeadId { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-        public Nullable<int> RegionId { get; set; }
-        public Nullable<int> AreaId { get; set; }
     
-        public virtual Zone Zone { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Region Region { get; set; }
+        public virtual Zone Zone { get; set; }
     }
 }

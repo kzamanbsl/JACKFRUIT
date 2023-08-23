@@ -293,6 +293,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<VendorOpening> VendorOpenings { get; set; }
         public virtual DbSet<MaterialReceive> MaterialReceives { get; set; }
         public virtual DbSet<ProductionDetail> ProductionDetails { get; set; }
+        public virtual DbSet<Area> Areas { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

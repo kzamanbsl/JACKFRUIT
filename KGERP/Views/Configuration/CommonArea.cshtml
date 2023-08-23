@@ -1,7 +1,7 @@
-﻿@model KGERP.Service.Implementation.Configuration.VMCommonSubZone
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonArea
 @{
 
-    ViewData["Title"] = "Territory";
+    ViewData["Title"] = "Area";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,15 +14,15 @@
 
 <section class="content-header">
     <h1>
-        Territory
+        Area
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Territory</li>
+        <li class="active">Area</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("CommonSubZone", "Configuration", FormMethod.Post, new { id = "commonSubZoneFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("CommonArea", "Configuration", FormMethod.Post, new { id = "commonAreaFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
         <div class="row">
@@ -31,11 +31,11 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     <div class="box-header">
-                        <h4>Add Territory</h4>
+                        <h4>Add Area</h4>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        @Html.HiddenFor(model => model.ID, new { id = "subZoneId" })
+                        @Html.HiddenFor(model => model.ID, new { id = "AreaId" })
                         @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                         @Html.HiddenFor(model => model.Code, new { id = "Code" })
@@ -44,24 +44,23 @@
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Zone:</label>
-                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneId", @class = "form-control", required = "true" })
+                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "--Zone--", new { id = "ddlZoneId", @class = "form-control", required = "true" })
                                     @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
 
                                 </div>
                             </div>
-
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Region:</label>
-                                        @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"),
-                                            new {id = "ddlRegionId", @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"),
+                                        new { id = "ddlRegionId", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Territory:</label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtSubZoneName", @class = "form-control input-sm", @placeholder = "Territory", required = "true" })
+                                    <label for="message-text" class="col-form-label">Area:</label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtAreaName", @class = "form-control input-sm", @placeholder = "Area", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
                                 </div>
@@ -81,14 +80,12 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Sales Officer:</label>
-                                    @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtSalesOfficerName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
+                                    <label for="message-text" class="col-form-label">Area Incharge:</label>
+                                    @Html.TextBoxFor(model => model.AreaIncharge, new { id = "txtAreaIncharge", @class = "form-control input-sm", @placeholder = "Area Incharge", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.AreaIncharge, "", new { @class = "text-danger" })
 
                                 </div>
                             </div>
-
-
 
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
@@ -101,6 +98,7 @@
                         </div>
 
                         <div class="row">
+                            
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Email:</label>
@@ -149,7 +147,7 @@
                 <div class="box">
                     <div class="box-danger">
                         <div class="box-header">
-                            <h4>Territory List</h4>
+                            <h4>Area List</h4>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -158,11 +156,11 @@
                                     <thead>
                                         <tr>
                                             <th style="width:5%;">SL</th>
-                                            <th hidden="hidden"></th>
                                             <th style="width:10%;">Zone</th>
                                             <th style="width:10%;">Region</th>
-                                            <th style="width:15%;">Territory</th>
-                                            <th style="width:10%;">Sales Officer</th>
+                                            <th style="width:15%;">Area</th>
+                                            <th hidden="hidden"></th>
+                                            <th style="width:10%;">Area Incharge</th>
                                             <th style="width:10%;">Designation</th>
                                             <th style="width:10%;">Email</th>
                                             <th style="width:10%;">Mobile Office</th>
@@ -178,7 +176,6 @@
 
                                             <tr>
                                                 <td>@(++sl)</td>
-                                                <td hidden id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
                                                 <td>
                                                     <input type="hidden" id="commonZoneId_@item.ID" value="@item.ZoneId" />
                                                     @item.ZoneName
@@ -187,19 +184,21 @@
                                                     <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
                                                     @item.RegionName
                                                 </td>
-                                                <td id="tdSubZoneName_@item.ID">@item.Name</td>
-                                                <td id="tdSalesOfficerName_@item.ID">@item.SalesOfficerName</td>
+                                                <td id="tdAreaName_@item.ID">@item.Name</td>
+                                                <td hidden="true" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
+                                                <td id="tdAreaIncharge_@item.ID">@item.AreaIncharge</td>
                                                 <td id="tdDesignation_@item.ID">@item.Designation</td>
                                                 <td id="tdEmail_@item.ID">@item.Email</td>
                                                 <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
                                                 <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>
                                                 <td>
-                                                    <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                     <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
                                                        data-placement="top">
                                                         <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                     </a>
-                                                    <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&subZoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>
+                                                    <a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ZoneId&areaId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Territory</a>
+                                                    <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&areaId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>
                                                 </td>
                                             </tr>
                                         }
@@ -217,10 +216,10 @@
 
 }
 
-@using (Html.BeginForm("CommonSubZone", "Configuration", FormMethod.Post, new { id = "commonSubZoneDeleteFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("CommonArea", "Configuration", FormMethod.Post, new { id = "commonAreaDeleteFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.ID, new { id = "subZoneIdDelete" })
+    @Html.HiddenFor(model => model.ID, new { id = "AreaIdDelete" })
     @Html.HiddenFor(model => model.ActionId, new { id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.ZoneId, new { id = "zoneIdDelete" })
 
@@ -233,11 +232,11 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Territory  Delete</b></h5>
+                    <h5 class="modal-title"><b>Area  Delete</b></h5>
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this Territory?</h3>
+                        <h3>Are you sure to delete this Area?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -250,15 +249,11 @@
 }
 
 @section scripts {
-    @Scripts.Render("~/bundles/jqueryui")
-    @Styles.Render("~/Content/cssjqryUi")
 
     <script type="text/javascript">
 
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
-
-            //Bind employee info based on employee Selection
             $('#employeeId').change(function () {
                 var selectedEmployeeId = $('#employeeId').val();
                 $.ajax({
@@ -268,7 +263,7 @@
                     datatype: "json",
                     traditional: true,
                     success: function (result) {
-                        $('#txtSalesOfficerName').val(result.Name);
+                        $('#txtAreaIncharge').val(result.Name);
                         $('#txtDesignation').val(result.DesignationName);
                         $('#txtMobileOffice').val(result.MobileNo);
                         $('#txtMobilePersonal').val(result.MobileNo);
@@ -299,19 +294,18 @@
                     });
                 });
             });
-
         });
 
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#subZoneId').val(rowId);
+                $('#AreaId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger('change');
-                $('#txtSubZoneName').val($('#tdSubZoneName_' + rowId).text().trim());
+                $('#txtAreaName').val($('#tdAreaName_' + rowId).text().trim());
 
-                $('#txtSalesOfficerName').val($('#tdSalesOfficerName_' + rowId).text().trim());
+                $('#txtAreaIncharge').val($('#tdAreaIncharge_' + rowId).text().trim());
                 $('#txtDesignation').val($('#tdDesignation_' + rowId).text().trim());
                 $('#txtEmail').val($('#tdEmail_' + rowId).text().trim());
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
@@ -324,18 +318,18 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#subZoneIdDelete').val(id);
+                $('#AreaIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
             }
         }
 
         function resetForm() {
-            $('#commonSubZoneFormId')[0].reset();
+            $('#commonAreaFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
     </script>
 
- 
+
 }
 

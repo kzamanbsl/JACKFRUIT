@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using KG.Core.Services.Configuration;
+﻿using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
@@ -15,6 +6,13 @@ using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace KGERP.Controllers
 {
@@ -46,7 +44,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ProcurementSupplierOpening(VendorOpeningModel vendorOpeningModel)
         {
-            if(vendorOpeningModel.VendorOpeningId == 0)
+            if (vendorOpeningModel.VendorOpeningId == 0)
             {
                 if (vendorOpeningModel.ActionEum == ActionEnum.Add)
                 {
@@ -67,7 +65,7 @@ namespace KGERP.Controllers
         //    var products = _service.ProcurementSupplierOpeningSubmit(vendorOpeningId);
         //    return Json(products, JsonRequestBehavior.AllowGet);
         //}
-        public JsonResult SubmitSupplierOpening(int vendorOpeningId , int company= 0)
+        public JsonResult SubmitSupplierOpening(int vendorOpeningId, int company = 0)
         {
             var products = _service.ProcurementSupplierOpeningSubmit(vendorOpeningId);
             return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
@@ -627,8 +625,8 @@ namespace KGERP.Controllers
             }
             else if (vendorOpeningModel.ActionEum == ActionEnum.Edit)
             {
-                
-                _service.CustomerOpeningUpdate(vendorOpeningModel);
+
+                await _service.CustomerOpeningUpdate(vendorOpeningModel);
             }
 
             return RedirectToAction(nameof(ProcurementCustomerOpening), new { companyId = vendorOpeningModel.CompanyFK });
@@ -641,7 +639,7 @@ namespace KGERP.Controllers
             if (orderMasterId > 0)
             {
                 vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
-                var totalPriceInWord = Convert.ToDecimal(vmSalesOrderSlave.DataListSlave.Select(x => x.TotalAmount).DefaultIfEmpty(0).Sum()) -vmSalesOrderSlave.TotalDiscountAmount;
+                var totalPriceInWord = Convert.ToDecimal(vmSalesOrderSlave.DataListSlave.Select(x => x.TotalAmount).DefaultIfEmpty(0).Sum()) - vmSalesOrderSlave.TotalDiscountAmount;
                 vmSalesOrderSlave.TotalPriceInWord = VmCommonCurrency.NumberToWords(totalPriceInWord, CurrencyType.BDT);
 
             }

@@ -43,6 +43,7 @@ namespace KGERP.Data.Models
             this.ProductionMasters = new HashSet<ProductionMaster>();
             this.ProductionStatus = new HashSet<ProductionStatus>();
             this.Expenses = new HashSet<Expense>();
+            this.Areas = new HashSet<Area>();
         }
     
         public int CompanyId { get; set; }
@@ -122,5 +123,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<ProductionStatus> ProductionStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Expense> Expenses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Area> Areas { get; set; }
     }
 }

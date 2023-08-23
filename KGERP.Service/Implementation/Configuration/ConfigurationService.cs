@@ -1974,6 +1974,157 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
+        #region Area
+        public List<object> CommonAreaDropDownList(int companyId, int zoneId = 0)
+        {
+            var list = new List<object>();
+            var v = _db.Areas.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 ? x.ZoneId == zoneId : x.AreaId > 0)).ToList();
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.AreaId });
+            }
+            return list;
+        }
+
+        public List<SelectModel> GetAreaSelectList(int companyId, int? zoneId)
+        {
+            List<SelectModel> selectModelList = new List<SelectModel>();
+            SelectModel selectModel = new SelectModel
+            {
+                Text = "==Select Area==",
+                Value = 0,
+            };
+            selectModelList.Add(selectModel);
+
+            if (zoneId.HasValue && zoneId > 0)
+            {
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.AreaId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else
+            {
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.AreaId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+
+            return selectModelList;
+        }
+
+        public async Task<VMCommonArea> GetAreas(int companyId, int zoneId = 0, int regionId = 0)
+        {
+            VMCommonArea vmCommonArea = new VMCommonArea();
+            vmCommonArea.CompanyFK = companyId;
+            vmCommonArea.DataList = await Task.Run(() => (from t1 in _db.Areas
+                                                          join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                          join t3 in _db.Regions on t1.RegionId equals t3.RegionId
+                                                          where t1.IsActive == true && t1.CompanyId == companyId
+                                                          && (zoneId > 0 && regionId>0 ? t1.ZoneId == zoneId && t1.RegionId==regionId : t1.AreaId > 0)
+                                                          select new VMCommonArea
+                                                          {
+                                                              ID = t1.AreaId,
+                                                              ZoneId = t1.ZoneId,
+                                                              ZoneName = t2.Name,
+                                                              RegionId = t1.RegionId,
+                                                              RegionName = t3.Name,
+                                                              Name = t1.Name,
+                                                              Code = t1.Code,
+                                                              AreaIncharge = t1.AreaIncharge,
+                                                              SalesOfficerName = t1.SalesOfficerName,
+                                                              Designation = t1.Designation,
+                                                              Email = t1.Email,
+                                                              MobileOffice = t1.MobileOffice,
+                                                              MobilePersonal = t1.MobilePersonal,
+                                                              CompanyFK = t1.CompanyId,
+                                                              EmployeeId = t1.EmployeeId
+                                                          }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonArea;
+        }
+
+        public async Task<int> AreaAdd(VMCommonArea vmCommonArea)
+        {
+            var result = -1;
+            Area area = new Area
+            {
+                Name = vmCommonArea.Name,
+                // Code = vmCommonRegion.Code, // Don't use region it will add form Head5
+                AreaIncharge = vmCommonArea.AreaIncharge,
+                SalesOfficerName = vmCommonArea.SalesOfficerName,
+                Designation = vmCommonArea.Designation,
+                Email = vmCommonArea.Email,
+                MobileOffice = vmCommonArea.MobileOffice,
+                MobilePersonal = vmCommonArea.MobilePersonal,
+                ZoneId = vmCommonArea.ZoneId,
+                RegionId = vmCommonArea.RegionId,
+                EmployeeId = vmCommonArea.EmployeeId,
+                CompanyId = vmCommonArea.CompanyFK.Value,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true
+
+            };
+            _db.Areas.Add(area);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = area.AreaId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> AreaEdit(VMCommonArea vmCommonArea)
+        {
+            var result = -1;
+            Area area = await _db.Areas.FindAsync(vmCommonArea.ID);
+            area.ZoneId = vmCommonArea.ZoneId;
+            area.RegionId = vmCommonArea.RegionId;
+            area.Name = vmCommonArea.Name;
+            // region.Code = vmCommonRegion.Code; // Don't use region it will add form Head5
+            area.AreaIncharge = vmCommonArea.AreaIncharge;
+            area.SalesOfficerName = vmCommonArea.SalesOfficerName;
+            area.Designation = vmCommonArea.Designation;
+            area.Email = vmCommonArea.Email;
+            area.MobilePersonal = vmCommonArea.MobilePersonal;
+            area.MobileOffice = vmCommonArea.MobileOffice;
+            area.EmployeeId = vmCommonArea.EmployeeId;
+            area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            area.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = area.AreaId;
+            }
+            return result;
+        }
+
+        public async Task<int> AreaDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                Area area = await _db.Areas.FindAsync(id);
+                area.IsActive = false;
+                area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                area.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = area.RegionId;
+                }
+            }
+            return result;
+        }
+
+        #endregion
+
         #region Product Category 
         public async Task<VMCommonProductCategory> GetFinishProductCategory(int companyId, string productType)
         {
@@ -2547,7 +2698,7 @@ namespace KGERP.Service.Implementation.Configuration
                 vmCommonProduct.CompanyFK = companyId;
 
             }
-            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId && x.ProductType == productType )
+            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId && x.ProductType == productType)
                                               join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId into t2_Join
                                               from t2 in t2_Join.DefaultIfEmpty()
                                               join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId into t3_Join

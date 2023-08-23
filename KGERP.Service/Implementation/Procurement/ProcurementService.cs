@@ -1,13 +1,12 @@
-﻿using System;
+﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.ServiceModel;
+using KGERP.Utility;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using KGERP.Data.Models;
-using KGERP.Service.Implementation.Accounting;
-using KGERP.Service.Implementation.Configuration;
-using KGERP.Service.ServiceModel;
-using KGERP.Utility;
 
 namespace KGERP.Service.Implementation.Procurement
 {
@@ -855,6 +854,7 @@ namespace KGERP.Service.Implementation.Procurement
                     OpeningDate = vendorOpeningModel.OpeningDate,
                     OpeningAmount = vendorOpeningModel.OpeningAmount,
                     Description = vendorOpeningModel.Description,
+                    //ProductId = 000//,
                     VoucherId = null,
                     IsActive = true,
                     IsSubmit = false,

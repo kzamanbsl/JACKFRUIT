@@ -7,10 +7,4 @@
 
 Date: 16-08-2023
 ================
-*ProductionDetail
-	+ ProcessedQty
 
-Date: 21-08-2023
-================
-*MaterialRecieve
-	+ ProductionMasterFK

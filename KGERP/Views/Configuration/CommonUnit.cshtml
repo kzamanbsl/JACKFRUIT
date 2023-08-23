@@ -1,10 +1,7 @@
 ﻿
 @{
-
     ViewData["Title"] = "Unit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 
 }
 @model KGERP.Service.Implementation.Configuration.VMCommonUnit
@@ -156,7 +153,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
-
         });
 
 
@@ -179,6 +175,7 @@
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
         }
+
         function resetForm() {
             $('#commonUnitFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");

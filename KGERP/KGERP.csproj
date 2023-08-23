@@ -5565,6 +5565,7 @@
     <Content Include="Views\Report\CustomerDueSummary.cshtml" />
     <Content Include="Views\ProductionMaster\ProductionMasterSlave.cshtml" />
     <Content Include="Views\ProductionMaster\ProductionList.cshtml" />
+    <Content Include="Views\Configuration\CommonArea.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

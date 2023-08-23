@@ -351,6 +351,60 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Common Area
+
+        [HttpGet]
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0)
+        {
+            var model = await Task.Run(() => _service.GetRegionSelectList(companyId, zoneId));
+            var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int regionId=0)
+        {
+
+            VMCommonArea vmCommonArea = new VMCommonArea();
+
+            vmCommonArea = await Task.Run(() => _service.GetAreas(companyId, zoneId, regionId));
+            vmCommonArea.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonArea.RegionList = _service.GetRegionSelectList(companyId, zoneId);
+            vmCommonArea.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+
+            return View(vmCommonArea);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonArea(VMCommonArea vmCommonArea)
+        {
+
+            if (vmCommonArea.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+
+                await _service.AreaAdd(vmCommonArea);
+            }
+            else if (vmCommonArea.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.AreaEdit(vmCommonArea);
+            }
+            else if (vmCommonArea.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.AreaDelete(vmCommonArea.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, regionId=vmCommonArea.RegionId });
+        }
+
+
+        #endregion
+
         #region Common SubZone
 
         [HttpGet]
@@ -1883,7 +1937,7 @@ namespace KGERP.Controllers
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
 
-        #region Common Finish Product Category
+        #region Incentive
 
         public async Task<ActionResult> Incentives(int companyId)
         {
@@ -1919,11 +1973,6 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(Incentives), new { companyId = vmIncentive.CompanyId });
         }
-
-        #endregion
-
-        #region Common Finish Product SubCategory
-
 
         public async Task<ActionResult> IncentiveDetails(int companyId, int incentiveId = 0)
         {

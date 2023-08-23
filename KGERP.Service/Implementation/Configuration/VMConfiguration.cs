@@ -145,15 +145,18 @@ namespace KGERP.Service.Implementation.Configuration
         public string MobilePersonal { get; set; }
      
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
         public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> AreaList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
+        
 
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
         public Nullable<int> RegionId { get; set; }
         public string RegionName{ get; set; }
-
+        public Nullable<int> AreaId { get; set; }
+        public string AreaName { get; set; }
         public IEnumerable<VMCommonSubZone> DataList { get; set; }
 
 
@@ -184,6 +187,32 @@ namespace KGERP.Service.Implementation.Configuration
 
     }
 
+    public class VMCommonArea : BaseVM
+    {
+
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string AreaIncharge { get; set; }
+        public string SalesOfficerName { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string MobileOffice { get; set; }
+        public string MobilePersonal { get; set; }
+        public int ZoneId { get; set; }
+        public string ZoneName { get; set; }
+        public Nullable<long> EmployeeId { get; set; }
+        public int RegionId { get; set; }
+        public string RegionName { get; set; }
+        public int AreaId { get; set; }
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
+       
+        public IEnumerable<VMCommonArea> DataList { get; set; }
+
+
+    }
+
     public class VMCommonSize : BaseVM
     {
         public string Name { get; set; }
@@ -205,7 +234,6 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonSupplier : BaseVM
     {
-
 
         public string Name { get; set; }
         public int VendorReferenceId { get; set; }
@@ -595,7 +623,6 @@ namespace KGERP.Service.Implementation.Configuration
 
         public decimal? FormulaQty { get; set; }
     }
-
 
     public class VMCommonCustomer : BaseVM
     {
