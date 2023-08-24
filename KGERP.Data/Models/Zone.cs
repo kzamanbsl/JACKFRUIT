@@ -21,6 +21,7 @@ namespace KGERP.Data.Models
             this.OfficerAssigns = new HashSet<OfficerAssign>();
             this.Regions = new HashSet<Region>();
             this.Areas = new HashSet<Area>();
+            this.Vendors = new HashSet<Vendor>();
         }
     
         public Nullable<int> CompanyId { get; set; }
@@ -52,5 +53,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<Region> Regions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Area> Areas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vendor> Vendors { get; set; }
     }
 }

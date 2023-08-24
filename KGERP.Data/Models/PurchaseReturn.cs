@@ -38,9 +38,9 @@ namespace KGERP.Data.Models
         public long MaterialReceiveId { get; set; }
     
         public virtual StockInfo StockInfo { get; set; }
-        public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
         public virtual MaterialReceive MaterialReceive { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

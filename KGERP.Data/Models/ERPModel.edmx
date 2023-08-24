@@ -5003,6 +5003,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not ha
           <Property Name="VendorTypeId" Type="int" Nullable="false" />
           <Property Name="ZoneId" Type="int" />
           <Property Name="RegionId" Type="int" />
+          <Property Name="AreaId" Type="int" />
           <Property Name="SubZoneId" Type="int" />
           <Property Name="Name" Type="varchar" MaxLength="250" />
           <Property Name="Code" Type="varchar" MaxLength="50" />
@@ -5058,7 +5059,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not ha
           <Property Name="BankName" Type="nvarchar" MaxLength="50" />
           <Property Name="BranchName" Type="nvarchar" MaxLength="50" />
           <Property Name="VendorReferenceId" Type="int" Nullable="false" />
-          <Property Name="docid" Type="bigint" Nullable="false" />
+          <Property Name="DocId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="VendorDeed">
           <Key>
@@ -7610,6 +7611,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Vendor_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="0..1" />
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vendor_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
@@ -7619,6 +7632,30 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Vendor">
               <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_SubZone">
+          <End Role="SubZone" Type="Self.SubZone" Multiplicity="0..1" />
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubZone">
+              <PropertyRef Name="SubZoneId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="SubZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Zone">
+          <End Role="Zone" Type="Self.Zone" Multiplicity="0..1" />
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="ZoneId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9260,8 +9297,20 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Company" EntitySet="Company" />
             <End Role="Unit" EntitySet="Unit" />
           </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Area" Association="Self.FK_Vendor_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vendor_Region" Association="Self.FK_Vendor_Region">
             <End Role="Region" EntitySet="Region" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_SubZone" Association="Self.FK_Vendor_SubZone">
+            <End Role="SubZone" EntitySet="SubZone" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Zone" Association="Self.FK_Vendor_Zone">
+            <End Role="Zone" EntitySet="Zone" />
             <End Role="Vendor" EntitySet="Vendor" />
           </AssociationSet>
           <AssociationSet Name="FK_VendorOffer_Vendor" Association="Self.FK_VendorOffer_Vendor">
@@ -10296,47 +10345,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Region" EntitySet="Regions" />
             <End Role="SubZone" EntitySet="SubZones" />
           </AssociationSet>
-          <EntitySet Name="Vendors" EntityType="ERPModel.Vendor" />
-          <AssociationSet Name="FK_MonthlyTarget_Vendor" Association="ERPModel.FK_MonthlyTarget_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="MonthlyTarget" EntitySet="MonthlyTargets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EMI_Vendor" Association="ERPModel.FK_EMI_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="EMI" EntitySet="EMIs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LCInfo_Vendor" Association="ERPModel.FK_LCInfo_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="LCInfo" EntitySet="LCInfoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_Supplier" Association="ERPModel.FK_OrderMaster_Supplier">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Payment_Vendor" Association="ERPModel.FK_Payment_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Payment" EntitySet="Payments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrder_Vendor" Association="ERPModel.FK_PurchaseOrder_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Vendor_Region" Association="ERPModel.FK_Vendor_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="Vendor" EntitySet="Vendors" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SaleReturn_Vendor" Association="ERPModel.FK_SaleReturn_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="SaleReturn" EntitySet="SaleReturns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Store_Vendor" Association="ERPModel.FK_Store_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Store" EntitySet="Stores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VendorOffer_Vendor" Association="ERPModel.FK_VendorOffer_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="VendorOffer" EntitySet="VendorOffers" />
-          </AssociationSet>
           <EntitySet Name="SaleSettings" EntityType="ERPModel.SaleSetting" />
           <AssociationSet Name="FK_SaleSetting_Company" Association="ERPModel.FK_SaleSetting_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -10379,10 +10387,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseReturn_StockInfo" Association="ERPModel.FK_PurchaseReturn_StockInfo">
             <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseReturn_Vendor" Association="ERPModel.FK_PurchaseReturn_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseReturnDetail_PurchaseReturn" Association="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn">
@@ -10433,10 +10437,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
-          <AssociationSet Name="FK_VendorOpening_Vendor" Association="ERPModel.FK_VendorOpening_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="VendorOpening" EntitySet="VendorOpenings" />
-          </AssociationSet>
           <AssociationSet Name="FK_VendorOpening_VendorType" Association="ERPModel.FK_VendorOpening_VendorType">
             <End Role="VendorType" EntitySet="VendorTypes" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
@@ -10483,6 +10483,67 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_Area_Zone" Association="ERPModel.FK_Area_Zone">
             <End Role="Zone" EntitySet="Zones" />
             <End Role="Area" EntitySet="Areas" />
+          </AssociationSet>
+          <EntitySet Name="Vendors" EntityType="ERPModel.Vendor" />
+          <AssociationSet Name="FK_MonthlyTarget_Vendor" Association="ERPModel.FK_MonthlyTarget_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="MonthlyTarget" EntitySet="MonthlyTargets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Area" Association="ERPModel.FK_Vendor_Area">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMI_Vendor" Association="ERPModel.FK_EMI_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="EMI" EntitySet="EMIs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LCInfo_Vendor" Association="ERPModel.FK_LCInfo_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="LCInfo" EntitySet="LCInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMaster_Supplier" Association="ERPModel.FK_OrderMaster_Supplier">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Vendor" Association="ERPModel.FK_Payment_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_Vendor" Association="ERPModel.FK_PurchaseOrder_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseReturn_Vendor" Association="ERPModel.FK_PurchaseReturn_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Region" Association="ERPModel.FK_Vendor_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SaleReturn_Vendor" Association="ERPModel.FK_SaleReturn_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="SaleReturn" EntitySet="SaleReturns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Vendor" Association="ERPModel.FK_Store_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_SubZone" Association="ERPModel.FK_Vendor_SubZone">
+            <End Role="SubZone" EntitySet="SubZones" />
+            <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Zone" Association="ERPModel.FK_Vendor_Zone">
+            <End Role="Zone" EntitySet="Zones" />
+            <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorOffer_Vendor" Association="ERPModel.FK_VendorOffer_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="VendorOffer" EntitySet="VendorOffers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorOpening_Vendor" Association="ERPModel.FK_VendorOpening_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -13371,6 +13432,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Zone_Employee" FromRole="Zone" ToRole="Employee" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Zone" FromRole="Zone" ToRole="Region" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Zone" FromRole="Zone" ToRole="Area" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Zone" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="SubZone">
           <Key>
@@ -13400,6 +13462,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="RegionId" Type="Int32" />
           <NavigationProperty Name="Region" Relationship="ERPModel.FK_SubZone_Region" FromRole="SubZone" ToRole="Region" />
           <Property Name="AreaId" Type="Int32" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="SubZone" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_SubZone_Zone">
           <End Type="ERPModel.Zone" Role="Zone" Multiplicity="1" />
@@ -14323,8 +14386,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Requisition" Relationship="ERPModel.FK_Store_Requisition" FromRole="Store" ToRole="Requisition" />
           <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Store" FromRole="Store" ToRole="StoreDetail" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_Store_Company1" FromRole="Store" ToRole="Company" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_Store_Vendor" FromRole="Store" ToRole="Vendor" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Store_StockInfo" FromRole="Store" ToRole="StockInfo" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_Store_Vendor" FromRole="Store" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_Store_Requisition">
           <End Type="ERPModel.Requisition" Role="Requisition" Multiplicity="0..1" />
@@ -17905,9 +17968,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="PurchaseOrder1" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrder1" />
           <NavigationProperty Name="PurchaseOrder2" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder1" ToRole="PurchaseOrder" />
           <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderDetail" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
           <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_PurchaseOrder_ModeOfPurchase">
           <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
@@ -18090,8 +18153,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Region_Employee" FromRole="Region" ToRole="Employee" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Region_Zone" FromRole="Region" ToRole="Zone" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Region" FromRole="Region" ToRole="SubZone" />
-          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Region" FromRole="Region" ToRole="Area" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_Region_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -18138,208 +18201,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="SubZone">
               <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Vendor">
-          <Key>
-            <PropertyRef Name="VendorId" />
-          </Key>
-          <Property Name="VendorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HeadGLId" Type="Int32" />
-          <Property Name="DistrictId" Type="Int32" />
-          <Property Name="UpazilaId" Type="Int32" />
-          <Property Name="CustomerType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="VendorTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ZoneId" Type="Int32" />
-          <Property Name="RegionId" Type="Int32" />
-          <Property Name="SubZoneId" Type="Int32" />
-          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ContactName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="OpeningBalance" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PaymentDue" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="LastPaymentDate" Type="DateTime" Precision="0" />
-          <Property Name="BusinessAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="DistrictName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="UpazilaName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ThanaName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NomineeName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="NomineePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NomineeImageUrl" Type="String" MaxLength="312" FixedLength="false" Unicode="false" />
-          <Property Name="NomineeNID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NomineeRelation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" MaxLength="312" FixedLength="false" Unicode="false" />
-          <Property Name="MonthlyTarget" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="YearlyTarget" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreditRatioFrom" Type="Int32" Nullable="false" />
-          <Property Name="CreditRatioTo" Type="Int32" Nullable="false" />
-          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreditCommission" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MonthlyIncentive" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="YearlyIncentive" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ClosingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Condition" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="NID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="BIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CountryId" Type="Int32" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NoOfCheck" Type="Int32" />
-          <Property Name="CheckNo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="GuarantorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="GurantorAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="GurantorMobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="IsForeign" Type="Boolean" Nullable="false" />
-          <Property Name="CustomerTypeFK" Type="Int32" Nullable="false" />
-          <Property Name="SecurityAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="CustomerStatus" Type="Int32" />
-          <Property Name="Propietor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ACName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ACNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VendorReferenceId" Type="Int32" Nullable="false" />
-          <Property Name="docid" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="MonthlyTargets" Relationship="ERPModel.FK_MonthlyTarget_Vendor" FromRole="Vendor" ToRole="MonthlyTarget" />
-          <NavigationProperty Name="EMIs" Relationship="ERPModel.FK_EMI_Vendor" FromRole="Vendor" ToRole="EMI" />
-          <NavigationProperty Name="LCInfoes" Relationship="ERPModel.FK_LCInfo_Vendor" FromRole="Vendor" ToRole="LCInfo" />
-          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Supplier" FromRole="Vendor" ToRole="OrderMaster" />
-          <NavigationProperty Name="Payments" Relationship="ERPModel.FK_Payment_Vendor" FromRole="Vendor" ToRole="Payment" />
-          <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="Vendor" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Vendor_Region" FromRole="Vendor" ToRole="Region" />
-          <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
-          <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Vendor" FromRole="Vendor" ToRole="Store" />
-          <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
-          <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="Vendor" ToRole="PurchaseReturn" />
-          <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
-        </EntityType>
-        <Association Name="FK_MonthlyTarget_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.MonthlyTarget" Role="MonthlyTarget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="MonthlyTarget">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EMI_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.EMI" Role="EMI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="EMI">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LCInfo_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
-          <End Type="ERPModel.LCInfo" Role="LCInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="LCInfo">
-              <PropertyRef Name="SupplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderMaster_Supplier">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Payment_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
-          <End Type="ERPModel.Payment" Role="Payment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="Payment">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrder_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="SupplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Vendor_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SaleReturn_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.SaleReturn" Role="SaleReturn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="SaleReturn">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Store_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.Store" Role="Store" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="Store">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VendorOffer_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
-          <End Type="ERPModel.VendorOffer" Role="VendorOffer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="VendorOffer">
-              <PropertyRef Name="VendorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18489,9 +18350,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="IsSubmited" Type="Boolean" Nullable="false" />
           <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseReturn_StockInfo" FromRole="PurchaseReturn" ToRole="StockInfo" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="PurchaseReturn" ToRole="Vendor" />
           <NavigationProperty Name="PurchaseReturnDetails" Relationship="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" FromRole="PurchaseReturn" ToRole="PurchaseReturnDetail" />
           <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="PurchaseReturn" ToRole="MaterialReceive" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="PurchaseReturn" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="PurchaseReturnDetail">
           <Key>
@@ -18529,18 +18390,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="PurchaseReturn">
               <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseReturn_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="PurchaseReturn">
-              <PropertyRef Name="SupplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18747,8 +18596,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Voucher" Relationship="ERPModel.FK_VendorOpening_Voucher" FromRole="VendorOpening" ToRole="Voucher" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="VendorOpening" ToRole="Vendor" />
           <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorOpening" ToRole="VendorType" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="VendorOpening" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_VendorOpening_Voucher">
           <End Type="ERPModel.Voucher" Role="Voucher" Multiplicity="0..1" />
@@ -18759,18 +18608,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="VendorOpening">
               <PropertyRef Name="VoucherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VendorOpening_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
-          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="VendorOpening">
-              <PropertyRef Name="VendorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18943,6 +18780,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Area_Employee" FromRole="Area" ToRole="Employee" />
           <NavigationProperty Name="Region" Relationship="ERPModel.FK_Area_Region" FromRole="Area" ToRole="Region" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Area_Zone" FromRole="Area" ToRole="Zone" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Area" FromRole="Area" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_Area_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -18989,6 +18827,272 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Area">
               <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HeadGLId" Type="Int32" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="UpazilaId" Type="Int32" />
+          <Property Name="CustomerType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="VendorTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ZoneId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="AreaId" Type="Int32" />
+          <Property Name="SubZoneId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContactName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="OpeningBalance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDue" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LastPaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="BusinessAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DistrictName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="UpazilaName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ThanaName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NomineeName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NomineePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NomineeImageUrl" Type="String" MaxLength="312" FixedLength="false" Unicode="false" />
+          <Property Name="NomineeNID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NomineeRelation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="312" FixedLength="false" Unicode="false" />
+          <Property Name="MonthlyTarget" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="YearlyTarget" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditRatioFrom" Type="Int32" Nullable="false" />
+          <Property Name="CreditRatioTo" Type="Int32" Nullable="false" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditCommission" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MonthlyIncentive" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="YearlyIncentive" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClosingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Condition" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="NID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="BIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfCheck" Type="Int32" />
+          <Property Name="CheckNo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="GuarantorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GurantorAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GurantorMobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="IsForeign" Type="Boolean" Nullable="false" />
+          <Property Name="CustomerTypeFK" Type="Int32" Nullable="false" />
+          <Property Name="SecurityAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CustomerStatus" Type="Int32" />
+          <Property Name="Propietor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ACName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ACNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VendorReferenceId" Type="Int32" Nullable="false" />
+          <Property Name="DocId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="MonthlyTargets" Relationship="ERPModel.FK_MonthlyTarget_Vendor" FromRole="Vendor" ToRole="MonthlyTarget" />
+          <NavigationProperty Name="Area" Relationship="ERPModel.FK_Vendor_Area" FromRole="Vendor" ToRole="Area" />
+          <NavigationProperty Name="EMIs" Relationship="ERPModel.FK_EMI_Vendor" FromRole="Vendor" ToRole="EMI" />
+          <NavigationProperty Name="LCInfoes" Relationship="ERPModel.FK_LCInfo_Vendor" FromRole="Vendor" ToRole="LCInfo" />
+          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Supplier" FromRole="Vendor" ToRole="OrderMaster" />
+          <NavigationProperty Name="Payments" Relationship="ERPModel.FK_Payment_Vendor" FromRole="Vendor" ToRole="Payment" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="Vendor" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="Vendor" ToRole="PurchaseReturn" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Vendor_Region" FromRole="Vendor" ToRole="Region" />
+          <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
+          <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Vendor" FromRole="Vendor" ToRole="Store" />
+          <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="Vendor" ToRole="SubZone" />
+          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Vendor" ToRole="Zone" />
+          <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
+          <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
+        </EntityType>
+        <Association Name="FK_MonthlyTarget_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.MonthlyTarget" Role="MonthlyTarget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="MonthlyTarget">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Area">
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMI_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.EMI" Role="EMI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="EMI">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LCInfo_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.LCInfo" Role="LCInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="LCInfo">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMaster_Supplier">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="OrderMaster">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseReturn_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="PurchaseReturn">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SaleReturn_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.SaleReturn" Role="SaleReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="SaleReturn">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_SubZone">
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubZone">
+              <PropertyRef Name="SubZoneId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="SubZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Zone">
+          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorOffer_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.VendorOffer" Role="VendorOffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="VendorOffer">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorOpening_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="VendorOpening">
+              <PropertyRef Name="VendorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -24243,77 +24347,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="ERPModel.Vendor">
-              <MappingFragment StoreEntitySet="Vendor">
-                <ScalarProperty Name="docid" ColumnName="docid" />
-                <ScalarProperty Name="VendorReferenceId" ColumnName="VendorReferenceId" />
-                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
-                <ScalarProperty Name="BankName" ColumnName="BankName" />
-                <ScalarProperty Name="ACNo" ColumnName="ACNo" />
-                <ScalarProperty Name="ACName" ColumnName="ACName" />
-                <ScalarProperty Name="Propietor" ColumnName="Propietor" />
-                <ScalarProperty Name="CustomerStatus" ColumnName="CustomerStatus" />
-                <ScalarProperty Name="SecurityAmount" ColumnName="SecurityAmount" />
-                <ScalarProperty Name="CustomerTypeFK" ColumnName="CustomerTypeFK" />
-                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
-                <ScalarProperty Name="GurantorMobileNo" ColumnName="GurantorMobileNo" />
-                <ScalarProperty Name="GurantorAddress" ColumnName="GurantorAddress" />
-                <ScalarProperty Name="GuarantorName" ColumnName="GuarantorName" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CheckNo" ColumnName="CheckNo" />
-                <ScalarProperty Name="NoOfCheck" ColumnName="NoOfCheck" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="BIN" ColumnName="BIN" />
-                <ScalarProperty Name="NID" ColumnName="NID" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Condition" ColumnName="Condition" />
-                <ScalarProperty Name="ClosingTime" ColumnName="ClosingTime" />
-                <ScalarProperty Name="YearlyIncentive" ColumnName="YearlyIncentive" />
-                <ScalarProperty Name="MonthlyIncentive" ColumnName="MonthlyIncentive" />
-                <ScalarProperty Name="CreditCommission" ColumnName="CreditCommission" />
-                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
-                <ScalarProperty Name="CreditRatioTo" ColumnName="CreditRatioTo" />
-                <ScalarProperty Name="CreditRatioFrom" ColumnName="CreditRatioFrom" />
-                <ScalarProperty Name="YearlyTarget" ColumnName="YearlyTarget" />
-                <ScalarProperty Name="MonthlyTarget" ColumnName="MonthlyTarget" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="NomineeRelation" ColumnName="NomineeRelation" />
-                <ScalarProperty Name="NomineeNID" ColumnName="NomineeNID" />
-                <ScalarProperty Name="NomineeImageUrl" ColumnName="NomineeImageUrl" />
-                <ScalarProperty Name="NomineePhone" ColumnName="NomineePhone" />
-                <ScalarProperty Name="NomineeName" ColumnName="NomineeName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="ThanaName" ColumnName="ThanaName" />
-                <ScalarProperty Name="UpazilaName" ColumnName="UpazilaName" />
-                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
-                <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
-                <ScalarProperty Name="PaymentDue" ColumnName="PaymentDue" />
-                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SubZoneId" ColumnName="SubZoneId" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
-                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
-                <ScalarProperty Name="UpazilaId" ColumnName="UpazilaId" />
-                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
-                <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SaleSettings">
             <EntityTypeMapping TypeName="ERPModel.SaleSetting">
               <MappingFragment StoreEntitySet="SaleSetting">
@@ -24522,6 +24555,78 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />
                 <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
                 <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="ERPModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="DocId" ColumnName="DocId" />
+                <ScalarProperty Name="VendorReferenceId" ColumnName="VendorReferenceId" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="ACNo" ColumnName="ACNo" />
+                <ScalarProperty Name="ACName" ColumnName="ACName" />
+                <ScalarProperty Name="Propietor" ColumnName="Propietor" />
+                <ScalarProperty Name="CustomerStatus" ColumnName="CustomerStatus" />
+                <ScalarProperty Name="SecurityAmount" ColumnName="SecurityAmount" />
+                <ScalarProperty Name="CustomerTypeFK" ColumnName="CustomerTypeFK" />
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="GurantorMobileNo" ColumnName="GurantorMobileNo" />
+                <ScalarProperty Name="GurantorAddress" ColumnName="GurantorAddress" />
+                <ScalarProperty Name="GuarantorName" ColumnName="GuarantorName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CheckNo" ColumnName="CheckNo" />
+                <ScalarProperty Name="NoOfCheck" ColumnName="NoOfCheck" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="BIN" ColumnName="BIN" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+                <ScalarProperty Name="ClosingTime" ColumnName="ClosingTime" />
+                <ScalarProperty Name="YearlyIncentive" ColumnName="YearlyIncentive" />
+                <ScalarProperty Name="MonthlyIncentive" ColumnName="MonthlyIncentive" />
+                <ScalarProperty Name="CreditCommission" ColumnName="CreditCommission" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="CreditRatioTo" ColumnName="CreditRatioTo" />
+                <ScalarProperty Name="CreditRatioFrom" ColumnName="CreditRatioFrom" />
+                <ScalarProperty Name="YearlyTarget" ColumnName="YearlyTarget" />
+                <ScalarProperty Name="MonthlyTarget" ColumnName="MonthlyTarget" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="NomineeRelation" ColumnName="NomineeRelation" />
+                <ScalarProperty Name="NomineeNID" ColumnName="NomineeNID" />
+                <ScalarProperty Name="NomineeImageUrl" ColumnName="NomineeImageUrl" />
+                <ScalarProperty Name="NomineePhone" ColumnName="NomineePhone" />
+                <ScalarProperty Name="NomineeName" ColumnName="NomineeName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ThanaName" ColumnName="ThanaName" />
+                <ScalarProperty Name="UpazilaName" ColumnName="UpazilaName" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
+                <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
+                <ScalarProperty Name="PaymentDue" ColumnName="PaymentDue" />
+                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SubZoneId" ColumnName="SubZoneId" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+                <ScalarProperty Name="UpazilaId" ColumnName="UpazilaId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

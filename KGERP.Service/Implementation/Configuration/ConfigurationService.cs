@@ -1610,7 +1610,7 @@ namespace KGERP.Service.Implementation.Configuration
             return selectModelList;
         }
 
-        public async Task<VMCommonSubZone> GetSubZones(int companyId, int zoneId = 0)
+        public async Task<VMCommonSubZone> GetSubZones(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0)
         {
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
             vmCommonSubZone.CompanyFK = companyId;
@@ -1618,8 +1618,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                              join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
                                                              join t3 in _db.Regions on t1.RegionId equals t3.RegionId into t3_Join
                                                              from t3 in t3_Join.DefaultIfEmpty()
+                                                             join t4 in _db.Areas on t1.AreaId equals t4.AreaId into t4_Join
+                                                             from t4 in t4_Join.DefaultIfEmpty()
                                                              where t1.IsActive == true && t1.CompanyId == companyId
-                                                             && (zoneId > 0 ? t1.ZoneId == zoneId : t1.SubZoneId > 0)
+                                                             && (zoneId > 0 && regionId > 0 && areaId > 0 ? t1.ZoneId == zoneId && t1.RegionId == regionId && t1.AreaId == areaId : t1.SubZoneId > 0)
                                                              select new VMCommonSubZone
                                                              {
                                                                  ID = t1.SubZoneId,
@@ -1627,6 +1629,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                  ZoneName = t2.Name,
                                                                  RegionId = t1.RegionId,
                                                                  RegionName = t3.Name,
+                                                                 AreaId = t1.AreaId,
+                                                                 AreaName = t4.Name,
                                                                  Name = t1.Name,
                                                                  Code = t1.Code,
                                                                  SalesOfficerName = t1.SalesOfficerName,
@@ -1654,6 +1658,7 @@ namespace KGERP.Service.Implementation.Configuration
                 MobilePersonal = vmCommonSubZone.MobilePersonal,
                 ZoneId = vmCommonSubZone.ZoneId,
                 RegionId = vmCommonSubZone.RegionId,
+                AreaId = vmCommonSubZone.AreaId,
                 EmployeeId = vmCommonSubZone.EmployeeId,
                 CompanyId = vmCommonSubZone.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -1767,6 +1772,7 @@ namespace KGERP.Service.Implementation.Configuration
             SubZone subZone = await _db.SubZones.FindAsync(vmCommonSubZone.ID);
             subZone.ZoneId = vmCommonSubZone.ZoneId;
             subZone.RegionId = vmCommonSubZone.RegionId;
+            subZone.AreaId = vmCommonSubZone.AreaId;
             subZone.Name = vmCommonSubZone.Name;
             //subZone.Code = vmCommonSubZone.Code; // Don't use code, it will add form Head5
             subZone.SalesOfficerName = vmCommonSubZone.SalesOfficerName;
@@ -1986,7 +1992,7 @@ namespace KGERP.Service.Implementation.Configuration
             return list;
         }
 
-        public List<SelectModel> GetAreaSelectList(int companyId, int? zoneId)
+        public List<SelectModel> GetAreaSelectList(int companyId, int? zoneId, int? regionId)
         {
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel
@@ -1996,7 +2002,17 @@ namespace KGERP.Service.Implementation.Configuration
             };
             selectModelList.Add(selectModel);
 
-            if (zoneId.HasValue && zoneId > 0)
+            if (zoneId.HasValue && zoneId > 0 && regionId > 0)
+            {
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.RegionId == regionId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.AreaId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else if (zoneId.HasValue && zoneId > 0)
             {
                 var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
@@ -2028,7 +2044,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                           join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
                                                           join t3 in _db.Regions on t1.RegionId equals t3.RegionId
                                                           where t1.IsActive == true && t1.CompanyId == companyId
-                                                          && (zoneId > 0 && regionId>0 ? t1.ZoneId == zoneId && t1.RegionId==regionId : t1.AreaId > 0)
+                                                          && (zoneId > 0 && regionId > 0 ? t1.ZoneId == zoneId && t1.RegionId == regionId : t1.AreaId > 0)
                                                           select new VMCommonArea
                                                           {
                                                               ID = t1.AreaId,

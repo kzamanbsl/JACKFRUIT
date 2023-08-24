@@ -354,15 +354,15 @@ namespace KGERP.Controllers
         #region Common Area
 
         [HttpGet]
-        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0)
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0,int regionId=0)
         {
-            var model = await Task.Run(() => _service.GetRegionSelectList(companyId, zoneId));
+            var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, regionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int regionId=0)
+        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int regionId = 0)
         {
 
             VMCommonArea vmCommonArea = new VMCommonArea();
@@ -399,7 +399,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, regionId=vmCommonArea.RegionId });
+            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, regionId = vmCommonArea.RegionId });
         }
 
 
@@ -410,19 +410,20 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int regionId = 0)
         {
-            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId,regionId));
+            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, regionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int regionId=0)
+        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0)
         {
 
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
-            vmCommonSubZone = await Task.Run(() => _service.GetSubZones(companyId, zoneId));
+            vmCommonSubZone = await Task.Run(() => _service.GetSubZones(companyId, zoneId, regionId, areaId));
             vmCommonSubZone.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonSubZone.RegionList = _service.GetRegionSelectList(companyId, zoneId);
+            vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, regionId);
             vmCommonSubZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
             return View(vmCommonSubZone);
         }
@@ -450,7 +451,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId });
+            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId=vmCommonSubZone.RegionId, areaId=vmCommonSubZone.AreaId });
         }
 
         #endregion
@@ -1091,7 +1092,7 @@ namespace KGERP.Controllers
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
-            
+
             return View(vmCommonSupplier);
         }
 
@@ -1156,125 +1157,6 @@ namespace KGERP.Controllers
             return View(vmCommonCustomer);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> RSCommonCustomerBooking(int companyId, int vendorId = 0, int productSubCategoryId = 0)
-        {
-            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            if (vendorId > 0)
-            {
-                vmCommonCustomer = await Task.Run(() => _service.RSGetCustomerBooking(companyId, vendorId));
-            }
-            else
-            {
-                vmCommonCustomer = await Task.Run(() => _service.RSGetCustomerBookingProductCategories(companyId, productSubCategoryId));
-
-            }
-            return View(vmCommonCustomer);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> RSCommonCustomerGroup(int companyId, int vendorId)
-        {
-            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.RSGetCustomerGroup(companyId, vendorId));
-            vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
-            vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
-            vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
-            vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
-
-            return View(vmCommonCustomer);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> DeleteVendorImageFile(long docId)
-        {
-            var result = await _ftpService.DeletePermanentlyVendor(docId);
-            return Json(result);
-        }
-
-
-        [HttpPost]
-        public async Task<ActionResult> RSCommonCustomerGroup(VMCommonSupplier vmCommonCustomer, HttpPostedFileBase file)
-        {
-
-            List<FileItem> itemList = new List<FileItem>();
-            if (file != null)
-            {
-                FileItem item = new FileItem();
-                item.file = file;
-                item.docdesc = "Vendor Photo";
-                item.docfilename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                item.docid = 0;
-                item.FileCatagoryId = 4;
-                item.fileext = Path.GetExtension(file.FileName);
-                item.isactive = true;
-                item.RecDate = DateTime.Now;
-                item.SortOrder = 1;
-                item.userid = Convert.ToInt32(Session["Id"]);
-                itemList.Add(item);
-                itemList = await _ftpService.UploadFileBulk(itemList, "VendorImage");
-                if (file != null)
-                {
-                    var res = itemList.FirstOrDefault(f => f.SortOrder == 1);
-                    vmCommonCustomer.ImageDocId = res.docid;
-                }
-            }
-
-            if (vmCommonCustomer.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                var res = await _service.RSCustomerGroupAdd(vmCommonCustomer);
-            }
-            else if (vmCommonCustomer.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                await _service.RSCustomerGroupEdit(vmCommonCustomer);
-            }
-            else if (vmCommonCustomer.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                await _service.CustomerDelete(vmCommonCustomer.ID);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(RSCommonCustomerGroup), new { companyId = vmCommonCustomer.CompanyFK, vendorId = vmCommonCustomer.VendorReferenceId });
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int subZoneId = 0)
-        {
-            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
-            vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
-            vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
-            vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
-            vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
-            vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId,zoneId), "Value", "Text");
-            vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
-            return View(vmCommonCustomer);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> CommonFeedCustomer(int companyId, int zoneId = 0, int? subZoneId = 0)
-        {
-
-            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetFeedCustomer(companyId, zoneId));
-            vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
-            vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
-            vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
-            vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
-            vmCommonCustomer.NomineeRelationList = new SelectList(_service.CommonRelationList(), "Value", "Text");
-            vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
-
-
-            return View(vmCommonCustomer);
-        }
-
         [HttpPost]
         public async Task<ActionResult> RSCommonCustomer(VMCommonSupplier vmCommonCustomer, HttpPostedFileBase file)
         {
@@ -1324,6 +1206,117 @@ namespace KGERP.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<ActionResult> RSCommonCustomerBooking(int companyId, int vendorId = 0, int productSubCategoryId = 0)
+        {
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            if (vendorId > 0)
+            {
+                vmCommonCustomer = await Task.Run(() => _service.RSGetCustomerBooking(companyId, vendorId));
+            }
+            else
+            {
+                vmCommonCustomer = await Task.Run(() => _service.RSGetCustomerBookingProductCategories(companyId, productSubCategoryId));
+
+            }
+            return View(vmCommonCustomer);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RSCommonCustomerGroup(int companyId, int vendorId)
+        {
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            vmCommonCustomer = await Task.Run(() => _service.RSGetCustomerGroup(companyId, vendorId));
+            vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
+            vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
+            vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
+            vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
+
+            return View(vmCommonCustomer);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RSCommonCustomerGroup(VMCommonSupplier vmCommonCustomer, HttpPostedFileBase file)
+        {
+
+            List<FileItem> itemList = new List<FileItem>();
+            if (file != null)
+            {
+                FileItem item = new FileItem();
+                item.file = file;
+                item.docdesc = "Vendor Photo";
+                item.docfilename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                item.docid = 0;
+                item.FileCatagoryId = 4;
+                item.fileext = Path.GetExtension(file.FileName);
+                item.isactive = true;
+                item.RecDate = DateTime.Now;
+                item.SortOrder = 1;
+                item.userid = Convert.ToInt32(Session["Id"]);
+                itemList.Add(item);
+                itemList = await _ftpService.UploadFileBulk(itemList, "VendorImage");
+                if (file != null)
+                {
+                    var res = itemList.FirstOrDefault(f => f.SortOrder == 1);
+                    vmCommonCustomer.ImageDocId = res.docid;
+                }
+            }
+
+            if (vmCommonCustomer.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                var res = await _service.RSCustomerGroupAdd(vmCommonCustomer);
+            }
+            else if (vmCommonCustomer.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.RSCustomerGroupEdit(vmCommonCustomer);
+            }
+            else if (vmCommonCustomer.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.CustomerDelete(vmCommonCustomer.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(RSCommonCustomerGroup), new { companyId = vmCommonCustomer.CompanyFK, vendorId = vmCommonCustomer.VendorReferenceId });
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult> CommonFeedCustomer(int companyId, int zoneId = 0, int? subZoneId = 0)
+        {
+
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            vmCommonCustomer = await Task.Run(() => _service.GetFeedCustomer(companyId, zoneId));
+            vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
+            vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
+            vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
+            vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
+            vmCommonCustomer.NomineeRelationList = new SelectList(_service.CommonRelationList(), "Value", "Text");
+            vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+
+
+            return View(vmCommonCustomer);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int subZoneId = 0)
+        {
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
+            vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
+            vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
+            vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
+            vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
+            vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            return View(vmCommonCustomer);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CommonCustomer(VMCommonSupplier vmCommonCustomer)
         {
@@ -1358,6 +1351,15 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonCustomer), new { companyId = vmCommonCustomer.CompanyFK });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> CommonCustomerByID(int customerId)
+        {
+
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            vmCommonCustomer = await Task.Run(() => _service.GetCustomerBuID(customerId));
+            return View(vmCommonCustomer);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CommonCustomerDelete(VMCommonCustomer vmCommonCustomer)
         {
@@ -1374,14 +1376,13 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonCustomer));
         }
 
-        [HttpGet]
-        public async Task<ActionResult> CommonCustomerByID(int customerId)
+        [HttpPost]
+        public async Task<JsonResult> DeleteVendorImageFile(long docId)
         {
-
-            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetCustomerBuID(customerId));
-            return View(vmCommonCustomer);
+            var result = await _ftpService.DeletePermanentlyVendor(docId);
+            return Json(result);
         }
+
         #endregion
 
         #region Geolocation
@@ -1658,7 +1659,7 @@ namespace KGERP.Controllers
         }
 
         #endregion
-        
+
 
         #region Common Raw Product Category
 
@@ -1696,7 +1697,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(ProductCategoryProject), new { companyId = vmProductCategoryProject.CompanyFK, productType = vmProductCategoryProject.ProductType });
         }
-        
+
         #endregion
 
         #region Common Raw Product SubCategory

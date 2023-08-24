@@ -14,6 +14,12 @@ namespace KGERP.Data.Models
     
     public partial class Area
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Area()
+        {
+            this.Vendors = new HashSet<Vendor>();
+        }
+    
         public int AreaId { get; set; }
         public int ZoneId { get; set; }
         public int RegionId { get; set; }
@@ -37,5 +43,7 @@ namespace KGERP.Data.Models
         public virtual Employee Employee { get; set; }
         public virtual Region Region { get; set; }
         public virtual Zone Zone { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vendor> Vendors { get; set; }
     }
 }

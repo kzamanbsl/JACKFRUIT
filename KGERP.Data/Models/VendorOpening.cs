@@ -29,7 +29,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
     
         public virtual Voucher Voucher { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual VendorType VendorType { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }
