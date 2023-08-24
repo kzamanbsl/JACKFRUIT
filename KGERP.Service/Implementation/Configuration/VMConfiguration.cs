@@ -275,6 +275,7 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
 
+        public SelectList DeportList { get; set; } = new SelectList(new List<object>());
         public SelectList CountryList { get; set; } = new SelectList(new List<object>());
         public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList DistrictList { get; set; } = new SelectList(new List<object>());

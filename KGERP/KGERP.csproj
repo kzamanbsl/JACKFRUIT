@@ -5568,6 +5568,8 @@
     <Content Include="Views\Configuration\CommonArea.cshtml" />
     <Content Include="Views\Configuration\CommonDeport.cshtml" />
     <Content Include="Views\Configuration\CommonDeportById.cshtml" />
+    <Content Include="Views\Configuration\CommonDealer.cshtml" />
+    <Content Include="Views\Configuration\CommonDealerById.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

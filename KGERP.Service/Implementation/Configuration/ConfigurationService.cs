@@ -2505,7 +2505,16 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return list;
         }
-
+        public List<object> CommonDeportDropDownList()
+        {
+            var list = new List<object>();
+            var v = _db.Vendors.Where(c=>c.VendorTypeId== (int)Provider.Deport && c.IsActive==true).ToList();
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.VendorId });
+            }
+            return list;
+        }
         public List<object> CommonCustomerPaymentType()
         {
             var list = new List<object>();
@@ -4407,6 +4416,291 @@ namespace KGERP.Service.Implementation.Configuration
                 if (await _db.SaveChangesAsync() > 0)
                 {
                     result = commonDeport.VendorId;
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region Common Dealer
+
+        public async Task<VMCommonSupplier> GetDealerById(int deportId)
+        {
+            VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            vmCommonDealer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.VendorId == deportId)
+                                                   join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
+                                                   join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
+                                                   //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
+                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
+                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
+                                                   select new VMCommonSupplier
+                                                   {
+                                                       ID = t1.VendorId,
+                                                       Name = t1.Name,
+                                                       Email = t1.Email,
+                                                       ContactPerson = t1.ContactName,
+                                                       Address = t1.Address,
+                                                       Code = t1.Code,
+                                                       Common_DistrictsFk = t2.DistrictId,
+                                                       Common_UpazilasFk = t1.UpazilaId.Value,
+                                                       District = t3.Name,
+                                                       Upazila = t2.Name,
+                                                       //Country = t4.Name,
+                                                       CreatedBy = t1.CreatedBy,
+                                                       // Division = t4.Name,
+                                                       Remarks = t1.Remarks,
+                                                       CompanyFK = t1.CompanyId,
+                                                       Phone = t1.Phone,
+                                                       ZoneName = t5.Name,
+                                                       ZoneIncharge = t6.ZoneIncharge,
+                                                       CreditLimit = t1.CreditLimit,
+                                                       NID = t1.NID,
+                                                       CustomerTypeFk = t1.CustomerTypeFK,
+                                                       VendorTypeId = t1.VendorTypeId,
+                                                       ParentId = t1.ParentId
+                                                   }).FirstOrDefault());
+
+
+
+            return vmCommonDealer;
+        }
+        public VMCommonSupplier GetCommonDealerById(int id)
+        {
+            var v = (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Dealer && x.VendorId == id)
+                     join t2 in _db.SubZones on t1.SubZoneId equals t2.SubZoneId into t2_def
+                     from t2 in t2_def.DefaultIfEmpty()
+                     join t3 in _db.Upazilas on t1.UpazilaId equals t3.UpazilaId into t3_def
+                     from t3 in t3_def.DefaultIfEmpty()
+                     join t4 in _db.Districts on t3.DistrictId equals t4.DistrictId into t4_def
+                     from t4 in t4_def.DefaultIfEmpty()
+                     join t5 in _db.Regions on t1.RegionId equals t5.RegionId into t5_def
+                     from t5 in t5_def.DefaultIfEmpty()
+
+                     select new VMCommonSupplier
+                     {
+                         ID = t1.VendorId,
+                         Name = t1.Name,
+                         Email = t1.Email,
+                         Phone = t1.Phone,
+                         CompanyFK = t1.CompanyId,
+                         SubZoneId = t1.SubZoneId.Value,
+                         CustomerTypeFk = t1.CustomerTypeFK,
+                         ZoneId = t2.ZoneId,
+                         RegionId = t1.RegionId,
+                         Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
+                         Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
+                         Common_UpazilasFk = t3.UpazilaId > 0 ? t3.UpazilaId : 0,
+                         ContactPerson = t1.ContactName,
+                         Address = t1.Address,
+                         Code = t1.Code,
+                         CreatedBy = t1.CreatedBy,
+                         Remarks = t1.Remarks,
+                         IsForeign = t1.IsForeign,
+                         CreditLimit = t1.CreditLimit,
+                         NID = t1.NID,
+                         SecurityAmount = t1.SecurityAmount,
+                         CustomerStatus = t1.CustomerStatus ?? 1,
+                         Propietor = t1.Propietor,
+                         PaymentType = t1.CustomerType,
+                         ParentId = t1.ParentId
+
+                     }).FirstOrDefault();
+            return v;
+        }
+        public async Task<VMCommonSupplier> GetDealer(int companyId, int zoneId, int subZoneId)
+        {
+            VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            vmCommonDealer.CompanyFK = companyId;
+            vmCommonDealer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.CompanyId == companyId)
+                                                            join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
+                                                            from t2 in t2_def.DefaultIfEmpty()
+                                                            join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
+                                                            from t3 in t3_def.DefaultIfEmpty()
+                                                            join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
+                                                            from t4 in t4_def.DefaultIfEmpty()
+                                                            join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                            from t5 in t5_def.DefaultIfEmpty()
+                                                            join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                            from t6 in t6_def.DefaultIfEmpty()
+                                                            join t7 in _db.Regions on t1.RegionId equals t7.RegionId into t7_def
+                                                            from t7 in t7_def.DefaultIfEmpty()
+                                                            join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
+                                                            from t8 in t8_def.DefaultIfEmpty()
+                                                            join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
+                                                            from t9 in t9_def.DefaultIfEmpty()
+
+                                                            where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
+                                                                     (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
+                                                              t1.ZoneId > 0)
+                                                            select new VMCommonSupplier
+                                                            {
+                                                                ID = t1.VendorId,
+                                                                Name = t1.Name,
+                                                                Email = t1.Email,
+                                                                ContactPerson = t1.ContactName,
+                                                                Address = t1.Address,
+                                                                Code = t1.Code,
+                                                                Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                                Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                                District = t3.Name,
+                                                                Upazila = t2.Name,
+                                                                Division = t4.Name,
+                                                                Country = t8.CountryName,
+                                                                CreatedBy = t1.CreatedBy,
+                                                                Remarks = t1.Remarks,
+                                                                CompanyFK = t1.CompanyId,
+                                                                Phone = t1.Phone,
+                                                                ZoneId = t1.ZoneId ?? 0,
+                                                                RegionId = t1.RegionId,
+                                                                RegionName = t7.Name,
+                                                                SubZoneId = t1.SubZoneId ?? 0,
+                                                                SubZoneName = t5.Name,
+                                                                ZoneName = t6.Name + " " + t5.Name,
+                                                                ZoneIncharge = t6.ZoneIncharge,
+                                                                CreditLimit = t1.CreditLimit,
+                                                                NID = t1.NID,
+                                                                CustomerTypeFk = t1.CustomerTypeFK,
+                                                                SecurityAmount = t1.SecurityAmount,
+                                                                CustomerStatus = t1.CustomerStatus ?? 1,
+                                                                PaymentType = t1.CustomerType,
+                                                                Propietor = t1.Propietor,
+                                                                ParentId = t1.ParentId
+                                                            }).OrderByDescending(x => x.ID).AsEnumerable());
+
+
+
+            return vmCommonDealer;
+        }
+        public async Task<int> DealerAdd(VMCommonSupplier vmCommonDealer)
+        {
+            var result = -1;
+            #region Genarate Dealer code
+            int totalDealer = _db.Vendors.Count(x => x.VendorTypeId == (int)Provider.Dealer && x.CompanyId == vmCommonDealer.CompanyFK);
+
+            if (totalDealer == 0)
+            {
+                totalDealer = 1;
+            }
+            else
+            {
+                totalDealer++;
+            }
+
+            var newString = totalDealer.ToString().PadLeft(4, '0');
+            #endregion
+
+            Vendor commonDealer = new Vendor
+            {
+                Name = vmCommonDealer.Name,
+                Phone = vmCommonDealer.Phone,
+                Email = vmCommonDealer.Email,
+
+                DistrictId = vmCommonDealer.Common_DistrictsFk,
+                UpazilaId = vmCommonDealer.Common_UpazilasFk,
+                ZoneId = vmCommonDealer.ZoneId,
+                RegionId = vmCommonDealer.RegionId,
+                AreaId = vmCommonDealer.AreaId,
+                SubZoneId = vmCommonDealer.SubZoneId,
+                Address = vmCommonDealer.Address,
+
+                ContactName = vmCommonDealer.ContactPerson,
+                VendorTypeId = (int)Provider.Dealer,
+
+                CreditLimit = vmCommonDealer.CreditLimit,
+                SecurityAmount = vmCommonDealer.SecurityAmount,
+                CustomerTypeFK = vmCommonDealer.CustomerTypeFk,
+                CompanyId = vmCommonDealer.CompanyFK.Value,
+
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+
+
+                CustomerStatus = vmCommonDealer.CustomerStatus,
+                Propietor = vmCommonDealer.Propietor,
+                NID = vmCommonDealer.NID,
+                BusinessAddress = vmCommonDealer.BusinessAddress,
+                CustomerType = vmCommonDealer.PaymentType,
+                IsActive = true,
+                CreditRatioFrom = 0,
+                CreditRatioTo = 0,
+                IsForeign = false,
+
+                NomineeName = vmCommonDealer.NomineeName,
+                NomineePhone = vmCommonDealer.NomineePhone,
+                NomineeRelation = vmCommonDealer.NomineeRelation,
+                NomineeNID = vmCommonDealer.NomineeNID,
+                ParentId=vmCommonDealer.ParentId
+
+            };
+            _db.Vendors.Add(commonDealer);
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = commonDealer.VendorId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> DealerEdit(VMCommonSupplier vmCommonDealer)
+        {
+            var result = -1;
+
+            Vendor commonDealer = await _db.Vendors.FindAsync(vmCommonDealer.ID);
+
+            commonDealer.Name = vmCommonDealer.Name;
+            commonDealer.Phone = vmCommonDealer.Phone;
+            commonDealer.Email = vmCommonDealer.Email;
+            commonDealer.NID = vmCommonDealer.NID;
+
+            commonDealer.DistrictId = vmCommonDealer.Common_DistrictsFk;
+            commonDealer.UpazilaId = vmCommonDealer.Common_UpazilasFk;
+            commonDealer.ZoneId = vmCommonDealer.ZoneId;
+            commonDealer.RegionId = vmCommonDealer.RegionId;
+            commonDealer.AreaId = vmCommonDealer.AreaId;
+            commonDealer.SubZoneId = vmCommonDealer.SubZoneId;
+            commonDealer.Address = vmCommonDealer.Address;
+
+            commonDealer.SecurityAmount = vmCommonDealer.SecurityAmount;
+            commonDealer.CreditLimit = vmCommonDealer.CreditLimit;
+
+            commonDealer.Remarks = vmCommonDealer.Remarks;
+            commonDealer.CompanyId = vmCommonDealer.CompanyFK.Value;
+            commonDealer.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            commonDealer.ModifiedDate = DateTime.Now;
+            commonDealer.ContactName = vmCommonDealer.ContactPerson;
+            commonDealer.CustomerTypeFK = vmCommonDealer.CustomerTypeFk;
+
+            commonDealer.CustomerStatus = vmCommonDealer.CustomerStatus;
+            commonDealer.Propietor = vmCommonDealer.Propietor;
+            commonDealer.NomineeName = vmCommonDealer.NomineeName;
+            commonDealer.NomineePhone = vmCommonDealer.NomineePhone;
+
+            commonDealer.BusinessAddress = vmCommonDealer.BusinessAddress;
+            commonDealer.NomineeNID = vmCommonDealer.NomineeNID;
+            commonDealer.NomineeRelation = vmCommonDealer.NomineeRelation;
+            commonDealer.ParentId = vmCommonDealer.ParentId;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = commonDealer.VendorId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> DealerDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                Vendor commonDealer = await _db.Vendors.FindAsync(id);
+                commonDealer.IsActive = false;
+                commonDealer.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                commonDealer.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = commonDealer.VendorId;
                 }
             }
             return result;

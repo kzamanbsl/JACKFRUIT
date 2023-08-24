@@ -1449,6 +1449,69 @@ namespace KGERP.Controllers
         }
         #endregion
 
+        #region Common Dealer
+
+        [HttpGet]
+        public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
+        {
+            VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            vmCommonDealer = await Task.Run(() => _service.GetDealer(companyId, zoneId, subZoneId));
+            vmCommonDealer.DeportList = new SelectList(_service.CommonDeportDropDownList(), "Value", "Text");
+            vmCommonDealer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
+            vmCommonDealer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
+            vmCommonDealer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
+            vmCommonDealer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
+            vmCommonDealer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonDealer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonDealer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, regionId), "Value", "Text");
+            vmCommonDealer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            return View(vmCommonDealer);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonDealer(VMCommonSupplier vmCommonDealer)
+        {
+
+            if (vmCommonDealer.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                await _service.DealerAdd(vmCommonDealer);
+            }
+            else if (vmCommonDealer.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.DealerEdit(vmCommonDealer);
+            }
+            else if (vmCommonDealer.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.DealerDelete(vmCommonDealer.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction(nameof(CommonDealer), new { companyId = vmCommonDealer.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonDealerById(int deportId)
+        {
+
+            VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            vmCommonDealer = await Task.Run(() => _service.GetDealerById(deportId));
+            return View(vmCommonDealer);
+        }
+
+        [HttpGet]
+        public JsonResult CommonDealerByIdGet(int id)
+        {
+            var model = _service.GetCommonDealerById(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         #region Geolocation
 
         public async Task<ActionResult> CommonDivisions()
