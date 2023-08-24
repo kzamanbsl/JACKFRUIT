@@ -281,7 +281,7 @@ namespace KGERP.Service.Implementation.FTP
 
         public async Task<bool> DeletePermanentlyVendor(long docid)
         {
-            Vendor vendor = await context.Vendors.FirstOrDefaultAsync(d => d.docid == docid);
+            Vendor vendor = await context.Vendors.FirstOrDefaultAsync(d => d.DocId == docid);
             var file = await context.FileArchives.SingleAsync(o => o.docid == docid);
             if (file != null)
             {
@@ -295,7 +295,7 @@ namespace KGERP.Service.Implementation.FTP
                             file.isactive = false;
                             file.InBinFolder = true;
                             context.SaveChanges();
-                            vendor.docid = 0;
+                            vendor.DocId = 0;
                             vendor.ImageUrl = null;
                             context.Entry(vendor).State = EntityState.Modified;
                             context.SaveChanges();

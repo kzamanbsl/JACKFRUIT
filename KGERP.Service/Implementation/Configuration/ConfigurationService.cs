@@ -3419,7 +3419,7 @@ namespace KGERP.Service.Implementation.Configuration
                          Remarks = t1.Remarks,
                          VendorReferenceId = t1.VendorReferenceId,
                          NID = t1.NID,
-                         ImageDocId = t1.docid
+                         ImageDocId = t1.DocId
                      }).FirstOrDefault();
             return v;
         }
@@ -3521,7 +3521,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   CustomerStatus = t1.CustomerStatus ?? 1,
                                                                   PaymentType = t1.CustomerType,
                                                                   Propietor = t1.Propietor,
-                                                                  ImageDocId = t1.docid
+                                                                  ImageDocId = t1.DocId
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
 
 
@@ -3617,7 +3617,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   CompanyFK = t1.CompanyId,
                                                                   Phone = t1.Phone,
                                                                   ImageFileUrl = t1.ImageUrl,
-                                                                  ImageDocId = t1.docid,
+                                                                  ImageDocId = t1.DocId,
                                                                   CreditLimit = t1.CreditLimit,
                                                                   NID = t1.NID,
                                                                   CustomerTypeFk = t1.CustomerTypeFK,
@@ -3928,7 +3928,7 @@ namespace KGERP.Service.Implementation.Configuration
                 NomineeNID = vmCommonCustomer.NomineeNID,
                 BusinessAddress = vmCommonCustomer.BusinessAddress,
                 VendorReferenceId = vmCommonCustomer.VendorReferenceId,
-                docid = vmCommonCustomer.ImageDocId
+                DocId = vmCommonCustomer.ImageDocId
             };
             _db.Vendors.Add(commonCustomer);
             if (await _db.SaveChangesAsync() > 0)
@@ -3967,7 +3967,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.NomineeNID = vmCommonCustomer.NomineeNID;
             commonCustomer.NomineeRelation = vmCommonCustomer.NomineeRelation;
             commonCustomer.VendorReferenceId = vmCommonCustomer.VendorReferenceId;
-            commonCustomer.docid = vmCommonCustomer.ImageDocId;
+            commonCustomer.DocId = vmCommonCustomer.ImageDocId;
 
             if (await _db.SaveChangesAsync() > 0)
             {
@@ -4025,7 +4025,7 @@ namespace KGERP.Service.Implementation.Configuration
                 NomineeRelation = vmCommonCustomer.NomineeRelation,
                 NomineeNID = vmCommonCustomer.NomineeNID,
                 BusinessAddress = vmCommonCustomer.BusinessAddress,
-                docid = vmCommonCustomer.ImageDocId
+                DocId = vmCommonCustomer.ImageDocId
 
             };
             _db.Vendors.Add(commonCustomer);
@@ -4064,7 +4064,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.BusinessAddress = vmCommonCustomer.BusinessAddress;
             commonCustomer.NomineeNID = vmCommonCustomer.NomineeNID;
             commonCustomer.NomineeRelation = vmCommonCustomer.NomineeRelation;
-            commonCustomer.docid = vmCommonCustomer.ImageDocId;
+            commonCustomer.DocId = vmCommonCustomer.ImageDocId;
 
             if (await _db.SaveChangesAsync() > 0)
             {
