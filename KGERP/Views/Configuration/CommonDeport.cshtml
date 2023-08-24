@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonSupplier
 
 @{
-    ViewData["Title"] = "Dealer/ Customer";
+    ViewData["Title"] = "Deport";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -16,18 +16,18 @@
 
 <section class="content-header">
     <h1>
-        Dealer/ Customer
+        Deport
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Dealer/ Customer</li>
+        <li class="active">Deport</li>
     </ol>
 </section>
 
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CommonCustomer", "Configuration", FormMethod.Post, new { id = "commonCustomerFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CommonDeport", "Configuration", FormMethod.Post, new { id = "commonDeportFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -37,7 +37,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
 
-                            @Html.HiddenFor(model => model.ID, new { id = "customerId" })
+                            @Html.HiddenFor(model => model.ID, new { id = "deportId" })
                             @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
@@ -45,8 +45,8 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Dealer/ Customer Name:</label>
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtCustomerName", @class = "form-control", @placeholder = "Customer Name", required = "required" })
+                                        <label for="message-text" class="col-form-label">Deport Name:</label>
+                                        @Html.TextBoxFor(model => model.Name, new { id = "txtDeportName", @class = "form-control", @placeholder = "Deport Name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -131,63 +131,52 @@
                                     </div>
                                 </div>
 
-
                             </div>
 
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Contact Person:</label>
-                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
-                                        @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Security Amount:</label>
-                                        @Html.TextBoxFor(model => model.SecurityAmount, new { id = "txtSecurityAmount", @class = "form-control", @placeholder = "Security Amount" })
-                                        @Html.ValidationMessageFor(model => model.SecurityAmount, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Customer Status:</label>
-                                        @Html.DropDownListFor(model => model.CustomerStatus, Model.CustomerStatusEnumList as SelectList, "--Select Customer Status--", new { id = "ddlCustomerStatus", @class = "form-control", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.CustomerStatus, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Proprietor:</label>
                                         @Html.TextBoxFor(model => model.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
                                         @Html.ValidationMessageFor(model => model.Propietor, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Customer Type:</label>
-                                        @Html.DropDownListFor(model => model.CustomerTypeFk, Model.CustomerTypeList as SelectList, "--Customer Type--", new { id = "ddCustomerTypeFk", @class = "form-control", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.CustomerTypeFk, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">Contact Person:</label>
+                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
+                                        @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">NID NO:</label>
                                         @Html.TextBoxFor(model => model.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID NO" })
                                         @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                              
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Security Amount:</label>
+                                        @Html.TextBoxFor(model => model.SecurityAmount, new { id = "txtSecurityAmount", @class = "form-control", @placeholder = "Security Amount" })
+                                        @Html.ValidationMessageFor(model => model.SecurityAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Credit Limit:</label>
                                         @Html.TextBoxFor(model => model.CreditLimit, new { id = "txtCreditLimit", @class = "form-control", @placeholder = "Credit Limit" })
                                         @Html.ValidationMessageFor(model => model.CreditLimit, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Address:</label>
                                         @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" })
@@ -220,12 +209,11 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Code</th>
                                                     <th>
                                                         Name
                                                     </th>
                                                     <th>
-                                                        Customer Type
+                                                        Proprietor
                                                     </th>
                                                     <th>Payment Type</th>
                                                     <th>
@@ -238,6 +226,9 @@
                                                         NID
                                                     </th>
                                                     <th>
+                                                        Security Amount
+                                                    </th>
+                                                    <th>
                                                         Credit Limit
                                                     </th>
                                                     <th>
@@ -246,16 +237,7 @@
                                                     <th>
                                                         Zone
                                                     </th>
-
-                                                    <th>
-                                                        Security Amount
-                                                    </th>
-                                                    <th>
-                                                        Status
-                                                    </th>
-                                                    <th>
-                                                        Proprietor
-                                                    </th>
+                                                   
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -266,17 +248,12 @@
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
-                                                        <td>
-                                                            @item.Code
-                                                        </td>
-                                                        <td>
-                                                            <a href="~/Configuration/CommonCustomerByID?customerId=@item.ID" target="_blank">@item.Name</a>
 
+                                                        <td>
+                                                            <a href="~/Configuration/CommonDeportById?deportId=@item.ID" target="_blank">@item.Name</a>
                                                         </td>
                                                         <td>
-                                                            <span class="bg-gray-light">
-                                                                @item.CustomerType
-                                                            </span>
+                                                            @item.Propietor
                                                         </td>
                                                         <td>
                                                             @item.PaymentType
@@ -291,6 +268,9 @@
                                                             @item.NID
                                                         </td>
                                                         <td>
+                                                            @item.SecurityAmount
+                                                        </td>
+                                                        <td>
                                                             @item.CreditLimit
                                                         </td>
                                                         <td>
@@ -299,15 +279,7 @@
                                                         <td>
                                                             @item.ZoneName (Incharge: @item.ZoneIncharge)
                                                         </td>
-                                                        <td>
-                                                            @item.SecurityAmount
-                                                        </td>
-                                                        <td>
-                                                            @item.CustomerStatus
-                                                        </td>
-                                                        <td>
-                                                            @item.Propietor
-                                                        </td>
+
                                                         <td>
                                                             <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                             <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
@@ -337,10 +309,10 @@
 </section>
 
 
-@using (Html.BeginForm("CommonCustomer", "Configuration", FormMethod.Post, new { id = "commonCustomerFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CommonDeport", "Configuration", FormMethod.Post, new { id = "commonDeportFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.ID, new { Value = "", id = "customerIdDelete" })
+    @Html.HiddenFor(model => model.ID, new { Value = "", id = "deportIdDelete" })
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
@@ -351,12 +323,12 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Customer Delete</b></h5>
+                    <h5 class="modal-title"><b>Deport Delete</b></h5>
 
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this customer?</h3>
+                        <h3>Are you sure to delete this Deport?</h3>
                     </div>
                 </div>
 
@@ -483,14 +455,14 @@
             if (id !== null) {
                 $.ajax({
                 type: "get",
-                url: "@Url.Action("CommonCustomerByIDGet", "Configuration")",
+                url: "@Url.Action("CommonDeportByIdGet", "Configuration")",
                     data: { id: id },
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
 
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                        $('#customerId').val(data.ID);
+                        $('#deportId').val(data.ID);
                         $('#ActionId').val(2);
                         $('#CompanyFK').val(data.CompanyFK);
                         $('#txtCustomerName').val(data.Name);
@@ -524,13 +496,13 @@
         }
 
         function resetForm() {
-            $('#commonCustomerFormId')[0].reset();
+            $('#commonDeportFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#customerIdDelete').val(id);
+                $('#DeportIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
             }
         }

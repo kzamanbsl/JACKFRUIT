@@ -185,7 +185,8 @@
     {
         Supplier = 1,
         Customer,
-        RentCompany,
+        Dealer,
+        Deport,
         CustomerAssociates
     }
 

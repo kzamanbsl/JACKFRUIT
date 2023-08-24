@@ -1981,14 +1981,16 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Area
-        public List<object> CommonAreaDropDownList(int companyId, int zoneId = 0)
+        public List<object> CommonAreaDropDownList(int companyId, int zoneId = 0, int regionId = 0)
         {
             var list = new List<object>();
-            var v = _db.Areas.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 ? x.ZoneId == zoneId : x.AreaId > 0)).ToList();
+            var v = _db.Areas.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 && regionId > 0 ? x.ZoneId == zoneId && x.RegionId == regionId : x.AreaId > 0)).ToList();
+
             foreach (var x in v)
             {
                 list.Add(new { Text = x.Name, Value = x.AreaId });
             }
+
             return list;
         }
 
@@ -3730,7 +3732,7 @@ namespace KGERP.Service.Implementation.Configuration
             return vmCommonCustomer;
         }
 
-        public async Task<VMCommonSupplier> GetCustomerBuID(int customerId)
+        public async Task<VMCommonSupplier> GetCustomerById(int customerId)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.VendorId == customerId)
@@ -4081,7 +4083,6 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.UpazilaId = vmCommonCustomer.Common_UpazilasFk;
             commonCustomer.Address = vmCommonCustomer.Address;
             commonCustomer.Phone = vmCommonCustomer.Phone;
-            commonCustomer.SubZoneId = vmCommonCustomer.SubZoneId;
             commonCustomer.NID = vmCommonCustomer.NID;
             commonCustomer.CreditLimit = vmCommonCustomer.CreditLimit;
             commonCustomer.Email = vmCommonCustomer.Email;
@@ -4098,6 +4099,8 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.NomineePhone = vmCommonCustomer.NomineePhone;
             commonCustomer.ZoneId = vmCommonCustomer.ZoneId;
             commonCustomer.RegionId = vmCommonCustomer.RegionId;
+            commonCustomer.AreaId = vmCommonCustomer.AreaId;
+            commonCustomer.SubZoneId = vmCommonCustomer.SubZoneId;
             commonCustomer.BusinessAddress = vmCommonCustomer.BusinessAddress;
             commonCustomer.NomineeNID = vmCommonCustomer.NomineeNID;
             commonCustomer.NomineeRelation = vmCommonCustomer.NomineeRelation;
@@ -4129,7 +4132,246 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
-        #region MyRegion
+        #region Common Deport
+
+        public async Task<VMCommonSupplier> GetDeportById(int deportId)
+        {
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.VendorId == deportId)
+                                                     join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
+                                                     join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
+                                                     //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
+                                                     join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
+                                                     join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
+                                                     select new VMCommonSupplier
+                                                     {
+                                                         ID = t1.VendorId,
+                                                         Name = t1.Name,
+                                                         Email = t1.Email,
+                                                         ContactPerson = t1.ContactName,
+                                                         Address = t1.Address,
+                                                         Code = t1.Code,
+                                                         Common_DistrictsFk = t2.DistrictId,
+                                                         Common_UpazilasFk = t1.UpazilaId.Value,
+                                                         District = t3.Name,
+                                                         Upazila = t2.Name,
+                                                         //Country = t4.Name,
+                                                         CreatedBy = t1.CreatedBy,
+                                                        // Division = t4.Name,
+                                                         Remarks = t1.Remarks,
+                                                         CompanyFK = t1.CompanyId,
+                                                         Phone = t1.Phone,
+                                                         ZoneName = t5.Name,
+                                                         ZoneIncharge = t6.ZoneIncharge,
+                                                         CreditLimit = t1.CreditLimit,
+                                                         NID = t1.NID,
+                                                         CustomerTypeFk = t1.CustomerTypeFK,
+                                                         VendorTypeId = t1.VendorTypeId
+                                                     }).FirstOrDefault());
+
+
+
+            return vmCommonDeport;
+        }
+        public async Task<VMCommonSupplier> GetDeport(int companyId, int zoneId, int subZoneId)
+        {
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport.CompanyFK = companyId;
+            vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
+                                                            join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
+                                                            from t2 in t2_def.DefaultIfEmpty()
+                                                            join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
+                                                            from t3 in t3_def.DefaultIfEmpty()
+                                                            join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
+                                                            from t4 in t4_def.DefaultIfEmpty()
+                                                            join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                            from t5 in t5_def.DefaultIfEmpty()
+                                                            join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                            from t6 in t6_def.DefaultIfEmpty()
+                                                            join t7 in _db.Regions on t1.RegionId equals t7.RegionId into t7_def
+                                                            from t7 in t7_def.DefaultIfEmpty()
+                                                            join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
+                                                            from t8 in t8_def.DefaultIfEmpty()
+                                                            join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
+                                                            from t9 in t9_def.DefaultIfEmpty()
+
+                                                            where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
+                                                                     (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
+                                                              t1.ZoneId > 0)
+                                                            select new VMCommonSupplier
+                                                            {
+                                                                ID = t1.VendorId,
+                                                                Name = t1.Name,
+                                                                Email = t1.Email,
+                                                                ContactPerson = t1.ContactName,
+                                                                Address = t1.Address,
+                                                                Code = t1.Code,
+                                                                Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                                Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                                District = t3.Name,
+                                                                Upazila = t2.Name,
+                                                                Division = t4.Name,
+                                                                Country = t8.CountryName,
+                                                                CreatedBy = t1.CreatedBy,
+                                                                Remarks = t1.Remarks,
+                                                                CompanyFK = t1.CompanyId,
+                                                                Phone = t1.Phone,
+                                                                ZoneId = t1.ZoneId ?? 0,
+                                                                RegionId = t1.RegionId,
+                                                                RegionName = t7.Name,
+                                                                SubZoneId = t1.SubZoneId ?? 0,
+                                                                SubZoneName = t5.Name,
+                                                                ZoneName = t6.Name + " " + t5.Name,
+                                                                ZoneIncharge = t6.ZoneIncharge,
+                                                                CreditLimit = t1.CreditLimit,
+                                                                NID = t1.NID,
+                                                                CustomerTypeFk = t1.CustomerTypeFK,
+                                                                SecurityAmount = t1.SecurityAmount,
+                                                                CustomerStatus = t1.CustomerStatus ?? 1,
+                                                                PaymentType = t1.CustomerType,
+                                                                Propietor = t1.Propietor
+                                                            }).OrderByDescending(x => x.ID).AsEnumerable());
+
+
+
+            return vmCommonDeport;
+        }
+        public async Task<int> DeportAdd(VMCommonSupplier vmCommonDeport)
+        {
+            var result = -1;
+            #region Genarate Deport code
+            int totalDeport = _db.Vendors.Count(x => x.VendorTypeId == (int)Provider.Deport && x.CompanyId == vmCommonDeport.CompanyFK);
+
+            if (totalDeport == 0)
+            {
+                totalDeport = 1;
+            }
+            else
+            {
+                totalDeport++;
+            }
+
+            var newString = totalDeport.ToString().PadLeft(4, '0');
+            #endregion
+
+            Vendor commonDeport = new Vendor
+            {
+                Name = vmCommonDeport.Name,
+                Phone = vmCommonDeport.Phone,
+                Email = vmCommonDeport.Email,
+
+                DistrictId = vmCommonDeport.Common_DistrictsFk,
+                UpazilaId = vmCommonDeport.Common_UpazilasFk,
+                ZoneId = vmCommonDeport.ZoneId,
+                RegionId = vmCommonDeport.RegionId,
+                AreaId = vmCommonDeport.AreaId,
+                SubZoneId = vmCommonDeport.SubZoneId,
+                Address = vmCommonDeport.Address,
+
+                ContactName = vmCommonDeport.ContactPerson,
+                VendorTypeId = (int)Provider.Deport,
+
+                CreditLimit = vmCommonDeport.CreditLimit,
+                SecurityAmount = vmCommonDeport.SecurityAmount,
+                CustomerTypeFK = vmCommonDeport.CustomerTypeFk,
+                CompanyId = vmCommonDeport.CompanyFK.Value,
+
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+
+
+                CustomerStatus = vmCommonDeport.CustomerStatus,
+                Propietor = vmCommonDeport.Propietor,
+                NID = vmCommonDeport.NID,
+                BusinessAddress = vmCommonDeport.BusinessAddress,
+                CustomerType = vmCommonDeport.PaymentType,
+                IsActive = true,
+                CreditRatioFrom = 0,
+                CreditRatioTo = 0,
+                IsForeign = false,
+
+                NomineeName = vmCommonDeport.NomineeName,
+                NomineePhone = vmCommonDeport.NomineePhone,
+                NomineeRelation = vmCommonDeport.NomineeRelation,
+                NomineeNID = vmCommonDeport.NomineeNID,
+
+
+            };
+            _db.Vendors.Add(commonDeport);
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = commonDeport.VendorId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> DeportEdit(VMCommonSupplier vmCommonDeport)
+        {
+            var result = -1;
+
+            Vendor commonDeport = await _db.Vendors.FindAsync(vmCommonDeport.ID);
+
+            commonDeport.Name = vmCommonDeport.Name;
+            commonDeport.Phone = vmCommonDeport.Phone;
+            commonDeport.Email = vmCommonDeport.Email;
+            commonDeport.NID = vmCommonDeport.NID;
+
+            commonDeport.DistrictId = vmCommonDeport.Common_DistrictsFk;
+            commonDeport.UpazilaId = vmCommonDeport.Common_UpazilasFk;
+            commonDeport.ZoneId = vmCommonDeport.ZoneId;
+            commonDeport.RegionId = vmCommonDeport.RegionId;
+            commonDeport.AreaId = vmCommonDeport.AreaId;
+            commonDeport.SubZoneId = vmCommonDeport.SubZoneId;
+            commonDeport.Address = vmCommonDeport.Address;
+
+            commonDeport.SecurityAmount = vmCommonDeport.SecurityAmount;
+            commonDeport.CreditLimit = vmCommonDeport.CreditLimit;
+
+            commonDeport.Remarks = vmCommonDeport.Remarks;
+            commonDeport.CompanyId = vmCommonDeport.CompanyFK.Value;
+            commonDeport.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            commonDeport.ModifiedDate = DateTime.Now;
+            commonDeport.ContactName = vmCommonDeport.ContactPerson;
+            commonDeport.CustomerTypeFK = vmCommonDeport.CustomerTypeFk;
+
+            commonDeport.CustomerStatus = vmCommonDeport.CustomerStatus;
+            commonDeport.Propietor = vmCommonDeport.Propietor;
+            commonDeport.NomineeName = vmCommonDeport.NomineeName;
+            commonDeport.NomineePhone = vmCommonDeport.NomineePhone;
+
+            commonDeport.BusinessAddress = vmCommonDeport.BusinessAddress;
+            commonDeport.NomineeNID = vmCommonDeport.NomineeNID;
+            commonDeport.NomineeRelation = vmCommonDeport.NomineeRelation;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = commonDeport.VendorId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> DeportDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                Vendor commonDeport = await _db.Vendors.FindAsync(id);
+                commonDeport.IsActive = false;
+                commonDeport.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                commonDeport.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = commonDeport.VendorId;
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region Division District Upazila
         public async Task<VMCommonDivisions> GetDivisions()
         {
             VMCommonDivisions vmCommonDivisions = new VMCommonDivisions();

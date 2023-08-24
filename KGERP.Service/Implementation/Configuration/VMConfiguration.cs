@@ -238,8 +238,10 @@ namespace KGERP.Service.Implementation.Configuration
         public string Name { get; set; }
         public int VendorReferenceId { get; set; }
         public int ZoneId { get; set; }
-        public int SubZoneId { get; set; }
         public int? RegionId { get; set; }
+        public int? AreaId { get; set; }
+        public int SubZoneId { get; set; }
+       
         public HttpPostedFileBase file { get; set; }
         public string ImageFileUrl { get; set; }
         public long ImageDocId { get; set; }
@@ -266,15 +268,18 @@ namespace KGERP.Service.Implementation.Configuration
         public string BusinessAddress { get; set; }
         public string NomineeNID { get; set; }
         public string NomineeRelation { get; set; }
+        public int? ParentId { get; set; }
 
-
-        public SelectList UpazilasList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList RegionList { get; set; } = new SelectList(new List<object>()); 
-        public SelectList CountryList { get; set; } = new SelectList(new List<object>());
-        public SelectList DistrictList { get; set; } = new SelectList(new List<object>());
-        public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
+
+        public SelectList CountryList { get; set; } = new SelectList(new List<object>());
+        public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
+        public SelectList DistrictList { get; set; } = new SelectList(new List<object>());
+        public SelectList UpazilasList { get; set; } = new SelectList(new List<object>());
+
         public SelectList PaymentTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList NomineeRelationList { get; set; } = new SelectList(new List<object>());
 
@@ -288,6 +293,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string CustomerStatusName { get { return BaseFunctionalities.GetEnumDescription(CustomerStatusEnum); } }
         public SelectList CustomerStatusEnumList { get { return new SelectList(BaseFunctionalities.GetEnumList<CustomerStatusEnum>(), "Value", "Text"); } }
         public string ContactPerson { get; set; }
+
         [Required]
         [RegularExpression("^[0-9]{11}$", ErrorMessage = "Phone Number Must be 11 digit")]
 

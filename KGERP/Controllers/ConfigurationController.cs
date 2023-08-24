@@ -1303,7 +1303,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0,int regionId =0, int areaId=0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
@@ -1313,6 +1313,7 @@ namespace KGERP.Controllers
             vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
             vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonCustomer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, regionId), "Value", "Text");
             vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonCustomer);
         }
@@ -1340,6 +1341,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
+
             if (vmCommonCustomer.CompanyFK == (int)CompanyName.GloriousLandsAndDevelopmentsLimited || vmCommonCustomer.CompanyFK == (int)CompanyName.KrishibidPropertiesLimited)
             {
                 return RedirectToAction(nameof(RSCommonCustomer), new { companyId = vmCommonCustomer.CompanyFK });
@@ -1356,7 +1358,7 @@ namespace KGERP.Controllers
         {
 
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetCustomerBuID(customerId));
+            vmCommonCustomer = await Task.Run(() => _service.GetCustomerById(customerId));
             return View(vmCommonCustomer);
         }
 
@@ -1383,6 +1385,67 @@ namespace KGERP.Controllers
             return Json(result);
         }
 
+        #endregion
+
+        #region Common Deport
+
+        [HttpGet]
+        public async Task<ActionResult> CommonDeport(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
+        {
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport = await Task.Run(() => _service.GetDeport(companyId, zoneId, subZoneId));
+            vmCommonDeport.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
+            vmCommonDeport.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
+            vmCommonDeport.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
+            vmCommonDeport.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
+            vmCommonDeport.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonDeport.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonDeport.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, regionId), "Value", "Text");
+            vmCommonDeport.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            return View(vmCommonDeport);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonDeport(VMCommonSupplier vmCommonDeport)
+        {
+
+            if (vmCommonDeport.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                await _service.DeportAdd(vmCommonDeport);
+            }
+            else if (vmCommonDeport.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.DeportEdit(vmCommonDeport);
+            }
+            else if (vmCommonDeport.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.DeportDelete(vmCommonDeport.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction(nameof(CommonDeport), new { companyId = vmCommonDeport.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonDeportById(int deportId)
+        {
+
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport = await Task.Run(() => _service.GetDeportById(deportId));
+            return View(vmCommonDeport);
+        }
+
+        public JsonResult CommonDeportByIdGet(int id)
+        {
+            var model = _service.GetCommonCustomerByID(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region Geolocation

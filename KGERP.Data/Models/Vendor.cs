@@ -26,6 +26,7 @@ namespace KGERP.Data.Models
             this.PurchaseReturns = new HashSet<PurchaseReturn>();
             this.SaleReturns = new HashSet<SaleReturn>();
             this.Stores = new HashSet<Store>();
+            this.Vendor1 = new HashSet<Vendor>();
             this.VendorOffers = new HashSet<VendorOffer>();
             this.VendorOpenings = new HashSet<VendorOpening>();
         }
@@ -96,6 +97,7 @@ namespace KGERP.Data.Models
         public string BranchName { get; set; }
         public int VendorReferenceId { get; set; }
         public long DocId { get; set; }
+        public Nullable<int> ParentId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlyTarget> MonthlyTargets { get; set; }
@@ -118,6 +120,9 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
         public virtual SubZone SubZone { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vendor> Vendor1 { get; set; }
+        public virtual Vendor Vendor2 { get; set; }
         public virtual Zone Zone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOffer> VendorOffers { get; set; }

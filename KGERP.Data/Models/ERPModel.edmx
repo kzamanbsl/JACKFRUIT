@@ -5060,6 +5060,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not ha
           <Property Name="BranchName" Type="nvarchar" MaxLength="50" />
           <Property Name="VendorReferenceId" Type="int" Nullable="false" />
           <Property Name="DocId" Type="bigint" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
         </EntityType>
         <EntityType Name="VendorDeed">
           <Key>
@@ -7647,6 +7648,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Vendor_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Vendor1" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="Vendor1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vendor_Zone">
           <End Role="Zone" Type="Self.Zone" Multiplicity="0..1" />
           <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
@@ -9309,6 +9322,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="SubZone" EntitySet="SubZone" />
             <End Role="Vendor" EntitySet="Vendor" />
           </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Vendor" Association="Self.FK_Vendor_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Vendor1" EntitySet="Vendor" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vendor_Zone" Association="Self.FK_Vendor_Zone">
             <End Role="Zone" EntitySet="Zone" />
             <End Role="Vendor" EntitySet="Vendor" />
@@ -10532,6 +10549,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_Vendor_SubZone" Association="ERPModel.FK_Vendor_SubZone">
             <End Role="SubZone" EntitySet="SubZones" />
             <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Vendor" Association="ERPModel.FK_Vendor_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Vendor1" EntitySet="Vendors" />
           </AssociationSet>
           <AssociationSet Name="FK_Vendor_Zone" Association="ERPModel.FK_Vendor_Zone">
             <End Role="Zone" EntitySet="Zones" />
@@ -18900,6 +18921,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VendorReferenceId" Type="Int32" Nullable="false" />
           <Property Name="DocId" Type="Int64" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
           <NavigationProperty Name="MonthlyTargets" Relationship="ERPModel.FK_MonthlyTarget_Vendor" FromRole="Vendor" ToRole="MonthlyTarget" />
           <NavigationProperty Name="Area" Relationship="ERPModel.FK_Vendor_Area" FromRole="Vendor" ToRole="Area" />
           <NavigationProperty Name="EMIs" Relationship="ERPModel.FK_EMI_Vendor" FromRole="Vendor" ToRole="EMI" />
@@ -18912,6 +18934,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
           <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Vendor" FromRole="Vendor" ToRole="Store" />
           <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="Vendor" ToRole="SubZone" />
+          <NavigationProperty Name="Vendor1" Relationship="ERPModel.FK_Vendor_Vendor" FromRole="Vendor" ToRole="Vendor1" />
+          <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_Vendor_Vendor" FromRole="Vendor1" ToRole="Vendor" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Vendor" ToRole="Zone" />
           <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
@@ -19057,6 +19081,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Vendor">
               <PropertyRef Name="SubZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="Vendor1">
+              <PropertyRef Name="ParentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -24561,6 +24597,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <EntitySetMapping Name="Vendors">
             <EntityTypeMapping TypeName="ERPModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="DocId" ColumnName="DocId" />
                 <ScalarProperty Name="VendorReferenceId" ColumnName="VendorReferenceId" />
                 <ScalarProperty Name="BranchName" ColumnName="BranchName" />
