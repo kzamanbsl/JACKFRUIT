@@ -465,7 +465,7 @@
                         $('#deportId').val(data.ID);
                         $('#ActionId').val(2);
                         $('#CompanyFK').val(data.CompanyFK);
-                        $('#txtCustomerName').val(data.Name);
+                        $('#txtDeportName').val(data.Name);
                         $('#txtContactPerson').val(data.ContactPerson);
                         $('#txtPhone').val(data.Phone);
 
@@ -502,7 +502,7 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#DeportIdDelete').val(id);
+                $('#deportIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
             }
         }

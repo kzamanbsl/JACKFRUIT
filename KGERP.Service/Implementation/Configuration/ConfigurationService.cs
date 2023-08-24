@@ -4173,6 +4173,48 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmCommonDeport;
         }
+        public VMCommonSupplier GetCommonDeportById(int id)
+        {
+            var v = (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Deport && x.VendorId == id)
+                     join t2 in _db.SubZones on t1.SubZoneId equals t2.SubZoneId into t2_def
+                     from t2 in t2_def.DefaultIfEmpty()
+                     join t3 in _db.Upazilas on t1.UpazilaId equals t3.UpazilaId into t3_def
+                     from t3 in t3_def.DefaultIfEmpty()
+                     join t4 in _db.Districts on t3.DistrictId equals t4.DistrictId into t4_def
+                     from t4 in t4_def.DefaultIfEmpty()
+                     join t5 in _db.Regions on t1.RegionId equals t5.RegionId into t5_def
+                     from t5 in t5_def.DefaultIfEmpty()
+
+                     select new VMCommonSupplier
+                     {
+                         ID = t1.VendorId,
+                         Name = t1.Name,
+                         Email = t1.Email,
+                         Phone = t1.Phone,
+                         CompanyFK = t1.CompanyId,
+                         SubZoneId = t1.SubZoneId.Value,
+                         CustomerTypeFk = t1.CustomerTypeFK,
+                         ZoneId = t2.ZoneId,
+                         RegionId = t1.RegionId,
+                         Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
+                         Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
+                         Common_UpazilasFk = t3.UpazilaId > 0 ? t3.UpazilaId : 0,
+                         ContactPerson = t1.ContactName,
+                         Address = t1.Address,
+                         Code = t1.Code,
+                         CreatedBy = t1.CreatedBy,
+                         Remarks = t1.Remarks,
+                         IsForeign = t1.IsForeign,
+                         CreditLimit = t1.CreditLimit,
+                         NID = t1.NID,
+                         SecurityAmount = t1.SecurityAmount,
+                         CustomerStatus = t1.CustomerStatus ?? 1,
+                         Propietor = t1.Propietor,
+                         PaymentType = t1.CustomerType
+
+                     }).FirstOrDefault();
+            return v;
+        }
         public async Task<VMCommonSupplier> GetDeport(int companyId, int zoneId, int subZoneId)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();

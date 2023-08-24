@@ -1441,9 +1441,10 @@ namespace KGERP.Controllers
             return View(vmCommonDeport);
         }
 
+        [HttpGet]
         public JsonResult CommonDeportByIdGet(int id)
         {
-            var model = _service.GetCommonCustomerByID(id);
+            var model = _service.GetCommonDeportById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
         #endregion
