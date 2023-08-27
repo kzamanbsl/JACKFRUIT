@@ -3,9 +3,7 @@
 @{
     ViewData["Title"] = "Dealer";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
-
 
 <style type="text/css">
 
@@ -24,16 +22,18 @@
     </ol>
 </section>
 
-<section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            @using (Html.BeginForm("CommonDealer", "Configuration", FormMethod.Post, new { id = "commonDealerFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
-            {
+@using (Html.BeginForm("CommonDealer", "Configuration", FormMethod.Post, new { id = "commonDealerFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="box">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="box-danger">
-
+                        @*<div class="box-header">
+                                <h4>Add Deport</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
 
@@ -117,7 +117,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Region:</label>
-                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Area:</label>
-                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -157,12 +157,12 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">NID NO:</label>
-                                        @Html.TextBoxFor(model => model.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID NO" })
+                                        <label for="message-text" class="col-form-label">NID No:</label>
+                                        @Html.TextBoxFor(model => model.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID No" })
                                         @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                              
+
                             </div>
 
                             <div class="row">
@@ -192,10 +192,9 @@
                                 </div>
                             </div>
 
-
                             <div class="form-group">
                                 <div class="col-md-3">
-                                    @*<button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>*@
+                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
                                 </div>
                                 <div class="col-md-9">
                                     <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
@@ -204,117 +203,118 @@
                         </div>
                         <div class="box-footer">
                         </div>
-                        <div class="box">
-                            <div class="box-danger">
-                                <div class="box-header">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="table-responsive text-nowrap">
-                                        <table id="KgErpDataTable" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>SL</th>
-                                                    <th>
-                                                        Name
-                                                    </th>
-                                                    <th>
-                                                        Proprietor
-                                                    </th>
-                                                    <th>Payment Type</th>
-                                                    <th>
-                                                        Phone
-                                                    </th>
-                                                    <th>
-                                                        Email
-                                                    </th>
-                                                    <th>
-                                                        NID
-                                                    </th>
-                                                    <th>
-                                                        Security Amount
-                                                    </th>
-                                                    <th>
-                                                        Credit Limit
-                                                    </th>
-                                                    <th>
-                                                        Address
-                                                    </th>
-                                                    <th>
-                                                        Zone
-                                                    </th>
-                                                   
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            @{int sl = 0;
-                                            }
-                                            <tbody>
-                                                @foreach (var item in Model.DataList)
-                                                {
-                                                    <tr>
-                                                        <td>@(++sl)</td>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-danger">
+                        @*<div class="box-header">
+                            <h4>Dealer List</h4>
+                        </div>*@
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive text-nowrap">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>
+                                               Dealer Name
+                                            </th>
+                                            <th>
+                                                Proprietor
+                                            </th>
+                                            <th>Payment Type</th>
+                                            <th>
+                                                Phone
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                NID
+                                            </th>
+                                            <th>
+                                                Security Amount
+                                            </th>
+                                            <th>
+                                                Credit Limit
+                                            </th>
+                                            <th>
+                                                Address
+                                            </th>
+                                            <th>
+                                                Zone
+                                            </th>
 
-                                                        <td>
-                                                            <a href="~/Configuration/CommonDealerById?deportId=@item.ID" target="_blank">@item.Name</a>
-                                                        </td>
-                                                        <td>
-                                                            @item.Propietor
-                                                        </td>
-                                                        <td>
-                                                            @item.PaymentType
-                                                        </td>
-                                                        <td>
-                                                            @item.Phone
-                                                        </td>
-                                                        <td>
-                                                            @item.Email
-                                                        </td>
-                                                        <td>
-                                                            @item.NID
-                                                        </td>
-                                                        <td>
-                                                            @item.SecurityAmount
-                                                        </td>
-                                                        <td>
-                                                            @item.CreditLimit
-                                                        </td>
-                                                        <td>
-                                                            @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
-                                                        </td>
-                                                        <td>
-                                                            @item.ZoneName (Incharge: @item.ZoneIncharge)
-                                                        </td>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    @{int sl = 0;
+                                    }
+                                    <tbody>
+                                        @foreach (var item in Model.DataList)
+                                        {
+                                            <tr>
+                                                <td>@(++sl)</td>
 
-                                                        <td>
-                                                            <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                               data-placement="top">
-                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                            </a>
+                                                <td>
+                                                    <a href="~/Configuration/CommonDealerById?deportId=@item.ID" target="_blank">@item.Name</a>
+                                                </td>
+                                                <td>
+                                                    @item.Propietor
+                                                </td>
+                                                <td>
+                                                    @item.PaymentType
+                                                </td>
+                                                <td>
+                                                    @item.Phone
+                                                </td>
+                                                <td>
+                                                    @item.Email
+                                                </td>
+                                                <td>
+                                                    @item.NID
+                                                </td>
+                                                <td>
+                                                    @item.SecurityAmount
+                                                </td>
+                                                <td>
+                                                    @item.CreditLimit
+                                                </td>
+                                                <td>
+                                                    @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
+                                                </td>
+                                                <td>
+                                                    @item.ZoneName (Incharge: @item.ZoneIncharge)
+                                                </td>
 
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="box-footer">
-                                </div>
+                                                <td>
+                                                    <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                       data-placement="top">
+                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                        <div class="box-footer">
                         </div>
                     </div>
                 </div>
-            }
-
-
+            </div>
         </div>
-
-    </div>
-</section>
-
+    </section>
+}
 
 @using (Html.BeginForm("CommonDealer", "Configuration", FormMethod.Post, new { id = "commonDealerFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {

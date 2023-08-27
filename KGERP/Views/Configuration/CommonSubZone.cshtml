@@ -30,9 +30,9 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
-                    <div class="box-header">
+                    @*<div class="box-header">
                         <h4>Add Territory</h4>
-                    </div>
+                    </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "subZoneId" })
@@ -155,9 +155,9 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-danger">
-                        <div class="box-header">
+                        @*<div class="box-header">
                             <h4>Territory List</h4>
-                        </div>
+                        </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">

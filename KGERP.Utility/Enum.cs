@@ -201,7 +201,7 @@
         Customer = 1,
         Retail = 2,
         Corporate = 3,
-        Dealer = 4
+        //Dealer = 4
     }
 
     public enum VendorsPaymentMethodEnum

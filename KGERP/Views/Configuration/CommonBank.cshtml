@@ -33,9 +33,9 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
+                            @*<div class="box-header">
                                 <h4>Add Bank</h4>
-                            </div>
+                            </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
 
@@ -45,7 +45,7 @@
 
 
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Bank:</label>
+                                    <label for="message-text" class="col-form-label">Bank Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtBankName", @class = "form-control input-sm ", @placeholder = "Bank Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
@@ -72,7 +72,7 @@
 
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Bank List</h4>
+                                @*<h4>Bank List</h4>*@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">

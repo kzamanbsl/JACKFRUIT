@@ -30,9 +30,9 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
+                            @*<div class="box-header">
                                 <h4>Add Bank Branch</h4>
-                            </div>
+                            </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "bankBranchId" })
@@ -40,19 +40,19 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Bank</label>
+                                    <label for="message-text" class="col-form-label">Bank:</label>
                                     @Html.DropDownListFor(model => model.BankId, Model.BankList as SelectList, "--Bank--", new { id = "ddlBankId", @class = "form-control", required = "true" })
                                     @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Bank Branch</label>
+                                    <label for="message-text" class="col-form-label">Bank Branch:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtBankBranchName", @class = "form-control input-sm", @placeholder = "Branch", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Address</label>
+                                    <label for="message-text" class="col-form-label">Address:</label>
                                     @Html.TextBoxFor(model => model.Address, new { id = "txtAddress", @class = "form-control input-sm", @placeholder = "Address", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                 </div>
@@ -77,7 +77,7 @@
 
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Branch List</h4>
+                                @*<h4>Branch List</h4>*@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">

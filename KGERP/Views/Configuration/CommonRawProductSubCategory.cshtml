@@ -31,9 +31,9 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
+                            @*<div class="box-header">
                                 <h4>Add Subcategory</h4>
-                            </div>
+                            </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "subcategoryId" })
@@ -76,7 +76,7 @@
                     <div class="box">
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Subcategory List</h4>
+                                @*<h4>Subcategory List</h4>*@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">

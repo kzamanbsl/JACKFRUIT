@@ -30,9 +30,9 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
-                    <div class="box-header">
-                        <h4>Add Region</h4>
-                    </div>
+                    @*<div class="box-header">
+                            <h4>Add Region</h4>
+                        </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "RegionId" })
@@ -60,7 +60,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Employee</label>
+                                    <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
                                         @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
                                             new { @class = "dropdownsize form-control", @id = "employeeId" })
@@ -133,9 +133,9 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Region List</h4>
-                        </div>
+                        @*<div class="box-header">
+                                <h4>Region List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">

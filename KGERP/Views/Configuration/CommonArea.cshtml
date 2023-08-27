@@ -30,9 +30,9 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
-                    <div class="box-header">
+                    @*<div class="box-header">
                         <h4>Add Area</h4>
-                    </div>
+                    </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "AreaId" })
@@ -69,7 +69,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Employee</label>
+                                    <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
                                         @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "employeeId" })
                                         @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
@@ -144,9 +144,9 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-danger">
-                        <div class="box-header">
+                        @*<div class="box-header">
                             <h4>Area List</h4>
-                        </div>
+                        </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">

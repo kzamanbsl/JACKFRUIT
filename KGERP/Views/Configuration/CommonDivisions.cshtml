@@ -32,18 +32,17 @@
                     <div class="box">
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                       
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Update Division</h4>
-                            </div>
+                            @*<div class="box-header">
+                                    <h4>Update Division</h4>
+                                </div>*@
                             <!-- /.box-header -->
-                            <div class="form-group">
 
-                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "DivisionId" })
-                            </div>
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "unitId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
+                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "DivisionId" })
 
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Division Name:</label>
@@ -68,7 +67,7 @@
                     <div class="box">
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Division List</h4>
+                                @*<h4>Division List</h4>*@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
@@ -133,7 +132,7 @@
                     data: { Model: v },
                     dataType: "json",
                     success: function (data) {
-                      
+
                     }
                 });
             location.reload();
@@ -161,7 +160,7 @@
                 datatype: "Json",
             data: { id: eid },
                 success: function (data) {
-                  
+
                     $("#txtDivisionsName").val(data.Name);
                     $("#DivisionId").val(data.DivisionId);
                     $("#btnSave").html(" <span>Update</span>");

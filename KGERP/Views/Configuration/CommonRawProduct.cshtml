@@ -32,9 +32,9 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
-                    <div class="box-header">
+                    @*<div class="box-header">
                         <h4>Add Product</h4>
-                    </div>
+                    </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.Image, new { Value = "", id = "txtPhoto" })
@@ -94,7 +94,7 @@
 
                         <div class="form-group">
                             <div class="col-md-3">
-                                @*<button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>*@
+                                <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
                             </div>
                             <div class="col-md-9">
                                 <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
@@ -112,9 +112,9 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-danger">
-                        <div class="box-header">
+                        @*<div class="box-header">
                             <h4>Product List</h4>
-                        </div>
+                        </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">

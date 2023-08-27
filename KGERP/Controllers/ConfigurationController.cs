@@ -1450,7 +1450,7 @@ namespace KGERP.Controllers
         }
         #endregion
 
-        #region Common DealerCommonDistricts
+        #region Common Dealer
 
         [HttpGet]
         public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)

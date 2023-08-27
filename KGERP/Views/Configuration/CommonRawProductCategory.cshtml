@@ -33,9 +33,9 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
+                            @*<div class="box-header">
                                 <h4>Add Category</h4>
-                            </div>
+                            </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "productCategoryId" })
@@ -43,7 +43,7 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Category:</label>
+                                    <label for="message-text" class="col-form-label">Category Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control input-sm", @placeholder = "Category Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
@@ -67,7 +67,7 @@
 
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Category List</h4>
+                                @*<h4>Category List</h4>*@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
