@@ -1648,7 +1648,7 @@ namespace KGERP.Controllers
 
         #region Common Bank
 
-
+        [HttpGet]
         public async Task<ActionResult> CommonBank(int companyId)
         {
             VMCommonBank vmCommonBank = new VMCommonBank();
@@ -1686,6 +1686,7 @@ namespace KGERP.Controllers
 
 
         #region Bank Branch
+        [HttpGet]
         public async Task<ActionResult> CommonBankBranchGet(int companyId, int bankId)
         {
 
@@ -1694,7 +1695,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
+        [HttpGet]
         public async Task<ActionResult> CommonBankBranch(int companyId, int bankId = 0)
         {
 

@@ -1,129 +1,131 @@
 ﻿@using KG.Core.Services
-
 @{
     ViewData["Title"] = "Bank";
-
-
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @model KGERP.Service.Implementation.Configuration.VMCommonBank
+
 <style type="text/css">
 
     input, select, textarea {
         max-width: 100%;
     }
 </style>
+
 <section class="content-header">
-  <h1>&nbsp;</h1>
+    <h1>
+        Bank
+    </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">Bank</li>
     </ol>
 </section>
+
 @using (Html.BeginForm("CommonBank", "Configuration", FormMethod.Post, new { id = "commonBankFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box">
+                <div class="col-md-3">
+                    <div class="box">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="box-danger">
+                            <div class="box-header">
+                                <h4>Add Bank</h4>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
 
-                    <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Bank List</h4>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="col-md-4">
-                                <div class="box">
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="box-danger">
-                                        <div class="box-header">
-                                            <h4>Add Bank</h4>
-                                        </div>
-                                        <!-- /.box-header -->
-                                        <div class="box-body">
-                                            @Html.HiddenFor(model => model.ID, new { id = "BankId" })
-                                            @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
-                                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                                @Html.HiddenFor(model => model.ID, new { id = "BankId" })
+                                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
 
-                                            <div class="row">           
-                                                    <div class="form-group" style="padding:0px">
-                                                        <label for="message-text" class="col-form-label">Bank:</label>
-                                                        @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtBankName", @class = "form-control input-sm ", @placeholder = "Bank Name", required = "true", })
-                                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                                    </div>     
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <div class="col-md-5">
-                                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="box-footer">
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Bank:</label>
+                                    @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtBankName", @class = "form-control input-sm ", @placeholder = "Bank Name", required = "true", })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
 
-                            </div>
-                            <div class="table-responsive col-md-8">
-                                <table id="KgErpDataTable" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:5%;">SL</th>
-                                            <th style="width:20%;">Name</th>
-                                          
-                                            <th style="width:20%;">Action</th>
-                                        </tr>
-                                    </thead>
-                                    @{int sl = 0;
-                                    }
-                                    <tbody>
-                                        @foreach (var item in Model.DataList)
-                                        {
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
 
-                                            <tr>
-                                                <td>@(++sl)</td>
-                                                <td id="tdBankName_@item.ID">@item.Name</td>
-                                              
-                                                <td>
-
-                                                    <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#bankDeleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
-
-                                                    @*<a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Bank</a>
-                                                    <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
-
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                    </div>
+                                </div>
                             </div>
 
-                        </div>
-                        <div class="box-footer">
+                            <div class="box-footer">
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-9">
+                    <div class="box">
+
+                        <div class="box-danger">
+                            <div class="box-header">
+                                <h4>Bank List</h4>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive col-md-12">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @{int sl = 0;
+                                        }
+                                        <tbody>
+                                            @foreach (var item in Model.DataList)
+                                            {
+
+                                                <tr>
+                                                    <td>@(++sl)</td>
+                                                    <td id="tdBankName_@item.ID">@item.Name</td>
+
+                                                    <td>
+
+                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#bankDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+
+                                                        @*<a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Bank</a>
+                                                            <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
         </div>
-    </section>
 
+    </section>
 
 }
 
@@ -177,8 +179,8 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtBankName').val($('#tdBankName_' + rowId).text().trim());
-                           
-                
+
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             }

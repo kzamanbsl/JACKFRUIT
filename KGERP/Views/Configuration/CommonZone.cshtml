@@ -26,7 +26,7 @@
             }
         </h1>*@
     <ol class="breadcrumb ">
-        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>DashboardD</a></li>
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">Zone</li>
     </ol>
 </section>
@@ -73,7 +73,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group" style="padding:0px">
                                         <label for="message-text" class="col-form-label">Zone Incharge:</label>
-                                        @Html.TextBoxFor(model => model.ZoneIncharge, new { id = "txtZoneIncharge", @class = "form-control input-sm", @placeholder = "Zone Incharge" })
+                                        @Html.TextBoxFor(model => model.ZoneIncharge, new { id = "txtZoneIncharge", @class = "form-control input-sm", @placeholder = "Zone Incharge", required = "true", })
                                         @Html.ValidationMessageFor(model => model.ZoneIncharge, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
