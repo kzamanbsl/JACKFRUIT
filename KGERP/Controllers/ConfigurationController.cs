@@ -912,8 +912,8 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region Common Zone
-
+        #region Common Trems And Conditions
+        [HttpGet]
         public async Task<ActionResult> POTremsAndConditions(int companyId)
         {
             VMPOTremsAndConditions vmTremsAndConditions = new VMPOTremsAndConditions();

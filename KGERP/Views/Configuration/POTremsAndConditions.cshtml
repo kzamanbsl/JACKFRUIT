@@ -1,11 +1,8 @@
-﻿@using KG.Core.Services
-
+﻿@model KGERP.Service.Implementation.Configuration.VMPOTremsAndConditions
 @{
     ViewData["Title"] = "Trems & Conditions";
-
-
 }
-@model KGERP.Service.Implementation.Configuration.VMPOTremsAndConditions
+
 <style type="text/css">
 
     input, select, textarea {
@@ -30,9 +27,9 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Add Trems & Conditions</h4>
-                        </div>
+                        @*<div class="box-header">
+                                <h4>Add Trems & Conditions</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             @Html.HiddenFor(model => model.ID, new { id = "ZoneId" })
@@ -40,10 +37,12 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                             <div class="form-group">
+                                <label for="message-text" class="col-form-label">Key:</label>
                                 @Html.TextBoxFor(model => model.Key, new { id = "txtKey", @class = "form-control input-sm", @placeholder = "Key", required = "true", })
                                 @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
+                                <label for="message-text" class="col-form-label">Value:</label>
                                 @Html.TextAreaFor(model => model.Value, new { id = "txtValue", @class = "form-control input-sm", @placeholder = "Value", required = "true", Rows = 3 })
                                 @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
                             </div>
@@ -53,9 +52,7 @@
                                 </div>
                                 <div class="col-md-7">
                                     <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
                                 </div>
-
                             </div>
                         </div>
                         <div class="box-footer">
@@ -66,12 +63,11 @@
                 <div class="box">
 
                     <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Trems & Conditions List</h4>
-                        </div>
+                        @*<div class="box-header">
+                                <h4>Trems & Conditions List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
-
                             <div class="table-responsive col-md-12">
                                 <table id="KgErpDataTable" class="table table-striped">
                                     <thead>
@@ -79,7 +75,6 @@
                                             <th>SL</th>
                                             <th>Key</th>
                                             <th>Value</th>
-
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -103,7 +98,6 @@
                                                         <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                     </a>
 
-
                                                 </td>
                                             </tr>
                                         }
@@ -120,8 +114,6 @@
 
         </div>
     </section>
-
-
 }
 
 
