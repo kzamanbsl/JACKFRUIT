@@ -1,25 +1,24 @@
 ﻿
 @{
-
     ViewData["Title"] = "Raw Materials Subcategory";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 }
 @model KGERP.Service.Implementation.Configuration.VMCommonProductSubCategory
+
 <style type="text/css">
 
     input, select, textarea {
         max-width: 100%;
     }
 </style>
+
 <section class="content-header">
     <h1>
-        Raw Materials Subcategory
+        Product Subcategory
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Raw Materials Subcategory</li>
+        <li class="active">Product Subcategory</li>
     </ol>
 </section>
 @using (Html.BeginForm("CommonRawProductSubCategory", "Configuration", FormMethod.Post, new { id = "commonProductSubCategoryFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -33,26 +32,28 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Add Raw Subcategory</h4>
+                                <h4>Add Subcategory</h4>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "subcategoryId" })
-                                @Html.HiddenFor(model => model.ActionId, new {  id = "ActionId" })
+                                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Category:</label>
-                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName" } })
-
+                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName", required = "true" } })
                                     @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
                                     @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                 </div>
+
                                 @*<div class="form-group">
-            @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "---Select Category---", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
-            @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
-        </div>*@
+                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "---Select Category---", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
+                                        @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
+                                    </div>*@
+
                                 <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Sbucategory:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Subcategory", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
@@ -86,7 +87,6 @@
                                                 <th>SL</th>
                                                 <th>Category</th>
                                                 <th>Subcategory</th>
-
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -100,6 +100,7 @@
                                                     <td>@(++sl)</td>
                                                     <td>
                                                         <input type="hidden" id="commonProductCategoryFk_@item.ID" name="User_MenuFk" value="@item.Common_ProductCategoryFk" />
+                                                        <input type="hidden" id="tdCategoryName_@item.ID" value="@item.CategoryName" />
                                                         @item.CategoryName
                                                     </td>
                                                     <td id="tdSubCategoryName_@item.ID">@item.Name</td>
@@ -112,7 +113,7 @@
                                                             <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                         </a>
 
-                                                        <a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&subCategoryId=@item.ID" class="btn btn-success btn-sm">Raw Materials</a>
+                                                        @*<a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&subCategoryId=@item.ID" class="btn btn-success btn-sm">Raw Materials</a>*@
 
                                                     </td>
                                                 </tr>
@@ -146,11 +147,11 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Rae Subcategory Delete</b></h5>
+                    <h5 class="modal-title"><b>Subcategory Delete</b></h5>
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this raw subcategory?</h3>
+                        <h3>Are you sure to delete this subcategory?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -162,8 +163,8 @@
     </div>
 }
 
-    @section scripts {
-        <script type="text/javascript">
+@section scripts {
+    <script type="text/javascript">
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
 
@@ -204,6 +205,7 @@
                 $(this).autocomplete("search");
             });
         });
+
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
@@ -211,20 +213,24 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#ddlCommonProductCategoryFk').val($('#commonProductCategoryFk_' + rowId).val().trim()).trigger('change');
+                var categoryName = $('#tdCategoryName_' + rowId).val();
+                $('#txtCategoryName').val(categoryName);
                 $('#txtSubcategoryName').val($('#tdSubCategoryName_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
+
         function makeDeletable(id) {
             if (id !== null) {
                 $('#subcategoryIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
             }
         }
+
         function resetForm() {
             $('#commonProductSubCategoryFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
-        </script>
-    }
+    </script>
+}
 

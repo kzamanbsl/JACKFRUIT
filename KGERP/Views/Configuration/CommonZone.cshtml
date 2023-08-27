@@ -162,7 +162,7 @@
                                             <tr>
                                                 <td>@(++sl)</td>
                                                 <td id="tdZoneName_@item.ID">@item.Name</td>
-                                                <td hidden="true" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
+                                                <td hidden="hidden" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
                                                 <td id="tdZoneIncharge_@item.ID">@item.ZoneIncharge</td>
                                                 <td id="tdDesignation_@item.ID">@item.Designation</td>
                                                 <td id="tdEmail_@item.ID">@item.Email</td>
@@ -184,8 +184,9 @@
                                                     else
                                                     {
                                                         <a href="~/Configuration/CommonRegion?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Region</a>
+                                                        <a href="~/Configuration/CommonArea?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Area</a>
                                                         <a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Territory</a>
-                                                        <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>
+                                                        @*<a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
                                                     }
 
                                                 </td>

@@ -5,8 +5,6 @@
 
     ViewData["Title"] = "Raw Materials";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 }
 
 <style type="text/css">
@@ -15,15 +13,17 @@
         max-width: 100%;
     }
 </style>
+
 <section class="content-header">
     <h1>
-        Raw Materials
+        Product
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Raw Materials</li>
+        <li class="active">Product</li>
     </ol>
 </section>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -80,7 +80,7 @@
                                         {
                                             <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
                                         }
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Materials Name", required = "required" })
+                                        @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -231,12 +231,12 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Raw Materials Delete</b></h5>
+                    <h5 class="modal-title"><b>Product Delete</b></h5>
 
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this raw materials?</h3>
+                        <h3>Are you sure to delete this product?</h3>
                     </div>
 
                 </div>
@@ -327,7 +327,7 @@
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
-                     
+
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                         $('#productId').val(data.ID);
                         $('#txtCategoryName').val(data.CategoryName)

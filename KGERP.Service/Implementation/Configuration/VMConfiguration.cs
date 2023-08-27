@@ -129,7 +129,6 @@ namespace KGERP.Service.Implementation.Configuration
         public string MobilePersonal { get; set; }
         public int HeadGLId { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-
         public IEnumerable<VMCommonZone> DataList { get; set; }
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
     }

@@ -262,6 +262,7 @@ namespace KGERP.Controllers
 
         #region Common Zone
 
+        [HttpGet]
         public async Task<ActionResult> CommonZone(int companyId)
         {
             VMCommonZone vmCommonZone = new VMCommonZone();
