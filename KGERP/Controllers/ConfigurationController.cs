@@ -1450,7 +1450,7 @@ namespace KGERP.Controllers
         }
         #endregion
 
-        #region Common Dealer
+        #region Common DealerCommonDistricts
 
         [HttpGet]
         public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
@@ -1514,7 +1514,7 @@ namespace KGERP.Controllers
         #endregion
 
         #region Geolocation
-
+        [HttpGet]
         public async Task<ActionResult> CommonDivisions()
         {
             VMCommonDivisions vmCommonDivisions = new VMCommonDivisions();
@@ -1522,6 +1522,7 @@ namespace KGERP.Controllers
             return View(vmCommonDivisions);
         }
 
+        [HttpGet]
         public async Task<ActionResult> CommonDistricts(int divisionsId = 0)
         {
 
@@ -1531,6 +1532,7 @@ namespace KGERP.Controllers
             return View(vmCommonDistricts);
         }
 
+        [HttpGet]
         public async Task<ActionResult> CommonUpazilas(int divisionsId = 0, int districtsId = 0)
         {
 
@@ -1541,6 +1543,7 @@ namespace KGERP.Controllers
             return View(vmCommonThana);
         }
 
+        [HttpGet]
         public async Task<ActionResult> CommonDistrictsGet(int id)
         {
 
@@ -1549,6 +1552,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public async Task<ActionResult> CommonSubZonesGet(int id)
         {
 
@@ -1557,6 +1561,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public async Task<ActionResult> CommonRegionGet(int companyId, int zoneId)
         {
 
@@ -1565,6 +1570,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public async Task<ActionResult> CommonUpazilasGet(int id)
         {
 

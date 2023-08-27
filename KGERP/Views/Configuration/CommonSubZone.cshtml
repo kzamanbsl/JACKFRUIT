@@ -53,8 +53,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Region:</label>
-                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"),
-                                        new { id = "ddlRegionId", @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control", required = "true" })
                                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -62,8 +61,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Area:</label>
-                                    @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"),
-                                        new { id = "ddlAreaId", @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlAreaId", @class = "form-control", required = "true" })
                                     @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -81,7 +79,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Employee</label>
+                                    <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
                                         @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
                                             new { @class = "dropdownsize form-control", @id = "employeeId" })
@@ -135,7 +133,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="row">
                             <div class="form-group">
@@ -374,6 +371,6 @@
 
     </script>
 
- 
+
 }
 

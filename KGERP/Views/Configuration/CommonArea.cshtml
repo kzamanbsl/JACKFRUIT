@@ -52,8 +52,7 @@
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Region:</label>
-                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"),
-                                        new { id = "ddlRegionId", @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control", required = "true" })
                                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -72,8 +71,7 @@
                                 <div class="form-group">
                                     <label for="" class="form-control-label">Employee</label>
                                     <div class="">
-                                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control", @id = "employeeId" })
+                                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "employeeId" })
                                         @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -98,7 +96,7 @@
                         </div>
 
                         <div class="row">
-                            
+
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Email:</label>
@@ -185,7 +183,7 @@
                                                     @item.RegionName
                                                 </td>
                                                 <td id="tdAreaName_@item.ID">@item.Name</td>
-                                                <td hidden="true" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
+                                                <td hidden="hidden" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
                                                 <td id="tdAreaIncharge_@item.ID">@item.AreaIncharge</td>
                                                 <td id="tdDesignation_@item.ID">@item.Designation</td>
                                                 <td id="tdEmail_@item.ID">@item.Email</td>
@@ -329,7 +327,6 @@
         }
 
     </script>
-
 
 }
 

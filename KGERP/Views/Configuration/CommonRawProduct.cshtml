@@ -1,6 +1,5 @@
 ﻿
 @model KGERP.Service.Implementation.Configuration.VMCommonProduct
-@using KG.Core.Services
 @{
 
     ViewData["Title"] = "Raw Materials";
@@ -24,198 +23,180 @@
     </ol>
 </section>
 
-<section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            @using (Html.BeginForm("CommonRawProduct", "Configuration", FormMethod.Post, new { id = "commonProductFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
-            {
-                <div class="box">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="box-danger">
 
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            @Html.HiddenFor(model => model.Image, new { Value = "", id = "txtPhoto" })
+@using (Html.BeginForm("CommonRawProduct", "Configuration", FormMethod.Post, new { id = "commonProductFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="box-danger">
+                    <div class="box-header">
+                        <h4>Add Product</h4>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @Html.HiddenFor(model => model.Image, new { Value = "", id = "txtPhoto" })
+                        @Html.HiddenFor(model => model.ID, new { id = "productId" })
+                        @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                        @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                            @Html.HiddenFor(model => model.ID, new { id = "productId" })
-                            @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
-                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                        <div class="row">
 
-                            <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Category:</label>
+                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName", required = "required" } })
 
-
-                                <div class="col-md-3">
-                                    <div class="form-group" style="padding:0px">
-                                        <label for="message-text" class="col-form-label">Category:</label>
-                                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName" } })
-
-                                        @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
-                                    </div>
-
+                                    @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
+                                    @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @if (Model.CompanyFK == 24)
-                                        {
-                                            <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
-                                        }
-                                        else
-                                        {
-                                            <label for="message-text" class="col-form-label">Subcategory:</label>
-                                        }
 
-                                        @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @if (Model.CompanyFK == 24)
-                                        {
-                                            <label for="message-text" class="col-form-label">Pack Size:</label>
-                                        }
-                                        else
-                                        {
-                                            <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
-                                        }
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Unit:</label>
-                                        @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @if (Model.CompanyFK == 24)
+                                    {
+                                        <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
+                                    }
+                                    else
+                                    {
+                                        <label for="message-text" class="col-form-label">Subcategory:</label>
+                                    }
+
+                                    @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            @*<div class="row">
-                                    <div class="col-md-4"></div>
-
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
-                                            @Html.TextBoxFor(model => model.ShortName, new { id = "txtShortName", @class = "form-control", @placeholder = "Origin Name (Variety)" })
-                                            @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Unit:</label>
-                                            @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                <div class="col-md-3">
-                                    @*<button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>*@
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @if (Model.CompanyFK == 24)
+                                    {
+                                        <label for="message-text" class="col-form-label">Pack Size:</label>
+                                    }
+                                    else
+                                    {
+                                        <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
+                                    }
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-9">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Unit:</label>
+                                    @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @*<button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>*@
+                            </div>
+                            <div class="col-md-9">
+                                <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-danger">
+                        <div class="box-header">
+                            <h4>Product List</h4>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive col-md-12">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>
+                                                Category
+                                            </th>
+                                            @if (Model.CompanyFK == 24)
+                                            {
+                                                <th>
+                                                    Origin Name (Variety):
+                                                </th>
+                                                <th>
+                                                    Pack Size
+                                                </th>
+                                            }
+                                            else
+                                            {
+                                                <th>
+                                                    SubCategory
+                                                </th>
+                                                <th>
+                                                    Origin Name (Variety)
+                                                </th>
+                                            }
+
+                                            <th>
+                                                Unit
+                                            </th>
+
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @{int sl = 0;
+                                    }
+                                    <tbody>
+                                        @if (Model.DataList != null)
+                                        {
+                                            foreach (var item in Model.DataList)
+                                            {
+
+                                                <tr>
+                                                    <td>@(++sl)</td>
+                                                    <td>
+                                                        @item.CategoryName
+                                                    </td>
+                                                    <td>
+                                                        @item.SubCategoryName
+                                                    </td>
+                                                    <td>
+                                                        @item.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.UnitName
+                                                    </td>
+                                                    <td>
+                                                        <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="box-footer">
                         </div>
-                        <div class="box">
-                            <div class="box-danger">
-                                <div class="box-header">
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="table-responsive text-nowrap">
-                                        <table id="KgErpDataTable" style="100%; background-color:#ddd;" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>SL</th>
-                                                    <th>
-                                                        Category
-                                                    </th>
-                                                    @if (Model.CompanyFK == 24)
-                                                    {
-                                                        <th>
-                                                            Origin Name (Variety):
-                                                        </th>
-                                                        <th>
-                                                            Pack Size
-                                                        </th>
-                                                    }
-                                                    else
-                                                    {
-                                                        <th>
-                                                            SubCategory
-                                                        </th>
-                                                        <th>
-                                                            Origin Name (Variety)
-                                                        </th>
-                                                    }
-
-                                                    <th>
-                                                        Unit
-                                                    </th>
-
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-
-                                            @{int sl = 0;
-                                            }
-                                            <tbody>
-                                                @if (Model.DataList != null)
-                                                {
-                                                    foreach (var item in Model.DataList)
-                                                    {
-
-                                                        <tr>
-                                                            <td>@(++sl)</td>
-                                                            <td>
-                                                                @item.CategoryName
-                                                            </td>
-                                                            <td>
-                                                                @item.SubCategoryName
-                                                            </td>
-                                                            <td>
-                                                                @item.Name
-                                                            </td>
-                                                            <td>
-                                                                @item.UnitName
-                                                            </td>
-                                                            <td>
-                                                                <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                                <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                                   data-placement="top">
-                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                }
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="box-footer">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            }
-
+            </div>
         </div>
-    </div>
-</section>
-
-
-
-
+    </section>
+}
 
 @using (Html.BeginForm("CommonRawProduct", "Configuration", FormMethod.Post, new { id = "commonProductFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {

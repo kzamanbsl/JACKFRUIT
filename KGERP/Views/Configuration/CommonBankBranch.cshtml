@@ -1,11 +1,9 @@
-﻿@{
-
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonBankBranch
+@{
     ViewData["Title"] = "Bank Branch";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonBankBranch
+
 <style type="text/css">
 
     input, select, textarea {
@@ -21,6 +19,7 @@
         <li class="active">Bank Branch</li>
     </ol>
 </section>
+
 @using (Html.BeginForm("CommonBankBranch", "Configuration", FormMethod.Post, new { id = "commonBankBranchFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
@@ -122,12 +121,10 @@
                             </div>
                             <div class="box-footer">
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 

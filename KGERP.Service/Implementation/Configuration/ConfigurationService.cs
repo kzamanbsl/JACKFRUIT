@@ -2508,7 +2508,7 @@ namespace KGERP.Service.Implementation.Configuration
         public List<object> CommonDeportDropDownList()
         {
             var list = new List<object>();
-            var v = _db.Vendors.Where(c=>c.VendorTypeId== (int)Provider.Deport && c.IsActive==true).ToList();
+            var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList();
             foreach (var x in v)
             {
                 list.Add(new { Text = x.Name, Value = x.VendorId });
@@ -4147,36 +4147,36 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.VendorId == deportId)
-                                                     join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
-                                                     join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
-                                                     //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                     join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
-                                                     join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
-                                                     select new VMCommonSupplier
-                                                     {
-                                                         ID = t1.VendorId,
-                                                         Name = t1.Name,
-                                                         Email = t1.Email,
-                                                         ContactPerson = t1.ContactName,
-                                                         Address = t1.Address,
-                                                         Code = t1.Code,
-                                                         Common_DistrictsFk = t2.DistrictId,
-                                                         Common_UpazilasFk = t1.UpazilaId.Value,
-                                                         District = t3.Name,
-                                                         Upazila = t2.Name,
-                                                         //Country = t4.Name,
-                                                         CreatedBy = t1.CreatedBy,
-                                                        // Division = t4.Name,
-                                                         Remarks = t1.Remarks,
-                                                         CompanyFK = t1.CompanyId,
-                                                         Phone = t1.Phone,
-                                                         ZoneName = t5.Name,
-                                                         ZoneIncharge = t6.ZoneIncharge,
-                                                         CreditLimit = t1.CreditLimit,
-                                                         NID = t1.NID,
-                                                         CustomerTypeFk = t1.CustomerTypeFK,
-                                                         VendorTypeId = t1.VendorTypeId
-                                                     }).FirstOrDefault());
+                                                   join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
+                                                   join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
+                                                   //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
+                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
+                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
+                                                   select new VMCommonSupplier
+                                                   {
+                                                       ID = t1.VendorId,
+                                                       Name = t1.Name,
+                                                       Email = t1.Email,
+                                                       ContactPerson = t1.ContactName,
+                                                       Address = t1.Address,
+                                                       Code = t1.Code,
+                                                       Common_DistrictsFk = t2.DistrictId,
+                                                       Common_UpazilasFk = t1.UpazilaId.Value,
+                                                       District = t3.Name,
+                                                       Upazila = t2.Name,
+                                                       //Country = t4.Name,
+                                                       CreatedBy = t1.CreatedBy,
+                                                       // Division = t4.Name,
+                                                       Remarks = t1.Remarks,
+                                                       CompanyFK = t1.CompanyId,
+                                                       Phone = t1.Phone,
+                                                       ZoneName = t5.Name,
+                                                       ZoneIncharge = t6.ZoneIncharge,
+                                                       CreditLimit = t1.CreditLimit,
+                                                       NID = t1.NID,
+                                                       CustomerTypeFk = t1.CustomerTypeFK,
+                                                       VendorTypeId = t1.VendorTypeId
+                                                   }).FirstOrDefault());
 
 
 
@@ -4629,7 +4629,7 @@ namespace KGERP.Service.Implementation.Configuration
                 NomineePhone = vmCommonDealer.NomineePhone,
                 NomineeRelation = vmCommonDealer.NomineeRelation,
                 NomineeNID = vmCommonDealer.NomineeNID,
-                ParentId=vmCommonDealer.ParentId
+                ParentId = vmCommonDealer.ParentId
 
             };
             _db.Vendors.Add(commonDealer);
@@ -4724,8 +4724,6 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonDistricts vmCommonDistricts = new VMCommonDistricts();
 
-
-
             vmCommonDistricts.DataList = await Task.Run(() => (from t1 in _db.Districts
                                                                join t2 in _db.Divisions on t1.DivisionId equals t2.DivisionId
                                                                where t1.IsActive == true
@@ -4735,8 +4733,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                    Common_DivisionsFk = t1.DivisionId,
                                                                    ID = t1.DistrictId,
                                                                    DivisionsName = t2.Name,
-
-                                                                   Name = t1.Name
+                                                                   Name = t1.Name,
+                                                                   ShortName = t1.ShortName
                                                                }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonDistricts;
         }
@@ -4764,9 +4762,11 @@ namespace KGERP.Service.Implementation.Configuration
                                                            {
                                                                ID = t1.UpazilaId,
                                                                Name = t1.Name,
+                                                               ShortName = t1.ShortName,
                                                                Common_DistrictsFk = t2.DistrictId,
                                                                Common_DivisionsFk = t3.DivisionId,
                                                                DistictName = t2.Name,
+
                                                                DivisionsName = t3.Name
 
                                                            }).OrderByDescending(x => x.ID).AsEnumerable());

@@ -1,13 +1,10 @@
-﻿
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonDistricts
 @{
-
     ViewData["Title"] = "Districts";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-
-
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonDistricts
+
 <style type="text/css">
 
     input, select, textarea {
@@ -16,13 +13,14 @@
 </style>
 <section class="content-header">
     <h1>
-        Districts
+        District
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Districts</li>
+        <li class="active">District</li>
     </ol>
 </section>
+
 @using (Html.BeginForm("CommonDistricts", "Configuration", FormMethod.Post, new { id = "commonDistrictsFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
@@ -34,12 +32,13 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Update Districts</h4>
+                                <h4>Update District</h4>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "unitId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
+
                                 <div class="form-group">
                                     @Html.HiddenFor(model => model.ID, new { Value = "", id = "DistrictId" })
                                 </div>
@@ -49,12 +48,14 @@
                                     @Html.ValidationMessageFor(model => model.Common_DivisionsFk, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtDistrictsName", @class = "form-control input-sm", @placeholder = "Unit Name", required = "true", })
+                                    <label for="message-text" class="col-form-label">District Name:</label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtDistrictsName", @class = "form-control input-sm", @placeholder = "District Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
-                                    @Html.TextBoxFor(model => model.ShorName, new { id = "txtShortName", @class = "form-control input-sm", @placeholder = "Short Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.ShorName, "", new { @class = "text-danger" })
+                                    <label for="message-text" class="col-form-label">Short Name:</label>
+                                    @Html.TextBoxFor(model => model.ShortName, new { id = "txtShortName", @class = "form-control input-sm", @placeholder = "Short Name", required = "true", })
+                                    @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-5">
@@ -74,7 +75,7 @@
                     <div class="box">
                         <div class="box-danger">
                             <div class="box-header">
-                                <h4>Districts List</h4>
+                                <h4>District List</h4>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
@@ -84,7 +85,9 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Districts Name</th>
+                                                <th>Division</th>
+                                                <th>District</th>
+                                                <th>Short Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -95,9 +98,15 @@
                                             {
                                                 <tr>
                                                     <td>@(++sl)</td>
+                                                    <td id="tdDivisionName_@item.ID">
+                                                        @item.DivisionsName
+                                                    </td>
                                                     <td id="tdDistrictsName_@item.ID">
                                                         @item.Name
                                                         <input type="hidden" id="hidCommon_DivisionsFk_@item.ID" value="@item.Common_DivisionsFk" />
+                                                    </td>
+                                                    <td id="tdDistrictsShorName_@item.ID">
+                                                        @item.ShortName
                                                     </td>
                                                     <td>
                                                         <a id="@item.ID" onclick="EditItem(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
@@ -123,8 +132,6 @@
             </div>
         </div>
     </section>
-
-
 }
 
 
@@ -167,7 +174,7 @@
                     data: { Model: v },
                     dataType: "json",
                     success: function (data) {
-                      
+
                     }
 
                 });
@@ -190,7 +197,7 @@
                 datatype: "Json",
             data: { id: eid },
                 success: function (data) {
-                  
+
                     $("#txtDistrictsName").val(data.Name);
                     $("#txtShortName").val(data.ShortName);
                     $("#ddlCommon_DivisionsFk").val(data.DivisionId).change();

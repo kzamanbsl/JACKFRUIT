@@ -40,6 +40,7 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
+                                    <label for="" class="form-control-label">Unit Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control input-sm", @placeholder = "Unit Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>

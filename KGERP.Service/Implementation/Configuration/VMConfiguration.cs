@@ -808,7 +808,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int Common_DivisionsFk { get; set; }
         public string DivisionsName { get; set; }
 
-        public string ShorName { get; set; }
+        public string ShortName { get; set; }
         public IEnumerable<VMCommonDistricts> DataList { get; set; }
         public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
 
@@ -824,7 +824,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string DistictName { get; set; }
         public int Common_DivisionsFk { get; set; }
         public string DivisionsName { get; set; }
-        public string ShorName { get; set; }
+        public string ShortName { get; set; }
         public IEnumerable<VMCommonThana> DataList { get; set; }
 
         public List<District> DistrictList { get; set; }
