@@ -1,6 +1,6 @@
 ﻿using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
-
+using KGERP.Utility;
 using System;
 using System.Linq;
 
@@ -20,8 +20,11 @@ namespace KGERP.Service.Implementation.Dashboard_service
             DashBoardViewModel vm = new DashBoardViewModel();
 
 
-            vm.Totalsupplier = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == 1 && x.IsActive).Count();
-            vm.Totalvendor = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == 2 && x.IsActive).Count();
+            vm.TotalSupplier = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Supplier && x.IsActive).Count();
+            vm.TotalVendor = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Customer && x.IsActive).Count();
+            vm.TotalDeport = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Deport && x.IsActive).Count();
+            vm.TotalDealer = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Dealer && x.IsActive).Count();
+           
             vm.TotalPurchase = _context.PurchaseOrders.Where(x => x.CompanyId == companyId && x.PurchaseDate == DateTime.Today && x.IsActive).Count();
             vm.TotalPurcaseAmmount = (from t1 in _context.PurchaseOrders
                                       join t2 in _context.PurchaseOrderDetails on t1.PurchaseOrderId equals t2.PurchaseOrderId
@@ -45,7 +48,7 @@ namespace KGERP.Service.Implementation.Dashboard_service
                                       select t1.OutAmount ?? 0).DefaultIfEmpty(0).Sum();
 
             var enddate = DateTime.Now.AddMonths(-1);
-            vm.TotalmonthPurchaseAmmount = (from t1 in _context.PurchaseOrders
+            vm.TotalMonthPurchaseAmmount = (from t1 in _context.PurchaseOrders
                                             join t2 in _context.PurchaseOrderDetails on t1.PurchaseOrderId equals t2.PurchaseOrderId
                                             where t1.CompanyId == companyId && t1.PurchaseDate >= enddate && t1.PurchaseDate <= DateTime.Now && t1.IsActive && t2.IsActive
                                             select t2.PurchaseAmount).DefaultIfEmpty(0).Sum();
