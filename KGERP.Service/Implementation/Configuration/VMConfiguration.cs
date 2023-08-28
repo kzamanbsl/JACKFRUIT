@@ -239,7 +239,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public int? RegionId { get; set; }
         public int? AreaId { get; set; }
-        public int SubZoneId { get; set; }
+        public int? SubZoneId { get; set; }
        
         public HttpPostedFileBase file { get; set; }
         public string ImageFileUrl { get; set; }

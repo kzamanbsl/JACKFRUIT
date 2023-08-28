@@ -99,7 +99,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Zone:</label>
                                         @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlZoneId", @class = "form-control", required = "true" })
@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Region:</label>
                                         @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control", required = "true" })
@@ -115,21 +115,21 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
+                                <div class="col-md-4">
+                                    @*<div class="form-group">
                                         <label for="message-text" class="col-form-label">Area:</label>
-                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control", required = "true" })
+                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
-                                    </div>
+                                    </div>*@
                                 </div>
 
-                                <div class="col-md-3">
+                                @*<div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Territory:</label>
-                                        @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control", required = "true" })
+                                        @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
+                                </div>*@
 
                             </div>
 

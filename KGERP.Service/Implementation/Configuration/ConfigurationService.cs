@@ -3366,7 +3366,7 @@ namespace KGERP.Service.Implementation.Configuration
                      from t2 in t2_def.DefaultIfEmpty()
                      join t3 in _db.Upazilas on t1.UpazilaId equals t3.UpazilaId into t3_def
                      from t3 in t3_def.DefaultIfEmpty()
-                     join t4 in _db.Districts on t3.DistrictId equals t4.DistrictId into t4_def
+                     join t4 in _db.Districts on t1.DistrictId equals t4.DistrictId into t4_def
                      from t4 in t4_def.DefaultIfEmpty()
                      join t5 in _db.Regions on t1.RegionId equals t5.RegionId into t5_def
                      from t5 in t5_def.DefaultIfEmpty()
@@ -3441,13 +3441,13 @@ namespace KGERP.Service.Implementation.Configuration
             vmCommonCustomer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.CompanyId == companyId)
                                                               join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
                                                               from t2 in t2_def.DefaultIfEmpty()
-                                                              join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
+                                                              join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                               from t3 in t3_def.DefaultIfEmpty()
                                                               join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
                                                               from t4 in t4_def.DefaultIfEmpty()
                                                               join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
                                                               from t5 in t5_def.DefaultIfEmpty()
-                                                              join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                              join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                               from t6 in t6_def.DefaultIfEmpty()
                                                               join t7 in _db.Regions on t1.RegionId equals t7.RegionId into t7_def
                                                               from t7 in t7_def.DefaultIfEmpty()
@@ -4201,10 +4201,11 @@ namespace KGERP.Service.Implementation.Configuration
                          Email = t1.Email,
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
+                         ZoneId = t1.ZoneId.Value,
+                         RegionId = t1.RegionId.Value,
                          SubZoneId = t1.SubZoneId.Value,
+                         AreaId=t1.AreaId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
-                         ZoneId = t2.ZoneId,
-                         RegionId = t1.RegionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
                          Common_UpazilasFk = t3.UpazilaId > 0 ? t3.UpazilaId : 0,
@@ -4231,13 +4232,13 @@ namespace KGERP.Service.Implementation.Configuration
             vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
                                                             join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
                                                             from t2 in t2_def.DefaultIfEmpty()
-                                                            join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
+                                                            join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                             from t3 in t3_def.DefaultIfEmpty()
                                                             join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
                                                             from t4 in t4_def.DefaultIfEmpty()
                                                             join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
                                                             from t5 in t5_def.DefaultIfEmpty()
-                                                            join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                            join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                             from t6 in t6_def.DefaultIfEmpty()
                                                             join t7 in _db.Regions on t1.RegionId equals t7.RegionId into t7_def
                                                             from t7 in t7_def.DefaultIfEmpty()
@@ -4471,7 +4472,7 @@ namespace KGERP.Service.Implementation.Configuration
                      from t2 in t2_def.DefaultIfEmpty()
                      join t3 in _db.Upazilas on t1.UpazilaId equals t3.UpazilaId into t3_def
                      from t3 in t3_def.DefaultIfEmpty()
-                     join t4 in _db.Districts on t3.DistrictId equals t4.DistrictId into t4_def
+                     join t4 in _db.Districts on t1.DistrictId equals t4.DistrictId into t4_def
                      from t4 in t4_def.DefaultIfEmpty()
                      join t5 in _db.Regions on t1.RegionId equals t5.RegionId into t5_def
                      from t5 in t5_def.DefaultIfEmpty()
@@ -4514,13 +4515,13 @@ namespace KGERP.Service.Implementation.Configuration
             vmCommonDealer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.CompanyId == companyId)
                                                             join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
                                                             from t2 in t2_def.DefaultIfEmpty()
-                                                            join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
+                                                            join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                             from t3 in t3_def.DefaultIfEmpty()
                                                             join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
                                                             from t4 in t4_def.DefaultIfEmpty()
                                                             join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
                                                             from t5 in t5_def.DefaultIfEmpty()
-                                                            join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                            join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                             from t6 in t6_def.DefaultIfEmpty()
                                                             join t7 in _db.Regions on t1.RegionId equals t7.RegionId into t7_def
                                                             from t7 in t7_def.DefaultIfEmpty()
