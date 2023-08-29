@@ -9,7 +9,7 @@ GO
 -- Schema name change
 --ALTER SCHEMA NewSchema TRANSFER [OldSchema].[TableName]
 
---Menu Delete
+--CompanyUserMenu Delete
 delete from CompanyUserMenu where CompanyId NOT IN (21,26,27)
 delete from CompanyUserMenu where UserId NOT IN ('ISS0001','ISS0002')
 DELETE FROM CompanyUserMenu WHERE CompanyUserMenuId NOT IN
@@ -17,6 +17,17 @@ DELETE FROM CompanyUserMenu WHERE CompanyUserMenuId NOT IN
 SELECT MAX(CompanyUserMenuId)
 FROM CompanyUserMenu
 GROUP BY CompanyId, CompanyMenuId, CompanySubMenuId,UserId
+)
+
+--CompanyMenu Delete
+delete from CompanyMenu where CompanyId is null
+delete from CompanyMenu where IsActive=0
+
+DELETE FROM CompanyMenu WHERE CompanyMenuId NOT IN
+(
+SELECT MAX(CompanyMenuId)
+FROM CompanyMenu
+GROUP BY [Name], CompanyId
 )
 
 --StockTransfer Delete
