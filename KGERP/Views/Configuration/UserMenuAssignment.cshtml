@@ -20,9 +20,10 @@
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
 
-        <li class="active"> Menu Assign</li>
+        <li class="active">Menu Assign</li>
     </ol>
 </section>
+
 @using (Html.BeginForm("UserMenuAssignment", "Configuration", FormMethod.Post, new { id = "userMenuFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
@@ -34,17 +35,15 @@
             @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
 
             <div class="box-danger">
-                <div class="box-header">
+                @*<div class="box-header">
                     <h4>Add Menu</h4>
-                </div>
+                </div>*@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
                         <div class="form-group col-md-5" style="padding:0px">
-                            @*<label for="message-text" class="col-form-label">Employee</label>*@
-
+                            <label for="message-text" class="col-form-label">User</label>
                             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Title", @id = "txtEmployeeKGId", @style = "max-width: 100%" } })
-
                             @Html.HiddenFor(model => model.UserId, new { id = "ddlREmployeeKGId" })
                             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                         </div>
@@ -56,22 +55,21 @@
                             </div>*@
                         <div class="col-md-5">
                             <div class="form-group">
-                                @*<label for="message-text" class="col-form-label">Company</label>*@
+                                <label for="message-text" class="col-form-label">Company</label>
                                 @Html.DropDownListFor(model => model.CompanyFK, Model.CompanyList as SelectList, "---Select Company List---", new { id = "ddlCompanyFK", @class = "searchingDropdown form-control input-sm" })
                                 @Html.ValidationMessageFor(model => model.CompanyFK, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
+                                <label for="message-text" class="col-form-label"></label>
                                 <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Show</button>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="box-footer">
-                </div>
+                @*<div class="box-footer">
+                </div>*@
             </div>
         </div>
 
@@ -82,7 +80,6 @@
                     <h4>Menu List</h4>
                 </div>
                 <div class="box-body">
-
 
                     <div class="box-group" id="accordion">
                         @if (Model.DataList != null)
