@@ -36,7 +36,6 @@
         <EntityTypeShape EntityType="ERPModel.Country" Width="1.5" PointX="13.75" PointY="19.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.CreditRecover" Width="1.5" PointX="19.75" PointY="1" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.CreditRecoverDetail" Width="1.5" PointX="22" PointY="1.625" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.Department" Width="1.5" PointX="0.75" PointY="52.25" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.DisputedList" Width="1.5" PointX="3.75" PointY="63.875" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.District" Width="1.5" PointX="0.75" PointY="34.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Division" Width="1.5" PointX="0.75" PointY="57.625" IsExpanded="false" />
@@ -368,7 +367,6 @@
         <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
         <AssociationConnector Association="ERPModel.FK_Employee_Employee" />
         <AssociationConnector Association="ERPModel.FK_Employee_Company" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Department" />
         <AssociationConnector Association="ERPModel.FK_Employee_Designation" />
         <AssociationConnector Association="ERPModel.FK_Employee_District" />
         <AssociationConnector Association="ERPModel.FK_Employee_Division" />
@@ -503,6 +501,9 @@
         <AssociationConnector Association="ERPModel.FK_Vendor_Zone" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
+        <EntityTypeShape EntityType="ERPModel.Department" Width="1.5" PointX="3" PointY="35" />
+        <AssociationConnector Association="ERPModel.FK_Department_Company" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Department" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

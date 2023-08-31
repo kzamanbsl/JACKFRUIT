@@ -111,7 +111,6 @@ namespace KGERP.Data.Models
         public virtual Bank Bank { get; set; }
         public virtual BankBranch BankBranch { get; set; }
         public virtual Company Company { get; set; }
-        public virtual Department Department { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual District District { get; set; }
         public virtual Division Division { get; set; }
@@ -173,5 +172,6 @@ namespace KGERP.Data.Models
         public virtual StockInfo StockInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Area> Areas { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

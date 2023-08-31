@@ -922,4 +922,14 @@ namespace KGERP.Service.Implementation.Configuration
 
     }
     #endregion
+
+    #region Department
+
+    public class VMCommonDepartment : BaseVM
+    {
+
+        public string Name { get; set; }
+        public IEnumerable<VMCommonDepartment> DataList { get; set; }
+    }
+    #endregion
 }

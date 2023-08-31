@@ -1105,8 +1105,12 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shado
           </Key>
           <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
         </EntityType>
         <EntityType Name="Designation">
           <Key>
@@ -6158,6 +6162,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Department_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DropDownItem_DropDownType">
           <End Role="DropDownType" Type="Self.DropDownType" Multiplicity="0..1" />
           <End Role="DropDownItem" Type="Self.DropDownItem" Multiplicity="*" />
@@ -8826,6 +8842,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Demand" EntitySet="Demand" />
             <End Role="DemandItem" EntitySet="DemandItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_Department_Company" Association="Self.FK_Department_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
           <AssociationSet Name="FK_DropDownItem_DropDownType" Association="Self.FK_DropDownItem_DropDownType">
             <End Role="DropDownType" EntitySet="DropDownType" />
             <End Role="DropDownItem" EntitySet="DropDownItem" />
@@ -9411,7 +9431,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <EntitySet Name="Countries" EntityType="ERPModel.Country" />
           <EntitySet Name="CreditRecovers" EntityType="ERPModel.CreditRecover" />
           <EntitySet Name="CreditRecoverDetails" EntityType="ERPModel.CreditRecoverDetail" />
-          <EntitySet Name="Departments" EntityType="ERPModel.Department" />
           <EntitySet Name="DisputedLists" EntityType="ERPModel.DisputedList" />
           <EntitySet Name="Districts" EntityType="ERPModel.District" />
           <EntitySet Name="Divisions" EntityType="ERPModel.Division" />
@@ -10119,10 +10138,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Company" EntitySet="Companies" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employee_Department" Association="ERPModel.FK_Employee_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK_Employee_Designation" Association="ERPModel.FK_Employee_Designation">
             <End Role="Designation" EntitySet="Designations" />
             <End Role="Employee" EntitySet="Employees" />
@@ -10565,6 +10580,15 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_VendorOpening_Vendor" Association="ERPModel.FK_VendorOpening_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
+          </AssociationSet>
+          <EntitySet Name="Departments" EntityType="ERPModel.Department" />
+          <AssociationSet Name="FK_Department_Company" Association="ERPModel.FK_Department_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Department" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Department" Association="ERPModel.FK_Employee_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -11177,16 +11201,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="RecoverDate" Type="DateTime" Precision="0" />
           <Property Name="Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CreditRecover" Relationship="ERPModel.FK_CreditRecoverDetail_CreditRecover" FromRole="CreditRecoverDetail" ToRole="CreditRecover" />
-        </EntityType>
-        <EntityType Name="Department">
-          <Key>
-            <PropertyRef Name="DepartmentId" />
-          </Key>
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
         </EntityType>
         <EntityType Name="DisputedList">
           <Key>
@@ -16648,6 +16662,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="ProductionStatus" Relationship="ERPModel.FK_ProductionStatus_Company" FromRole="Company" ToRole="ProductionStatu" />
           <NavigationProperty Name="Expenses" Relationship="ERPModel.FK_Expenses_Company" FromRole="Company" ToRole="Expense" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Company" FromRole="Company" ToRole="Area" />
+          <NavigationProperty Name="Departments" Relationship="ERPModel.FK_Department_Company" FromRole="Company" ToRole="Department" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -16944,7 +16959,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Bank" Relationship="ERPModel.FK_Employee_Bank" FromRole="Employee" ToRole="Bank" />
           <NavigationProperty Name="BankBranch" Relationship="ERPModel.FK_Employee_Employee" FromRole="Employee" ToRole="BankBranch" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_Employee_Company" FromRole="Employee" ToRole="Company" />
-          <NavigationProperty Name="Department" Relationship="ERPModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Designation" Relationship="ERPModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
           <NavigationProperty Name="District" Relationship="ERPModel.FK_Employee_District" FromRole="Employee" ToRole="District" />
           <NavigationProperty Name="Division" Relationship="ERPModel.FK_Employee_Division" FromRole="Employee" ToRole="Division" />
@@ -16986,6 +17000,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Employee" FromRole="Employee" ToRole="Region" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Employee_StockInfo" FromRole="Employee" ToRole="StockInfo" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Employee" FromRole="Employee" ToRole="Area" />
+          <NavigationProperty Name="Department" Relationship="ERPModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
         </EntityType>
         <Association Name="FK_AssetAssign_Employee">
           <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
@@ -17032,18 +17047,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Department">
-          <End Type="ERPModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentId" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="DepartmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19132,6 +19135,45 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Department_Company" FromRole="Department" ToRole="Company" />
+          <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Department_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="ERPModel.Department" Role="Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Department">
+          <End Type="ERPModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19730,16 +19772,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="RecoverAmount" ColumnName="RecoverAmount" />
                 <ScalarProperty Name="CreditRecoverId" ColumnName="CreditRecoverId" />
                 <ScalarProperty Name="CreditRecoverDetailId" ColumnName="CreditRecoverDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Departments">
-            <EntityTypeMapping TypeName="ERPModel.Department">
-              <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -24664,6 +24696,20 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ERPModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

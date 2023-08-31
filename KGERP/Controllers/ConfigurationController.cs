@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using KGERP.Data.Models;
+using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.FTP;
 using KGERP.Service.Interface;
@@ -22,6 +23,7 @@ namespace KGERP.Controllers
         private readonly ConfigurationService _service;
         private readonly ICompanyService _companyService;
         private readonly IFTPService _ftpService;
+        readonly IDepartmentService _departmentService = new DepartmentService();
         public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService)
         {
             _service = configurationService;
@@ -1615,6 +1617,7 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(AccountingSignatory), new { companyId = vmAccountingSignatory.CompanyFK });
         }
 
+        [HttpGet]
         public async Task<ActionResult> Company()
         {
 
@@ -1741,6 +1744,44 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Common Department
+
+        [HttpGet]
+        public async Task<ActionResult> CommonDepartment(int companyId)
+        {
+            VMCommonDepartment vmCommonBank = new VMCommonDepartment();
+            vmCommonBank = await _departmentService.GetDepartments(companyId);
+            return View(vmCommonBank);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonDepartment(VMCommonDepartment vmCommonDepartment)
+        {
+
+            if (vmCommonDepartment.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                await _departmentService.DepartmentAdd(vmCommonDepartment);
+            }
+            else if (vmCommonDepartment.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _departmentService.DepartmentEdit(vmCommonDepartment);
+            }
+            else if (vmCommonDepartment.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _departmentService.DepartmentDelete(vmCommonDepartment.ID);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+            return RedirectToAction(nameof(CommonDepartment), new { companyId = vmCommonDepartment.CompanyFK });
+        }
+
+        #endregion
+
         #region Account Cheque Info
 
         public JsonResult CommonActChequeInfoByIDGet(int id)
@@ -1837,6 +1878,7 @@ namespace KGERP.Controllers
 
         #region Common Raw Product SubCategory
 
+        [HttpGet]
         public async Task<ActionResult> ProductSubCategoryBlock(int companyId, int categoryId = 0, string productType = "")
         {
 
@@ -1967,6 +2009,7 @@ namespace KGERP.Controllers
 
         #endregion
 
+        [HttpGet]
         public async Task<ActionResult> CommonClient(int companyId)
         {
 
