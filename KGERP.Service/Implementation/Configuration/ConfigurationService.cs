@@ -841,7 +841,8 @@ namespace KGERP.Service.Implementation.Configuration
         public object AllEmployee(string prefix)
         {
             var v = (from t1 in _db.Employees
-                     join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId
+                     join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
+                     from t2 in t2_Join.DefaultIfEmpty()
                      where (t1.EmployeeId.Contains(prefix) || t1.Name.Contains(prefix) || t1.ShortName.Contains(prefix) || t2.Name.Contains(prefix))
 
                      select new
@@ -856,7 +857,8 @@ namespace KGERP.Service.Implementation.Configuration
         public object AllEmployeeForMenu(string prefix)
         {
             var v = (from t1 in _db.Employees.Where(q => q.Active)
-                     join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId
+                     join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
+                     from t2 in t2_Join.DefaultIfEmpty()
                      where (t1.EmployeeId.Contains(prefix) || t1.Name.Contains(prefix) || t1.ShortName.Contains(prefix) || t2.Name.Contains(prefix))
 
                      select new
