@@ -1,79 +1,97 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace KGERP.Service.Implementation
 {
     public class HrDesignationService
     {
         private readonly ERPEntities _context = new ERPEntities();
-        public HrDesignationService(ERPEntities context)
+
+        public async Task<VMCommonHrDesignation> GetHrDesignations(int companyId)
         {
-            _context = context;
+            VMCommonHrDesignation vmCommonDesignation = new VMCommonHrDesignation();
+
+            vmCommonDesignation.CompanyFK = companyId;
+
+            vmCommonDesignation.DataList = await Task.Run(() => (from t1 in _context.Designations
+                                                                where t1.IsActive == true && t1.CompanyId == companyId
+                                                                select new VMCommonHrDesignation
+                                                                {
+                                                                    ID = t1.DesignationId,
+                                                                    Name = t1.Name,
+                                                                    CompanyFK = t1.CompanyId
+                                                                }).OrderByDescending(x => x.ID).AsEnumerable());
+
+            return vmCommonDesignation;
         }
 
-        public class DesignationViewModel{
 
-            public int DesignationId { get; set; }
-            public int CompanyId { get; set; }
-            public string Name { get; set; }
-            public int CreatedBy { get; set; }
-            public System.DateTime CreatedDate { get; set; }
-            public IEnumerable<DesignationViewModel> DataList { get; set; }
-        }
-
-        public DesignationViewModel AddDes(DesignationViewModel vm)
+        public async Task<int> HrDesignationAdd(VMCommonHrDesignation vmCommonDesignation)
         {
-            Designation designation = new Designation();
-            //designation.CreatedBy = HttpContext.Current.User.Identity.Name;
-            //designation.CreatedBy = 1;
-            designation.CreatedDate = DateTime.Now;
-            designation.Name = vm.Name;
-            _context.Designations.Add(designation);
-            _context.SaveChangesAsync();
-           
-            return vm;
-        }
-        public DesignationViewModel Updatedes(DesignationViewModel designation)
-        {
-            var exit = _context.Designations.FirstOrDefault(f => f.DesignationId == designation.DesignationId);
-            exit.Name = designation.Name;
-              _context.Entry(exit).State = EntityState.Modified;
-              _context.SaveChangesAsync();
-            return designation;
-        }
-
-        public DesignationViewModel desilist(DesignationViewModel designation)
-        {
-            List<DesignationViewModel> model = new List<DesignationViewModel>();
-            var listof = _context.Designations.ToList();
-            foreach (var item in listof)
+            var result = -1;
+            Designation department = new Designation
             {
-                DesignationViewModel vm = new DesignationViewModel();
-                vm.DesignationId = item.DesignationId;
-                vm.Name = item.Name;
-                vm.CreatedBy = (int)item.CreatedBy;
-                model.Add(vm);
-            }
-            designation.DataList = model;
-            return designation;
+                Name = vmCommonDesignation.Name,
+                CompanyId = vmCommonDesignation.CompanyFK,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true
 
+            };
+            _context.Designations.Add(department);
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = department.DesignationId;
+            }
+            return result;
         }
 
-        public bool checckname(DesignationViewModel designation)
+        public async Task<int> HrDesignationEdit(VMCommonHrDesignation vmCommonDesignation)
+        {
+            var result = -1;
+            Designation department = _context.Designations.Find(vmCommonDesignation.ID);
+            department.Name = vmCommonDesignation.Name;
+
+
+            department.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            department.ModifiedDate = DateTime.Now;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = department.DesignationId;
+            }
+            return result;
+        }
+
+
+        public async Task<int> HrDesignationDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                Designation department = await _context.Designations.FindAsync(id);
+                department.IsActive = false;
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = department.DesignationId;
+                }
+            }
+            return result;
+        }
+
+        public bool ChecckName(VMCommonHrDesignation designation)
         {
             var exit = _context.Designations.FirstOrDefault(f => f.Name.Trim() == designation.Name.Trim());
-            if (exit==null)
+            if (exit == null)
             {
                 return true;
             }
             return false;
         }
 
-        }
+    }
 }

@@ -209,7 +209,6 @@
         <EntityTypeShape EntityType="ERPModel.DemandItem" Width="1.5" PointX="3" PointY="66.5" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Ticketing" Width="1.5" PointX="38.375" PointY="45.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.vwDemandForSaleInvoice" Width="1.5" PointX="18.375" PointY="45.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.Designation" Width="1.5" PointX="40.375" PointY="45.875" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.vw_Attendence" Width="1.5" PointX="17.375" PointY="21.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.vwAllHead" Width="1.5" PointX="6.375" PointY="13.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.vwProductPrice" Width="1.5" PointX="6.375" PointY="2.75" IsExpanded="false" />
@@ -367,7 +366,6 @@
         <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
         <AssociationConnector Association="ERPModel.FK_Employee_Employee" />
         <AssociationConnector Association="ERPModel.FK_Employee_Company" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Designation" />
         <AssociationConnector Association="ERPModel.FK_Employee_District" />
         <AssociationConnector Association="ERPModel.FK_Employee_Division" />
         <AssociationConnector Association="ERPModel.FK_Employee_BloodGroup" />
@@ -504,6 +502,8 @@
         <EntityTypeShape EntityType="ERPModel.Department" Width="1.5" PointX="3" PointY="35" />
         <AssociationConnector Association="ERPModel.FK_Department_Company" />
         <AssociationConnector Association="ERPModel.FK_Employee_Department" />
+        <EntityTypeShape EntityType="ERPModel.Designation" Width="1.5" PointX="18.375" PointY="13" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Designation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

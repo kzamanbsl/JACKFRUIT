@@ -477,7 +477,6 @@
     <Compile Include="Controllers\TeamMakingProcessController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\InstallmentTypeController.cs" />
-    <Compile Include="Controllers\HRConfiguration\DesignationController.cs" />
     <Compile Include="Controllers\LCController.cs" />
     <Compile Include="Controllers\PurchaseReturnController.cs" />
     <Compile Include="Controllers\PaymentCollectionController.cs" />
@@ -4848,7 +4847,6 @@
     <Content Include="Views\Demand\GetStoreProduct.cshtml" />
     <Content Include="Views\Demand\Index.cshtml" />
     <Content Include="Views\Demand\StoreQty.cshtml" />
-    <Content Include="Views\Designation\Add_Designation.cshtml" />
     <Content Include="Views\District\CreateOrEdit.cshtml" />
     <Content Include="Views\District\Delete.cshtml" />
     <Content Include="Views\District\Details.cshtml" />
@@ -5571,6 +5569,7 @@
     <Content Include="Views\Configuration\CommonDealer.cshtml" />
     <Content Include="Views\Configuration\CommonDealerById.cshtml" />
     <Content Include="Views\Configuration\CommonDepartment.cshtml" />
+    <Content Include="Views\Configuration\CommonHrDesignation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -5580,6 +5579,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Login\images\icons\" />
+    <Folder Include="Controllers\HRConfiguration\" />
     <Folder Include="Images\Signature\" />
     <Folder Include="Images\Upload\" />
     <Folder Include="TaskManagement\" />

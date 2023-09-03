@@ -23,7 +23,9 @@ namespace KGERP.Controllers
         private readonly ConfigurationService _service;
         private readonly ICompanyService _companyService;
         private readonly IFTPService _ftpService;
-        readonly IDepartmentService _departmentService = new DepartmentService();
+        private readonly IDepartmentService _departmentService = new DepartmentService();
+        private readonly HrDesignationService _hrDesignationService = new HrDesignationService();
+
         public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService)
         {
             _service = configurationService;
@@ -1749,9 +1751,9 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> CommonDepartment(int companyId)
         {
-            VMCommonDepartment vmCommonBank = new VMCommonDepartment();
-            vmCommonBank = await _departmentService.GetDepartments(companyId);
-            return View(vmCommonBank);
+            VMCommonDepartment vmCommonDepartment = new VMCommonDepartment();
+            vmCommonDepartment = await _departmentService.GetDepartments(companyId);
+            return View(vmCommonDepartment);
         }
 
         [HttpPost]
@@ -1778,6 +1780,44 @@ namespace KGERP.Controllers
                 return RedirectToAction("Error");
             }
             return RedirectToAction(nameof(CommonDepartment), new { companyId = vmCommonDepartment.CompanyFK });
+        }
+
+        #endregion
+
+        #region Common Designation
+
+        [HttpGet]
+        public async Task<ActionResult> CommonHrDesignation(int companyId)
+        {
+            VMCommonHrDesignation vmCommonDesignation = new VMCommonHrDesignation();
+            vmCommonDesignation = await _hrDesignationService.GetHrDesignations(companyId);
+            return View(vmCommonDesignation);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonHrDesignation(VMCommonHrDesignation vmCommonDesignation)
+        {
+
+            if (vmCommonDesignation.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                await _hrDesignationService.HrDesignationAdd(vmCommonDesignation);
+            }
+            else if (vmCommonDesignation.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _hrDesignationService.HrDesignationEdit(vmCommonDesignation);
+            }
+            else if (vmCommonDesignation.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _hrDesignationService.HrDesignationDelete(vmCommonDesignation.ID);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+            return RedirectToAction(nameof(CommonHrDesignation), new { companyId = vmCommonDesignation.CompanyFK });
         }
 
         #endregion

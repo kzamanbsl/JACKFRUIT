@@ -180,7 +180,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<DemandItem> DemandItems { get; set; }
         public virtual DbSet<Ticketing> Ticketings { get; set; }
         public virtual DbSet<vwDemandForSaleInvoice> vwDemandForSaleInvoices { get; set; }
-        public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<vw_Attendence> vw_Attendence { get; set; }
         public virtual DbSet<vwAllHead> vwAllHeads { get; set; }
         public virtual DbSet<vwProductPrice> vwProductPrices { get; set; }
@@ -294,6 +293,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Designation> Designations { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
