@@ -1,10 +1,9 @@
-﻿
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonUnit
 @{
     ViewData["Title"] = "Unit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonUnit
+
 <style type="text/css">
 
     input, select, textarea {
@@ -20,6 +19,7 @@
         <li class="active">Unit</li>
     </ol>
 </section>
+
 @using (Html.BeginForm("CommonUnit", "Configuration", FormMethod.Post, new { id = "commonUnitFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
@@ -31,8 +31,8 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             @*<div class="box-header">
-                                <h4>Add Unit</h4>
-                            </div>*@
+                                    <h4>Add Unit</h4>
+                                </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "unitId" })

@@ -24,7 +24,7 @@ namespace KGERP.Service.Implementation
         public async Task<StockInfoModel> GetStockInfos(int companyId)
         {
             StockInfoModel model = new StockInfoModel();
-
+            model.CompanyId=companyId;
             model.DataList = await Task.Run(() => (from t1 in _context.StockInfoes
                                                    where t1.IsActive && t1.CompanyId == companyId
                                                    select new StockInfoModel

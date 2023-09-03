@@ -1,27 +1,27 @@
 ﻿
 @using KG.Core.Services
-
+@model KGERP.Service.Implementation.Configuration.VMCommonSupplier
 @{
     ViewData["Title"] = "Suppliers / Exporters";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonSupplier
-<style type="text/css">
 
+<style type="text/css">
     input, select, textarea {
         max-width: 100%;
     }
 </style>
+
 <section class="content-header">
     <h1>
-        Suppliers / Exporters
+        Supplier
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Suppliers / Exporters</li>
+        <li class="active">Suppliers</li>
     </ol>
 </section>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -43,7 +43,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Supplier/Exporter Name:</label>
+                                        <label for="message-text" class="col-form-label">Supplier Name:</label>
                                         @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Supplier Name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">A/C NO:</label>
+                                        <label for="message-text" class="col-form-label">A/C No:</label>
                                         @Html.TextBoxFor(model => model.ACNo, new { id = "txtACNo", @class = "form-control", @placeholder = "A/C No" })
                                         @Html.ValidationMessageFor(model => model.ACNo, "", new { @class = "text-danger" })
                                     </div>
@@ -224,7 +224,7 @@
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                         </a>
-                                                        <a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>
+                                                        @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
                                                     </td>
                                                 </tr>
                                                 }

@@ -2,12 +2,17 @@
 
 @{
     var message = TempData["successMessage"];
-    ViewBag.Title = "Warehouse List";
+    ViewBag.Title = "Warehouse";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style type="text/css">
 
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 <section class="content-header">
-    <h1>&nbsp;</h1>
+    <h1>Warehouse</h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">Warehouse</li>
@@ -19,103 +24,107 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box">
-                    <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Warehouse List</h4>
-                        </div>
-                        <div class="box-body">
-                            <div class="col-md-4">
-                                <div class="box">
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="box-danger">
-                                        <div class="box-header">
-                                            <h4>Add Warehouse</h4>
+                <div class="col-md-3">
+                    <div class="box">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="box-danger">
+                            @*<div class="box-header">
+                                    <h4>Add Warehouse</h4>
+                                </div>*@
+                            <div class="box-body">
+                                @Html.HiddenFor(model => model.StockInfoId, new { id = "stockInfoId" })
+                                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                                @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyFK" })
+
+                                <div class="row">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Name:</label>
+                                        @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtName", @class = "form-control input-sm ", @placeholder = "Name", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Short Name (Prefix):</label>
+                                        @Html.TextBoxFor(model => model.ShortName, new { Style = "width:100%;", id = "txtShortName", @class = "form-control input-sm ", @placeholder = "Short Name" })
+                                        @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Code:</label>
+                                        @Html.TextBoxFor(model => model.Code, new { Style = "width:100%;", id = "txtCode", @class = "form-control input-sm ", @placeholder = "Code", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
                                         </div>
-                                        <div class="box-body">
-                                            @Html.HiddenFor(model => model.StockInfoId, new { id = "stockInfoId" })
-                                            @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
-                                            @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyFK" })
-
-
-                                            <div class="row">
-                                                <div class="form-group" style="padding:0px">
-                                                    <label for="message-text" class="col-form-label">Name:</label>
-                                                    @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtName", @class = "form-control input-sm ", @placeholder = "Name", required = "true" })
-                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                                </div>
-                                                <div class="form-group" style="padding:0px">
-                                                    <label for="message-text" class="col-form-label">Short Name (Prefix):</label>
-                                                    @Html.TextBoxFor(model => model.ShortName, new { Style = "width:100%;", id = "txtShortName", @class = "form-control input-sm ", @placeholder = "Short Name" })
-                                                    @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
-                                                </div>
-                                                <div class="form-group" style="padding:0px">
-                                                    <label for="message-text" class="col-form-label">Code:</label>
-                                                    @Html.TextBoxFor(model => model.Code, new { Style = "width:100%;", id = "txtCode", @class = "form-control input-sm ", @placeholder = "Code", required = "true" })
-                                                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <div class="col-md-5">
-                                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                        <div class="col-md-7">
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
 
                                         </div>
-                                        <div class="box-footer">
-                                        </div>
+
                                     </div>
                                 </div>
 
                             </div>
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="box">
 
-                            <div class="table-responsive">
-                                <table id="KgErpDataTable" style="width:100%; background-color:#ddd;" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>SL</th>
-                                            <th>Name</th>
-                                            <th>Short Name</th>
-                                            <th>Code</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    @{int sl = 0;
-                                    }
-                                    <tbody>
-                                        @foreach (var item in Model.DataList)
-                                        {
+                        <div class="box-danger">
+                            <div class="box-header">
+                                @*<h4>Unit List</h4>*@
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive col-md-12">
+                                    <table id="KgErpDataTable" style="width:100%; background-color:#ddd;" class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td style="width:10px;">
-                                                    @(++sl)
-                                                </td>
-                                                <td id="tdName_@item.StockInfoId">@item.Name</td>
-                                                <td id="tdShortName_@item.StockInfoId">@item.ShortName</td>
-                                                <td id="tdCode_@item.StockInfoId">@item.Code</td>
-                                                <td>
-
-                                                    <a id="@item.StockInfoId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                    <a id="@item.StockInfoId" onclick="makeDeletable(@item.StockInfoId);" class="linkPointer" data-toggle="modal" data-target="#warehouseDeleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
-
-                                                </td>
+                                                <th>SL</th>
+                                                <th>Name</th>
+                                                <th>Short Name</th>
+                                                <th>Code</th>
+                                                <th>Action</th>
                                             </tr>
+                                        </thead>
+                                        @{int sl = 0;
                                         }
-                                    </tbody>
+                                        <tbody>
+                                            @foreach (var item in Model.DataList)
+                                            {
+                                                <tr>
+                                                    <td style="width:10px;">
+                                                        @(++sl)
+                                                    </td>
+                                                    <td id="tdName_@item.StockInfoId">@item.Name</td>
+                                                    <td id="tdShortName_@item.StockInfoId">@item.ShortName</td>
+                                                    <td id="tdCode_@item.StockInfoId">@item.Code</td>
+                                                    <td>
 
-                                </table>
+                                                        <a id="@item.StockInfoId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                        <a id="@item.StockInfoId" onclick="makeDeletable(@item.StockInfoId);" class="linkPointer" data-toggle="modal" data-target="#warehouseDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
                             </div>
                         </div>
                     </div>
@@ -176,7 +185,7 @@
                 $('#txtCode').val($('#tdCode_' + rowId).text().trim());
                 $('#txtName').val($('#tdName_' + rowId).text().trim());
                 $('#txtShortName').val($('#tdShortName_' + rowId).text().trim());
-                
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             }
@@ -197,7 +206,7 @@
 
         }
 
-    
+
     </script>
 }
 
