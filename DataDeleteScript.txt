@@ -182,18 +182,14 @@ DBCC CHECKIDENT ([Erp.ExpenseMaster], RESEED, 0);
 
 --Vendor Delete
 SELECT * FROM Erp.VendorOffer
-DELETE Erp.VendorOffer
 DELETE FROM Erp.VendorOffer
 DBCC CHECKIDENT ([Erp.VendorOffer], RESEED, 0);
 
 SELECT * FROM Erp.VendorDeed
-DELETE Erp.VendorDeed
 DELETE FROM Erp.VendorDeed
 DBCC CHECKIDENT ([Erp.VendorDeed], RESEED, 0);
 
-
 SELECT * FROM Erp.Vendor
-DELETE Erp.Vendor
 DELETE FROM Erp.Vendor
 DBCC CHECKIDENT ([Erp.Vendor], RESEED, 0);
 
@@ -340,7 +336,10 @@ DELETE Erp.Demand WHERE CompanyId=21
 DELETE FROM Erp.Demand
 DBCC CHECKIDENT ([Erp.Demand], RESEED, 0);
 
-
+--member Delete
+SELECT * FROM dbo.member
+DELETE FROM dbo.member
+DBCC CHECKIDENT ([dbo.member], RESEED, 0);
 
 --Farmer Delete
 SELECT * FROM Erp.Farmer
