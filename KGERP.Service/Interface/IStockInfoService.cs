@@ -18,6 +18,5 @@ namespace KGERP.Service.Interface
         List<SelectModel> GetStoreSelectModels(int companyId);
         string StockName(int stockId);
         List<SelectModel> GetAllStoreSelectModels(int companyId);
-        List<SelectModel> GetAllZoneSelectModels(int companyId);
     }
 }

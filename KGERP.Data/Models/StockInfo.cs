@@ -20,10 +20,10 @@ namespace KGERP.Data.Models
             this.Employees = new HashSet<Employee>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.PurchaseReturns = new HashSet<PurchaseReturn>();
             this.StockTransfers = new HashSet<StockTransfer>();
             this.StockTransfers1 = new HashSet<StockTransfer>();
             this.Stores = new HashSet<Store>();
-            this.PurchaseReturns = new HashSet<PurchaseReturn>();
         }
     
         public int StockInfoId { get; set; }
@@ -32,7 +32,12 @@ namespace KGERP.Data.Models
         public string ShortName { get; set; }
         public string Code { get; set; }
         public string StockType { get; set; }
+        public bool IsDefault { get; set; }
         public bool IsActive { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -42,12 +47,12 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockTransfer> StockTransfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockTransfer> StockTransfers1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
     }
 }

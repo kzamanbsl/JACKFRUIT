@@ -5,7 +5,6 @@ using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace KGERP.Service.Implementation
@@ -34,12 +33,12 @@ namespace KGERP.Service.Implementation
                                                        StockInfoId = t1.StockInfoId,
                                                        CompanyId = t1.CompanyId,
                                                        StockType = t1.StockType,
-                                                       Code = t1.Code
+                                                       Code = t1.Code,
+                                                       IsDefault = t1.IsDefault,
                                                    }
                                                  ).OrderBy(o => o.StockInfoId).ThenBy(o=>o.Name)
                                                  .AsEnumerable());
 
-            //IQueryable<StockInfo> queryable = context.StockInfoes.OrderByDescending(x => x.StockInfoId);
             return model;
         }
 
@@ -110,18 +109,6 @@ namespace KGERP.Service.Implementation
             return stocks.OrderBy(x => Convert.ToInt32(x.Value)).ToList();
         }
 
-
-        public List<SelectModel> GetAllZoneSelectModels(int companyId)
-        {
-            List<SelectModel> stocks = _context.Zones.Where(x => x.CompanyId == companyId && x.IsActive).ToList().Select(x => new SelectModel()
-            {
-                Text = x.Name,
-                Value = x.ZoneId
-            }).OrderBy(x => x.Text).ToList();
-            stocks.Add(new SelectModel { Text = "All", Value = "0" });
-            return stocks.OrderBy(x => Convert.ToInt32(x.Value)).ToList();
-        }
-
         public async Task<int> StockInfoAdd(StockInfoModel model)
         {
             var result = -1;
@@ -131,8 +118,9 @@ namespace KGERP.Service.Implementation
                 ShortName = model.ShortName,
                 CompanyId = model.CompanyId,
                 Code = model.Code,
-                // CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                //  CreatedDate = DateTime.Now,
+                IsDefault= model.IsDefault,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
                 IsActive = true
 
             };
@@ -152,8 +140,8 @@ namespace KGERP.Service.Implementation
             obj.Code = model.Code;
             obj.ShortName = model.ShortName;
 
-            // obj.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            //obj.ModifiedDate = DateTime.Now;
+            obj.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            obj.ModifiedDate = DateTime.Now;
 
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -169,8 +157,10 @@ namespace KGERP.Service.Implementation
             {
                 StockInfo obj = await _context.StockInfoes.FindAsync(id);
                 obj.IsActive = false;
-                // obj.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                //obj.ModifiedDate = DateTime.Now;
+
+                obj.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                obj.ModifiedDate = DateTime.Now;
+
                 if (await _context.SaveChangesAsync() > 0)
                 {
                     result = obj.StockInfoId;

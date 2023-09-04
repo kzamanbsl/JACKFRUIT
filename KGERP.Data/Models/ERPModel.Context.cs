@@ -281,7 +281,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ExpenseMaster> ExpenseMasters { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
         public virtual DbSet<SaleSetting> SaleSettings { get; set; }
-        public virtual DbSet<StockInfo> StockInfoes { get; set; }
         public virtual DbSet<PurchaseReturn> PurchaseReturns { get; set; }
         public virtual DbSet<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
         public virtual DbSet<ProductionMaster> ProductionMasters { get; set; }
@@ -294,6 +293,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
+        public virtual DbSet<StockInfo> StockInfoes { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

@@ -3425,7 +3425,7 @@ namespace KGERP.Controllers
                 CompanyId = companyId,
                 ReportName = reportName,
                 ProductType = productType,
-                Stocks = _stockInfoService.GetAllZoneSelectModels(companyId)
+                Stocks = _configurationService.GetAllZoneSelectModels(companyId)
             };
             return View(cm);
         }
@@ -3453,8 +3453,6 @@ namespace KGERP.Controllers
             }
             return View();
         }
-
-
 
         // GET: Customer Report Item Wise Sales Report
         [HttpGet]
@@ -4251,8 +4249,8 @@ namespace KGERP.Controllers
             }
 
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&ProductCategoryId={5}&ProductSubCategoryId={6}&ProductId={7}&ZoneId={8}&RegionId={9}&SubZoneId={10}&CustomerId={11}",
-            model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneFk, model.RegionFk, model.SubZoneFk, model.CustomerId );
-           
+            model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneFk, model.RegionFk, model.SubZoneFk, model.CustomerId);
+
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
                 return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "GroupSaleSummary.xls");
@@ -4268,7 +4266,7 @@ namespace KGERP.Controllers
             return View();
         }
 
-      
+
         [HttpGet]
         [SessionExpire]
         public ActionResult SupplierDueSummary(int companyId)
@@ -4281,7 +4279,7 @@ namespace KGERP.Controllers
                 ToDate = DateTime.Now,
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
-                
+
             };
             return View(rcm);
         }
@@ -4317,7 +4315,7 @@ namespace KGERP.Controllers
             }
             return View();
         }
-      
+
         [HttpGet]
         [SessionExpire]
         public ActionResult CustomerDueSummary(int companyId)

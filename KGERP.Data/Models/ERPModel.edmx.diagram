@@ -441,18 +441,9 @@
         <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
         <EntityTypeShape EntityType="ERPModel.SaleSetting" Width="1.5" PointX="3" PointY="44.25" />
         <AssociationConnector Association="ERPModel.FK_SaleSetting_Company" />
-        <EntityTypeShape EntityType="ERPModel.StockInfo" Width="1.5" PointX="3" PointY="39.125" />
-        <AssociationConnector Association="ERPModel.FK_StockInfo_Company" />
-        <AssociationConnector Association="ERPModel.FK_Employee_StockInfo" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliver_StockInfo" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_StockInfo" />
-        <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo" />
-        <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo1" />
-        <AssociationConnector Association="ERPModel.FK_Store_StockInfo" />
         <EntityTypeShape EntityType="ERPModel.PurchaseReturn" Width="1.5" PointX="58.625" PointY="36" />
         <EntityTypeShape EntityType="ERPModel.PurchaseReturnDetail" Width="1.5" PointX="60.875" PointY="44.125" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" />
         <EntityTypeShape EntityType="ERPModel.ProductionMaster" Width="1.5" PointX="27.25" PointY="39" />
         <EntityTypeShape EntityType="ERPModel.ProductionStatus" Width="1.5" PointX="25" PointY="64.75" />
@@ -504,6 +495,15 @@
         <AssociationConnector Association="ERPModel.FK_Employee_Department" />
         <EntityTypeShape EntityType="ERPModel.Designation" Width="1.5" PointX="18.375" PointY="13" />
         <AssociationConnector Association="ERPModel.FK_Employee_Designation" />
+        <EntityTypeShape EntityType="ERPModel.StockInfo" Width="1.5" PointX="3" PointY="29.125" />
+        <AssociationConnector Association="ERPModel.FK_StockInfo_Company" />
+        <AssociationConnector Association="ERPModel.FK_Employee_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliver_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseReturn_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo1" />
+        <AssociationConnector Association="ERPModel.FK_Store_StockInfo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

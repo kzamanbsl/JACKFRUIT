@@ -4810,7 +4810,12 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not ha
           <Property Name="ShortName" Type="varchar" MaxLength="3" />
           <Property Name="Code" Type="varchar" MaxLength="10" />
           <Property Name="StockType" Type="char" MaxLength="1" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="StockTransfer">
           <Key>
@@ -10381,44 +10386,11 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Company" EntitySet="Companies" />
             <End Role="SaleSetting" EntitySet="SaleSettings" />
           </AssociationSet>
-          <EntitySet Name="StockInfoes" EntityType="ERPModel.StockInfo" />
-          <AssociationSet Name="FK_StockInfo_Company" Association="ERPModel.FK_StockInfo_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_StockInfo" Association="ERPModel.FK_Employee_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDeliver_StockInfo" Association="ERPModel.FK_OrderDeliver_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="OrderDeliver" EntitySet="OrderDelivers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrder_StockInfo" Association="ERPModel.FK_PurchaseOrder_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockTransfer_StockInfo" Association="ERPModel.FK_StockTransfer_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="StockTransfer" EntitySet="StockTransfers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockTransfer_StockInfo1" Association="ERPModel.FK_StockTransfer_StockInfo1">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="StockTransfer" EntitySet="StockTransfers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Store_StockInfo" Association="ERPModel.FK_Store_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="Store" EntitySet="Stores" />
-          </AssociationSet>
           <EntitySet Name="PurchaseReturns" EntityType="ERPModel.PurchaseReturn" />
           <EntitySet Name="PurchaseReturnDetails" EntityType="ERPModel.PurchaseReturnDetail" />
           <AssociationSet Name="FK_PurchaseReturnDetail_MaterialReceiveDetail" Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail">
             <End Role="MaterialReceiveDetail" EntitySet="MaterialReceiveDetails" />
             <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseReturn_StockInfo" Association="ERPModel.FK_PurchaseReturn_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseReturnDetail_PurchaseReturn" Association="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn">
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
@@ -10593,6 +10565,39 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_Employee_Designation" Association="ERPModel.FK_Employee_Designation">
             <End Role="Designation" EntitySet="Designations" />
             <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="StockInfoes" EntityType="ERPModel.StockInfo" />
+          <AssociationSet Name="FK_StockInfo_Company" Association="ERPModel.FK_StockInfo_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_StockInfo" Association="ERPModel.FK_Employee_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDeliver_StockInfo" Association="ERPModel.FK_OrderDeliver_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="OrderDeliver" EntitySet="OrderDelivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_StockInfo" Association="ERPModel.FK_PurchaseOrder_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseReturn_StockInfo" Association="ERPModel.FK_PurchaseReturn_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockTransfer_StockInfo" Association="ERPModel.FK_StockTransfer_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="StockTransfer" EntitySet="StockTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockTransfer_StockInfo1" Association="ERPModel.FK_StockTransfer_StockInfo1">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="StockTransfer" EntitySet="StockTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_StockInfo" Association="ERPModel.FK_Store_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -14415,8 +14420,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Requisition" Relationship="ERPModel.FK_Store_Requisition" FromRole="Store" ToRole="Requisition" />
           <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Store" FromRole="Store" ToRole="StoreDetail" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_Store_Company1" FromRole="Store" ToRole="Company" />
-          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Store_StockInfo" FromRole="Store" ToRole="StockInfo" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_Store_Vendor" FromRole="Store" ToRole="Vendor" />
+          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Store_StockInfo" FromRole="Store" ToRole="StockInfo" />
         </EntityType>
         <Association Name="FK_Store_Requisition">
           <End Type="ERPModel.Requisition" Role="Requisition" Multiplicity="0..1" />
@@ -16651,12 +16656,12 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Company" FromRole="Company" ToRole="SubZone" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Company" FromRole="Company" ToRole="Region" />
           <NavigationProperty Name="SaleSettings" Relationship="ERPModel.FK_SaleSetting_Company" FromRole="Company" ToRole="SaleSetting" />
-          <NavigationProperty Name="StockInfoes" Relationship="ERPModel.FK_StockInfo_Company" FromRole="Company" ToRole="StockInfo" />
           <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_Company" FromRole="Company" ToRole="ProductionMaster" />
           <NavigationProperty Name="ProductionStatus" Relationship="ERPModel.FK_ProductionStatus_Company" FromRole="Company" ToRole="ProductionStatu" />
           <NavigationProperty Name="Expenses" Relationship="ERPModel.FK_Expenses_Company" FromRole="Company" ToRole="Expense" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Company" FromRole="Company" ToRole="Area" />
           <NavigationProperty Name="Departments" Relationship="ERPModel.FK_Department_Company" FromRole="Company" ToRole="Department" />
+          <NavigationProperty Name="StockInfoes" Relationship="ERPModel.FK_StockInfo_Company" FromRole="Company" ToRole="StockInfo" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -16991,10 +16996,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Employee" FromRole="Employee" ToRole="SubZone" />
           <NavigationProperty Name="Zones" Relationship="ERPModel.FK_Zone_Employee" FromRole="Employee" ToRole="Zone" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Employee" FromRole="Employee" ToRole="Region" />
-          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Employee_StockInfo" FromRole="Employee" ToRole="StockInfo" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Employee" FromRole="Employee" ToRole="Area" />
           <NavigationProperty Name="Department" Relationship="ERPModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Designation" Relationship="ERPModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
+          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Employee_StockInfo" FromRole="Employee" ToRole="StockInfo" />
         </EntityType>
         <Association Name="FK_AssetAssign_Employee">
           <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
@@ -17855,7 +17860,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="StockTransferDetails" Relationship="ERPModel.FK_StockTransferDetail_StockTransfer" FromRole="StockTransfer" ToRole="StockTransferDetail" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_StockTransfer_StockInfo" FromRole="StockTransfer" ToRole="StockInfo" />
           <NavigationProperty Name="StockInfo1" Relationship="ERPModel.FK_StockTransfer_StockInfo1" FromRole="StockTransfer" ToRole="StockInfo" />
-        </EntityType>
+          </EntityType>
         <Association Name="FK_StockTransferDetail_StockTransfer">
           <End Type="ERPModel.StockTransfer" Role="StockTransfer" Multiplicity="0..1" />
           <End Type="ERPModel.StockTransferDetail" Role="StockTransferDetail" Multiplicity="*" />
@@ -17974,9 +17979,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="PurchaseOrder1" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrder1" />
           <NavigationProperty Name="PurchaseOrder2" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder1" ToRole="PurchaseOrder" />
           <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderDetail" />
-          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
           <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
+          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
         </EntityType>
         <Association Name="FK_PurchaseOrder_ModeOfPurchase">
           <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
@@ -18231,110 +18236,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="StockInfo">
-          <Key>
-            <PropertyRef Name="StockInfoId" />
-          </Key>
-          <Property Name="StockInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ShortName" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="StockType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_StockInfo_Company" FromRole="StockInfo" ToRole="Company" />
-          <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_StockInfo" FromRole="StockInfo" ToRole="Employee" />
-          <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_StockInfo" FromRole="StockInfo" ToRole="OrderDeliver" />
-          <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="StockInfo" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="StockTransfers" Relationship="ERPModel.FK_StockTransfer_StockInfo" FromRole="StockInfo" ToRole="StockTransfer" />
-          <NavigationProperty Name="StockTransfers1" Relationship="ERPModel.FK_StockTransfer_StockInfo1" FromRole="StockInfo" ToRole="StockTransfer" />
-          <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_StockInfo" FromRole="StockInfo" ToRole="Store" />
-          <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_StockInfo" FromRole="StockInfo" ToRole="PurchaseReturn" />
-        </EntityType>
-        <Association Name="FK_StockInfo_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="StockInfo">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDeliver_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="1" />
-          <End Type="ERPModel.OrderDeliver" Role="OrderDeliver" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="OrderDeliver">
-              <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrder_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockTransfer_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.StockTransfer" Role="StockTransfer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="StockTransfer">
-              <PropertyRef Name="StockIdFrom" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockTransfer_StockInfo1">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.StockTransfer" Role="StockTransfer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="StockTransfer">
-              <PropertyRef Name="StockIdTo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Store_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.Store" Role="Store" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="Store">
-              <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PurchaseReturn">
           <Key>
             <PropertyRef Name="PurchaseReturnId" />
@@ -18355,10 +18256,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="IsSubmited" Type="Boolean" Nullable="false" />
           <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseReturn_StockInfo" FromRole="PurchaseReturn" ToRole="StockInfo" />
           <NavigationProperty Name="PurchaseReturnDetails" Relationship="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" FromRole="PurchaseReturn" ToRole="PurchaseReturnDetail" />
           <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="PurchaseReturn" ToRole="MaterialReceive" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="PurchaseReturn" ToRole="Vendor" />
+          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseReturn_StockInfo" FromRole="PurchaseReturn" ToRole="StockInfo" />
         </EntityType>
         <EntityType Name="PurchaseReturnDetail">
           <Key>
@@ -18384,18 +18285,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="PurchaseReturnDetail">
               <PropertyRef Name="MaterialReceiveDetailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseReturn_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="PurchaseReturn">
-              <PropertyRef Name="StockInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19179,6 +19068,127 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="DesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StockInfo">
+          <Key>
+            <PropertyRef Name="StockInfoId" />
+          </Key>
+          <Property Name="StockInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="StockType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_StockInfo_Company" FromRole="StockInfo" ToRole="Company" />
+          <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_StockInfo" FromRole="StockInfo" ToRole="Employee" />
+          <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_StockInfo" FromRole="StockInfo" ToRole="OrderDeliver" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="StockInfo" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_StockInfo" FromRole="StockInfo" ToRole="PurchaseReturn" />
+          <NavigationProperty Name="StockTransfers" Relationship="ERPModel.FK_StockTransfer_StockInfo" FromRole="StockInfo" ToRole="StockTransfer" />
+          <NavigationProperty Name="StockTransfers1" Relationship="ERPModel.FK_StockTransfer_StockInfo1" FromRole="StockInfo" ToRole="StockTransfer" />
+          <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_StockInfo" FromRole="StockInfo" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_StockInfo_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="StockInfo">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="StockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDeliver_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="1" />
+          <End Type="ERPModel.OrderDeliver" Role="OrderDeliver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="OrderDeliver">
+              <PropertyRef Name="StockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="StockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseReturn_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="PurchaseReturn">
+              <PropertyRef Name="StockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockTransfer_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.StockTransfer" Role="StockTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="StockTransfer">
+              <PropertyRef Name="StockIdFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockTransfer_StockInfo1">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.StockTransfer" Role="StockTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="StockTransfer">
+              <PropertyRef Name="StockIdTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="StockInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -24422,19 +24432,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StockInfoes">
-            <EntityTypeMapping TypeName="ERPModel.StockInfo">
-              <MappingFragment StoreEntitySet="StockInfo">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="StockType" ColumnName="StockType" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PurchaseReturns">
             <EntityTypeMapping TypeName="ERPModel.PurchaseReturn">
               <MappingFragment StoreEntitySet="PurchaseReturn">
@@ -24722,6 +24719,24 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockInfoes">
+            <EntityTypeMapping TypeName="ERPModel.StockInfo">
+              <MappingFragment StoreEntitySet="StockInfo">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="StockType" ColumnName="StockType" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

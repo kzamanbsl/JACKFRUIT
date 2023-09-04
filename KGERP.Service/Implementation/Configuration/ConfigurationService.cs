@@ -1336,6 +1336,18 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Zone
+
+        public List<SelectModel> GetAllZoneSelectModels(int companyId)
+        {
+            List<SelectModel> stocks = _db.Zones.Where(x => x.CompanyId == companyId && x.IsActive).ToList().Select(x => new SelectModel()
+            {
+                Text = x.Name,
+                Value = x.ZoneId
+            }).OrderBy(x => x.Text).ToList();
+            stocks.Add(new SelectModel { Text = "All", Value = "0" });
+            return stocks.OrderBy(x => Convert.ToInt32(x.Value)).ToList();
+        }
+
         public List<SelectModel> GetZoneSelectList(int companyId)
         {
             List<SelectModel> selectModelList = new List<SelectModel>();

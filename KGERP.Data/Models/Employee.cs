@@ -168,10 +168,10 @@ namespace KGERP.Data.Models
         public virtual ICollection<Zone> Zones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Region> Regions { get; set; }
-        public virtual StockInfo StockInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Area> Areas { get; set; }
         public virtual Department Department { get; set; }
         public virtual Designation Designation { get; set; }
+        public virtual StockInfo StockInfo { get; set; }
     }
 }
