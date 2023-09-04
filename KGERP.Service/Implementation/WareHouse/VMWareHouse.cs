@@ -108,7 +108,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public int Procurement_PurchaseOrderSlaveFk { get; set; }
         public decimal ReceivedQuantity { get; set; } = 0;
         public DateTime ReceivedDate { get; set; }
-
+        public string ReceiveNo { get; set; }
         //for feed material receive view data
         public string EmployeeName { get; set; } = "";
         public string MaterialReceiveStatus { get; set; }
@@ -134,8 +134,10 @@ namespace KGERP.Service.Implementation.Warehouse
 
 
         public decimal StockInRate { get; set; } = 0;
+        public decimal UnitPrice { get; set; } = 0;
         public bool IsReturn { get; set; }
         public decimal Deduction { get; set; }
+        public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string DemandNo { get; set; }
         public string ProductDescription { get; set; }
@@ -143,7 +145,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public string DeliveryAddress { get; set; }
         public decimal ReturnQuantity { get; set; }
         public decimal ExtSendQuantity { get; set; }
-
+        public int Status { get; set; }
         public IEnumerable<VMWarehousePOReceivingSlave> DataListSlave { get; set; }
         public List<MaterialReceiveDetailModel> MaterialReceiveDetailModel { get; set; }
         public List<VMWarehousePOReceivingSlavePartial> DataListSlavePartial { get; set; }
@@ -177,6 +179,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public string StoreName { get; set; }
         public string MaterialType { get; set; }
         public int? StockInfoId { get; set; }
+        public string StockInfoName { get; set; }
         public bool AllowLabourBill { get; set; }
         public long VoucherId { get; set; }
     }

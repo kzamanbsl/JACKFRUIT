@@ -1,0 +1,556 @@
+﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
+@using KGERP.Utility;
+
+@{
+    ViewBag.Title = "Stock Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var message = TempData["message"];
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    /* .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 2px 0px 2px 0px;
+    }*/
+</style>
+
+<section class="content-header">
+    <h1>
+        Stock Add
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Stock Add</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("FoodStockCreateOrEdit", "MaterialReceive", FormMethod.Post, new { id = "foodStockSlaveFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.MaterialReceiveId, new { id = "hidMaterialReceiveId" })
+                @Html.HiddenFor(model => model.MaterialReceiveDetailId, new { id = "hidMaterialReceiveDetailId" })
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(x => x.CompanyId, new { id = "CompanyId" })
+
+                <div class="box-danger">
+
+                    <div class="box-body">
+                        @if (Model.MaterialReceiveId > 0)
+                        {
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:18%">Stock No</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%"><label class="col-form-label">@Model.ReceiveNo</label></td>
+
+                                        <th style="width:18%"> Stock Date</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.ReceivedDate.ToString("dd/mm/yyyy")</td>
+
+                                        <th style="width:18%">Stored By</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.ReceivedBy</td>
+
+                                        <th style="width:18%">Store Info</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.StockInfoName</td>
+
+                                        <th style="width:18%">Supplier</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.SupplierName</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="col-md-1"> </div>
+                        }
+
+                        <div class="box-body">
+                            @if (Model.MaterialReceiveId == 0)
+                            {
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <label for="message-text" class="col-form-label">Date:</label>
+                                        <div class="form-group">
+                                            <input name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="Store Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Warehouse:</label>
+                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Supplier:</label>
+                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier" } })
+                                            @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
+                                            @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label"> Received By:</label>
+                                            @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
+                                            @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.Status == (int)EnumPOStatus.Draft)
+                            {
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Product:</label>
+                                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })
+                                            @Html.HiddenFor(model => model.ProductId, new { id = "ddlRProductFK" })
+                                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Stock Qty:</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(model => model.StockInQty, new { id = "txtStockInQty", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Stock Qty", required = "Required" })
+                                                @Html.ValidationMessageFor(model => model.StockInQty, "", new { @class = "text-danger" })
+
+                                                <div class="input-group-addon">
+                                                    <span class="txtUnitName"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Unit Price:</label>
+                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Stock In Rate:</label>
+                                            @Html.TextBoxFor(model => model.StockInRate, new { id = "txtStockInRate", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "StockIn Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.StockInRate, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-8">
+
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <button type="submit" id="poCreateBtn" class="btn btn-primary btn-block">
+                                        <i class='fa fa-plus'></i>
+                                        @if (Model.MaterialReceiveId > 0)
+                                        {
+                                            <span>Add Product</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Create</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.MaterialReceiveId > 0)
+                        {
+
+                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                            <div class="table-responsive col-md-12 text-nowrap">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>SL</th>
+                                            <th style="text-align:left;">Product Name</th>
+                                            <th style="text-align:right;">Unit Price</th>
+                                            <th style="text-align:center;">StockIn Qty</th>
+                                            <th style="text-align:right;">StockIn Rate</th>
+                                            <th style="text-align:right;">Total Amount</th>
+                                            @if (Model.Status == (int)EnumPOStatus.Draft)
+                                            {
+                                                <th style="padding:5px;text-align:center;">Action</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    @{
+                                        int sl = 0;
+                                        decimal stockInAmount = 0;
+                                    }
+                                    <tbody>
+                                        @foreach (var item in Model.DataListSlave)
+                                        {
+                                            stockInAmount += item.StockInQty * item.StockInRate;
+                                            <tr>
+                                                <td>@(++sl) </td>
+                                                <td style="text-align:left;">@item.ProductSubCategory @item.ProductName  </td>
+                                                <th style="text-align:right;"> @item.MRPPrice </th>
+                                                <td style="text-align:center;"> @item.StockInQty @item.UnitName</td>
+                                                <th style="text-align:right;"> @item.StockInRate </th>
+                                                <td style="text-align:right;"> @(item.StockInQty * item.StockInRate)  </td>
+                                                @if (Model.Status == (int)EnumPOStatus.Draft)
+                                                {
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.ID" onclick=" makeEditble(@item.MaterialReceiveDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                        <a id="@item.ID" onclick="makeDeletale(@item.MaterialReceiveDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodStockSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td> </td>
+                                            <th colspan="4">Total </th>
+                                            <th style="text-align:right;"> @stockInAmount  </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        }
+
+                    </div>
+                    <div class="box-footer">
+                        @if (Model.MaterialReceiveId > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <a id="@Model.MaterialReceiveId" onclick="makeSubmitble(@Model.MaterialReceiveId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitFoodStockModal" data-placement="top">
+                                        @if (Model.Status == (int)EnumPOStatus.Submitted)
+                                        {
+                                            <i>Undo Submit</i>
+                                        }
+                                        else
+                                        {
+                                            <i>Submit</i>
+                                        }
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("FoodStockSubmit", "MaterialReceive", FormMethod.Post, new { id = "submitFoodStock", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitFoodStockModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Submit</b></h5>
+                </div>
+                <div class="modal-body">
+
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "submitCompanyFK" })
+                    @Html.HiddenFor(model => model.MaterialReceiveId, new { id = "submitMaterialReceiveId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Submit this Stock?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteFoodStock", "MaterialReceive", FormMethod.Post, new { id = "deleteFoodStockFormId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteFoodStockSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete product</b></h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.MaterialReceiveDetailId, new { id = "hidDeleteFoodStockSlaveId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this Product?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetFoodStockSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/ApplicationScripts/Inventory_Feed/Stock/StockEntry.js"></script>
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        var message = '@message';
+        if(message){
+            alert(message);
+        }
+
+        function makeDeletale(rowId) {
+            $('#hidDeleteProcurementPurchaseOrderSlaveId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+
+        function resetFoodStockSlaveForm() {
+            $('#deleteProcurementPurchaseOrderSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+        $(function () {
+        $("#supplier").autocomplete({
+                source: function (request, response) {
+
+                    $.ajax({
+                       url:"@Url.Action("GetSupplierAutoComplete", "Vendor")",
+                        data: { companyId: @Model.CompanyId, prefix: request.term },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            //alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#supplierId").val(i.item.val);
+                },
+                minLength: 1,
+                cache: true
+                }).focus(function () {
+                    $(this).autocomplete("search");
+                });
+        });
+
+        $(function () {
+            $("#receiverName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Employee/EmployeeAutoComplete/',
+                        data: '{"prefix":"' + request.term + '", "productType":"F"}',
+                        dataType: "json",
+                        type: "POST",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            //alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#receivedBy").val(i.item.val);
+                },
+                minLength: 1,
+                cache: true
+                }).focus(function () {
+                $(this).autocomplete("search");
+            });
+        });
+
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+            $("#txtProductName").autocomplete({
+                source: function (request, response) {
+                $.ajax({
+                    url:"@Url.Action("AutoCompleteProductGet", "Configuration")",// '/AccountHeads/AutoComplete/',
+                    //data: "{ 'prefix': '" + request.term + "'}",
+                    data: { companyId: "@Model.CompanyFK", prefix: request.term, productType : "R" },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        //alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        //alert(response.responseText);
+                    }
+                    });
+                },
+
+        select: function (e, i) {
+
+            $("#ddlRProductFK").val(i.item.val);
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("CommonProductByID", "Configuration")",
+                datatype: "Json",
+                data: { id: i.item.val },
+                success: function (data) {
+                    console.log(data);
+                    var items = "";
+                    if (data) {
+
+                        $('.txtUnitName').text(data.UnitName);
+
+                    }
+                }
+            });
+            $('#txtProductName').focus();
+
+        },
+        minLength: 1,
+        cache: true
+
+        }).focus(function () {
+         $(this).autocomplete("search");
+        });
+        });
+
+         function makeEditble(rowId) {
+
+     $.ajax({
+
+           type: "POST",
+           url: "@Url.Action("SingleProcurementPurchaseOrderSlave", "Procurement")",
+           datatype: "Json",
+           data: { id: rowId },
+           success: function (data) {
+
+               $('#poCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+               $("#hidPurchaseOrderId").val(data.PurchaseOrderId);
+               $('#ActionId').val(2);
+               $("#CompanyFK").val(data.CompanyFK);
+               $("#txtProductName").val(data.ProductName);
+               $("#ddlRProductFK").val(data.Common_ProductFK);
+               $("#txtPurchaseQuantity").val(data.PurchaseQuantity);
+               $('#txtPurchasingPrice').val(data.PurchasingPrice);
+               $("#hidPurchaseOrderDetailId").val(data.PurchaseOrderDetailId)
+               $('.txtUnitName').text(data.UnitName);
+               window.scrollTo({ top: 0, behavior: 'smooth' });
+           }
+          });
+     }
+
+ function makeSubmitble(rowId) {
+
+         $.ajax({
+                 type: "POST",
+                 url: "@Url.Action("SingleProcurementPurchaseOrder", "Procurement")",
+                 datatype: "Json",
+                 data: { id: rowId },
+                 success: function (data) {
+
+                     $('#submitOrDraftPOCIDText').text(data.CID);
+
+                     if (data.Status == 0) {
+                         $('.submitOrDraftText').text("Make Submit");
+                     }
+                     else {
+                         $('.submitOrDraftText').text("Make Draft");
+
+                     }
+                 }
+          });
+     $('#hidsubmitProcurementPurchaseOrderId').val(rowId);
+ }
+        function getFormattedDate(date) {
+            let year = date.getFullYear();
+            let month = (1 + date.getMonth()).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+            return day + '/' + month + '/' + year;
+        }
+
+    </script>
+}

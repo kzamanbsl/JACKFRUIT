@@ -5570,6 +5570,8 @@
     <Content Include="Views\Configuration\CommonDealerById.cshtml" />
     <Content Include="Views\Configuration\CommonDepartment.cshtml" />
     <Content Include="Views\Configuration\CommonHrDesignation.cshtml" />
+    <Content Include="Views\MaterialReceive\FoodStockCreateOrEdit.cshtml" />
+    <Content Include="Views\MaterialReceive\FoodIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

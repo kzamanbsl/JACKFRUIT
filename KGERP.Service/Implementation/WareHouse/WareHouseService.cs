@@ -64,7 +64,7 @@ namespace KGERP.Service.Implementation.Warehouse
                 PurchaseOrderId = vmWarehousePoReceivingSlave.Procurement_PurchaseOrderFk,
                 ChallanNo = vmWarehousePoReceivingSlave.Challan,
                 ChallanDate = vmWarehousePoReceivingSlave.ChallanDate,
-                ReceivedDate = vmWarehousePoReceivingSlave.ChallanDate,
+                ReceivedDate = (DateTime)(vmWarehousePoReceivingSlave.ChallanDate != null ? vmWarehousePoReceivingSlave.ChallanDate : DateTime.Now),
                 VendorId = vmWarehousePoReceivingSlave.Common_SupplierFK,
                 MaterialType = "R",
                 TotalAmount = 0,
@@ -579,7 +579,7 @@ namespace KGERP.Service.Implementation.Warehouse
                     {
                         #region Ready To GRN
                         vmModel.MaterialReceiveDetailId = materialReceiveDetail.MaterialReceiveDetailId;
-                        vmModel.Common_ProductFk = materialReceiveDetail.ProductId.Value;
+                        vmModel.Common_ProductFk = materialReceiveDetail.ProductId;
                         vmModel.ReceivedQuantity = materialReceiveDetail.ReceiveQty;
                         vmModel.PurchasingPrice = materialReceiveDetail.UnitPrice;
                         #endregion
@@ -665,7 +665,7 @@ namespace KGERP.Service.Implementation.Warehouse
                     {
                         #region Ready To GRN
                         vmModel.MaterialReceiveDetailId = materialReceiveDetail.MaterialReceiveDetailId;
-                        vmModel.Common_ProductFk = materialReceiveDetail.ProductId.Value;
+                        vmModel.Common_ProductFk = materialReceiveDetail.ProductId;
                         vmModel.ReceivedQuantity = materialReceiveDetail.ReceiveQty;
                         vmModel.PurchasingPrice = materialReceiveDetail.UnitPrice;
                         #endregion
@@ -718,7 +718,7 @@ namespace KGERP.Service.Implementation.Warehouse
                     {
                         #region Ready To GRN
                         vmModel.MaterialReceiveDetailId = materialReceiveDetail.MaterialReceiveDetailId;
-                        vmModel.Common_ProductFk = materialReceiveDetail.ProductId.Value;
+                        vmModel.Common_ProductFk = materialReceiveDetail.ProductId;
                         vmModel.ReceivedQuantity = materialReceiveDetail.ReceiveQty;
                         vmModel.PurchasingPrice = materialReceiveDetail.UnitPrice;
                         #endregion
@@ -1343,7 +1343,7 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                     SupplierName = t3.Name,
                                                                     SupplierPhone = t3.Phone,
                                                                     MaterialReceiveId = t1.MaterialReceiveId,
-                                                                    ReceivedDate = t1.ReceivedDate.Value,
+                                                                    ReceivedDate = t1.ReceivedDate,
                                                                     TruckNo = t1.TruckNo ?? "",
                                                                     LabourBill = t1.AllowLabourBill ? t1.LabourBill : 0,
                                                                     DriverName = t1.DriverName ?? "",

@@ -21,8 +21,8 @@ namespace KGERP.Data.Models
         }
     
         public long MaterialReceiveDetailId { get; set; }
-        public Nullable<long> MaterialReceiveId { get; set; }
-        public Nullable<int> ProductId { get; set; }
+        public long MaterialReceiveId { get; set; }
+        public int ProductId { get; set; }
         public decimal ReceiveQty { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Deduction { get; set; }
@@ -39,8 +39,8 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
     
+        public virtual MaterialReceive MaterialReceive { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
-        public virtual MaterialReceive MaterialReceive { get; set; }
     }
 }

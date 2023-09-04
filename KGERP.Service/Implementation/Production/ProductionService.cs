@@ -947,7 +947,7 @@ namespace KGERP.Service.Implementation.Production
                         select new VMProdReferenceSlave
                         {
                             ProductName = t7.Name + " " + t6.Name + " " + t5.ProductName,
-                            RProductId = t1.ProductId.Value,
+                            RProductId = t1.ProductId,
                             ReceivedQuantity = t1.ReceiveQty,
                             PurchasePrice = t1.UnitPrice,
                             PriviousProcessQuantity = 0, // _db.Prod_ReferenceSlaveConsumption.Where(x => x.RProductId == t1.ProductId && x.IsActive).Select(x => x.TotalConsumeQuantity).DefaultIfEmpty(0m).Sum(),

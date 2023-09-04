@@ -98,6 +98,7 @@ namespace KGERP.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public async Task<ActionResult> SeedIndex(SeedMaterialRcvViewModel model)
         {
@@ -135,6 +136,7 @@ namespace KGERP.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public async Task<ActionResult> GCCLIndex(GCCLMaterialRecieveVm model)
         {
@@ -171,6 +173,7 @@ namespace KGERP.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public async Task<ActionResult> KFMALIndex(GCCLMaterialRecieveVm model)
         {
@@ -187,7 +190,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CreateOrEdit(int companyId, long materialReceiveId = 0)
         {
             VMWarehousePOReceivingSlave vmReceivingSlave = new VMWarehousePOReceivingSlave();
-            vmReceivingSlave.StockInfos = _stockInfoService.GetFactorySelectModels(companyId);
+            vmReceivingSlave.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
             vmReceivingSlave.PurchaseOrders = new List<SelectModel>();
             if (materialReceiveId > 0)
             {
@@ -242,35 +245,6 @@ namespace KGERP.Controllers
             //}
 
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public JsonResult MaterialReceivePost(MaterialReceiveViewModel vm)
-        //{
-        //    MaterialMsgModel result = new MaterialMsgModel();
-        //    vm.MaterialReceive.MaterialReceiveDetails = vm.MaterialReceiveDetails;
-        //    if (vm.MaterialReceive.MaterialReceiveId <= 0)
-        //    {
-        //        result = materialReceiveService.SaveMaterialReceive(0, vm.MaterialReceive);
-        //    }
-        //    else
-        //    {
-        //        result = materialReceiveService.SaveMaterialReceive(vm.MaterialReceive.MaterialReceiveId, vm.MaterialReceive);
-        //    }
-        //    if (result.Status)
-        //    {
-
-        //        return Json(new { status = result.Status, id = result.Id, msg = "Raw material received successfully" });
-        //    }
-        //    else
-        //    {
-        //        return Json(new { status = result.Status, id = result.Id, msg = "Raw material received failed" });
-
-        //    }
-
-        //}
-
-
 
         [SessionExpire]
         [HttpGet]
@@ -356,6 +330,7 @@ namespace KGERP.Controllers
             var maretialReceiveID = _materialReceiveService.MaterialIssueCancel(vm.VMReceivingSlave);
             return RedirectToAction(nameof(MaterialIssueEdit), new { companyId = vm.VMReceivingSlave.CompanyFK.Value, materialReceiveId = vm.VMReceivingSlave.MaterialReceiveId });
         }
+
         [SessionExpire]
         [HttpGet]
         public ActionResult MaterialReceiveEdit(long id)
@@ -378,5 +353,81 @@ namespace KGERP.Controllers
             return RedirectToAction("Index", new { companyId = vm.MaterialReceive.CompanyId });
         }
 
+        #region Food Stock
+        [HttpGet]
+        public async Task<ActionResult> FoodStockCreateOrEdit(int companyId, long materialReceiveId = 0)
+        {
+            VMWarehousePOReceivingSlave vmReceivingSlave = new VMWarehousePOReceivingSlave();
+            vmReceivingSlave.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            vmReceivingSlave.PurchaseOrders = new List<SelectModel>();
+            if (materialReceiveId > 0)
+            {
+                vmReceivingSlave = _materialReceiveService.GetMaterialReceive(companyId, materialReceiveId);
+            }
+            else
+            {
+                vmReceivingSlave.CompanyId = companyId;
+            }
+            return View(vmReceivingSlave);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FoodStockCreateOrEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        {
+            vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.SaveMaterialReceive(vmPOReceivingSlave);
+
+
+            if (vmPOReceivingSlave.MaterialReceiveId > 0)
+            {
+                TempData["message"] = "Raw material received successfully";
+                return RedirectToAction("CreateOrEdit", new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
+            }
+            else
+            {
+                TempData["message"] = "Raw material received failed";
+                return View(vmPOReceivingSlave);
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> FoodIndex(int companyId, DateTime? fromDate, DateTime? toDate)
+        {
+            if (companyId > 0)
+            {
+                Session["CompanyId"] = companyId;
+            }
+            if (fromDate == null)
+            {
+                fromDate = DateTime.Now.AddMonths(-1);
+            }
+
+            if (toDate == null)
+            {
+                toDate = DateTime.Now;
+            }
+            SeedMaterialRcvViewModel model = new SeedMaterialRcvViewModel();
+            model.companyId = companyId;
+            model.MRlist = await _materialReceiveService.GetMaterialRcvList(companyId, fromDate, toDate);
+
+            model.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            model.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FoodIndex(SeedMaterialRcvViewModel model)
+        {
+            if (model.companyId > 0)
+            {
+                Session["CompanyId"] = model.companyId;
+            }
+            model.FromDate = Convert.ToDateTime(model.StrFromDate);
+            model.ToDate = Convert.ToDateTime(model.StrToDate);
+            return RedirectToAction(nameof(SeedIndex), new { companyId = model.companyId, fromDate = model.FromDate, toDate = model.ToDate });
+        }
+        #endregion
     }
 }

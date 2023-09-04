@@ -23,7 +23,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public long MaterialReceiveDetailId { get; set; }
     
-        public virtual MaterialReceiveDetail MaterialReceiveDetail { get; set; }
         public virtual PurchaseReturn PurchaseReturn { get; set; }
+        public virtual MaterialReceiveDetail MaterialReceiveDetail { get; set; }
     }
 }

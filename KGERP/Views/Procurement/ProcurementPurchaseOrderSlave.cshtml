@@ -32,7 +32,6 @@
             </span>
         }
 
-
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -60,8 +59,6 @@
                     <div class="box-body">
                         @if (Model.PurchaseOrderId > 0)
                         {
-
-
                             <div class="col-md-1"> </div>
                             <div class="col-md-10">
                                 <table class="table">
@@ -132,7 +129,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-3">
                                         <div class="form-group" style="padding:0px">
                                             <label>Supplier:</label>
@@ -142,7 +138,6 @@
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
 
                                 </div>
 
@@ -190,6 +185,7 @@
 
                                     <!-- /.box-body -->
                                 </div>
+
                                 <div id="piReletedDivId" style="display:none;">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -353,91 +349,90 @@
                         </div>
 
                         <!--Body Will by Start Here-->
-                        @{
-                            if (Model.PurchaseOrderId > 0)
-                            {
+                        @if (Model.PurchaseOrderId > 0)
+                        {
 
-                                @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
-                                <div class="table-responsive col-md-12  text-nowrap">
-                                    <table id="KgErpDataTable" class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th style="padding:5px;text-align:center;">SL</th>
-                                                <th style="padding:5px;text-align:left;">Item</th>
-                                                <th style="padding:5px;text-align:center;">Quantity To Purchase</th>
-                                                <th style="padding:5px;text-align:center;">Unit Purchase Price</th>
-                                                <th style="padding:5px;text-align:right;">Total Price</th>
-                                                @if (Model.Status == (int)EnumPOStatus.Draft)
-                                                {
-                                                    <th style="padding:5px;text-align:center;">Action</th>
-                                                }
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.DataListSlave)
+                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                            <div class="table-responsive col-md-12  text-nowrap">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding:5px;text-align:center;">SL</th>
+                                            <th style="padding:5px;text-align:left;">Item</th>
+                                            <th style="padding:5px;text-align:center;">Quantity To Purchase</th>
+                                            <th style="padding:5px;text-align:center;">Unit Purchase Price</th>
+                                            <th style="padding:5px;text-align:right;">Total Price</th>
+                                            @if (Model.Status == (int)EnumPOStatus.Draft)
                                             {
-                                                TotalPrice += item.TotalPrice;
-                                                <tr>
-                                                    <td style="padding:5px">@(++sl)</td>
-                                                    <td style="padding:5px;text-align:left;">@item.ProductName</td>
-                                                    <td style="padding:5px;text-align:center;">@String.Format("{0:0.000}", item.PurchaseQuantity) @item.UnitName</td>
-                                                    <td style="padding:5px;text-align:center;">@String.Format("{0:0.000}", item.PurchasingPrice)</td>
-                                                    <td style="padding:5px;text-align:right;">@String.Format("{0:0.000}", item.TotalPrice)</td>
-                                                    @{ if (Model.Status == (int)EnumPOStatus.Draft)
-                                                        {
-                                                            <td style="padding:5px;text-align:center;">
-                                                                <a id="@item.ID" onclick=" makeEditble(@item.PurchaseOrderDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
-
-                                                                <a id="@item.ID" onclick="makeDeletale(@item.PurchaseOrderDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteProcurementPurchaseOrderSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                            </td>
-                                                        }
-                                                    }
-                                                </tr>
+                                                <th style="padding:5px;text-align:center;">Action</th>
                                             }
-                                        </tbody>
-
-                                        <tfoot>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.DataListSlave)
+                                        {
+                                            TotalPrice += item.TotalPrice;
                                             <tr>
-                                                <th></th>
-                                                <th colspan="3">TOTAL</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.000}", TotalPrice) </th>
+                                                <td style="padding:5px">@(++sl)</td>
+                                                <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.000}", item.PurchaseQuantity) @item.UnitName</td>
+                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.000}", item.PurchasingPrice)</td>
+                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.000}", item.TotalPrice)</td>
                                                 @if (Model.Status == (int)EnumPOStatus.Draft)
                                                 {
-                                                    <th></th>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.ID" onclick=" makeEditble(@item.PurchaseOrderDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                        <a id="@item.ID" onclick="makeDeletale(@item.PurchaseOrderDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteProcurementPurchaseOrderSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    </td>
                                                 }
+
                                             </tr>
-                                            <tr style="font-weight: bold; font-size: 14px;">
+                                        }
+                                    </tbody>
 
-                                                <th style="border:none;"></th>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th colspan="3">TOTAL</th>
+                                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.000}", TotalPrice) </th>
+                                            @if (Model.Status == (int)EnumPOStatus.Draft)
+                                            {
+                                                <th></th>
+                                            }
+                                        </tr>
+                                        <tr style="font-weight: bold; font-size: 14px;">
 
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
-                                                <th style="text-align: left;">&nbsp;Freight Charge</th>
-                                                <th style="text-align: right;padding-right:5px;">৳@Model.FreightCharge</th>
-                                            </tr>
-                                            <tr style="font-weight: bold; font-size: 14px;">
+                                            <th style="border:none;"></th>
 
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
+                                            <th style="border:none;"></th>
+                                            <th style="border:none;"></th>
+                                            <th style="text-align: left;">&nbsp;Freight Charge</th>
+                                            <th style="text-align: right;padding-right:5px;">৳@Model.FreightCharge</th>
+                                        </tr>
+                                        <tr style="font-weight: bold; font-size: 14px;">
 
-                                                <th style="text-align: left;">&nbsp;Other Charge</th>
-                                                <th style="text-align: right;padding-right:5px;">৳@Model.OtherCharge</th>
-                                            </tr>
-                                            <tr style="font-weight: bold; font-size: 14px;">
+                                            <th style="border:none;"></th>
+                                            <th style="border:none;"></th>
+                                            <th style="border:none;"></th>
 
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
+                                            <th style="text-align: left;">&nbsp;Other Charge</th>
+                                            <th style="text-align: right;padding-right:5px;">৳@Model.OtherCharge</th>
+                                        </tr>
+                                        <tr style="font-weight: bold; font-size: 14px;">
 
-                                                <th style="border:none;"></th>
-                                                <th style="text-align: left;"><b>&nbsp;GRAND TOTAL</b></th>
-                                                <th style="text-align: right;padding-right:5px;">৳@(TotalPrice + Model.FreightCharge + Model.OtherCharge )</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            }
+                                            <th style="border:none;"></th>
+                                            <th style="border:none;"></th>
+
+                                            <th style="border:none;"></th>
+                                            <th style="text-align: left;"><b>&nbsp;GRAND TOTAL</b></th>
+                                            <th style="text-align: right;padding-right:5px;">৳@(TotalPrice + Model.FreightCharge + Model.OtherCharge )</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         }
+
                     </div>
                     <div class="box-footer">
                         @if (Model.PurchaseOrderId > 0)
@@ -563,6 +558,7 @@
             $('.formValidator').bootstrapValidator();
 
             $("#ddlFinalDestinationCountryFk").val(19).change();
+
               $("#txtProductName").autocomplete({
                   source: function (request, response) {
 
@@ -617,7 +613,7 @@
                 $(this).autocomplete("search");
             });
 
-              $("#txtSupplierName").autocomplete({
+             $("#txtSupplierName").autocomplete({
                 source: function (request, response) {
 
                     $.ajax({
@@ -652,7 +648,6 @@
             }).focus(function () {
                 $(this).autocomplete("search");
             });
-
 
             $("#TermsAndConditionid").change(function () {
                   var termsAndConditionid = $('#TermsAndConditionid').val();
@@ -692,7 +687,7 @@
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
-                    
+
                       $('#poCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
                       $("#hidPurchaseOrderId").val(data.PurchaseOrderId);
                       $('#ActionId').val(2);
@@ -716,7 +711,7 @@
                         datatype: "Json",
                         data: { id: rowId },
                         success: function (data) {
-                           
+
                             $('#submitOrDraftPOCIDText').text(data.CID);
 
                             if (data.Status == 0) {

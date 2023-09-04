@@ -76,7 +76,6 @@
                                         <th>Warehouse</th>
                                         <th>Stutas</th>
                                         <th>Submission</th>
-
                                         <th>Report</th>
                                         <th>Action</th>
                                     </tr>
@@ -115,9 +114,9 @@
                                                 }
                                                 else if (item.MaterialReceiveStatus.ToLower().Equals("issue"))
                                                 {
-                                                  
+
                                                     <a title="Issue Details" href="@Url.Action("MaterialIssueEdit","MaterialReceive",new { companyId = item.CompanyId,  materialReceiveId = item.MaterialReceiveId})" class="btn btn-success btn-xs">
-                                                       Issued
+                                                        Issued
                                                     </a>
                                                 }
                                                 else
@@ -129,7 +128,7 @@
                                             <td>
                                                 @if (item.MaterialReceiveStatus.ToLower().Equals("cancel"))
                                                 {
-                                                    <a  href="@Url.Action("MaterialReceiveEdit","MaterialReceive",  new {id=item.MaterialReceiveId})" title="Edit" class="btn btn-success btn-xs">
+                                                    <a href="@Url.Action("MaterialReceiveEdit","MaterialReceive",  new {id=item.MaterialReceiveId})" title="Edit" class="btn btn-success btn-xs">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                 }
@@ -147,7 +146,7 @@
                                                 }
                                                 else
                                                 {
-                                            <span class="label label-warning">Submit Pending</span>
+                                                    <span class="label label-warning">Submit Pending</span>
 
                                                 }
                                             </td>
@@ -156,8 +155,8 @@
                                                 <a title="Material Receive Details" href="@Url.Action("CreateOrEdit","MaterialReceive",new { companyId = item.CompanyId,  materialReceiveId = item.MaterialReceiveId})" class="btn btn-info btn-xs">
                                                     Details
                                                 </a>
-                                               
-                                               
+
+
 
 
                                             </td>

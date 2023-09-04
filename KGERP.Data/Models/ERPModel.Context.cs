@@ -217,7 +217,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<FacingInfo> FacingInfoes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<BookingInstallmentSchedule> BookingInstallmentSchedules { get; set; }
-        public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         public virtual DbSet<MoneyReceiptType> MoneyReceiptTypes { get; set; }
         public virtual DbSet<MoneyReceiptDetail> MoneyReceiptDetails { get; set; }
         public virtual DbSet<StoreDetail> StoreDetails { get; set; }
@@ -287,13 +286,14 @@ namespace KGERP.Data.Models
         public virtual DbSet<ProductionStatus> ProductionStatus1 { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<VendorOpening> VendorOpenings { get; set; }
-        public virtual DbSet<MaterialReceive> MaterialReceives { get; set; }
         public virtual DbSet<ProductionDetail> ProductionDetails { get; set; }
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<StockInfo> StockInfoes { get; set; }
+        public virtual DbSet<MaterialReceive> MaterialReceives { get; set; }
+        public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

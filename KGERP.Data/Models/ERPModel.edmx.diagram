@@ -270,7 +270,6 @@
         <AssociationConnector Association="ERPModel.FK_StockTransferDetail_Product" />
         <EntityTypeShape EntityType="ERPModel.BookingInstallmentSchedule" Width="1.5" PointX="28.5" PointY="30.75" />
         <AssociationConnector Association="ERPModel.FK_BookingInstallmentSchedule_CustomerGroupInfo" />
-        <EntityTypeShape EntityType="ERPModel.MaterialReceiveDetail" Width="1.5" PointX="17.25" PointY="50.25" />
         <EntityTypeShape EntityType="ERPModel.MoneyReceiptType" Width="1.5" PointX="10.375" PointY="29.75" />
         <EntityTypeShape EntityType="ERPModel.MoneyReceiptDetail" Width="1.5" PointX="13.375" PointY="29.75" />
         <EntityTypeShape EntityType="ERPModel.StoreDetail" Width="1.5" PointX="46.5" PointY="39.5" />
@@ -443,7 +442,6 @@
         <AssociationConnector Association="ERPModel.FK_SaleSetting_Company" />
         <EntityTypeShape EntityType="ERPModel.PurchaseReturn" Width="1.5" PointX="58.625" PointY="36" />
         <EntityTypeShape EntityType="ERPModel.PurchaseReturnDetail" Width="1.5" PointX="60.875" PointY="44.125" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" />
         <EntityTypeShape EntityType="ERPModel.ProductionMaster" Width="1.5" PointX="27.25" PointY="39" />
         <EntityTypeShape EntityType="ERPModel.ProductionStatus" Width="1.5" PointX="25" PointY="64.75" />
@@ -460,12 +458,7 @@
         <EntityTypeShape EntityType="ERPModel.VendorOpening" Width="1.5" PointX="58.625" PointY="53.25" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
-        <EntityTypeShape EntityType="ERPModel.MaterialReceive" Width="1.5" PointX="30.5" PointY="56.125" />
         <EntityTypeShape EntityType="ERPModel.ProductionDetail" Width="1.5" PointX="51.5" PointY="31.25" />
-        <AssociationConnector Association="ERPModel.FK_MaterialReceive_ProductionMaster" />
-        <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
-        <AssociationConnector Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseReturn_MaterialReceive" />
         <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
         <AssociationConnector Association="ERPModel.FK__Productio__Produ__60A1FE78" />
         <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="59.375" PointY="25.375" />
@@ -504,6 +497,13 @@
         <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo1" />
         <AssociationConnector Association="ERPModel.FK_Store_StockInfo" />
+        <EntityTypeShape EntityType="ERPModel.MaterialReceive" Width="1.5" PointX="30.5" PointY="56.125" />
+        <EntityTypeShape EntityType="ERPModel.MaterialReceiveDetail" Width="1.5" PointX="32.75" PointY="57.375" />
+        <AssociationConnector Association="ERPModel.FK_MaterialReceive_ProductionMaster" />
+        <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
+        <AssociationConnector Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseReturn_MaterialReceive" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

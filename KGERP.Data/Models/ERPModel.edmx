@@ -3902,7 +3902,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a pr
           <Property Name="StockInfoId" Type="int" />
           <Property Name="VendorId" Type="int" />
           <Property Name="ReceivedBy" Type="bigint" />
-          <Property Name="ReceivedDate" Type="datetime" />
+          <Property Name="ReceivedDate" Type="datetime" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Discount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ChallanNo" Type="nvarchar" MaxLength="50" />
@@ -3928,8 +3928,8 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a pr
             <PropertyRef Name="MaterialReceiveDetailId" />
           </Key>
           <Property Name="MaterialReceiveDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaterialReceiveId" Type="bigint" />
-          <Property Name="ProductId" Type="int" />
+          <Property Name="MaterialReceiveId" Type="bigint" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="ReceiveQty" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Deduction" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -6918,7 +6918,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MaterialReceiveDetail_MaterialReceive">
-          <End Role="MaterialReceive" Type="Self.MaterialReceive" Multiplicity="0..1" />
+          <End Role="MaterialReceive" Type="Self.MaterialReceive" Multiplicity="1" />
           <End Role="MaterialReceiveDetail" Type="Self.MaterialReceiveDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MaterialReceive">
@@ -9894,7 +9894,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="CustomerGroupInfo" EntitySet="CustomerGroupInfoes" />
             <End Role="BookingInstallmentSchedule" EntitySet="BookingInstallmentSchedules" />
           </AssociationSet>
-          <EntitySet Name="MaterialReceiveDetails" EntityType="ERPModel.MaterialReceiveDetail" />
           <EntitySet Name="MoneyReceiptTypes" EntityType="ERPModel.MoneyReceiptType" />
           <EntitySet Name="MoneyReceiptDetails" EntityType="ERPModel.MoneyReceiptDetail" />
           <EntitySet Name="StoreDetails" EntityType="ERPModel.StoreDetail" />
@@ -10388,10 +10387,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           </AssociationSet>
           <EntitySet Name="PurchaseReturns" EntityType="ERPModel.PurchaseReturn" />
           <EntitySet Name="PurchaseReturnDetails" EntityType="ERPModel.PurchaseReturnDetail" />
-          <AssociationSet Name="FK_PurchaseReturnDetail_MaterialReceiveDetail" Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail">
-            <End Role="MaterialReceiveDetail" EntitySet="MaterialReceiveDetails" />
-            <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_PurchaseReturnDetail_PurchaseReturn" Association="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn">
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
             <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetails" />
@@ -10444,24 +10439,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="VendorType" EntitySet="VendorTypes" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
-          <EntitySet Name="MaterialReceives" EntityType="ERPModel.MaterialReceive" />
           <EntitySet Name="ProductionDetails" EntityType="ERPModel.ProductionDetail" />
-          <AssociationSet Name="FK_MaterialReceive_ProductionMaster" Association="ERPModel.FK_MaterialReceive_ProductionMaster">
-            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
-            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MaterialReceive_PurchaseOrder" Association="ERPModel.FK_MaterialReceive_PurchaseOrder">
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MaterialReceiveDetail_MaterialReceive" Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive">
-            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
-            <End Role="MaterialReceiveDetail" EntitySet="MaterialReceiveDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseReturn_MaterialReceive" Association="ERPModel.FK_PurchaseReturn_MaterialReceive">
-            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
-            <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductionDetail" EntitySet="ProductionDetails" />
@@ -10598,6 +10576,28 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_Store_StockInfo" Association="ERPModel.FK_Store_StockInfo">
             <End Role="StockInfo" EntitySet="StockInfoes" />
             <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <EntitySet Name="MaterialReceives" EntityType="ERPModel.MaterialReceive" />
+          <EntitySet Name="MaterialReceiveDetails" EntityType="ERPModel.MaterialReceiveDetail" />
+          <AssociationSet Name="FK_MaterialReceive_ProductionMaster" Association="ERPModel.FK_MaterialReceive_ProductionMaster">
+            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
+            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialReceive_PurchaseOrder" Association="ERPModel.FK_MaterialReceive_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialReceiveDetail_MaterialReceive" Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive">
+            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
+            <End Role="MaterialReceiveDetail" EntitySet="MaterialReceiveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseReturn_MaterialReceive" Association="ERPModel.FK_PurchaseReturn_MaterialReceive">
+            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
+            <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseReturnDetail_MaterialReceiveDetail" Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail">
+            <End Role="MaterialReceiveDetail" EntitySet="MaterialReceiveDetails" />
+            <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -15264,31 +15264,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MaterialReceiveDetail">
-          <Key>
-            <PropertyRef Name="MaterialReceiveDetailId" />
-          </Key>
-          <Property Name="MaterialReceiveDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaterialReceiveId" Type="Int64" />
-          <Property Name="ProductId" Type="Int32" />
-          <Property Name="ReceiveQty" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-          <Property Name="Deduction" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="StockInQty" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="StockInRate" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="BagId" Type="Int32" />
-          <Property Name="BagWeight" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BagQty" Type="Int32" Nullable="false" />
-          <Property Name="PurchaseOrderDetailFk" Type="Int32" Nullable="false" />
-          <Property Name="IsReturn" Type="Boolean" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PurchaseReturnDetails" Relationship="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" FromRole="MaterialReceiveDetail" ToRole="PurchaseReturnDetail" />
-          <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceiveDetail" ToRole="MaterialReceive" />
-        </EntityType>
         <EntityType Name="MoneyReceiptType">
           <Key>
             <PropertyRef Name="ReceiptTypeId" />
@@ -17979,9 +17954,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="PurchaseOrder1" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrder1" />
           <NavigationProperty Name="PurchaseOrder2" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder1" ToRole="PurchaseOrder" />
           <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderDetail" />
-          <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
+          <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
         </EntityType>
         <Association Name="FK_PurchaseOrder_ModeOfPurchase">
           <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
@@ -18257,9 +18232,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="IsSubmited" Type="Boolean" Nullable="false" />
           <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="PurchaseReturnDetails" Relationship="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" FromRole="PurchaseReturn" ToRole="PurchaseReturnDetail" />
-          <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="PurchaseReturn" ToRole="MaterialReceive" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="PurchaseReturn" ToRole="Vendor" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseReturn_StockInfo" FromRole="PurchaseReturn" ToRole="StockInfo" />
+          <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="PurchaseReturn" ToRole="MaterialReceive" />
         </EntityType>
         <EntityType Name="PurchaseReturnDetail">
           <Key>
@@ -18273,21 +18248,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="COGS" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="MaterialReceiveDetailId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="MaterialReceiveDetail" Relationship="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" FromRole="PurchaseReturnDetail" ToRole="MaterialReceiveDetail" />
           <NavigationProperty Name="PurchaseReturn" Relationship="ERPModel.FK_PurchaseReturnDetail_PurchaseReturn" FromRole="PurchaseReturnDetail" ToRole="PurchaseReturn" />
+          <NavigationProperty Name="MaterialReceiveDetail" Relationship="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" FromRole="PurchaseReturnDetail" ToRole="MaterialReceiveDetail" />
         </EntityType>
-        <Association Name="FK_PurchaseReturnDetail_MaterialReceiveDetail">
-          <End Type="ERPModel.MaterialReceiveDetail" Role="MaterialReceiveDetail" Multiplicity="1" />
-          <End Type="ERPModel.PurchaseReturnDetail" Role="PurchaseReturnDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MaterialReceiveDetail">
-              <PropertyRef Name="MaterialReceiveDetailId" />
-            </Principal>
-            <Dependent Role="PurchaseReturnDetail">
-              <PropertyRef Name="MaterialReceiveDetailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PurchaseReturnDetail_PurchaseReturn">
           <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="1" />
           <End Type="ERPModel.PurchaseReturnDetail" Role="PurchaseReturnDetail" Multiplicity="*" />
@@ -18324,8 +18287,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="ProductionStatu1" Relationship="ERPModel.FK_ProductionMaster_ProductionStatus" FromRole="ProductionMaster" ToRole="ProductionStatu" />
           <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductionMaster" ToRole="ProductSubCategory" />
           <NavigationProperty Name="Unit" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="ProductionMaster" ToRole="Unit" />
-          <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="ProductionMaster" ToRole="MaterialReceive" />
           <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionMaster" ToRole="ProductionDetail" />
+          <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="ProductionMaster" ToRole="MaterialReceive" />
         </EntityType>
         <EntityType Name="ProductionStatus">
           <Key>
@@ -18518,43 +18481,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MaterialReceive">
-          <Key>
-            <PropertyRef Name="MaterialReceiveId" />
-          </Key>
-          <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="PurchaseOrderId" Type="Int64" />
-          <Property Name="MaterialType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="ReceiveNo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="StockInfoId" Type="Int32" />
-          <Property Name="VendorId" Type="Int32" />
-          <Property Name="ReceivedBy" Type="Int64" />
-          <Property Name="ReceivedDate" Type="DateTime" Precision="3" />
-          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ChallanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ChallanDate" Type="DateTime" Precision="0" />
-          <Property Name="UnloadingDate" Type="DateTime" Precision="0" />
-          <Property Name="TruckNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DriverName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TruckFare" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="AllowLabourBill" Type="Boolean" Nullable="false" />
-          <Property Name="LabourBill" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="MaterialReceiveStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IsSubmitted" Type="Boolean" Nullable="false" />
-          <Property Name="ProductionMasterId" Type="Int64" />
-          <NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="MaterialReceive" ToRole="ProductionMaster" />
-          <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="MaterialReceive" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="MaterialReceiveDetails" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceive" ToRole="MaterialReceiveDetail" />
-          <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="MaterialReceive" ToRole="PurchaseReturn" />
-        </EntityType>
         <EntityType Name="ProductionDetail">
           <Key>
             <PropertyRef Name="ProductionDetailsId" />
@@ -18577,54 +18503,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="ProductionDetail" ToRole="Product" />
           <NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionDetail" ToRole="ProductionMaster" />
         </EntityType>
-        <Association Name="FK_MaterialReceive_ProductionMaster">
-          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="0..1" />
-          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductionMaster">
-              <PropertyRef Name="ProductionMasterId" />
-            </Principal>
-            <Dependent Role="MaterialReceive">
-              <PropertyRef Name="ProductionMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MaterialReceive_PurchaseOrder">
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
-          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PurchaseOrder">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Principal>
-            <Dependent Role="MaterialReceive">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MaterialReceiveDetail_MaterialReceive">
-          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="0..1" />
-          <End Type="ERPModel.MaterialReceiveDetail" Role="MaterialReceiveDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MaterialReceive">
-              <PropertyRef Name="MaterialReceiveId" />
-            </Principal>
-            <Dependent Role="MaterialReceiveDetail">
-              <PropertyRef Name="MaterialReceiveId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseReturn_MaterialReceive">
-          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="1" />
-          <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MaterialReceive">
-              <PropertyRef Name="MaterialReceiveId" />
-            </Principal>
-            <Dependent Role="PurchaseReturn">
-              <PropertyRef Name="MaterialReceiveId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProductionDetails_Product">
           <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
           <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
@@ -19189,6 +19067,128 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Store">
               <PropertyRef Name="StockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MaterialReceive">
+          <Key>
+            <PropertyRef Name="MaterialReceiveId" />
+          </Key>
+          <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseOrderId" Type="Int64" />
+          <Property Name="MaterialType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ReceiveNo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="StockInfoId" Type="Int32" />
+          <Property Name="VendorId" Type="Int32" />
+          <Property Name="ReceivedBy" Type="Int64" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ChallanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChallanDate" Type="DateTime" Precision="0" />
+          <Property Name="UnloadingDate" Type="DateTime" Precision="0" />
+          <Property Name="TruckNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DriverName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TruckFare" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AllowLabourBill" Type="Boolean" Nullable="false" />
+          <Property Name="LabourBill" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="MaterialReceiveStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsSubmitted" Type="Boolean" Nullable="false" />
+          <Property Name="ProductionMasterId" Type="Int64" />
+          <NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="MaterialReceive" ToRole="ProductionMaster" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="MaterialReceive" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="MaterialReceiveDetails" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceive" ToRole="MaterialReceiveDetail" />
+          <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="MaterialReceive" ToRole="PurchaseReturn" />
+        </EntityType>
+        <EntityType Name="MaterialReceiveDetail">
+          <Key>
+            <PropertyRef Name="MaterialReceiveDetailId" />
+          </Key>
+          <Property Name="MaterialReceiveDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ReceiveQty" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Deduction" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="StockInQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="StockInRate" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="BagId" Type="Int32" />
+          <Property Name="BagWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BagQty" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseOrderDetailFk" Type="Int32" Nullable="false" />
+          <Property Name="IsReturn" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceiveDetail" ToRole="MaterialReceive" />
+          <NavigationProperty Name="PurchaseReturnDetails" Relationship="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" FromRole="MaterialReceiveDetail" ToRole="PurchaseReturnDetail" />
+        </EntityType>
+        <Association Name="FK_MaterialReceive_ProductionMaster">
+          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="0..1" />
+          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductionMaster">
+              <PropertyRef Name="ProductionMasterId" />
+            </Principal>
+            <Dependent Role="MaterialReceive">
+              <PropertyRef Name="ProductionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialReceive_PurchaseOrder">
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
+          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Principal>
+            <Dependent Role="MaterialReceive">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialReceiveDetail_MaterialReceive">
+          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="1" />
+          <End Type="ERPModel.MaterialReceiveDetail" Role="MaterialReceiveDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialReceive">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Principal>
+            <Dependent Role="MaterialReceiveDetail">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseReturn_MaterialReceive">
+          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="1" />
+          <End Type="ERPModel.PurchaseReturn" Role="PurchaseReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialReceive">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Principal>
+            <Dependent Role="PurchaseReturn">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseReturnDetail_MaterialReceiveDetail">
+          <End Type="ERPModel.MaterialReceiveDetail" Role="MaterialReceiveDetail" Multiplicity="1" />
+          <End Type="ERPModel.PurchaseReturnDetail" Role="PurchaseReturnDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialReceiveDetail">
+              <PropertyRef Name="MaterialReceiveDetailId" />
+            </Principal>
+            <Dependent Role="PurchaseReturnDetail">
+              <PropertyRef Name="MaterialReceiveDetailId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -22859,30 +22859,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MaterialReceiveDetails">
-            <EntityTypeMapping TypeName="ERPModel.MaterialReceiveDetail">
-              <MappingFragment StoreEntitySet="MaterialReceiveDetail">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
-                <ScalarProperty Name="PurchaseOrderDetailFk" ColumnName="PurchaseOrderDetailFk" />
-                <ScalarProperty Name="BagQty" ColumnName="BagQty" />
-                <ScalarProperty Name="BagWeight" ColumnName="BagWeight" />
-                <ScalarProperty Name="BagId" ColumnName="BagId" />
-                <ScalarProperty Name="StockInRate" ColumnName="StockInRate" />
-                <ScalarProperty Name="StockInQty" ColumnName="StockInQty" />
-                <ScalarProperty Name="Deduction" ColumnName="Deduction" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="ReceiveQty" ColumnName="ReceiveQty" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
-                <ScalarProperty Name="MaterialReceiveDetailId" ColumnName="MaterialReceiveDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MoneyReceiptTypes">
             <EntityTypeMapping TypeName="ERPModel.MoneyReceiptType">
               <MappingFragment StoreEntitySet="MoneyReceiptType">
@@ -24542,40 +24518,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MaterialReceives">
-            <EntityTypeMapping TypeName="ERPModel.MaterialReceive">
-              <MappingFragment StoreEntitySet="MaterialReceive">
-                <ScalarProperty Name="ProductionMasterId" ColumnName="ProductionMasterId" />
-                <ScalarProperty Name="IsSubmitted" ColumnName="IsSubmitted" />
-                <ScalarProperty Name="MaterialReceiveStatus" ColumnName="MaterialReceiveStatus" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="LabourBill" ColumnName="LabourBill" />
-                <ScalarProperty Name="AllowLabourBill" ColumnName="AllowLabourBill" />
-                <ScalarProperty Name="TruckFare" ColumnName="TruckFare" />
-                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
-                <ScalarProperty Name="TruckNo" ColumnName="TruckNo" />
-                <ScalarProperty Name="UnloadingDate" ColumnName="UnloadingDate" />
-                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
-                <ScalarProperty Name="ChallanNo" ColumnName="ChallanNo" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
-                <ScalarProperty Name="ReceivedBy" ColumnName="ReceivedBy" />
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
-                <ScalarProperty Name="ReceiveNo" ColumnName="ReceiveNo" />
-                <ScalarProperty Name="MaterialType" ColumnName="MaterialType" />
-                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProductionDetails">
             <EntityTypeMapping TypeName="ERPModel.ProductionDetail">
               <MappingFragment StoreEntitySet="ProductionDetail">
@@ -24737,6 +24679,64 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialReceives">
+            <EntityTypeMapping TypeName="ERPModel.MaterialReceive">
+              <MappingFragment StoreEntitySet="MaterialReceive">
+                <ScalarProperty Name="ProductionMasterId" ColumnName="ProductionMasterId" />
+                <ScalarProperty Name="IsSubmitted" ColumnName="IsSubmitted" />
+                <ScalarProperty Name="MaterialReceiveStatus" ColumnName="MaterialReceiveStatus" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="LabourBill" ColumnName="LabourBill" />
+                <ScalarProperty Name="AllowLabourBill" ColumnName="AllowLabourBill" />
+                <ScalarProperty Name="TruckFare" ColumnName="TruckFare" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="TruckNo" ColumnName="TruckNo" />
+                <ScalarProperty Name="UnloadingDate" ColumnName="UnloadingDate" />
+                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
+                <ScalarProperty Name="ChallanNo" ColumnName="ChallanNo" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="ReceivedBy" ColumnName="ReceivedBy" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
+                <ScalarProperty Name="ReceiveNo" ColumnName="ReceiveNo" />
+                <ScalarProperty Name="MaterialType" ColumnName="MaterialType" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialReceiveDetails">
+            <EntityTypeMapping TypeName="ERPModel.MaterialReceiveDetail">
+              <MappingFragment StoreEntitySet="MaterialReceiveDetail">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
+                <ScalarProperty Name="PurchaseOrderDetailFk" ColumnName="PurchaseOrderDetailFk" />
+                <ScalarProperty Name="BagQty" ColumnName="BagQty" />
+                <ScalarProperty Name="BagWeight" ColumnName="BagWeight" />
+                <ScalarProperty Name="BagId" ColumnName="BagId" />
+                <ScalarProperty Name="StockInRate" ColumnName="StockInRate" />
+                <ScalarProperty Name="StockInQty" ColumnName="StockInQty" />
+                <ScalarProperty Name="Deduction" ColumnName="Deduction" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ReceiveQty" ColumnName="ReceiveQty" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
+                <ScalarProperty Name="MaterialReceiveDetailId" ColumnName="MaterialReceiveDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

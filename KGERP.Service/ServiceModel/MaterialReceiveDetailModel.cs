@@ -7,8 +7,8 @@ namespace KGERP.Service.ServiceModel
     public class MaterialReceiveDetailModel
     {
         public long MaterialReceiveDetailId { get; set; }
-        public Nullable<long> MaterialReceiveId { get; set; }
-        public Nullable<int> ProductId { get; set; }
+        public long MaterialReceiveId { get; set; }
+        public int ProductId { get; set; }
         public decimal ReceiveQty { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Deduction { get; set; }

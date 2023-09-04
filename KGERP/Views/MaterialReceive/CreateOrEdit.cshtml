@@ -1,4 +1,4 @@
-﻿@model KGERP.Service.Implementation.WareHouse.VMWarehousePOReceivingSlave
+﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
 
 @{
     ViewBag.Title = "Material Receive";
@@ -21,6 +21,7 @@
         padding: 2px 0px 2px 0px;
     }
 </style>
+
 <section class="content-header">
     <h1>
         Material Receive
@@ -52,10 +53,10 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                 
+
 
                                 <label for="message-text" class="col-form-label">MRR Date:</label>
-                                <input style = "width:240px" name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker "  placeholder="MRR Date" autocomplete="off">
+                                <input style="width:240px" name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="MRR Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -76,8 +77,6 @@
                         </div>
 
                     </div>
-
-
 
                     <div class="row">
                         <div class="col-md-3">
@@ -268,7 +267,6 @@ else
                             <thead>
                                 <tr>
                                     <th>SL</th>
-
                                     <th style="text-align:left;">Product Name</th>
                                     <th style="text-align:center;">Received</th>
                                     <th style="text-align:right;">Unit Price</th>
@@ -279,8 +277,6 @@ else
                                     <th style="text-align:center;">Bag Name</th>
                                     <th style="text-align:center;">Bag Qty</th>
                                     <th style="text-align:center;">Bag Weight</th>
-
-
                                 </tr>
                             </thead>
                             @{
@@ -343,27 +339,14 @@ else
                                 Report of @Model.ChallanCID
                             </a>
                         </div>
-
                     </div>
                 </div>
-
-
             </div>
-           
         </div>
-       
-
-      
     </div>
-
-
 }
 
-
-
-
-
-@using (Html.BeginForm("FeedPOReceivingSubmit", "WareHouse", FormMethod.Post, new { id = "submitFeedPOReceivingSubmit", @class = "formValidator" }))
+@using (Html.BeginForm("FeedPOReceivingSubmit", "Warehouse", FormMethod.Post, new { id = "submitFeedPOReceivingSubmit", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="submitProdReferenceModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -416,7 +399,7 @@ else
     $(function () {
         $("#supplier").autocomplete({
                 source: function (request, response) {
-                 
+
                     $.ajax({
                        url:"@Url.Action("GetSupplierAutoComplete", "Vendor")",
                         //data: "{ 'prefix': '" + request.term + "'}",
@@ -445,7 +428,7 @@ else
                 },
             minLength: 1,
             change: function (event, ui) {
-                
+
                 loadOpenedPurchaseaOrderDropDown(ui.item.val);
             },
             cache: true
@@ -552,7 +535,7 @@ else
                         var purchaseDate = new Date(result.PurchaseDate);
                         var demandDate = new Date(result.Demand.DemandDate);
 
-                        
+
                         $('#PODate').val(getFormattedDate(purchaseDate))
                         $('#DemandNo').val(result.Demand.DemandNo)
                         $('#DemandDate').val(getFormattedDate(demandDate))

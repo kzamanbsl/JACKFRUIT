@@ -29,7 +29,7 @@ namespace KGERP.Data.Models
         public Nullable<int> StockInfoId { get; set; }
         public Nullable<int> VendorId { get; set; }
         public Nullable<long> ReceivedBy { get; set; }
-        public Nullable<System.DateTime> ReceivedDate { get; set; }
+        public System.DateTime ReceivedDate { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal Discount { get; set; }
         public string ChallanNo { get; set; }
