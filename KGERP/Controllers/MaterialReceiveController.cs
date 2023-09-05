@@ -366,6 +366,7 @@ namespace KGERP.Controllers
             }
             else
             {
+                vmReceivingSlave.CompanyFK = companyId;
                 vmReceivingSlave.CompanyId = companyId;
             }
             return View(vmReceivingSlave);
@@ -375,7 +376,7 @@ namespace KGERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> FoodStockCreateOrEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
-            vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.SaveMaterialReceive(vmPOReceivingSlave);
+            vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.SaveFoodStock(vmPOReceivingSlave);
 
 
             if (vmPOReceivingSlave.MaterialReceiveId > 0)

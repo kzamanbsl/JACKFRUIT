@@ -19,6 +19,7 @@ namespace KGERP.Service.Implementation
         {
             this._context = context;
         }
+
         public async Task<MaterialReceiveModel> GetMaterialReceivedList(int companyId, DateTime? fromDate, DateTime? toDate)
         {
             MaterialReceiveModel materialReceive = new MaterialReceiveModel();
@@ -50,11 +51,6 @@ namespace KGERP.Service.Implementation
         public async Task<List<VMMaterialRcvList>> GetMaterialRcvList(int companyId, DateTime? fromDate, DateTime? toDate)
         {
             List<VMMaterialRcvList> list = new List<VMMaterialRcvList>();
-            //list = await context.vwSeedMaterialRcvLists
-            //    .Where(o => (fromDate.HasValue ? o.ChallanDate >= fromDate.Value : o.ChallanDate != null)
-            //    && (toDate.HasValue ? o.ChallanDate <= toDate.Value : toDate != null))
-            //    .ToListAsync();
-            //return list;
 
             list = await Task.Run(() => (from t1 in _context.MaterialReceives
                                          join t2 in _context.PurchaseOrders on t1.PurchaseOrderId equals t2.PurchaseOrderId
@@ -88,9 +84,6 @@ namespace KGERP.Service.Implementation
                                          }).OrderByDescending(o => o.MaterialReceiveId).ToListAsync());
             return list;
         }
-
-
-
 
         public async Task<GCCLMaterialRecieveVm> GCCLMaterialRcvList(int companyId, DateTime? fromDate, DateTime? toDate)
         {
@@ -270,45 +263,6 @@ namespace KGERP.Service.Implementation
                                                   }).OrderByDescending(x => x.MaterialReceiveId).AsEnumerable();
 
             return materialReceiveModel;
-
-            //decimal labourBill = (decimal)context.DropDownItems.Where(x => x.CompanyId == companyId && x.Name.Equals("Unloading Bill")).First().ItemValue;
-            //string receivedNo = string.Empty;
-            //if (id <= 0)
-            //{
-            //    IQueryable<MaterialReceive> storeReceives = context.MaterialReceives.Where(x => x.CompanyId == companyId).OrderByDescending(x => x.ReceiveNo);
-            //    int count = storeReceives.Count();
-            //    if (count == 0)
-            //    {
-            //        return new MaterialReceiveModel()
-            //        {
-            //            ReceiveNo = GenerateMaterialReceiveNo(0),
-            //            CompanyId = companyId,
-            //            StockInfoId = 2,
-            //            LabourBill = labourBill,
-            //            AllowLabourBill = true
-            //        };
-            //    }
-
-            //    storeReceives = storeReceives.Where(x => x.CompanyId == companyId).OrderByDescending(x => x.ReceiveNo).Take(1);
-            //    receivedNo = storeReceives.ToList().FirstOrDefault().ReceiveNo;
-            //    long lastReceivedNo = Convert.ToInt64(receivedNo.Substring(3, 6));
-            //    receivedNo = GenerateMaterialReceiveNo(lastReceivedNo);
-            //    return new MaterialReceiveModel()
-            //    {
-            //        ReceiveNo = receivedNo,
-            //        CompanyId = companyId,
-            //        LabourBill = labourBill,
-            //        AllowLabourBill = true
-            //    };
-
-            //}
-            //MaterialReceive materialReceive = context.MaterialReceives.Include(x => x.MaterialReceiveDetails).Where(x => x.MaterialReceiveId == id).FirstOrDefault();
-            //if (materialReceive == null)
-            //{
-            //    throw new Exception("Material Receive not found");
-            //}
-            //MaterialReceiveModel model = ObjectConverter<MaterialReceive, MaterialReceiveModel>.Convert(materialReceive);
-            //return model;
         }
 
         public MaterialReceiveModel GetMaterialReceiveEdit(long id)
@@ -339,16 +293,7 @@ namespace KGERP.Service.Implementation
                 detail.ProductName = rawMaterial.ProductName;
                 detail.UnitName = rawMaterial.Unit.Name;
                 detail.BagName = bag.BagName;
-
-                //detail.POQty = context.Database.SqlQuery<decimal>(@"select CAST(pod.PurchaseQty as DECIMAL(18,2)) as POQty
-                //                                                    from Erp.PurchaseOrder po
-                //                                                    inner join Erp.PurchaseOrderDetail pod on pod.PurchaseOrderId=po.PurchaseOrderId
-                //                                                    where po.PurchaseOrderId={0}", model.PurchaseOrderId).FirstOrDefault();
-                //detail.PurchasedQty = context.Database.SqlQuery<decimal>(@"select ISNULL(sum(ReceiveQty),0) as PurchasedQty
-                //                                                           from   Erp.MaterialReceiveDetail 
-                //                                                           where  MaterialReceiveId={0}", model.MaterialReceiveId).FirstOrDefault();
                 detail.Amount = detail.ReceiveQty * detail.UnitPrice;
-
                 detail.StockAmount = (decimal)(detail.StockInQty * detail.StockInRate);
 
             }
@@ -360,7 +305,63 @@ namespace KGERP.Service.Implementation
             model.ReceiverName = _context.Employees.Where(x => x.Id == model.ReceivedBy).Select(x => x.Name + " [" + x.EmployeeId + "]").FirstOrDefault();
             return model;
         }
+        public bool MaterialReceiveEdit(MaterialReceiveModel model)
+        {
+            /**Material Receive Update*/
 
+            MaterialReceive materialReceive = _context.MaterialReceives.FirstOrDefault(x => x.MaterialReceiveId == model.MaterialReceiveId);
+
+            materialReceive.CompanyId = model.CompanyId;
+            materialReceive.PurchaseOrderId = model.PurchaseOrderId;
+            materialReceive.MaterialType = model.MaterialType;
+            materialReceive.ReceiveNo = model.ReceiveNo;
+            materialReceive.StockInfoId = model.StockInfoId;
+            materialReceive.VendorId = model.VendorId;
+            materialReceive.TotalAmount = model.TotalAmount;
+            materialReceive.Discount = model.Discount;
+            materialReceive.ChallanNo = model.ChallanNo;
+            materialReceive.ChallanDate = model.ChallanDate;
+            materialReceive.UnloadingDate = model.UnloadingDate;
+            materialReceive.TruckNo = model.TruckNo;
+            materialReceive.DriverName = model.DriverName;
+            materialReceive.TruckFare = model.TruckFare;
+
+            decimal toTalQty = model.MaterialReceiveDetails.Select(x => x.ReceiveQty).Sum();
+            materialReceive.LabourBill = model.AllowLabourBill ? toTalQty * (model.LabourBill / 100) : 0;
+
+            materialReceive.Remarks = model.Remarks;
+            materialReceive.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            materialReceive.ModifiedDate = DateTime.Now;
+            materialReceive.MaterialReceiveStatus = "OPEN";
+
+            _context.Entry(materialReceive).State = materialReceive.MaterialReceiveId == 0 ? EntityState.Added : EntityState.Modified;
+            int noOfRowsAfffected = _context.SaveChanges();
+
+
+            /**MaterialReceiveDetail Update*/
+            if (noOfRowsAfffected > 0)
+            {
+                foreach (var detail in model.MaterialReceiveDetails)
+                {
+                    // MaterialReceiveDetail materialReceiveDetail = ObjectConverter<MaterialReceiveDetailModel, MaterialReceiveDetail>.Convert(detail);
+                    MaterialReceiveDetail materialReceiveDetail = _context.MaterialReceiveDetails.FirstOrDefault(x => x.MaterialReceiveDetailId == detail.MaterialReceiveDetailId);
+
+                    materialReceiveDetail.ProductId = detail.ProductId;
+                    materialReceiveDetail.ReceiveQty = detail.ReceiveQty;
+                    materialReceiveDetail.UnitPrice = detail.UnitPrice;
+                    materialReceiveDetail.Deduction = detail.Deduction;
+                    materialReceiveDetail.StockInQty = detail.StockInQty;
+                    materialReceiveDetail.StockInRate = detail.StockInRate;
+                    materialReceiveDetail.BagId = detail.BagId;
+                    materialReceiveDetail.BagWeight = detail.BagWeight;
+                    materialReceiveDetail.BagQty = detail.BagQty;
+
+                    _context.Entry(materialReceiveDetail).State = materialReceiveDetail.MaterialReceiveDetailId == 0 ? EntityState.Added : EntityState.Modified;
+                    noOfRowsAfffected = _context.SaveChanges();
+                }
+            }
+            return noOfRowsAfffected > 0;
+        }
 
         private string GenerateMaterialReceiveNo(long lastReceivedNo)
         {
@@ -375,7 +376,7 @@ namespace KGERP.Service.Implementation
             var lastMaterialReceiveNo = _context.MaterialReceives.Where(x => x.CompanyId == vmPOReceivingSlave.CompanyId && x.MaterialReceiveStatus != "GPO")
                                        .OrderByDescending(x => x.MaterialReceiveId).Take(1).Select(x => x.ReceiveNo).FirstOrDefault();
 
-            long lastReceivedNo = Convert.ToInt64(lastMaterialReceiveNo.Substring(3, 6)) + 1;
+            long lastReceivedNo = Convert.ToInt64(lastMaterialReceiveNo?.Substring(3, 6)) + 1;
             string receivedNo = "RM-" + lastReceivedNo.ToString().PadLeft(6, '0');
 
             #endregion
@@ -449,86 +450,6 @@ namespace KGERP.Service.Implementation
                 }
             }
             return result;
-
-            //List<int> temp = new List<int>();
-            //foreach (var item in vmPOReceivingSlave.MaterialReceiveDetailModel.ToList())
-            //{
-            //    if (item.BagId <= 0 || item.StockAmount <= 0 || item.BagQty <= 0)
-            //    {
-            //        Removing MaterialReceiveDetails if it is not validated or user doesn't calculate this line from UI
-            //        model.MaterialReceiveDetails.Remove(item);
-            //    }
-            //    else
-            //    {
-            //        if (item.POQty > item.PurchasedQty + item.ReceiveQty) { temp.Add(2); }
-            //        else { temp.Add(3); }
-            //    }
-
-            //    item.CreatedDate = DateTime.Now;
-            //    item.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
-
-
-            //}
-
-            //decimal toTalQty = model.MaterialReceiveDetails.Select(x => x.ReceiveQty).Sum();
-
-            //MaterialReceive materialReceive = ObjectConverter<MaterialReceiveModel, MaterialReceive>.Convert(model);
-
-            //PurchaseOrder purchaseOrder = context.PurchaseOrders.Where(x => x.PurchaseOrderId == model.PurchaseOrderId).FirstOrDefault();
-            //purchaseOrder.CompletionStatus = temp.Where(e => e == 2).ToList().Count() > 0 ? (int)EnumPOCompletionStatus.Partially_Complete : (int)EnumPOCompletionStatus.Complete;
-            //if (id > 0)
-            //{
-            //    materialReceive = context.MaterialReceives.Where(x => x.MaterialReceiveId == id).FirstOrDefault();
-            //    if (materialReceive == null)
-            //    {
-            //        throw new Exception("Data not found!");
-            //    }
-            //    materialReceive.MaterialReceiveStatus = model.MaterialReceiveStatus;
-            //    materialReceive.ModifiedDate = DateTime.Now;
-            //    materialReceive.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            //}
-
-            //else
-            //{
-            //    materialReceive.MaterialReceiveStatus = "OPEN";
-            //    materialReceive.IsActive = true;
-            //    materialReceive.CreatedDate = DateTime.Now;
-            //    materialReceive.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            //}
-            //materialReceive.AllowLabourBill = model.AllowLabourBill;
-            //materialReceive.LabourBill = model.AllowLabourBill ? toTalQty * (model.LabourBill / 100) : 0;
-            //materialReceive.ReceivedDate = model.ReceivedDate;
-            //materialReceive.PurchaseOrder = null;
-            //context.MaterialReceives.Add(materialReceive);
-
-            //context.Entry(materialReceive).State = materialReceive.MaterialReceiveId == 0 ? EntityState.Added : EntityState.Modified;
-
-            //try
-            //{
-            //    noOfRowsAffected = context.SaveChanges();
-            //    if (noOfRowsAffected > 0)
-            //    {
-
-
-            //        context.Database.ExecuteSqlCommand("EXEC UpdateProductStoreRawMaterialsInventory {0},{1}", materialReceive.CompanyId, materialReceive.ReceiveNo);
-            //    }
-            //}
-
-            //catch (DbEntityValidationException e)
-            //{
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //        foreach (var ve in eve.ValidationErrors)
-            //        {
-            //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
-            //        }
-            //    }
-            //    return new MaterialMsgModel { Status = noOfRowsAffected > 0, Id = materialReceive.MaterialReceiveId };
-
-            //}
-            //return new MaterialMsgModel { Status = noOfRowsAffected > 0, Id = materialReceive.MaterialReceiveId };
-            //return null;
         }
 
         private void UpdateProductCostingPrice(int companyId, List<MaterialReceiveDetailModel> materialReceiveDetailData)
@@ -551,6 +472,8 @@ namespace KGERP.Service.Implementation
 
             }
         }
+
+        #region Material Issue 
 
         public List<MaterialReceiveModel> GetMaterialIssuePendingList(int companyId, string searchDate, string searchText)
         {
@@ -582,25 +505,6 @@ namespace KGERP.Service.Implementation
                                 (x.ReceiveNo.ToLower().Contains(searchText) || String.IsNullOrEmpty(searchText)) ||
                                 (x.PurchaseOrderNo.ToLower().Contains(searchText) || String.IsNullOrEmpty(searchText))
                                ).OrderByDescending(x => x.ReceivedDate).ToList();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            disposed = true;
         }
 
         public bool MaterialReceiveIssue(MaterialReceiveModel model)
@@ -653,63 +557,108 @@ namespace KGERP.Service.Implementation
             return _context.SaveChanges() > 0;
         }
 
-        public bool MaterialReceiveEdit(MaterialReceiveModel model)
+        #endregion
+
+        #region Food Stock
+        public async Task<long> SaveFoodStock(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
-            /**Material Receive Update*/
+            long result = -0;
+            #region Receive No 
+            var lastMaterialReceiveNo = _context.MaterialReceives.Where(x => x.CompanyId == vmPOReceivingSlave.CompanyId && x.MaterialReceiveStatus != "GPO")
+                                       .OrderByDescending(x => x.MaterialReceiveId).Take(1).Select(x => x.ReceiveNo).FirstOrDefault();
 
-            MaterialReceive materialReceive = _context.MaterialReceives.FirstOrDefault(x => x.MaterialReceiveId == model.MaterialReceiveId);
+            long lastReceivedNo = Convert.ToInt64(lastMaterialReceiveNo?.Substring(3, 6)) + 1;
+            string receivedNo = "RM-" + lastReceivedNo.ToString().PadLeft(6, '0');
 
-            materialReceive.CompanyId = model.CompanyId;
-            materialReceive.PurchaseOrderId = model.PurchaseOrderId;
-            materialReceive.MaterialType = model.MaterialType;
-            materialReceive.ReceiveNo = model.ReceiveNo;
-            materialReceive.StockInfoId = model.StockInfoId;
-            materialReceive.VendorId = model.VendorId;
-            materialReceive.TotalAmount = model.TotalAmount;
-            materialReceive.Discount = model.Discount;
-            materialReceive.ChallanNo = model.ChallanNo;
-            materialReceive.ChallanDate = model.ChallanDate;
-            materialReceive.UnloadingDate = model.UnloadingDate;
-            materialReceive.TruckNo = model.TruckNo;
-            materialReceive.DriverName = model.DriverName;
-            materialReceive.TruckFare = model.TruckFare;
-
-            decimal toTalQty = model.MaterialReceiveDetails.Select(x => x.ReceiveQty).Sum();
-            materialReceive.LabourBill = model.AllowLabourBill ? toTalQty * (model.LabourBill / 100) : 0;
-
-            materialReceive.Remarks = model.Remarks;
-            materialReceive.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            materialReceive.ModifiedDate = DateTime.Now;
-            materialReceive.MaterialReceiveStatus = "OPEN";
-
-            _context.Entry(materialReceive).State = materialReceive.MaterialReceiveId == 0 ? EntityState.Added : EntityState.Modified;
-            int noOfRowsAfffected = _context.SaveChanges();
+            #endregion
+            var materialReceiveDetailData = vmPOReceivingSlave.MaterialReceiveDetailModel.Where(x => x.ReceiveQty > 0).ToList();
+            decimal totalQuantity = materialReceiveDetailData.Sum(x => x.ReceiveQty);
 
 
-            /**MaterialReceiveDetail Update*/
-            if (noOfRowsAfffected > 0)
+            MaterialReceive materialReceive = new MaterialReceive
             {
-                foreach (var detail in model.MaterialReceiveDetails)
+                ReceivedDate = vmPOReceivingSlave.ReceivedDate,
+                ReceiveNo = receivedNo,
+                ReceivedBy = vmPOReceivingSlave.ReceivedBy,
+                Remarks = vmPOReceivingSlave.Remarks,
+                AllowLabourBill = vmPOReceivingSlave.AllowLabourBill,
+                ChallanDate = vmPOReceivingSlave.ChallanDate,
+                ChallanNo = vmPOReceivingSlave.Challan,
+                CompanyId = vmPOReceivingSlave.CompanyId,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                Discount = vmPOReceivingSlave.Discount,
+                DriverName = vmPOReceivingSlave.DriverName,
+                IsActive = true,
+                LabourBill = vmPOReceivingSlave.AllowLabourBill ? totalQuantity * (vmPOReceivingSlave.LabourBill / 100) : 0,
+                MaterialReceiveStatus = "OPEN",
+
+                MaterialType = "R",
+                PurchaseOrderId = vmPOReceivingSlave.Procurement_PurchaseOrderFk,
+                StockInfoId = vmPOReceivingSlave.StockInfoId,
+                TruckFare = vmPOReceivingSlave.TruckFare,
+                TruckNo = vmPOReceivingSlave.TruckNo,
+                UnloadingDate = vmPOReceivingSlave.ReceivedDate,
+                VendorId = vmPOReceivingSlave.Common_SupplierFK
+
+            };
+            _context.MaterialReceives.Add(materialReceive);
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = materialReceive.MaterialReceiveId;
+            }
+            if (result > 0 && materialReceiveDetailData.Any())
+            {
+                List<MaterialReceiveDetail> materialReceiveDetailsList = new List<MaterialReceiveDetail>();
+                List<VMRawMaterialStock> vmRawMaterialStockList = new List<VMRawMaterialStock>();
+                foreach (var item in materialReceiveDetailData)
                 {
-                    // MaterialReceiveDetail materialReceiveDetail = ObjectConverter<MaterialReceiveDetailModel, MaterialReceiveDetail>.Convert(detail);
-                    MaterialReceiveDetail materialReceiveDetail = _context.MaterialReceiveDetails.FirstOrDefault(x => x.MaterialReceiveDetailId == detail.MaterialReceiveDetailId);
+                    MaterialReceiveDetail materialReceiveDetail = new MaterialReceiveDetail
+                    {
+                        MaterialReceiveId = result,
+                        BagId = item.BagId,
+                        BagQty = item.BagQty,
+                        BagWeight = item.BagWeight,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                        Deduction = item.Deduction,
+                        IsActive = true,
+                        ProductId = item.ProductId,
+                        PurchaseOrderDetailFk = Convert.ToInt32(item.PurchaseOrderDetailFk),
+                        ReceiveQty = item.ReceiveQty,
+                        StockInQty = item.StockInQty,
+                        StockInRate = item.StockInRate,
+                        UnitPrice = item.UnitPrice,
+                    };
+                    materialReceiveDetailsList.Add(materialReceiveDetail);
 
-                    materialReceiveDetail.ProductId = detail.ProductId;
-                    materialReceiveDetail.ReceiveQty = detail.ReceiveQty;
-                    materialReceiveDetail.UnitPrice = detail.UnitPrice;
-                    materialReceiveDetail.Deduction = detail.Deduction;
-                    materialReceiveDetail.StockInQty = detail.StockInQty;
-                    materialReceiveDetail.StockInRate = detail.StockInRate;
-                    materialReceiveDetail.BagId = detail.BagId;
-                    materialReceiveDetail.BagWeight = detail.BagWeight;
-                    materialReceiveDetail.BagQty = detail.BagQty;
+                }
+                _context.MaterialReceiveDetails.AddRange(materialReceiveDetailsList);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    UpdateProductCostingPrice(materialReceive.CompanyId, materialReceiveDetailData);
 
-                    _context.Entry(materialReceiveDetail).State = materialReceiveDetail.MaterialReceiveDetailId == 0 ? EntityState.Added : EntityState.Modified;
-                    noOfRowsAfffected = _context.SaveChanges();
                 }
             }
-            return noOfRowsAfffected > 0;
+            return result;
         }
+        #endregion
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            disposed = true;
+        }
     }
 }

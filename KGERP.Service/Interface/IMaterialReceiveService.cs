@@ -24,8 +24,10 @@ namespace KGERP.Service.Interface
         bool MaterialIssueCancel(VMWarehousePOReceivingSlave VMReceivingSlave);
         MaterialReceiveModel GetMaterialReceiveEdit(long id);
         bool MaterialReceiveEdit(MaterialReceiveModel materialReceive);
-        //Task<long> SubmitMaterialIssue(MaterialReceiveModel model);
 
+        Task<long> SaveFoodStock(VMWarehousePOReceivingSlave vmPOReceivingSlave);
+        
+        //Task<long> SubmitMaterialIssue(MaterialReceiveModel model);
         //StoreModel GetStore(long id);
         //bool SaveStore(long id, StoreModel store);
         //List<SoreProductQty> GetStoreProductQty(int companyId);
@@ -34,5 +36,6 @@ namespace KGERP.Service.Interface
         //StoreModel GetOpenningStore(long id);
         //bool StoreUpdateAfterProduction(StoreModel store, List<RequisitionItemModel> requistionItems);
         //bool SaveRMStore(long storeId, StoreModel store);
+
     }
 }
