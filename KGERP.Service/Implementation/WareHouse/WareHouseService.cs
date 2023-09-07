@@ -428,7 +428,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -495,7 +495,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -1164,7 +1164,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             var list = (from t1 in _db.MaterialReceiveDetails
                         join tr in _db.MaterialReceives on t1.MaterialReceiveId equals tr.MaterialReceiveId
-                        join t2 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t2.PurchaseOrderDetailId
+                        join t2 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t2.PurchaseOrderDetailId
                         join t3 in _db.PurchaseOrders on t2.PurchaseOrderId equals t3.PurchaseOrderId
                         join t5 in _db.Products on t2.ProductId equals t5.ProductId
                         join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
@@ -1184,7 +1184,7 @@ namespace KGERP.Service.Implementation.Warehouse
                             POQuantity = t2.PurchaseQty,
                             UnitPrice = t1.UnitPrice,
                             MaterialRecieveDetailId = t1.MaterialReceiveDetailId,
-                            Procurement_PurchaseOrderSlaveFk = t1.PurchaseOrderDetailFk,
+                            Procurement_PurchaseOrderSlaveFk = t1.PurchaseOrderDetailFk.Value,
                             PriviousReceivedQuantity = (_db.MaterialReceiveDetails.Where(x => x.PurchaseOrderDetailFk == t1.PurchaseOrderDetailFk && x.IsActive && !x.IsReturn).Select(x => x.ReceiveQty).DefaultIfEmpty(0).Sum()),
                             ReceivedChallanQuantity = t1.ReceiveQty,
                             //PriviousReturnQuantity = (from x in _db.MaterialReceiveDetails
@@ -1366,7 +1366,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -1549,7 +1549,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -1678,7 +1678,7 @@ namespace KGERP.Service.Implementation.Warehouse
             int i = 0;
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -1738,7 +1738,7 @@ namespace KGERP.Service.Implementation.Warehouse
             int i = 0;
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -1799,7 +1799,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -1865,7 +1865,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             vmWarehousePoReceivingSlave.DataListSlave = await Task.Run(() => (from t1 in _db.MaterialReceiveDetails
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
-                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
+                                                                              join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk.Value equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
                                                                               join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
                                                                               join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
@@ -2026,7 +2026,7 @@ namespace KGERP.Service.Implementation.Warehouse
                             select x.PurchaseQty).DefaultIfEmpty(0).Sum()) >
 
                               ((from x in _db.MaterialReceiveDetails
-                                join y in _db.PurchaseOrderDetails on x.PurchaseOrderDetailFk equals y.PurchaseOrderDetailId
+                                join y in _db.PurchaseOrderDetails on x.PurchaseOrderDetailFk.Value equals y.PurchaseOrderDetailId
                                 where x.IsActive == true && y.IsActive == true
                                    && y.PurchaseOrderId == t1.PurchaseOrderId && !x.IsReturn
                                 select x.ReceiveQty).DefaultIfEmpty(0).Sum())
@@ -2050,7 +2050,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
                           &&
                           ((from x in _db.MaterialReceiveDetails
-                            join y in _db.PurchaseOrderDetails on x.PurchaseOrderDetailFk equals y.PurchaseOrderDetailId
+                            join y in _db.PurchaseOrderDetails on x.PurchaseOrderDetailFk.Value equals y.PurchaseOrderDetailId
                             where x.IsActive == true && y.IsActive == true
                                && y.PurchaseOrderId == t1.PurchaseOrderId && !x.IsReturn
                             select x.ReceiveQty).DefaultIfEmpty(0).Sum()) > 0

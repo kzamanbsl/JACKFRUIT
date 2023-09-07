@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Service.Implementation.Warehouse;
+using KGERP.Service.Implementation;
 
 
 namespace KGERP.Controllers
@@ -194,7 +195,7 @@ namespace KGERP.Controllers
             vmReceivingSlave.PurchaseOrders = new List<SelectModel>();
             if (materialReceiveId > 0)
             {
-                vmReceivingSlave = _materialReceiveService.GetMaterialReceive(companyId, materialReceiveId);
+                vmReceivingSlave = _materialReceiveService.GetFoodStocks(companyId, materialReceiveId);
             }
             else
             {
@@ -362,13 +363,10 @@ namespace KGERP.Controllers
             vmReceivingSlave.PurchaseOrders = new List<SelectModel>();
             if (materialReceiveId > 0)
             {
-                vmReceivingSlave = _materialReceiveService.GetMaterialReceive(companyId, materialReceiveId);
+                vmReceivingSlave = _materialReceiveService.GetFoodStocks(companyId, materialReceiveId);
             }
-            else
-            {
-                vmReceivingSlave.CompanyFK = companyId;
-                vmReceivingSlave.CompanyId = companyId;
-            }
+            vmReceivingSlave.CompanyFK = companyId;
+            vmReceivingSlave.CompanyId = companyId;
             return View(vmReceivingSlave);
         }
 
@@ -376,20 +374,38 @@ namespace KGERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> FoodStockCreateOrEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
-            vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.SaveFoodStock(vmPOReceivingSlave);
-
-
-            if (vmPOReceivingSlave.MaterialReceiveId > 0)
+            if (vmPOReceivingSlave.ActionEum == ActionEnum.Add)
             {
-                TempData["message"] = "Raw material received successfully";
-                return RedirectToAction("CreateOrEdit", new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
-            }
-            else
-            {
-                TempData["message"] = "Raw material received failed";
-                return View(vmPOReceivingSlave);
-            }
+                if (vmPOReceivingSlave.MaterialReceiveId == 0)
+                {
+                    vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.FoodStockAdd(vmPOReceivingSlave);
 
+                }
+                await _materialReceiveService.FoodStockDetailAdd(vmPOReceivingSlave);
+            }
+            else if (vmPOReceivingSlave.ActionEum == ActionEnum.Edit)
+            {
+                await _materialReceiveService.FoodStockDetailEdit(vmPOReceivingSlave);
+            }
+            return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FoodStockSubmit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        {
+            vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.FoodStockApprove(vmPOReceivingSlave);
+            return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteMaterialReceiveDetail(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        {
+            if (vmPOReceivingSlave.ActionEum == ActionEnum.Delete)
+            {
+                vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.DeleteMaterialReceiveDetail(vmPOReceivingSlave.MaterialReceiveDetailId);
+            }
+            return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
         }
 
         [HttpGet]
@@ -410,7 +426,7 @@ namespace KGERP.Controllers
             }
             SeedMaterialRcvViewModel model = new SeedMaterialRcvViewModel();
             model.companyId = companyId;
-            model.MRlist = await _materialReceiveService.GetMaterialRcvList(companyId, fromDate, toDate);
+            model.MRlist = await _materialReceiveService.GetFoodStockRcvList(companyId, fromDate, toDate);
 
             model.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             model.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -427,8 +443,9 @@ namespace KGERP.Controllers
             }
             model.FromDate = Convert.ToDateTime(model.StrFromDate);
             model.ToDate = Convert.ToDateTime(model.StrToDate);
-            return RedirectToAction(nameof(SeedIndex), new { companyId = model.companyId, fromDate = model.FromDate, toDate = model.ToDate });
+            return RedirectToAction(nameof(FoodIndex), new { companyId = model.companyId, fromDate = model.FromDate, toDate = model.ToDate });
         }
+
         #endregion
     }
 }

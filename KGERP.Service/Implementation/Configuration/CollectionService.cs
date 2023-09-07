@@ -714,9 +714,10 @@ namespace KGERP.Service.Implementation.Configuration
                                  Date = t1.PurchaseDate,
                                  Description = "PO ID : " + t1.PurchaseOrderNo,
                                  Credit = (from ts1 in _db.PurchaseOrderDetails
-                                           join ts2 in _db.MaterialReceiveDetails on ts1.PurchaseOrderDetailId equals ts2.PurchaseOrderDetailFk
+                                           join ts2 in _db.MaterialReceiveDetails on ts1.PurchaseOrderDetailId equals ts2.PurchaseOrderDetailFk.Value into ts2Join
+                                           from ts2 in ts2Join.DefaultIfEmpty()
                                            where ts1.PurchaseOrderId == t1.PurchaseOrderId && ts1.IsActive && ts2.IsActive && !ts2.IsReturn
-                                           select ts2.ReceiveQty * ts1.PurchaseRate).DefaultIfEmpty(0).Sum(),//Debit
+                                           select ts2.ReceiveQty * ts1.PurchaseRate).DefaultIfEmpty(0).Sum(),
                                  Debit = 0,
                                  Balance = 0,
                                  FirstCreateDate = t1.CreatedDate

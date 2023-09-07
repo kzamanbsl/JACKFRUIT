@@ -31,7 +31,7 @@ namespace KGERP.Data.Models
         public Nullable<int> BagId { get; set; }
         public Nullable<decimal> BagWeight { get; set; }
         public int BagQty { get; set; }
-        public int PurchaseOrderDetailFk { get; set; }
+        public Nullable<int> PurchaseOrderDetailFk { get; set; }
         public bool IsReturn { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

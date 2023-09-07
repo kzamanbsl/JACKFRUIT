@@ -17,8 +17,8 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MaterialReceive()
         {
-            this.MaterialReceiveDetails = new HashSet<MaterialReceiveDetail>();
             this.PurchaseReturns = new HashSet<PurchaseReturn>();
+            this.MaterialReceiveDetails = new HashSet<MaterialReceiveDetail>();
         }
     
         public long MaterialReceiveId { get; set; }
@@ -53,8 +53,8 @@ namespace KGERP.Data.Models
         public virtual ProductionMaster ProductionMaster { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
     }
 }

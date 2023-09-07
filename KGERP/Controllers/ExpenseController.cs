@@ -59,7 +59,6 @@ namespace KGERP.Controllers
             }
             else if (expenseModel.ActionEum == ActionEnum.Edit)
             {
-                //Delete
                 await _expenseService.ExpenseDetailEdit(expenseModel);
             }
             return RedirectToAction(nameof(ExpenseSlave), new { companyId = expenseModel.CompanyId, expenseMasterId = expenseModel.ExpenseMasterId });

@@ -57,9 +57,6 @@ namespace KGERP.Service.Implementation
         }
 
 
-
-
-
         public async Task<PurchaseOrderModel> GetPurchaseOrder(int companyId, long purchaseOrdersId)
         {
             string purchaseOrderNo = string.Empty;
@@ -159,6 +156,7 @@ namespace KGERP.Service.Implementation
             int num = ++lastDemandNo;
             return "PO-" + num.ToString().PadLeft(4, '0');
         }
+
         public long SavePurchaseOrder(long id, PurchaseOrderModel model)
         {
             int noOfRowsAffected = 0;
@@ -220,6 +218,7 @@ namespace KGERP.Service.Implementation
 
             return noOfRowsAffected > 0 ? purchaseOrder.PurchaseOrderId : 0;
         }
+
         public List<SoreProductQty> GetStoreProductQty()
         {
             dynamic result = _context.Database.SqlQuery<SoreProductQty>("sp_GetStoreProductQuantity ").ToList();
@@ -231,33 +230,12 @@ namespace KGERP.Service.Implementation
             return _context.Database.SqlQuery<PurchaseOrderDetailModel>("spGetPurchaseOrderItems {0},{1}", demandId, companyId).ToList();
         }
 
-
         public PurchaseOrderModel GetPurchaseOrderWithInclude(int purchaseOrderId)
         {
 
             PurchaseOrder purchaseOrder = _context.PurchaseOrders.Include(x => x.Demand).Include(x => x.Vendor).FirstOrDefault(x => x.PurchaseOrderId == purchaseOrderId);
             PurchaseOrderModel model = ObjectConverter<PurchaseOrder, PurchaseOrderModel>.Convert(purchaseOrder);
             return model;
-        }
-
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            _disposed = true;
         }
 
         public List<PurchaseOrderModel> GetQCPurchaseOrders(int companyId, DateTime? searchDate, string searchText)
@@ -280,13 +258,6 @@ namespace KGERP.Service.Implementation
         {
             return _context.Database.SqlQuery<PurchaseOrderDetailModel>("exec sp_Feed_PurchaseOrderItemInfo {0},{1}", demandId, productId).FirstOrDefault();
         }
-
-        public List<StoreDetailModel> GetQCItemList(long purchaseOrderId, int companyId)
-        {
-            throw new NotImplementedException();
-        }
-
-
 
         public List<MaterialReceiveDetailModel> GetPurchaseOrderItems(long purchaseOrderId, int companyId)
         {
@@ -340,7 +311,6 @@ namespace KGERP.Service.Implementation
             return _context.SaveChanges() > 0;
         }
 
-
         public List<SelectModel> GetOpenedPurchaseByVendor(int vendorId)
         {
 
@@ -352,5 +322,23 @@ namespace KGERP.Service.Implementation
                 .ToList();
             return list.Select(x => new SelectModel { Text = x.PurchaseOrderNo, Value = x.PurchaseOrderId }).ToList();
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            _disposed = true;
+        }
+
     }
 }

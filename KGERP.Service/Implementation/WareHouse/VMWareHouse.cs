@@ -117,6 +117,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public decimal TruckFare { get; set; } = 0;
         public decimal LabourBill { get; set; } = 0;
         public long ReceivedBy { get; set; }
+        public string ReceiveByName { get; set; }
         public string Factory { get; set; } = "";
         public string UnitName { get; set; } = "";
 
@@ -145,7 +146,6 @@ namespace KGERP.Service.Implementation.Warehouse
         public string DeliveryAddress { get; set; }
         public decimal ReturnQuantity { get; set; }
         public decimal ExtSendQuantity { get; set; }
-        public int Status { get; set; }
         public IEnumerable<VMWarehousePOReceivingSlave> DataListSlave { get; set; }
         public List<MaterialReceiveDetailModel> MaterialReceiveDetailModel { get; set; }
         public List<VMWarehousePOReceivingSlavePartial> DataListSlavePartial { get; set; }
@@ -176,10 +176,10 @@ namespace KGERP.Service.Implementation.Warehouse
         public List<SelectModel> BagWeights { get; set; }
         public DateTime? DemandDate { get; set; }
         public decimal Discount { get; set; }
-        public string StoreName { get; set; }
+      
         public string MaterialType { get; set; }
         public int? StockInfoId { get; set; }
-        public string StockInfoName { get; set; }
+        public string StoreName { get; set; }
         public bool AllowLabourBill { get; set; }
         public long VoucherId { get; set; }
     }

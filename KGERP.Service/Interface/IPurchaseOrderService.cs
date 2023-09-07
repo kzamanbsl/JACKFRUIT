@@ -13,7 +13,6 @@ namespace KGERP.Service.Interface
         Task<PurchaseOrderModel> GetPurchaseOrder(int companyId, long purchaseOrderId);
         List<PurchaseOrderDetailModel> GetPurchaseOrderDetails(long demandId, int companyId);
         PurchaseOrderModel GetPurchaseOrderWithInclude(int purchaseOrderId);
-        List<StoreDetailModel> GetQCItemList(long purchaseOrderId, int companyId);
         List<PurchaseOrderModel> GetQCPurchaseOrders(int companyId, DateTime? searchDate, string searchText);
         List<PurchaseOrderDetailModel> GetPurchaseOrderItems(long purchaseOrderId);
         long SavePurchaseOrder(long purchaseOrderId, PurchaseOrderModel purchaseOrder);

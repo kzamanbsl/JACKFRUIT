@@ -51,34 +51,37 @@
                     <div class="box-body">
                         @if (Model.MaterialReceiveId > 0)
                         {
-                            <div class="col-md-1"> </div>
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:18%">Stock No</th>
+                                        <th style="width:11%">Stock No</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%"><label class="col-form-label">@Model.ReceiveNo</label></td>
+                                        <td style="width:20%"><label class="col-form-label">@Model.ReceiveNo</label></td>
 
-                                        <th style="width:18%"> Stock Date</th>
+                                        <th style="width:11%"> Stock Date</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.ReceivedDate.ToString("dd/mm/yyyy")</td>
+                                        <td style="width:20%">@Model.ReceivedDate.ToString("dd/mm/yyyy")</td>
 
-                                        <th style="width:18%">Stored By</th>
+                                        <th style="width:11%">Stored By</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.ReceivedBy</td>
+                                        <td style="width:20%">@Model.ReceiveByName</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:11%">Store Info</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:20%">@Model.StoreName</td>
 
-                                        <th style="width:18%">Store Info</th>
+                                        <th style="width:11%">Supplier</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.StockInfoName</td>
+                                        <td style="width:20%">@Model.SupplierName</td>
 
-                                        <th style="width:18%">Supplier</th>
+                                        <th style="width:11%"></th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.SupplierName</td>
+                                        <td style="width:20%"></td>
                                     </tr>
 
                                 </table>
                             </div>
-                            <div class="col-md-1"> </div>
                         }
 
                         <div class="box-body">
@@ -121,7 +124,7 @@
                                 </div>
                             }
 
-                            @if (Model.Status == (int)EnumPOStatus.Draft)
+                            @if (Model.IsSubmitted == false)
                             {
                                 <div class="row">
 
@@ -171,24 +174,28 @@
                         </div>
 
                         <div class="box-footer">
-                            <div class="row">
-                                <div class="col-md-8">
+                            @if (Model.IsSubmitted == false)
+                            {
+                                <div class="row">
+                                    <div class="col-md-8">
 
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button type="submit" id="poCreateBtn" class="btn btn-primary btn-block">
+                                            <i class='fa fa-plus'></i>
+                                            @if (Model.MaterialReceiveId > 0)
+                                            {
+                                                <span>Add Product</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Create</span>
+                                            }
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <button type="submit" id="poCreateBtn" class="btn btn-primary btn-block">
-                                        <i class='fa fa-plus'></i>
-                                        @if (Model.MaterialReceiveId > 0)
-                                        {
-                                            <span>Add Product</span>
-                                        }
-                                        else
-                                        {
-                                            <span>Create</span>
-                                        }
-                                    </button>
-                                </div>
-                            </div>
+                            }
+
                         </div>
 
                         @if (Model.MaterialReceiveId > 0)
@@ -201,14 +208,12 @@
                                         <tr>
                                             <th>SL</th>
                                             <th style="text-align:left;">Product Name</th>
-                                            <th style="text-align:right;">Unit Price</th>
                                             <th style="text-align:center;">StockIn Qty</th>
                                             <th style="text-align:right;">StockIn Rate</th>
+                                            <th style="text-align:right;">Unit Price</th>
                                             <th style="text-align:right;">Total Amount</th>
-                                            @if (Model.Status == (int)EnumPOStatus.Draft)
-                                            {
-                                                <th style="padding:5px;text-align:center;">Action</th>
-                                            }
+                                            <th style="padding:5px;text-align:center;">Action</th>
+
                                         </tr>
                                     </thead>
                                     @{
@@ -221,26 +226,29 @@
                                             stockInAmount += item.StockInQty * item.StockInRate;
                                             <tr>
                                                 <td>@(++sl) </td>
-                                                <td style="text-align:left;">@item.ProductSubCategory @item.ProductName  </td>
-                                                <th style="text-align:right;"> @item.MRPPrice </th>
+                                                <td style="text-align:left;">@item.ProductSubCategory @item.ProductName</td>
                                                 <td style="text-align:center;"> @item.StockInQty @item.UnitName</td>
                                                 <th style="text-align:right;"> @item.StockInRate </th>
+                                                <th style="text-align:right;"> @item.UnitPrice </th>
                                                 <td style="text-align:right;"> @(item.StockInQty * item.StockInRate)  </td>
-                                                @if (Model.Status == (int)EnumPOStatus.Draft)
-                                                {
-                                                    <td style="padding:5px;text-align:center;">
+
+                                                <td style="padding:5px;text-align:center;">
+                                                    @if (Model.IsSubmitted == false)
+                                                    {
                                                         <a id="@item.ID" onclick=" makeEditble(@item.MaterialReceiveDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                                                         <a id="@item.ID" onclick="makeDeletale(@item.MaterialReceiveDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodStockSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                    </td>
-                                                }
+                                                    }
+                                                </td>
+
                                             </tr>
                                         }
-                                        <tr>
-                                            <td> </td>
-                                            <th colspan="4">Total </th>
-                                            <th style="text-align:right;"> @stockInAmount  </th>
-                                        </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <th colspan="4">Total </th>
+                                        <th style="text-align:right;"> @stockInAmount  </th>
+                                        <td> </td>
+                                    </tr>
                                     </tbody>
                                 </table>
 
@@ -255,7 +263,7 @@
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
                                     <a id="@Model.MaterialReceiveId" onclick="makeSubmitble(@Model.MaterialReceiveId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitFoodStockModal" data-placement="top">
-                                        @if (Model.Status == (int)EnumPOStatus.Submitted)
+                                        @if (Model.IsSubmitted == true)
                                         {
                                             <i>Undo Submit</i>
                                         }
@@ -289,15 +297,16 @@
                     <h5 class="modal-title"><b>Submit</b></h5>
                 </div>
                 <div class="modal-body">
-
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "submitCompanyFK" })
-                    @Html.HiddenFor(model => model.MaterialReceiveId, new { id = "submitMaterialReceiveId" })
-
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "submitCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "submitCompanyId" })
+                    @Html.HiddenFor(model => model.MaterialReceiveId, new { id = "submitMaterialReceiveId" })
+                    @Html.HiddenFor(model => model.IsSubmitted)
+
                     <div style="text-align:center">
-                        <h3>Are you sure to Submit this Stock?</h3>
+                        <h3>Are you sure to Submit to Approve this Stock?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -313,7 +322,7 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteFoodStock", "MaterialReceive", FormMethod.Post, new { id = "deleteFoodStockFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteMaterialReceiveDetail", "MaterialReceive", FormMethod.Post, new { id = "deleteFoodStockFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteFoodStockSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -326,13 +335,16 @@
                     <h5 class="modal-title"><b>Delete product</b></h5>
                 </div>
                 <div class="modal-body">
-                    @Html.HiddenFor(model => model.MaterialReceiveDetailId, new { id = "hidDeleteFoodStockSlaveId" })
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.MaterialReceiveId)
+                    @Html.HiddenFor(model => model.MaterialReceiveDetailId, new { id = "hidDeleteFoodStockDetailId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "deleteCompanyId" })
 
                     @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div style="text-align:center">
                         <h3>Are you sure to Delete this Product?</h3>
@@ -365,8 +377,9 @@
         }
 
         function makeDeletale(rowId) {
-            $('#hidDeleteProcurementPurchaseOrderSlaveId').val(rowId);
+            $('#hidDeleteFoodStockDetailId').val(rowId);
             $('#deleteActionId').val(3);
+            $('#deleteCompanyFK').val($('#deleteCompanyId').val());
         }
 
         function resetFoodStockSlaveForm() {

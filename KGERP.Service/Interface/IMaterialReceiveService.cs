@@ -25,17 +25,15 @@ namespace KGERP.Service.Interface
         MaterialReceiveModel GetMaterialReceiveEdit(long id);
         bool MaterialReceiveEdit(MaterialReceiveModel materialReceive);
 
-        Task<long> SaveFoodStock(VMWarehousePOReceivingSlave vmPOReceivingSlave);
-        
-        //Task<long> SubmitMaterialIssue(MaterialReceiveModel model);
-        //StoreModel GetStore(long id);
-        //bool SaveStore(long id, StoreModel store);
-        //List<SoreProductQty> GetStoreProductQty(int companyId);
-        //List<SoreProductQty> GetRMStoreProductQty();
-        //List<SoreProductQty> GetEcomProductStore();
-        //StoreModel GetOpenningStore(long id);
-        //bool StoreUpdateAfterProduction(StoreModel store, List<RequisitionItemModel> requistionItems);
-        //bool SaveRMStore(long storeId, StoreModel store);
+        #region Food Stock
+        Task<long> FoodStockAdd(VMWarehousePOReceivingSlave vmPOReceivingSlave);
+        Task<long> FoodStockDetailAdd(VMWarehousePOReceivingSlave vmPOReceivingSlave);
+        Task<long> FoodStockDetailEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave);
+        Task<long> FoodStockApprove(VMWarehousePOReceivingSlave vmPOReceivingSlave);
+        Task<long> DeleteMaterialReceiveDetail(long materialReceiveId);
+        VMWarehousePOReceivingSlave GetFoodStocks(int companyId, long materialReceiveId);
+        Task<List<VMMaterialRcvList>> GetFoodStockRcvList(int companyId, DateTime? fromDate, DateTime? toDate);
+        #endregion
 
     }
 }

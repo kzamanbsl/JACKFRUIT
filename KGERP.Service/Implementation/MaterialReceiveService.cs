@@ -560,7 +560,134 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region Food Stock
-        public async Task<long> SaveFoodStock(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        public VMWarehousePOReceivingSlave GetFoodStocks(int companyId, long materialReceiveId)
+        {
+            VMWarehousePOReceivingSlave materialReceiveModel = new VMWarehousePOReceivingSlave();
+            materialReceiveModel = (from t1 in _context.MaterialReceives
+                                        //join t2 in _context.PurchaseOrders on t1.PurchaseOrderId equals t2.PurchaseOrderId
+                                    join t3 in _context.StockInfoes on t1.StockInfoId equals t3.StockInfoId
+                                    join t4 in _context.Vendors on t1.VendorId equals t4.VendorId
+                                    //join t5 in _context.Demands on t2.DemandId equals t5.DemandId
+                                    join t6 in _context.Employees on t1.ReceivedBy equals t6.Id
+                                    join t8 in _context.VoucherMaps.Where(X => X.CompanyId == companyId && X.IntegratedFrom == "MaterialReceive") on t1.MaterialReceiveId equals t8.IntegratedId into t8_Join
+                                    from t8 in t8_Join.DefaultIfEmpty()
+                                    where t1.IsActive && t1.CompanyId == companyId && t1.MaterialReceiveId == materialReceiveId
+                                    select new VMWarehousePOReceivingSlave
+                                    {
+                                        VoucherId = t8 != null ? t8.VoucherId : 0,
+                                        Factory = t3.Name,
+
+                                        MaterialReceiveId = t1.MaterialReceiveId,
+                                        ReceiveNo=t1.ReceiveNo,
+                                        ReceivedDate = t1.ReceivedDate,
+                                        EmployeeName = t6.Name,
+                                        ReceiveByName = t6.Name,
+
+                                        CompanyId = t1.CompanyId,
+                                        ChallanCID = t1.ReceiveNo,
+                                        ChallanDate = t1.ChallanDate,
+                                        Challan = t1.ChallanNo,
+                                        //DemandDate = t5.DemandDate,
+                                        //DemandNo = t5.DemandNo,
+                                        Discount = t1.Discount,
+                                        DriverName = t1.DriverName,
+                                        IsActive = t1.IsActive,
+                                        IsSubmitted = t1.IsSubmitted,
+                                        AllowLabourBill = t1.AllowLabourBill,
+                                        LabourBill = t1.LabourBill,
+                                        TruckFare = t1.TruckFare,
+                                        TruckNo = t1.TruckNo,
+                                        //POCID = t2.PurchaseOrderNo,
+                                        //PODate = t2.PurchaseDate,
+                                        //Procurement_PurchaseOrderFk = t2.PurchaseOrderId,
+                                        SupplierName = t4.Name,
+                                        StockInfoId = t1.StockInfoId,
+                                        StoreName = t3.Name,
+                                        
+                                        MaterialReceiveStatus = t1.MaterialReceiveStatus,
+                                        MaterialType = t1.MaterialType,
+                                        UnloadingDate = t1.UnloadingDate
+                                    }).FirstOrDefault();
+
+            materialReceiveModel.DataListSlave = (from t1 in _context.MaterialReceiveDetails
+                                                  join t2 in _context.Products on t1.ProductId equals t2.ProductId
+                                                  join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId
+                                                  join t4 in _context.ProductCategories on t3.ProductCategoryId equals t4.ProductCategoryId
+                                                  join t5 in _context.Units on t2.UnitId equals t5.UnitId
+                                                  join t6 in _context.Bags on t1.BagId equals t6.BagId into t6Join
+                                                  from t6 in t6Join.DefaultIfEmpty()
+
+                                                  where t1.IsActive && t1.MaterialReceiveId == materialReceiveId
+                                                  select new VMWarehousePOReceivingSlave
+                                                  {
+                                                      BagName = t6 != null ? t6.BagName : "",
+                                                      ProductName = t2.ProductName,
+                                                      ProductSubCategory = t3.Name,
+                                                      ProductCategory = t4.Name,
+                                                      UnitName = t5.Name,
+                                                      UnitPrice = t1.UnitPrice,
+                                                      BagId = t1.BagId,
+                                                      BagQty = t1.BagQty,
+                                                      BagWeight = t1.BagWeight,
+                                                      Deduction = t1.Deduction,
+                                                      MaterialReceiveDetailId = t1.MaterialReceiveDetailId,
+                                                      MaterialReceiveId = t1.MaterialReceiveId,
+                                                      Common_ProductFk = t1.ProductId,
+                                                      ReceivedQuantity = t1.ReceiveQty,
+                                                      PurchasingPrice = t1.UnitPrice,
+                                                      StockInQty = t1.StockInQty.Value,
+                                                      StockInRate = t1.StockInRate.Value
+
+                                                  }).OrderByDescending(x => x.MaterialReceiveId).AsEnumerable();
+
+            return materialReceiveModel;
+        }
+
+        public async Task<List<VMMaterialRcvList>> GetFoodStockRcvList(int companyId, DateTime? fromDate, DateTime? toDate)
+        {
+            List<VMMaterialRcvList> list = new List<VMMaterialRcvList>();
+
+            list = await Task.Run(() => (from t1 in _context.MaterialReceives
+                                             //join t2 in _context.PurchaseOrders on t1.PurchaseOrderId equals t2.PurchaseOrderId
+                                         join t3 in _context.Vendors on t1.VendorId equals t3.VendorId
+                                         join t4 in _context.StockInfoes on t1.StockInfoId equals t4.StockInfoId
+                                         join t5 in _context.Employees on t1.ReceivedBy equals t5.Id
+
+                                         where t1.CompanyId == companyId
+                                         && t1.IsActive == true
+                                         && t1.ReceivedDate >= fromDate
+                                         && t1.ReceivedDate <= toDate
+
+                                         select new VMMaterialRcvList
+                                         {
+
+                                             MaterialReceiveId = t1.MaterialReceiveId,
+                                             CompanyId = t1.CompanyId,
+
+                                             MaterialType = t1.MaterialType,
+                                             ReceiveNo = t1.ReceiveNo,
+                                             ReceivedBy = t1.ReceivedBy,
+                                             ReceiveByName=t5.Name,
+                                             StoreInfoId=t1.StockInfoId,
+                                             StoreInfoName=t4.Name,
+                                             ReceivedDate = t1.ReceivedDate,
+                                             TotalAmount = t1.TotalAmount,
+                                             Discount = t1.Discount,
+                                             ChallanDate = t1.ChallanDate,
+                                             //PurchaseOrderNo = t1.PurchaseOrderNo,
+                                             //PurchaseOrderId = t1.PurchaseOrderId.Value,
+                                             SupplierName = t3.Name,
+                                             IsSubmitted = t1.IsSubmitted,
+                                             Remarks = t1.Remarks,
+                                             MaterialReceiveStatus = t1.MaterialReceiveStatus,
+                                             SupplierId = t3.VendorId,
+
+                                         }).OrderByDescending(o => o.MaterialReceiveId).ToListAsync());
+            return list;
+        }
+
+
+        public async Task<long> FoodStockAdd(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
             long result = -0;
             #region Receive No 
@@ -571,9 +698,6 @@ namespace KGERP.Service.Implementation
             string receivedNo = "RM-" + lastReceivedNo.ToString().PadLeft(6, '0');
 
             #endregion
-            var materialReceiveDetailData = vmPOReceivingSlave.MaterialReceiveDetailModel.Where(x => x.ReceiveQty > 0).ToList();
-            decimal totalQuantity = materialReceiveDetailData.Sum(x => x.ReceiveQty);
-
 
             MaterialReceive materialReceive = new MaterialReceive
             {
@@ -585,59 +709,125 @@ namespace KGERP.Service.Implementation
                 ChallanDate = vmPOReceivingSlave.ChallanDate,
                 ChallanNo = vmPOReceivingSlave.Challan,
                 CompanyId = vmPOReceivingSlave.CompanyId,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
+
                 Discount = vmPOReceivingSlave.Discount,
                 DriverName = vmPOReceivingSlave.DriverName,
                 IsActive = true,
-                LabourBill = vmPOReceivingSlave.AllowLabourBill ? totalQuantity * (vmPOReceivingSlave.LabourBill / 100) : 0,
+                IsSubmitted = false,
+                LabourBill = vmPOReceivingSlave.AllowLabourBill ? vmPOReceivingSlave.StockInQty * (vmPOReceivingSlave.LabourBill / 100) : 0,
                 MaterialReceiveStatus = "OPEN",
 
                 MaterialType = "R",
-                PurchaseOrderId = vmPOReceivingSlave.Procurement_PurchaseOrderFk,
+                //PurchaseOrderId = vmPOReceivingSlave.Procurement_PurchaseOrderFk,
                 StockInfoId = vmPOReceivingSlave.StockInfoId,
                 TruckFare = vmPOReceivingSlave.TruckFare,
                 TruckNo = vmPOReceivingSlave.TruckNo,
                 UnloadingDate = vmPOReceivingSlave.ReceivedDate,
-                VendorId = vmPOReceivingSlave.Common_SupplierFK
+                VendorId = vmPOReceivingSlave.Common_SupplierFK,
 
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
             };
+
             _context.MaterialReceives.Add(materialReceive);
             if (await _context.SaveChangesAsync() > 0)
             {
                 result = materialReceive.MaterialReceiveId;
             }
-            if (result > 0 && materialReceiveDetailData.Any())
+
+            return result;
+        }
+        public async Task<long> FoodStockDetailAdd(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        {
+            long result = -1;
+            MaterialReceiveDetail materialReceiveDetail = new MaterialReceiveDetail
             {
-                List<MaterialReceiveDetail> materialReceiveDetailsList = new List<MaterialReceiveDetail>();
-                List<VMRawMaterialStock> vmRawMaterialStockList = new List<VMRawMaterialStock>();
-                foreach (var item in materialReceiveDetailData)
+                MaterialReceiveId = vmPOReceivingSlave.MaterialReceiveId,
+                BagId = vmPOReceivingSlave.BagId,
+                BagQty = vmPOReceivingSlave.BagQty,
+                BagWeight = vmPOReceivingSlave.BagWeight,
+
+                Deduction = vmPOReceivingSlave.Deduction,
+                IsActive = true,
+                ProductId = vmPOReceivingSlave.ProductId,
+                //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
+                ReceiveQty = vmPOReceivingSlave.ReceivedQuantity,
+                StockInQty = vmPOReceivingSlave.StockInQty,
+                StockInRate = vmPOReceivingSlave.StockInRate,
+                UnitPrice = vmPOReceivingSlave.UnitPrice,
+
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+            };
+            _context.MaterialReceiveDetails.Add(materialReceiveDetail);
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = materialReceiveDetail.MaterialReceiveDetailId;
+            }
+
+            return result;
+        }
+
+        public async Task<long> FoodStockDetailEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        {
+            long result = -1;
+            MaterialReceiveDetail model = await _context.MaterialReceiveDetails.FindAsync(vmPOReceivingSlave.MaterialReceiveDetailId);
+            if (model == null) throw new Exception("Sorry! Stock Detail not found!");
+
+            model.StockInQty = vmPOReceivingSlave.StockInQty;
+            model.StockInRate = vmPOReceivingSlave.StockInRate;
+            model.UnitPrice = vmPOReceivingSlave.UnitPrice;
+
+            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            model.ModifiedDate = DateTime.Now;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = vmPOReceivingSlave.MaterialReceiveDetailId;
+            }
+
+            return result;
+        }
+
+        public async Task<long> FoodStockApprove(VMWarehousePOReceivingSlave vmPOReceivingSlave)
+        {
+            long result = -1;
+            MaterialReceive materialReceive = await _context.MaterialReceives.FindAsync(vmPOReceivingSlave.MaterialReceiveId);
+
+            if (materialReceive != null)
+            {
+                if (materialReceive.IsSubmitted == false)
                 {
-                    MaterialReceiveDetail materialReceiveDetail = new MaterialReceiveDetail
-                    {
-                        MaterialReceiveId = result,
-                        BagId = item.BagId,
-                        BagQty = item.BagQty,
-                        BagWeight = item.BagWeight,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                        Deduction = item.Deduction,
-                        IsActive = true,
-                        ProductId = item.ProductId,
-                        PurchaseOrderDetailFk = Convert.ToInt32(item.PurchaseOrderDetailFk),
-                        ReceiveQty = item.ReceiveQty,
-                        StockInQty = item.StockInQty,
-                        StockInRate = item.StockInRate,
-                        UnitPrice = item.UnitPrice,
-                    };
-                    materialReceiveDetailsList.Add(materialReceiveDetail);
+                    materialReceive.IsSubmitted = true;
+                }
+                else
+                {
+                    materialReceive.IsSubmitted = false;
 
                 }
-                _context.MaterialReceiveDetails.AddRange(materialReceiveDetailsList);
+                materialReceive.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                materialReceive.ModifiedDate = DateTime.Now;
                 if (await _context.SaveChangesAsync() > 0)
                 {
-                    UpdateProductCostingPrice(materialReceive.CompanyId, materialReceiveDetailData);
+                    result = materialReceive.MaterialReceiveId;
+                }
+            }
+            return result;
+        }
 
+        public async Task<long> DeleteMaterialReceiveDetail(long materialReceiveId)
+        {
+            long result = -1;
+            MaterialReceiveDetail materialReceiveDetail = await _context.MaterialReceiveDetails.FirstOrDefaultAsync(c => c.MaterialReceiveDetailId == materialReceiveId);
+            if (materialReceiveDetail != null)
+            {
+                materialReceiveDetail.IsActive = false;
+                materialReceiveDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                materialReceiveDetail.ModifiedDate = DateTime.Now;
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = materialReceiveDetail.MaterialReceiveDetailId;
                 }
             }
             return result;
@@ -660,5 +850,6 @@ namespace KGERP.Service.Implementation
             }
             disposed = true;
         }
+
     }
 }

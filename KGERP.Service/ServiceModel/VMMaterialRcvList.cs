@@ -6,10 +6,12 @@ namespace KGERP.Service.ServiceModel
     {
         public long MaterialReceiveId { get; set; }
         public int CompanyId { get; set; }
-        public long PurchaseOrderId { get; set; }
+        public long? PurchaseOrderId { get; set; }
+        public string PurchaseOrderNo { get; set; }
         public string MaterialType { get; set; }
         public string ReceiveNo { get; set; }
         public Nullable<long> ReceivedBy { get; set; }
+        public string ReceiveByName { get; set; }
         public Nullable<System.DateTime> ReceivedDate { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal Discount { get; set; }
@@ -18,7 +20,10 @@ namespace KGERP.Service.ServiceModel
         public bool IsSubmitted { get; set; }
         public Nullable<int> SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public string PurchaseOrderNo { get; set; }
+
+        public Nullable<int> StoreInfoId { get; set; }
+        public string StoreInfoName { get; set; }
+       
         public string Remarks { get; set; }
     }
 }

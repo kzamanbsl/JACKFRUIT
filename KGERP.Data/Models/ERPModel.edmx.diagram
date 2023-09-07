@@ -271,7 +271,6 @@
         <EntityTypeShape EntityType="ERPModel.BookingInstallmentSchedule" Width="1.5" PointX="28.5" PointY="30.75" />
         <AssociationConnector Association="ERPModel.FK_BookingInstallmentSchedule_CustomerGroupInfo" />
         <EntityTypeShape EntityType="ERPModel.MoneyReceiptType" Width="1.5" PointX="10.375" PointY="29.75" />
-        <EntityTypeShape EntityType="ERPModel.MoneyReceiptDetail" Width="1.5" PointX="13.375" PointY="29.75" />
         <EntityTypeShape EntityType="ERPModel.StoreDetail" Width="1.5" PointX="46.5" PointY="39.5" />
         <AssociationConnector Association="ERPModel.FK_StoreDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_ProductDetails_StoreDetail" />
@@ -498,11 +497,12 @@
         <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo1" />
         <AssociationConnector Association="ERPModel.FK_Store_StockInfo" />
         <EntityTypeShape EntityType="ERPModel.MaterialReceive" Width="1.5" PointX="30.5" PointY="56.125" />
-        <EntityTypeShape EntityType="ERPModel.MaterialReceiveDetail" Width="1.5" PointX="32.75" PointY="57.375" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceive_ProductionMaster" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
-        <AssociationConnector Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_MaterialReceive" />
+        <EntityTypeShape EntityType="ERPModel.MoneyReceiptDetail" Width="1.5" PointX="20.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ERPModel.MaterialReceiveDetail" Width="1.5" PointX="32.75" PointY="57.25" />
+        <AssociationConnector Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
         </Diagram>
     </edmx:Diagrams>
