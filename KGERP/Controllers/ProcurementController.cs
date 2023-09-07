@@ -41,6 +41,7 @@ namespace KGERP.Controllers
             //vendorOpeningModel.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
             return View(vendorOpeningModel);
         }
+
         [HttpPost]
         public async Task<ActionResult> ProcurementSupplierOpening(VendorOpeningModel vendorOpeningModel)
         {

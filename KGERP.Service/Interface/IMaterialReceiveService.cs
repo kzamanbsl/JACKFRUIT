@@ -31,6 +31,7 @@ namespace KGERP.Service.Interface
         Task<long> FoodStockDetailEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave);
         Task<long> FoodStockApprove(VMWarehousePOReceivingSlave vmPOReceivingSlave);
         Task<long> DeleteMaterialReceiveDetail(long materialReceiveId);
+        Task<VMWarehousePOReceivingSlave> FoodStockDetailGetById(long materialReceiveDetailId, int companyId);
         VMWarehousePOReceivingSlave GetFoodStocks(int companyId, long materialReceiveId);
         Task<List<VMMaterialRcvList>> GetFoodStockRcvList(int companyId, DateTime? fromDate, DateTime? toDate);
         #endregion

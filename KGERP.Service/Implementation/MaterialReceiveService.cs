@@ -578,7 +578,7 @@ namespace KGERP.Service.Implementation
                                         Factory = t3.Name,
 
                                         MaterialReceiveId = t1.MaterialReceiveId,
-                                        ReceiveNo=t1.ReceiveNo,
+                                        ReceiveNo = t1.ReceiveNo,
                                         ReceivedDate = t1.ReceivedDate,
                                         EmployeeName = t6.Name,
                                         ReceiveByName = t6.Name,
@@ -603,7 +603,7 @@ namespace KGERP.Service.Implementation
                                         SupplierName = t4.Name,
                                         StockInfoId = t1.StockInfoId,
                                         StoreName = t3.Name,
-                                        
+
                                         MaterialReceiveStatus = t1.MaterialReceiveStatus,
                                         MaterialType = t1.MaterialType,
                                         UnloadingDate = t1.UnloadingDate
@@ -667,9 +667,9 @@ namespace KGERP.Service.Implementation
                                              MaterialType = t1.MaterialType,
                                              ReceiveNo = t1.ReceiveNo,
                                              ReceivedBy = t1.ReceivedBy,
-                                             ReceiveByName=t5.Name,
-                                             StoreInfoId=t1.StockInfoId,
-                                             StoreInfoName=t4.Name,
+                                             ReceiveByName = t5.Name,
+                                             StoreInfoId = t1.StockInfoId,
+                                             StoreInfoName = t4.Name,
                                              ReceivedDate = t1.ReceivedDate,
                                              TotalAmount = t1.TotalAmount,
                                              Discount = t1.Discount,
@@ -831,6 +831,41 @@ namespace KGERP.Service.Implementation
                 }
             }
             return result;
+        }
+
+        public async Task<VMWarehousePOReceivingSlave> FoodStockDetailGetById(long materialReceiveDetailId, int companyId)
+        {
+            VMWarehousePOReceivingSlave materialReceiveModel = new VMWarehousePOReceivingSlave();
+            materialReceiveModel = await Task.Run(() => (from t1 in _context.MaterialReceiveDetails
+                                    join t2 in _context.Products on t1.ProductId equals t2.ProductId
+                                    join t3 in _context.Units on t2.UnitId equals t3.UnitId into t3_join
+                                    from t3 in t3_join.DefaultIfEmpty()
+
+                                    where t1.IsActive && t1.MaterialReceiveDetailId == materialReceiveDetailId
+                                    select new VMWarehousePOReceivingSlave
+                                    {
+                                        MaterialReceiveId = t1.MaterialReceiveId,
+                                        MaterialReceiveDetailId = t1.MaterialReceiveDetailId,
+                                        BagId = t1.BagId,
+                                        BagQty = t1.BagQty,
+                                        BagWeight = t1.BagWeight,
+
+                                        Deduction = t1.Deduction,
+                                        IsActive = t1.IsActive,
+                                        ProductId = t1.ProductId,
+                                        ProductName = t2.ProductName,
+                                        //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
+                                        ReceivedQuantity = t1.ReceiveQty,
+                                        StockInQty = t1.StockInQty ?? 0,
+                                        StockInRate = t1.StockInRate ?? 0,
+                                        UnitPrice = t1.UnitPrice,
+                                        UnitName=t3.Name,
+                                        CompanyId=companyId,
+                                        CompanyFK=companyId
+
+                                    }).FirstOrDefault());
+
+            return materialReceiveModel;
         }
         #endregion
 

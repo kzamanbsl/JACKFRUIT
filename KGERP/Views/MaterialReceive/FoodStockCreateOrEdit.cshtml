@@ -12,15 +12,6 @@
     input, select, textarea {
         max-width: 100%;
     }
-
-    /* .table > thead > tr > th,
-    .table > tbody > tr > th,
-    .table > tfoot > tr > th,
-    .table > thead > tr > td,
-    .table > tbody > tr > td,
-    .table > tfoot > tr > td {
-        padding: 2px 0px 2px 0px;
-    }*/
 </style>
 
 <section class="content-header">
@@ -40,9 +31,11 @@
             <div class="box">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+
                 @Html.HiddenFor(model => model.MaterialReceiveId, new { id = "hidMaterialReceiveId" })
                 @Html.HiddenFor(model => model.MaterialReceiveDetailId, new { id = "hidMaterialReceiveDetailId" })
-                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(x => x.CompanyId, new { id = "CompanyId" })
 
@@ -182,10 +175,10 @@
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <button type="submit" id="poCreateBtn" class="btn btn-primary btn-block">
-                                            <i class='fa fa-plus'></i>
+                                            <i id="hidFa" class='fa fa-plus'></i>
                                             @if (Model.MaterialReceiveId > 0)
                                             {
-                                                <span>Add Product</span>
+                                                <span id="mrCreateBtn">Add Product</span>
                                             }
                                             else
                                             {
@@ -235,7 +228,7 @@
                                                 <td style="padding:5px;text-align:center;">
                                                     @if (Model.IsSubmitted == false)
                                                     {
-                                                        <a id="@item.ID" onclick=" makeEditble(@item.MaterialReceiveDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                        <a id="@item.ID" onclick="makeEditble(@item.MaterialReceiveDetailId)" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                                                         <a id="@item.ID" onclick="makeDeletale(@item.MaterialReceiveDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodStockSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     }
@@ -243,12 +236,12 @@
 
                                             </tr>
                                         }
-                                    <tr>
-                                        <td> </td>
-                                        <th colspan="4">Total </th>
-                                        <th style="text-align:right;"> @stockInAmount  </th>
-                                        <td> </td>
-                                    </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <th colspan="4">Total </th>
+                                            <th style="text-align:right;"> @stockInAmount  </th>
+                                            <td> </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -504,50 +497,31 @@
         });
 
         function makeEditble(rowId) {
+            var companyId = $("#CompanyId").val();
             $.ajax({
+               type: "POST",
+               url: "@Url.Action("FoodStockDetailGetById", "MaterialReceive")",
+               datatype: "Json",
+               data: { id: rowId, companyId:companyId },
+               success: function (data) {
 
-           type: "POST",
-           url: "@Url.Action("SingleProcurementPurchaseOrderSlave", "Procurement")",
-           datatype: "Json",
-           data: { id: rowId },
-           success: function (data) {
+                   $('#mrCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                   $("#hidFa").hide();
+                   $("#hidMaterialReceiveId").val(data.MaterialReceiveId);
+                   $("#hidMaterialReceiveDetailId").val(data.MaterialReceiveDetailId);
+                   $('#ActionId').val(2);
+                   $("#CompanyFK").val(data.CompanyFK);
+                   $("#CompanyId").val(data.CompanyId);
+                   $("#txtProductName").val(data.ProductName);
+                   $("#ddlProductFK").val(data.ProductId);
+                   $("#txtStockInQty").val(data.StockInQty);
+                   $('#txtStockInRate').val(data.StockInRate);
+                   $('#txtUnitPrice').val(data.UnitPrice);
+                   $('.txtUnitName').text(data.UnitName);
 
-               $('#poCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
-               $("#hidPurchaseOrderId").val(data.PurchaseOrderId);
-               $('#ActionId').val(2);
-               $("#CompanyFK").val(data.CompanyFK);
-               $("#txtProductName").val(data.ProductName);
-               $("#ddlRProductFK").val(data.Common_ProductFK);
-               $("#txtPurchaseQuantity").val(data.PurchaseQuantity);
-               $('#txtPurchasingPrice').val(data.PurchasingPrice);
-               $("#hidPurchaseOrderDetailId").val(data.PurchaseOrderDetailId)
-               $('.txtUnitName').text(data.UnitName);
-               window.scrollTo({ top: 0, behavior: 'smooth' });
-           }
+                   window.scrollTo({ top: 0, behavior: 'smooth' });
+               }
           });
-        }
-
-        function makeSubmitble(rowId) {
-
-         $.ajax({
-                 type: "POST",
-                 url: "@Url.Action("SingleProcurementPurchaseOrder", "Procurement")",
-                 datatype: "Json",
-                 data: { id: rowId },
-                 success: function (data) {
-
-                     $('#submitOrDraftPOCIDText').text(data.CID);
-
-                     if (data.Status == 0) {
-                         $('.submitOrDraftText').text("Make Submit");
-                     }
-                     else {
-                         $('.submitOrDraftText').text("Make Draft");
-
-                     }
-                 }
-          });
-     $('#hidsubmitProcurementPurchaseOrderId').val(rowId);
         }
 
         function getFormattedDate(date) {

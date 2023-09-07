@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.Implementation;
+using KGERP.Data.Models;
+using System.Web.Services.Description;
 
 
 namespace KGERP.Controllers
@@ -131,7 +133,7 @@ namespace KGERP.Controllers
             }
             GCCLMaterialRecieveVm model = new GCCLMaterialRecieveVm();
 
-            model = await  _materialReceiveService.GCCLMaterialRcvList(companyId, fromDate, toDate);
+            model = await _materialReceiveService.GCCLMaterialRcvList(companyId, fromDate, toDate);
             model.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             model.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
 
@@ -208,7 +210,7 @@ namespace KGERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateOrEdit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
-            vmPOReceivingSlave.MaterialReceiveId  = await _materialReceiveService.SaveMaterialReceive(vmPOReceivingSlave);
+            vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.SaveMaterialReceive(vmPOReceivingSlave);
 
 
             if (vmPOReceivingSlave.MaterialReceiveId > 0)
@@ -406,6 +408,13 @@ namespace KGERP.Controllers
                 vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.DeleteMaterialReceiveDetail(vmPOReceivingSlave.MaterialReceiveDetailId);
             }
             return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> FoodStockDetailGetById(long id, int companyId)
+        {
+            var data = await _materialReceiveService.FoodStockDetailGetById(id, companyId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
