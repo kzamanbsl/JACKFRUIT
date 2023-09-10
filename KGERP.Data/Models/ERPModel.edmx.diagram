@@ -26,7 +26,6 @@
         <EntityTypeShape EntityType="ERPModel.Brand" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.CaseComment" Width="1.5" PointX="28.75" PointY="0.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.CaseHistory" Width="1.5" PointX="28.75" PointY="4.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.clients_BasicInfo" Width="1.5" PointX="18.75" PointY="28.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.ClientsInfo" Width="1.5" PointX="20.75" PointY="28.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.ClientsInfo_Del" Width="1.5" PointX="29.75" PointY="27.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Colour" Width="1.5" PointX="3.75" PointY="4.375" IsExpanded="false" />
@@ -109,7 +108,6 @@
         <EntityTypeShape EntityType="ERPModel.IngredientStandard" Width="1.5" PointX="30.5" PointY="23.5" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.IngredientStandardDetail" Width="1.5" PointX="32.75" PointY="28.625" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.IssueDetailInfo" Width="1.5" PointX="18" PointY="6.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.OrderDeliverDetail" Width="1.5" PointX="14.25" PointY="61.625" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.OrderDeliveryPreview" Width="1.5" PointX="40.75" PointY="6.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.PFormulaDetail" Width="1.5" PointX="27.5" PointY="57.875" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.ProductDetail" Width="1.5" PointX="32.75" PointY="40.375" IsExpanded="false" />
@@ -167,7 +165,6 @@
         <AssociationConnector Association="ERPModel.FK_EmiDetail_EMI1" />
         <AssociationConnector Association="ERPModel.FK_IncentiveDetail_Incentive" />
         <AssociationConnector Association="ERPModel.FK_IngredientStandardDetail_IngredientStandard" />
-        <EntityTypeShape EntityType="ERPModel.SaleReturnDetail" Width="1.5" PointX="16.5" PointY="40.375" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Zone" Width="1.5" PointX="43.375" PointY="1.125" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.SubZone" Width="1.5" PointX="45.625" PointY="1.375" IsExpanded="false" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Zone" />
@@ -179,12 +176,6 @@
         <EntityTypeShape EntityType="ERPModel.PromtionalOfferDetail" Width="1.5" PointX="44.625" PointY="17.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Prod_ReferenceSlaveConsumption" Width="1.5" PointX="43.375" PointY="12.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Prod_Reference" Width="1.5" PointX="25.375" PointY="30.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.OrderDeliver" Width="1.5" PointX="25.75" PointY="45.75" IsExpanded="false" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_OrderDeliver" />
-        <AssociationConnector Association="ERPModel.FK_ProductDetails_OrderDeliver" />
-        <EntityTypeShape EntityType="ERPModel.SaleReturn" Width="1.5" PointX="30.25" PointY="43.25" IsExpanded="false" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturn_OrderDeliver" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
         <EntityTypeShape EntityType="ERPModel.VoucherType" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Bank3" Width="1.5" PointX="44.375" PointY="31.125" />
         <AssociationConnector Association="ERPModel.FK_Employee_Bank3" />
@@ -193,9 +184,6 @@
         <AssociationConnector Association="ERPModel.FK_BankBranch_Bank" />
         <EntityTypeShape EntityType="ERPModel.Accounting_ChequeInfo" Width="1.5" PointX="48.875" PointY="17.125" IsExpanded="false" />
         <AssociationConnector Association="ERPModel.FK_Accounting_ChequeInfo_BankBranch" />
-        <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="23" PointY="28.5" IsExpanded="false" />
-        <AssociationConnector Association="ERPModel.FK_EMI_EMI" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
         <EntityTypeShape EntityType="ERPModel.PaymentMaster" Width="1.5" PointX="13.375" PointY="39.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Payment" Width="1.5" PointX="19.75" PointY="66.875" IsExpanded="false" />
         <AssociationConnector Association="ERPModel.FK_Payment_PaymentMode" />
@@ -204,8 +192,6 @@
         <EntityTypeShape EntityType="ERPModel.RentProductionDetail" Width="1.5" PointX="47.625" PointY="11.625" IsExpanded="false" />
         <AssociationConnector Association="ERPModel.FK_RentProductionDetail_RentProduction" />
         <EntityTypeShape EntityType="ERPModel.StockTransferDetail" Width="1.5" PointX="35.5" PointY="45.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.OrderDetail" Width="1.5" PointX="46.5" PointY="38" IsExpanded="false" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
         <EntityTypeShape EntityType="ERPModel.DemandItem" Width="1.5" PointX="3" PointY="66.5" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Ticketing" Width="1.5" PointX="38.375" PointY="45.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.vwDemandForSaleInvoice" Width="1.5" PointX="18.375" PointY="45.75" IsExpanded="false" />
@@ -262,7 +248,6 @@
         <EntityTypeShape EntityType="ERPModel.Product" Width="1.5" PointX="36.25" PointY="22.5" />
         <AssociationConnector Association="ERPModel.FK_Product_FacingInfo" />
         <AssociationConnector Association="ERPModel.FK_IngredientStandard_Product1" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_PFormulaDetail_ProductFormula" />
         <AssociationConnector Association="ERPModel.FK_Product_Unit" />
         <AssociationConnector Association="ERPModel.FK_ProductDetails_Product" />
@@ -354,7 +339,6 @@
         <AssociationConnector Association="ERPModel.FK_FileAttachment_Company" />
         <AssociationConnector Association="ERPModel.FK_LCInfo_Company" />
         <AssociationConnector Association="ERPModel.FK_MonthyTarget_Company" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_Store_Company1" />
         <AssociationConnector Association="ERPModel.FK_Unit_Company" />
         <EntityTypeShape EntityType="ERPModel.OfficerAssign" Width="1.5" PointX="45.625" PointY="12.875" />
@@ -388,13 +372,11 @@
         <AssociationConnector Association="ERPModel.FK_LeaveApplication_HrAdmin" />
         <AssociationConnector Association="ERPModel.FK_LeaveApplication_Manager" />
         <AssociationConnector Association="ERPModel.FK_OfficerAssign_Employee" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturn_Employee" />
         <AssociationConnector Association="ERPModel.FK_TeamInfo_Employee" />
         <AssociationConnector Association="ERPModel.FK_Upazila_Upazila" />
         <AssociationConnector Association="ERPModel.FK_UpazilaAssign_Employee" />
         <AssociationConnector Association="ERPModel.FK_Work_Manager" />
         <AssociationConnector Association="ERPModel.FK_WorkAssign_Employee" />
-        <EntityTypeShape EntityType="ERPModel.salaryInformatrion" Width="1.5" PointX="5.375" PointY="5.75" />
         <EntityTypeShape EntityType="ERPModel.AspNetRoleClaim" Width="1.5" PointX="53" PointY="9.5" />
         <EntityTypeShape EntityType="ERPModel.AspNetRole" Width="1.5" PointX="50.75" PointY="5.375" />
         <EntityTypeShape EntityType="ERPModel.AspNetUserClaim" Width="1.5" PointX="55.25" PointY="1.375" />
@@ -470,12 +452,10 @@
         <AssociationConnector Association="ERPModel.FK_Vendor_Area" />
         <AssociationConnector Association="ERPModel.FK_EMI_Vendor" />
         <AssociationConnector Association="ERPModel.FK_LCInfo_Vendor" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Supplier" />
         <AssociationConnector Association="ERPModel.FK_Payment_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Store_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Vendor_SubZone" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Vendor" />
@@ -490,7 +470,6 @@
         <EntityTypeShape EntityType="ERPModel.StockInfo" Width="1.5" PointX="3" PointY="29.125" />
         <AssociationConnector Association="ERPModel.FK_StockInfo_Company" />
         <AssociationConnector Association="ERPModel.FK_Employee_StockInfo" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliver_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo" />
@@ -504,6 +483,35 @@
         <EntityTypeShape EntityType="ERPModel.MaterialReceiveDetail" Width="1.5" PointX="32.75" PointY="57.25" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
+        <EntityTypeShape EntityType="ERPModel.Clients_BasicInfo1" Width="1.5" PointX="22.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ERPModel.OrderDetail" Width="1.5" PointX="66.125" PointY="25.75" />
+        <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="27.125" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_StockInfo" />
+        <EntityTypeShape EntityType="ERPModel.SalaryInformatrion" Width="1.5" PointX="51.125" PointY="40.875" />
+        <EntityTypeShape EntityType="ERPModel.OrderDeliver" Width="1.5" PointX="66.125" PointY="38" />
+        <EntityTypeShape EntityType="ERPModel.OrderDeliverDetail" Width="1.5" PointX="68.375" PointY="29.75" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliver_Company" />
+        <AssociationConnector Association="ERPModel.FK_SalaryInformatrion_Employee" />
+        <AssociationConnector Association="ERPModel.FK_EMI_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliver_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_OrderDeliver" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_Product" />
+        <EntityTypeShape EntityType="ERPModel.SaleReturn" Width="1.5" PointX="71.375" PointY="27.625" />
+        <EntityTypeShape EntityType="ERPModel.SaleReturnDetail" Width="1.5" PointX="73.625" PointY="26.25" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturn_Employee" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturn_OrderDeliver" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturn_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturn_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

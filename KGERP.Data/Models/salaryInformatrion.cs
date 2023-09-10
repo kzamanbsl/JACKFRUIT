@@ -12,7 +12,7 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class salaryInformatrion
+    public partial class SalaryInformatrion
     {
         public long Id { get; set; }
         public Nullable<long> EmpId { get; set; }
@@ -20,8 +20,10 @@ namespace KGERP.Data.Models
         public Nullable<decimal> Owed { get; set; }
         public Nullable<decimal> Paid { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatetDate { get; set; }
+        public System.DateTime CreatetDate { get; set; }
         public string ModifyBy { get; set; }
         public Nullable<System.DateTime> Modifydate { get; set; }
+    
+        public virtual Employee Employee { get; set; }
     }
 }

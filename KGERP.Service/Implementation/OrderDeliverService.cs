@@ -179,10 +179,10 @@ namespace KGERP.Service.Implementation
             orderDeliver.TotalAmount = model.TotalAmount;
             orderDeliver.Discount = model.Discount;
             orderDeliver.DiscountRate = model.DiscountRate;
-            orderDeliver.CompanyId = model.CompanyId;
+            orderDeliver.CompanyId = model.CompanyId ?? 0;
             orderDeliver.DeliveryDate = model.DeliveryDate;
 
-            orderDeliver.OrderMaster = null;
+            //orderDeliver.OrderMaster = null;
             orderDeliver.OrderDeliverDetails = null;
             orderDeliver.OrderDeliverDetails = orderDeliverDetails;
             context.OrderDelivers.Add(orderDeliver);

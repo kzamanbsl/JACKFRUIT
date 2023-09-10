@@ -234,7 +234,7 @@
     <Compile Include="Models\ClientsInfo_Del.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\clients_BasicInfo.cs">
+    <Compile Include="Models\Clients_BasicInfo1.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Colour.cs">
@@ -753,7 +753,7 @@
     <Compile Include="Models\RequisitionItemDetail.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\salaryInformatrion.cs">
+    <Compile Include="Models\SalaryInformatrion.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SaleReturn.cs">

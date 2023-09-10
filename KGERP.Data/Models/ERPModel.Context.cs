@@ -48,7 +48,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<CaseComment> CaseComments { get; set; }
         public virtual DbSet<CaseHistory> CaseHistories { get; set; }
-        public virtual DbSet<clients_BasicInfo> clients_BasicInfo { get; set; }
         public virtual DbSet<ClientsInfo> ClientsInfoes { get; set; }
         public virtual DbSet<ClientsInfo_Del> ClientsInfo_Del { get; set; }
         public virtual DbSet<Colour> Colours { get; set; }
@@ -132,7 +131,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<IngredientStandardDetail> IngredientStandardDetails { get; set; }
         public virtual DbSet<IssueDetailInfo> IssueDetailInfoes { get; set; }
         public virtual DbSet<IssueMasterInfo> IssueMasterInfoes { get; set; }
-        public virtual DbSet<OrderDeliverDetail> OrderDeliverDetails { get; set; }
         public virtual DbSet<OrderDeliveryPreview> OrderDeliveryPreviews { get; set; }
         public virtual DbSet<PFormulaDetail> PFormulaDetails { get; set; }
         public virtual DbSet<ProductDetail> ProductDetails { get; set; }
@@ -152,7 +150,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<TempFeedVoucherDetail> TempFeedVoucherDetails { get; set; }
         public virtual DbSet<ConvertedProductDetail> ConvertedProductDetails { get; set; }
         public virtual DbSet<FormulaHistory> FormulaHistories { get; set; }
-        public virtual DbSet<SaleReturnDetail> SaleReturnDetails { get; set; }
         public virtual DbSet<Zone> Zones { get; set; }
         public virtual DbSet<SubZone> SubZones { get; set; }
         public virtual DbSet<Prod_ReferenceSlave> Prod_ReferenceSlave { get; set; }
@@ -163,20 +160,16 @@ namespace KGERP.Data.Models
         public virtual DbSet<PromtionalOfferDetail> PromtionalOfferDetails { get; set; }
         public virtual DbSet<Prod_ReferenceSlaveConsumption> Prod_ReferenceSlaveConsumption { get; set; }
         public virtual DbSet<Prod_Reference> Prod_Reference { get; set; }
-        public virtual DbSet<OrderDeliver> OrderDelivers { get; set; }
-        public virtual DbSet<SaleReturn> SaleReturns { get; set; }
         public virtual DbSet<VoucherType> VoucherTypes { get; set; }
         public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<BankBranch> BankBranches { get; set; }
         public virtual DbSet<Accounting_ChequeInfo> Accounting_ChequeInfo { get; set; }
-        public virtual DbSet<OrderMaster> OrderMasters { get; set; }
         public virtual DbSet<PaymentMaster> PaymentMasters { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Income> Incomes { get; set; }
         public virtual DbSet<RentProduction> RentProductions { get; set; }
         public virtual DbSet<RentProductionDetail> RentProductionDetails { get; set; }
         public virtual DbSet<StockTransferDetail> StockTransferDetails { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<DemandItem> DemandItems { get; set; }
         public virtual DbSet<Ticketing> Ticketings { get; set; }
         public virtual DbSet<vwDemandForSaleInvoice> vwDemandForSaleInvoices { get; set; }
@@ -259,7 +252,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<OfficerAssign> OfficerAssigns { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<salaryInformatrion> salaryInformatrions { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
@@ -294,6 +286,14 @@ namespace KGERP.Data.Models
         public virtual DbSet<MaterialReceive> MaterialReceives { get; set; }
         public virtual DbSet<MoneyReceiptDetail> MoneyReceiptDetails { get; set; }
         public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
+        public virtual DbSet<Clients_BasicInfo1> Clients_BasicInfo1 { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<OrderMaster> OrderMasters { get; set; }
+        public virtual DbSet<SalaryInformatrion> SalaryInformatrions { get; set; }
+        public virtual DbSet<OrderDeliver> OrderDelivers { get; set; }
+        public virtual DbSet<OrderDeliverDetail> OrderDeliverDetails { get; set; }
+        public virtual DbSet<SaleReturn> SaleReturns { get; set; }
+        public virtual DbSet<SaleReturnDetail> SaleReturnDetails { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

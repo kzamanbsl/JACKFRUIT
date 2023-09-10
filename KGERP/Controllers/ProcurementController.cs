@@ -1182,7 +1182,7 @@ namespace KGERP.Controllers
                 orderMaster = JsonConvert.DeserializeObject<OrderMaster>(strOrderMaster);
                 vMSales.CompanyFK = orderMaster.CompanyId;
                 vMSales.OrderDate = orderMaster.OrderDate;
-                vMSales.DemandId = orderMaster.DemandId;
+                vMSales.DemandId = orderMaster.DemandId??0;
                 vMSales.ExpectedDeliveryDate = orderMaster.ExpectedDeliveryDate;
                 vMSales.FinalDestination = orderMaster.FinalDestination;
                 vMSales.CustomerPaymentMethodEnumFK = orderMaster.PaymentMethod;
@@ -1612,6 +1612,7 @@ namespace KGERP.Controllers
 
         #endregion
 
+
         #region Food Sales Order
 
         #region Deport Sales
@@ -1693,7 +1694,6 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
         }
-
 
         [HttpGet]
         public async Task<ActionResult> DeportSalesOrderList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)

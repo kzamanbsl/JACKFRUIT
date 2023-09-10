@@ -12,7 +12,7 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class clients_BasicInfo
+    public partial class Clients_BasicInfo1
     {
         public long Basic_Info_id { get; set; }
         public string Name { get; set; }

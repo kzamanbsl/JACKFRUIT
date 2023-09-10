@@ -974,7 +974,7 @@ namespace KGERP.Services.Packaging
                                                                     select new VMSalesOrderSlave
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,
-                                                                        OrderMasterId = t1.OrderMasterId.Value,
+                                                                        OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
@@ -1004,7 +1004,7 @@ namespace KGERP.Services.Packaging
 
                                                                     select new VMSalesOrderSlave
                                                                     {
-                                                                        OrderMasterId = t0.OrderMasterId.Value,
+                                                                        OrderMasterId = t0.OrderMasterId,
                                                                         OrderNo = t1.OrderNo,
                                                                         OrderDate = t1.OrderDate,
                                                                         CommonCustomerName = t2.Name,
@@ -1031,7 +1031,7 @@ namespace KGERP.Services.Packaging
                                           {
 
                                               ProductName = t2.ProductName,
-                                              OrderMasterId = t1.OrderMasterId.Value,
+                                              OrderMasterId = t1.OrderMasterId,
                                               OrderDetailId = t1.OrderDetailId,
                                               Qty = t1.Qty,
                                               UnitPrice = t1.UnitPrice,
@@ -1281,7 +1281,7 @@ namespace KGERP.Services.Packaging
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
 
 
-                CompanyId = vmSalesOrderSlave.CompanyFK,
+                CompanyId = vmSalesOrderSlave.CompanyFK ?? vmSalesOrderSlave.CompanyId,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),// System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
                 IsActive = true
@@ -1318,11 +1318,12 @@ namespace KGERP.Services.Packaging
                 CourierCharge = 0,
                 Remarks = vmSalesOrderSlave.Remarks,
 
-                CompanyId = vmSalesOrderSlave.CompanyFK,
+                CompanyId = vmSalesOrderSlave.CompanyFK ?? vmSalesOrderSlave.CompanyId,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),// System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = vmSalesOrderSlave.OrderDate,
                 IsActive = true
             };
+
             _db.OrderMasters.Add(orderMaster);
             if (await _db.SaveChangesAsync() > 0)
             {

@@ -15,7 +15,7 @@ namespace KGERP.Data.Models
     public partial class SaleReturnDetail
     {
         public long SaleReturnDetailId { get; set; }
-        public Nullable<long> SaleReturnId { get; set; }
+        public long SaleReturnId { get; set; }
         public Nullable<int> ProductId { get; set; }
         public Nullable<decimal> Qty { get; set; }
         public Nullable<decimal> Rate { get; set; }
@@ -28,6 +28,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public long OrderDeliverDetailsId { get; set; }
     
+        public virtual Product Product { get; set; }
         public virtual SaleReturn SaleReturn { get; set; }
     }
 }

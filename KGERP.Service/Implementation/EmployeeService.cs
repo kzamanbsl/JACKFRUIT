@@ -64,7 +64,7 @@ namespace KGERP.Service.Implementation
                                                        EmployeeId = t1.EmployeeId,
                                                        EmployeeName = t1.Name,
                                                        SamountOwed = (decimal)((decimal)t1.SalaryAmount == null ? 0 : t1.SalaryAmount),
-                                                       Samountpaid = (from st1 in _context.salaryInformatrions
+                                                       Samountpaid = (from st1 in _context.SalaryInformatrions
                                                                       where st1.EmpId == t1.Id && st1.Month == month
                                                                       select st1.Paid).DefaultIfEmpty(0).Sum(),
 
@@ -85,10 +85,10 @@ namespace KGERP.Service.Implementation
 
             if (data.Any())
             {
-                List<salaryInformatrion> list = new List<salaryInformatrion>();
+                List<SalaryInformatrion> list = new List<SalaryInformatrion>();
                 foreach (var item1 in data)
                 {
-                    salaryInformatrion empSalary = new salaryInformatrion();
+                    SalaryInformatrion empSalary = new SalaryInformatrion();
                     {
                         empSalary.EmpId = item1.Id;
                         empSalary.Paid = item1.Pay;
@@ -100,7 +100,7 @@ namespace KGERP.Service.Implementation
                     list.Add(empSalary);
 
                 }
-                _context.salaryInformatrions.AddRange(list);
+                _context.SalaryInformatrions.AddRange(list);
                 await _context.SaveChangesAsync();
             }
 

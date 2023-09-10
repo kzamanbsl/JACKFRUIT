@@ -37,10 +37,11 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public bool IsFinalized { get; set; }
     
+        public virtual Employee Employee { get; set; }
         public virtual OrderDeliver OrderDeliver { get; set; }
+        public virtual StockInfo StockInfo { get; set; }
+        public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleReturnDetail> SaleReturnDetails { get; set; }
-        public virtual Employee Employee { get; set; }
-        public virtual Vendor Vendor { get; set; }
     }
 }

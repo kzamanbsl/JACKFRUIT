@@ -15,7 +15,7 @@ namespace KGERP.Data.Models
     public partial class OrderDeliverDetail
     {
         public long OrderDeliverDetailId { get; set; }
-        public Nullable<long> OrderDeliverId { get; set; }
+        public long OrderDeliverId { get; set; }
         public int ProductId { get; set; }
         public double UnitPrice { get; set; }
         public double DeliveredQty { get; set; }
@@ -47,5 +47,6 @@ namespace KGERP.Data.Models
         public decimal TPPrice { get; set; }
     
         public virtual OrderDeliver OrderDeliver { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

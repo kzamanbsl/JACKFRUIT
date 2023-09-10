@@ -187,7 +187,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t7 in _db.Demands on t1.DemandId equals t7.DemandId into t7_join
+                                                      join t7 in _db.Demands on t1.DemandId??0 equals t7.DemandId into t7_join
                                                       from t7 in t7_join.DefaultIfEmpty()
                                                       join t8 in _db.Employees on t1.SalePersonId equals t8.Id into t8_Join
                                                       from t8 in t8_Join.DefaultIfEmpty()
@@ -245,7 +245,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,
                                                                         ProductCategoryName = t5.Name,
-                                                                        OrderMasterId = t1.OrderMasterId.Value,
+                                                                        OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
@@ -1910,7 +1910,7 @@ namespace KGERP.Service.Implementation.Procurement
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
                 StockInfoId = vmSalesOrderSlave.StockInfoId,
-                CompanyId = vmSalesOrderSlave.CompanyFK,
+                CompanyId = vmSalesOrderSlave.CompanyFK?? vmSalesOrderSlave.CompanyId,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,// System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
                 IsActive = true,
@@ -1951,7 +1951,7 @@ namespace KGERP.Service.Implementation.Procurement
                 Remarks = vmSalesOrderSlave.Remarks,
                 IsOpening = true,
 
-                CompanyId = vmSalesOrderSlave.CompanyFK,
+                CompanyId = vmSalesOrderSlave.CompanyFK??vmSalesOrderSlave.CompanyId,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),// System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = vmSalesOrderSlave.OrderDate,
                 IsActive = true
@@ -2246,12 +2246,11 @@ namespace KGERP.Service.Implementation.Procurement
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
-
                                                       join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t7 in _db.Demands on t1.DemandId equals t7.DemandId into t7_join
+                                                      join t7 in _db.Demands on t1.DemandId??0 equals t7.DemandId into t7_join
                                                       from t7 in t7_join.DefaultIfEmpty()
 
                                                       select new VMSalesOrderSlave
@@ -2302,7 +2301,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,
                                                                         ProductCategoryName = t5.Name,
-                                                                        OrderMasterId = t1.OrderMasterId.Value,
+                                                                        OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
@@ -2334,7 +2333,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t7 in _db.Demands on t1.DemandId equals t7.DemandId into t7_join
+                                                      join t7 in _db.Demands on t1.DemandId??0 equals t7.DemandId into t7_join
                                                       from t7 in t7_join.DefaultIfEmpty()
 
                                                       select new VMSalesOrderSlave
@@ -2387,7 +2386,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,
                                                                         ProductCategoryName = t5.Name,
-                                                                        OrderMasterId = t1.OrderMasterId.Value,
+                                                                        OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
@@ -2419,7 +2418,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t7 in _db.Demands on t1.DemandId equals t7.DemandId into t7_join
+                                                      join t7 in _db.Demands on t1.DemandId??0 equals t7.DemandId into t7_join
                                                       from t7 in t7_join.DefaultIfEmpty()
 
                                                       select new VMSalesOrderSlave
@@ -2472,7 +2471,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,
                                                                         ProductCategoryName = t5.Name,
-                                                                        OrderMasterId = t1.OrderMasterId.Value,
+                                                                        OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
@@ -2553,7 +2552,7 @@ namespace KGERP.Service.Implementation.Procurement
                                           {
 
                                               ProductName = t2.ProductName,
-                                              OrderMasterId = t1.OrderMasterId.Value,
+                                              OrderMasterId = t1.OrderMasterId,
                                               OrderDetailId = t1.OrderDetailId,
                                               Qty = t1.Qty,
                                               UnitPrice = t1.UnitPrice,
@@ -2826,7 +2825,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                     select new VMSalesOrderSlave
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,
-                                                                        OrderMasterId = t1.OrderMasterId.Value,
+                                                                        OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
@@ -3623,7 +3622,7 @@ namespace KGERP.Service.Implementation.Procurement
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
                 StockInfoId = vmSalesOrderSlave.StockInfoId,
-                CompanyId = vmSalesOrderSlave.CompanyFK,
+                CompanyId = vmSalesOrderSlave.CompanyFK??vmSalesOrderSlave.CompanyId,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),// System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
                 Remarks = vmSalesOrderSlave.Remarks,

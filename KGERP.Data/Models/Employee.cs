@@ -27,7 +27,6 @@ namespace KGERP.Data.Models
             this.LeaveApplications1 = new HashSet<LeaveApplication>();
             this.LeaveApplications2 = new HashSet<LeaveApplication>();
             this.OfficerAssigns = new HashSet<OfficerAssign>();
-            this.SaleReturns = new HashSet<SaleReturn>();
             this.TeamInfoes = new HashSet<TeamInfo>();
             this.Upazilas = new HashSet<Upazila>();
             this.UpazilaAssigns = new HashSet<UpazilaAssign>();
@@ -39,6 +38,9 @@ namespace KGERP.Data.Models
             this.Zones = new HashSet<Zone>();
             this.Regions = new HashSet<Region>();
             this.Areas = new HashSet<Area>();
+            this.OrderMasters = new HashSet<OrderMaster>();
+            this.SalaryInformatrions = new HashSet<SalaryInformatrion>();
+            this.SaleReturns = new HashSet<SaleReturn>();
         }
     
         public long Id { get; set; }
@@ -147,8 +149,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OfficerAssign> OfficerAssigns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TeamInfo> TeamInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Upazila> Upazilas { get; set; }
@@ -173,5 +173,11 @@ namespace KGERP.Data.Models
         public virtual Department Department { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual StockInfo StockInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderMaster> OrderMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalaryInformatrion> SalaryInformatrions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
     }
 }

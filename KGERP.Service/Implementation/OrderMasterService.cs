@@ -62,7 +62,7 @@ namespace KGERP.Service.Implementation
                                                               && t1.OrderDate <= toDate
                                                               select new OrderMasterModel
                                                               {
-                                                                  CompanyId = t1.CompanyId.Value,
+                                                                  CompanyId = t1.CompanyId,
                                                                   OrderMasterId = t1.OrderMasterId,
                                                                   ProductType = t1.ProductType,
                                                                   CustomerId = t1.CustomerId.Value,

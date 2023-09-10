@@ -18,7 +18,6 @@ namespace KGERP.Data.Models
         public OrderDeliver()
         {
             this.OrderDeliverDetails = new HashSet<OrderDeliverDetail>();
-            this.ProductDetails = new HashSet<ProductDetail>();
             this.SaleReturns = new HashSet<SaleReturn>();
         }
     
@@ -39,20 +38,19 @@ namespace KGERP.Data.Models
         public System.DateTime CreatedDate { get; set; }
         public Nullable<decimal> Discount { get; set; }
         public Nullable<decimal> DiscountRate { get; set; }
-        public Nullable<int> CompanyId { get; set; }
+        public int CompanyId { get; set; }
         public string DepoInvoiceNo { get; set; }
         public bool IsActive { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifedDate { get; set; }
         public bool IsSubmitted { get; set; }
     
+        public virtual Company Company { get; set; }
+        public virtual OrderMaster OrderMaster { get; set; }
+        public virtual StockInfo StockInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDeliverDetail> OrderDeliverDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductDetail> ProductDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
-        public virtual OrderMaster OrderMaster { get; set; }
-        public virtual StockInfo StockInfo { get; set; }
     }
 }

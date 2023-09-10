@@ -15,8 +15,8 @@ namespace KGERP.Data.Models
     public partial class OrderDetail
     {
         public long OrderDetailId { get; set; }
-        public Nullable<long> OrderMasterId { get; set; }
-        public int DemandItemId { get; set; }
+        public long OrderMasterId { get; set; }
+        public Nullable<int> DemandItemId { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<int> ProductSerial { get; set; }
