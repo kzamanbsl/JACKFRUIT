@@ -33,60 +33,6 @@ namespace KGERP.Controllers
             _stockInfoService = stockInfoService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> ProcurementSupplierOpening(int companyId = 0)
-        {
-            VendorOpeningModel vendorOpeningModel = new VendorOpeningModel();
-            vendorOpeningModel = await Task.Run(() => _service.ProcurementPurchaseOrderSlaveOpeningBalanceGet(companyId));
-            //vendorOpeningModel.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
-            return View(vendorOpeningModel);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> ProcurementSupplierOpening(VendorOpeningModel vendorOpeningModel)
-        {
-            if (vendorOpeningModel.VendorOpeningId == 0)
-            {
-                if (vendorOpeningModel.ActionEum == ActionEnum.Add)
-                {
-
-                    vendorOpeningModel.VendorId = await _service.ProcurementSupplierOpeningAdd(vendorOpeningModel);
-                }
-            }
-            else if (vendorOpeningModel.ActionEum == ActionEnum.Edit)
-            {
-                //Delete
-                await _service.SupplierOpeningUpdate(vendorOpeningModel);
-            }
-
-            return RedirectToAction(nameof(ProcurementSupplierOpening), new { companyId = vendorOpeningModel.CompanyFK });
-        }
-        //public JsonResult SubmitSupplierOpening(int vendorOpeningId)
-        //{
-        //    var products = _service.ProcurementSupplierOpeningSubmit(vendorOpeningId);
-        //    return Json(products, JsonRequestBehavior.AllowGet);
-        //}
-        public JsonResult SubmitSupplierOpening(int vendorOpeningId, int company = 0)
-        {
-            var products = _service.ProcurementSupplierOpeningSubmit(vendorOpeningId);
-            return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult SubmitCustomerOpening(int vendorOpeningId, int company = 0)
-        {
-            var products = _service.ProcurementCustomerOpeningSubmit(vendorOpeningId);
-            return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
-        }
-        public async Task<JsonResult> SingleSupplierOpeningEdit(int id)
-        {
-            var model = await _service.GetSingleSupplierOpening(id);
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-        public async Task<JsonResult> SingleCustomerOpeningEdit(int id)
-        {
-            var model = await _service.GetSingleCustomerOpening(id);
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
         public JsonResult GetAutoCompleteSupplierGet(string prefix, int companyId)
         {
             var products = _service.GetAutoCompleteSupplier(prefix, companyId);
@@ -111,23 +57,98 @@ namespace KGERP.Controllers
         }
 
 
-        public async Task<JsonResult> SingleDemandItem(int id)
+        #region Supplier Opening
+
+        [HttpGet]
+        public async Task<ActionResult> ProcurementSupplierOpening(int companyId = 0)
         {
-            var model = await _service.GetSingleDemandItem(id);
+            VendorOpeningModel vendorOpeningModel = new VendorOpeningModel();
+            vendorOpeningModel = await Task.Run(() => _service.ProcurementSupplierOpeningBalanceGet(companyId));
+            //vendorOpeningModel.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
+            return View(vendorOpeningModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProcurementSupplierOpening(VendorOpeningModel vendorOpeningModel)
+        {
+            if (vendorOpeningModel.VendorOpeningId == 0)
+            {
+                if (vendorOpeningModel.ActionEum == ActionEnum.Add)
+                {
+
+                    vendorOpeningModel.VendorId = await _service.ProcurementSupplierOpeningAdd(vendorOpeningModel);
+                }
+            }
+            else if (vendorOpeningModel.ActionEum == ActionEnum.Edit)
+            {
+                await _service.SupplierOpeningUpdate(vendorOpeningModel);
+            }
+
+            return RedirectToAction(nameof(ProcurementSupplierOpening), new { companyId = vendorOpeningModel.CompanyFK });
+        }
+
+        public async Task<JsonResult> SingleSupplierOpeningEdit(int id)
+        {
+            var model = await _service.GetSingleSupplierOpening(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        #region Demand
+        public JsonResult SubmitSupplierOpening(int vendorOpeningId, int company = 0)
+        {
+            var products = _service.ProcurementSupplierOpeningSubmit(vendorOpeningId);
+            return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Customer Opening
+
+        [HttpGet]
+        public async Task<ActionResult> ProcurementCustomerOpening(int companyId = 0)
+        {
+            VendorOpeningModel customerOpening = new VendorOpeningModel();
+
+            customerOpening = await Task.Run(() => _service.ProcurementCustomerOpeningDetailsGet(companyId));
+
+            return View(customerOpening);
+        }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteDemandItem(VmDemandItemService demandOrderSlave)
+        public async Task<ActionResult> ProcurementCustomerOpening(VendorOpeningModel vendorOpeningModel)
         {
-            if (demandOrderSlave.ActionEum == ActionEnum.Delete)
+
+            if (vendorOpeningModel.VendorOpeningId == 0)
             {
-                demandOrderSlave.DemandId = await _service.DemandItemDelete(demandOrderSlave);
+                if (vendorOpeningModel.ActionEum == ActionEnum.Add)
+                {
+
+                    vendorOpeningModel.VendorId = await _service.ProcurementCustomerOpeningAdd(vendorOpeningModel);
+                }
             }
-            return RedirectToAction(nameof(demandOrderSlave), new { companyId = demandOrderSlave.CompanyFK, demandOrderId = demandOrderSlave.DemandId });
+            else if (vendorOpeningModel.ActionEum == ActionEnum.Edit)
+            {
+
+                await _service.CustomerOpeningUpdate(vendorOpeningModel);
+            }
+
+            return RedirectToAction(nameof(ProcurementCustomerOpening), new { companyId = vendorOpeningModel.CompanyFK });
         }
+
+        public async Task<JsonResult> SingleCustomerOpeningEdit(int id)
+        {
+            var model = await _service.GetSingleCustomerOpening(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SubmitCustomerOpening(int vendorOpeningId, int company = 0)
+        {
+            var products = _service.ProcurementCustomerOpeningSubmit(vendorOpeningId);
+            return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Demand
 
         [HttpGet]
         public async Task<ActionResult> DemandOrderSlave(int companyId = 0, int demandOrderId = 0)
@@ -179,6 +200,22 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(demandOrderSlave), new { companyId = demandOrderSlave.CompanyFK, demandOrderId = demandOrderSlave.DemandId });
         }
 
+        public async Task<JsonResult> SingleDemandItem(int id)
+        {
+            var model = await _service.GetSingleDemandItem(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDemandItem(VmDemandItemService demandOrderSlave)
+        {
+            if (demandOrderSlave.ActionEum == ActionEnum.Delete)
+            {
+                demandOrderSlave.DemandId = await _service.DemandItemDelete(demandOrderSlave);
+            }
+            return RedirectToAction(nameof(demandOrderSlave), new { companyId = demandOrderSlave.CompanyFK, demandOrderId = demandOrderSlave.DemandId });
+        }
+
         [HttpPost]
         [SessionExpire]
         public async Task<ActionResult> RequisitionList(VmDemandService model)
@@ -193,7 +230,6 @@ namespace KGERP.Controllers
 
             return RedirectToAction(nameof(RequisitionList), new { companyId = model.CompanyId, fromDate = model.FromDate, toDate = model.ToDate });
         }
-
 
         [SessionExpire]
         [HttpGet]
@@ -226,16 +262,6 @@ namespace KGERP.Controllers
             vmOrder.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
             return View(vmOrder);
         }
-        //[HttpGet]
-        //public async Task<ActionResult> RequisitionList(int companyId)
-        //{
-        //    VmDemandService vmOrder = new VmDemandService();
-        //    vmOrder = await _service.GetRequisitionList(companyId);
-        //    vmOrder.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
-        //    vmOrder.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
-        //    return View(vmOrder);
-        //}
-
 
         [HttpPost]
         public async Task<ActionResult> UpdateDemand(VmDemandItemService demandOrderSlave)
@@ -255,14 +281,12 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionList), new { companyId = demandOrderSlave.CompanyFK });
         }
 
-
         [HttpPost]
         public async Task<JsonResult> GetSinglDemandMasters(int id)
         {
             var model = await _service.GetDemanMasters(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-
 
         [HttpPost]
         public async Task<ActionResult> DemandOrderUpdate(VmDemandItemService demandOrderSlave)
@@ -353,10 +377,23 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(FeedDemandOrder), new { companyId = demandOrderSlave.CompanyFK, demandOrderId = demandOrderSlave.DemandId });
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetDemandsByCustomer(int companyId, int customerId)
+        {
+            var model = await _service.DemandsDropDownList(customerId, companyId);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetDemandDetailsPartial(int demandId)
+        {
+            var model = await _db.vwDemandForSaleInvoices.Where(e => e.DemandId == demandId).ToListAsync();
+
+            return PartialView("_InvoiceTableForPRF", model);
+        }
         #endregion
 
-
         #region Purchase Order
+
         [HttpGet]
         public async Task<ActionResult> ProcurementPurchaseOrderSlave(int companyId = 0, int purchaseOrderId = 0)
         {
@@ -447,7 +484,6 @@ namespace KGERP.Controllers
             return null;
         }
 
-
         public async Task<JsonResult> SingleProcurementPurchaseOrderSlave(int id)
         {
             var model = await _service.GetSingleProcurementPurchaseOrderSlave(id);
@@ -460,7 +496,6 @@ namespace KGERP.Controllers
             var list = model.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list);
         }
-
 
         public async Task<JsonResult> SingleProcurementPurchaseOrder(int id)
         {
@@ -598,40 +633,57 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #endregion
-
-
-        #region Sales  Order
         [HttpGet]
-        public async Task<ActionResult> ProcurementCustomerOpening(int companyId = 0)
+        public async Task<ActionResult> GCCLProcurementPurchaseOrderSlave(int companyId = 0, int purchaseOrderId = 0)
         {
-            VendorOpeningModel customerOpening = new VendorOpeningModel();
+            VMPurchaseOrderSlave vmPurchaseOrderSlave = new VMPurchaseOrderSlave();
 
-            customerOpening = await Task.Run(() => _service.ProcurementSalesOrderOpeningDetailsGet(companyId));
+            if (purchaseOrderId == 0)
+            {
+                vmPurchaseOrderSlave.CompanyFK = companyId;
+                vmPurchaseOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else if (purchaseOrderId > 0)
+            {
+                vmPurchaseOrderSlave = await Task.Run(() => _service.ProcurementPurchaseOrderSlaveGet(companyId, purchaseOrderId));
 
-            return View(customerOpening);
+            }
+            vmPurchaseOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmPurchaseOrderSlave.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
+            vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
+            vmPurchaseOrderSlave.EmployeeList = new SelectList(_service.EmployeesByCompanyDropDownList(companyId), "Value", "Text");
+
+            if (companyId == (int)CompanyName.GloriousCropCareLimited)
+            {
+                vmPurchaseOrderSlave.LCList = new SelectList(_service.GCCLLCHeadGLList(companyId), "Value", "Text");
+            }
+            return View(vmPurchaseOrderSlave);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ProcurementCustomerOpening(VendorOpeningModel vendorOpeningModel)
+        public async Task<ActionResult> GCCLProcurementPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
 
-            if (vendorOpeningModel.VendorOpeningId == 0)
+            if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Add)
             {
-                if (vendorOpeningModel.ActionEum == ActionEnum.Add)
+                if (vmPurchaseOrderSlave.PurchaseOrderId == 0)
                 {
+                    vmPurchaseOrderSlave.PurchaseOrderId = await _service.ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
 
-                    vendorOpeningModel.VendorId = await _service.ProcurementCustomerOpeningAdd(vendorOpeningModel);
                 }
+                await _service.ProcurementPurchaseOrderSlaveAdd(vmPurchaseOrderSlave);
             }
-            else if (vendorOpeningModel.ActionEum == ActionEnum.Edit)
+            else if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Edit)
             {
-
-                await _service.CustomerOpeningUpdate(vendorOpeningModel);
+                //Delete
+                await _service.ProcurementPurchaseOrderSlaveEdit(vmPurchaseOrderSlave);
             }
-
-            return RedirectToAction(nameof(ProcurementCustomerOpening), new { companyId = vendorOpeningModel.CompanyFK });
+            return RedirectToAction(nameof(GCCLProcurementPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
         }
+
+        #endregion
+
+        #region Sales  Order
 
         [HttpGet]
         public async Task<ActionResult> ProcurementSalesOrderDetailsReport(int companyId = 0, int orderMasterId = 0)
@@ -765,7 +817,6 @@ namespace KGERP.Controllers
             return View(vmSalesOrder);
         }
 
-
         [HttpPost]
         public async Task<ActionResult> KFMALProcurementSalesOrderList(VMSalesOrder vmSalesOrder)
         {
@@ -775,7 +826,6 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
         }
-
 
         [HttpPost]
         public async Task<ActionResult> ProcurementSalesOrderfilter(VMSalesOrder vmSalesOrder)
@@ -789,7 +839,6 @@ namespace KGERP.Controllers
             vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
             return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
         }
-
 
         [HttpPost]
         public async Task<ActionResult> KFMALProcurementSalesOrderfilter(VMSalesOrder vmSalesOrder)
@@ -815,6 +864,7 @@ namespace KGERP.Controllers
             var model = await _service.CustomerReceivableAmountByCustomerGet(companyId, customerId);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult ProductStockByProduct(int companyId, int productId, int? stockInfoId)
         {
             var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
@@ -822,6 +872,7 @@ namespace KGERP.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
         public async Task<JsonResult> GetSinglOrderMastersGet(int orderMasterId)
         {
             var model = await _service.GetSingleOrderMasters(orderMasterId);
@@ -836,7 +887,6 @@ namespace KGERP.Controllers
         }
 
 
-        //#region PO Submit HoldUnHold CancelRenew  ClosedReopen Delete
         [HttpPost]
         public async Task<ActionResult> SubmitOrderMasters(VMSalesOrder vmSalesOrder)
         {
@@ -888,6 +938,287 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GCCLProcurementSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GcclProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+            }
+
+            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GCCLProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
+                }
+                if (vmSalesOrderSlave.FProductId > 0)
+                {
+                    await _service.GcclOrderDetailAdd(vmSalesOrderSlave);
+                }
+
+                if (vmSalesOrderSlave.TotalAmountAfterDiscount > 0)
+                {
+                    await _service.OrderMasterAmountEdit(vmSalesOrderSlave);
+                }
+                if (vmSalesOrderSlave.PromotionalOfferId > 0)
+                {
+                    await _service.PromotionalOfferIntegration(vmSalesOrderSlave);
+                }
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Delete
+                await _service.OrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(GCCLProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> KFMALLProcurementSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                if (companyId == 8)
+                {
+
+                    vmSalesOrderSlave = await Task.Run(() => _service.FeedSalesOrderDetailsGet(companyId, orderMasterId));
+                }
+                else
+                {
+                    vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                }
+
+
+            }
+            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
+
+
+            return View(vmSalesOrderSlave);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> KFMALLProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
+
+                }
+
+                if (vmSalesOrderSlave.FProductId > 0)
+                {
+                    await _service.OrderDetailAdd(vmSalesOrderSlave);
+
+                }
+                if (vmSalesOrderSlave.DiscountAmount > 0)
+                {
+                    await _service.OrderMasterDiscountEdit(vmSalesOrderSlave);
+                }
+                if (vmSalesOrderSlave.TotalAmountAfterDiscount > 0)
+                {
+                    await _service.OrderMasterAmountEdit(vmSalesOrderSlave);
+                }
+                if (vmSalesOrderSlave.PromotionalOfferId > 0)
+                {
+                    await _service.PromotionalOfferIntegration(vmSalesOrderSlave);
+
+                }
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Delete
+                await _service.OrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(KFMALLProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> FeedProcurementSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.FeedSalesOrderDetailsGet(companyId, orderMasterId));
+
+            }
+            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
+
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FeedProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
+
+                }
+
+                if (vmSalesOrderSlave.FProductId > 0)
+                {
+                    await _service.OrderDetailAdd(vmSalesOrderSlave);
+
+                }
+                if (vmSalesOrderSlave.DiscountAmount > 0)
+                {
+                    await _service.OrderMasterDiscountEdit(vmSalesOrderSlave);
+                }
+                if (vmSalesOrderSlave.TotalAmountAfterDiscount > 0)
+                {
+                    await _service.OrderMasterAmountEdit(vmSalesOrderSlave);
+                }
+                if (vmSalesOrderSlave.PromotionalOfferId > 0)
+                {
+                    await _service.PromotionalOfferIntegration(vmSalesOrderSlave);
+
+                }
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Delete
+                await _service.OrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(FeedProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GCCLProcurementSalesOrderSlaveByPRF(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                if (companyId == 8)
+                {
+                    vmSalesOrderSlave = await Task.Run(() => _service.FeedSalesOrderDetailsGet(companyId, orderMasterId));
+                }
+                else
+                {
+                    vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                }
+
+
+            }
+            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+
+            if (companyId == 8)
+            {
+                vmSalesOrderSlave.SubZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            }
+            else
+            {
+                vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
+            }
+            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
+
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GCCLProcurementSalesOrderSlaveByPRF(string strOrderMaster, string arrayOrderItems)
+        {
+            OrderMaster orderMaster = new OrderMaster();
+            VMSalesOrderSlave vMSales = new VMSalesOrderSlave();
+            List<DemandOrderItems> demandItems = new List<DemandOrderItems>();
+            try
+            {
+                orderMaster = JsonConvert.DeserializeObject<OrderMaster>(strOrderMaster);
+                vMSales.CompanyFK = orderMaster.CompanyId;
+                vMSales.OrderDate = orderMaster.OrderDate;
+                vMSales.DemandId = orderMaster.DemandId;
+                vMSales.ExpectedDeliveryDate = orderMaster.ExpectedDeliveryDate;
+                vMSales.FinalDestination = orderMaster.FinalDestination;
+                vMSales.CustomerPaymentMethodEnumFK = orderMaster.PaymentMethod;
+                vMSales.CourierNo = orderMaster.CourierNo;
+                vMSales.CourierCharge = orderMaster.CourierCharge;
+                vMSales.PayableAmount = Convert.ToDouble(orderMaster.CurrentPayable);
+                vMSales.StockInfoId = (int)(orderMaster.StockInfoId);
+                vMSales.CustomerId = (int)orderMaster.CustomerId;
+                vMSales.Remarks = orderMaster.Remarks;
+                vMSales.TotalAmount = (double)orderMaster.TotalAmount.Value;
+                demandItems = JsonConvert.DeserializeObject<List<DemandOrderItems>>(arrayOrderItems);
+                if (vMSales.CompanyFK == (int)CompanyName.KrishibidFeedLimited)
+                {
+                    vMSales.OrderNo = _orderMasterService.GetNewOrderNo(vMSales.CompanyFK.Value, vMSales.StockInfoId ?? 0, "F");
+                }
+
+                var orderMasterID = await _service.OrderMasterAddForPRF(vMSales, demandItems);
+                if (orderMasterID > 0)
+                {
+                    return Json(new { companyId = orderMaster.CompanyId, orderMasterId = orderMasterID, error = false, errormsg = "" });
+                }
+                else
+                {
+                    return Json(new { companyId = orderMaster.CompanyId, orderMasterId = 0, error = true, errormsg = "Could not add" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { companyId = orderMaster.CompanyId, orderMasterId = 0, error = true, errormsg = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Packaging Company Action
 
         [HttpGet]
         public async Task<ActionResult> PackagingSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
@@ -1237,58 +1568,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-
-
-        #region Purchase Order
-        [HttpGet]
-        public async Task<ActionResult> GCCLProcurementPurchaseOrderSlave(int companyId = 0, int purchaseOrderId = 0)
-        {
-            VMPurchaseOrderSlave vmPurchaseOrderSlave = new VMPurchaseOrderSlave();
-
-            if (purchaseOrderId == 0)
-            {
-                vmPurchaseOrderSlave.CompanyFK = companyId;
-                vmPurchaseOrderSlave.Status = (int)EnumPOStatus.Draft;
-            }
-            else if (purchaseOrderId > 0)
-            {
-                vmPurchaseOrderSlave = await Task.Run(() => _service.ProcurementPurchaseOrderSlaveGet(companyId, purchaseOrderId));
-
-            }
-            vmPurchaseOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.EmployeeList = new SelectList(_service.EmployeesByCompanyDropDownList(companyId), "Value", "Text");
-
-            if (companyId == (int)CompanyName.GloriousCropCareLimited)
-            {
-                vmPurchaseOrderSlave.LCList = new SelectList(_service.GCCLLCHeadGLList(companyId), "Value", "Text");
-            }
-            return View(vmPurchaseOrderSlave);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> GCCLProcurementPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
-        {
-
-            if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Add)
-            {
-                if (vmPurchaseOrderSlave.PurchaseOrderId == 0)
-                {
-                    vmPurchaseOrderSlave.PurchaseOrderId = await _service.ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
-
-                }
-                await _service.ProcurementPurchaseOrderSlaveAdd(vmPurchaseOrderSlave);
-            }
-            else if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Edit)
-            {
-                //Delete
-                await _service.ProcurementPurchaseOrderSlaveEdit(vmPurchaseOrderSlave);
-            }
-            return RedirectToAction(nameof(GCCLProcurementPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
-        }
-
-        #endregion
+        #region PromtionalOffer
 
         [HttpGet]
         public async Task<ActionResult> PromtionalOfferDetail(int companyId = 0, int promtionalOfferId = 0)
@@ -1330,300 +1610,7 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(PromtionalOfferDetail), new { companyId = vmPromtionalOfferDetail.CompanyId, promtionalOfferId = vmPromtionalOfferDetail.PromtionalOfferId });
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GCCLProcurementSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
-        {
-            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-
-            if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
-            }
-            else
-            {
-                vmSalesOrderSlave = await Task.Run(() => _service.GcclProcurementSalesOrderDetailsGet(companyId, orderMasterId));
-            }
-
-            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
-
-            return View(vmSalesOrderSlave);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> GCCLProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
-        {
-
-            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
-            {
-                if (vmSalesOrderSlave.OrderMasterId == 0)
-                {
-                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
-                }
-                if (vmSalesOrderSlave.FProductId > 0)
-                {
-                    await _service.GcclOrderDetailAdd(vmSalesOrderSlave);
-                }
-
-                if (vmSalesOrderSlave.TotalAmountAfterDiscount > 0)
-                {
-                    await _service.OrderMasterAmountEdit(vmSalesOrderSlave);
-                }
-                if (vmSalesOrderSlave.PromotionalOfferId > 0)
-                {
-                    await _service.PromotionalOfferIntegration(vmSalesOrderSlave);
-                }
-            }
-            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
-            {
-                //Delete
-                await _service.OrderDetailEdit(vmSalesOrderSlave);
-            }
-            return RedirectToAction(nameof(GCCLProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
-        }
-
-
-        //ani
-        [HttpGet]
-        public async Task<ActionResult> KFMALLProcurementSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
-        {
-            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-
-            if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
-            }
-            else
-            {
-                if (companyId == 8)
-                {
-
-                    vmSalesOrderSlave = await Task.Run(() => _service.FeedSalesOrderDetailsGet(companyId, orderMasterId));
-                }
-                else
-                {
-                    vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
-                }
-
-
-            }
-            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
-
-
-            return View(vmSalesOrderSlave);
-        }
-
-
-        [HttpPost]
-        public async Task<ActionResult> KFMALLProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
-        {
-
-            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
-            {
-                if (vmSalesOrderSlave.OrderMasterId == 0)
-                {
-                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
-
-                }
-
-                if (vmSalesOrderSlave.FProductId > 0)
-                {
-                    await _service.OrderDetailAdd(vmSalesOrderSlave);
-
-                }
-                if (vmSalesOrderSlave.DiscountAmount > 0)
-                {
-                    await _service.OrderMasterDiscountEdit(vmSalesOrderSlave);
-                }
-                if (vmSalesOrderSlave.TotalAmountAfterDiscount > 0)
-                {
-                    await _service.OrderMasterAmountEdit(vmSalesOrderSlave);
-                }
-                if (vmSalesOrderSlave.PromotionalOfferId > 0)
-                {
-                    await _service.PromotionalOfferIntegration(vmSalesOrderSlave);
-
-                }
-            }
-            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
-            {
-                //Delete
-                await _service.OrderDetailEdit(vmSalesOrderSlave);
-            }
-            return RedirectToAction(nameof(KFMALLProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
-        }
-
-
-        [HttpGet]
-        public async Task<ActionResult> FeedProcurementSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
-        {
-            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-
-            if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
-            }
-            else
-            {
-                vmSalesOrderSlave = await Task.Run(() => _service.FeedSalesOrderDetailsGet(companyId, orderMasterId));
-
-            }
-            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
-
-
-            return View(vmSalesOrderSlave);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> FeedProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
-        {
-
-            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
-            {
-                if (vmSalesOrderSlave.OrderMasterId == 0)
-                {
-                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
-
-                }
-
-                if (vmSalesOrderSlave.FProductId > 0)
-                {
-                    await _service.OrderDetailAdd(vmSalesOrderSlave);
-
-                }
-                if (vmSalesOrderSlave.DiscountAmount > 0)
-                {
-                    await _service.OrderMasterDiscountEdit(vmSalesOrderSlave);
-                }
-                if (vmSalesOrderSlave.TotalAmountAfterDiscount > 0)
-                {
-                    await _service.OrderMasterAmountEdit(vmSalesOrderSlave);
-                }
-                if (vmSalesOrderSlave.PromotionalOfferId > 0)
-                {
-                    await _service.PromotionalOfferIntegration(vmSalesOrderSlave);
-
-                }
-            }
-            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
-            {
-                //Delete
-                await _service.OrderDetailEdit(vmSalesOrderSlave);
-            }
-            return RedirectToAction(nameof(FeedProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> GCCLProcurementSalesOrderSlaveByPRF(int companyId = 0, int orderMasterId = 0)
-        {
-            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-
-
-            if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
-            }
-            else
-            {
-                if (companyId == 8)
-                {
-                    vmSalesOrderSlave = await Task.Run(() => _service.FeedSalesOrderDetailsGet(companyId, orderMasterId));
-                }
-                else
-                {
-                    vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
-                }
-
-
-            }
-            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-
-            if (companyId == 8)
-            {
-                vmSalesOrderSlave.SubZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            }
-            else
-            {
-                vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
-            }
-            vmSalesOrderSlave.PromoOfferList = new SelectList(_service.PromotionalOffersDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.StockInfoList = new SelectList(_service.StockInfoesDropDownList(companyId), "Value", "Text");
-
-
-            return View(vmSalesOrderSlave);
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetDemandsByCustomer(int companyId, int customerId)
-        {
-            var model = await _service.DemandsDropDownList(customerId, companyId);
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<ActionResult> GetDemandDetailsPartial(int demandId)
-        {
-            var model = await _db.vwDemandForSaleInvoices.Where(e => e.DemandId == demandId).ToListAsync();
-
-            return PartialView("_InvoiceTableForPRF", model);
-        }
-
-
-        [HttpPost]
-        public async Task<ActionResult> GCCLProcurementSalesOrderSlaveByPRF(string strOrderMaster, string arrayOrderItems)
-        {
-            OrderMaster orderMaster = new OrderMaster();
-            VMSalesOrderSlave vMSales = new VMSalesOrderSlave();
-            List<DemandOrderItems> demandItems = new List<DemandOrderItems>();
-            try
-            {
-                orderMaster = JsonConvert.DeserializeObject<OrderMaster>(strOrderMaster);
-                vMSales.CompanyFK = orderMaster.CompanyId;
-                vMSales.OrderDate = orderMaster.OrderDate;
-                vMSales.DemandId = orderMaster.DemandId;
-                vMSales.ExpectedDeliveryDate = orderMaster.ExpectedDeliveryDate;
-                vMSales.FinalDestination = orderMaster.FinalDestination;
-                vMSales.CustomerPaymentMethodEnumFK = orderMaster.PaymentMethod;
-                vMSales.CourierNo = orderMaster.CourierNo;
-                vMSales.CourierCharge = orderMaster.CourierCharge;
-                vMSales.PayableAmount = Convert.ToDouble(orderMaster.CurrentPayable);
-                vMSales.StockInfoId = (int)(orderMaster.StockInfoId);
-                vMSales.CustomerId = (int)orderMaster.CustomerId;
-                vMSales.Remarks = orderMaster.Remarks;
-                vMSales.TotalAmount = (double)orderMaster.TotalAmount.Value;
-                demandItems = JsonConvert.DeserializeObject<List<DemandOrderItems>>(arrayOrderItems);
-                if (vMSales.CompanyFK == (int)CompanyName.KrishibidFeedLimited)
-                {
-                    vMSales.OrderNo = _orderMasterService.GetNewOrderNo(vMSales.CompanyFK.Value, vMSales.StockInfoId ?? 0, "F");
-                }
-
-                var orderMasterID = await _service.OrderMasterAddForPRF(vMSales, demandItems);
-                if (orderMasterID > 0)
-                {
-                    return Json(new { companyId = orderMaster.CompanyId, orderMasterId = orderMasterID, error = false, errormsg = "" });
-                }
-                else
-                {
-                    return Json(new { companyId = orderMaster.CompanyId, orderMasterId = 0, error = true, errormsg = "Could not add" });
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return Json(new { companyId = orderMaster.CompanyId, orderMasterId = 0, error = true, errormsg = ex.Message });
-            }
-        }
+        #endregion
 
     }
 }
