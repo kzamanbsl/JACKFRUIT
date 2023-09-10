@@ -1612,5 +1612,131 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Food Sales Order
+
+        #region Deport Sales
+
+        [HttpGet]
+        public async Task<ActionResult> DeportSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+
+            }
+            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeportSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
+
+                }
+                await _service.OrderDetailAdd(vmSalesOrderSlave);
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Delete
+                await _service.OrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(ProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitDeportOrderMastersFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            vmSalesOrderSlave.OrderMasterId = await _service.OrderMastersSubmit(vmSalesOrderSlave.OrderMasterId);
+            return RedirectToAction(nameof(ProcurementSalesOrderSlave), "Procurement", new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitDeportOrderMasters(VMSalesOrder vmSalesOrder)
+        {
+            vmSalesOrder.OrderMasterId = await _service.OrderMastersSubmit(vmSalesOrder.OrderMasterId);
+            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDeportSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                vmSalesOrderSlave.OrderDetailId = await _service.OrderDetailDelete(vmSalesOrderSlave.OrderDetailId);
+            }
+            return RedirectToAction(nameof(ProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDeportOrderMasters(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                vmSalesOrder.OrderMasterId = await _service.OrderMastersDelete(vmSalesOrder.OrderMasterId);
+            }
+            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> DeportSalesOrderList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder = await _service.ProcurementOrderMastersListGet(companyId, fromDate, toDate, vStatus);
+
+            vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.Status = vStatus ?? -1;
+
+            return View(vmSalesOrder);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeportSalesOrderList(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Edit)
+            {
+                await _service.OrderMastersEdit(vmSalesOrder);
+            }
+            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public ActionResult DeportSalesOrderFilter(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.CompanyId > 0)
+            {
+                Session["CompanyId"] = vmSalesOrder.CompanyId;
+            }
+
+            vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
+            vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
+            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+        }
+
+        #endregion
+
+        #endregion
+
     }
 }

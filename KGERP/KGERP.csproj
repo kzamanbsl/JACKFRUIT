@@ -5572,6 +5572,8 @@
     <Content Include="Views\Configuration\CommonHrDesignation.cshtml" />
     <Content Include="Views\MaterialReceive\FoodStockCreateOrEdit.cshtml" />
     <Content Include="Views\MaterialReceive\FoodIndex.cshtml" />
+    <Content Include="Views\Procurement\DeportSalesOrderSlave.cshtml" />
+    <Content Include="Views\Procurement\DeportSalesOrderList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

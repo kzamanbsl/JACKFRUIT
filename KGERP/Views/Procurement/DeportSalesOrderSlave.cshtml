@@ -3,7 +3,7 @@
 
 
 @{
-    ViewData["Title"] = "Sales Order";
+    ViewData["Title"] = "Deport Sales Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -30,7 +30,7 @@
         else
         {
             <span>
-                Sales Invoice
+               Deport Sales Invoice
             </span>
         }
 
@@ -38,11 +38,11 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Sales Invoice</li>
+        <li class="active">Deport Sales Invoice</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("ProcurementSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "procurementSalesOrderSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeportSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "procurementSalesOrderSlaveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -431,7 +431,7 @@
                             <div class="row">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
-                                    <a id="@Model.OrderMasterId" onclick="makeSubmitble(@Model.OrderMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitProcurementSalesOrderModal" data-placement="top">
+                                    <a id="@Model.OrderMasterId" onclick="makeSubmitble(@Model.OrderMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitDeportOrderModal" data-placement="top">
                                         @if (Model.Status == (int)EnumPOStatus.Submitted)
                                         {
                                             <i>Undo Submit</i>
@@ -451,11 +451,11 @@
     </section>
 }
 
-@using (Html.BeginForm("SubmitOrderMastersFromSlave", "Procurement", FormMethod.Post, new { id = "submitOrderMastersFromSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("SubmitDeportOrderMastersFromSlave", "Procurement", FormMethod.Post, new { id = "submitOrderMastersFromSlaveFormId", @class = "formValidator" }))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="submitProcurementSalesOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="submitDeportOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -489,7 +489,7 @@
 }
 
 
-@using (Html.BeginForm("DeleteSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "deleteProcurementPurchaseOrderSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteDeportSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "deleteProcurementPurchaseOrderSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteProcurementPurchaseOrderSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
