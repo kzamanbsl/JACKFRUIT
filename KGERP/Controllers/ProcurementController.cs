@@ -707,6 +707,13 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<ActionResult> DeportLisByZonetGet(int zoneId)
+        {
+            var commonDeports = await Task.Run(() => _service.DeportLisByZoneGet(zoneId));
+            var list = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
         {
 
@@ -1629,11 +1636,11 @@ namespace KGERP.Controllers
             }
             else
             {
-                vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
 
             }
-            vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
+            //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
 
             return View(vmSalesOrderSlave);
         }
@@ -1646,31 +1653,30 @@ namespace KGERP.Controllers
             {
                 if (vmSalesOrderSlave.OrderMasterId == 0)
                 {
-                    vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
+                    vmSalesOrderSlave.OrderMasterId = await _service.DeportOrderMasterAdd(vmSalesOrderSlave);
 
                 }
-                await _service.OrderDetailAdd(vmSalesOrderSlave);
+                await _service.DeportOrderDetailAdd(vmSalesOrderSlave);
             }
             else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
             {
-                //Delete
-                await _service.OrderDetailEdit(vmSalesOrderSlave);
+                await _service.DeportOrderDetailEdit(vmSalesOrderSlave);
             }
-            return RedirectToAction(nameof(ProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+            return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
         }
 
         [HttpPost]
         public async Task<ActionResult> SubmitDeportOrderMastersFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            vmSalesOrderSlave.OrderMasterId = await _service.OrderMastersSubmit(vmSalesOrderSlave.OrderMasterId);
-            return RedirectToAction(nameof(ProcurementSalesOrderSlave), "Procurement", new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMastersSubmit(vmSalesOrderSlave.OrderMasterId);
+            return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
         }
 
         [HttpPost]
         public async Task<ActionResult> SubmitDeportOrderMasters(VMSalesOrder vmSalesOrder)
         {
-            vmSalesOrder.OrderMasterId = await _service.OrderMastersSubmit(vmSalesOrder.OrderMasterId);
-            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+            vmSalesOrder.OrderMasterId = await _service.FoodOrderMastersSubmit(vmSalesOrder.OrderMasterId);
+            return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrder.CompanyFK });
         }
 
         [HttpPost]
@@ -1678,10 +1684,9 @@ namespace KGERP.Controllers
         {
             if (vmSalesOrderSlave.ActionEum == ActionEnum.Delete)
             {
-                //Delete
-                vmSalesOrderSlave.OrderDetailId = await _service.OrderDetailDelete(vmSalesOrderSlave.OrderDetailId);
+                vmSalesOrderSlave.OrderDetailId = await _service.FoodOrderDetailDelete(vmSalesOrderSlave.OrderDetailId);
             }
-            return RedirectToAction(nameof(ProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+            return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
         }
 
         [HttpPost]
@@ -1689,10 +1694,9 @@ namespace KGERP.Controllers
         {
             if (vmSalesOrder.ActionEum == ActionEnum.Delete)
             {
-                //Delete
-                vmSalesOrder.OrderMasterId = await _service.OrderMastersDelete(vmSalesOrder.OrderMasterId);
+                vmSalesOrder.OrderMasterId = await _service.FoodOrderMastersDelete(vmSalesOrder.OrderMasterId);
             }
-            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+            return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
         }
 
         [HttpGet]
@@ -1702,7 +1706,7 @@ namespace KGERP.Controllers
             if (!toDate.HasValue) toDate = DateTime.Now;
 
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
-            vmSalesOrder = await _service.ProcurementOrderMastersListGet(companyId, fromDate, toDate, vStatus);
+            vmSalesOrder = await _service.GetDeportOrderMastersList(companyId, fromDate, toDate, vStatus);
 
             vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -1716,9 +1720,9 @@ namespace KGERP.Controllers
         {
             if (vmSalesOrder.ActionEum == ActionEnum.Edit)
             {
-                await _service.OrderMastersEdit(vmSalesOrder);
+                await _service.DeportOrderMastersEdit(vmSalesOrder);
             }
-            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+            return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
         }
 
         [HttpPost]
@@ -1731,7 +1735,7 @@ namespace KGERP.Controllers
 
             vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
             vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
-            return RedirectToAction(nameof(ProcurementSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+            return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
         }
 
         #endregion

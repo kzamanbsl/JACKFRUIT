@@ -288,6 +288,8 @@
                             }
                             region = region + '</select>';
                             $('#ddlRegionId').html(region);
+                            let regId = $('#tdRegionId_' + $('#AreaId').val()).val();
+                            $('#ddlRegionId').val(regId).trigger('change');
                         }
                     });
                 });

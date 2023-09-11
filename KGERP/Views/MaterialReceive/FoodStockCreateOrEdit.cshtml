@@ -85,7 +85,7 @@
                                     <div class="col-md-3">
                                         <label for="message-text" class="col-form-label">Date:</label>
                                         <div class="form-group">
-                                            <input name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="Store Date" autocomplete="off">
+                                            <input name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Store Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

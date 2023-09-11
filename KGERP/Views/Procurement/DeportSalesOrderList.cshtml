@@ -7,6 +7,7 @@
 
     int sl = 0;
 }
+
 <style type="text/css">
 
     input, select, textarea {
@@ -37,30 +38,29 @@
                 @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
                 <div class="row">
                     <div class="col-md-3">
-
-                        @Html.Label("Status", htmlAttributes: new { @class = "control-label" })
+                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
                         <br />
                         @Html.DropDownListFor(model => model.Status, Model.EnumStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
-
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+                            @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
                             <br />
                             @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
+
                     <div class="col-md-3">
                         <div class="form-group">
-                            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+                            @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
                             <br />
                             @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
                     <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
                         <div class="form-group">
                             <label>&nbsp;</label>
@@ -92,7 +92,7 @@
                                         <th>SL</th>
                                         <th>Sales No</th>
                                         <th>Order Date</th>
-                                        <th>Customer</th>
+                                        <th>Deport</th>
                                         <th>Delivery Date</th>
                                         <th>Payment Method</th>
                                         <th>Status</th>
@@ -136,7 +136,7 @@
                                             <td>
                                                 @if (item.Status == (int)EnumPOStatus.Submitted)
                                                 {
-                                                    <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
+                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print
                                                     </a>
                                                 }
@@ -200,14 +200,14 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label>SO Date</label>
+                                        <label>SO Date:</label>
                                         <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
                                         @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="form-group">
-                                        <label>Payment Method</label>
+                                        <label>Payment Method:</label>
                                         @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Payment Method==", new { id = "ddlCustomerPaymentMethodEnumFKK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.CustomerPaymentMethodEnumFK, "", new { @class = "text-danger" })
                                     </div>
@@ -215,7 +215,7 @@
 
                                 <div class="col-md-7">
                                     <div class="form-group" style="padding:0px">
-                                        <label>Supplier</label>
+                                        <label>Deport:</label>
                                         @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Customer Name", @id = "txtCommonCustomerName" } })
 
                                         @Html.HiddenFor(model => model.CustomerId, new { id = "ddlCustomerId" })
@@ -225,7 +225,7 @@
 
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label>Delivery Date</label>
+                                        <label>Delivery Date:</label>
                                         <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
                                         @Html.ValidationMessageFor(model => model.ExpectedDeliveryDate, "", new { @class = "text-danger" })
                                     </div>
@@ -299,7 +299,7 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Purchase Order (<span id="submitOrDraftPOCIDText"></span>)</b></h5>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Sales Order (<span id="submitOrDraftPOCIDText"></span>)</b></h5>
                 </div>
                 <div class="modal-body">
                     @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitDeportSalesOrderId" })
@@ -309,7 +309,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div style="text-align:center">
-                        <h3>Are you sure to <span class="submitOrDraftText"></span> this Purchase Order?</h3>
+                        <h3>Are you sure to <span class="submitOrDraftText"></span> this Sales Order?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -328,6 +328,7 @@
 
 @Scripts.Render("~/bundles/jqueryui")
 @Styles.Render("~/Content/cssjqryUi")
+
 @section scripts {
 
     <script type="text/javascript">

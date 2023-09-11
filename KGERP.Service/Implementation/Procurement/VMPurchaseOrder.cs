@@ -194,7 +194,7 @@ namespace KGERP.Service.Implementation.Procurement
         public long OrderMasterId { get; set; }
 
         public string ProductType { get; set; }
-        public int CustomerId { get; set; }
+        public int CustomerId { get; set; } // DeportId, DealerId and CustomerID
         public DateTime OrderDate { get; set; }
         public DateTime PaymentDate { get; set; }
         public int? PromotionalOfferId { get; set; }
@@ -218,7 +218,7 @@ namespace KGERP.Service.Implementation.Procurement
         public decimal DiscountAmount { get; set; }
         public int Status { get; set; }
         public string PaymentToHeadGLName { get; set; }
-        public int? StockInfoId { get; set; } //warehouse / Depot
+        public int? StockInfoId { get; set; } //warehouse/Depot/Dealer/Customer
 
         public int SalePersonId { get; set; }
         public string CompanyAddress { get; set; }
@@ -227,23 +227,25 @@ namespace KGERP.Service.Implementation.Procurement
         public string CommonCustomerName { get; set; }
         public string CommonCustomerCode { get; set; }
 
-        public string SubZonesName { get; set; }
+        public string RegionName { get; set; }
+        public string RegionIncharge { get; set; }
+        public string RegionInchargeMobile { get; set; }
 
+        public string SubZonesName { get; set; }
         public string SubZoneIncharge { get; set; }
         public string SubZoneInchargeMobile { get; set; }
         public string Propietor { get; set; }
 
         public string ZoneName { get; set; }
+        public string ZoneIncharge { get; set; }
         public string Warehouse { get; set; }
 
-        public string ZoneIncharge { get; set; }
+       
         public int CustomerTypeFk { get; set; }
-
         public string CustomerPhone { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerEmail { get; set; }
-
         public string ContactPerson { get; set; }
 
         public IEnumerable<VMSalesOrder> DataList { get; set; }
