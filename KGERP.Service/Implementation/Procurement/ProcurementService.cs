@@ -341,7 +341,7 @@ namespace KGERP.Service.Implementation.Procurement
 
                      select new
                      {
-                         label = "[" + t1.Code + "] " + t1.Name,
+                         label = t1.Name + " - " + t1.Propietor,
                          val = t1.VendorId
                      }).OrderBy(x => x.label).Take(150).ToList();
 
@@ -3858,6 +3858,7 @@ namespace KGERP.Service.Implementation.Procurement
             orderMaster.DeportId = vmSalesOrder.CustomerId;
             orderMaster.ExpectedDeliveryDate = vmSalesOrder.ExpectedDeliveryDate;
             orderMaster.PaymentMethod = vmSalesOrder.CustomerPaymentMethodEnumFK;
+            orderMaster.Remarks = vmSalesOrder.Remarks;
 
             orderMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             orderMaster.ModifiedDate = DateTime.Now;
