@@ -235,6 +235,7 @@ namespace KGERP.Service.Implementation.Procurement
         public string SubZoneIncharge { get; set; }
         public string SubZoneInchargeMobile { get; set; }
         public string Propietor { get; set; }
+        public string Remarks { get; set; }
 
         public string ZoneName { get; set; }
         public string ZoneIncharge { get; set; }
@@ -247,6 +248,16 @@ namespace KGERP.Service.Implementation.Procurement
         public string CustomerAddress { get; set; }
         public string CustomerEmail { get; set; }
         public string ContactPerson { get; set; }
+
+        public decimal InAmount { get; set; }
+
+        public decimal TotalInvoiceDiscount { get; set; }
+        public decimal TotalAmountAfterDiscount { get; set; }
+
+        public int PaymentId { get; set; }
+        public string FinalDestination { get; set; }
+        public string CourierNo { get; set; }
+        public double CourierCharge { get; set; }
 
         public IEnumerable<VMSalesOrder> DataList { get; set; }
         public IEnumerable<OrderDetail> style { get; set; }
@@ -270,15 +281,7 @@ namespace KGERP.Service.Implementation.Procurement
         public string EnumStatusName { get { return BaseFunctionalities.GetEnumDescription(this.EnumStatus); } }
         public SelectList EnumStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumPOStatus>(), "Value", "Text"); } }
 
-        public decimal InAmount { get; set; }
-
-        public decimal TotalInvoiceDiscount { get; set; }
-        public decimal TotalAmountAfterDiscount { get; set; }
-
-        public int PaymentId { get; set; }
-        public string FinalDestination { get; set; }
-        public string CourierNo { get; set; }
-        public double CourierCharge { get; set; }
+      
     }
 
     public class VMSalesOrderSlave : VMSalesOrder

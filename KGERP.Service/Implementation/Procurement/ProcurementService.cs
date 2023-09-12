@@ -334,25 +334,37 @@ namespace KGERP.Service.Implementation.Procurement
 
         }
 
-        public async Task<List<VMCommonCustomer>> CustomerLisBySubZoneGet(int subZoneId)
+        public object GetAutoCompleteDeport(string prefix, int companyId)
         {
+            var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Deport)
+                     where t1.IsActive && ((t1.Name.StartsWith(prefix)) || (t1.Code.StartsWith(prefix)))
 
-            List<VMCommonCustomer> vmCommonCustomerList =
-                await Task.Run(() => (_db.Vendors
-                .Where(x => x.IsActive && x.SubZoneId == subZoneId))
-                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Code + " -" + x.Name })
-                .ToListAsync());
+                     select new
+                     {
+                         label = "[" + t1.Code + "] " + t1.Name,
+                         val = t1.VendorId
+                     }).OrderBy(x => x.label).Take(150).ToList();
 
-
-            return vmCommonCustomerList;
+            return v;
         }
         public async Task<List<VMCommonCustomer>> DeportLisByZoneGet(int zoneId)
         {
+            List<VMCommonCustomer> vmCommonDeportList = new List<VMCommonCustomer>();
+            if (zoneId > 0)
+            {
+                vmCommonDeportList =
+               await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.ZoneId == zoneId && x.VendorTypeId == (int)Provider.Deport))
+               .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
+               .ToListAsync());
+            }
+            else
+            {
+                vmCommonDeportList =
+               await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.VendorTypeId == (int)Provider.Deport))
+               .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
+               .ToListAsync());
+            }
 
-            List<VMCommonCustomer> vmCommonDeportList =
-                await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.ZoneId == zoneId && x.VendorTypeId == (int)Provider.Deport))
-                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
-                .ToListAsync());
             return vmCommonDeportList;
         }
         public async Task<List<VMCommonCustomer>> CustomerLisByZoneGet(int zoneId)
@@ -361,6 +373,18 @@ namespace KGERP.Service.Implementation.Procurement
             List<VMCommonCustomer> vmCommonCustomerList =
                 await Task.Run(() => (_db.Vendors
                 .Where(x => x.IsActive && x.ZoneId == zoneId))
+                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Code + " -" + x.Name })
+                .ToListAsync());
+
+
+            return vmCommonCustomerList;
+        }
+        public async Task<List<VMCommonCustomer>> CustomerLisBySubZoneGet(int subZoneId)
+        {
+
+            List<VMCommonCustomer> vmCommonCustomerList =
+                await Task.Run(() => (_db.Vendors
+                .Where(x => x.IsActive && x.SubZoneId == subZoneId))
                 .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Code + " -" + x.Name })
                 .ToListAsync());
 
@@ -4005,7 +4029,6 @@ namespace KGERP.Service.Implementation.Procurement
 
                                           select new VMSalesOrder
                                           {
-
                                               OrderMasterId = t1.OrderMasterId,
                                               OrderNo = t1.OrderNo,
                                               Status = t1.Status,
@@ -4017,6 +4040,7 @@ namespace KGERP.Service.Implementation.Procurement
                                               CourierNo = t1.CourierNo,
                                               FinalDestination = t1.FinalDestination,
                                               CourierCharge = t1.CourierCharge,
+                                              Remarks = t1.Remarks,
 
                                               CompanyFK = t1.CompanyId,
                                               CompanyName = t3.Name,
@@ -4071,7 +4095,7 @@ namespace KGERP.Service.Implementation.Procurement
             return vmSalesOrder;
         }
 
-       
+
         #endregion
 
 

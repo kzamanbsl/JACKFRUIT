@@ -1,7 +1,6 @@
 ﻿@model KGERP.Service.Implementation.Procurement.VMSalesOrderSlave
 @using KGERP.Utility;
 
-
 @{
     ViewData["Title"] = "Deport Sales Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -40,7 +39,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("DeportSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "procurementSalesOrderSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeportSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "deportSalesOrderSlaveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -410,8 +409,7 @@
     </div>
 }
 
-
-@using (Html.BeginForm("DeleteDeportSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "deleteProcurementPurchaseOrderSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteDeportSalesOrderSlave", "Procurement", FormMethod.Post, new { id = "deleteDeportSalesOrderSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteDeportSalesOrderSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -452,26 +450,10 @@
 
 @Scripts.Render("~/bundles/jqueryui")
 @Styles.Render("~/Content/cssjqryUi")
+
 @section scripts {
 
     <script type="text/javascript">
-
-        function calculateAmount() {
-            var packQuantity = $('#txtPackQuantity').val();
-            var consumption = $("#txtConsumption").val();
-            var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
-            $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
-        }
-
-        function makeDeletale(rowId) {
-            $('#hidDeleteOrderDetailId').val(rowId);
-            $('#deleteActionId').val(3);
-        }
-
-        function resetSalesOrderDeleteSlaveForm() {
-            $('#procurementSalesOrderSlaveFormId')[0].reset();
-            $('#ActionId').val(1);
-        }
 
         var normal= 0;
         $(document).ready(function () {
@@ -482,7 +464,7 @@
                 $('#txtProductName').focus();
             }
 
-            $('#procurementSalesOrderSlaveFormId').on('keyup keypress', function (e) {
+            $('#deportSalesOrderSlaveFormId').on('keyup keypress', function (e) {
                 var keyCode = e.keyCode || e.which;
                 if (keyCode === 13) {
                     e.preventDefault();
@@ -631,7 +613,7 @@
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("DeportLisByZonetGet", "Procurement")",
+                url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
                 datatype: "Json",
                     data: { zoneId: zoneFk},
                     success: function (data) {
@@ -657,6 +639,41 @@
                     $("#piReletedDivId").hide();
                 }
             })
+        });
+
+        $("#txtUnitPrice").keyup(function () {
+            var qty = $("#txtOrderQuantity").val();
+            var unitPrice = $("#txtUnitPrice").val();
+            var tAmount = qty * unitPrice;
+            $("#totalAmount").val(tAmount);
+            $("#SpcDis").val(0);
+            $("#disPercentage").val(0);
+        });
+
+        $("#disPercentage").keyup(function () {
+
+            var qty = $("#txtOrderQuantity").val();
+            var Unit = $("#txtUnitPrice").val();
+            var PerCentage = $("#disPercentage").val();
+            var ammount = qty * Unit;
+            var discountprice = ammount * (PerCentage / 100);
+            var totalPriceAfterTotalDisPercen = ammount - discountprice;
+            $("#SpcDis").val(discountprice);
+            $("#totalAmount").val(totalPriceAfterTotalDisPercen);
+
+        });
+
+        $("#SpcDis").keyup(function () {
+
+            var qty = $("#txtOrderQuantity").val();
+            var Unit = $("#txtUnitPrice").val();
+            var specialDis = $("#SpcDis").val();
+            var ammount = qty * Unit;
+            var percentage = ((specialDis / ammount) * 100);
+            var totalPriceAfterTotalspecial = ammount - specialDis;
+            $("#disPercentage").val(percentage);
+            $("#totalAmount").val(totalPriceAfterTotalspecial);
+
         });
 
         function makeEditble(rowId) {
@@ -700,40 +717,23 @@
             $('#hidSubmitOrderMasterId').val(@Model.OrderMasterId);
         }
 
-        $("#txtUnitPrice").keyup(function () {
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
-            $("#totalAmount").val(tAmount);
-            $("#SpcDis").val(0);
-            $("#disPercentage").val(0);
-        });
+        function makeDeletale(rowId) {
+            $('#hidDeleteOrderDetailId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
 
-        $("#disPercentage").keyup(function () {
+        function resetSalesOrderDeleteSlaveForm() {
+            $('#deportSalesOrderSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
 
-            var qty=$("#txtOrderQuantity").val();
-            var Unit = $("#txtUnitPrice").val();
-            var PerCentage = $("#disPercentage").val();
-            var ammount = qty * Unit;
-            var discountprice = ammount * (PerCentage / 100);
-            var totalPriceAfterTotalDisPercen = ammount - discountprice;
-            $("#SpcDis").val(discountprice);
-            $("#totalAmount").val(totalPriceAfterTotalDisPercen);
+        function calculateAmount() {
+            var packQuantity = $('#txtPackQuantity').val();
+            var consumption = $("#txtConsumption").val();
+            var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
+            $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
+        }
 
-        });
-
-        $("#SpcDis").keyup(function () {
-
-            var qty = $("#txtOrderQuantity").val();
-            var Unit = $("#txtUnitPrice").val();
-            var specialDis = $("#SpcDis").val();
-            var ammount = qty * Unit;
-            var percentage = ((specialDis / ammount) * 100);
-            var totalPriceAfterTotalspecial = ammount - specialDis;
-            $("#disPercentage").val(percentage);
-            $("#totalAmount").val(totalPriceAfterTotalspecial);
-
-        });
 
     </script>
 }

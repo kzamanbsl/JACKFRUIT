@@ -186,72 +186,85 @@
 
 @using (Html.BeginForm("DeportOrderMasterEdit", "Procurement", FormMethod.Post))
 {
-    <div class="modal fade modal-lg" id="editSOMasterModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog modal-lg ui-front" role="document">
+    <div class="modal fade" id="editSOMasterModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="box">
-                    <div class="box-body">
-                        <div class="modal-header">
-                            <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                                &times;
-                            </button>
-                            <h4 class="modal-title"><b>Sales Order Edit (<span id="pSOCIDText"></span>)</b></h4>
-                        </div>
-                        <div class="modal-body">
 
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h4 class="modal-title"><b>Sales Order Master Edit (<span id="SOCIdText"></span>)</b></h4>
+                </div>
 
-                            @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidOrderMasterId" })
-                            @Html.HiddenFor(model => model.ActionId, new { id = "SOEditActionId" })
-                            @Html.HiddenFor(model => model.CompanyFK, new { id = "SOEditCompanyFK" })
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidOrderMasterId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "SOEditActionId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOEditCompanyFK" })
 
 
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>SO Date:</label>
-                                        <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
-                                        @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="form-group">
-                                        <label>Payment Method:</label>
-                                        @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Payment Method==", new { id = "ddlCustomerPaymentMethodEnumFKK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.CustomerPaymentMethodEnumFK, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-7">
-                                    <div class="form-group" style="padding:0px">
-                                        <label>Deport:</label>
-                                        @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Deport Name", @id = "txtCommonCustomerName" } })
-
-                                        @Html.HiddenFor(model => model.CustomerId, new { id = "ddlCustomerId" })
-                                        @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>Delivery Date:</label>
-                                        <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
-                                        @Html.ValidationMessageFor(model => model.ExpectedDeliveryDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Invoice Date:</label>
+                                <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <div class="col-md-8">
-                                <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" style="width:100%" id="btnsave" class="btn btn-primary"><i class="fa fa-floppy-o"></i>&nbsp;Update</button>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Payment Method:</label>
+                                @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Payment Method==", new { id = "ddlCustomerPaymentMethodEnumFKK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.CustomerPaymentMethodEnumFK, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="padding:0px">
+                                <label>Deport:</label>
+                                @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Deport Name", @id = "txtCommonCustomerName" } })
+
+                                @Html.HiddenFor(model => model.CustomerId, new { id = "ddlCustomerId" })
+                                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Delivery Date:</label>
+                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
+                                @Html.ValidationMessageFor(model => model.ExpectedDeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Remarks:</label>
+                                <textarea name="Remarks" asp-for="Remarks" type="text" cols="2" class="form-control" id="txtRemarks" placeholder="Description" autocomplete="off"></textarea>
+                                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-8">
+                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" style="width:100%" id="btnsave" class="btn btn-primary"><i class="fa fa-floppy-o"></i>&nbsp;Update</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -270,6 +283,7 @@
                     </button>
                     <h5 class="modal-title"><b>Delete Sales Order</b></h5>
                 </div>
+
                 <div class="modal-body">
 
                     @Html.AntiForgeryToken()
@@ -283,6 +297,7 @@
                         <h3>Are you sure to Delete this Sales Order?</h3>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <div class="col-md-3">
                         <button type="button" onclick="resetDeportSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
@@ -291,6 +306,7 @@
                         <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -360,11 +376,9 @@
 
             $("#txtCommonCustomerName").autocomplete({
                 source: function (request, response) {
-                    //console.log(request);
-                    //console.log(response);
-
+                   
                     $.ajax({
-                        url:"@Url.Action("GetAutoCompleteSCustomer", "Procurement")",// '/AccountHeads/AutoComplete/',
+                        url:"@Url.Action("GetAutoCompleteDeport", "Procurement")",
                         //data: "{ 'prefix': '" + request.term + "'}",
                         data: { prefix: request.term, companyId: "@Model.CompanyFK" },
                         dataType: "json",
@@ -377,10 +391,10 @@
                            }))
                         },
                         error: function (response) {
-                                                                        //alert(response.responseText);
+                           //alert(response.responseText);
                         },
                         failure: function (response) {
-                                                                        //alert(response.responseText);
+                           //alert(response.responseText);
                         }
                     });
                 },
@@ -464,26 +478,22 @@
                         data: { orderMasterId: rowId },
                         success: function (data) {
 
-                            $('#pSOCIDText').text(data.OrderNo);
+                            $('#SOCIdText').text(data.OrderNo);
                             $("#hidOrderMasterId").val(data.OrderMasterId);
                             $('#SOEditActionId').val(2);
-                            //$("#POEditCompanyFK").val(data.CompanyFK);
+                            $("#SOEditCompanyFK").val(data.CompanyFK);
 
                             var orderDate = DateCustom(data.OrderDate);
-
                             $('#txtOrderDate').val(orderDate);
+
                             $('#ddlCustomerPaymentMethodEnumFKK').val(data.CustomerPaymentMethodEnumFK).change();
                             $('#txtCommonCustomerName').val(data.CommonCustomerName);
 
                             var deliveryDate = DateCustom(data.ExpectedDeliveryDate);
                             $('#txtDeliveryDate').val(deliveryDate);
+
                             $('#ddlCustomerId').val(data.CustomerId);
-
-
-
-                            //$('#ddlPOTypeEnumFK').val(data.poTypeEnumFK).change();
-                            //$('#ddlProcurementOriginTypeEnumFK').val(data.procurementOriginTypeEnumFK).change();
-                            //$('#ddlCommon_CurrencyFK').val(data.common_CurrencyFK).change();
+                            $('#txtRemarks').val(data.Remarks);
 
                         }
                  });

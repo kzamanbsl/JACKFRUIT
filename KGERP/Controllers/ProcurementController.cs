@@ -56,6 +56,31 @@ namespace KGERP.Controllers
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetAutoCompleteDeport(string prefix, int companyId)
+        {
+            var products = _service.GetAutoCompleteDeport(prefix, companyId);
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> GetDeportLisByZoneId(int zoneId = 0)
+        {
+            var commonDeports = await Task.Run(() => _service.DeportLisByZoneGet(zoneId));
+            var list = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
+        {
+
+            var commonCustomers = await Task.Run(() => _service.CustomerLisByZoneGet(zoneId));
+            var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> CustomerLisBySubZonetGet(int subZoneId)
+        {
+
+            var commonCustomers = await Task.Run(() => _service.CustomerLisBySubZoneGet(subZoneId));
+            var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
 
         #region Supplier Opening
 
@@ -699,29 +724,7 @@ namespace KGERP.Controllers
             return View(vmSalesOrderSlave);
         }
 
-        public async Task<ActionResult> CustomerLisBySubZonetGet(int subZoneId)
-        {
-
-            var commonCustomers = await Task.Run(() => _service.CustomerLisBySubZoneGet(subZoneId));
-            var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<ActionResult> DeportLisByZonetGet(int zoneId)
-        {
-            var commonDeports = await Task.Run(() => _service.DeportLisByZoneGet(zoneId));
-            var list = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
-        {
-
-            var commonCustomers = await Task.Run(() => _service.CustomerLisByZoneGet(zoneId));
-            var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
+       
         public async Task<ActionResult> SalesOrderLisByCustomerIdGet(int customerId)
         {
 
@@ -1189,7 +1192,7 @@ namespace KGERP.Controllers
                 orderMaster = JsonConvert.DeserializeObject<OrderMaster>(strOrderMaster);
                 vMSales.CompanyFK = orderMaster.CompanyId;
                 vMSales.OrderDate = orderMaster.OrderDate;
-                vMSales.DemandId = orderMaster.DemandId??0;
+                vMSales.DemandId = orderMaster.DemandId ?? 0;
                 vMSales.ExpectedDeliveryDate = orderMaster.ExpectedDeliveryDate;
                 vMSales.FinalDestination = orderMaster.FinalDestination;
                 vMSales.CustomerPaymentMethodEnumFK = orderMaster.PaymentMethod;
@@ -1746,7 +1749,7 @@ namespace KGERP.Controllers
 
         }
 
-       
+
         #endregion
 
         #endregion
