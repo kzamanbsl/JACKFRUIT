@@ -29,7 +29,7 @@
 </section>
 
 
-@using (Html.BeginForm("DeportSalesOrderFilter", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeportSalesOrderSearch", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
 {
 
     <div class="">
@@ -129,7 +129,7 @@
                                             <td>@item.POPaymentMethodName</td>
                                             <td>@item.EnumStatusName</td>
                                             <td>
-                                                <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOModal" title="Edit" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                 <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDeportOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                 <a href="~/Procurement/DeportSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
@@ -155,9 +155,13 @@
                                                 {
                                                     <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitDeportOrderModal" title="@statusTitle" data-placement="top">
                                                         @if (item.Status == (int)EnumPOStatus.Submitted)
-                                                        {<i>Undo Submit</i> }
+                                                        {
+                                                            <i>Undo Submit</i>
+                                                        }
                                                         else
-                                                        { <i>Submit</i>}
+                                                        {
+                                                            <i>Submit</i>
+                                                        }
                                                     </a>
                                                 }
                                             </td>
@@ -177,8 +181,12 @@
             </div>
         </div>
     </section>
+}
 
-    <div class="modal fade modal-lg" id="editSOModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+
+@using (Html.BeginForm("DeportOrderMasterEdit", "Procurement", FormMethod.Post))
+{
+    <div class="modal fade modal-lg" id="editSOMasterModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog modal-lg ui-front" role="document">
             <div class="modal-content">
                 <div class="box">
@@ -193,9 +201,11 @@
 
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidOrderMasterId" })
                             @Html.HiddenFor(model => model.ActionId, new { id = "SOEditActionId" })
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "SOEditCompanyFK" })
-                            @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidOrderMasterId" })
+
 
                             <div class="row">
                                 <div class="col-md-5">
@@ -247,8 +257,7 @@
     </div>
 }
 
-
-@using (Html.BeginForm("DeleteDeportOrderMasters", "Procurement", FormMethod.Post))
+@using (Html.BeginForm("DeleteDeportOrderMaster", "Procurement", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -262,13 +271,13 @@
                     <h5 class="modal-title"><b>Delete Sales Order</b></h5>
                 </div>
                 <div class="modal-body">
-                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidDeportSalesOrderId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "POdeleteCompanyFK" })
-
-                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidDeportSalesOrderId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "POdeleteCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
                     <div style="text-align:center">
                         <h3>Are you sure to Delete this Sales Order?</h3>
@@ -288,7 +297,7 @@
 }
 
 
-@using (Html.BeginForm("SubmitDeportOrderMasters", "Procurement", FormMethod.Post))
+@using (Html.BeginForm("SubmitDeportOrderMaster", "Procurement", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -299,14 +308,15 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Sales Order (<span id="submitOrDraftPOCIDText"></span>)</b></h5>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Sales Order (<span id="submitOrDraftSOCIdText"></span>)</b></h5>
                 </div>
                 <div class="modal-body">
-                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitDeportSalesOrderId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "POSubmitCompanyFK" })
-
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitDeportSalesOrderId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOSubmitCompanyFK" })
+
 
                     <div style="text-align:center">
                         <h3>Are you sure to <span class="submitOrDraftText"></span> this Sales Order?</h3>
@@ -317,7 +327,7 @@
                         <button type="button" onclick="resetDeportSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                        <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
             </div>
@@ -402,22 +412,20 @@
         }
 
             function makeSubmitble(rowId) {
-            
+
                 $.ajax({
                         type: "POST",
-                        url: "@Url.Action("GetSinglOrderMastersGet", "Procurement")",
+                        url: "@Url.Action("GetDeportOrderMasterById", "Procurement")",
                         datatype: "Json",
-                    data: { orderMasterId: rowId },
+                        data: { orderMasterId: rowId },
                         success: function (data) {
-                            console.log(data);
-                            $('#submitOrDraftPOCIDText').text(data.OrderNo);
+                            $('#submitOrDraftSOCIdText').text(data.OrderNo);
 
                             if (data.Status == 0) {
                                 $('.submitOrDraftText').text("Make Submit");
                             }
                             else {
                                 $('.submitOrDraftText').text("Make Draft");
-
                             }
                         }
                  });
@@ -451,11 +459,10 @@
             function makeEditble(rowId) {
                  $.ajax({
                         type: "POST",
-                        url: "@Url.Action("GetSinglOrderMastersGet", "Procurement")",
+                        url: "@Url.Action("GetDeportOrderMasterById", "Procurement")",
                         datatype: "Json",
-                     data: { orderMasterId: rowId },
+                        data: { orderMasterId: rowId },
                         success: function (data) {
-                            console.log("hhhhhhhhhhhhhhhhhhh",data);
 
                             $('#pSOCIDText').text(data.OrderNo);
                             $("#hidOrderMasterId").val(data.OrderMasterId);

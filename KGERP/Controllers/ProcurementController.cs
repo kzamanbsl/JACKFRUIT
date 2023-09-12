@@ -1666,17 +1666,34 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SubmitDeportOrderMastersFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        public async Task<ActionResult> SubmitDeportOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMastersSubmit(vmSalesOrderSlave.OrderMasterId);
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
             return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
         }
 
         [HttpPost]
-        public async Task<ActionResult> SubmitDeportOrderMasters(VMSalesOrder vmSalesOrder)
+        public async Task<ActionResult> SubmitDeportOrderMaster(VMSalesOrder vmSalesOrder)
         {
-            vmSalesOrder.OrderMasterId = await _service.FoodOrderMastersSubmit(vmSalesOrder.OrderMasterId);
+            vmSalesOrder.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrder.OrderMasterId);
             return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeportOrderMasterEdit(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DeportOrderMasterEdit(vmSalesOrder);
+            }
+            return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetDeportOrderMasterById(int orderMasterId)
+        {
+            var model = await _service.GetDeportOrderMasterById(orderMasterId);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -1690,11 +1707,11 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteDeportOrderMasters(VMSalesOrder vmSalesOrder)
+        public async Task<ActionResult> DeleteDeportOrderMaster(VMSalesOrder vmSalesOrder)
         {
             if (vmSalesOrder.ActionEum == ActionEnum.Delete)
             {
-                vmSalesOrder.OrderMasterId = await _service.FoodOrderMastersDelete(vmSalesOrder.OrderMasterId);
+                vmSalesOrder.OrderMasterId = await _service.FoodOrderMasterDelete(vmSalesOrder.OrderMasterId);
             }
             return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
         }
@@ -1706,7 +1723,7 @@ namespace KGERP.Controllers
             if (!toDate.HasValue) toDate = DateTime.Now;
 
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
-            vmSalesOrder = await _service.GetDeportOrderMastersList(companyId, fromDate, toDate, vStatus);
+            vmSalesOrder = await _service.GetDeportOrderMasterList(companyId, fromDate, toDate, vStatus);
 
             vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -1716,17 +1733,7 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeportSalesOrderList(VMSalesOrder vmSalesOrder)
-        {
-            if (vmSalesOrder.ActionEum == ActionEnum.Edit)
-            {
-                await _service.DeportOrderMastersEdit(vmSalesOrder);
-            }
-            return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
-        }
-
-        [HttpPost]
-        public ActionResult DeportSalesOrderFilter(VMSalesOrder vmSalesOrder)
+        public ActionResult DeportSalesOrderSearch(VMSalesOrder vmSalesOrder)
         {
             if (vmSalesOrder.CompanyId > 0)
             {
@@ -1736,8 +1743,10 @@ namespace KGERP.Controllers
             vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
             vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
             return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+
         }
 
+       
         #endregion
 
         #endregion

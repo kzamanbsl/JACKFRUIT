@@ -3694,7 +3694,7 @@ namespace KGERP.Service.Implementation.Procurement
         #region Food Sales
 
         #region Common Method
-        public async Task<long> FoodOrderMastersSubmit(long? id = 0)
+        public async Task<long> FoodOrderMasterSubmit(long? id = 0)
         {
             long result = -1;
 
@@ -3744,7 +3744,7 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
-        public async Task<long> FoodOrderMastersDelete(long id)
+        public async Task<long> FoodOrderMasterDelete(long id)
         {
             long result = -1;
             OrderMaster orderMasters = await _db.OrderMasters.FindAsync(id);
@@ -3825,7 +3825,7 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
-        public async Task<long> DeportOrderMastersEdit(VMSalesOrder vmSalesOrder)
+        public async Task<long> DeportOrderMasterEdit(VMSalesOrder vmSalesOrder)
         {
             long result = -1;
             OrderMaster orderMaster = await _db.OrderMasters.FindAsync(vmSalesOrder.OrderMasterId);
@@ -3907,46 +3907,6 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
-        public async Task<VMSalesOrder> GetDeportOrderMastersList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
-        {
-            VMSalesOrder vmSalesOrder = new VMSalesOrder();
-            vmSalesOrder.CompanyFK = companyId;
-
-            vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
-                                                          && x.CompanyId == companyId 
-                                                          && x.DeportId > 0
-                                                          && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
-                                                          && x.Status < (int)EnumPOStatus.Closed)
-
-                                                          join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
-
-                                                          select new VMSalesOrder
-                                                          {
-                                                              OrderMasterId = t1.OrderMasterId,
-                                                              CustomerId = t1.DeportId.Value,
-                                                              CommonCustomerName = t2.Name,
-                                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
-                                                              OrderNo = t1.OrderNo,
-                                                              OrderDate = t1.OrderDate,
-                                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                              CourierNo = t1.CourierNo,
-                                                              FinalDestination = t1.FinalDestination,
-                                                              CourierCharge = t1.CourierCharge,
-                                                              Status = t1.Status,
-
-                                                              CompanyFK = t1.CompanyId,
-                                                              CompanyId = t1.CompanyId,
-                                                              CreatedBy = t1.CreatedBy,
-
-                                                          }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
-            if (vStatus != -1 && vStatus != null)
-            {
-                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
-            }
-            return vmSalesOrder;
-        }
-
         public async Task<VMSalesOrderSlave> GetDeportSalesOrderDetails(int companyId, int orderMasterId)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
@@ -3997,7 +3957,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           DiscountAmount = t1.DiscountAmount ?? 0,
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
-                                                          Remarks=t1.Remarks,
+                                                          Remarks = t1.Remarks,
 
                                                       }).FirstOrDefault());
 
@@ -4036,6 +3996,82 @@ namespace KGERP.Service.Implementation.Procurement
             return vmSalesOrderSlave;
         }
 
+        public async Task<VMSalesOrder> GetDeportOrderMasterById(int orderMasterId)
+        {
+
+            var v = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.DeportId > 0)
+                                          join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+                                          join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
+
+                                          select new VMSalesOrder
+                                          {
+
+                                              OrderMasterId = t1.OrderMasterId,
+                                              OrderNo = t1.OrderNo,
+                                              Status = t1.Status,
+                                              OrderDate = t1.OrderDate,
+                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                              CustomerId = (int)t1.DeportId,
+                                              CommonCustomerName = t2.Name,
+                                              CourierNo = t1.CourierNo,
+                                              FinalDestination = t1.FinalDestination,
+                                              CourierCharge = t1.CourierCharge,
+
+                                              CompanyFK = t1.CompanyId,
+                                              CompanyName = t3.Name,
+                                              CompanyAddress = t3.Address,
+                                              CompanyEmail = t3.Email,
+                                              CompanyPhone = t3.Phone,
+
+                                              CreatedBy = t1.CreatedBy,
+                                              CreatedDate = t1.CreateDate
+
+                                          }).FirstOrDefault());
+            return v;
+        }
+
+        public async Task<VMSalesOrder> GetDeportOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder.CompanyFK = companyId;
+
+            vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && x.DeportId > 0
+                                                          && x.OrderDate >= fromDate && x.OrderDate <= toDate
+                                                          && !x.IsOpening
+                                                          && x.Status < (int)EnumPOStatus.Closed)
+
+                                                          join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+
+                                                          select new VMSalesOrder
+                                                          {
+                                                              OrderMasterId = t1.OrderMasterId,
+                                                              CustomerId = t1.DeportId.Value,
+                                                              CommonCustomerName = t2.Name,
+                                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                              OrderNo = t1.OrderNo,
+                                                              OrderDate = t1.OrderDate,
+                                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                              CourierNo = t1.CourierNo,
+                                                              FinalDestination = t1.FinalDestination,
+                                                              CourierCharge = t1.CourierCharge,
+                                                              Status = t1.Status,
+
+                                                              CompanyFK = t1.CompanyId,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreatedBy = t1.CreatedBy,
+
+                                                          }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+            if (vStatus != -1 && vStatus != null)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
+            }
+            return vmSalesOrder;
+        }
+
+       
         #endregion
 
 
