@@ -212,8 +212,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group ">
                                         <label>Total Amount:</label>
-                                        @Html.TextBoxFor(model => model.TotalAmount, new { id = "totalAmount", @readonly = "readonly", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Price", required = "Required" })
-                                        @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(model => model.TotalAmount, new { id = "totalAmount", @readonly = "readonly", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Amount", required = "Required" })
+                                        @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -233,7 +233,11 @@
 
                                 </div>
                                 <div class="col-lg-4 col-md-4">
-                                    <input type="submit" id="soCreateBtn" onclick="ClientSubmit(this)" value="Add Product" class="btn btn-primary btn-block" />
+                                    @if (Model.Status == (int)EnumPOStatus.Draft)
+                                    {
+                                        <input type="submit" id="soCreateBtn" value="Add Product" class="btn btn-primary btn-block" />
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -289,44 +293,44 @@
 
                                         <tfoot>
                                             @*<tr>
-                                                <th></th>
-                                                <th colspan="2">Total:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
-                                                @if (Model.Status == (int)EnumPOStatus.Draft)
-                                                {
                                                     <th></th>
-                                                }
-                                            </tr>
+                                                    <th colspan="2">Total:</th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
+                                                    @if (Model.Status == (int)EnumPOStatus.Draft)
+                                                    {
+                                                        <th></th>
+                                                    }
+                                                </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Total Discount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
-                                                @if (Model.Status == (int)EnumPOStatus.Draft)
-                                                {
+                                                <tr>
                                                     <th></th>
-                                                }
-                                            </tr>
+                                                    <th colspan="2">Total Discount:</th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
+                                                    @if (Model.Status == (int)EnumPOStatus.Draft)
+                                                    {
+                                                        <th></th>
+                                                    }
+                                                </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Total After Discount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
-                                                @if (Model.Status == (int)EnumPOStatus.Draft)
-                                                {
+                                                <tr>
                                                     <th></th>
-                                                }
-                                            </tr>
+                                                    <th colspan="2">Total After Discount:</th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
+                                                    @if (Model.Status == (int)EnumPOStatus.Draft)
+                                                    {
+                                                        <th></th>
+                                                    }
+                                                </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Courier Charge:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
-                                                @if (Model.Status == (int)EnumPOStatus.Draft)
-                                                {
+                                                <tr>
                                                     <th></th>
-                                                }
-                                            </tr>*@
+                                                    <th colspan="2">Courier Charge:</th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
+                                                    @if (Model.Status == (int)EnumPOStatus.Draft)
+                                                    {
+                                                        <th></th>
+                                                    }
+                                                </tr>*@
 
                                             <tr>
                                                 <th></th>
@@ -380,7 +384,7 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Sales Order (<span id="submitOrDraftPOCIDText"></span>)</b></h5>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Sales Order (@Model.OrderNo)</b></h5>
                 </div>
                 <div class="modal-body">
                     @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitOrderMasterId" })
@@ -398,7 +402,7 @@
                         <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnDelete2" onclick="ClientSubmit(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
             </div>
@@ -437,7 +441,7 @@
                         <button type="button" onclick="resetSalesOrderDeleteSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btndelete" onclick="ClientSubmit(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                        <button type="submit" id="btndelete" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
                     </div>
                 </div>
             </div>
@@ -473,6 +477,7 @@
         $(document).ready(function () {
 
             var orderMasterIdInit = "@Model.OrderMasterId";
+
             if (orderMasterIdInit > 0) {
                 $('#txtProductName').focus();
             }
@@ -498,7 +503,7 @@
                 }
             });
 
-              $("#txtProductName").autocomplete({
+            $("#txtProductName").autocomplete({
                 source: function (request, response) {
 
                     $.ajax({
@@ -560,7 +565,6 @@
             }).focus(function () {
                 $(this).autocomplete("search");
             });
-
 
             $('#txtOrderDate').keypress(function (event) {
                 if (event.keyCode == 13) {
@@ -665,7 +669,7 @@
                   data: { id: rowId },
                   success: function (data) {
 
-                      $('#soCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                      $('#soCreateBtn').val("Update");
                       $("#hidOrderMasterId").val(data.OrderMasterId);
                       $('#ActionId').val(2);
                       $("#CompanyFK").val(data.CompanyFK);
@@ -676,6 +680,8 @@
 
                       $("#txtOrderQuantity").val(data.Qty);
                       $('#txtUnitPrice').val(data.UnitPrice);
+                      $('#totalAmount').val(data.Qty*data.UnitPrice);
+
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -684,24 +690,14 @@
             }
 
         function makeSubmitble(rowId) {
-                $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("GetSinglOrderMastersGet", "Procurement")",
-                        datatype: "Json",
-                    data: { orderMasterId: rowId },
-                        success: function (data) {
-                            console.log(data);
-                            $('#submitOrDraftPOCIDText').text(data.OrderNo);
-
-                            if (data.Status == 0) {
-                                $('.submitOrDraftText').text("Make Submit");
-                            }
-                            else {
-                                $('.submitOrDraftText').text("Make Draft");
-                            }
-                        }
-                 });
-                $('#hidsubmitProcurementPurchaseOrderId').val(rowId);
+               
+            if (@Model.Status == 0) {
+                $('.submitOrDraftText').text("Make Submit");
+            }
+            else {
+                $('.submitOrDraftText').text("Make Draft");
+            }
+            $('#hidSubmitOrderMasterId').val(@Model.OrderMasterId);
         }
 
         $("#txtUnitPrice").keyup(function () {

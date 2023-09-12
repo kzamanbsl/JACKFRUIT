@@ -131,7 +131,7 @@
                                             <td>
                                                 <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOModal" title="Edit" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                 <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDeportOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                <a href="~/Procurement/GCCLProcurementSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                <a href="~/Procurement/DeportSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
                                                 @if (item.Status == (int)EnumPOStatus.Submitted)
@@ -216,7 +216,7 @@
                                 <div class="col-md-7">
                                     <div class="form-group" style="padding:0px">
                                         <label>Deport:</label>
-                                        @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Customer Name", @id = "txtCommonCustomerName" } })
+                                        @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Deport Name", @id = "txtCommonCustomerName" } })
 
                                         @Html.HiddenFor(model => model.CustomerId, new { id = "ddlCustomerId" })
                                         @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
