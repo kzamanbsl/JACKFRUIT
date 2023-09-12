@@ -82,6 +82,14 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetFoodProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetFoodProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
         #region Supplier Opening
 
         [HttpGet]
@@ -878,7 +886,7 @@ namespace KGERP.Controllers
         public JsonResult ProductStockByProduct(int companyId, int productId, int? stockInfoId)
         {
             var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.ProductStockByProductGet(companyId, productId, stockInfoIdVal ?? 0);
+            var model = _service.GetProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
@@ -1748,7 +1756,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
 
         }
-
 
         #endregion
 

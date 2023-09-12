@@ -347,6 +347,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return v;
         }
+
         public async Task<List<VMCommonCustomer>> DeportLisByZoneGet(int zoneId)
         {
             List<VMCommonCustomer> vmCommonDeportList = new List<VMCommonCustomer>();
@@ -367,6 +368,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonDeportList;
         }
+
         public async Task<List<VMCommonCustomer>> CustomerLisByZoneGet(int zoneId)
         {
 
@@ -379,6 +381,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonCustomerList;
         }
+
         public async Task<List<VMCommonCustomer>> CustomerLisBySubZoneGet(int subZoneId)
         {
 
@@ -518,6 +521,21 @@ namespace KGERP.Service.Implementation.Procurement
             List<VMCommonProduct> vMRI = await Task.Run(() => (_db.Products.Where(x => x.IsActive && (id <= 0 || x.ProductSubCategoryId == id)).Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })).ToListAsync());
 
             return vMRI;
+        }
+
+        public VMProductStock GetFoodProductStockByProductId(int companyId, int productId, int stockInfoId)
+        {
+            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
+            if (stockInfoId<=0 && stockInfo?.StockInfoId>0)
+            {
+                stockInfoId = stockInfo.StockInfoId;
+            }
+
+            VMProductStock vmProductStock = new VMProductStock();
+
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC FoodStockQuantityByProductAndStockInfoId {0},{1},{2}", companyId, productId, stockInfoId).FirstOrDefault();
+
+            return vmProductStock;
         }
 
         #endregion
@@ -2602,7 +2620,7 @@ namespace KGERP.Service.Implementation.Procurement
             return v;
         }
 
-        public VMProductStock ProductStockByProductGet(int companyId, int productId, int stockInfoId)
+        public VMProductStock GetProductStockByProductId(int companyId, int productId, int stockInfoId)
         {
             VMProductStock vmProductStock = new VMProductStock();
             if (companyId == (int)CompanyName.KrishibidSeedLimited)

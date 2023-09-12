@@ -751,7 +751,7 @@ namespace KGERP.Service.Implementation
                 IsActive = true,
                 ProductId = vmPOReceivingSlave.ProductId,
                 //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
-                ReceiveQty = vmPOReceivingSlave.ReceivedQuantity,
+                ReceiveQty = vmPOReceivingSlave.StockInQty,
                 StockInQty = vmPOReceivingSlave.StockInQty,
                 StockInRate = vmPOReceivingSlave.StockInRate,
                 UnitPrice = vmPOReceivingSlave.UnitPrice,
@@ -776,6 +776,7 @@ namespace KGERP.Service.Implementation
             if (model == null) throw new Exception("Sorry! Stock Detail not found!");
 
             model.StockInQty = vmPOReceivingSlave.StockInQty;
+            model.ReceiveQty = vmPOReceivingSlave.StockInQty;
             model.StockInRate = vmPOReceivingSlave.StockInRate;
             model.UnitPrice = vmPOReceivingSlave.UnitPrice;
 

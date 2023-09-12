@@ -517,28 +517,22 @@
 
                     $.ajax({
                         type: "GET",
-                        url: "@Url.Action("ProductStockByProduct", "Procurement")",
+                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
                         datatype: "Json",
                         data: { companyId: "@Model.CompanyFK", productId: i.item.val },
                         success: function (data) {
-                            var items = "";
+
                             if (data) {
                                 $('#tblStockAvailable').show();
                                 $('.txtUnitName').text(data.UnitName);
                                 $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
                                 var customerTypeFK = $("#hidCustomerTypeFk").val();
-
-                                if (customerTypeFK == "@((int)CustomerType.Customer)") {
-                                    $("#txtUnitPrice").val(data.TPPrice);
-                                }
-                                if (customerTypeFK == "@((int)CustomerType.Retail)") {
-                                    $("#txtUnitPrice").val(data.UnitPrice);
-                                }
-
+                                 $("#txtUnitPrice").val(data.UnitPrice);
                             }
                         }
                     });
+
                 $('#txtPackQuantity').focus();
                 $('#txtPackQuantity').select();
 
@@ -709,7 +703,7 @@
             }
 
         function makeSubmitble(rowId) {
-               
+
             if (@Model.Status == 0) {
                 $('.submitOrDraftText').text("Make Submit");
             }
