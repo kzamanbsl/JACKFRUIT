@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Dealer SO List";
+    ViewData["Title"] = "Customer SO List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -18,14 +18,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Dealer Sales List
+            Customer Sales List
         </span>
 
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
-            <a href="~/Procurement/DealerSalesOrderSlave?companyId=@Model.CompanyId&orderMasterId = 0" class="btn btn-primary pull-right">
+            <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyId&orderMasterId = 0" class="btn btn-primary pull-right">
                 <span class="fs fs-plus"></span> New Sales Invoice
             </a>
         </li>
@@ -38,7 +38,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("DealerSalesOrderSearch", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("FoodCustomerSalesOrderSearch", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
@@ -88,7 +88,7 @@
                                         <th>SL</th>
                                         <th>Sales No</th>
                                         <th>Order Date</th>
-                                        <th>Dealer</th>
+                                        <th>Customer</th>
                                         <th>Delivery Date</th>
                                         <th>Payment Method</th>
                                         <th>Status</th>
@@ -125,8 +125,8 @@
                                             <td>@item.EnumStatusName</td>
                                             <td>
                                                 <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDealerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                <a href="~/Procurement/DealerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
                                                 @if (item.Status == (int)EnumPOStatus.Submitted)
@@ -147,7 +147,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitDealerOrderModal" title="@statusTitle" data-placement="top">
+                                                    <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitFoodCustomerOrderModal" title="@statusTitle" data-placement="top">
                                                         @if (item.Status == (int)EnumPOStatus.Submitted)
                                                         {
                                                             <i>Undo Submit</i>
@@ -171,7 +171,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("DealerOrderMasterEdit", "Procurement", FormMethod.Post))
+@using (Html.BeginForm("FoodCustomerOrderMasterEdit", "Procurement", FormMethod.Post))
 {
     <div class="modal fade" id="editSOMasterModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -213,8 +213,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Dealer:</label>
-                                @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Dealer Name", @id = "txtCommonCustomerName" } })
+                                <label>Customer:</label>
+                                @Html.EditorFor(model => model.CommonCustomerName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "FoodCustomer Name", @id = "txtCommonCustomerName" } })
                                 @Html.HiddenFor(model => model.CustomerId, new { id = "ddlCustomerId" })
                                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
                             </div>
@@ -255,10 +255,10 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteDealerOrderMaster", "Procurement", FormMethod.Post))
+@using (Html.BeginForm("DeleteFoodCustomerOrderMaster", "Procurement", FormMethod.Post))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="deleteDealerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -274,7 +274,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidDealerSalesOrderId" })
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidFoodCustomerSalesOrderId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "SOdeleteCompanyFK" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
@@ -285,7 +285,7 @@
 
                 <div class="modal-footer">
                     <div class="col-md-3">
-                        <button type="button" onclick="resetDealerSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                        <button type="button" onclick="resetFoodCustomerSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
                         <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
@@ -298,11 +298,11 @@
 }
 
 
-@using (Html.BeginForm("SubmitDealerOrderMaster", "Procurement", FormMethod.Post))
+@using (Html.BeginForm("SubmitFoodCustomerOrderMaster", "Procurement", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="submitDealerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="submitFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -317,7 +317,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitDealerSalesOrderId" })
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitFoodCustomerSalesOrderId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "SOSubmitCompanyFK" })
 
 
@@ -328,7 +328,7 @@
 
                 <div class="modal-footer">
                     <div class="col-md-3">
-                        <button type="button" onclick="resetDealerSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                        <button type="button" onclick="resetFoodCustomerSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
                         <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
@@ -368,7 +368,7 @@
                 source: function (request, response) {
 
                     $.ajax({
-                        url:"@Url.Action("GetAutoCompleteDealer", "Procurement")",
+                        url:"@Url.Action("GetAutoCompleteSCustomer", "Procurement")",
                         //data: "{ 'prefix': '" + request.term + "'}",
                         data: { prefix: request.term, companyId: "@Model.CompanyFK" },
                         dataType: "json",
@@ -426,7 +426,7 @@
 
                 $.ajax({
                         type: "POST",
-                        url: "@Url.Action("GetDealerOrderMasterById", "Procurement")",
+                        url: "@Url.Action("GetFoodCustomerOrderMasterById", "Procurement")",
                         datatype: "Json",
                         data: { orderMasterId: rowId },
                     success: function (data) {
@@ -441,16 +441,16 @@
                             }
                         }
                  });
-                $('#hidSubmitDealerSalesOrderId').val(rowId);
+                $('#hidSubmitFoodCustomerSalesOrderId').val(rowId);
             }
 
         function makeDeletale(rowId) {
 
-                $('#hidDealerSalesOrderId').val(rowId);
+                $('#hidFoodCustomerSalesOrderId').val(rowId);
                 $('#deleteActionId').val(3);
         }
 
-        function resetDealerSalesOrderForm() {
+        function resetFoodCustomerSalesOrderForm() {
 
               $('#salesOrderListFormId')[0].reset();
               $('#ActionId').val(1);
@@ -475,7 +475,7 @@
 
                  $.ajax({
                         type: "POST",
-                        url: "@Url.Action("GetDealerOrderMasterById", "Procurement")",
+                        url: "@Url.Action("GetFoodCustomerOrderMasterById", "Procurement")",
                         datatype: "Json",
                         data: { orderMasterId: rowId },
                      success: function (data) {

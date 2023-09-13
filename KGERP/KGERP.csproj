@@ -5576,6 +5576,8 @@
     <Content Include="Views\Procurement\DeportSalesOrderList.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderSlave.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderList.cshtml" />
+    <Content Include="Views\Procurement\FoodCustomerSalesOrderList.cshtml" />
+    <Content Include="Views\Procurement\FoodCustomerSalesOrderSlave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

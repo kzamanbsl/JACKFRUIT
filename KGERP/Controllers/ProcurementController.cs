@@ -74,6 +74,7 @@ namespace KGERP.Controllers
             var list = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetAutoCompleteSCustomer(string prefix, int companyId)
         {
             var products = _service.GetAutoCompleteCustomer(prefix, companyId);
@@ -81,7 +82,6 @@ namespace KGERP.Controllers
         }
         public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
         {
-
             var commonCustomers = await Task.Run(() => _service.GetCustomerLisByZoneId(zoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -1896,6 +1896,133 @@ namespace KGERP.Controllers
         }
 
         #endregion
+
+        #region Food Customer Sales
+
+        [HttpGet]
+        public async Task<ActionResult> FoodCustomerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetFoodCustomerSalesOrderDetails(companyId, orderMasterId));
+
+            }
+            //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FoodCustomerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.FoodCustomerOrderMasterAdd(vmSalesOrderSlave);
+
+                }
+                await _service.FoodCustomerOrderDetailAdd(vmSalesOrderSlave);
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                await _service.FoodCustomerOrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitFoodCustomerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
+            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitFoodCustomerOrderMaster(VMSalesOrder vmSalesOrder)
+        {
+            vmSalesOrder.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrder.OrderMasterId);
+            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FoodCustomerOrderMasterEdit(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DealerOrderMasterEdit(vmSalesOrder);
+            }
+            return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetFoodCustomerOrderMasterById(int orderMasterId)
+        {
+            var model = await _service.GetFoodCustomerOrderMasterById(orderMasterId);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteFoodCustomerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Delete)
+            {
+                vmSalesOrderSlave.OrderDetailId = await _service.FoodOrderDetailDelete(vmSalesOrderSlave.OrderDetailId);
+            }
+            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteFoodCustomerOrderMaster(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Delete)
+            {
+                vmSalesOrder.OrderMasterId = await _service.FoodOrderMasterDelete(vmSalesOrder.OrderMasterId);
+            }
+            return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> FoodCustomerSalesOrderList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder = await _service.GetFoodCustomerOrderMasterList(companyId, fromDate, toDate, vStatus);
+
+            vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.Status = vStatus ?? -1;
+
+            return View(vmSalesOrder);
+        }
+
+        [HttpPost]
+        public ActionResult FoodCustomerSalesOrderSearch(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.CompanyId > 0)
+            {
+                Session["CompanyId"] = vmSalesOrder.CompanyId;
+            }
+
+            vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
+            vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
+            return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+
+        }
+
+        #endregion
+
         #endregion
 
     }
