@@ -18,75 +18,71 @@
 <section class="content-header">
     <h1>
         <span>
-            Sales Order List
+            Deport Sales List
         </span>
 
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Sales Order</li>
+        <li class="active">
+            <a href="~/Procurement/DeportSalesOrderSlave?companyId=@Model.CompanyId&orderMasterId = 0" class="btn btn-primary pull-right">
+                <span class="fs fs-plus"></span> New Sales Invoice
+            </a>
+        </li>
     </ol>
 </section>
 
-
-@using (Html.BeginForm("DeportSalesOrderSearch", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
-{
-
-    <div class="">
-        <div class="box-danger">
-            <div class="box-header">
-                @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
-                <div class="row">
-                    <div class="col-md-3">
-                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
-                        <br />
-                        @Html.DropDownListFor(model => model.Status, Model.EnumStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
-                            <br />
-                            @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
-                            <br />
-                            @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
-                        <div class="form-group">
-                            <label>&nbsp;</label>
-                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-
-@using (Html.BeginForm("DeportSalesOrderList", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
-{
-    <section class="content">
-        <div class="">
-            <div class="box-danger">
-                <div class="box-header">
-
-                    @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
-                    <hr />
-                    <!-- /.box-header -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
                     <div class="box-body">
-                        <div class="table-responsive col-md-12  text-nowrap">
-                            <table id="KgErpDataTable" class="table table-striped" width="100%">
+                        @using (Html.BeginForm("DeportSalesOrderSearch", "Procurement", FormMethod.Post, new { id = "deportSalesOrderListFormId", @class = "formValidator" }))
+                        {
+                            @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.Status, Model.EnumStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <hr />
+
+                        <div class="table-responsive">
+                            <table id="KgErpDataTable" class="table table-striped" style="width:100%; background-color:#ddd;">
                                 <thead>
                                     <tr>
                                         <th>SL</th>
@@ -113,7 +109,6 @@
 
                                         if (item.Status == (int)EnumPOStatus.Submitted)
                                         { statusTitle = "Undo Submit"; }
-
 
                                         #endregion
 
@@ -144,7 +139,6 @@
                                                 {
                                                     <span>Print</span>
                                                 }
-
                                             </td>
                                             <td>
                                                 @if (item.Status == (int)EnumPOStatus.Closed)
@@ -171,18 +165,11 @@
                             </table>
                         </div>
                     </div>
-                    <div class="box-footer">
-                        @*@if (Model.ID > 0)
-                            {
-                                <a target="_blank" href="~/Shipment/DeliveryChallanePrint/@Model.ID" class="btn btn-primary" style="width:100%">Print</a>
-                            }*@
-                    </div>
                 </div>
             </div>
         </div>
-    </section>
-}
-
+    </div>
+</section>
 
 @using (Html.BeginForm("DeportOrderMasterEdit", "Procurement", FormMethod.Post))
 {
@@ -270,11 +257,11 @@
 
 @using (Html.BeginForm("DeleteDeportOrderMaster", "Procurement", FormMethod.Post))
 {
-
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteDeportOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
@@ -318,12 +305,14 @@
     <div class="modal fade" id="submitDeportOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
                     <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Sales Order (<span id="submitOrDraftSOCIdText"></span>)</b></h5>
                 </div>
+
                 <div class="modal-body">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -336,6 +325,7 @@
                         <h3>Are you sure to <span class="submitOrDraftText"></span> this Sales Order?</h3>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <div class="col-md-3">
                         <button type="button" onclick="resetDeportSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
@@ -344,6 +334,7 @@
                         <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
+           
             </div>
         </div>
     </div>
@@ -356,7 +347,6 @@
 @section scripts {
 
     <script type="text/javascript">
-
 
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
@@ -374,7 +364,7 @@
 
             $("#txtCommonCustomerName").autocomplete({
                 source: function (request, response) {
-                   
+
                     $.ajax({
                         url:"@Url.Action("GetAutoCompleteDeport", "Procurement")",
                         //data: "{ 'prefix': '" + request.term + "'}",
@@ -500,7 +490,6 @@
                         }
                  });
             }
-
 
     </script>
 }
