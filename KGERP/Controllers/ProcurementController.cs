@@ -50,11 +50,6 @@ namespace KGERP.Controllers
             var products = _service.GetAutoCompleteStyleNo(orderMasterId);
             return Json(products, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetAutoCompleteSCustomer(string prefix, int companyId)
-        {
-            var products = _service.GetAutoCompleteCustomer(prefix, companyId);
-            return Json(products, JsonRequestBehavior.AllowGet);
-        }
 
         public JsonResult GetAutoCompleteDeport(string prefix, int companyId)
         {
@@ -63,21 +58,38 @@ namespace KGERP.Controllers
         }
         public async Task<ActionResult> GetDeportLisByZoneId(int zoneId = 0)
         {
-            var commonDeports = await Task.Run(() => _service.DeportLisByZoneGet(zoneId));
+            var commonDeports = await Task.Run(() => _service.GetDeportLisByZoneId(zoneId));
             var list = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAutoCompleteDealer(string prefix, int companyId)
+        {
+            var products = _service.GetAutoCompleteDealer(prefix, companyId);
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> GetDealerLisByZoneId(int zoneId = 0)
+        {
+            var commonDeports = await Task.Run(() => _service.GetDealerLisByZoneId(zoneId));
+            var list = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetAutoCompleteSCustomer(string prefix, int companyId)
+        {
+            var products = _service.GetAutoCompleteCustomer(prefix, companyId);
+            return Json(products, JsonRequestBehavior.AllowGet);
         }
         public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
         {
 
-            var commonCustomers = await Task.Run(() => _service.CustomerLisByZoneGet(zoneId));
+            var commonCustomers = await Task.Run(() => _service.GetCustomerLisByZoneId(zoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         public async Task<ActionResult> CustomerLisBySubZonetGet(int subZoneId)
         {
 
-            var commonCustomers = await Task.Run(() => _service.CustomerLisBySubZoneGet(subZoneId));
+            var commonCustomers = await Task.Run(() => _service.GetCustomerLisBySubZoneId(subZoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -1759,6 +1771,131 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Dealer Sales
+
+        [HttpGet]
+        public async Task<ActionResult> DealerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDealerSalesOrderDetails(companyId, orderMasterId));
+
+            }
+            //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DealerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.DealerOrderMasterAdd(vmSalesOrderSlave);
+
+                }
+                await _service.DealerOrderDetailAdd(vmSalesOrderSlave);
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DealerOrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitDealerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
+            return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitDealerOrderMaster(VMSalesOrder vmSalesOrder)
+        {
+            vmSalesOrder.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrder.OrderMasterId);
+            return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DealerOrderMasterEdit(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DealerOrderMasterEdit(vmSalesOrder);
+            }
+            return RedirectToAction(nameof(DealerSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetDealerOrderMasterById(int orderMasterId)
+        {
+            var model = await _service.GetDealerOrderMasterById(orderMasterId);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDealerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Delete)
+            {
+                vmSalesOrderSlave.OrderDetailId = await _service.FoodOrderDetailDelete(vmSalesOrderSlave.OrderDetailId);
+            }
+            return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDealerOrderMaster(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.ActionEum == ActionEnum.Delete)
+            {
+                vmSalesOrder.OrderMasterId = await _service.FoodOrderMasterDelete(vmSalesOrder.OrderMasterId);
+            }
+            return RedirectToAction(nameof(DealerSalesOrderList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DealerSalesOrderList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder = await _service.GetDealerOrderMasterList(companyId, fromDate, toDate, vStatus);
+
+            vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.Status = vStatus ?? -1;
+
+            return View(vmSalesOrder);
+        }
+
+        [HttpPost]
+        public ActionResult DealerSalesOrderSearch(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.CompanyId > 0)
+            {
+                Session["CompanyId"] = vmSalesOrder.CompanyId;
+            }
+
+            vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
+            vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
+            return RedirectToAction(nameof(DealerSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+
+        }
+
+        #endregion
         #endregion
 
     }

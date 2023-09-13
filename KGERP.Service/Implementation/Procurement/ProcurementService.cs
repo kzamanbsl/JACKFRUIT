@@ -348,28 +348,77 @@ namespace KGERP.Service.Implementation.Procurement
             return v;
         }
 
-        public async Task<List<VMCommonCustomer>> DeportLisByZoneGet(int zoneId)
+        public async Task<List<VMCommonCustomer>> GetDeportLisByZoneId(int zoneId)
         {
-            List<VMCommonCustomer> vmCommonDeportList = new List<VMCommonCustomer>();
+            List<VMCommonCustomer> vmCommonList = new List<VMCommonCustomer>();
             if (zoneId > 0)
             {
-                vmCommonDeportList =
+                vmCommonList =
                await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.ZoneId == zoneId && x.VendorTypeId == (int)Provider.Deport))
                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
                .ToListAsync());
             }
             else
             {
-                vmCommonDeportList =
+                vmCommonList =
                await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.VendorTypeId == (int)Provider.Deport))
                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
                .ToListAsync());
             }
 
-            return vmCommonDeportList;
+            return vmCommonList;
         }
 
-        public async Task<List<VMCommonCustomer>> CustomerLisByZoneGet(int zoneId)
+        public object GetAutoCompleteDealer(string prefix, int companyId)
+        {
+            var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Dealer)
+                     where t1.IsActive && ((t1.Name.StartsWith(prefix)) || (t1.Code.StartsWith(prefix)))
+
+                     select new
+                     {
+                         label = t1.Name + " - " + t1.Propietor,
+                         val = t1.VendorId
+                     }).OrderBy(x => x.label).Take(150).ToList();
+
+            return v;
+        }
+
+        public async Task<List<VMCommonCustomer>> GetDealerLisByZoneId(int zoneId)
+        {
+            List<VMCommonCustomer> vmCommonList = new List<VMCommonCustomer>();
+            if (zoneId > 0)
+            {
+                vmCommonList =
+               await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.ZoneId == zoneId && x.VendorTypeId == (int)Provider.Dealer))
+               .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
+               .ToListAsync());
+            }
+            else
+            {
+                vmCommonList =
+               await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.VendorTypeId == (int)Provider.Dealer))
+               .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Name + " - " + x.Propietor })
+               .ToListAsync());
+            }
+
+            return vmCommonList;
+        }
+        public object GetAutoCompleteCustomer(string prefix, int companyId)
+        {
+            var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Customer)
+                     where t1.IsActive && ((t1.Name.StartsWith(prefix)) || (t1.Code.StartsWith(prefix)))
+
+                     select new
+                     {
+                         label = "[" + t1.Code + "] " + t1.Name,
+                         val = t1.VendorId,
+                         CustomerTypeFK = t1.CustomerTypeFK
+                     }).OrderBy(x => x.label).Take(150).ToList();
+
+            return v;
+        }
+
+        public async Task<List<VMCommonCustomer>> GetCustomerLisByZoneId(int zoneId)
         {
 
             List<VMCommonCustomer> vmCommonCustomerList =
@@ -382,7 +431,7 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonCustomerList;
         }
 
-        public async Task<List<VMCommonCustomer>> CustomerLisBySubZoneGet(int subZoneId)
+        public async Task<List<VMCommonCustomer>> GetCustomerLisBySubZoneId(int subZoneId)
         {
 
             List<VMCommonCustomer> vmCommonCustomerList =
@@ -485,20 +534,7 @@ namespace KGERP.Service.Implementation.Procurement
             return list;
         }
 
-        public object GetAutoCompleteCustomer(string prefix, int companyId)
-        {
-            var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Customer)
-                     where t1.IsActive && ((t1.Name.StartsWith(prefix)) || (t1.Code.StartsWith(prefix)))
-
-                     select new
-                     {
-                         label = "[" + t1.Code + "] " + t1.Name,
-                         val = t1.VendorId,
-                         CustomerTypeFK = t1.CustomerTypeFK
-                     }).OrderBy(x => x.label).Take(150).ToList();
-
-            return v;
-        }
+      
 
         public async Task<List<VMCommonProduct>> ProductCategoryGet()
         {
@@ -4054,7 +4090,7 @@ namespace KGERP.Service.Implementation.Procurement
                                               OrderDate = t1.OrderDate,
                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
-                                              CustomerId = (int)t1.DeportId,
+                                              CustomerId = (int)t2.VendorId,
                                               CommonCustomerName = t2.Name,
                                               CourierNo = t1.CourierNo,
                                               FinalDestination = t1.FinalDestination,
@@ -4091,7 +4127,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
-                                                              CustomerId = t1.DeportId.Value,
+                                                              CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                               OrderNo = t1.OrderNo,
@@ -4117,6 +4153,314 @@ namespace KGERP.Service.Implementation.Procurement
 
         #endregion
 
+        #region Dealer Sales
+
+        public async Task<long> DealerOrderMasterAdd(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            long result = -1;
+
+            var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DealerId > 0 && !x.IsOpening) + 1;
+
+            //var saleSetting = await _db.SaleSettings.FirstOrDefaultAsync(c => c.CompanyId == vmSalesOrderSlave.CompanyFK);
+
+            //var stockInfoId = System.Web.HttpContext.Current.Session["StockInfoId"];
+            var stockInfoId = _db.StockInfoes.FirstOrDefault(c => c.IsDefault && c.IsActive && c.CompanyId == vmSalesOrderSlave.CompanyFK)?.StockInfoId;
+            vmSalesOrderSlave.StockInfoId = stockInfoId != null ? Convert.ToInt32(stockInfoId) : (int?)null;
+
+            // var salePerson = await _db.SubZones.FindAsync(vmSalesOrderSlave.SubZoneFk);
+            var salePersonId = System.Web.HttpContext.Current.Session["Id"];//Employee Id
+
+            string soCid = @"DLO-" +
+                                DateTime.Now.ToString("yy") +
+                                DateTime.Now.ToString("MM") +
+                                DateTime.Now.ToString("dd") + "-" +
+                                soMax.ToString();
+
+
+            OrderMaster orderMaster = new OrderMaster
+            {
+
+                OrderNo = soCid,
+                OrderDate = vmSalesOrderSlave.OrderDate,
+                DealerId = vmSalesOrderSlave.CustomerId, //Deport
+                ExpectedDeliveryDate = vmSalesOrderSlave.ExpectedDeliveryDate,
+                PaymentMethod = vmSalesOrderSlave.CustomerPaymentMethodEnumFK,
+                ProductType = "F",
+                Status = (int)EnumPOStatus.Draft,
+                CourierNo = vmSalesOrderSlave.CourierNo,
+                FinalDestination = vmSalesOrderSlave.FinalDestination,
+                CourierCharge = vmSalesOrderSlave.CourierCharge,
+                CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
+                //StockInfoId = vmSalesOrderSlave.StockInfoId,
+                StockInfoId = stockInfoId,
+                IsActive = true,
+                OrderStatus = "N",
+                //SalePersonId = salePerson?.EmployeeId ?? null,
+                SalePersonId = (long?)salePersonId,
+                Remarks = vmSalesOrderSlave.Remarks,
+
+                CompanyId = (int)((vmSalesOrderSlave.CompanyFK ?? 0) > 0 ? vmSalesOrderSlave.CompanyFK : CompanyInfo.CompanyId),
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreateDate = DateTime.Now,
+
+            };
+            _db.OrderMasters.Add(orderMaster);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = orderMaster.OrderMasterId;
+            }
+            return result;
+        }
+
+        public async Task<long> DealerOrderMasterEdit(VMSalesOrder vmSalesOrder)
+        {
+            long result = -1;
+            OrderMaster orderMaster = await _db.OrderMasters.FindAsync(vmSalesOrder.OrderMasterId);
+
+            orderMaster.OrderDate = vmSalesOrder.OrderDate;
+            orderMaster.DealerId = vmSalesOrder.CustomerId;
+            orderMaster.ExpectedDeliveryDate = vmSalesOrder.ExpectedDeliveryDate;
+            orderMaster.PaymentMethod = vmSalesOrder.CustomerPaymentMethodEnumFK;
+            orderMaster.Remarks = vmSalesOrder.Remarks;
+
+            orderMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            orderMaster.ModifiedDate = DateTime.Now;
+
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = vmSalesOrder.OrderMasterId;
+            }
+
+            return result;
+        }
+
+        public async Task<long> DealerOrderDetailAdd(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            long dateTime = DateTime.Now.Ticks;
+            long result = -1;
+
+            OrderDetail orderDetail = new OrderDetail
+            {
+                OrderMasterId = vmSalesOrderSlave.OrderMasterId,
+                ProductId = vmSalesOrderSlave.FProductId,
+                Qty = vmSalesOrderSlave.Qty,
+                UnitPrice = vmSalesOrderSlave.UnitPrice,
+                Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
+                Comsumption = vmSalesOrderSlave.Consumption,
+                PackQuantity = vmSalesOrderSlave.PackQuantity,
+                DiscountUnit = vmSalesOrderSlave.ProductDiscountUnit,
+                //DiscountAmount = (Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit),
+                //DiscountRate = ((Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit) * 100) / Convert.ToDecimal((vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice)),
+                DiscountRate = vmSalesOrderSlave.DiscountRate,
+                DiscountAmount = vmSalesOrderSlave.DiscountAmount,
+                StyleNo = Convert.ToString(dateTime),
+                IsActive = true,
+
+                CompanyId = vmSalesOrderSlave.CompanyFK,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreateDate = DateTime.Now,
+
+            };
+
+            _db.OrderDetails.Add(orderDetail);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = orderDetail.OrderDetailId;
+            }
+            return result;
+        }
+
+        public async Task<int> DealerOrderDetailEdit(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            var result = -1;
+
+            OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
+
+            model.ProductId = vmSalesOrderSlave.FProductId;
+            model.Qty = vmSalesOrderSlave.Qty;
+            model.UnitPrice = vmSalesOrderSlave.UnitPrice;
+            model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
+            model.Comsumption = vmSalesOrderSlave.Consumption;
+            model.PackQuantity = vmSalesOrderSlave.PackQuantity;
+
+            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            model.ModifedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = vmSalesOrderSlave.ID;
+            }
+
+            return result;
+        }
+
+        public async Task<VMSalesOrderSlave> GetDealerSalesOrderDetails(int companyId, int orderMasterId)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+            vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
+                                                      join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
+                                                      join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
+                                                      join t4 in _db.Regions on t2.RegionId equals t4.RegionId
+                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
+                                                      join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
+                                                      from t6 in t6_Join.DefaultIfEmpty()
+
+                                                      select new VMSalesOrderSlave
+                                                      {
+                                                          Warehouse = t6 != null ? t6.Name : "",
+                                                          Propietor = t2.Propietor,
+                                                          CreatedDate = t1.CreateDate,
+                                                          ComLogo = t3.CompanyLogo,
+                                                          CustomerPhone = t2.Phone,
+                                                          CustomerAddress = t2.Address,
+                                                          CustomerEmail = t2.Email,
+                                                          ContactPerson = t2.ContactName,
+                                                          CompanyFK = t1.CompanyId,
+                                                          CompanyId = t1.CompanyId,
+                                                          OrderMasterId = t1.OrderMasterId,
+                                                          CreditLimit = t2.CreditLimit,
+                                                          OrderNo = t1.OrderNo,
+                                                          Status = t1.Status,
+                                                          OrderDate = t1.OrderDate,
+                                                          CreatedBy = t1.CreatedBy,
+                                                          CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                          ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                          CommonCustomerName = t2.Name,
+                                                          CompanyName = t3.Name,
+                                                          CompanyAddress = t3.Address,
+                                                          CompanyEmail = t3.Email,
+                                                          CompanyPhone = t3.Phone,
+                                                          ZoneName = t5.Name,
+                                                          ZoneIncharge = t5.ZoneIncharge,
+                                                          RegionName = t4.Name,
+                                                          RegionIncharge = t4.RegionIncharge,
+                                                          RegionInchargeMobile = t4.MobileOffice,
+                                                          CommonCustomerCode = t2.Code,
+                                                          CustomerTypeFk = t2.CustomerTypeFK,
+                                                          CustomerId = t2.VendorId,
+                                                          CourierCharge = t1.CourierCharge,
+                                                          FinalDestination = t1.FinalDestination,
+                                                          CourierNo = t1.CourierNo,
+                                                          DiscountAmount = t1.DiscountAmount ?? 0,
+                                                          DiscountRate = t1.DiscountRate ?? 0,
+                                                          TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
+                                                          Remarks = t1.Remarks,
+
+                                                      }).FirstOrDefault());
+
+            vmSalesOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == orderMasterId)
+                                                                    join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
+                                                                    join t4 in _db.ProductSubCategories.Where(x => x.IsActive) on t3.ProductSubCategoryId equals t4.ProductSubCategoryId
+                                                                    join t5 in _db.ProductCategories.Where(x => x.IsActive) on t4.ProductCategoryId equals t5.ProductCategoryId
+                                                                    join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
+                                                                    select new VMSalesOrderSlave
+                                                                    {
+                                                                        ProductName = t4.Name + " " + t3.ProductName,
+                                                                        ProductCategoryName = t5.Name,
+                                                                        OrderMasterId = t1.OrderMasterId,
+                                                                        OrderDetailId = t1.OrderDetailId,
+                                                                        Qty = t1.Qty,
+                                                                        UnitPrice = t1.UnitPrice,
+                                                                        UnitName = t6.Name,
+                                                                        TotalAmount = t1.Amount,
+                                                                        PackQuantity = t1.PackQuantity,
+                                                                        Consumption = t1.Comsumption,
+                                                                        PromotionalOfferId = t1.PromotionalOfferId,
+                                                                        ProductCategoryId = t5.ProductCategoryId,
+                                                                        ProductSubCategoryId = t4.ProductSubCategoryId,
+                                                                        FProductId = t3.ProductId,
+                                                                        DiscountRate = t1.DiscountRate,
+                                                                        ProductDiscountUnit = t1.DiscountUnit,
+                                                                        ProductDiscountTotal = t1.DiscountAmount,
+                                                                    }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
+
+
+
+
+
+            vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
+
+            return vmSalesOrderSlave;
+        }
+
+        public async Task<VMSalesOrder> GetDealerOrderMasterById(int orderMasterId)
+        {
+
+            var v = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.DealerId > 0)
+                                          join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
+                                          join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
+
+                                          select new VMSalesOrder
+                                          {
+                                              OrderMasterId = t1.OrderMasterId,
+                                              OrderNo = t1.OrderNo,
+                                              Status = t1.Status,
+                                              OrderDate = t1.OrderDate,
+                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                              CustomerId = t2.VendorId,
+                                              CommonCustomerName = t2.Name,
+                                              CourierNo = t1.CourierNo,
+                                              FinalDestination = t1.FinalDestination,
+                                              CourierCharge = t1.CourierCharge,
+                                              Remarks = t1.Remarks,
+
+                                              CompanyFK = t1.CompanyId,
+                                              CompanyName = t3.Name,
+                                              CompanyAddress = t3.Address,
+                                              CompanyEmail = t3.Email,
+                                              CompanyPhone = t3.Phone,
+
+                                              CreatedBy = t1.CreatedBy,
+                                              CreatedDate = t1.CreateDate
+
+                                          }).FirstOrDefault());
+            return v;
+        }
+
+        public async Task<VMSalesOrder> GetDealerOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder.CompanyFK = companyId;
+
+            vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && x.DealerId > 0
+                                                          && x.OrderDate >= fromDate && x.OrderDate <= toDate
+                                                          && !x.IsOpening
+                                                          && x.Status < (int)EnumPOStatus.Closed)
+
+                                                          join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
+
+                                                          select new VMSalesOrder
+                                                          {
+                                                              OrderMasterId = t1.OrderMasterId,
+                                                              CustomerId = t2.VendorId,
+                                                              CommonCustomerName = t2.Name,
+                                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                              OrderNo = t1.OrderNo,
+                                                              OrderDate = t1.OrderDate,
+                                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                              CourierNo = t1.CourierNo,
+                                                              FinalDestination = t1.FinalDestination,
+                                                              CourierCharge = t1.CourierCharge,
+                                                              Status = t1.Status,
+
+                                                              CompanyFK = t1.CompanyId,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreatedBy = t1.CreatedBy,
+
+                                                          }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+            if (vStatus != -1 && vStatus != null)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
+            }
+            return vmSalesOrder;
+        }
+
+
+        #endregion
 
         #endregion
     }

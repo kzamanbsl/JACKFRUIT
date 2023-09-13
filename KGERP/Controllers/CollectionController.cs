@@ -99,7 +99,7 @@ namespace KGERP.Controllers
                 vmPayment.CustomerId = vendor.VendorId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
               
-                var commonCustomers = await Task.Run(() => _procurementService.CustomerLisBySubZoneGet(vendor.SubZoneId ?? 0));
+                var commonCustomers = await Task.Run(() => _procurementService.GetCustomerLisBySubZoneId(vendor.SubZoneId ?? 0));
                 var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
                 vmPayment.CustomerList= new SelectList(customerSelectList, "Value", "Text");
 
