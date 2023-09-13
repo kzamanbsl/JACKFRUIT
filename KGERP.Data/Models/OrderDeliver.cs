@@ -46,11 +46,11 @@ namespace KGERP.Data.Models
         public bool IsSubmitted { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual OrderMaster OrderMaster { get; set; }
         public virtual StockInfo StockInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDeliverDetail> OrderDeliverDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
+        public virtual OrderMaster OrderMaster { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="71">
+      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="67">
         <EntityTypeShape EntityType="ERPModel.AdminPolicy" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdminSetUp" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdvanceSalary" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="false" />
@@ -485,22 +485,12 @@
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
         <EntityTypeShape EntityType="ERPModel.Clients_BasicInfo1" Width="1.5" PointX="22.375" PointY="12.75" />
         <EntityTypeShape EntityType="ERPModel.OrderDetail" Width="1.5" PointX="66.125" PointY="25.75" />
-        <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="27.125" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
         <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_StockInfo" />
         <EntityTypeShape EntityType="ERPModel.SalaryInformatrion" Width="1.5" PointX="51.125" PointY="40.875" />
         <EntityTypeShape EntityType="ERPModel.OrderDeliver" Width="1.5" PointX="66.125" PointY="38" />
         <EntityTypeShape EntityType="ERPModel.OrderDeliverDetail" Width="1.5" PointX="68.375" PointY="29.75" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliver_Company" />
         <AssociationConnector Association="ERPModel.FK_SalaryInformatrion_Employee" />
-        <AssociationConnector Association="ERPModel.FK_EMI_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliver_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_OrderDeliver" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_Product" />
@@ -512,6 +502,15 @@
         <AssociationConnector Association="ERPModel.FK_SaleReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
+        <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="27" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
+        <AssociationConnector Association="ERPModel.FK_EMI_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -211,6 +211,13 @@
         LC
     }
 
+    public enum StockInfoTypeEnum
+    {
+        Company = 1,
+        Deport,
+        Dealer,
+        Customer
+    }
 
     public enum PaymentMethod
     {

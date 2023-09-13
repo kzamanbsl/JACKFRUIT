@@ -4130,6 +4130,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a pr
           <Property Name="OrderMonthYear" Type="nvarchar" MaxLength="6" />
           <Property Name="OrderNo" Type="varchar" MaxLength="20" />
           <Property Name="SalePersonId" Type="bigint" />
+          <Property Name="StockInfoTypeId" Type="int" />
           <Property Name="StockInfoId" Type="int" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="250" />
           <Property Name="OrderStatus" Type="varchar" MaxLength="50" />
@@ -7147,18 +7148,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderMaster_StockInfo">
-          <End Role="StockInfo" Type="Self.StockInfo" Multiplicity="0..1" />
-          <End Role="OrderMaster" Type="Self.OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Payment_PaymentMode">
           <End Role="PaymentMode" Type="Self.PaymentMode" Multiplicity="0..1" />
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
@@ -9369,10 +9358,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Employee" EntitySet="Employee" />
             <End Role="OrderMaster" EntitySet="OrderMaster" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_StockInfo" Association="Self.FK_OrderMaster_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfo" />
-            <End Role="OrderMaster" EntitySet="OrderMaster" />
-          </AssociationSet>
           <AssociationSet Name="FK_Payment_PaymentMode" Association="Self.FK_Payment_PaymentMode">
             <End Role="PaymentMode" EntitySet="PaymentMode" />
             <End Role="Payment" EntitySet="Payment" />
@@ -10799,38 +10784,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           </AssociationSet>
           <EntitySet Name="Clients_BasicInfo1" EntityType="ERPModel.Clients_BasicInfo1" />
           <EntitySet Name="OrderDetails" EntityType="ERPModel.OrderDetail" />
-          <EntitySet Name="OrderMasters" EntityType="ERPModel.OrderMaster" />
-          <AssociationSet Name="FK_OrderMaster_Company" Association="ERPModel.FK_OrderMaster_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_Employee" Association="ERPModel.FK_OrderMaster_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_OrderMaster" Association="ERPModel.FK_OrderDetail_OrderMaster">
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderDetail_Product" Association="ERPModel.FK_OrderDetail_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_Customer" Association="ERPModel.FK_OrderMaster_Customer">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_Dealer" Association="ERPModel.FK_OrderMaster_Dealer">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_Deport" Association="ERPModel.FK_OrderMaster_Deport">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderMaster_StockInfo" Association="ERPModel.FK_OrderMaster_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
           </AssociationSet>
           <EntitySet Name="SalaryInformatrions" EntityType="ERPModel.SalaryInformatrion" />
           <EntitySet Name="OrderDelivers" EntityType="ERPModel.OrderDeliver" />
@@ -10842,14 +10798,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_SalaryInformatrion_Employee" Association="ERPModel.FK_SalaryInformatrion_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="SalaryInformatrion" EntitySet="SalaryInformatrions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EMI_OrderMaster" Association="ERPModel.FK_EMI_OrderMaster">
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-            <End Role="EMI" EntitySet="EMIs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDeliver_OrderMaster" Association="ERPModel.FK_OrderDeliver_OrderMaster">
-            <End Role="OrderMaster" EntitySet="OrderMasters" />
-            <End Role="OrderDeliver" EntitySet="OrderDelivers" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderDeliver_StockInfo" Association="ERPModel.FK_OrderDeliver_StockInfo">
             <End Role="StockInfo" EntitySet="StockInfoes" />
@@ -10888,6 +10836,39 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_SaleReturnDetail_SaleReturn" Association="ERPModel.FK_SaleReturnDetail_SaleReturn">
             <End Role="SaleReturn" EntitySet="SaleReturns" />
             <End Role="SaleReturnDetail" EntitySet="SaleReturnDetails" />
+          </AssociationSet>
+          <EntitySet Name="OrderMasters" EntityType="ERPModel.OrderMaster" />
+          <AssociationSet Name="FK_OrderMaster_Company" Association="ERPModel.FK_OrderMaster_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMaster_Employee" Association="ERPModel.FK_OrderMaster_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMI_OrderMaster" Association="ERPModel.FK_EMI_OrderMaster">
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+            <End Role="EMI" EntitySet="EMIs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDeliver_OrderMaster" Association="ERPModel.FK_OrderDeliver_OrderMaster">
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+            <End Role="OrderDeliver" EntitySet="OrderDelivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_OrderMaster" Association="ERPModel.FK_OrderDetail_OrderMaster">
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMaster_Customer" Association="ERPModel.FK_OrderMaster_Customer">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMaster_Dealer" Association="ERPModel.FK_OrderMaster_Dealer">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMaster_Deport" Association="ERPModel.FK_OrderMaster_Deport">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -16608,8 +16589,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Company" FromRole="Company" ToRole="Area" />
           <NavigationProperty Name="Departments" Relationship="ERPModel.FK_Department_Company" FromRole="Company" ToRole="Department" />
           <NavigationProperty Name="StockInfoes" Relationship="ERPModel.FK_StockInfo_Company" FromRole="Company" ToRole="StockInfo" />
-          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Company" FromRole="Company" ToRole="OrderMaster" />
           <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_Company" FromRole="Company" ToRole="OrderDeliver" />
+          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Company" FromRole="Company" ToRole="OrderMaster" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -16935,9 +16916,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Department" Relationship="ERPModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Designation" Relationship="ERPModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Employee_StockInfo" FromRole="Employee" ToRole="StockInfo" />
-          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Employee" FromRole="Employee" ToRole="OrderMaster" />
           <NavigationProperty Name="SalaryInformatrions" Relationship="ERPModel.FK_SalaryInformatrion_Employee" FromRole="Employee" ToRole="SalaryInformatrion" />
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Employee" FromRole="Employee" ToRole="SaleReturn" />
+          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Employee" FromRole="Employee" ToRole="OrderMaster" />
         </EntityType>
         <Association Name="FK_AssetAssign_Employee">
           <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
@@ -18626,11 +18607,11 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Vendor" ToRole="Zone" />
           <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
+          <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
           <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Customer" FromRole="Vendor" ToRole="OrderMaster" />
           <NavigationProperty Name="OrderMasters1" Relationship="ERPModel.FK_OrderMaster_Dealer" FromRole="Vendor" ToRole="OrderMaster" />
           <NavigationProperty Name="OrderMasters2" Relationship="ERPModel.FK_OrderMaster_Deport" FromRole="Vendor" ToRole="OrderMaster" />
-          <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
-        </EntityType>
+          </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
           <End Type="ERPModel.MonthlyTarget" Role="MonthlyTarget" Multiplicity="*" />
@@ -18887,7 +18868,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <NavigationProperty Name="StockTransfers" Relationship="ERPModel.FK_StockTransfer_StockInfo" FromRole="StockInfo" ToRole="StockTransfer" />
           <NavigationProperty Name="StockTransfers1" Relationship="ERPModel.FK_StockTransfer_StockInfo1" FromRole="StockInfo" ToRole="StockTransfer" />
           <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_StockInfo" FromRole="StockInfo" ToRole="Store" />
-          <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_StockInfo" FromRole="StockInfo" ToRole="OrderMaster" />
           <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_StockInfo" FromRole="StockInfo" ToRole="OrderDeliver" />
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_StockInfo" FromRole="StockInfo" ToRole="SaleReturn" />
         </EntityType>
@@ -19163,91 +19143,9 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="DiscountUnit" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="DiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="PromotionalOfferId" Type="Int32" />
-          <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderDetail" ToRole="OrderMaster" />
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+          <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderDetail" ToRole="OrderMaster" />
         </EntityType>
-        <EntityType Name="OrderMaster">
-          <Key>
-            <PropertyRef Name="OrderMasterId" />
-          </Key>
-          <Property Name="OrderMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="DemandId" Type="Int32" />
-          <Property Name="ProductType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="DeportId" Type="Int32" />
-          <Property Name="DealerId" Type="Int32" />
-          <Property Name="CustomerId" Type="Int32" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="OrderMonthYear" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="OrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="SalePersonId" Type="Int64" />
-          <Property Name="StockInfoId" Type="Int32" />
-          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="GrandTotal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiscountRate" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DiscountAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IsCash" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="PaymentMethod" Type="Int32" Nullable="false" />
-          <Property Name="CourierNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FinalDestination" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CourierCharge" Type="Double" Nullable="false" />
-          <Property Name="IsOpening" Type="Boolean" Nullable="false" />
-          <Property Name="CurrentPayable" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_OrderMaster_Company" FromRole="OrderMaster" ToRole="Company" />
-          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_OrderMaster_Employee" FromRole="OrderMaster" ToRole="Employee" />
-          <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderMaster" ToRole="OrderDetail" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_OrderMaster_Customer" FromRole="OrderMaster" ToRole="Vendor" />
-          <NavigationProperty Name="Vendor1" Relationship="ERPModel.FK_OrderMaster_Dealer" FromRole="OrderMaster" ToRole="Vendor" />
-          <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_OrderMaster_Deport" FromRole="OrderMaster" ToRole="Vendor" />
-          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_OrderMaster_StockInfo" FromRole="OrderMaster" ToRole="StockInfo" />
-          <NavigationProperty Name="EMIs" Relationship="ERPModel.FK_EMI_OrderMaster" FromRole="OrderMaster" ToRole="EMI" />
-          <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_OrderMaster" FromRole="OrderMaster" ToRole="OrderDeliver" />
-        </EntityType>
-        <Association Name="FK_OrderMaster_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderMaster_Employee">
-          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="SalePersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDetail_OrderMaster">
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="1" />
-          <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderMaster">
-              <PropertyRef Name="OrderMasterId" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="OrderMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderDetail_Product">
           <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
           <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
@@ -19257,54 +19155,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="OrderDetail">
               <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderMaster_Customer">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderMaster_Dealer">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="DealerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderMaster_Deport">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="DeportId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderMaster_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="OrderMaster">
-              <PropertyRef Name="StockInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19351,10 +19201,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="ModifedDate" Type="DateTime" Precision="3" />
           <Property Name="IsSubmitted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_OrderDeliver_Company" FromRole="OrderDeliver" ToRole="Company" />
-          <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDeliver_OrderMaster" FromRole="OrderDeliver" ToRole="OrderMaster" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_OrderDeliver_StockInfo" FromRole="OrderDeliver" ToRole="StockInfo" />
           <NavigationProperty Name="OrderDeliverDetails" Relationship="ERPModel.FK_OrderDeliverDetail_OrderDeliver" FromRole="OrderDeliver" ToRole="OrderDeliverDetail" />
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_OrderDeliver" FromRole="OrderDeliver" ToRole="SaleReturn" />
+          <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDeliver_OrderMaster" FromRole="OrderDeliver" ToRole="OrderMaster" />
         </EntityType>
         <EntityType Name="OrderDeliverDetail">
           <Key>
@@ -19415,30 +19265,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="SalaryInformatrion">
               <PropertyRef Name="EmpId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EMI_OrderMaster">
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="0..1" />
-          <End Type="ERPModel.EMI" Role="EMI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderMaster">
-              <PropertyRef Name="OrderMasterId" />
-            </Principal>
-            <Dependent Role="EMI">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDeliver_OrderMaster">
-          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="0..1" />
-          <End Type="ERPModel.OrderDeliver" Role="OrderDeliver" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderMaster">
-              <PropertyRef Name="OrderMasterId" />
-            </Principal>
-            <Dependent Role="OrderDeliver">
-              <PropertyRef Name="OrderMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19593,6 +19419,148 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="SaleReturnDetail">
               <PropertyRef Name="SaleReturnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderMaster">
+          <Key>
+            <PropertyRef Name="OrderMasterId" />
+          </Key>
+          <Property Name="OrderMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="DemandId" Type="Int32" />
+          <Property Name="ProductType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DeportId" Type="Int32" />
+          <Property Name="DealerId" Type="Int32" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderMonthYear" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="OrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SalePersonId" Type="Int64" />
+          <Property Name="StockInfoTypeId" Type="Int32" />
+          <Property Name="StockInfoId" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GrandTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountRate" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsCash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="PaymentMethod" Type="Int32" Nullable="false" />
+          <Property Name="CourierNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FinalDestination" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CourierCharge" Type="Double" Nullable="false" />
+          <Property Name="IsOpening" Type="Boolean" Nullable="false" />
+          <Property Name="CurrentPayable" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_OrderMaster_Company" FromRole="OrderMaster" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_OrderMaster_Employee" FromRole="OrderMaster" ToRole="Employee" />
+          <NavigationProperty Name="EMIs" Relationship="ERPModel.FK_EMI_OrderMaster" FromRole="OrderMaster" ToRole="EMI" />
+          <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_OrderMaster" FromRole="OrderMaster" ToRole="OrderDeliver" />
+          <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderMaster" ToRole="OrderDetail" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_OrderMaster_Customer" FromRole="OrderMaster" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor1" Relationship="ERPModel.FK_OrderMaster_Dealer" FromRole="OrderMaster" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_OrderMaster_Deport" FromRole="OrderMaster" ToRole="Vendor" />
+        </EntityType>
+        <Association Name="FK_OrderMaster_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="OrderMaster">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMaster_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderMaster">
+              <PropertyRef Name="SalePersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMI_OrderMaster">
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="0..1" />
+          <End Type="ERPModel.EMI" Role="EMI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderMaster">
+              <PropertyRef Name="OrderMasterId" />
+            </Principal>
+            <Dependent Role="EMI">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDeliver_OrderMaster">
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="0..1" />
+          <End Type="ERPModel.OrderDeliver" Role="OrderDeliver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderMaster">
+              <PropertyRef Name="OrderMasterId" />
+            </Principal>
+            <Dependent Role="OrderDeliver">
+              <PropertyRef Name="OrderMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_OrderMaster">
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="1" />
+          <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderMaster">
+              <PropertyRef Name="OrderMasterId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMaster_Customer">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="OrderMaster">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMaster_Dealer">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="OrderMaster">
+              <PropertyRef Name="DealerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMaster_Deport">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="OrderMaster">
+              <PropertyRef Name="DeportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -24986,44 +24954,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderMasters">
-            <EntityTypeMapping TypeName="ERPModel.OrderMaster">
-              <MappingFragment StoreEntitySet="OrderMaster">
-                <ScalarProperty Name="CurrentPayable" ColumnName="CurrentPayable" />
-                <ScalarProperty Name="IsOpening" ColumnName="IsOpening" />
-                <ScalarProperty Name="CourierCharge" ColumnName="CourierCharge" />
-                <ScalarProperty Name="FinalDestination" ColumnName="FinalDestination" />
-                <ScalarProperty Name="CourierNo" ColumnName="CourierNo" />
-                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
-                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
-                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
-                <ScalarProperty Name="SalePersonId" ColumnName="SalePersonId" />
-                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-                <ScalarProperty Name="OrderMonthYear" ColumnName="OrderMonthYear" />
-                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="DealerId" ColumnName="DealerId" />
-                <ScalarProperty Name="DeportId" ColumnName="DeportId" />
-                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-                <ScalarProperty Name="DemandId" ColumnName="DemandId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SalaryInformatrions">
             <EntityTypeMapping TypeName="ERPModel.SalaryInformatrion">
               <MappingFragment StoreEntitySet="SalaryInformatrion">
@@ -25143,6 +25073,45 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="SaleReturnId" ColumnName="SaleReturnId" />
                 <ScalarProperty Name="SaleReturnDetailId" ColumnName="SaleReturnDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderMasters">
+            <EntityTypeMapping TypeName="ERPModel.OrderMaster">
+              <MappingFragment StoreEntitySet="OrderMaster">
+                <ScalarProperty Name="CurrentPayable" ColumnName="CurrentPayable" />
+                <ScalarProperty Name="IsOpening" ColumnName="IsOpening" />
+                <ScalarProperty Name="CourierCharge" ColumnName="CourierCharge" />
+                <ScalarProperty Name="FinalDestination" ColumnName="FinalDestination" />
+                <ScalarProperty Name="CourierNo" ColumnName="CourierNo" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
+                <ScalarProperty Name="StockInfoTypeId" ColumnName="StockInfoTypeId" />
+                <ScalarProperty Name="SalePersonId" ColumnName="SalePersonId" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="OrderMonthYear" ColumnName="OrderMonthYear" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="DealerId" ColumnName="DealerId" />
+                <ScalarProperty Name="DeportId" ColumnName="DeportId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="DemandId" ColumnName="DemandId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

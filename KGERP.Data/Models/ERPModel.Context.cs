@@ -288,12 +288,12 @@ namespace KGERP.Data.Models
         public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         public virtual DbSet<Clients_BasicInfo1> Clients_BasicInfo1 { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<OrderMaster> OrderMasters { get; set; }
         public virtual DbSet<SalaryInformatrion> SalaryInformatrions { get; set; }
         public virtual DbSet<OrderDeliver> OrderDelivers { get; set; }
         public virtual DbSet<OrderDeliverDetail> OrderDeliverDetails { get; set; }
         public virtual DbSet<SaleReturn> SaleReturns { get; set; }
         public virtual DbSet<SaleReturnDetail> SaleReturnDetails { get; set; }
+        public virtual DbSet<OrderMaster> OrderMasters { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

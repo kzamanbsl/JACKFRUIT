@@ -17,9 +17,9 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OrderMaster()
         {
-            this.OrderDetails = new HashSet<OrderDetail>();
             this.EMIs = new HashSet<EMI>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
+            this.OrderDetails = new HashSet<OrderDetail>();
         }
     
         public long OrderMasterId { get; set; }
@@ -34,6 +34,7 @@ namespace KGERP.Data.Models
         public string OrderMonthYear { get; set; }
         public string OrderNo { get; set; }
         public Nullable<long> SalePersonId { get; set; }
+        public Nullable<int> StockInfoTypeId { get; set; }
         public Nullable<int> StockInfoId { get; set; }
         public string Remarks { get; set; }
         public string OrderStatus { get; set; }
@@ -58,14 +59,13 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EMI> EMIs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDeliver> OrderDelivers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Vendor Vendor { get; set; }
         public virtual Vendor Vendor1 { get; set; }
         public virtual Vendor Vendor2 { get; set; }
-        public virtual StockInfo StockInfo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EMI> EMIs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDeliver> OrderDelivers { get; set; }
     }
 }

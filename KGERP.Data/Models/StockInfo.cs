@@ -23,7 +23,6 @@ namespace KGERP.Data.Models
             this.StockTransfers = new HashSet<StockTransfer>();
             this.StockTransfers1 = new HashSet<StockTransfer>();
             this.Stores = new HashSet<Store>();
-            this.OrderMasters = new HashSet<OrderMaster>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
             this.SaleReturns = new HashSet<SaleReturn>();
         }
@@ -54,8 +53,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<StockTransfer> StockTransfers1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderMaster> OrderMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDeliver> OrderDelivers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

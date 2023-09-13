@@ -42,7 +42,7 @@ namespace KGERP.Data.Models
         public decimal DiscountAmount { get; set; }
         public Nullable<int> PromotionalOfferId { get; set; }
     
-        public virtual OrderMaster OrderMaster { get; set; }
         public virtual Product Product { get; set; }
+        public virtual OrderMaster OrderMaster { get; set; }
     }
 }

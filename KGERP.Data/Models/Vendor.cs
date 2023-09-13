@@ -27,10 +27,10 @@ namespace KGERP.Data.Models
             this.Vendor1 = new HashSet<Vendor>();
             this.VendorOffers = new HashSet<VendorOffer>();
             this.VendorOpenings = new HashSet<VendorOpening>();
+            this.SaleReturns = new HashSet<SaleReturn>();
             this.OrderMasters = new HashSet<OrderMaster>();
             this.OrderMasters1 = new HashSet<OrderMaster>();
             this.OrderMasters2 = new HashSet<OrderMaster>();
-            this.SaleReturns = new HashSet<SaleReturn>();
         }
     
         public int VendorId { get; set; }
@@ -127,12 +127,12 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
     }
 }

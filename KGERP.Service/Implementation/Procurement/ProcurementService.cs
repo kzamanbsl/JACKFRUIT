@@ -5,6 +5,7 @@ using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -534,7 +535,7 @@ namespace KGERP.Service.Implementation.Procurement
             return list;
         }
 
-      
+
 
         public async Task<List<VMCommonProduct>> ProductCategoryGet()
         {
@@ -562,7 +563,7 @@ namespace KGERP.Service.Implementation.Procurement
         public VMProductStock GetFoodProductStockByProductId(int companyId, int productId, int stockInfoId)
         {
             var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
-            if (stockInfoId<=0 && stockInfo?.StockInfoId>0)
+            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
             {
                 stockInfoId = stockInfo.StockInfoId;
             }
@@ -3882,8 +3883,8 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                //StockInfoId = vmSalesOrderSlave.StockInfoId,
-                StockInfoId = stockInfoId,
+                StockInfoTypeId = (int)StockInfoTypeEnum.Company,
+                StockInfoId = stockInfoId ?? 0,
                 IsActive = true,
                 OrderStatus = "N",
                 //SalePersonId = salePerson?.EmployeeId ?? null,
@@ -3895,6 +3896,7 @@ namespace KGERP.Service.Implementation.Procurement
                 CreateDate = DateTime.Now,
 
             };
+
             _db.OrderMasters.Add(orderMaster);
             if (await _db.SaveChangesAsync() > 0)
             {
@@ -3999,37 +4001,13 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                       select new VMSalesOrderSlave
                                                       {
-                                                          Warehouse = t6 != null ? t6.Name : "",
-                                                          Propietor = t2.Propietor,
-                                                          CreatedDate = t1.CreateDate,
-                                                          ComLogo = t3.CompanyLogo,
-                                                          CustomerPhone = t2.Phone,
-                                                          CustomerAddress = t2.Address,
-                                                          CustomerEmail = t2.Email,
-                                                          ContactPerson = t2.ContactName,
-                                                          CompanyFK = t1.CompanyId,
-                                                          CompanyId = t1.CompanyId,
                                                           OrderMasterId = t1.OrderMasterId,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
                                                           OrderDate = t1.OrderDate,
-                                                          CreatedBy = t1.CreatedBy,
                                                           CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                           ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                          CommonCustomerName = t2.Name,
-                                                          CompanyName = t3.Name,
-                                                          CompanyAddress = t3.Address,
-                                                          CompanyEmail = t3.Email,
-                                                          CompanyPhone = t3.Phone,
-                                                          ZoneName = t5.Name,
-                                                          ZoneIncharge = t5.ZoneIncharge,
-                                                          RegionName = t4.Name,
-                                                          RegionIncharge = t4.RegionIncharge,
-                                                          RegionInchargeMobile = t4.MobileOffice,
-                                                          CommonCustomerCode = t2.Code,
-                                                          CustomerTypeFk = t2.CustomerTypeFK,
-                                                          CustomerId = t2.VendorId,
                                                           CourierCharge = t1.CourierCharge,
                                                           FinalDestination = t1.FinalDestination,
                                                           CourierNo = t1.CourierNo,
@@ -4037,6 +4015,35 @@ namespace KGERP.Service.Implementation.Procurement
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
                                                           Remarks = t1.Remarks,
+
+                                                          ZoneName = t5.Name,
+                                                          ZoneIncharge = t5.ZoneIncharge,
+                                                          RegionName = t4.Name,
+                                                          RegionIncharge = t4.RegionIncharge,
+                                                          RegionInchargeMobile = t4.MobileOffice,
+
+                                                          CommonCustomerName = t2.Name,
+                                                          Propietor = t2.Propietor,
+                                                          CustomerPhone = t2.Phone,
+                                                          CustomerAddress = t2.Address,
+                                                          CustomerEmail = t2.Email,
+                                                          ContactPerson = t2.ContactName,
+
+                                                          CommonCustomerCode = t2.Code,
+                                                          CustomerTypeFk = t2.CustomerTypeFK,
+                                                          CustomerId = t2.VendorId,
+                                                          CompanyName = t3.Name,
+                                                          CompanyAddress = t3.Address,
+                                                          CompanyEmail = t3.Email,
+                                                          CompanyPhone = t3.Phone,
+                                                          ComLogo = t3.CompanyLogo,
+                                                          CompanyFK = t1.CompanyId,
+                                                          CompanyId = t1.CompanyId,
+
+                                                          Warehouse = t6 != null ? t6.Name : "",
+
+                                                          CreatedDate = t1.CreateDate,
+                                                          CreatedBy = t1.CreatedBy,
 
                                                       }).FirstOrDefault());
 
@@ -4065,10 +4072,6 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                     }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
-
-
-
-
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
 
@@ -4162,10 +4165,17 @@ namespace KGERP.Service.Implementation.Procurement
             var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DealerId > 0 && !x.IsOpening) + 1;
 
             //var saleSetting = await _db.SaleSettings.FirstOrDefaultAsync(c => c.CompanyId == vmSalesOrderSlave.CompanyFK);
-
             //var stockInfoId = System.Web.HttpContext.Current.Session["StockInfoId"];
-            var stockInfoId = _db.StockInfoes.FirstOrDefault(c => c.IsDefault && c.IsActive && c.CompanyId == vmSalesOrderSlave.CompanyFK)?.StockInfoId;
-            vmSalesOrderSlave.StockInfoId = stockInfoId != null ? Convert.ToInt32(stockInfoId) : (int?)null;
+
+            var stockInfoId = 0;
+            if (vmSalesOrderSlave.StockInfoTypeId == (int)StockInfoTypeEnum.Company)
+            {
+                stockInfoId = (int)(_db.StockInfoes.FirstOrDefault(c => c.IsDefault && c.IsActive && c.CompanyId == vmSalesOrderSlave.CompanyFK)?.StockInfoId);
+            }
+            else if (vmSalesOrderSlave.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
+            {
+                stockInfoId = (int)vmSalesOrderSlave.StockInfoId;
+            }
 
             // var salePerson = await _db.SubZones.FindAsync(vmSalesOrderSlave.SubZoneFk);
             var salePersonId = System.Web.HttpContext.Current.Session["Id"];//Employee Id
@@ -4179,7 +4189,6 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderMaster orderMaster = new OrderMaster
             {
-
                 OrderNo = soCid,
                 OrderDate = vmSalesOrderSlave.OrderDate,
                 DealerId = vmSalesOrderSlave.CustomerId, //Dealer
@@ -4191,8 +4200,8 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                //StockInfoId = vmSalesOrderSlave.StockInfoId,
-                StockInfoId = stockInfoId,
+                StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId, // Company Warehouse or Deport
+                StockInfoId = stockInfoId, // Company Warehouse or Deport
                 IsActive = true,
                 OrderStatus = "N",
                 //SalePersonId = salePerson?.EmployeeId ?? null,
@@ -4222,6 +4231,8 @@ namespace KGERP.Service.Implementation.Procurement
             orderMaster.ExpectedDeliveryDate = vmSalesOrder.ExpectedDeliveryDate;
             orderMaster.PaymentMethod = vmSalesOrder.CustomerPaymentMethodEnumFK;
             orderMaster.Remarks = vmSalesOrder.Remarks;
+            orderMaster.StockInfoTypeId = vmSalesOrder.StockInfoTypeId;
+            orderMaster.StockInfoId = (int)vmSalesOrder.StockInfoId;
 
             orderMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             orderMaster.ModifiedDate = DateTime.Now;
@@ -4303,42 +4314,20 @@ namespace KGERP.Service.Implementation.Procurement
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
                                                       join t4 in _db.Regions on t2.RegionId equals t4.RegionId
                                                       join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
-                                                      join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
-                                                      from t6 in t6_Join.DefaultIfEmpty()
+
+                                                      //join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
+                                                      //from t6 in t6_Join.DefaultIfEmpty()
+
+                                                      from t6 in _db.StockInfoes.Where(x => t1.StockInfoTypeId == (int)StockInfoTypeEnum.Company && x.StockInfoId == t1.StockInfoId).DefaultIfEmpty()
+                                                      from t7 in _db.Vendors.Where(x => t1.StockInfoTypeId == (int)StockInfoTypeEnum.Deport && x.VendorId == t1.StockInfoId).DefaultIfEmpty()
 
                                                       select new VMSalesOrderSlave
                                                       {
-                                                          Warehouse = t6 != null ? t6.Name : "",
-                                                          Propietor = t2.Propietor,
-                                                          CreatedDate = t1.CreateDate,
-                                                          ComLogo = t3.CompanyLogo,
-                                                          CustomerPhone = t2.Phone,
-                                                          CustomerAddress = t2.Address,
-                                                          CustomerEmail = t2.Email,
-                                                          ContactPerson = t2.ContactName,
-                                                          CompanyFK = t1.CompanyId,
-                                                          CompanyId = t1.CompanyId,
                                                           OrderMasterId = t1.OrderMasterId,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
                                                           OrderDate = t1.OrderDate,
-                                                          CreatedBy = t1.CreatedBy,
-                                                          CustomerPaymentMethodEnumFK = t1.PaymentMethod,
-                                                          ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                          CommonCustomerName = t2.Name,
-                                                          CompanyName = t3.Name,
-                                                          CompanyAddress = t3.Address,
-                                                          CompanyEmail = t3.Email,
-                                                          CompanyPhone = t3.Phone,
-                                                          ZoneName = t5.Name,
-                                                          ZoneIncharge = t5.ZoneIncharge,
-                                                          RegionName = t4.Name,
-                                                          RegionIncharge = t4.RegionIncharge,
-                                                          RegionInchargeMobile = t4.MobileOffice,
-                                                          CommonCustomerCode = t2.Code,
-                                                          CustomerTypeFk = t2.CustomerTypeFK,
-                                                          CustomerId = t2.VendorId,
                                                           CourierCharge = t1.CourierCharge,
                                                           FinalDestination = t1.FinalDestination,
                                                           CourierNo = t1.CourierNo,
@@ -4346,6 +4335,37 @@ namespace KGERP.Service.Implementation.Procurement
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
                                                           Remarks = t1.Remarks,
+                                                          CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                          ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+
+                                                          CommonCustomerName = t2.Name,
+                                                          CommonCustomerCode = t2.Code,
+                                                          Propietor = t2.Propietor,
+                                                          CustomerTypeFk = t2.CustomerTypeFK,
+                                                          CustomerId = t2.VendorId,
+                                                          CustomerPhone = t2.Phone,
+                                                          CustomerAddress = t2.Address,
+                                                          CustomerEmail = t2.Email,
+                                                          ContactPerson = t2.ContactName,
+
+                                                          ZoneName = t5.Name,
+                                                          ZoneIncharge = t5.ZoneIncharge,
+                                                          RegionName = t4.Name,
+                                                          RegionIncharge = t4.RegionIncharge,
+                                                          RegionInchargeMobile = t4.MobileOffice,
+
+                                                          CompanyFK = t1.CompanyId,
+                                                          CompanyId = t1.CompanyId,
+                                                          ComLogo = t3.CompanyLogo,
+                                                          CompanyName = t3.Name,
+                                                          CompanyAddress = t3.Address,
+                                                          CompanyEmail = t3.Email,
+                                                          CompanyPhone = t3.Phone,
+
+                                                          Warehouse = t6 != null ? t6.Name : t7.Name,
+
+                                                          CreatedBy = t1.CreatedBy,
+                                                          CreatedDate = t1.CreateDate,
 
                                                       }).FirstOrDefault());
 
@@ -4374,10 +4394,6 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                     }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
-
-
-
-
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
 
@@ -4470,12 +4486,6 @@ namespace KGERP.Service.Implementation.Procurement
 
             var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.CustomerId > 0 && !x.IsOpening) + 1;
 
-            //var saleSetting = await _db.SaleSettings.FirstOrDefaultAsync(c => c.CompanyId == vmSalesOrderSlave.CompanyFK);
-
-            //var stockInfoId = System.Web.HttpContext.Current.Session["StockInfoId"];
-            var stockInfoId = _db.StockInfoes.FirstOrDefault(c => c.IsDefault && c.IsActive && c.CompanyId == vmSalesOrderSlave.CompanyFK)?.StockInfoId;
-            vmSalesOrderSlave.StockInfoId = stockInfoId != null ? Convert.ToInt32(stockInfoId) : (int?)null;
-
             // var salePerson = await _db.SubZones.FindAsync(vmSalesOrderSlave.SubZoneFk);
             var salePersonId = System.Web.HttpContext.Current.Session["Id"];//Employee Id
 
@@ -4500,8 +4510,8 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                //StockInfoId = vmSalesOrderSlave.StockInfoId,
-                StockInfoId = stockInfoId,
+                StockInfoTypeId = (int)StockInfoTypeEnum.Dealer,
+                StockInfoId = (int)vmSalesOrderSlave.StockInfoId ,
                 IsActive = true,
                 OrderStatus = "N",
                 //SalePersonId = salePerson?.EmployeeId ?? null,
@@ -4612,42 +4622,18 @@ namespace KGERP.Service.Implementation.Procurement
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
                                                       join t4 in _db.Regions on t2.RegionId equals t4.RegionId
                                                       join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
-                                                      join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
+                                                      join t6 in _db.Vendors on t1.StockInfoId equals t6.VendorId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
 
                                                       select new VMSalesOrderSlave
                                                       {
-                                                          Warehouse = t6 != null ? t6.Name : "",
-                                                          Propietor = t2.Propietor,
-                                                          CreatedDate = t1.CreateDate,
-                                                          ComLogo = t3.CompanyLogo,
-                                                          CustomerPhone = t2.Phone,
-                                                          CustomerAddress = t2.Address,
-                                                          CustomerEmail = t2.Email,
-                                                          ContactPerson = t2.ContactName,
-                                                          CompanyFK = t1.CompanyId,
-                                                          CompanyId = t1.CompanyId,
                                                           OrderMasterId = t1.OrderMasterId,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
                                                           OrderDate = t1.OrderDate,
-                                                          CreatedBy = t1.CreatedBy,
                                                           CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                           ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                          CommonCustomerName = t2.Name,
-                                                          CompanyName = t3.Name,
-                                                          CompanyAddress = t3.Address,
-                                                          CompanyEmail = t3.Email,
-                                                          CompanyPhone = t3.Phone,
-                                                          ZoneName = t5.Name,
-                                                          ZoneIncharge = t5.ZoneIncharge,
-                                                          RegionName = t4.Name,
-                                                          RegionIncharge = t4.RegionIncharge,
-                                                          RegionInchargeMobile = t4.MobileOffice,
-                                                          CommonCustomerCode = t2.Code,
-                                                          CustomerTypeFk = t2.CustomerTypeFK,
-                                                          CustomerId = t2.VendorId,
                                                           CourierCharge = t1.CourierCharge,
                                                           FinalDestination = t1.FinalDestination,
                                                           CourierNo = t1.CourierNo,
@@ -4655,6 +4641,35 @@ namespace KGERP.Service.Implementation.Procurement
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
                                                           Remarks = t1.Remarks,
+
+                                                          ZoneName = t5.Name,
+                                                          ZoneIncharge = t5.ZoneIncharge,
+                                                          RegionName = t4.Name,
+                                                          RegionIncharge = t4.RegionIncharge,
+                                                          RegionInchargeMobile = t4.MobileOffice,
+
+                                                          CommonCustomerName = t2.Name,
+                                                          Propietor = t2.Propietor,
+                                                          CustomerPhone = t2.Phone,
+                                                          CustomerAddress = t2.Address,
+                                                          CustomerEmail = t2.Email,
+                                                          ContactPerson = t2.ContactName,
+
+                                                          CommonCustomerCode = t2.Code,
+                                                          CustomerTypeFk = t2.CustomerTypeFK,
+                                                          CustomerId = t2.VendorId,
+                                                          CompanyName = t3.Name,
+                                                          CompanyAddress = t3.Address,
+                                                          CompanyEmail = t3.Email,
+                                                          CompanyPhone = t3.Phone,
+                                                          ComLogo = t3.CompanyLogo,
+                                                          CompanyFK = t1.CompanyId,
+                                                          CompanyId = t1.CompanyId,
+
+                                                          Warehouse = t6 != null ? t6.Name : "",
+
+                                                          CreatedDate = t1.CreateDate,
+                                                          CreatedBy = t1.CreatedBy,
 
                                                       }).FirstOrDefault());
 
@@ -4683,10 +4698,6 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                     }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
-
-
-
-
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
 
@@ -4761,6 +4772,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CreatedBy = t1.CreatedBy,
 
                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+           
             if (vStatus != -1 && vStatus != null)
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
@@ -4770,6 +4782,7 @@ namespace KGERP.Service.Implementation.Procurement
 
 
         #endregion
+
         #endregion
     }
 }

@@ -218,7 +218,9 @@ namespace KGERP.Service.Implementation.Procurement
         public decimal DiscountAmount { get; set; }
         public int Status { get; set; }
         public string PaymentToHeadGLName { get; set; }
-        public int? StockInfoId { get; set; } //warehouse/Depot/Dealer/Customer
+
+        public int StockInfoTypeId { get; set; } // Come from StockFromTypeEnum
+        public int? StockInfoId { get; set; } //CompanyWarehouse/ Depot/ Dealer/ Customer
 
         public int SalePersonId { get; set; }
         public string CompanyAddress { get; set; }
@@ -275,7 +277,6 @@ namespace KGERP.Service.Implementation.Procurement
         public VendorsPaymentMethodEnum POPaymentMethod { get { return (VendorsPaymentMethodEnum)this.CustomerPaymentMethodEnumFK; } }// = SupplierPaymentMethodEnum.Cash;
         public string POPaymentMethodName { get { return BaseFunctionalities.GetEnumDescription(POPaymentMethod); } }
         public SelectList POPaymentMethodList { get { return new SelectList(BaseFunctionalities.GetEnumList<VendorsPaymentMethodEnum>(), "Value", "Text"); } }
-
 
         public EnumPOStatus EnumStatus { get { return (EnumPOStatus)this.Status; } }
         public string EnumStatusName { get { return BaseFunctionalities.GetEnumDescription(this.EnumStatus); } }
