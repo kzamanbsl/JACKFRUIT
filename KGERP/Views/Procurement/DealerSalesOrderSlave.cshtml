@@ -127,24 +127,6 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Zone:</label>
-                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Dealer:</label>
-                                            @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
                                         <label for="message-text" class="col-form-label">Delivery Date:</label>
                                         <div class="form-group">
                                             <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Expected Delivery Date" autocomplete="off" id="txtDeliveryDate">
@@ -159,9 +141,38 @@
                                             @Html.ValidationMessageFor(model => model.CustomerPaymentMethodEnumFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-4">
+                                <div class="row">
 
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Zone:</label>
+                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Dealer:</label>
+                                            @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Sales From:</label>
+                                            @Html.DropDownListFor(model => model.StockInfoTypeId, Model.EnumStockInfoTypeList as SelectList, "==Select Sales From==", new { id = "ddlStockInfoTypeFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.StockInfoTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3" >
+                                        <div class="form-group" id="deportDivId" style="display:none;">
+                                            <label>Deport:</label>
+                                            @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Deport==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
 
@@ -551,76 +562,108 @@
                 $(this).autocomplete("search");
             });
 
-            $('#txtOrderDate').keypress(function (event) {
+            //$('#txtOrderDate').keypress(function (event) {
 
-                if (event.keyCode == 13) {
-                    $('#ddlPaymentMethodEnumFK').focus();
+            //    if (event.keyCode == 13) {
+            //        $('#ddlPaymentMethodEnumFK').focus();
+            //    }
+            //});
+
+            //$('#ddlCustomerId').change(function (event) {
+
+            //    $('#txtDeliveryDate').focus();
+            //});
+
+            //$('#txtDeliveryDate').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtFinalDestination').focus();
+            //    }
+            //});
+
+            //$('#txtFinalDestination').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtCourierNo').focus();
+            //    }
+            //});
+
+            //$('#txtCourierNo').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtCourierCharge').focus();
+            //        $('#txtCourierCharge').select();
+            //    }
+            //});
+
+            //$('#txtCourierCharge').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtDescription').focus();
+            //    }
+            //});
+
+            //$('#txtDescription').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtProductName').focus();
+            //    }
+            //});
+
+            //$('#txtPackQuantity').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtConsumption').focus();
+            //    }
+            //});
+
+            //$('#txtConsumption').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#txtUnitPrice').focus();
+            //        $('#txtUnitPrice').select();
+
+            //    }
+            //});
+
+            //$('#txtUnitPrice').keypress(function (event) {
+
+            //    if (event.keyCode == 13) {
+            //        $('#soCreateBtn').click();
+            //    }
+            //});
+
+            $("#ddlStockInfoTypeFk").change(function () {
+
+                var stockInfoTypeId = $("#ddlStockInfoTypeFk").val();
+                var zoneFk = $("#ddlZoneFk").val();
+                var deport= @((int)StockInfoTypeEnum.Deport);
+                if (Number(stockInfoTypeId) == deport) {
+
+                document.getElementById('deportDivId').style.display = 'block';
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
+                        datatype: "Json",
+                        data: { zoneId: zoneFk },
+                        success: function (data) {
+
+                            if (data) {
+                                $("#ddlStockInfoId").empty();
+                                $("#ddlStockInfoId").append("<option value=''>==Select Deport==</option>");
+                                $(data).each(function (index, item) {
+                                    $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                });
+
+                            }
+                        }
+                    });
+                } else {
+                    document.getElementById('deportDivId').style.display = 'none';
+                    $("#ddlStockInfoId").val();
                 }
-            });
 
-            $('#ddlCustomerId').change(function (event) {
-
-                $('#txtDeliveryDate').focus();
-            });
-
-            $('#txtDeliveryDate').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtFinalDestination').focus();
-                }
-            });
-
-            $('#txtFinalDestination').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtCourierNo').focus();
-                }
-            });
-
-            $('#txtCourierNo').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtCourierCharge').focus();
-                    $('#txtCourierCharge').select();
-                }
-            });
-
-            $('#txtCourierCharge').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtDescription').focus();
-                }
-            });
-
-            $('#txtDescription').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtProductName').focus();
-                }
-            });
-
-            $('#txtPackQuantity').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtConsumption').focus();
-                }
-            });
-
-            $('#txtConsumption').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#txtUnitPrice').focus();
-                    $('#txtUnitPrice').select();
-
-                }
-            });
-
-            $('#txtUnitPrice').keypress(function (event) {
-
-                if (event.keyCode == 13) {
-                    $('#soCreateBtn').click();
-                }
-            });
+             })
 
             $("#ddlZoneFk").change(function () {
 
@@ -641,8 +684,8 @@
 
                         }
                     }
-            });
-        })
+                });
+            })
 
             $("#ddlPaymentMethodEnumFK").change(function () {
 

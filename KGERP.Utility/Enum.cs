@@ -218,6 +218,11 @@
         Dealer,
         Customer
     }
+    public enum StockInfoTypeDealerDDEnum
+    {
+        Company = 1,
+        Deport
+    }
 
     public enum PaymentMethod
     {

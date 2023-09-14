@@ -281,8 +281,8 @@ namespace KGERP.Service.Implementation.Procurement
         public EnumPOStatus EnumStatus { get { return (EnumPOStatus)this.Status; } }
         public string EnumStatusName { get { return BaseFunctionalities.GetEnumDescription(this.EnumStatus); } }
         public SelectList EnumStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumPOStatus>(), "Value", "Text"); } }
+        public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
-      
     }
 
     public class VMSalesOrderSlave : VMSalesOrder
@@ -305,13 +305,6 @@ namespace KGERP.Service.Implementation.Procurement
         public string ProductCategoryName { get; set; }
         public string ProductSubCategoryName { get; set; }
 
-        public SelectList ProductCategoryList { get; set; } = new SelectList(new List<object>());
-        public SelectList ProductSubCategoryList { get; set; } = new SelectList(new List<object>());
-        public SelectList ProductList { get; set; } = new SelectList(new List<object>());
-        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-
-        public IEnumerable<VMSalesOrderSlave> DataListSlave { get; set; }
         public int ProductSubCategoryId { get; set; }
         public int ProductCategoryId { get; set; }
         public int SubZoneFk { get; set; }
@@ -321,6 +314,14 @@ namespace KGERP.Service.Implementation.Procurement
         public decimal SpecialDiscount { get; set; }
         public double TotalDiscount { get; set; }
         public decimal TotalDiscountAmount { get; set; }
+
+        public IEnumerable<VMSalesOrderSlave> DataListSlave { get; set; }
+        public SelectList ProductCategoryList { get; set; } = new SelectList(new List<object>());
+        public SelectList ProductSubCategoryList { get; set; } = new SelectList(new List<object>());
+        public SelectList ProductList { get; set; } = new SelectList(new List<object>());
+        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }
 

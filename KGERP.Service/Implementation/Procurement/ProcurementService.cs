@@ -4099,6 +4099,8 @@ namespace KGERP.Service.Implementation.Procurement
                                               FinalDestination = t1.FinalDestination,
                                               CourierCharge = t1.CourierCharge,
                                               Remarks = t1.Remarks,
+                                              StockInfoId = t1.StockInfoId,
+                                              StockInfoTypeId = (int)t1.StockInfoTypeId,
 
                                               CompanyFK = t1.CompanyId,
                                               CompanyName = t3.Name,
@@ -4121,6 +4123,7 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
                                                           && x.DeportId > 0
+                                                          && x.StockInfoTypeId ==(int)StockInfoTypeEnum.Company
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
                                                           && x.Status < (int)EnumPOStatus.Closed)
@@ -4201,7 +4204,7 @@ namespace KGERP.Service.Implementation.Procurement
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
                 StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId, // Company Warehouse or Deport
-                StockInfoId = stockInfoId, // Company Warehouse or Deport
+                StockInfoId = stockInfoId, // Company or Deport
                 IsActive = true,
                 OrderStatus = "N",
                 //SalePersonId = salePerson?.EmployeeId ?? null,
@@ -4226,13 +4229,23 @@ namespace KGERP.Service.Implementation.Procurement
             long result = -1;
             OrderMaster orderMaster = await _db.OrderMasters.FindAsync(vmSalesOrder.OrderMasterId);
 
+            //var stockInfoId = 0;
+            //if (vmSalesOrder.StockInfoTypeId == (int)StockInfoTypeEnum.Company)
+            //{
+            //    stockInfoId = (int)(_db.StockInfoes.FirstOrDefault(c => c.IsDefault && c.IsActive && c.CompanyId == vmSalesOrder.CompanyFK)?.StockInfoId);
+            //}
+            //else if (vmSalesOrder.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
+            //{
+            //    stockInfoId = (int)vmSalesOrder.StockInfoId;
+            //}
+
             orderMaster.OrderDate = vmSalesOrder.OrderDate;
             orderMaster.DealerId = vmSalesOrder.CustomerId;
             orderMaster.ExpectedDeliveryDate = vmSalesOrder.ExpectedDeliveryDate;
             orderMaster.PaymentMethod = vmSalesOrder.CustomerPaymentMethodEnumFK;
             orderMaster.Remarks = vmSalesOrder.Remarks;
-            orderMaster.StockInfoTypeId = vmSalesOrder.StockInfoTypeId;
-            orderMaster.StockInfoId = (int)vmSalesOrder.StockInfoId;
+            //orderMaster.StockInfoTypeId = vmSalesOrder.StockInfoTypeId;
+            //orderMaster.StockInfoId = stockInfoId;
 
             orderMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             orderMaster.ModifiedDate = DateTime.Now;
@@ -4421,6 +4434,8 @@ namespace KGERP.Service.Implementation.Procurement
                                               FinalDestination = t1.FinalDestination,
                                               CourierCharge = t1.CourierCharge,
                                               Remarks = t1.Remarks,
+                                              StockInfoId = t1.StockInfoId,
+                                              StockInfoTypeId=(int)t1.StockInfoTypeId,
 
                                               CompanyFK = t1.CompanyId,
                                               CompanyName = t3.Name,
@@ -4443,6 +4458,7 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
                                                           && x.DealerId > 0
+                                                          && (x.StockInfoTypeId ==(int)StockInfoTypeEnum.Company|| x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
                                                           && x.Status < (int)EnumPOStatus.Closed)
@@ -4725,7 +4741,8 @@ namespace KGERP.Service.Implementation.Procurement
                                               FinalDestination = t1.FinalDestination,
                                               CourierCharge = t1.CourierCharge,
                                               Remarks = t1.Remarks,
-
+                                              StockInfoId=t1.StockInfoId,
+                                              StockInfoTypeId=(int)t1.StockInfoTypeId,
                                               CompanyFK = t1.CompanyId,
                                               CompanyName = t3.Name,
                                               CompanyAddress = t3.Address,
@@ -4747,6 +4764,7 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
                                                           && x.CustomerId > 0
+                                                          && x.StockInfoTypeId==(int)StockInfoTypeEnum.Dealer
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
                                                           && x.Status < (int)EnumPOStatus.Closed)

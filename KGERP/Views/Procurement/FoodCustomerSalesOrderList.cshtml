@@ -25,7 +25,7 @@
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
-            <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyId&orderMasterId = 0" class="btn btn-primary pull-right">
+            <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
                 <span class="fs fs-plus"></span> New Sales Invoice
             </a>
         </li>
@@ -204,7 +204,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Payment Method:</label>
-                                @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Payment Method==", new { id = "ddlCustomerPaymentMethodEnumFKK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Payment Method==", new { id = "ddlCustomerPaymentMethodEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.CustomerPaymentMethodEnumFK, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -488,7 +488,7 @@
                             var orderDate = DateCustom(data.OrderDate);
                             $('#txtOrderDate').val(orderDate);
 
-                            $('#ddlCustomerPaymentMethodEnumFKK').val(data.CustomerPaymentMethodEnumFK).change();
+                            $('#ddlCustomerPaymentMethodEnumFK').val(data.CustomerPaymentMethodEnumFK).change();
                             $('#txtCommonCustomerName').val(data.CommonCustomerName);
 
                             var deliveryDate = DateCustom(data.ExpectedDeliveryDate);
