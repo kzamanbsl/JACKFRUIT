@@ -576,10 +576,11 @@ namespace KGERP.Service.Implementation.Configuration
         public string UnitName { get; set; }
         public decimal MRPPrice { get; set; }
         public decimal TPPrice { get; set; }
+        public double? Qty { get; set; }
 
         [Required]
         [Range(1, 99999999999999, ErrorMessage = "Unit Price is Required!! not allow zero or nagetive .")]
-        public decimal UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
         public decimal PreviousStock { get; set; }
         public decimal CurrentStock { get; set; }

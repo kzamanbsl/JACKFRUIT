@@ -2761,6 +2761,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                   ShortName = t1.ShortName,
                                                   MRPPrice = t1.UnitPrice ?? 0,
                                                   TPPrice = t1.TPPrice,
+                                                  Qty=t1.Qty,
                                                   CreditSalePrice = t1.CreditSalePrice,
                                                   SubCategoryName = t2.Name,
                                                   CategoryName = t3.Name,
@@ -2974,11 +2975,13 @@ namespace KGERP.Service.Implementation.Configuration
                 ProductName = vmCommonProduct.Name,
                 UnitPrice = vmCommonProduct.MRPPrice,
                 TPPrice = vmCommonProduct.TPPrice,
+                Qty = vmCommonProduct.Qty,
                 CreditSalePrice = vmCommonProduct.CreditSalePrice,
 
                 ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk,
                 ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk,
                 UnitId = vmCommonProduct.Common_UnitFk,
+               
                 Remarks = vmCommonProduct.Remarks,
                 CompanyId = vmCommonProduct.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -3039,6 +3042,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonProduct.ProductName = vmCommonProduct.Name;
             commonProduct.UnitPrice = vmCommonProduct.MRPPrice;
             commonProduct.TPPrice = vmCommonProduct.TPPrice;
+            commonProduct.Qty = vmCommonProduct.Qty;
             commonProduct.ShortName = vmCommonProduct.ShortName;
             commonProduct.CreditSalePrice = vmCommonProduct.CreditSalePrice;
             commonProduct.ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk;
@@ -3125,10 +3129,12 @@ namespace KGERP.Service.Implementation.Configuration
                          Name = t1.ProductName,
                          MRPPrice = t1.UnitPrice.Value,
                          TPPrice = t1.TPPrice,
+                         Qty =t1.Qty,
                          ShortName = t1.ShortName,
                          SubCategoryName = t2.Name,
                          CategoryName = t3.Name,
                          UnitName = t4.Name,
+                         UnitPrice = t1.UnitPrice,
                          Common_ProductSubCategoryFk = t1.ProductSubCategoryId,
                          Common_UnitFk = t1.UnitId,
                          Common_ProductCategoryFk = t2.ProductCategoryId,

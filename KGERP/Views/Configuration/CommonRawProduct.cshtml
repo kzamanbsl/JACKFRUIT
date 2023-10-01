@@ -33,8 +33,8 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     @*<div class="box-header">
-                        <h4>Add Product</h4>
-                    </div>*@
+                            <h4>Add Product</h4>
+                        </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.Image, new { Value = "", id = "txtPhoto" })
@@ -91,6 +91,36 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="message-text" class="col-form-label">Quantity </label>
+                                    @Html.TextBoxFor(model=>model.Qty, new {id="productQuantity", @class="form-control",@value="", @placeholder="Product Quantity"})
+                                    @Html.ValidationMessageFor(model=>model.Qty,"", new {@class="Text-danger"})
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">TP Price</label>
+                                    @Html.TextBoxFor(model=>model.TPPrice, new {id="tpPrice", @class="form-control", @value = "", @placeholder ="Product TP Price,"})
+                                    @Html.ValidationMessageFor(model=>model.TPPrice,"", new {@class="Text-danger"})
+                                
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">Seal Price</label>
+                                    @Html.TextBoxFor(model=>model.MRPPrice, new { id="unitPrice", @class = "form-control", @value = "", @placeholder = "Unit Seal Price" })
+                                    @Html.ValidationMessageFor(model=>model.MRPPrice,"",new {@class="Text-danger"})
+                                </div>
+
+                            </div>
+
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-3">
@@ -113,8 +143,8 @@
                 <div class="box">
                     <div class="box-danger">
                         @*<div class="box-header">
-                            <h4>Product List</h4>
-                        </div>*@
+                                <h4>Product List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">
@@ -147,6 +177,15 @@
                                             <th>
                                                 Unit
                                             </th>
+                                            <th>
+                                                Quantity
+                                            </th> 
+                                            <th>
+                                                TP Price
+                                            </th>
+                                            <th>
+                                                Seal Price
+                                            </th>
 
                                             <th>Action</th>
                                         </tr>
@@ -173,6 +212,15 @@
                                                     </td>
                                                     <td>
                                                         @item.UnitName
+                                                    </td> 
+                                                    <td>
+                                                        @item.Qty
+                                                    </td>
+                                                    <td>
+                                                        @item.TPPrice
+                                                    </td> 
+                                                    <td>
+                                                        @item.MRPPrice
                                                     </td>
                                                     <td>
                                                         <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
@@ -315,8 +363,12 @@
                         $('#ActionId').val(2);
                         $('#txtProductName').val(data.Name);
                         $('#ddlCommonUnitFk').val(data.Common_UnitFk);
-                        $('#txtMRPPrice').val(data.MRPPrice);
-
+                        $('#unitPrice').val(data.MRPPrice);
+                        $('#productQuantity').val(data.Qty);
+                        $('#tpPrice').val(data.TPPrice);
+                        console.log(data.Qty);
+                        console.log(data.TPPrice);
+                        console.log(data.UnitPrice);
                         $.ajax({
                             type: "GET",
                             url: "@Url.Action("CommonProductSubCategoryGet","Configuration")",
