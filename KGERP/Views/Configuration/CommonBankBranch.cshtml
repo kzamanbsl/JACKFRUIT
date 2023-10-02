@@ -41,7 +41,7 @@
 
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Bank:</label>
-                                    @Html.DropDownListFor(model => model.BankId, Model.BankList as SelectList, "--Bank--", new { id = "ddlBankId", @class = "form-control", required = "true" })
+                                    @Html.DropDownListFor(model => model.BankId, Model.BankList as SelectList, "--Bank--", new { id = "ddlBankId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
                                 </div>
 

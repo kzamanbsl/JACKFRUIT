@@ -44,7 +44,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Zone:</label>
-                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "--Zone--", new { id = "ddlZoneId", @class = "form-control", required = "true" })
+                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "--Zone--", new { id = "ddlZoneId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
 
                                 </div>
@@ -63,7 +63,7 @@
                                     <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
                                         @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control", @id = "employeeId" })
+                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
                                         @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

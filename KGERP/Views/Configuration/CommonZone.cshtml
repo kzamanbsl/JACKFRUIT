@@ -54,7 +54,7 @@
                                     <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
                                         @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control", @id = "employeeId" })
+                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
                                         @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

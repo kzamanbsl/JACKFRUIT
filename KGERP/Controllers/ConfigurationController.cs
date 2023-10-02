@@ -752,6 +752,7 @@ namespace KGERP.Controllers
             vmCommonProduct = await _service.GetProduct(companyId, categoryId, subCategoryId, "R");
 
             vmCommonProduct.UnitList = new SelectList(_service.UnitDropDownList(companyId), "Value", "Text");
+            vmCommonProduct.ProductCategoryList = new SelectList(await _service.GetProductCategory(companyId,  "R"), "Value", "Text");
             return View(vmCommonProduct);
         }
 

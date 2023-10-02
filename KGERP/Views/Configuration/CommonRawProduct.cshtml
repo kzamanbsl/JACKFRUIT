@@ -47,8 +47,8 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Category:</label>
-                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName", required = "required" } })
-
+                                    @*@Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control searchingDropdown", @name = "Brand", , required = "required" } })*@
+                                    @Html.DropDownListFor(model => model.CategoryId, Model.ProductCategoryList as SelectList, "--Select Product Category--", new { id = "CategoryId",value=Model.ProductCategoryList, @class = "form-control searchingDropdown" })
                                     @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
                                     @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                 </div>
@@ -65,7 +65,7 @@
                                         <label for="message-text" class="col-form-label">Subcategory:</label>
                                     }
 
-                                    @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
+                                    @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control searchingDropdown", required = "required" })
                                     @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Unit:</label>
-                                    @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
+                                    @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control searchingDropdown", required = "required" })
                                     @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -94,9 +94,9 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                  <label for="message-text" class="col-form-label">Quantity </label>
-                                    @Html.TextBoxFor(model=>model.Qty, new {id="productQuantity", @class="form-control",@value="", @placeholder="Product Quantity"})
-                                    @Html.ValidationMessageFor(model=>model.Qty,"", new {@class="Text-danger"})
+                                    <label for="message-text" class="col-form-label">Quantity </label>
+                                    @Html.TextBoxFor(model => model.Qty, new { id = "productQuantity", @class = "form-control", @value = "", @placeholder = "Product Quantity" })
+                                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "Text-danger" })
                                 </div>
 
 
@@ -105,17 +105,17 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">TP Price</label>
-                                    @Html.TextBoxFor(model=>model.TPPrice, new {id="tpPrice", @class="form-control", @value = "", @placeholder ="Product TP Price,"})
-                                    @Html.ValidationMessageFor(model=>model.TPPrice,"", new {@class="Text-danger"})
-                                
+                                    @Html.TextBoxFor(model => model.TPPrice, new { id = "tpPrice", @class = "form-control", @value = "", @placeholder = "Product TP Price," })
+                                    @Html.ValidationMessageFor(model => model.TPPrice, "", new { @class = "Text-danger" })
+
                                 </div>
 
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">Seal Price</label>
-                                    @Html.TextBoxFor(model=>model.MRPPrice, new { id="unitPrice", @class = "form-control", @value = "", @placeholder = "Unit Seal Price" })
-                                    @Html.ValidationMessageFor(model=>model.MRPPrice,"",new {@class="Text-danger"})
+                                    @Html.TextBoxFor(model => model.MRPPrice, new { id = "unitPrice", @class = "form-control", @value = "", @placeholder = "Unit Seal Price" })
+                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
                                 </div>
 
                             </div>
@@ -179,7 +179,7 @@
                                             </th>
                                             <th>
                                                 Quantity
-                                            </th> 
+                                            </th>
                                             <th>
                                                 TP Price
                                             </th>
@@ -212,13 +212,13 @@
                                                     </td>
                                                     <td>
                                                         @item.UnitName
-                                                    </td> 
+                                                    </td>
                                                     <td>
                                                         @item.Qty
                                                     </td>
                                                     <td>
                                                         @item.TPPrice
-                                                    </td> 
+                                                    </td>
                                                     <td>
                                                         @item.MRPPrice
                                                     </td>
@@ -286,47 +286,16 @@
 
 
         $(document).ready(function () {
-            $('#txtCategoryName').focus();
+            $('#CategoryId').change(function () {
 
-             $('.formValidator').bootstrapValidator();
-
-            });
-
-
-             $("#txtCategoryName").autocomplete({
-                source: function (request, response) {
-
-                    $.ajax({
-                        url:"@Url.Action("AutoCompleteProductCategoryGet", "Configuration")",
-                        //data: "{ 'prefix': '" + request.term + "'}",
-                        data: { companyId: "@Model.CompanyFK", prefix: request.term, productType : "R" },
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            //alert(response.responseText);
-                        }
-                    });
-                },
-
-                select: function (e, i) {
-                    $("#ddlCommonProductCategoryFk").val(i.item.val);
-                     $.ajax({
-                type: "GET",
-                url: "@Url.Action("CommonProductSubCategoryGet","Configuration")",
-                datatype: "Json",
-                         data: { companyId: "@Model.CompanyFK", categoryId: i.item.val},
+                let categoryValue = $("#CategoryId").val();
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("CommonProductSubCategoryGet","Configuration")",
+                    datatype: "Json",
+                    data: { companyId: "@Model.CompanyFK", categoryId: categoryValue },
                     success: function (data) {
-                    var items = "";
+                        var items = "";
                         if (data) {
                             $("#ddlCommonProductSubCategoryFk").empty();
                             $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Subcategory==</option>");
@@ -336,14 +305,12 @@
                         }
                     }
                 });
-
-                },
-                minLength: 1,
-                cache: true
-
-            }).focus(function () {
-                $(this).autocomplete("search");
             });
+        });
+
+
+
+
 
 
 
@@ -359,16 +326,14 @@
 
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                         $('#productId').val(data.ID);
-                        $('#txtCategoryName').val(data.CategoryName)
+                        $('#CategoryId').val(data.CategoryId).trigger('change');
                         $('#ActionId').val(2);
                         $('#txtProductName').val(data.Name);
-                        $('#ddlCommonUnitFk').val(data.Common_UnitFk);
+                        $('#ddlCommonUnitFk').val(data.Common_UnitFk).trigger('change');
                         $('#unitPrice').val(data.MRPPrice);
                         $('#productQuantity').val(data.Qty);
                         $('#tpPrice').val(data.TPPrice);
-                        console.log(data.Qty);
-                        console.log(data.TPPrice);
-                        console.log(data.UnitPrice);
+
                         $.ajax({
                             type: "GET",
                             url: "@Url.Action("CommonProductSubCategoryGet","Configuration")",
@@ -410,3 +375,59 @@
     </script>
 }
 
+@*$('#txtCategoryName').onchange(function () {
+     $("#txtCategoryName").autocomplete({
+    source: function (request, response) {
+
+        $.ajax({
+            url:"@Url.Action("AutoCompleteProductCategoryGet", "Configuration")",
+            //data: "{ 'prefix': '" + request.term + "'}",
+            data: { companyId: "@Model.CompanyFK", prefix: request.term, productType : "R" },
+            dataType: "json",
+            type: "get",
+            cache: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+            response($.map(data, function (item) {
+            return item;
+            }))
+            },
+            error: function (response) {
+            //alert(response.responseText);
+            },
+            failure: function (response) {
+            //alert(response.responseText);
+            }
+            });
+            },
+
+            select: function (e, i) {
+            $("#ddlCommonProductCategoryFk").val(i.item.val);
+            $.ajax({
+            type: "GET",
+            url: "@Url.Action("CommonProductSubCategoryGet", "Configuration")",
+            datatype: "Json",
+            data: { companyId: "@Model.CompanyFK", categoryId: i.item.val},
+            success: function (data) {
+            var items = "";
+            if (data) {
+            $("#ddlCommonProductSubCategoryFk").empty();
+            $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Subcategory==</option>");
+            $(data).each(function (index, item) {
+            $("#ddlCommonProductSubCategoryFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+            });
+            }
+            }
+            });
+
+            },
+            minLength: 1,
+            cache: true
+
+            }).focus(function () {
+            $(this).autocomplete("search");
+            });
+
+            $('.formValidator').bootstrapValidator();
+
+            });*@

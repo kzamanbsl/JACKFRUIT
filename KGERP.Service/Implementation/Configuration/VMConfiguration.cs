@@ -596,6 +596,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         public string SubCategoryName { get; set; }
         public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
 
         public bool IsLock { get; set; }
         public decimal ReceivedQuantity { get; set; }

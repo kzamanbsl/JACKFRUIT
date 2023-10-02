@@ -44,7 +44,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Zone:</label>
-                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneId", @class = "form-control", required = "true" })
+                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
 
                                 </div>
@@ -53,7 +53,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Region:</label>
-                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control", required = "true" })
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Area:</label>
-                                    @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlAreaId", @class = "form-control", required = "true" })
+                                    @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlAreaId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                     <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
                                         @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control", @id = "employeeId" })
+                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
                                         @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -291,7 +291,7 @@
 
             $(function () {
                 //Bind Region base on Zone Selection
-                $('#ddlZoneId').change(function () {
+                $('#ddlZoneId').change(function (event) {
 
                     $.ajax({
                         type: "get",
@@ -309,12 +309,15 @@
                             $('#ddlRegionId').html(region);
                         }
                     });
+                    event.stopPropagation();
                 });
             });
+               
+;
 
             $(function () {
                 //Bind Area base on Region Selection
-                $('#ddlRegionId').change(function () {
+                $('#ddlRegionId').change(function (event) {
 
                     $.ajax({
                         type: "get",
@@ -332,8 +335,11 @@
                             $('#ddlAreaId').html(area);
                         }
                     });
+                    event.stopPropagation();
+
                 });
             });
+            
         });
 
         function makeEditble(elem) {
@@ -342,7 +348,9 @@
                 $('#subZoneId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger('change');
+                $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).change( function (event) {
+                    event.stopPropagation();
+                });;
                 $('#txtSubZoneName').val($('#tdSubZoneName_' + rowId).text().trim());
 
                 $('#txtSalesOfficerName').val($('#tdSalesOfficerName_' + rowId).text().trim());
@@ -351,8 +359,14 @@
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
                 $('#txtMobilePersonal').val($('#tdMobilePersonal_' + rowId).text().trim());
                 $('#employeeId').val($('#tdEmployeeId_' + rowId).text().trim());
-                $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");
-                $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");
+                $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).change(function (event) {
+                    event.stopPropagation();
+                });
+
+                $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change", function (event) {
+                    event.stopPropagation();
+                });;
+                
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }

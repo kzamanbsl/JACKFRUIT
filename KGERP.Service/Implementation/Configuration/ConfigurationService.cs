@@ -3116,7 +3116,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var v = (from t1 in _db.Products.Where(x => x.ProductId == id)
                      join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId
-                     join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId
+                     //join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId
                      join t4 in _db.Units on t1.UnitId equals t4.UnitId
                      join t5 in _db.Products on t1.PackId equals t5.ProductId into t5_Join
                      from t5 in t5_Join.DefaultIfEmpty()
@@ -3132,7 +3132,7 @@ namespace KGERP.Service.Implementation.Configuration
                          Qty =t1.Qty,
                          ShortName = t1.ShortName,
                          SubCategoryName = t2.Name,
-                         CategoryName = t3.Name,
+                         CategoryId = t2.ProductCategoryId??0,
                          UnitName = t4.Name,
                          UnitPrice = t1.UnitPrice,
                          Common_ProductSubCategoryFk = t1.ProductSubCategoryId,
