@@ -348,7 +348,8 @@
                 $('#subZoneId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).change( function (event) {
+                $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).change(function (event) {
+                    $('#ddlZoneId').trigger('change');
                     event.stopPropagation();
                 });;
                 $('#txtSubZoneName').val($('#tdSubZoneName_' + rowId).text().trim());
@@ -360,6 +361,7 @@
                 $('#txtMobilePersonal').val($('#tdMobilePersonal_' + rowId).text().trim());
                 $('#employeeId').val($('#tdEmployeeId_' + rowId).text().trim());
                 $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).change(function (event) {
+                    $('#ddlRegionId').trigger('change');
                     event.stopPropagation();
                 });
 
