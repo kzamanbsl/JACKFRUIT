@@ -131,15 +131,15 @@
             </tr>
             <tr>
                 <td style="font-weight:bold">Department</td>
-                <td>@Model.Department.Name</td>
+                <td>@Model.DepartmentName</td>
                 <td style="font-weight:bold">Designation</td>
-                <td>@Model.Designation.Name</td>
+                <td>@Model.DesignationName</td>
             </tr>
             <tr>
                 <td style="font-weight:bold">Reporting Person</td>
-                <td>@Model.Employee3?.Name</td>
+                <td>@Model.ManagerName</td>
                 <td style="font-weight:bold">Reporting Person ID</td>
-                <td>@Model.Employee3?.EmployeeId</td>
+                <td>@Model.ManagerId</td>
             </tr>
 
             <tr>
@@ -151,15 +151,15 @@
                     }
                 </td>
                 <td style="font-weight:bold">Employee Category</td>
-                <td>@Html.DisplayFor(model => model.DropDownItem3.Name)</td>
+                <td>@Html.DisplayFor(model => model.EmployeeCategoryName)</td>
 
             </tr>
 
             <tr>
                 <td style="font-weight:bold">Job Type</td>
-                <td>@Html.DisplayFor(model => model.DropDownItem5.Name)</td>
+                <td>@Html.DisplayFor(model => model.ServiceTypeName)</td>
                 <td style="font-weight:bold">Office Type</td>
-                <td>@Html.DisplayFor(model => model.DropDownItem8.Name)</td>
+                <td>@Html.DisplayFor(model => model.OfficeTypeName)</td>
             </tr>
             <tr>
                 <td style="font-weight:bold">Office Email</td>
@@ -175,7 +175,7 @@
                 <td>
                     @if (@Model.Bank != null)
                     {
-                        @Model.Bank.Name
+                        @Model.BankName
                     }
 
                 </td>
@@ -183,7 +183,7 @@
                 <td>
                     @if (Model.BankBranch != null)
                     {
-                        @Model.BankBranch.Name
+                        @Model.BankBranchName
                     }
                 </td>
             </tr>
@@ -192,7 +192,7 @@
                 <td style="font-weight:bold">Account No</td>
                 <td>@Model.BankAccount</td>
                 <td style="font-weight:bold">Shift</td>
-                <td>@Model.Shift.Name</td>
+                <td>@Model.ShiftName</td>
             </tr>
             <tr>
                 <td style="font-weight:bold">Social ID</td>

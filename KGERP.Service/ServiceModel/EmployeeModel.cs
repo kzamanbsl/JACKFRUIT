@@ -73,9 +73,11 @@ namespace KGERP.Service.ServiceModel
 
         [DisplayName("Department")]
         public Nullable<int> DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
 
         [DisplayName("Designation")]
         public Nullable<int> DesignationId { get; set; }
+        public string DesignationName { get; set; }
 
         [DisplayName("Job Status")]
         public Nullable<int> JobStatusId { get; set; }
@@ -94,8 +96,11 @@ namespace KGERP.Service.ServiceModel
         public Nullable<System.DateTime> PermanentDate { get; set; }
 
         public bool Active { get; set; }
+
         [DisplayName("Shift")]
         public Nullable<int> ShiftId { get; set; }
+        public string ShiftName { get; internal set; }
+
         [DisplayName("Date of Birth")]
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
@@ -110,12 +115,14 @@ namespace KGERP.Service.ServiceModel
         public Nullable<int> CountryId { get; set; }
         [DisplayName("Gender")]
         public Nullable<int> GenderId { get; set; }
+
         [DisplayName("Marital Type")]
         public Nullable<int> MaritalTypeId { get; set; }
+
         [DisplayName("Division")]
         public Nullable<int> DivisionId { get; set; }
-
         public string Division { get; set; }
+
         [DisplayName("District")]
         public Nullable<int> DistrictId { get; set; }
 
@@ -129,8 +136,11 @@ namespace KGERP.Service.ServiceModel
 
         [DisplayName("Bank")]
         public Nullable<int> BankId { get; set; }
+        public string BankName { get; set; }
+
         [DisplayName("Bank Branch")]
         public Nullable<int> BankBranchId { get; set; }
+        public string BankBranchName { get; set; }
 
         [DisplayName("Bank Account")]
         public string BankAccount { get; set; }
@@ -145,16 +155,23 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("TIN No")]
         public string TinNo { get; set; }
 
-        public string Religion { get; set; }
+        
 
         [DisplayName("Religion")]
         public Nullable<int> ReligionId { get; set; }
+        public string Religion { get; set; }
+
         [DisplayName("Blood Group")]
         public Nullable<int> BloodGroupId { get; set; }
+
         [DisplayName("Employee Category")]
         public Nullable<int> EmployeeCategoryId { get; set; }
+        public string EmployeeCategoryName { get; set; }
+
         [DisplayName("Service Type")]
         public Nullable<int> ServiceTypeId { get; set; }
+        public string ServiceTypeName { get; set; }
+
         [DisplayName("Disburse Method")]
         public Nullable<int> DisverseMethodId { get; set; }
         public Nullable<int> DesignationFlag { get; set; }
@@ -162,10 +179,10 @@ namespace KGERP.Service.ServiceModel
         public string ImageFileName { get; set; }
         [DisplayName("Signature File Name")]
         public string SignatureFileName { get; set; }
-        [DisplayName("Office Type")]
-        public string OfficeType { get; set; }
+      
         [DisplayName("Office Type")]
         public Nullable<int> OfficeTypeId { get; set; }
+        public string OfficeTypeName { get; set; }
 
         [DisplayName("End Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
@@ -196,6 +213,18 @@ namespace KGERP.Service.ServiceModel
 
         [DisplayName("Store Info")]
         public Nullable<int> StockInfoId { get; set; }
+        //-------------Extended Properties----------------
+        public string SearchText { get; set; }
+        public string StrJoiningDate { get; set; }
+      
+        public string BloodGroupName { get; set; }
+        public string EmployeeIdOfManager { get; set; }
+        [Required]
+        public string ManagerName { get; set; }
+        public long HrAdminId { get; set; }
+        public decimal? SalaryAmount { get; set; }
+        public string ImagePath { get; set; }
+        public string SignaturePath { get; set; }
 
         public virtual StockInfoModel StockInfo { get; set; }
         public virtual BankModel Bank { get; set; }
@@ -220,21 +249,7 @@ namespace KGERP.Service.ServiceModel
         public virtual ShiftModel Shift { get; set; }
 
         public virtual ICollection<FileAttachment> FileAttachments { get; set; }
-        public string ImagePath { get; set; }
-
-        public string SignaturePath { get; set; }
-
-        //-------------Extended Properties----------------
-        public string SearchText { get; set; }
-        public string StrJoiningDate { get; set; }
-        public string DepartmentName { get; set; }
-        public string DesignationName { get; set; }
-        public string BloodGroupName { get; set; }
-        public string EmployeeIdOfManager { get; set; }
-        [Required]
-        public string ManagerName { get; set; }
-        public long HrAdminId { get; set; }
-
+       
     }
 
     public class EmployeeVm
