@@ -176,7 +176,87 @@ namespace KGERP.Service.Implementation
             this._context.Database.CommandTimeout = 180;
             Employee employee = _context.Employees.Include(x => x.FileAttachments).Include("Employee3").Include("Company").Include("Department").Include("Designation").Include("District").Include("Shift").Include("Grade").Include("Bank").Include("BankBranch").Include("DropDownItem").Include("DropDownItem1").Include("DropDownItem2").Include("DropDownItem3").Include("DropDownItem4").Include("DropDownItem5").Include("DropDownItem6").Include("DropDownItem7").Include("DropDownItem8").Include("DropDownItem9").OrderByDescending(x => x.Id == id).FirstOrDefault();
             this._context.Database.CommandTimeout = 180;
-            var result= ObjectConverter<Employee, EmployeeModel>.Convert(employee);
+            //var result= ObjectConverter<Employee, EmployeeModel>.Convert(employee);
+            var result = new EmployeeModel()
+            {
+
+                Id = employee.Id,
+                EmployeeId = employee.EmployeeId,
+                ManagerId = employee.ManagerId,
+                ManagerName=employee.Employee3?.Name,
+                HrAdminId = employee.HrAdminId ?? 0,
+                CompanyId = employee.CompanyId,
+                CardId = employee.CardId,
+                Name = employee.Name,
+                ShortName = employee.ShortName,
+                DateOfBirth = employee.DateOfBirth,
+                FatherName = employee.FatherName,
+                MotherName = employee.MotherName,
+                SpouseName = employee.SpouseName,
+                DateOfMarriage = employee.DateOfMarriage,
+                NationalId = employee.NationalId,
+                GenderId = employee.GenderId,
+                MaritalTypeId = employee.MaritalTypeId,
+                ReligionId = employee.ReligionId,
+                BloodGroupId = employee.BloodGroupId,
+                MobileNo = employee.MobileNo,
+                Telephone = employee.Telephone,
+                Email = employee.Email,
+                OfficeEmail = employee.OfficeEmail,
+                FaxNo = employee.FaxNo,
+                PABX = employee.PABX,
+                DrivingLicenseNo = employee.DrivingLicenseNo,
+                PassportNo = employee.PassportNo,
+                TinNo = employee.TinNo,
+                SocialId = employee.SocialId,
+                PresentAddress = employee.PresentAddress,
+                PermanentAddress = employee.PermanentAddress,
+                DivisionId = employee.DivisionId,
+                DistrictId = employee.DistrictId,
+                UpzillaId = employee.UpzillaId,
+                CountryId = employee.CountryId,
+                JoiningDate = employee.JoiningDate,
+                ProbationEndDate = employee.ProbationEndDate,
+                PermanentDate = employee.PermanentDate,
+                DepartmentId = employee.DepartmentId,
+                DepartmentName=employee.Department?.Name,
+                DesignationId = employee.DesignationId,
+                DesignationName=employee.Designation?.Name,
+                EmployeeCategoryId = employee.EmployeeCategoryId,
+                EmployeeCategoryName = employee.DropDownItem3?.Name,
+                ServiceTypeId = employee.ServiceTypeId,
+                ServiceTypeName=employee.DropDownItem5?.Name,
+                JobStatusId = employee.JobStatusId,
+                OfficeTypeId = employee.OfficeTypeId,
+                OfficeTypeName= employee.DropDownItem8?.Name,
+                BankId = employee.BankId,
+                BankName=employee.Bank?.Name,
+                BankBranchId = employee.BankBranchId,
+                BankBranchName=employee.BankBranch?.Name,
+                BankAccount = employee.EmployeeId,
+                ShiftId = employee.ShiftId,
+                ShiftName = employee.Shift?.Name,
+                GradeId = employee.GradeId,
+                DisverseMethodId = employee.DisverseMethodId,
+                DesignationFlag = employee.DesignationFlag,
+                ImageFileName = employee.ImageFileName,
+                SignatureFileName = employee.SignatureFileName,
+                EndDate = employee.EndDate,
+                EndReason = employee.EndReason,
+                Remarks = employee.Remarks,
+                EmployeeOrder = employee.EmployeeOrder,
+                Active = employee.Active,
+                SalaryTag = employee.SalaryTag ?? 0,
+                SalaryAmount = employee.SalaryAmount,
+                StockInfoId = employee.StockInfoId,
+
+                CreatedBy = employee.CreatedBy,
+                CreatedDate = employee.CreatedDate,
+                ModifedBy = employee.ModifedBy,
+                ModifiedDate = employee.ModifiedDate,
+               
+            };
+
             return result;
         }
 
@@ -192,7 +272,7 @@ namespace KGERP.Service.Implementation
             {
                 throw new Exception(Constants.DATA_NOT_FOUND);
             }
-        
+
             Employee employee = ObjectConverter<EmployeeModel, Employee>.Convert(model);
 
 
@@ -411,7 +491,7 @@ namespace KGERP.Service.Implementation
 
         public List<SelectModel> GetEmployeeSelectModels()
         {
-            return _context.Employees.Where(c=>c.Active).ToList().OrderBy(x => x.EmployeeId).Select(x => new SelectModel()
+            return _context.Employees.Where(c => c.Active).ToList().OrderBy(x => x.EmployeeId).Select(x => new SelectModel()
             {
                 Text = "[" + x.EmployeeId.ToString() + "] " + x.Name,
                 Value = x.Id.ToString()
