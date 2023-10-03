@@ -47,7 +47,7 @@
                                     <div class="form-group">
                                         @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
                                         <br />
-                                        @Html.DropDownListFor(model => model.Status, Model.EnumStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.Status, Model.EnumStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
