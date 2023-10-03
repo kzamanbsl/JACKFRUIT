@@ -117,19 +117,19 @@
 
                                 <div class="col-md-4">
                                     @*<div class="form-group">
-                                        <label for="message-text" class="col-form-label">Area:</label>
-                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
-                                    </div>*@
+                                            <label for="message-text" class="col-form-label">Area:</label>
+                                            @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                        </div>*@
                                 </div>
 
                                 @*<div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Territory:</label>
-                                        @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Territory:</label>
+                                            @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
 
                             </div>
 
@@ -353,9 +353,9 @@
 
         });
 
-        $("#ddlZoneId").change(function (e) {
+        $("#ddlZoneId").on('click',function (e) {
             var zoneId = $("#ddlZoneId :selected").val();
-                $.ajax({
+                @*$.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonSubZonesGet", "Configuration")",
                 datatype: "Json",
@@ -370,7 +370,7 @@
 
                         }
                     }
-                });
+                });*@
 
                 $.ajax({
                 type: "GET",
@@ -390,8 +390,10 @@
                     }
                 });
        });
+        function regionChange() {
 
-        $("#ddlRegionId").change(function (e) {
+        }
+        @*$("#ddlRegionId").change(function (e) {
             var zoneId = $("#ddlZoneId :selected").val();
             var regionId = $("#ddlRegionId :selected").val();
                 $.ajax({
@@ -409,10 +411,11 @@
                         }
                     }
                 });
-        });
+        });*@
 
-         $("#ddlCommon_DivisionFk").change(function (e) {
-                var commonDivisionFk = $("#ddlCommon_DivisionFk :selected").val();
+        $("#ddlCommon_DivisionFk option").on('click', function (e) {
+            alert('click');
+            var commonDivisionFk = $(this).val();
                 $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonDistrictsGet","Configuration")",
@@ -432,7 +435,7 @@
                 });
        });
 
-        $("#ddlCommon_DistrictsFk").change(function (e) {
+        $("#ddlCommon_DistrictsFk option").on('click', function (e) {
                 var commonDistrictsFk = $("#ddlCommon_DistrictsFk :selected").val();
                 $.ajax({
                 type: "GET",
@@ -480,8 +483,8 @@
                         $('#ddlCommon_UpazilasFk').val(data.Common_UpazilasFk).trigger('change');
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         $('#ddlRegionId').val(data.RegionId).trigger('change');
-                        $('#ddlAreaId').val(data.AreaId).trigger('change');
-                        $('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
+                        //$('#ddlAreaId').val(data.AreaId).trigger('change');
+                        //$('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
                         $('#txtCreditLimit').val(data.CreditLimit);
