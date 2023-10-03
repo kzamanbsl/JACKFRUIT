@@ -1655,7 +1655,7 @@ namespace KGERP.Controllers
             if (orderMasterId == 0)
             {
                 vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
             }
             else
             {
@@ -1781,7 +1781,7 @@ namespace KGERP.Controllers
             if (orderMasterId == 0)
             {
                 vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
             }
             else
             {
@@ -1907,7 +1907,7 @@ namespace KGERP.Controllers
             if (orderMasterId == 0)
             {
                 vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumPOStatus.Draft;
+                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
             }
             else
             {

@@ -40,6 +40,6 @@ namespace KGERP.Service.ServiceModel.Approval_Process_Model
         public List<SelectDDLModel> reportCatagoryList { get; set; }
         public List<SelectModel> YearsList { get; set; }
         public List<SelectModel> Companies { get; set; }
-        public SelectList MonthList { get { return new SelectList(BaseFunctionalities.GetEnumList<MonthList>(), "Value", "Text"); } }
+        public SelectList MonthList { get { return new SelectList(BaseFunctionalities.GetEnumList<MonthEnum>(), "Value", "Text"); } }
     }
 }

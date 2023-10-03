@@ -262,7 +262,6 @@ namespace KGERP.Service.Implementation.Procurement
         public double CourierCharge { get; set; }
 
         public IEnumerable<VMSalesOrder> DataList { get; set; }
-        public IEnumerable<OrderDetail> style { get; set; }
 
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public SelectList TermNCondition { get; set; } = new SelectList(new List<object>());
@@ -278,9 +277,9 @@ namespace KGERP.Service.Implementation.Procurement
         public string POPaymentMethodName { get { return BaseFunctionalities.GetEnumDescription(POPaymentMethod); } }
         public SelectList POPaymentMethodList { get { return new SelectList(BaseFunctionalities.GetEnumList<VendorsPaymentMethodEnum>(), "Value", "Text"); } }
 
-        public EnumPOStatus EnumStatus { get { return (EnumPOStatus)this.Status; } }
+        public EnumSOStatus EnumStatus { get { return (EnumSOStatus)this.Status; } }
         public string EnumStatusName { get { return BaseFunctionalities.GetEnumDescription(this.EnumStatus); } }
-        public SelectList EnumStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumPOStatus>(), "Value", "Text"); } }
+        public SelectList EnumStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumSOStatus>(), "Value", "Text"); } }
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }

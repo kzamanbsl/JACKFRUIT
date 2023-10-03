@@ -1,32 +1,12 @@
 ﻿namespace KGERP.Utility
 {
 
-    public enum FLatCompletionStatus
-    {
-        OnGoing = 1,
-        FUllReady = 2
-    }
     public enum IndicatorEnum
     {
         BookingMoney = 1,
         Installment,
         CostHead
 
-    }
-    public enum EnumProductBookingSteps
-    {
-        Entry = 1,//Dealing officer entry
-        Checking = 2,// for Head of sales checking
-        Approval = 3,//for company DMD approval
-        FinalApproval = 4 //for company  MD approval
-    }
-    public enum EnumProductApprovalStatus
-    {
-        Draft = 1,
-        Recheck = 2,
-        Approve = 3,
-        FinalApprove = 4,
-        Reject = 5,
     }
     public enum EnumReqStatus
     {
@@ -46,7 +26,19 @@
         Submitted,
         Closed
     }
-
+    public enum EnumPOCompletionStatus
+    {
+        Incomplete = 1,
+        Partially_Complete = 2,
+        Complete = 3
+    }
+    public enum EnumSOStatus
+    {
+        Draft,
+        Submitted,
+        Approved,
+        Closed
+    }
     public enum EnumExpenseStatus
     {
         Draft,
@@ -71,15 +63,6 @@
         Success = 9,
         All = 99,
     }
-
-    public enum EnumPOCompletionStatus
-    {
-        Incomplete = 1,
-        Partially_Complete = 2,
-        Complete = 3
-    }
-
-
     public enum TaskType
     {
         ERP = 1,
@@ -92,21 +75,8 @@
     public enum EnumRequisitionType
     {
         PurchaseRequisition = 1,
-        StoreRequisition,
-
+        StoreRequisition
     }
-
-    public enum EnumDepartment
-    {
-        AccountsSection = 3, // Data set as on Department table
-        SalesMarketingDivision,
-        Purchase,
-        Store,
-        Production,
-        FinishStore
-    }
-
-
     public enum JournalEnum
     {
         BankPayment = 1,
@@ -121,7 +91,6 @@
         PurchaseVoucher,
         ReverseEntry
     }
-
     public enum GCCLJournalEnum
     {
         SalesVoucher = 9,
@@ -136,7 +105,6 @@
         SalesReturnVoucher = 98
 
     }
-
     public enum SeedJournalEnum
     {
         JournalVoucher = 17,
@@ -150,7 +118,6 @@
         ProductionVoucher = 112,
         SalesReturnVoucher = 113
     }
-
     public enum FeedJournalEnum
     {
         JournalVoucher = 17,
@@ -165,7 +132,6 @@
         SalesReturnVoucher = 153, // 113,
         ProductConvertVoucher = 152
     }
-
     public enum ActionEnum
     {
         Add = 1,
@@ -180,7 +146,6 @@
         Finalize,
         Acknowledgement
     }
-
     public enum Provider
     {
         Supplier = 1,
@@ -189,13 +154,11 @@
         Deport,
         CustomerAssociates
     }
-
     public enum PromotionTypeEnum
     {
         FreeProduct = 1,
         PromoAmount = 2
     }
-
     public enum CustomerType
     {
         Customer = 1,
@@ -203,14 +166,12 @@
         Corporate = 3,
         //Dealer = 4
     }
-
     public enum VendorsPaymentMethodEnum
     {
         Cash = 1,
         Credit,
         LC
     }
-
     public enum StockInfoTypeEnum
     {
         Company = 1,
@@ -223,7 +184,6 @@
         Company = 1,
         Deport
     }
-
     public enum PaymentMethod
     {
         Cash = 1,
@@ -231,7 +191,6 @@
         Adjustment = 3,
         Debit = 10,
     }
-
     public enum RealStatePaymentMethod
     {
         Cash = 1,
@@ -239,7 +198,6 @@
         RemoteDeposit = 3,
         InternalTransfer = 4,
     }
-
     public enum KgRePaymentMethod
     {
         Cash = 1,
@@ -247,7 +205,6 @@
         OnlineBEFTN = 3,
         Mobile = 4,
     }
-
     public enum CustomerStatusEnum
     {
         // new enum
@@ -265,13 +222,10 @@
         //LegalAction
 
     }
-
     public enum HrAdmin
     {
         Id = 103,
-
     }
-
     public enum TicketingStatus
     {
         ToDo = 1,
@@ -279,7 +233,6 @@
         Done = 3,
         Cancel = 4
     }
-
     public enum ProductStatusEnumGLDL
     {
         Booked = 471,
@@ -288,7 +241,6 @@
         UnSold,
         BookingCancelled = 481,
     }
-
     public enum ProductStatusEnumKPL
     {
         Booked = 1520,
@@ -298,7 +250,6 @@
         BookingCancelled,
         LandOwner
     }
-
     public enum CompanyName
     {
         KrishibidGroup = 1,
@@ -341,7 +292,7 @@
         NaturalFishFarmingLimited = 652,
         KrishibidSafeFood = 648
     }
-    public enum MonthList
+    public enum MonthEnum
     {
         January = 1,
         February = 2,

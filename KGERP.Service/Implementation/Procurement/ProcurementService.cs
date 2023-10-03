@@ -3784,13 +3784,13 @@ namespace KGERP.Service.Implementation.Procurement
                 throw new Exception("Sorry! Order not found!");
             }
 
-            if (orderMasters.Status == (int)EnumPOStatus.Draft)
+            if (orderMasters.Status == (int)EnumSOStatus.Draft)
             {
-                orderMasters.Status = (int)EnumPOStatus.Submitted;
+                orderMasters.Status = (int)EnumSOStatus.Submitted;
             }
             else
             {
-                orderMasters.Status = (int)EnumPOStatus.Draft;
+                orderMasters.Status = (int)EnumSOStatus.Draft;
             }
 
             orderMasters.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -3878,7 +3878,7 @@ namespace KGERP.Service.Implementation.Procurement
                 ExpectedDeliveryDate = vmSalesOrderSlave.ExpectedDeliveryDate,
                 PaymentMethod = vmSalesOrderSlave.CustomerPaymentMethodEnumFK,
                 ProductType = "F",
-                Status = (int)EnumPOStatus.Draft,
+                Status = (int)EnumSOStatus.Draft,
                 CourierNo = vmSalesOrderSlave.CourierNo,
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
@@ -4123,10 +4123,10 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
                                                           && x.DeportId > 0
-                                                          && x.StockInfoTypeId ==(int)StockInfoTypeEnum.Company
+                                                          && x.StockInfoTypeId == (int)StockInfoTypeEnum.Company
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
-                                                          && x.Status < (int)EnumPOStatus.Closed)
+                                                          && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
 
@@ -4198,7 +4198,7 @@ namespace KGERP.Service.Implementation.Procurement
                 ExpectedDeliveryDate = vmSalesOrderSlave.ExpectedDeliveryDate,
                 PaymentMethod = vmSalesOrderSlave.CustomerPaymentMethodEnumFK,
                 ProductType = "F",
-                Status = (int)EnumPOStatus.Draft,
+                Status = (int)EnumSOStatus.Draft,
                 CourierNo = vmSalesOrderSlave.CourierNo,
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
@@ -4435,7 +4435,7 @@ namespace KGERP.Service.Implementation.Procurement
                                               CourierCharge = t1.CourierCharge,
                                               Remarks = t1.Remarks,
                                               StockInfoId = t1.StockInfoId,
-                                              StockInfoTypeId=(int)t1.StockInfoTypeId,
+                                              StockInfoTypeId = (int)t1.StockInfoTypeId,
 
                                               CompanyFK = t1.CompanyId,
                                               CompanyName = t3.Name,
@@ -4458,10 +4458,10 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
                                                           && x.DealerId > 0
-                                                          && (x.StockInfoTypeId ==(int)StockInfoTypeEnum.Company|| x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
+                                                          && (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
-                                                          && x.Status < (int)EnumPOStatus.Closed)
+                                                          && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
 
@@ -4521,13 +4521,13 @@ namespace KGERP.Service.Implementation.Procurement
                 ExpectedDeliveryDate = vmSalesOrderSlave.ExpectedDeliveryDate,
                 PaymentMethod = vmSalesOrderSlave.CustomerPaymentMethodEnumFK,
                 ProductType = "F",
-                Status = (int)EnumPOStatus.Draft,
+                Status = (int)EnumSOStatus.Draft,
                 CourierNo = vmSalesOrderSlave.CourierNo,
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
                 StockInfoTypeId = (int)StockInfoTypeEnum.Dealer,
-                StockInfoId = (int)vmSalesOrderSlave.StockInfoId ,
+                StockInfoId = (int)vmSalesOrderSlave.StockInfoId,
                 IsActive = true,
                 OrderStatus = "N",
                 //SalePersonId = salePerson?.EmployeeId ?? null,
@@ -4741,8 +4741,8 @@ namespace KGERP.Service.Implementation.Procurement
                                               FinalDestination = t1.FinalDestination,
                                               CourierCharge = t1.CourierCharge,
                                               Remarks = t1.Remarks,
-                                              StockInfoId=t1.StockInfoId,
-                                              StockInfoTypeId=(int)t1.StockInfoTypeId,
+                                              StockInfoId = t1.StockInfoId,
+                                              StockInfoTypeId = (int)t1.StockInfoTypeId,
                                               CompanyFK = t1.CompanyId,
                                               CompanyName = t3.Name,
                                               CompanyAddress = t3.Address,
@@ -4764,10 +4764,10 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
                                                           && x.CustomerId > 0
-                                                          && x.StockInfoTypeId==(int)StockInfoTypeEnum.Dealer
+                                                          && x.StockInfoTypeId == (int)StockInfoTypeEnum.Dealer
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
-                                                          && x.Status < (int)EnumPOStatus.Closed)
+                                                          && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
 
@@ -4790,7 +4790,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CreatedBy = t1.CreatedBy,
 
                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
-           
+
             if (vStatus != -1 && vStatus != null)
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
