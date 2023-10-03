@@ -791,7 +791,9 @@ namespace KGERP.Service.Implementation.Configuration
                          label = t3.Name + " " + t2.Name + " " + t1.ProductName,
                          val = t1.ProductId,
                          unit = t4.Name,
-                         price = t1.CostingPrice
+                         price = t1.UnitPrice??0,
+                         tpPrice = t1.TPPrice,
+                         qty = t1.Qty ?? 0
                      }).OrderBy(x => x.label).Take(20).ToList();
 
             return v;
@@ -2761,7 +2763,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                   ShortName = t1.ShortName,
                                                   MRPPrice = t1.UnitPrice ?? 0,
                                                   TPPrice = t1.TPPrice,
-                                                  Qty=t1.Qty,
+                                                  Qty = t1.Qty,
                                                   CreditSalePrice = t1.CreditSalePrice,
                                                   SubCategoryName = t2.Name,
                                                   CategoryName = t3.Name,
@@ -2981,7 +2983,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk,
                 ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk,
                 UnitId = vmCommonProduct.Common_UnitFk,
-               
+
                 Remarks = vmCommonProduct.Remarks,
                 CompanyId = vmCommonProduct.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -3129,10 +3131,10 @@ namespace KGERP.Service.Implementation.Configuration
                          Name = t1.ProductName,
                          MRPPrice = t1.UnitPrice.Value,
                          TPPrice = t1.TPPrice,
-                         Qty =t1.Qty,
+                         Qty = t1.Qty,
                          ShortName = t1.ShortName,
                          SubCategoryName = t2.Name,
-                         CategoryId = t2.ProductCategoryId??0,
+                         CategoryId = t2.ProductCategoryId ?? 0,
                          UnitName = t4.Name,
                          UnitPrice = t1.UnitPrice,
                          Common_ProductSubCategoryFk = t1.ProductSubCategoryId,
@@ -4224,7 +4226,7 @@ namespace KGERP.Service.Implementation.Configuration
                          ZoneId = t1.ZoneId.Value,
                          RegionId = t1.RegionId.Value,
                          SubZoneId = t1.SubZoneId.Value,
-                         AreaId=t1.AreaId.Value,
+                         AreaId = t1.AreaId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,

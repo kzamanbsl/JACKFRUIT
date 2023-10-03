@@ -168,7 +168,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Unit Price:</label>
+                                            <label>Sale Price:</label>
                                             @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price", required = "Required" })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
 
@@ -214,29 +214,37 @@
                                         <tr>
                                             <th>SL</th>
                                             <th style="text-align:left;">Product Name</th>
-                                            <th style="text-align:center;">StockIn Qty</th>
-                                            <th style="text-align:right;">StockIn Rate</th>
-                                            <th style="text-align:right;">Unit Price</th>
-                                            <th style="text-align:right;">Total Amount</th>
+                                            <th style="text-align:center;">Stock Qty</th>
+                                            <th style="text-align:right;">Stock Rate</th>
+                                            <th style="text-align:right;">Sale Price</th>
+                                            <th style="text-align:right;">Total Stock Amount</th>
+                                            <th style="text-align:right;">Total Sale Amount</th>
                                             <th style="padding:5px;text-align:center;">Action</th>
 
                                         </tr>
                                     </thead>
                                     @{
                                         int sl = 0;
-                                        decimal stockInAmount = 0;
+                                        decimal totalStockInAmount = 0;
+                                        decimal totalSaleAmount = 0;
+                                        decimal stockinLineTotal = 0;
+                                        decimal saleLineTotal = 0;
                                     }
                                     <tbody>
                                         @foreach (var item in Model.DataListSlave)
                                         {
-                                            stockInAmount += item.StockInQty * item.StockInRate;
+                                            totalStockInAmount += item.StockInQty * item.StockInRate;
+                                            totalSaleAmount += item.StockInQty * item.UnitPrice;
+                                            stockinLineTotal = item.StockInQty * item.StockInRate;
+                                            saleLineTotal = item.StockInQty * item.UnitPrice;
                                             <tr>
                                                 <td>@(++sl) </td>
                                                 <td style="text-align:left;">@item.ProductSubCategory @item.ProductName</td>
-                                                <td style="text-align:center;"> @item.StockInQty @item.UnitName</td>
-                                                <th style="text-align:right;"> @item.StockInRate </th>
-                                                <th style="text-align:right;"> @item.UnitPrice </th>
-                                                <td style="text-align:right;"> @(item.StockInQty * item.StockInRate)  </td>
+                                                <td style="text-align:center;"> @item.StockInQty.ToString("0.00") @item.UnitName</td>
+                                                <th style="text-align:right;"> @item.StockInRate.ToString("0.00") </th>
+                                                <th style="text-align:right;"> @item.UnitPrice.ToString("0.00") </th>
+                                                <td style="text-align:right;">@stockinLineTotal.ToString("0.00")</td>
+                                                <td style="text-align:right;">@saleLineTotal.ToString("0.00")</td>
 
                                                 <td style="padding:5px;text-align:center;">
                                                     @if (Model.IsSubmitted == false)
@@ -252,7 +260,8 @@
                                         <tr>
                                             <td> </td>
                                             <th colspan="4">Total </th>
-                                            <th style="text-align:right;"> @stockInAmount  </th>
+                                            <th style="text-align:right;"> @totalStockInAmount.ToString("0.00")  </th>
+                                            <th style="text-align:right;"> @totalSaleAmount.ToString("0.00")  </th>
                                             <td> </td>
                                         </tr>
                                     </tbody>
@@ -485,20 +494,23 @@
             },
                 select: function (e, i) {
                     $("#ddlProductFK").val(i.item.val);
+                    $("#txtStockInQty").val(i.item.qty);
+                    $('#txtStockInRate').val(i.item.tpPrice);
+                    $('#txtUnitPrice').val(i.item.price);
 
                 $.ajax({
-        type: "GET",
-        url: "@Url.Action("CommonProductByID", "Configuration")",
-        datatype: "Json",
-        data: { id: i.item.val },
-        success: function (data) {
-            if (data) {
+                    type: "GET",
+                    url: "@Url.Action("CommonProductByID", "Configuration")",
+                    datatype: "Json",
+                    data: { id: i.item.val },
+                    success: function (data) {
+                                if (data) {
 
-                $('.txtUnitName').text(data.UnitName);
+                                    $('.txtUnitName').text(data.UnitName);
 
-            }
-        }
-                });
+                                }
+                                }
+                            });
 
                 $('#txtProductName').focus();
                 },
