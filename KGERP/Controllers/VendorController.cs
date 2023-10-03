@@ -211,21 +211,6 @@ namespace KGERP.Controllers
             return View(vendorModel);
         }
 
-        //[SessionExpire]
-        //[HttpGet]
-        //public ActionResult PaymentIndex(int? Page_No, string searchText)
-        //{
-        //    if (GetCompanyId() > 0)
-        //    {
-        //        Session["CompanyId"] = GetCompanyId();
-        //    }
-        //    searchText = searchText ?? "";
-        //    List<VendorModel> vendors = vendorService.GetCustomerPayments(searchText, Convert.ToInt32(Session["CompanyId"]), (int)Provider.Customer);
-        //    int Size_Of_Page = 10;
-        //    int No_Of_Page = Page_No ?? 1;
-        //    return View(vendors.ToPagedList(No_Of_Page, Size_Of_Page));
-        //}
-
         [SessionExpire]
         [HttpGet]
         public JsonResult GetCustomerPaymentInformation(int customerId)

@@ -146,10 +146,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public string DeliveryAddress { get; set; }
         public decimal ReturnQuantity { get; set; }
         public decimal ExtSendQuantity { get; set; }
-        public IEnumerable<VMWarehousePOReceivingSlave> DataListSlave { get; set; }
-        public List<MaterialReceiveDetailModel> MaterialReceiveDetailModel { get; set; }
-        public List<VMWarehousePOReceivingSlavePartial> DataListSlavePartial { get; set; }
-        public List<SelectModel> PurchaseOrders { get; set; }
+        
         public bool IsGRNCompleted { get; set; }
         public string ProductSubCategory { get; set; }
         public string ProductCategory { get; set; }
@@ -158,7 +155,6 @@ namespace KGERP.Service.Implementation.Warehouse
         public string BagName { get; set; }
         public decimal CostingPrice { get; set; }
         public decimal? BagWeight { get; set; }
-
 
         public decimal MRPPrice { get; set; }
         public decimal TotalCostingPrice { get; set; }
@@ -171,17 +167,23 @@ namespace KGERP.Service.Implementation.Warehouse
 
         public int? AccountingExpenseHeadId { get; set; }
         public int? AccountingHeadId { get; set; }
-        public List<SelectModel> Vendors { get; set; }
-        public List<SelectModel> StockInfos { get; set; }
-        public List<SelectModel> BagWeights { get; set; }
         public DateTime? DemandDate { get; set; }
         public decimal Discount { get; set; }
-      
+
         public string MaterialType { get; set; }
         public int? StockInfoId { get; set; }
         public string StoreName { get; set; }
         public bool AllowLabourBill { get; set; }
         public long VoucherId { get; set; }
+        public List<SelectModel> Vendors { get; set; }
+        public List<SelectModel> StockInfos { get; set; }
+        public List<SelectModel> ReceivedBys { get; set; }
+        public List<SelectModel> BagWeights { get; set; }
+        public List<SelectModel> PurchaseOrders { get; set; }
+        public IEnumerable<VMWarehousePOReceivingSlave> DataListSlave { get; set; }
+        public List<MaterialReceiveDetailModel> MaterialReceiveDetailModel { get; set; }
+        public List<VMWarehousePOReceivingSlavePartial> DataListSlavePartial { get; set; }
+       
     }
     public class VMWareHousePOReturnSlavePartial : BaseVM
     {

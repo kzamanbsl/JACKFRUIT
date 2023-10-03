@@ -30,17 +30,6 @@ namespace KGERP.Service.Implementation
             return _context.Database.SqlQuery<VendorModel>("exec spGetAllCustomerList {0}", vendorTypeId).ToList();
         }
 
-        //public IEnumerable<VendorModel> GetVendors(int companyId, int vendorTypeId, string searchText, bool isActive)
-        //{
-        //    IQueryable<VendorModel> vendors = context.Database.SqlQuery<VendorModel>("exec spGetVendorList {0},{1},{2}", companyId, vendorTypeId, isActive).AsQueryable();
-        //    return vendors.Where(x =>
-        //                  (x.Name.ToLower().Contains(searchText.ToLower()) || string.IsNullOrEmpty(searchText)) ||
-        //                  (x.Name.ToLower().Contains(searchText.ToLower()) || string.IsNullOrEmpty(searchText)) ||
-        //                  (x.Phone.ToLower().Contains(searchText.ToLower()) || string.IsNullOrEmpty(searchText)) ||
-        //                  (x.Code.ToLower().Contains(searchText.ToLower()) || string.IsNullOrEmpty(searchText)) ||
-        //                  (x.CustomerType.ToLower().Contains(searchText.ToLower()) || string.IsNullOrEmpty(searchText))).ToList();
-        //}
-
         public async Task<VendorModel> GetVendors(int companyId, int vendorTypeId)
         {
             VendorModel vmCommonCustomer = new VendorModel();
@@ -92,8 +81,6 @@ namespace KGERP.Service.Implementation
 
             return vmCommonCustomer;
         }
-
-
 
         public VendorModel GetVendor(int id)
         {

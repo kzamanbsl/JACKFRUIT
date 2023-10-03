@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.Implementation;
-using KGERP.Data.Models;
-using System.Web.Services.Description;
 
 
 namespace KGERP.Controllers
@@ -25,9 +23,9 @@ namespace KGERP.Controllers
         private readonly IPurchaseOrderService _purchaseOrderService;
         private readonly IBagService _bagService;
         private readonly WarehouseService _wareHouseService;
-
+        private readonly IEmployeeService _employeeService;
         public MaterialReceiveController(WarehouseService wareHouseService, IMaterialReceiveService materialReceiveService, IStockInfoService stockInfoService, IVendorService vendorService,
-            IProductCategoryService productCategoryService, IPurchaseOrderService purchaseOrderService, IBagService bagService)
+            IProductCategoryService productCategoryService, IPurchaseOrderService purchaseOrderService, IBagService bagService, IEmployeeService employeeService)
         {
             this._wareHouseService = wareHouseService;
             this._materialReceiveService = materialReceiveService;
@@ -36,6 +34,7 @@ namespace KGERP.Controllers
             this._productCategoryService = productCategoryService;
             this._purchaseOrderService = purchaseOrderService;
             this._bagService = bagService;
+            _employeeService = employeeService;
         }
 
         [HttpGet]
@@ -224,29 +223,6 @@ namespace KGERP.Controllers
                 return View(vmPOReceivingSlave);
             }
 
-
-            //MaterialReceiveViewModel vm = new MaterialReceiveViewModel();
-            //MaterialMsgModel result = new MaterialMsgModel();
-            //vm.MaterialReceive.MaterialReceiveDetails = vm.MaterialReceiveDetails;
-            //if (vm.MaterialReceive.MaterialReceiveId <= 0)
-            //{
-            //    result = materialReceiveService.SaveMaterialReceive(vmPOReceivingSlave);
-            //}
-            //else
-            //{
-            //    result = materialReceiveService.SaveMaterialReceive(vm.MaterialReceive.MaterialReceiveId, vmPOReceivingSlave);
-            //}
-            //if (result.Status)
-            //{
-            //    TempData["message"] = "Raw material received successfully";
-            //    return RedirectToAction("CreateOrEdit", new { companyId = vm.MaterialReceive.CompanyId, materialReceiveId = result.Id });
-            //}
-            //else
-            //{
-            //    TempData["message"] = "Raw material received failed";
-            //    return View(vm);
-            //}
-
         }
 
         [SessionExpire]
@@ -362,6 +338,8 @@ namespace KGERP.Controllers
         {
             VMWarehousePOReceivingSlave vmReceivingSlave = new VMWarehousePOReceivingSlave();
             vmReceivingSlave.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            vmReceivingSlave.Vendors = _vendorService.GetVendorSelectModels((int)Provider.Supplier);
+            vmReceivingSlave.ReceivedBys = _employeeService.GetEmployeeSelectModels();
             vmReceivingSlave.PurchaseOrders = new List<SelectModel>();
             if (materialReceiveId > 0)
             {

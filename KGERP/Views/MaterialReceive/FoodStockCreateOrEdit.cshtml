@@ -93,25 +93,38 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Warehouse:</label>
-                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control" })
+                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
                                             @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
+                                    @*<div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Supplier:</label>
+                                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier" } })
+                                                @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
+                                                @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Supplier:</label>
-                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier" } })
-                                            @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
-                                            @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.Common_SupplierFK, new SelectList(Model.Vendors, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
+                                    @*<div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label"> Received By:</label>
+                                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
+                                                @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
+                                            </div>
+                                        </div>*@
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label"> Received By:</label>
-                                            @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
-                                            @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
+                                            <label for="message-text" class="col-form-label">Received By:</label>
+                                            @Html.DropDownListFor(model => model.ReceivedBy, new SelectList(Model.ReceivedBys, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -380,7 +393,7 @@
             $('#ActionId').val(1);
         }
 
-        $(function () {
+        @*$(function () {
         $("#supplier").autocomplete({
                 source: function (request, response) {
 
@@ -412,40 +425,40 @@
                 }).focus(function () {
                     $(this).autocomplete("search");
                 });
-        });
+        });*@
 
-        $(function () {
-            $("#receiverName").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Employee/EmployeeAutoComplete/',
-                        data: '{"prefix":"' + request.term + '", "productType":"F"}',
-                        dataType: "json",
-                        type: "POST",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            //alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#receivedBy").val(i.item.val);
-                },
-                minLength: 1,
-                cache: true
-                }).focus(function () {
-                $(this).autocomplete("search");
-            });
-        });
+        //$(function () {
+        //    $("#receiverName").autocomplete({
+        //        source: function (request, response) {
+        //            $.ajax({
+        //                url: '/Employee/EmployeeAutoComplete/',
+        //                data: '{"prefix":"' + request.term + '", "productType":"F"}',
+        //                dataType: "json",
+        //                type: "POST",
+        //                cache: true,
+        //                contentType: "application/json; charset=utf-8",
+        //                success: function (data) {
+        //                    response($.map(data, function (item) {
+        //                        return item;
+        //                    }))
+        //                },
+        //                error: function (response) {
+        //                    //alert(response.responseText);
+        //                },
+        //                failure: function (response) {
+        //                    //alert(response.responseText);
+        //                }
+        //            });
+        //        },
+        //        select: function (e, i) {
+        //            $("#receivedBy").val(i.item.val);
+        //        },
+        //        minLength: 1,
+        //        cache: true
+        //        }).focus(function () {
+        //        $(this).autocomplete("search");
+        //    });
+        //});
 
         $(function () {
             $("#txtProductName").autocomplete({
