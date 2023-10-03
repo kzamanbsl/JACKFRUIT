@@ -710,6 +710,10 @@ namespace KGERP.Controllers
 
             VMCommonProductSubCategory vmCommonProductSubCategory = new VMCommonProductSubCategory();
             vmCommonProductSubCategory = await Task.Run(() => _service.GetProductSubCategory(companyId, categoryId, "R"));
+            vmCommonProductSubCategory.ProductCategory = new SelectList(await _service.GetProductCategory(companyId, "R"), "Value", "Text");
+
+
+
             return View(vmCommonProductSubCategory);
         }
 

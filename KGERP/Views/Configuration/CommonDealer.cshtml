@@ -213,8 +213,8 @@
                 <div class="box">
                     <div class="box-danger">
                         @*<div class="box-header">
-                            <h4>Dealer List</h4>
-                        </div>*@
+                                <h4>Dealer List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive text-nowrap">
@@ -223,7 +223,7 @@
                                         <tr>
                                             <th>SL</th>
                                             <th>
-                                               Dealer Name
+                                                Dealer Name
                                             </th>
                                             <th>
                                                 Proprietor
@@ -356,7 +356,7 @@
 
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
-
+            
         });
 
         $("#ddlZoneId").change(function (e) {
@@ -416,14 +416,17 @@
                     }
                 });
         });
+        var editButton = false;
 
-         $("#ddlCommon_DivisionFk").change(function (e) {
+        $("#ddlCommon_DivisionFk").change(function (e) {
+
+            if (!editButton) {
                 var commonDivisionFk = $("#ddlCommon_DivisionFk :selected").val();
                 $.ajax({
-                type: "GET",
-                url: "@Url.Action("CommonDistrictsGet","Configuration")",
-                datatype: "Json",
-                data: { id:  commonDivisionFk },
+                    type: "GET",
+                    url: "@Url.Action("CommonDistrictsGet","Configuration")",
+                    datatype: "Json",
+                    data: { id: commonDivisionFk },
                     success: function (data) {
 
                         if (data) {
@@ -436,10 +439,13 @@
                         }
                     }
                 });
-       });
+            }
+          });
 
         $("#ddlCommon_DistrictsFk").change(function (e) {
-                var commonDistrictsFk = $("#ddlCommon_DistrictsFk :selected").val();
+
+            if (!editButton) {
+                 var commonDistrictsFk = $("#ddlCommon_DistrictsFk :selected").val();
                 $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonUpazilasGet", "Configuration")",
@@ -447,7 +453,7 @@
                 data: { id:  commonDistrictsFk},
                     success: function (data) {
                         if (data) {
-                            $("#ddlCommon_UpazilasFk").empty();
+                           /* $("#ddlCommon_UpazilasFk").empty();*/
                             $("#ddlCommon_UpazilasFk").append("<option value=''>==Select Police Station==</option>");
                             $(data).each(function (index, item) {
                                 $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
@@ -456,7 +462,18 @@
                         }
                     }
                 });
+            }
         });
+
+
+
+
+
+        var district = 0;
+        var division = 0;
+        var upazila = 0;
+
+
 
         function makeEditble(id) {
             if (id !== null) {
@@ -477,11 +494,14 @@
                         $('#txtPhone').val(data.Phone);
 
 
-                        $('#txtEmail').val(data.Email);
-                        $('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
+                           $('#txtEmail').val(data.Email);
 
-                        $('#ddlCommon_DistrictsFk').val(data.Common_DistrictsFk).trigger('change');
-                        $('#ddlCommon_UpazilasFk').val(data.Common_UpazilasFk).trigger('change');
+                        division = data.Common_DivisionFk;
+                        district = data.Common_DistrictsFk;
+                        upazila = data.Common_UpazilasFk;
+
+                        //$("#ddlCommon_DivisionFk").off('change');
+                        //$("#ddlCommon_DistrictsFk").off('change');
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         $('#ddlRegionId').val(data.RegionId).trigger('change');
                         $('#ddlAreaId').val(data.AreaId).trigger('change');
@@ -498,8 +518,44 @@
 
 
                         window.scrollTo({ top: 0, behavior: 'smooth' });
+
                 }
-            });
+                });
+                $('#ddlCommon_DivisionFk').val(division).trigger('change');
+
+                         // Repopulate the ddlCommon_DistrictsFk dropdown
+                            $.ajax({
+                               type: "GET",
+                               url: "@Url.Action("CommonDistrictsGet", "Configuration")",
+                                datatype: "Json",
+                                data: { id: division },
+                               success: function(data) {
+                               $("#ddlCommon_DistrictsFk").empty();
+                                $("#ddlCommon_DistrictsFk").append("<option value=''>==Select District==</option>");
+                                $(data).each(function(index, item) {
+                                $("#ddlCommon_DistrictsFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                        });
+                           }
+                                   });
+
+                          // Repopulate the ddlCommon_UpazilasFk dropdown
+                            $.ajax({
+                                type: "GET",
+                                url: "@Url.Action("CommonUpazilasGet", "Configuration")",
+                                datatype: "Json",
+                                data: { id: district },
+                                success: function(data) {
+                                 $("#ddlCommon_UpazilasFk").empty();
+                                    $("#ddlCommon_UpazilasFk").append("<option value=''>==Select Police Station==</option>");
+                                    $(data).each(function(index, item) {
+                                         $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                            });
+                                     }
+                                 });
+
+
+
+
             }
         }
 

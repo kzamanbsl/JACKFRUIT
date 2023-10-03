@@ -2364,7 +2364,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 Name = vmCommonProductSubCategory.Name,
                 Code = vmCommonProductSubCategory.Code,
-                ProductCategoryId = vmCommonProductSubCategory.Common_ProductCategoryFk,
+                ProductCategoryId = vmCommonProductSubCategory.CategoryId,
                 BaseCommissionRate = vmCommonProductSubCategory.BaseCommissionRate,
                 ProductType = vmCommonProductSubCategory.ProductType,
                 CompanyId = vmCommonProductSubCategory.CompanyFK,
