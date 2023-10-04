@@ -137,7 +137,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Payment Method:</label>
-                                            @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlPaymentMethodEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.CustomerPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlPaymentMethodEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.CustomerPaymentMethodEnumFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3" >
+                                    <div class="col-md-3">
                                         <div class="form-group" id="deportDivId" style="display:none;">
                                             <label>Deport:</label>
                                             @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Deport==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -187,71 +187,74 @@
                                 </div>
                             }
 
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group" style="padding:0px">
-                                        <label for="message-text" class="col-form-label">Product:</label>
+                            @if (Model.Status == (int)EnumPOStatus.Draft)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Product:</label>
 
-                                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })
-                                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-                                        @Html.HiddenFor(model => model.FProductId, new { id = "ddlRProductFK", @required = "required" })
-                                        @Html.ValidationMessageFor(model => model.FProductId, "", new { @class = "text-danger" })
+                                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })
+                                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.FProductId, new { id = "ddlRProductFK", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.FProductId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Order Qty:</label>
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
-                                            <div class="input-group-addon">
-                                                <span class="txtUnitName"></span>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Order Qty:</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                                                <div class="input-group-addon">
+                                                    <span class="txtUnitName"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Unit Price:</label>
-                                        @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price", required = "Required" })
-                                        @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Unit Price:</label>
+                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group ">
+                                            <label>Total Amount:</label>
+                                            @Html.TextBoxFor(model => model.TotalAmount, new { id = "totalAmount", @readonly = "readonly", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Amount", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group ">
-                                        <label>Total Amount:</label>
-                                        @Html.TextBoxFor(model => model.TotalAmount, new { id = "totalAmount", @readonly = "readonly", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Amount", required = "Required" })
-                                        @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
+                            }
                         </div>
 
-                        <div class="box-footer">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <table class="table" id="tblStockAvailable">
-                                        <tr>
-                                            <th>Available Stock: </th>
-                                            <th id="stockAvailable"></th>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-md-4">
+                        @if (Model.Status == (int)EnumPOStatus.Draft)
+                        {
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <table class="table" id="tblStockAvailable">
+                                            <tr>
+                                                <th>Available Stock: </th>
+                                                <th id="stockAvailable"></th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-4">
 
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    @if (Model.Status == (int)EnumPOStatus.Draft)
-                                    {
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
                                         <input type="submit" id="soCreateBtn" value="Add Product" class="btn btn-primary btn-block" />
-                                    }
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
 
                         <!--Body Will by Start Here-->
                         @{
@@ -477,7 +480,6 @@
             }
 
             $('#dealerSalesOrderSlaveFormId').on('keyup keypress', function (e) {
-
                 var keyCode = e.keyCode || e.which;
                 if (keyCode === 13) {
                     e.preventDefault();
@@ -493,7 +495,6 @@
                 autoclose: true,
                 clearBtn: true
             }).on('changeDate', function (ev) {
-
                 if ($(this).parents('form') && $(this).attr('required')) {
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }
@@ -511,9 +512,7 @@
                         cache: true,
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
-
                             response($.map(data, function (item) {
-
                                 return item;
                             }))
                         },
@@ -531,6 +530,9 @@
                   select: function (e, i) {
 
                     $("#ddlRProductFK").val(i.item.val);
+                    $("#txtOrderQuantity").val(i.item.qty);
+                    $('#txtUnitPrice').val(i.item.price);
+                    $('#totalAmount').val(i.item.qty * i.item.price);
 
                     $.ajax({
                         type: "GET",
@@ -538,14 +540,15 @@
                         datatype: "Json",
                         data: { companyId: "@Model.CompanyFK", productId: i.item.val },
                         success: function (data) {
-
                             if (data) {
                                 $('#tblStockAvailable').show();
                                 $('.txtUnitName').text(data.UnitName);
                                 $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
                                 var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                 $("#txtUnitPrice").val(data.UnitPrice);
+                                $("#txtUnitPrice").val(data.UnitPrice);
+                                var unitQty = $("#txtOrderQuantity").val();
+                                $('#totalAmount').val(unitQty * data.UnitPrice);
                             }
                         }
                     });
