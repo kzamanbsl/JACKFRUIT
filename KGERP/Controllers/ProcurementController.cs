@@ -744,7 +744,7 @@ namespace KGERP.Controllers
             return View(vmSalesOrderSlave);
         }
 
-       
+
         public async Task<ActionResult> SalesOrderLisByCustomerIdGet(int customerId)
         {
 
@@ -1754,7 +1754,7 @@ namespace KGERP.Controllers
 
             return View(vmSalesOrder);
         }
-        
+
         [HttpPost]
         public ActionResult DeportSalesOrderSearch(VMSalesOrder vmSalesOrder)
         {
@@ -1768,6 +1768,30 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
 
         }
+
+
+        [HttpGet]
+        public async Task<ActionResult> DeportSalesOrderReceivedSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId > 0)
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
+            }
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeportSalesOrderReceivedSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            await _service.DeportOrderDetailEdit(vmSalesOrderSlave);
+            
+            return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyId, fromDate = vmSalesOrderSlave.FromDate, toDate = vmSalesOrderSlave.ToDate, vStatus = vmSalesOrderSlave.Status });
+        }
+
 
         [HttpGet]
         public async Task<ActionResult> DeportSalesOrderReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
