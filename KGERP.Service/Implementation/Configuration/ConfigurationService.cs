@@ -4507,6 +4507,7 @@ namespace KGERP.Service.Implementation.Configuration
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
                          SubZoneId = t1.SubZoneId.Value,
+                         AreaId=t1.AreaId,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId,
