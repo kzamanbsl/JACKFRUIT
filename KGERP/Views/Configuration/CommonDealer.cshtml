@@ -356,10 +356,13 @@
 
         $(document).ready(function () {
 
-            $('#select2-ddlZoneId-container').on("click", function () {
-                alert('okk');
-                regionChange(0);
-                territoryChange(0);
+            $('#ddlZoneId').on('change', function () {
+                
+                    regionChange(0);
+                    territoryChange(0);
+                   
+                
+               
             })
 
             $('.formValidator').bootstrapValidator();
@@ -367,19 +370,20 @@
             //$("#ddlZoneId").change(function () {
 
             //    regionChange(0);
-              
+
             //});
 
-            $("#select2-ddlRegionId-container").on("click",function () {
-                alert('okk');
-                areaChange(0);
-                
-            });
-            //$("#select2-ddlAreaId-container").on("click", function () {
-            //    alert('okk');
-                
+            //$("#ddlRegionId").on('change',function () {
+
+            //    areaChange(0);
+
+
             //});
-            
+            $("#select2-ddlAreaId-container").on("click", function () {
+                
+            areaChange(0);
+            });
+
         });
 
         function regionChange( regionValue) {
@@ -426,7 +430,7 @@
                                 $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
                             if (areaValue > 0) {
-                                $("#ddlAreaId").val(areaValue).trigger('change');
+                                $("#ddlAreaId").val(areaValue);
                             }
 
                         }
@@ -515,6 +519,10 @@
 
         function makeEditble(id) {
             if (id !== null) {
+                var zoneId = 0;
+                var region = 0;
+                var area = 0;
+                var subzone = 0;
                 $.ajax({
                 type: "get",
                 url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
@@ -532,18 +540,20 @@
                         $('#txtPhone').val(data.Phone);
 
 
-                           $('#txtEmail').val(data.Email);
-
-         
-
+                        $('#txtEmail').val(data.Email);
+                        zoneValue = data.ZoneId;
+                        region = data.RegionId;
+                        area = data.AreaId;
+                        subzone = data.SubZoneId;
                         //$("#ddlCommon_DivisionFk").off('change');
                         //$("#ddlCommon_DistrictsFk").off('change');
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         //regionChange(data.RegionId);
                         $('#ddlRegionId').val(data.RegionId).trigger('change');
 
-                        areaChange(data.AreaId);
-                        //$('#ddlAreaId').val(data.AreaId).trigger('change');
+                        //areaChange(data.AreaId);
+                        $('#ddlAreaId').val(data.AreaId).trigger('change');
+                        console.log(data.AreaId);
                         $('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
@@ -556,10 +566,88 @@
                         $('#ddlParentId').val(data.ParentId).trigger('change');
 
 
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 }
                 });
+
+
+                $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("CommonRegionGet", "Configuration")",
+                        datatype: "Json",
+                    data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
+                        success: function (data) {
+                        if (data) {
+                        $("#ddlRegionId").empty();
+                        $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
+                        $(data).each(function (index, item) {
+                        $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+
+                            $("#ddlRegionId").val(region);
+
+                        }
+                        }
+                        });
+
+                        $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetAreaList", "Configuration")",
+                        datatype: "Json",
+                            data: { companyId:@Model.CompanyFK, zoneId: zoneValue, regionId:region },
+                        success: function (data) {
+                        if (data) {
+                        $("#ddlAreaId").empty();
+                        $("#ddlAreaId").append("<option value=''>==Select Area==</option>");
+                        $(data).each(function (index, item) {
+                        $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlAreaId").val(area);
+                        });
+
+                            
+
+                        }
+                        }
+                        });
+                        $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("CommonSubZonesGet", "Configuration")",
+                        datatype: "Json",
+                         data: { id: zoneValue },
+                        success: function (data) {
+                        if (data) {
+                        $("#ddlSubZoneId").empty();
+                        $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                        $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlSubZoneId").val(subzone);
+                        });
+
+                           
+
+                        }
+                        }
+                        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 @*$('#ddlCommon_DivisionFk').val(division).trigger('change');
 
                          // Repopulate the ddlCommon_DistrictsFk dropdown
