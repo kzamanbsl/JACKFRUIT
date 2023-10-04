@@ -511,6 +511,10 @@
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
+        <EntityTypeShape EntityType="ERPModel.OrderDetailHistory" Width="1.5" PointX="68.375" PointY="21.75" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderDetail1" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

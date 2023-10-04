@@ -615,6 +615,9 @@
     <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderDetailHistory.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\OrderMaster.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>

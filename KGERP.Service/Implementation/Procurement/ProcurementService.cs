@@ -4156,6 +4156,48 @@ namespace KGERP.Service.Implementation.Procurement
             return vmSalesOrder;
         }
 
+        public async Task<VMSalesOrder> GetDeportOrderMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder.CompanyFK = companyId;
+
+            vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && x.DeportId > 0
+                                                          && x.StockInfoTypeId == (int)StockInfoTypeEnum.Company
+                                                          && x.OrderDate >= fromDate && x.OrderDate <= toDate
+                                                          && !x.IsOpening
+                                                          && x.Status > (int)EnumSOStatus.Draft
+                                                          && x.Status < (int)EnumSOStatus.Closed)
+
+                                                          join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+
+                                                          select new VMSalesOrder
+                                                          {
+                                                              OrderMasterId = t1.OrderMasterId,
+                                                              CustomerId = t2.VendorId,
+                                                              CommonCustomerName = t2.Name,
+                                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                              OrderNo = t1.OrderNo,
+                                                              OrderDate = t1.OrderDate,
+                                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                              CourierNo = t1.CourierNo,
+                                                              FinalDestination = t1.FinalDestination,
+                                                              CourierCharge = t1.CourierCharge,
+                                                              Status = t1.Status,
+
+                                                              CompanyFK = t1.CompanyId,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreatedBy = t1.CreatedBy,
+
+                                                          }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+            if (vStatus != -1 && vStatus != null)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
+            }
+            return vmSalesOrder;
+        }
+
 
         #endregion
 

@@ -104,10 +104,10 @@
 
                                         string statusTitle = "";
 
-                                        if (item.Status == (int)EnumPOStatus.Draft)
+                                        if (item.Status == (int)EnumSOStatus.Draft)
                                         { statusTitle = "Make Submit"; }
 
-                                        if (item.Status == (int)EnumPOStatus.Submitted)
+                                        if (item.Status == (int)EnumSOStatus.Submitted)
                                         { statusTitle = "Undo Submit"; }
 
                                         #endregion
@@ -124,12 +124,15 @@
                                             <td>@item.POPaymentMethodName</td>
                                             <td>@item.EnumStatusName</td>
                                             <td>
-                                                <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDealerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
+                                                {
+                                                    <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDealerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                }
                                                 <a href="~/Procurement/DealerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumPOStatus.Submitted)
+                                                @if (item.Status == (int)EnumSOStatus.Submitted)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print
@@ -141,14 +144,18 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumPOStatus.Closed)
+                                                @if (item.Status == (int)EnumSOStatus.Closed)
                                                 {
                                                     <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Closed</i></span>
+                                                }
+                                                else if (item.Status == (int)EnumSOStatus.Received)
+                                                {
+                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Received</i></span>
                                                 }
                                                 else
                                                 {
                                                     <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitDealerOrderModal" title="@statusTitle" data-placement="top">
-                                                        @if (item.Status == (int)EnumPOStatus.Submitted)
+                                                        @if (item.Status == (int)EnumSOStatus.Submitted)
                                                         {
                                                             <i>Undo Submit</i>
                                                         }
@@ -230,22 +237,22 @@
                     </div>
 
                     @*<div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Sales From:</label>
-                                @Html.DropDownListFor(model => model.StockInfoTypeId, Model.EnumStockInfoTypeList as SelectList, "==Sales From==", new { id = "ddlStockInfoTypeEnumId", @class = "form-control ddlReset", style = "width:100%", required = "required" })
-                                @Html.ValidationMessageFor(model => model.StockInfoTypeId, "", new { @class = "text-danger" })
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Sales From:</label>
+                                    @Html.DropDownListFor(model => model.StockInfoTypeId, Model.EnumStockInfoTypeList as SelectList, "==Sales From==", new { id = "ddlStockInfoTypeEnumId", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.StockInfoTypeId, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group" id="deportDivId" style="display:none;">
-                                <label>Deport:</label>
-                                @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Deport==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                            <div class="col-md-6">
+                                <div class="form-group" id="deportDivId" style="display:none;">
+                                    <label>Deport:</label>
+                                    @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Deport==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
-                    </div>*@
+                        </div>*@
 
 
                     <div class="row">

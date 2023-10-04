@@ -104,10 +104,10 @@
 
                                         string statusTitle = "";
 
-                                        if (item.Status == (int)EnumPOStatus.Draft)
+                                        if (item.Status == (int)EnumSOStatus.Draft)
                                         { statusTitle = "Make Submit"; }
 
-                                        if (item.Status == (int)EnumPOStatus.Submitted)
+                                        if (item.Status == (int)EnumSOStatus.Submitted)
                                         { statusTitle = "Undo Submit"; }
 
                                         #endregion
@@ -129,7 +129,7 @@
                                                 <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumPOStatus.Submitted)
+                                                @if (item.Status == (int)EnumSOStatus.Submitted)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print
@@ -141,14 +141,14 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumPOStatus.Closed)
+                                                @if (item.Status == (int)EnumSOStatus.Closed)
                                                 {
                                                     <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Closed</i></span>
                                                 }
                                                 else
                                                 {
                                                     <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitFoodCustomerOrderModal" title="@statusTitle" data-placement="top">
-                                                        @if (item.Status == (int)EnumPOStatus.Submitted)
+                                                        @if (item.Status == (int)EnumSOStatus.Submitted)
                                                         {
                                                             <i>Undo Submit</i>
                                                         }
@@ -334,7 +334,7 @@
                         <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
-           
+
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@
 (*) Update,
 (-) Remove
 
-Date: 16-08-2023
+Date: 04-10-2023
 ================
 
+	+CREATE TABLE [Erp].[OrderDetailHistory]

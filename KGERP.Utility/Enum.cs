@@ -36,7 +36,7 @@
     {
         Draft,
         Submitted,
-        Approved,
+        Received,
         Closed
     }
     public enum EnumExpenseStatus

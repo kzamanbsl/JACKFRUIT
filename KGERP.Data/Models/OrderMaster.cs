@@ -20,6 +20,7 @@ namespace KGERP.Data.Models
             this.EMIs = new HashSet<EMI>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.OrderDetailHistories = new HashSet<OrderDetailHistory>();
         }
     
         public long OrderMasterId { get; set; }
@@ -67,5 +68,7 @@ namespace KGERP.Data.Models
         public virtual Vendor Vendor { get; set; }
         public virtual Vendor Vendor1 { get; set; }
         public virtual Vendor Vendor2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
     }
 }
