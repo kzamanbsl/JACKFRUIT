@@ -355,49 +355,63 @@
 
 
         $(document).ready(function () {
+
+            $('#select2-ddlZoneId-container').on("click", function () {
+                alert('okk');
+                regionChange(0);
+                territoryChange(0);
+            })
+
             $('.formValidator').bootstrapValidator();
+
+            //$("#ddlZoneId").change(function () {
+
+            //    regionChange(0);
+              
+            //});
+
+            $("#select2-ddlRegionId-container").on("click",function () {
+                alert('okk');
+                areaChange(0);
+                
+            });
+            //$("#select2-ddlAreaId-container").on("click", function () {
+            //    alert('okk');
+                
+            //});
             
         });
 
-        $("#ddlZoneId").change(function (e) {
+        function regionChange( regionValue) {
             var zoneId = $("#ddlZoneId :selected").val();
-                $.ajax({
-                type: "GET",
-                url: "@Url.Action("CommonSubZonesGet", "Configuration")",
-                datatype: "Json",
-                    data: { id: zoneId },
-                    success: function (data) {
-                        if (data) {
-                            $("#ddlSubZoneId").empty();
-                            $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
 
-                        }
-                    }
-                });
 
-                $.ajax({
+            $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonRegionGet", "Configuration")",
                 datatype: "Json",
-                    data: { companyId:@Model.CompanyFK, zoneId: zoneId },
-                    success: function (data) {
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId },
+                success: function (data) {
 
-                        if (data) {
-                            $("#ddlRegionId").empty();
-                            $("#ddlRegionId").append("<option value=''>==Select Territory==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-
+                    if (data) {
+                        $("#ddlRegionId").empty();
+                        $("#ddlRegionId").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (regionChange > 0) {
+                            $("#ddlRegionId").val(regionValue).trigger('change');
+                            //.trigger('change', function (e) {
+                            //    e.stopPropagation();
+                            //});
                         }
                     }
-                });
-       });
+                }
+            });
+        }
+        function areaChange(areaValue)
+        {
 
-        $("#ddlRegionId").change(function (e) {
             var zoneId = $("#ddlZoneId :selected").val();
             var regionId = $("#ddlRegionId :selected").val();
                 $.ajax({
@@ -411,11 +425,38 @@
                             $(data).each(function (index, item) {
                                 $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
+                            if (areaValue > 0) {
+                                $("#ddlAreaId").val(areaValue).trigger('change');
+                            }
 
                         }
                     }
                 });
-        });
+
+        }
+
+        function territoryChange(territoryValue) {
+
+            var zoneId = $("#ddlZoneId :selected").val();
+             $.ajax({
+                type: "GET",
+                url: "@Url.Action("CommonSubZonesGet", "Configuration")",
+                datatype: "Json",
+                data: { id: zoneId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlSubZoneId").empty();
+                        $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (territoryValue > 0) {
+                            $("#ddlSubZoneId").val(territoryValue).trigger('change');
+                        }
+                    }
+                }
+            });
+        }
         var editButton = false;
 
         $("#ddlCommon_DivisionFk").change(function (e) {
@@ -469,9 +510,6 @@
 
 
 
-        var district = 0;
-        var division = 0;
-        var upazila = 0;
 
 
 
@@ -496,15 +534,16 @@
 
                            $('#txtEmail').val(data.Email);
 
-                        division = data.Common_DivisionFk;
-                        district = data.Common_DistrictsFk;
-                        upazila = data.Common_UpazilasFk;
+         
 
                         //$("#ddlCommon_DivisionFk").off('change');
                         //$("#ddlCommon_DistrictsFk").off('change');
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
+                        //regionChange(data.RegionId);
                         $('#ddlRegionId').val(data.RegionId).trigger('change');
-                        $('#ddlAreaId').val(data.AreaId).trigger('change');
+
+                        areaChange(data.AreaId);
+                        //$('#ddlAreaId').val(data.AreaId).trigger('change');
                         $('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
@@ -521,7 +560,7 @@
 
                 }
                 });
-                $('#ddlCommon_DivisionFk').val(division).trigger('change');
+                @*$('#ddlCommon_DivisionFk').val(division).trigger('change');
 
                          // Repopulate the ddlCommon_DistrictsFk dropdown
                             $.ajax({
@@ -551,7 +590,7 @@
                                          $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                                             });
                                      }
-                                 });
+                                 });*@
 
 
 
