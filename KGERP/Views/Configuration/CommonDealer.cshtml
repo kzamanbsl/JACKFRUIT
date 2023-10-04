@@ -404,7 +404,7 @@
                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
                         if (regionChange > 0) {
-                            $("#ddlRegionId").val(regionValue).trigger('change');
+                            $("#ddlRegionId").val(regionValue);
                             //.trigger('change', function (e) {
                             //    e.stopPropagation();
                             //});
@@ -455,7 +455,7 @@
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
                         if (territoryValue > 0) {
-                            $("#ddlSubZoneId").val(territoryValue).trigger('change');
+                            $("#ddlSubZoneId").val(territoryValue);
                         }
                     }
                 }
