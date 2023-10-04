@@ -517,9 +517,9 @@
                   select: function (e, i) {
 
                     $("#ddlRProductFK").val(i.item.val);
-                      $("#txtOrderQuantity").val(i.item.qty);
-                      $('#txtUnitPrice').val(i.item.price);
-                      $('#totalAmount').val(i.item.qty * i.item.price);
+                    $("#txtOrderQuantity").val(i.item.qty);
+                    $('#txtUnitPrice').val(i.item.price);
+                    $('#totalAmount').val(i.item.qty * i.item.price);
 
                     $.ajax({
                         type: "GET",
@@ -534,7 +534,7 @@
                                 $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
                                 var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                 $("#txtUnitPrice").val(data.UnitPrice);
+                                $("#txtUnitPrice").val(data.UnitPrice);
                                 var unitQty =$("#txtOrderQuantity").val();
                                 $('#totalAmount').val(unitQty * data.UnitPrice);
                             }
