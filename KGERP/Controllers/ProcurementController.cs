@@ -1754,7 +1754,7 @@ namespace KGERP.Controllers
 
             return View(vmSalesOrder);
         }
-
+        
         [HttpPost]
         public ActionResult DeportSalesOrderSearch(VMSalesOrder vmSalesOrder)
         {
@@ -1768,6 +1768,38 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DeportSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> DeportSalesOrderReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder = await _service.GetDeportOrderMasterList(companyId, fromDate, toDate, vStatus);
+
+            vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            vmSalesOrder.Status = vStatus ?? -1;
+
+            return View(vmSalesOrder);
+        }
+
+        [HttpPost]
+        public ActionResult DeportSalesOrderReceivedSearch(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.CompanyId > 0)
+            {
+                Session["CompanyId"] = vmSalesOrder.CompanyId;
+            }
+
+            vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
+            vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
+            return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+
+        }
+
+
 
         #endregion
 
