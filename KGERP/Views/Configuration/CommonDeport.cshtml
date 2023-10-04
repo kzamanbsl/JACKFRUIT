@@ -352,9 +352,21 @@
             $('.formValidator').bootstrapValidator();
 
 
-            
-          
-           
+            $("#ddlZoneId").on('change', function () {
+                regionChange(0);
+
+            });
+
+            $("#ddlCommon_DivisionFk").on('change', function () {
+                districtChange(0);
+
+            });
+            $("#ddlCommon_DistrictsFk").on('change', function () {
+                 upazilaChange(0);
+
+            });
+
+
         });
 
 
@@ -369,9 +381,9 @@
 
 
 
-        $("#ddlZoneId").on('click',function (e) {
-            var zoneId = $("#ddlZoneId :selected").val();
-                @*$.ajax({
+        @* $("#ddlZoneId").on('click',function (e) {
+            var zoneId = $("#ddlZoneId :selected").val();-->
+                $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonSubZonesGet", "Configuration")",
                 datatype: "Json",
@@ -386,9 +398,9 @@
 
                         }
                     }
-                });*@
+                });
 
-                $.ajax({
+                <!--$.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonRegionGet", "Configuration")",
                 datatype: "Json",
@@ -405,15 +417,13 @@
                         }
                     }
                 });
-        });
+        })*@
 
-        function districtChange() {
+        function districtChange(districtValue) {
 
                 //var option = $("#ddlCommon_DivisionFk").closest('option');
                 var commonDivisionFk = $("#ddlCommon_DivisionFk").val();
-           if (commonDivisionFk > 0)
-
-           {
+           
 
               $.ajax({
                 type: "GET",
@@ -428,26 +438,23 @@
                             $(data).each(function (index, item) {
                                 $("#ddlCommon_DistrictsFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
+                            if (districtValue > 0) {
+                                $("#ddlCommon_DistrictsFk").val(districtValue);
 
+                            }
                         }
                     }
                 });
 
-           }
-
-
-
-
         }
 
 
-        function upazilaChange() {
+        function upazilaChange(upazilaValue) {
            /* $().on('click', function (e) {*/
 
                /* var option = $(e.target).closest('option');*/
                 var commonDistrictsFk = $("#ddlCommon_DistrictsFk").val();
-            if (commonDistrictsFk > 0)
-            {
+            
               $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonUpazilasGet", "Configuration")",
@@ -460,33 +467,40 @@
                             $(data).each(function (index, item) {
                                 $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
-
+                            if (upazilaValue > 0) {
+                                $("#ddlCommon_UpazilasFk").val(upazilaValue);
+                            }
                         }
                     }
                 });
-            }
-             
+            
+
         }
-        @*$("#ddlRegionId").change(function (e) {
+
+
+        function regionChange(regionValue) {
+                       
             var zoneId = $("#ddlZoneId :selected").val();
-            var regionId = $("#ddlRegionId :selected").val();
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetAreaList", "Configuration")",
+                url: "@Url.Action("GetRegionList", "Configuration")",
                 datatype: "Json",
-                    data: { companyId:@Model.CompanyFK, zoneId: zoneId, regionId: regionId },
+                    data: { companyId:@Model.CompanyFK, zoneId: zoneId},
                     success: function (data) {
                         if (data) {
-                            $("#ddlAreaId").empty();
+                            $("#ddlRegionId").empty();
                             $(data).each(function (index, item) {
-                                $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
-
-                        }
+                            if (regionValue > 0) {
+                                $("#ddlRegionId").val(regionValue);
+                            }
+                           
+                        } 
                     }
                 });
-        });*@
-
+            
+        }
 
 
         function makeEditble(id) {
@@ -511,11 +525,13 @@
                         $('#txtEmail').val(data.Email);
                         $('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
                         /*districtChange();*/
-                        $('#ddlCommon_DistrictsFk').val(data.Common_DistrictsFk).trigger('change');
-                       /* upazilaChange();*//* upazilaChange();*/
+                        districtChange(data.Common_DistrictsFk);
+                       // $('#ddlCommon_DistrictsFk').val(data.Common_DistrictsFk).trigger('change');
+                        /* upazilaChange();*//* upazilaChange();*/
                         $('#ddlCommon_UpazilasFk').val(data.Common_UpazilasFk).trigger('change');
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
-                        $('#ddlRegionId').val(data.RegionId).trigger('change');
+                        regionChange(data.RegionId);
+                        //$('#ddlRegionId').val(data.RegionId).trigger('change');
                         //$('#ddlAreaId').val(data.AreaId).trigger('change');
                         //$('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
                         $('#txtAddress').val(data.Address);
