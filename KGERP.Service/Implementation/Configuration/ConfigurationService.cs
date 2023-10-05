@@ -955,6 +955,11 @@ namespace KGERP.Service.Implementation.Configuration
             List<VMCommonDistricts> vmRegions = await Task.Run(() => (_db.Regions.Where(x => x.IsActive == true && x.ZoneId == zoneId && x.CompanyId == companyId)).Select(x => new VMCommonDistricts() { ID = x.RegionId, Name = x.Name }).ToListAsync());
             return vmRegions;
         }
+        public async Task<List<VMCommonDistricts>> AllRegionGet(int companyId)
+        {
+            List<VMCommonDistricts> vmRegions = await Task.Run(() => (_db.Regions.Where(x => x.IsActive == true  && x.CompanyId == companyId)).Select(x => new VMCommonDistricts() { ID = x.RegionId, Name = x.Name }).ToListAsync());
+            return vmRegions;
+        }
 
 
 

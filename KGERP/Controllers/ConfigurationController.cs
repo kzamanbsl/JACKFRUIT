@@ -1577,7 +1577,17 @@ namespace KGERP.Controllers
             var dts = await Task.Run(() => _service.CommonRegionGet(companyId, zoneId));
             var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
+        }  
+        [HttpGet]
+        public async Task<ActionResult> AllRegionGet(int companyId)
+        {
+
+            var dts = await Task.Run(() => _service.AllRegionGet(companyId));
+            var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+      
 
         [HttpGet]
         public async Task<ActionResult> CommonUpazilasGet(int id)
