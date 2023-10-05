@@ -1,4 +1,5 @@
-﻿using KGERP.Data.Models;
+﻿using AutoMapper;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -4116,27 +4117,46 @@ namespace KGERP.Service.Implementation.Procurement
                                           }).FirstOrDefault());
             return v;
         }
-        public async Task<int> DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+
+        public long DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            var result = -1;
+            long result = -1;
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
 
-            OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
+            List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
 
-            model.ProductId = vmSalesOrderSlave.FProductId;
-            model.Qty = vmSalesOrderSlave.Qty;
-            model.UnitPrice = vmSalesOrderSlave.UnitPrice;
-            model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
-            model.Comsumption = vmSalesOrderSlave.Consumption;
-            model.PackQuantity = vmSalesOrderSlave.PackQuantity;
-
-            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            model.ModifedDate = DateTime.Now;
-
-            if (await _db.SaveChangesAsync() > 0)
+            List<OrderDetailHistory> history = new List<OrderDetailHistory>();
+            //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+            foreach (var item in details)
             {
-                result = vmSalesOrderSlave.ID;
+                history.Add(new OrderDetailHistory
+                {
+                    
+                });
             }
 
+            foreach (var dt in details)
+            {
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
+                dt.Qty = obj.Qty;
+                dt.Amount = (obj.Qty * dt.UnitPrice);
+
+                dt.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                dt.ModifedDate = DateTime.Now;
+            }
+
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                _db.OrderDetailHistories.AddRange(history);
+                //var historyResult = _db.SaveChanges();
+                if (_db.SaveChanges() > 0)
+                {
+                    result = vmSalesOrderSlave.OrderMasterId;
+                }
+                scope.Commit();
+            }
             return result;
         }
         public async Task<VMSalesOrder> GetDeportOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
@@ -4568,7 +4588,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
-                                                          && x.Status>= (int)EnumSOStatus.Submitted
+                                                          && x.Status >= (int)EnumSOStatus.Submitted
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DealerId equals t2.VendorId

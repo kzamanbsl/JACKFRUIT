@@ -1788,8 +1788,8 @@ namespace KGERP.Controllers
         public async Task<ActionResult> DeportSalesOrderReceivedSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
 
-            await _service.DeportSalesOrderReceived(vmSalesOrderSlave);
-            
+            var resutl = await Task.Run(() => _service.DeportSalesOrderReceived(vmSalesOrderSlave));
+
             return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyId, fromDate = vmSalesOrderSlave.FromDate, toDate = vmSalesOrderSlave.ToDate, vStatus = vmSalesOrderSlave.Status });
         }
 
