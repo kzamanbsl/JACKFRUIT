@@ -1778,6 +1778,7 @@ namespace KGERP.Controllers
             if (orderMasterId > 0)
             {
                 vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
             }
 
             return View(vmSalesOrderSlave);
@@ -1787,7 +1788,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> DeportSalesOrderReceivedSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
 
-            await _service.DeportOrderDetailEdit(vmSalesOrderSlave);
+            await _service.DeportSalesOrderReceived(vmSalesOrderSlave);
             
             return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyId, fromDate = vmSalesOrderSlave.FromDate, toDate = vmSalesOrderSlave.ToDate, vStatus = vmSalesOrderSlave.Status });
         }

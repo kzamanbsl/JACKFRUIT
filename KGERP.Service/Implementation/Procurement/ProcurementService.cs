@@ -4054,10 +4054,15 @@ namespace KGERP.Service.Implementation.Procurement
                                                                     join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
                                                                     select new VMSalesOrderSlave
                                                                     {
-                                                                        ProductName = t4.Name + " " + t3.ProductName,
-                                                                        ProductCategoryName = t5.Name,
                                                                         OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
+
+                                                                        FProductId = t3.ProductId,
+                                                                        ProductName = t4.Name + " " + t3.ProductName,
+                                                                        ProductCategoryId = t5.ProductCategoryId,
+                                                                        ProductCategoryName = t5.Name,
+                                                                        ProductSubCategoryId = t4.ProductSubCategoryId,
+
                                                                         Qty = t1.Qty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
@@ -4065,9 +4070,6 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
                                                                         PromotionalOfferId = t1.PromotionalOfferId,
-                                                                        ProductCategoryId = t5.ProductCategoryId,
-                                                                        ProductSubCategoryId = t4.ProductSubCategoryId,
-                                                                        FProductId = t3.ProductId,
                                                                         DiscountRate = t1.DiscountRate,
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
@@ -4114,7 +4116,29 @@ namespace KGERP.Service.Implementation.Procurement
                                           }).FirstOrDefault());
             return v;
         }
+        public async Task<int> DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            var result = -1;
 
+            OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
+
+            model.ProductId = vmSalesOrderSlave.FProductId;
+            model.Qty = vmSalesOrderSlave.Qty;
+            model.UnitPrice = vmSalesOrderSlave.UnitPrice;
+            model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
+            model.Comsumption = vmSalesOrderSlave.Consumption;
+            model.PackQuantity = vmSalesOrderSlave.PackQuantity;
+
+            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            model.ModifedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = vmSalesOrderSlave.ID;
+            }
+
+            return result;
+        }
         public async Task<VMSalesOrder> GetDeportOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
