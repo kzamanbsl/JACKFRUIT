@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using KGERP.Data.Models;
+﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -4118,11 +4116,18 @@ namespace KGERP.Service.Implementation.Procurement
             return v;
         }
 
-        public long DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        public async Task<long> DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
         {
             long result = -1;
             if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
             if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
+            order.Status = (int)EnumSOStatus.Received;
+            order.ModifiedBy = userName;
+            order.ModifiedDate = DateTime.Now;
 
             List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
@@ -4133,7 +4138,36 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 history.Add(new OrderDetailHistory
                 {
-                    
+                    OrderDetailHistoryId = 0,
+                    OrderDetailId = item.OrderDetailId,
+                    OrderMasterId = item.OrderMasterId,
+                    DemandItemId = item.DemandItemId,
+                    CustomerId = item.CustomerId,
+                    OrderDate = item.OrderDate,
+                    ProductSerial = item.ProductSerial,
+                    ProductId = item.ProductId,
+                    Qty = item.Qty,
+                    UnitPrice = item.UnitPrice,
+                    Amount = item.Amount,
+                    SpecialBaseCommission = item.SpecialBaseCommission,
+                    Remarks = item.Remarks,
+                    StyleNo = item.StyleNo,
+                    Comsumption = item.Comsumption,
+                    PackQuantity = item.PackQuantity,
+                    DiscountRate = item.DiscountRate,
+                    DiscountUnit = item.DiscountUnit,
+                    DiscountAmount = item.DiscountAmount,
+                    PromotionalOfferId = item.PromotionalOfferId,
+                    AvgParchaseRate = item.AvgParchaseRate,
+                    IsActive = item.IsActive,
+                    Status = item.Status,
+
+                    CreatedBy = item.CreatedBy,
+                    CreateDate = item.CreateDate,
+                    ModifiedBy = item.ModifiedBy,
+                    ModifedDate = item.ModifedDate,
+                    CompanyId = item.CompanyId
+
                 });
             }
 
@@ -4143,15 +4177,14 @@ namespace KGERP.Service.Implementation.Procurement
                 dt.Qty = obj.Qty;
                 dt.Amount = (obj.Qty * dt.UnitPrice);
 
-                dt.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                dt.ModifiedBy = userName;
                 dt.ModifedDate = DateTime.Now;
             }
 
             using (var scope = _db.Database.BeginTransaction())
             {
                 _db.OrderDetailHistories.AddRange(history);
-                //var historyResult = _db.SaveChanges();
-                if (_db.SaveChanges() > 0)
+                if (await _db.SaveChangesAsync() > 0)
                 {
                     result = vmSalesOrderSlave.OrderMasterId;
                 }
@@ -4159,6 +4192,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             return result;
         }
+
         public async Task<VMSalesOrder> GetDeportOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
