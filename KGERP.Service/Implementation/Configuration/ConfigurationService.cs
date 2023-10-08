@@ -3408,6 +3408,7 @@ namespace KGERP.Service.Implementation.Configuration
                          SubZoneId = t1.SubZoneId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
+                         AreaId=t1.AreaId,
                          RegionId = t1.RegionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -3825,11 +3826,14 @@ namespace KGERP.Service.Implementation.Configuration
             var newString = totalSupplier.ToString().PadLeft(4, '0');
             #endregion
 
+            
+            
             Vendor commonCustomer = new Vendor
             {
                 Name = vmCommonCustomer.Name,
                 Phone = vmCommonCustomer.Phone,
                 Email = vmCommonCustomer.Email,
+                DistrictId=vmCommonCustomer.Common_DistrictsFk,
                 UpazilaId = vmCommonCustomer.Common_UpazilasFk,
                 ContactName = vmCommonCustomer.ContactPerson,
                 VendorTypeId = (int)Provider.Customer,
@@ -4116,6 +4120,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
             Vendor commonCustomer = await _db.Vendors.FindAsync(vmCommonCustomer.ID);
             commonCustomer.Name = vmCommonCustomer.Name;
+            commonCustomer.DistrictId = vmCommonCustomer.Common_DistrictsFk;
             commonCustomer.UpazilaId = vmCommonCustomer.Common_UpazilasFk;
             commonCustomer.Address = vmCommonCustomer.Address;
             commonCustomer.Phone = vmCommonCustomer.Phone;
