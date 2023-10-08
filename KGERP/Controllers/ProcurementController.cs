@@ -1950,6 +1950,27 @@ namespace KGERP.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> DealerSalesOrderReceivedSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId > 0)
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDealerSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
+            }
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DealerSalesOrderReceivedSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            var resutl = await _service.DealerSalesOrderReceived(vmSalesOrderSlave);
+            return RedirectToAction(nameof(DealerSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyFK });
+        }
+
         public async Task<ActionResult> DealerSalesOrderReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);

@@ -4570,6 +4570,83 @@ namespace KGERP.Service.Implementation.Procurement
             return v;
         }
 
+        public async Task<long> DealerSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            long result = -1;
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
+            order.Status = (int)EnumSOStatus.Received;
+            order.ModifiedBy = userName;
+            order.ModifiedDate = DateTime.Now;
+
+            List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
+
+            List<OrderDetailHistory> history = new List<OrderDetailHistory>();
+            //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+            foreach (var item in details)
+            {
+                history.Add(new OrderDetailHistory
+                {
+                    OrderDetailHistoryId = 0,
+                    OrderDetailId = item.OrderDetailId,
+                    OrderMasterId = item.OrderMasterId,
+                    DemandItemId = item.DemandItemId,
+                    CustomerId = item.CustomerId,
+                    OrderDate = item.OrderDate,
+                    ProductSerial = item.ProductSerial,
+                    ProductId = item.ProductId,
+                    Qty = item.Qty,
+                    UnitPrice = item.UnitPrice,
+                    Amount = item.Amount,
+                    SpecialBaseCommission = item.SpecialBaseCommission,
+                    Remarks = item.Remarks,
+                    StyleNo = item.StyleNo,
+                    Comsumption = item.Comsumption,
+                    PackQuantity = item.PackQuantity,
+                    DiscountRate = item.DiscountRate,
+                    DiscountUnit = item.DiscountUnit,
+                    DiscountAmount = item.DiscountAmount,
+                    PromotionalOfferId = item.PromotionalOfferId,
+                    AvgParchaseRate = item.AvgParchaseRate,
+                    IsActive = item.IsActive,
+                    Status = item.Status,
+
+                    CreatedBy = item.CreatedBy,
+                    CreateDate = item.CreateDate,
+                    ModifiedBy = item.ModifiedBy,
+                    ModifedDate = item.ModifedDate,
+                    CompanyId = item.CompanyId
+
+                });
+            }
+
+            foreach (var dt in details)
+            {
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
+                dt.Qty = obj.Qty;
+                dt.Amount = (obj.Qty * dt.UnitPrice);
+
+                dt.ModifiedBy = userName;
+                dt.ModifedDate = DateTime.Now;
+            }
+
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                _db.OrderDetailHistories.AddRange(history);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = vmSalesOrderSlave.OrderMasterId;
+                }
+                scope.Commit();
+            }
+            return result;
+        }
+
         public async Task<VMSalesOrder> GetDealerOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
