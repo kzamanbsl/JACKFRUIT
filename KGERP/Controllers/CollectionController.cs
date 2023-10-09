@@ -45,7 +45,7 @@ namespace KGERP.Controllers
         {
 
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
+            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
 
 
             return View(vmCommonSupplier);
@@ -56,7 +56,7 @@ namespace KGERP.Controllers
         {
 
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
+            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
 
 
             return View(vmCommonSupplier);
@@ -162,12 +162,6 @@ namespace KGERP.Controllers
             var model = _service.GetCommonCustomerByID(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        //public async Task<ActionResult> CommonPaymentMastersList(int companyId)
-        //{
-        //    VMPaymentMaster vmPaymentMaster = new VMPaymentMaster();
-        //    vmPaymentMaster = await Task.Run(() => _service.GetPaymentMasters(companyId));
-        //    return View(vmPaymentMaster);
-        //}
 
         [SessionExpire]
         [HttpGet]
@@ -192,6 +186,7 @@ namespace KGERP.Controllers
             vmPaymentMaster.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             return View(vmPaymentMaster);
         }
+       
         [HttpPost]
         [SessionExpire]
         public async Task<ActionResult> CommonPaymentMastersList(VMPaymentMaster model)
@@ -205,8 +200,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonPaymentMastersList), new { companyId = model.CompanyId, fromDate = model.FromDate, toDate = model.ToDate });
         }
 
-
-
         public async Task<ActionResult> PaymentMasterList(int companyId, int customerId)
         {
 
@@ -217,7 +210,6 @@ namespace KGERP.Controllers
             return View(vmPaymentMaster);
         }
 
-
         public async Task<ActionResult> PurchaseOrderBySupplier(int companyId, int supplierId)
         {
 
@@ -227,30 +219,7 @@ namespace KGERP.Controllers
 
             return View(vmPurchaseOrder);
         }
-        //[HttpGet]
-        //public async Task<ActionResult> PurchaseOrdersByID(int companyId, int supplierId, int paymentMasterId = 0)
-        //{
-        //    VMPayment VMPayment = new VMPayment();
-        //    VMPayment = await Task.Run(() => _service.ProcurementPurchaseOrdersGetByID(companyId, supplierId, paymentMasterId));
-        //    VMPayment.TransactionDate = DateTime.Today;
-        //    return View(VMPayment);
-        //}
-        //[HttpPost]
-        //public async Task<ActionResult> PurchaseOrdersByID(VMPurchaseOrder vmPurchaseOrder)
-        //{
-
-        //    if (vmPurchaseOrder.ActionEum == ActionEnum.Add)
-        //    {
-
-        //        await _service.SupplierPaymentAdd(vmPurchaseOrder);
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Error", "Home");
-        //    }
-
-        //    return RedirectToAction(nameof(PurchaseOrdersByID), new { companyId = vmPurchaseOrder.CompanyFK, supplierId = vmPurchaseOrder.Common_SupplierFK, purchaseOrderId = vmPurchaseOrder.PurchaseOrderId });
-        //}
+      
         [SessionExpire]
         [HttpGet]
         public async Task<ActionResult> PurchaseOrdersByID(int companyId, int supplierId, int paymentMasterId = 0)
@@ -274,6 +243,7 @@ namespace KGERP.Controllers
             vmPayment.CustomerId = supplierId;
             return View(vmPayment);
         }
+        
         [SessionExpire]
         [HttpPost]
         public async Task<ActionResult> PurchaseOrdersByID(VMPayment vmPayment)
@@ -472,72 +442,24 @@ namespace KGERP.Controllers
             return null;
         }
 
-        public async Task<ActionResult> CommonCustomerList(int companyId)
+        public async Task<ActionResult> CommonDeportList(int companyId)
         {
-
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId));
-
-
+            vmCommonCustomer = await Task.Run(() => _service.GetDeportList(companyId));
             return View(vmCommonCustomer);
         }
-
-        //[HttpGet]
-        //public async Task<ActionResult> GCCLCustomerPayment(int companyId = 0, int customerId = 0)
-        //{
-        //    VMPayment vmPayment = new VMPayment();
-
-        //    if (companyId == 0)
-        //    {
-        //        vmPayment.CompanyFK = companyId;
-
-        //    }
-        //    else
-        //    {
-        //        vmPayment = await Task.Run(() => _service.GCCLOrderMastersGetByCustomer(companyId, customerId));
-
-        //    }
-        //    vmPayment.OrderMusterList = new SelectList(_service.OrderMastersDropDownList(companyId, customerId), "Value", "Text");
-
-        //    if (companyId == (int)CompanyName.GloriousCropCareLimited)
-        //    {
-        //        vmPayment.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
-
-        //    }
-        //    if (companyId == (int)CompanyName.KrishibidSeedLimited)
-        //    {
-        //        vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-
-        //    }
-
-        //    return View(vmPayment);
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult> GCCLCustomerPayment(VMPayment vmPayment)
-        //{
-
-        //    if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
-        //    {
-        //        if (vmSalesOrderSlave.OrderMasterId == 0)
-        //        {
-        //            vmSalesOrderSlave.OrderMasterId = await _service.OrderMasterAdd(vmSalesOrderSlave);
-
-        //        }
-
-        //        if (vmSalesOrderSlave.FProductId > 0)
-        //        {
-        //            await _service.OrderDetailAdd(vmSalesOrderSlave);
-
-        //        }
-        //    }
-        //    else if (vmSalesOrderSlave.ActionEum == ActionEnum.Finalize)
-        //    {
-        //        //Delete
-        //        await _service.OrderDetailEdit(vmSalesOrderSlave);
-        //    }
-        //    return RedirectToAction(nameof(GCCLProcurementSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
-        //}
+        public async Task<ActionResult> CommonDealerList(int companyId)
+        {
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            vmCommonCustomer = await Task.Run(() => _service.GetDealerList(companyId));
+            return View(vmCommonCustomer);
+        }
+        public async Task<ActionResult> CommonCustomerList(int companyId)
+        {
+            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
+            vmCommonCustomer = await Task.Run(() => _service.GetCustomerList(companyId));
+            return View(vmCommonCustomer);
+        }
 
     }
 

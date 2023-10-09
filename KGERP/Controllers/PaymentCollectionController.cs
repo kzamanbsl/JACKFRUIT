@@ -29,7 +29,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CommonSupplierList(int companyId)
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
+            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
             return View(vmCommonSupplier);
         }
         public async Task<ActionResult> OrderMasterByCustomer(int companyId, int customerId)

@@ -24,7 +24,7 @@ namespace KGERP.Service.Implementation.Configuration
 
 
         #region Supplier
-        public async Task<VMCommonSupplier> GetSupplier(int companyId)
+        public async Task<VMCommonSupplier> GetSupplierList(int companyId)
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier.CompanyFK = companyId;
@@ -963,7 +963,77 @@ namespace KGERP.Service.Implementation.Configuration
             return _db.Database.SqlQuery<VmCustomerAgeing>("[dbo].[GCCLCustomerAgeing] {0},{1},{2},{3}", vmCustomerAgeing.CompanyFK.Value, vmCustomerAgeing.AsOnDate, vmCustomerAgeing.ZoneId ?? 0, vmCustomerAgeing.SubZoneId ?? 0).AsEnumerable();
         }
 
-        public async Task<VMCommonSupplier> GetCustomer(int companyId)
+        public async Task<VMCommonSupplier> GetDeportList(int companyId)
+        {
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport.CompanyFK = companyId;
+            vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
+                                                              join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_join
+                                                              from t2 in t2_join.DefaultIfEmpty()
+                                                              join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_join
+                                                              from t3 in t3_join.DefaultIfEmpty()
+                                                              join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_join
+                                                              from t4 in t4_join.DefaultIfEmpty()
+                                                              join t5 in _db.Countries on t1.CountryId equals t5.CountryId into t5_join
+                                                              from t5 in t5_join.DefaultIfEmpty()
+
+                                                              select new VMCommonSupplier
+                                                              {
+                                                                  ID = t1.VendorId,
+                                                                  Name = t1.Name,
+                                                                  Email = t1.Email,
+                                                                  ContactPerson = t1.ContactName,
+                                                                  Address = t1.Address,
+                                                                  Code = t1.Code,
+                                                                  Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                                  Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                                  District = t3.Name,
+                                                                  Upazila = t2.Name,
+                                                                  Division = t4.Name,
+                                                                  Country = t5.CountryName,
+                                                                  CreatedBy = t1.CreatedBy,
+                                                                  Remarks = t1.Remarks,
+                                                                  CompanyFK = t1.CompanyId,
+                                                                  Phone = t1.Phone
+                                                              }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonDeport;
+        }
+        public async Task<VMCommonSupplier> GetDealerList(int companyId)
+        {
+            VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            vmCommonDealer.CompanyFK = companyId;
+            vmCommonDealer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.CompanyId == companyId)
+                                                              join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_join
+                                                              from t2 in t2_join.DefaultIfEmpty()
+                                                              join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_join
+                                                              from t3 in t3_join.DefaultIfEmpty()
+                                                              join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_join
+                                                              from t4 in t4_join.DefaultIfEmpty()
+                                                              join t5 in _db.Countries on t1.CountryId equals t5.CountryId into t5_join
+                                                              from t5 in t5_join.DefaultIfEmpty()
+
+                                                              select new VMCommonSupplier
+                                                              {
+                                                                  ID = t1.VendorId,
+                                                                  Name = t1.Name,
+                                                                  Email = t1.Email,
+                                                                  ContactPerson = t1.ContactName,
+                                                                  Address = t1.Address,
+                                                                  Code = t1.Code,
+                                                                  Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                                  Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                                  District = t3.Name,
+                                                                  Upazila = t2.Name,
+                                                                  Division = t4.Name,
+                                                                  Country = t5.CountryName,
+                                                                  CreatedBy = t1.CreatedBy,
+                                                                  Remarks = t1.Remarks,
+                                                                  CompanyFK = t1.CompanyId,
+                                                                  Phone = t1.Phone
+                                                              }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonDealer;
+        }
+        public async Task<VMCommonSupplier> GetCustomerList(int companyId)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer.CompanyFK = companyId;

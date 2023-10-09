@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Customer List";
+    ViewData["Title"] = "Dealer List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model KGERP.Service.Implementation.Configuration.VMCommonSupplier
@@ -20,11 +20,11 @@
 
 <section class="content-header">
     <h1>
-        Customer List
+        Dealer List
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Customer</li>
+        <li class="active">Dealer</li>
     </ol>
 </section>
 
@@ -127,6 +127,7 @@
     </div>
 </section>
 
+
 @section scripts {
 
     <script type="text/javascript">
@@ -134,6 +135,7 @@
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
         });
+
     </script>
 }
 
