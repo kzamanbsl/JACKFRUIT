@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
@@ -16,12 +15,12 @@ namespace KGERP.Controllers
     {
 
         private HttpContext httpContext;
-        private readonly CollectionService _service;
+        private readonly CollectionService _collectionService;
         private readonly AccountingService _accountingService;
 
         public PaymentCollectionController(CollectionService collectionService, AccountingService accountingService)
         {
-            _service = collectionService;
+            _collectionService = collectionService;
             _accountingService = accountingService;
         }
 
@@ -29,21 +28,21 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CommonSupplierList(int companyId)
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
+            vmCommonSupplier = await Task.Run(() => _collectionService.GetSupplierList(companyId));
             return View(vmCommonSupplier);
         }
         public async Task<ActionResult> OrderMasterByCustomer(int companyId, int customerId)
         {
             VMSalesOrder vmOrderMaster = new VMSalesOrder();
-            vmOrderMaster = await Task.Run(() => _service.ProcurementOrderMastersListGetByCustomer(companyId, customerId));
+            vmOrderMaster = await Task.Run(() => _collectionService.GetOrderMasterListByCustomerId(companyId, customerId));
             return View(vmOrderMaster);
         }
         [HttpGet]
         public async Task<ActionResult> OrderMasterByID(int companyId, int customerId,int paymentMasterId =0)
         {
             VMSalesOrder vmOrderMaster = new VMSalesOrder();
-            //vmOrderMaster = await Task.Run(() => _service.ProcurementOrderMastersGetByID(companyId, customerId));
-            vmOrderMaster.OrderMusterList = new SelectList(_service.OrderMastersDropDownList(companyId, customerId), "Value", "Text");
+            //vmOrderMaster = await Task.Run(() => _collectionService.ProcurementOrderMastersGetByID(companyId, customerId));
+            vmOrderMaster.OrderMusterList = new SelectList(_collectionService.OrderMastersDropDownList(companyId, customerId), "Value", "Text");
 
             if (companyId == (int)CompanyName.GloriousCropCareLimited)
             {
@@ -62,7 +61,7 @@ namespace KGERP.Controllers
         {
             if (vmSalesOrder.ActionEum == ActionEnum.Add)
             {
-                //await _service.PaymentAdd(vmSalesOrder);
+                //await _collectionService.PaymentAdd(vmSalesOrder);
             }
             else
             {
@@ -77,14 +76,14 @@ namespace KGERP.Controllers
         #region Common Customer
         public JsonResult CommonCustomerByIDGet(int id)
         {
-            var model = _service.GetCommonCustomerByID(id);
+            var model = _collectionService.GetCommonCustomerByID(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
         public async Task<ActionResult> CommonCustomerList(int companyId)
         {
 
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            //vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId));
+            //vmCommonCustomer = await Task.Run(() => _collectionService.GetCustomer(companyId));
 
 
             return View(vmCommonCustomer);
@@ -94,7 +93,7 @@ namespace KGERP.Controllers
         {
 
             VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
-            vmPurchaseOrder = await Task.Run(() => _service.ProcurementPurchaseOrdersListGetBySupplier(companyId, supplierId));
+            vmPurchaseOrder = await Task.Run(() => _collectionService.GetPurchaseOrdersListBySupplierId(companyId, supplierId));
 
 
             return View(vmPurchaseOrder);
@@ -103,7 +102,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> PurchaseOrdersByID(int companyId, int supplierId)
         {
             VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
-            //vmPurchaseOrder = await Task.Run(() => _service.ProcurementPurchaseOrdersGetByID(companyId, supplierId));
+            //vmPurchaseOrder = await Task.Run(() => _collectionService.ProcurementPurchaseOrdersGetByID(companyId, supplierId));
             vmPurchaseOrder.PaymentDate = DateTime.Today;
             return View(vmPurchaseOrder);
         }
@@ -114,7 +113,7 @@ namespace KGERP.Controllers
             if (vmPurchaseOrder.ActionEum == ActionEnum.Add)
             {
 
-                await _service.SupplierPaymentAdd(vmPurchaseOrder);
+                await _collectionService.SupplierPaymentAdd(vmPurchaseOrder);
             }
             else
             {
@@ -134,7 +133,7 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = supplierId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetSupplierById(supplierId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _collectionService.GetSupplierById(supplierId));
 
 
             return View(vmTransaction);
@@ -142,7 +141,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> POWiseSupplierLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _service.GetLedgerInfoBySupplier(vmTransaction));
+            var vmCommonSupplierLedger = await Task.Run(() => _collectionService.GetLedgerInfoBySupplier(vmTransaction));
             return View(vmCommonSupplierLedger);
         }
 
@@ -155,14 +154,14 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = customerId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetSupplierById(customerId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _collectionService.GetSupplierById(customerId));
 
             return View(vmTransaction);
         }
         [HttpPost]
         public async Task<ActionResult> InvoiceWiseCustomerLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _service.GetLedgerInfoByCustomer(vmTransaction));
+            var vmCommonSupplierLedger = await Task.Run(() => _collectionService.GetLedgerInfoByCustomer(vmTransaction));
             return View(vmCommonSupplierLedger);
         }
 
@@ -176,7 +175,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> CustomerAgeingView(VmCustomerAgeing vmCustomerAgeing)
         {           
-            vmCustomerAgeing.DataList =  _service.CustomerAgeingGet(vmCustomerAgeing);
+            vmCustomerAgeing.DataList =  _collectionService.CustomerAgeingGet(vmCustomerAgeing);
 
             return View(vmCustomerAgeing);
         }

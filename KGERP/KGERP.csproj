@@ -4752,12 +4752,12 @@
     <Content Include="Views\Collection\GCCLCustomerPayment.cshtml" />
     <Content Include="Views\Collection\InvoiceWiseCustomerLedgerOpening.cshtml" />
     <Content Include="Views\Collection\InvoiceWiseCustomerLedgerOpeningView.cshtml" />
-    <Content Include="Views\Collection\OrderMasterByCustomer.cshtml" />
+    <Content Include="Views\Collection\CommonCustomerOrderMasterList.cshtml" />
     <Content Include="Views\Collection\OrderMasterByID.cshtml" />
     <Content Include="Views\Collection\PaymentMasterList.cshtml" />
     <Content Include="Views\Collection\POWiseSupplierLedgerOpening.cshtml" />
     <Content Include="Views\Collection\POWiseSupplierLedgerOpeningView.cshtml" />
-    <Content Include="Views\Collection\PurchaseOrderBySupplier.cshtml" />
+    <Content Include="Views\Collection\CommonSupplierPurchaseOrderList.cshtml" />
     <Content Include="Views\Collection\PurchaseOrdersByID.cshtml" />
     <Content Include="Views\Common\CommonFinishProductCategory.cshtml" />
     <Content Include="Views\CompanyMenus\Create.cshtml" />
@@ -5584,6 +5584,8 @@
     <Content Include="Views\Procurement\DealerSalesOrderReceivedSlave.cshtml" />
     <Content Include="Views\Collection\CommonDealerList.cshtml" />
     <Content Include="Views\Collection\CommonDeportList.cshtml" />
+    <Content Include="Views\Collection\CommonDeportOrderMasterList.cshtml" />
+    <Content Include="Views\Collection\CommonDealerOrderMasterList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

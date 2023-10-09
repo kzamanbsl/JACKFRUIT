@@ -33,8 +33,6 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
 
                     <div class="box">
@@ -71,7 +69,8 @@
                                                     </th>*@
                                             </tr>
                                         </thead>
-                                        @{int sl = 0;
+                                        @{
+                                            int sl = 0;
                                         }
                                         <tbody>
                                             @foreach (var item in Model.DataList)
@@ -99,7 +98,7 @@
                                                         @*@Html.ActionLink("Delivery Challan", "POwiseGoodsReceived", new { companyId = item.CompanyFK }, new { @title = "You can see all goods quantity that already Delivered to customer", @class = "InlineBtn", @target = "_blank" })
                                                             <br />*@
 
-                                                        @Html.ActionLink("invoices", "OrderMasterByCustomer", new { companyId = item.CompanyFK, customerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        @Html.ActionLink("Invoices", "CommonDeportOrderMasterList", new { companyId = item.CompanyFK, deportId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                         <br />
                                                         @Html.ActionLink("Payment Received", "OrderMasterByID", new { companyId = item.CompanyFK, customerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                         <br />
@@ -108,9 +107,7 @@
 
                                                     </td>
                                                     @*<td style="width:180px;">
-
                                                             @Html.ActionLink("Payment Received Ledger", "VmLedger2SupplierPayment", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" })
-
                                                         </td>*@
                                                 </tr>
                                             }

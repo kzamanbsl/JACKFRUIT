@@ -15,59 +15,56 @@
 
 <section class="content-header">
     <h1>
-        Invoice of <span style="color:blueviolet">@Model.CommonCustomerName</span> 
+        Invoice of <span style="color:blueviolet">@Model.CommonCustomerName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Dealer / Customer</li>
+        <li class="active">Dealer</li>
     </ol>
 </section>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("OrderMasterByCustomer", "Collection", FormMethod.Post, new { id = "orderMasterByCustomerformId", @class = "formValidator", @enctype = "multipart/form-data" }))
-            {
-                <div class="box">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="box-danger">
+            <div class="box">
+                <div class="box-danger">
 
-                        <div class="box">
-                            <div class="box-danger">
-                                <div class="box-header">
+                    <div class="box">
+                        <div class="box-danger">
+                            <div class="box-header">
 
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="table-responsive">
-                                        <table id="KgErpDataTable" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>SL</th>
-                                                    <th>
-                                                        Order No
-                                                    </th>
-                                                    <th style="text-align:center;">
-                                                        Order Date
-                                                    </th>
-                                                    <th style="text-align:center;">
-                                                        Expected Delivery Date
-                                                    </th>
-                                                  
-                                                    <th style="text-align:right;">
-                                                        Total Invoiced Amount
-                                                    </th>
-                                                   
-                                                </tr>
-                                            </thead>
-                                            @{int sl = 0;
-                                                double grangTotal = 0;
-                                            }
-                                            <tbody>
-                                                @foreach (var item in Model.DataList)
-                                                {
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>
+                                                    Order No
+                                                </th>
+                                                <th style="text-align:center;">
+                                                    Order Date
+                                                </th>
+                                                <th style="text-align:center;">
+                                                    Expected Delivery Date
+                                                </th>
 
-                                                    grangTotal += item.TotalAmount + Convert.ToDouble(item.CourierCharge);
+                                                <th style="text-align:right;">
+                                                    Total Invoiced Amount
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        @{int sl = 0;
+                                            double grangTotal = 0;
+                                        }
+                                        <tbody>
+                                            @foreach (var item in Model.DataList)
+                                            {
+
+                                                grangTotal += item.TotalAmount + Convert.ToDouble(item.CourierCharge);
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td><a target="_blank" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId">@item.OrderNo</a></td>
@@ -78,10 +75,9 @@
                                                     <td style="text-align:center;">
                                                         @if (item.ExpectedDeliveryDate != null)
                                                         {
-                                                        <span>
-                                                            @item.ExpectedDeliveryDate.Value.ToString("dd-MM-yyyy")
-                                                        </span>
-                                                           
+                                                            <span>
+                                                                @item.ExpectedDeliveryDate.Value.ToString("dd-MM-yyyy")
+                                                            </span>
 
                                                         }
                                                     </td>
@@ -90,8 +86,10 @@
                                                         @(item.TotalAmount + Convert.ToDouble( item.CourierCharge))
                                                     </td>
                                                 </tr>
-                                                }
-                                            </tbody>
+                                            }
+                                        </tbody>
+                                        @if (@Model?.DataList?.Count() > 0)
+                                        {
                                             <tfoot>
                                                 <tr>
                                                     <th></th>
@@ -102,7 +100,6 @@
                                                     <th style="text-align:right;">
                                                         @grangTotal
                                                     </th>
-
                                                 </tr>
 
                                                 <tr>
@@ -114,7 +111,6 @@
                                                     <th style="text-align:right;">
                                                         @Model.InAmount
                                                     </th>
-
                                                 </tr>
                                                 <tr>
                                                     <th></th>
@@ -128,25 +124,17 @@
 
                                                 </tr>
                                             </tfoot>
-                                        </table>
-                                    </div>
+                                        }
 
-
-
-
+                                    </table>
                                 </div>
-                                <div class="box-footer">
-                                </div>
+                            </div>
+                            <div class="box-footer">
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                
-            }
-
-
+            </div>
         </div>
 
     </div>
@@ -156,10 +144,8 @@
 
     <script type="text/javascript">
 
-
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
-
 
         });
 

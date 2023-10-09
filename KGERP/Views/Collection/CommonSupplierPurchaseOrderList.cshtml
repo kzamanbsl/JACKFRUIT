@@ -1,30 +1,25 @@
 ﻿
 @{
-    ViewData["Title"] = "Customer List";
+    ViewData["Title"] = "PO List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonSupplier
+@model KGERP.Service.Implementation.Procurement.VMPurchaseOrder
 
 <style type="text/css">
 
     input, select, textarea {
         max-width: 100%;
     }
-
-    .InlineBtn:hover {
-        background-color: green;
-        color: white;
-        text-decoration: underline;
-    }
 </style>
 
 <section class="content-header">
     <h1>
-        Customer List
+        Purchase Order of <span style="color:blueviolet">@Model.SupplierName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Customer</li>
+        <li class="active">Supplier</li>
     </ol>
 </section>
 
@@ -46,26 +41,30 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Code</th>
                                                 <th>
-                                                    Name
-                                                </th>
-                                                <th>
-                                                    Contact
+                                                    PO No
                                                 </th>
                                                 <th>
-                                                    Email
+                                                    Order Date
                                                 </th>
                                                 <th>
-                                                    Address
+                                                    Delivery Date
                                                 </th>
-
-                                                <th style="width:100px">
-                                                    Payment Received
+                                                <th>
+                                                    Delivery Address
                                                 </th>
-                                                @*<th style="width:100px">
-                                                        Ledger
-                                                    </th>*@
+                                                <th>
+                                                    Total PO Amount
+                                                </th>
+                                                <th>
+                                                    Paid Amount
+                                                </th>
+                                                <th>
+                                                    Payable Amount
+                                                </th>
+                                                <th>
+                                                    Supplier Payment
+                                                </th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;
@@ -76,39 +75,30 @@
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>
-                                                        @item.Code
+                                                        @item.CID
                                                     </td>
                                                     <td>
-                                                        @item.Name
+                                                        @item.OrderDate.Value.ToString("dd-MM-yyyy")
                                                     </td>
                                                     <td>
-                                                        @item.ContactPerson
+                                                        @item.DeliveryDate.Value.ToString("dd-MM-yyyy")
                                                     </td>
                                                     <td>
-                                                        @item.Email
+                                                        @item.DeliveryAddress
                                                     </td>
                                                     <td>
-                                                        @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
+                                                        @item.TotalPOValue
                                                     </td>
-
+                                                    <td>
+                                                        @item.OutAmount
+                                                    </td>
+                                                    <td>
+                                                        @(item.TotalPOValue - item.OutAmount)
+                                                    </td>
                                                     <td style="width:180px;">
-
-                                                        @*@Html.ActionLink("Delivery Challan", "POwiseGoodsReceived", new { companyId = item.CompanyFK }, new { @title = "You can see all goods quantity that already Delivered to customer", @class = "InlineBtn", @target = "_blank" })
-                                                            <br />*@
-
-                                                        @Html.ActionLink("Invoices", "CommonCustomerOrderMasterList", new { companyId = item.CompanyFK, customerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
-                                                        <br />
-                                                        @Html.ActionLink("Payment Received", "OrderMasterByID", new { companyId = item.CompanyFK, customerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
-                                                        <br />
-
-                                                        @Html.ActionLink("Customer Ledger", "InvoiceWiseCustomerLedgerOpening", new { companyId = item.CompanyFK, customerId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
+                                                        @Html.ActionLink("Supplier Payment", "PurchaseOrdersByID", "Collection", new { companyId = item.CompanyFK, supplierId = item.Common_SupplierFK, purchaseOrderId = item.PurchaseOrderId }, new { @title = "You can see all the L/C of this supplier & pay to supplier via L/C through this link", @class = "InlineBtn", @target = "_blank" })
 
                                                     </td>
-                                                    @*<td style="width:180px;">
-
-                                                            @Html.ActionLink("Payment Received Ledger", "VmLedger2SupplierPayment", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" })
-
-                                                        </td>*@
                                                 </tr>
                                             }
                                         </tbody>
@@ -122,6 +112,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -132,6 +123,7 @@
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
         });
+
     </script>
 }
 

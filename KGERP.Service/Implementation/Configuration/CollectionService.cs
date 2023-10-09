@@ -52,12 +52,57 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmCommonSupplier;
         }
+
         public VMCommonSupplier GetSupplierById(int supplierId)
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             var vandor = _db.Vendors.Find(supplierId);
             vmCommonSupplier.Name = vandor.Name;
             return vmCommonSupplier;
+        }
+
+        public async Task<VMPurchaseOrder> GetPurchaseOrdersListBySupplierId(int companyId, int supplierId)
+        {
+            VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
+            vmPurchaseOrder = (from t1 in _db.Vendors.Where(x => x.VendorId == supplierId)
+                               select new VMPurchaseOrder
+                               {
+                                   SupplierName = t1.Name
+
+                               }).FirstOrDefault();
+            vmPurchaseOrder.CompanyFK = companyId;
+            vmPurchaseOrder.DataList = await Task.Run(() => (from t1 in _db.PurchaseOrders.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumPOStatus.Closed && x.SupplierId == supplierId)
+
+                                                             select new VMPurchaseOrder
+                                                             {
+                                                                 PurchaseOrderId = t1.PurchaseOrderId,
+                                                                 Common_SupplierFK = t1.SupplierId.Value,
+                                                                 CreatedBy = t1.CreatedBy,
+                                                                 SupplierPaymentMethodEnumFK = t1.SupplierPaymentMethodEnumFK,
+                                                                 CID = t1.PurchaseOrderNo,
+                                                                 OrderDate = t1.PurchaseDate,
+                                                                 DeliveryDate = t1.DeliveryDate,
+                                                                 DeliveryAddress = t1.DeliveryAddress,
+
+                                                                 CompanyFK = t1.CompanyId,
+                                                                 TotalPOValue = _db.PurchaseOrderDetails.Where(x => x.IsActive && x.PurchaseOrderId == t1.PurchaseOrderId).Select(x => x.PurchaseQty * x.PurchaseRate).DefaultIfEmpty(0).Sum(),
+
+                                                                 PayableAmount = (from ts1 in _db.MaterialReceiveDetails
+                                                                                  join ts2 in _db.MaterialReceives on ts1.MaterialReceiveId equals ts2.MaterialReceiveId
+                                                                                  where ts2.PurchaseOrderId == t1.PurchaseOrderId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
+                                                                                  select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
+
+                                                                 InAmount = _db.Payments.Where(x => x.VendorId == supplierId && x.PurchaseOrderId == t1.PurchaseOrderId)
+                                                                         .Select(x => x.InAmount).DefaultIfEmpty(0).Sum(),
+
+                                                                 OutAmount = _db.Payments.Where(x => x.VendorId == supplierId && x.PurchaseOrderId == t1.PurchaseOrderId)
+                                                                     .Select(x => x.OutAmount ?? 0).DefaultIfEmpty(0).Sum()
+
+                                                             }).OrderByDescending(x => x.PurchaseOrderId).AsEnumerable());
+
+
+
+            return vmPurchaseOrder;
         }
         #endregion
 
@@ -155,82 +200,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
-        public async Task<VMSalesOrder> ProcurementOrderMastersListGetByCustomer(int companyId, int customerId)
-        {
-
-            VMSalesOrder vmOrderMaster = new VMSalesOrder();
-            vmOrderMaster = (from t1 in _db.Vendors.Where(x => x.VendorId == customerId)
-                             select new VMSalesOrder
-                             {
-                                 CommonCustomerName = t1.Name,
-                                 InAmount = _db.Payments.Where(x => x.IsActive == true && x.VendorId == t1.VendorId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
-
-                             }).FirstOrDefault();
-            vmOrderMaster.CompanyFK = companyId;
-            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumPOStatus.Closed && x.CustomerId == customerId)
-
-                                                           select new VMSalesOrder
-                                                           {
-                                                               OrderMasterId = t1.OrderMasterId,
-                                                               CustomerId = t1.CustomerId.Value,
-                                                               CreatedBy = t1.CreatedBy,
-                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
-                                                               OrderNo = t1.OrderNo,
-                                                               OrderDate = t1.OrderDate,
-                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                               Status = t1.Status,
-                                                               CompanyFK = t1.CompanyId,
-                                                               CourierCharge = t1.CourierCharge,
-                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
-
-                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
-            
-            return vmOrderMaster;
-        }
-
-        public async Task<VMPurchaseOrder> ProcurementPurchaseOrdersListGetBySupplier(int companyId, int supplierId)
-        {
-            VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
-            vmPurchaseOrder = (from t1 in _db.Vendors.Where(x => x.VendorId == supplierId)
-                               select new VMPurchaseOrder
-                               {
-                                   SupplierName = t1.Name
-
-                               }).FirstOrDefault();
-            vmPurchaseOrder.CompanyFK = companyId;
-            vmPurchaseOrder.DataList = await Task.Run(() => (from t1 in _db.PurchaseOrders.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumPOStatus.Closed && x.SupplierId == supplierId)
-
-                                                             select new VMPurchaseOrder
-                                                             {
-                                                                 PurchaseOrderId = t1.PurchaseOrderId,
-                                                                 Common_SupplierFK = t1.SupplierId.Value,
-                                                                 CreatedBy = t1.CreatedBy,
-                                                                 SupplierPaymentMethodEnumFK = t1.SupplierPaymentMethodEnumFK,
-                                                                 CID = t1.PurchaseOrderNo,
-                                                                 OrderDate = t1.PurchaseDate,
-                                                                 DeliveryDate = t1.DeliveryDate,
-                                                                 DeliveryAddress = t1.DeliveryAddress,
-
-                                                                 CompanyFK = t1.CompanyId,
-                                                                 TotalPOValue = _db.PurchaseOrderDetails.Where(x => x.IsActive && x.PurchaseOrderId == t1.PurchaseOrderId).Select(x => x.PurchaseQty * x.PurchaseRate).DefaultIfEmpty(0).Sum(),
-
-                                                                 PayableAmount = (from ts1 in _db.MaterialReceiveDetails
-                                                                                  join ts2 in _db.MaterialReceives on ts1.MaterialReceiveId equals ts2.MaterialReceiveId
-                                                                                  where ts2.PurchaseOrderId == t1.PurchaseOrderId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
-                                                                                  select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
-
-                                                                 InAmount = _db.Payments.Where(x => x.VendorId == supplierId && x.PurchaseOrderId== t1.PurchaseOrderId)
-                                                                         .Select(x => x.InAmount).DefaultIfEmpty(0).Sum(),
-
-                                                                 OutAmount = _db.Payments.Where(x => x.VendorId == supplierId && x.PurchaseOrderId == t1.PurchaseOrderId)
-                                                                     .Select(x => x.OutAmount ?? 0).DefaultIfEmpty(0).Sum()
-
-                                                             }).OrderByDescending(x => x.PurchaseOrderId).AsEnumerable());
-
-
-
-            return vmPurchaseOrder;
-        }
+       
         public List<object> SubZonesDropDownList(int companyId = 0)
         {
             var list = new List<object>();
@@ -778,7 +748,7 @@ namespace KGERP.Service.Implementation.Configuration
 
                 throw;
             }
-           
+
             VmTransaction vmTransition = new VmTransaction();
             vmTransition.Date = vmTransaction.FromDate;
             vmTransition.Name = supplier.Name;
@@ -794,7 +764,7 @@ namespace KGERP.Service.Implementation.Configuration
             vmTransition.FromDate = vmTransaction.FromDate;
             vmTransition.ToDate = vmTransaction.ToDate;
             //tempList.Add(vmTransition);
-            sortedV.Insert(0,vmTransition);
+            sortedV.Insert(0, vmTransition);
 
             foreach (var x in sortedV)
             {
@@ -812,7 +782,7 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<VmTransaction> GetLedgerInfoByCustomer(VmTransaction vmTransaction)
         {
             List<VmTransaction> tempList = new List<VmTransaction>();
-           
+
 
 
             var dataList1 = (from t1 in _db.OrderMasters
@@ -907,7 +877,7 @@ namespace KGERP.Service.Implementation.Configuration
             vmTransition.Name = supplier.Name;
             vmTransition.Description = "Opening Balance";
             vmTransition.Debit = 0;
-            vmTransition.Credit = openingBalance.Sum(c=>c.OpeningAmount);
+            vmTransition.Credit = openingBalance.Sum(c => c.OpeningAmount);
             vmTransition.Balance = previousBalance;
             vmTransition.CompanyAddress = companies.Address;
             vmTransition.CompanyName = companies.Name;
@@ -919,7 +889,7 @@ namespace KGERP.Service.Implementation.Configuration
 
 
             //tempList.Add(vmTransition);
-            sortedV.Insert(0,vmTransition);
+            sortedV.Insert(0, vmTransition);
 
             foreach (var x in sortedV)
             {
@@ -940,7 +910,7 @@ namespace KGERP.Service.Implementation.Configuration
             double orderValue = (from ts1 in _db.OrderDetails
                                  join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
                                  where ts1.OrderMasterId == orderMasterId && ts1.IsActive && ts2.IsActive && !ts2.IsReturn
-                                 select (ts2.DeliveredQty * ts1.UnitPrice)-(double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
+                                 select (ts2.DeliveredQty * ts1.UnitPrice) - (double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
             return Convert.ToDecimal(orderValue);
 
         }
@@ -957,81 +927,144 @@ namespace KGERP.Service.Implementation.Configuration
             return orderValue;
         }
 
-
         public IEnumerable<VmCustomerAgeing> CustomerAgeingGet(VmCustomerAgeing vmCustomerAgeing)
         {
             return _db.Database.SqlQuery<VmCustomerAgeing>("[dbo].[GCCLCustomerAgeing] {0},{1},{2},{3}", vmCustomerAgeing.CompanyFK.Value, vmCustomerAgeing.AsOnDate, vmCustomerAgeing.ZoneId ?? 0, vmCustomerAgeing.SubZoneId ?? 0).AsEnumerable();
         }
+
 
         public async Task<VMCommonSupplier> GetDeportList(int companyId)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport.CompanyFK = companyId;
             vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
-                                                              join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_join
-                                                              from t2 in t2_join.DefaultIfEmpty()
-                                                              join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_join
-                                                              from t3 in t3_join.DefaultIfEmpty()
-                                                              join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_join
-                                                              from t4 in t4_join.DefaultIfEmpty()
-                                                              join t5 in _db.Countries on t1.CountryId equals t5.CountryId into t5_join
-                                                              from t5 in t5_join.DefaultIfEmpty()
+                                                            join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_join
+                                                            from t2 in t2_join.DefaultIfEmpty()
+                                                            join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_join
+                                                            from t3 in t3_join.DefaultIfEmpty()
+                                                            join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_join
+                                                            from t4 in t4_join.DefaultIfEmpty()
+                                                            join t5 in _db.Countries on t1.CountryId equals t5.CountryId into t5_join
+                                                            from t5 in t5_join.DefaultIfEmpty()
 
-                                                              select new VMCommonSupplier
-                                                              {
-                                                                  ID = t1.VendorId,
-                                                                  Name = t1.Name,
-                                                                  Email = t1.Email,
-                                                                  ContactPerson = t1.ContactName,
-                                                                  Address = t1.Address,
-                                                                  Code = t1.Code,
-                                                                  Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
-                                                                  Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
-                                                                  District = t3.Name,
-                                                                  Upazila = t2.Name,
-                                                                  Division = t4.Name,
-                                                                  Country = t5.CountryName,
-                                                                  CreatedBy = t1.CreatedBy,
-                                                                  Remarks = t1.Remarks,
-                                                                  CompanyFK = t1.CompanyId,
-                                                                  Phone = t1.Phone
-                                                              }).OrderByDescending(x => x.ID).AsEnumerable());
+                                                            select new VMCommonSupplier
+                                                            {
+                                                                ID = t1.VendorId,
+                                                                Name = t1.Name,
+                                                                Email = t1.Email,
+                                                                ContactPerson = t1.ContactName,
+                                                                Address = t1.Address,
+                                                                Code = t1.Code,
+                                                                Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                                Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                                District = t3.Name,
+                                                                Upazila = t2.Name,
+                                                                Division = t4.Name,
+                                                                Country = t5.CountryName,
+                                                                CreatedBy = t1.CreatedBy,
+                                                                Remarks = t1.Remarks,
+                                                                CompanyFK = t1.CompanyId,
+                                                                Phone = t1.Phone
+                                                            }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonDeport;
+        }
+        public async Task<VMSalesOrder> GetOrderMasterListByDeportId(int companyId, int deportId)
+        {
+
+            VMSalesOrder vmOrderMaster = new VMSalesOrder();
+            vmOrderMaster = (from t1 in _db.Vendors.Where(x => x.VendorId == deportId)
+                             select new VMSalesOrder
+                             {
+                                 CommonCustomerName = t1.Name,
+                                 InAmount = _db.Payments.Where(x => x.IsActive == true && x.VendorId == t1.VendorId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
+
+                             }).FirstOrDefault();
+            vmOrderMaster.CompanyFK = companyId;
+            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DeportId == deportId)
+
+                                                           select new VMSalesOrder
+                                                           {
+                                                               OrderMasterId = t1.OrderMasterId,
+                                                               CustomerId = t1.CustomerId.Value,
+                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                               OrderNo = t1.OrderNo,
+                                                               OrderDate = t1.OrderDate,
+                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                               Status = t1.Status,
+                                                               CompanyFK = t1.CompanyId,
+                                                               CourierCharge = t1.CourierCharge,
+                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+                                                               CreatedBy = t1.CreatedBy,
+                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+
+            return vmOrderMaster;
         }
         public async Task<VMCommonSupplier> GetDealerList(int companyId)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
             vmCommonDealer.CompanyFK = companyId;
             vmCommonDealer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.CompanyId == companyId)
-                                                              join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_join
-                                                              from t2 in t2_join.DefaultIfEmpty()
-                                                              join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_join
-                                                              from t3 in t3_join.DefaultIfEmpty()
-                                                              join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_join
-                                                              from t4 in t4_join.DefaultIfEmpty()
-                                                              join t5 in _db.Countries on t1.CountryId equals t5.CountryId into t5_join
-                                                              from t5 in t5_join.DefaultIfEmpty()
+                                                            join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_join
+                                                            from t2 in t2_join.DefaultIfEmpty()
+                                                            join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_join
+                                                            from t3 in t3_join.DefaultIfEmpty()
+                                                            join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_join
+                                                            from t4 in t4_join.DefaultIfEmpty()
+                                                            join t5 in _db.Countries on t1.CountryId equals t5.CountryId into t5_join
+                                                            from t5 in t5_join.DefaultIfEmpty()
 
-                                                              select new VMCommonSupplier
-                                                              {
-                                                                  ID = t1.VendorId,
-                                                                  Name = t1.Name,
-                                                                  Email = t1.Email,
-                                                                  ContactPerson = t1.ContactName,
-                                                                  Address = t1.Address,
-                                                                  Code = t1.Code,
-                                                                  Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
-                                                                  Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
-                                                                  District = t3.Name,
-                                                                  Upazila = t2.Name,
-                                                                  Division = t4.Name,
-                                                                  Country = t5.CountryName,
-                                                                  CreatedBy = t1.CreatedBy,
-                                                                  Remarks = t1.Remarks,
-                                                                  CompanyFK = t1.CompanyId,
-                                                                  Phone = t1.Phone
-                                                              }).OrderByDescending(x => x.ID).AsEnumerable());
+                                                            select new VMCommonSupplier
+                                                            {
+                                                                ID = t1.VendorId,
+                                                                Name = t1.Name,
+                                                                Email = t1.Email,
+                                                                ContactPerson = t1.ContactName,
+                                                                Address = t1.Address,
+                                                                Code = t1.Code,
+                                                                Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                                Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                                District = t3.Name,
+                                                                Upazila = t2.Name,
+                                                                Division = t4.Name,
+                                                                Country = t5.CountryName,
+                                                                CreatedBy = t1.CreatedBy,
+                                                                Remarks = t1.Remarks,
+                                                                CompanyFK = t1.CompanyId,
+                                                                Phone = t1.Phone
+                                                            }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonDealer;
+        }
+        public async Task<VMSalesOrder> GetOrderMasterListByDealerId(int companyId, int dealerId)
+        {
+
+            VMSalesOrder vmOrderMaster = new VMSalesOrder();
+            vmOrderMaster = (from t1 in _db.Vendors.Where(x => x.VendorId == dealerId)
+                             select new VMSalesOrder
+                             {
+                                 CommonCustomerName = t1.Name,
+                                 InAmount = _db.Payments.Where(x => x.IsActive == true && x.VendorId == t1.VendorId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
+
+                             }).FirstOrDefault();
+            vmOrderMaster.CompanyFK = companyId;
+            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DealerId == dealerId)
+
+                                                           select new VMSalesOrder
+                                                           {
+                                                               OrderMasterId = t1.OrderMasterId,
+                                                               CustomerId = t1.CustomerId.Value,
+                                                               CreatedBy = t1.CreatedBy,
+                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                               OrderNo = t1.OrderNo,
+                                                               OrderDate = t1.OrderDate,
+                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                               Status = t1.Status,
+                                                               CompanyFK = t1.CompanyId,
+                                                               CourierCharge = t1.CourierCharge,
+                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+
+                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+
+            return vmOrderMaster;
         }
         public async Task<VMCommonSupplier> GetCustomerList(int companyId)
         {
@@ -1067,6 +1100,38 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   Phone = t1.Phone
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonCustomer;
+        }
+        public async Task<VMSalesOrder> GetOrderMasterListByCustomerId(int companyId, int customerId)
+        {
+
+            VMSalesOrder vmOrderMaster = new VMSalesOrder();
+            vmOrderMaster = (from t1 in _db.Vendors.Where(x => x.VendorId == customerId)
+                             select new VMSalesOrder
+                             {
+                                 CommonCustomerName = t1.Name,
+                                 InAmount = _db.Payments.Where(x => x.IsActive == true && x.VendorId == t1.VendorId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
+
+                             }).FirstOrDefault();
+            vmOrderMaster.CompanyFK = companyId;
+            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.CustomerId == customerId)
+
+                                                           select new VMSalesOrder
+                                                           {
+                                                               OrderMasterId = t1.OrderMasterId,
+                                                               CustomerId = t1.CustomerId.Value,
+                                                               CreatedBy = t1.CreatedBy,
+                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                               OrderNo = t1.OrderNo,
+                                                               OrderDate = t1.OrderDate,
+                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                               Status = t1.Status,
+                                                               CompanyFK = t1.CompanyId,
+                                                               CourierCharge = t1.CourierCharge,
+                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+
+                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+
+            return vmOrderMaster;
         }
 
     }

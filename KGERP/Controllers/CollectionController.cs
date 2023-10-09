@@ -62,13 +62,13 @@ namespace KGERP.Controllers
             return View(vmCommonSupplier);
         }
 
-        [SessionExpire]
-        public async Task<ActionResult> OrderMasterByCustomer(int companyId, int customerId)
+        public async Task<ActionResult> CommonSupplierPurchaseOrderList(int companyId, int supplierId)
         {
-            VMSalesOrder vmOrderMaster = new VMSalesOrder();
-            vmOrderMaster = await Task.Run(() => _service.ProcurementOrderMastersListGetByCustomer(companyId, customerId));
-            return View(vmOrderMaster);
+            VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
+            vmPurchaseOrder = await Task.Run(() => _service.GetPurchaseOrdersListBySupplierId(companyId, supplierId));
+            return View(vmPurchaseOrder);
         }
+
 
         [HttpGet]
         [SessionExpire]
@@ -156,7 +156,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region Common Customer
+
         public JsonResult CommonCustomerByIDGet(int id)
         {
             var model = _service.GetCommonCustomerByID(id);
@@ -210,16 +210,7 @@ namespace KGERP.Controllers
             return View(vmPaymentMaster);
         }
 
-        public async Task<ActionResult> PurchaseOrderBySupplier(int companyId, int supplierId)
-        {
-
-            VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
-            vmPurchaseOrder = await Task.Run(() => _service.ProcurementPurchaseOrdersListGetBySupplier(companyId, supplierId));
-
-
-            return View(vmPurchaseOrder);
-        }
-      
+        
         [SessionExpire]
         [HttpGet]
         public async Task<ActionResult> PurchaseOrdersByID(int companyId, int supplierId, int paymentMasterId = 0)
@@ -274,7 +265,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(PurchaseOrdersByID), new { companyId = vmPayment.CompanyFK, supplierId = vmPayment.CustomerId, paymentMasterId = vmPayment.PaymentMasterId });
         }
 
-        #endregion
 
         [SessionExpire]
         [HttpGet]
@@ -442,25 +432,54 @@ namespace KGERP.Controllers
             return null;
         }
 
+        #region Deport Payment
         public async Task<ActionResult> CommonDeportList(int companyId)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetDeportList(companyId));
             return View(vmCommonCustomer);
         }
+
+        [SessionExpire]
+        public async Task<ActionResult> CommonDeportOrderMasterList(int companyId, int deportId)
+        {
+            VMSalesOrder vmOrderMaster = new VMSalesOrder();
+            vmOrderMaster = await Task.Run(() => _service.GetOrderMasterListByDeportId(companyId, deportId));
+            return View(vmOrderMaster);
+        }
+        #endregion
+
+        #region Dealer Payment
         public async Task<ActionResult> CommonDealerList(int companyId)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetDealerList(companyId));
             return View(vmCommonCustomer);
         }
+        [SessionExpire]
+        public async Task<ActionResult> CommonDealerOrderMasterList(int companyId, int dealerId)
+        {
+            VMSalesOrder vmOrderMaster = new VMSalesOrder();
+            vmOrderMaster = await Task.Run(() => _service.GetOrderMasterListByDealerId(companyId, dealerId));
+            return View(vmOrderMaster);
+        }
+        #endregion
+
+        #region Customer Payment
         public async Task<ActionResult> CommonCustomerList(int companyId)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetCustomerList(companyId));
             return View(vmCommonCustomer);
         }
-
+        [SessionExpire]
+        public async Task<ActionResult> CommonCustomerOrderMasterList(int companyId, int customerId)
+        {
+            VMSalesOrder vmOrderMaster = new VMSalesOrder();
+            vmOrderMaster = await Task.Run(() => _service.GetOrderMasterListByCustomerId(companyId, customerId));
+            return View(vmOrderMaster);
+        }
+        #endregion
     }
 
 }
