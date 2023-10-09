@@ -4753,12 +4753,12 @@
     <Content Include="Views\Collection\InvoiceWiseCustomerLedgerOpening.cshtml" />
     <Content Include="Views\Collection\InvoiceWiseCustomerLedgerOpeningView.cshtml" />
     <Content Include="Views\Collection\CommonCustomerOrderMasterList.cshtml" />
-    <Content Include="Views\Collection\OrderMasterByID.cshtml" />
+    <Content Include="Views\Collection\CustomerOrderCollectionSlave.cshtml" />
     <Content Include="Views\Collection\PaymentMasterList.cshtml" />
     <Content Include="Views\Collection\POWiseSupplierLedgerOpening.cshtml" />
     <Content Include="Views\Collection\POWiseSupplierLedgerOpeningView.cshtml" />
     <Content Include="Views\Collection\CommonSupplierPurchaseOrderList.cshtml" />
-    <Content Include="Views\Collection\PurchaseOrdersByID.cshtml" />
+    <Content Include="Views\Collection\SupplierPurchasePaymentSlave.cshtml" />
     <Content Include="Views\Common\CommonFinishProductCategory.cshtml" />
     <Content Include="Views\CompanyMenus\Create.cshtml" />
     <Content Include="Views\CompanyMenus\CreateOrEdit.cshtml" />

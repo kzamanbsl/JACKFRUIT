@@ -1,8 +1,7 @@
 ﻿
 @{
-    ViewData["Title"] = "Invoice List";
+    ViewData["Title"] = "Supplier Payment";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 @model KGERP.Service.Implementation.VMPayment
 
@@ -19,13 +18,14 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Dealer / Customer</li>
+        <li class="active">Supplier Payment</li>
     </ol>
 </section>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("PurchaseOrdersByID", "Collection", FormMethod.Post, new { id = "orderMasterByIDformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("SupplierPurchasePaymentSlave", "Collection", FormMethod.Post, new { id = "orderMasterByIDformId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -292,7 +292,8 @@
 
                                 <div class="box-footer">
                                     <div class="row">
-
+                                        <div class="col-md-7">
+                                        </div>
                                         <div class="col-md-5">
                                             @if (!Model.IsFinalized)
                                             {
@@ -314,7 +315,7 @@
                 </div>
             }
 
-            @using (Html.BeginForm("PurchaseOrdersByID", "Collection", FormMethod.Post, new { id = "orderMasterByIDFormId", @class = "formValidator" }))
+            @using (Html.BeginForm("SupplierPurchasePaymentSlave", "Collection", FormMethod.Post, new { id = "orderMasterByIDFormId", @class = "formValidator" }))
             {
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal fade" id="submitPaymentMasterIdModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Invoice List";
+    ViewData["Title"] = "Customer Collection";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -19,13 +19,14 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Dealer/ Customer</li>
+        <li class="active">Customer Collection</li>
     </ol>
 </section>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("OrderMasterByID", "Collection", FormMethod.Post, new { id = "orderMasterByIDformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CustomerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "orderMasterByIDformId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -528,7 +529,7 @@
 
             }
 
-            @using (Html.BeginForm("OrderMasterByID", "Collection", FormMethod.Post, new { id = "orderMasterByIDFormId", @class = "formValidator" }))
+            @using (Html.BeginForm("CustomerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "orderMasterByIDFormId", @class = "formValidator" }))
             {
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal fade" id="submitPaymentMasterIdModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -567,16 +568,14 @@
                     </div>
                 </div>
             }
-
-
         </div>
-
     </div>
 </section>
 
 @section scripts {
 
     <script type="text/javascript">
+
         function makeProdReferenceSubmitable(rowId) {
             $("#submitPaymentMasterId").val(rowId)
             $('#submitCompanyFK').val("@Model.CompanyFK");

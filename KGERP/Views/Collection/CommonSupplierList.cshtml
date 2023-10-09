@@ -101,7 +101,7 @@
                                                         <td style="width:180px;">
                                                             @Html.ActionLink("Purchases", "CommonSupplierPurchaseOrderList", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                             <br />
-                                                            @Html.ActionLink("Supplier Payment", "PurchaseOrdersByID", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                            @Html.ActionLink("Supplier Payment", "SupplierPurchasePaymentSlave", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                             <br />
                                                             @Html.ActionLink("Supplier Ledger", "POWiseSupplierLedgerOpening", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
 </tr>

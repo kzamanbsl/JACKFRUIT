@@ -37,6 +37,7 @@ namespace KGERP.Controllers
             vmOrderMaster = await Task.Run(() => _collectionService.GetOrderMasterListByCustomerId(companyId, customerId));
             return View(vmOrderMaster);
         }
+
         [HttpGet]
         public async Task<ActionResult> OrderMasterByID(int companyId, int customerId,int paymentMasterId =0)
         {
@@ -56,6 +57,7 @@ namespace KGERP.Controllers
 
             return View(vmOrderMaster);
         }
+
         [HttpPost]
         public async Task<ActionResult> OrderMasterByID(VMSalesOrder vmSalesOrder)
         {
@@ -98,6 +100,7 @@ namespace KGERP.Controllers
 
             return View(vmPurchaseOrder);
         }
+
         [HttpGet]
         public async Task<ActionResult> PurchaseOrdersByID(int companyId, int supplierId)
         {
@@ -106,6 +109,7 @@ namespace KGERP.Controllers
             vmPurchaseOrder.PaymentDate = DateTime.Today;
             return View(vmPurchaseOrder);
         }
+
         [HttpPost]
         public async Task<ActionResult> PurchaseOrdersByID(VMPurchaseOrder vmPurchaseOrder)
         {
@@ -138,6 +142,7 @@ namespace KGERP.Controllers
 
             return View(vmTransaction);
         }
+
         [HttpPost]
         public async Task<ActionResult> POWiseSupplierLedgerOpeningView(VmTransaction vmTransaction)
         {
@@ -158,6 +163,7 @@ namespace KGERP.Controllers
 
             return View(vmTransaction);
         }
+
         [HttpPost]
         public async Task<ActionResult> InvoiceWiseCustomerLedgerOpeningView(VmTransaction vmTransaction)
         {
@@ -172,6 +178,7 @@ namespace KGERP.Controllers
             vmCustomerAgeing.CompanyFK = companyId;
             return View(vmCustomerAgeing);
         }
+
         [HttpPost]
         public async Task<ActionResult> CustomerAgeingView(VmCustomerAgeing vmCustomerAgeing)
         {           
@@ -179,6 +186,7 @@ namespace KGERP.Controllers
 
             return View(vmCustomerAgeing);
         }
+
         [HttpGet]
         [SessionExpire]
         public ActionResult GCCLCustomerAgeingDetails(int companyId, int CustomerId,string AsOnDate, string reportName,string reportFormat)
