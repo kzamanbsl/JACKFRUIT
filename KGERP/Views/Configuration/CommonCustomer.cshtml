@@ -394,7 +394,7 @@
         $("#ddlZoneId").change(function (e) {
             var zoneId = $("#ddlZoneId :selected").val();
             regionChange(0, zoneId);
-            territoryChange(0, zoneId);
+            
         });
 
         $("#ddlRegionId").change(function (e) {
@@ -404,6 +404,14 @@
             areaChange(areaValue, zoneId, regionId);
 
         });
+
+        $("#ddlAreaId").change(function (e) {
+            var areaId = $("#ddlAreaId :selected").val();
+            territoryChange(0, areaId);
+
+        });
+
+
         function regionChange(regionValue,zoneValue) {
             $.ajax({
                 type: "GET",
@@ -427,7 +435,7 @@
             });
         }
 
-        function territoryChange(territoryValue, zoneValue) {
+        function territoryChange(territoryValue, areaValue) {
 
 
 
@@ -435,18 +443,19 @@
                 type: "GET",
                 url: "@Url.Action("CommonSubZonesGet", "Configuration")",
                 datatype: "Json",
-                    data: { id: zoneValue },
+                    data: { id: areaValue },
                     success: function (data) {
                         if (data) {
                             $("#ddlSubZoneId").empty();
                             $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                             $(data).each(function (index, item) {
                                 $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                console.log(item.Text);
                             });
 
                             if (territoryValue > 0) {
 
-                                $("#ddlSubZoneId").val(territoryValue);
+                                $("#ddlSubZoneId").val(territoryValue).trigger('change');
                             }
 
                         }
@@ -469,7 +478,7 @@
                             $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
                         if (areaValue > 0) {
-                            $("#ddlAreaId").val(areaValue).trigger('change');
+                            $("#ddlAreaId").val(areaValue);
                         }
 
                     }
@@ -558,7 +567,7 @@
                        /* $('#ddlRegionId').val(data.RegionId).trigger('change');*/
                         areaChange(data.AreaId, data.ZoneId, data.RegionId);
 
-                        territoryChange(data.SubZoneId, data.ZoneId);
+                        territoryChange(data.SubZoneId, data.AreaId);
                         //$('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
@@ -573,7 +582,7 @@
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                         //$('#ddlAreaId').val(data.AreaId).trigger('change');
                         
-                        console.log(data.AreaId);
+                        console.log(data.SubZoneId);
                     }
                 });
 
