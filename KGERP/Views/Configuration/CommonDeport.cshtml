@@ -362,7 +362,9 @@
 
             });
             $("#ddlCommon_DistrictsFk").on('change', function () {
-                 upazilaChange(0);
+
+                var commonDistrictsFk = $("#ddlCommon_DistrictsFk").val();
+                upazilaChange(0, commonDistrictsFk);
 
             });
 
@@ -449,17 +451,14 @@
         }
 
 
-        function upazilaChange(upazilaValue) {
-           /* $().on('click', function (e) {*/
-
-               /* var option = $(e.target).closest('option');*/
-                var commonDistrictsFk = $("#ddlCommon_DistrictsFk").val();
+        function upazilaChange(upazilaValue,districtValue) {
+         
             
               $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonUpazilasGet", "Configuration")",
                 datatype: "Json",
-                data: { id:  commonDistrictsFk},
+                  data: { id: districtValue },
                     success: function (data) {
                         if (data) {
                             $("#ddlCommon_UpazilasFk").empty();
@@ -526,14 +525,11 @@
                         $('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
                         /*districtChange();*/
                         districtChange(data.Common_DistrictsFk);
-                       // $('#ddlCommon_DistrictsFk').val(data.Common_DistrictsFk).trigger('change');
-                        /* upazilaChange();*//* upazilaChange();*/
-                        $('#ddlCommon_UpazilasFk').val(data.Common_UpazilasFk).trigger('change');
+                      
+                        upazilaChange(data.Common_UpazilasFk, data.Common_DistrictsFk);
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         regionChange(data.RegionId);
-                        //$('#ddlRegionId').val(data.RegionId).trigger('change');
-                        //$('#ddlAreaId').val(data.AreaId).trigger('change');
-                        //$('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
+                   
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
                         $('#txtCreditLimit').val(data.CreditLimit);

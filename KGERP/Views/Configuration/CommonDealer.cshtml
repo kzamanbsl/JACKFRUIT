@@ -356,78 +356,73 @@
 
         $(document).ready(function () {
 
-            $('#ddlZoneId').on('change', function () {
-
-                    regionChange(0);
-                    territoryChange(0);
-
-
-
-            })
+            
 
             $('.formValidator').bootstrapValidator();
 
-            //$("#ddlZoneId").change(function () {
+            $('#ddlZoneId').on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
 
-            //    regionChange(0);
+                regionChange(0, zoneId);
+               
+            });
 
-            //});
-
-            $("#ddlRegionId").on('change',function () {
-
-                areaChange(0);
+            $("#ddlRegionId").on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
+                var regionId = $("#ddlRegionId :selected").val();
+                areaChange(0, zoneId, regionId);
 
 
             });
-            //$("#ddlAreaId").on("click", function () {
-
-            //areaChange(0);
-            //});
+            $("#ddlAreaId").on("change", function () {
+                var areaId = $("#ddlAreaId :selected").val();
+                territoryChange(0, areaId);
+            });
             $("#ddlCommon_DivisionFk").on('change', function () {
-                changeDistrict(0);
+                var divisionValue = $("#ddlCommon_DivisionFk :selected").val();
+                changeDistrict(0, divisionValue);
             });
+
             $("#ddlCommon_DistrictsFk").on('change', function () {
-                changeUpazila(0);
+
+                var districtValue = $("#ddlCommon_DistrictsFk :selected").val();
+                changeUpazila(0, districtValue);
             });
         });
 
-         function regionChange( regionValue) {
-            var zoneId = $("#ddlZoneId :selected").val();
+         function regionChange( regionValue,zoneValue) {
 
 
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonRegionGet", "Configuration")",
                 datatype: "Json",
-                data: { companyId:@Model.CompanyFK, zoneId: zoneId },
+                data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
                 success: function (data) {
 
                     if (data) {
                         $("#ddlRegionId").empty();
-                        $("#ddlRegionId").append("<option value=''>==Select Territory==</option>");
+                        $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-                        if (regionChange > 0) {
-                            $("#ddlRegionId").val(regionValue).trigger('change');
-                            //.trigger('change', function (e) {
-                            //    e.stopPropagation();
-                            //});
+                        if (regionValue > 0) {
+                            $("#ddlRegionId").val(regionValue);
+                            
                         }
                     }
                 }
             });
         }
-        function areaChange(areaValue)
+        function areaChange(areaValue,zoneValue,regionValue)
         {
 
-            var zoneId = $("#ddlZoneId :selected").val();
-            var regionId = $("#ddlRegionId :selected").val();
+          
                 $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetAreaList", "Configuration")",
                 datatype: "Json",
-                    data: { companyId:@Model.CompanyFK, zoneId: zoneId, regionId: regionId },
+                    data: { companyId:@Model.CompanyFK, zoneId: zoneValue, regionId: regionValue },
                     success: function (data) {
                         if (data) {
                             $("#ddlAreaId").empty();
@@ -435,7 +430,7 @@
                                 $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
                             if (areaValue > 0) {
-                                $("#ddlAreaId").val(areaValue).trigger('change');
+                                $("#ddlAreaId").val(areaValue);
                             }
 
                         }
@@ -444,20 +439,21 @@
 
         }
 
-        function territoryChange(territoryValue) {
+        function territoryChange(territoryValue,areaValue) {
 
             var zoneId = $("#ddlZoneId :selected").val();
              $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonSubZonesGet", "Configuration")",
                 datatype: "Json",
-                data: { id: zoneId },
+                 data: { id: areaValue },
                 success: function (data) {
                     if (data) {
                         $("#ddlSubZoneId").empty();
                         $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            console.log(item.Text);
                         });
                         if (territoryValue > 0) {
                             $("#ddlSubZoneId").val(territoryValue);
@@ -467,16 +463,16 @@
             });
         }
         var editButton = false;
-        function changeDistrict(distrcitValue) {
+        function changeDistrict(distrcitValue,divisionValue) {
             
 
 
-                var commonDivisionFk = $("#ddlCommon_DivisionFk :selected").val();
+              
                 $.ajax({
                     type: "GET",
                     url: "@Url.Action("CommonDistrictsGet","Configuration")",
                     datatype: "Json",
-                    data: { id: commonDivisionFk },
+                    data: { id: divisionValue },
                     success: function (data) {
 
                         if (data) {
@@ -486,7 +482,7 @@
                                 $("#ddlCommon_DistrictsFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
                             if (distrcitValue > 0) {
-                                $("#ddlCommon_DistrictsFk").val(distrcitValue).trigger('change');
+                                $("#ddlCommon_DistrictsFk").val(distrcitValue);
 
                             }
                         }
@@ -495,23 +491,24 @@
 
             
         }
-        function changeUpazila(upazilaValue) {
+        function changeUpazila(upazilaValue,districtValue) {
 
 
 
 
-            var commonDistrictsFk = $("#ddlCommon_DistrictsFk :selected").val();
+        
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonUpazilasGet", "Configuration")",
                 datatype: "Json",
-                data: { id: commonDistrictsFk },
+                data: { id: districtValue },
                 success: function (data) {
                     if (data) {
-                        /* $("#ddlCommon_UpazilasFk").empty();*/
+                         $("#ddlCommon_UpazilasFk").empty();
                         $("#ddlCommon_UpazilasFk").append("<option value=''>==Select Police Station==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            console.log(item.Text);
                         });
 
                         if (upazilaValue > 0) {
@@ -536,10 +533,7 @@
         function makeEditble(id) {
           
             if (id !== null) {
-                var zoneId = 0;
-                var region = 0;
-                var area = 0;
-                var subzone = 0;
+           
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 $.ajax({
                 type: "get",
@@ -563,37 +557,18 @@
                         region = data.RegionId;
                         area = data.AreaId;
                         subzone = data.SubZoneId;
-                        //$("#ddlCommon_DivisionFk").off('change', function () {
+                       
 
-                        //});
-                        //$("#ddlCommon_DistrictsFk").off('change');
-                        //$('#ddlZoneId').off('change', function(){
-
-
+                        $("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
+                        changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
+                        changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
                         //});
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
-                        //$('#ddlZoneId').off('change', regionChange(data.RegionId) );
-
-                        //$('#ddlZoneId').off(data.ZoneId).trigger('change');
-
-                        //$('#ddlRegionId').off('change',regionChange(data.RegionId));
-                        //$('#ddlSubZoneId').off('change', territoryChange(data.SubZoneId));
-                        //$('#ddlAreaId').off('change', function () {
-                        //     areaChange(data.AreaId);
-                        //});
-                        //regionChange(data.RegionId);
-                        //$('#ddlRegionId').val(data.RegionId).trigger('change');
-                        //$('#ddlSubZoneId').on('change', territoryChange(0));
-                        //areaChange(data.AreaId);
-                        $('#ddlAreaId').val(data.AreaId).trigger('change');
-                        territoryChange(data.SubZoneId);
-                        //console.log(data.AreaId);
-                        //$('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
-                        $("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
-                        //$("#ddlCommon_DistrictsFk").val(data.Common_DistrictsFk).trigger('change');
-                        changeDistrict(data.Common_DistrictsFk);
-
-                        $("#ddlCommon_UpazilasFk").val(data.Common_UpazilasFk).trigger('change');
+                        regionChange(data.RegionId, data.ZoneId);
+                        areaChange(data.AreaId, data.ZoneId, data.RegionId);
+                        
+                        territoryChange(data.SubZoneId,data.AreaId);
+                        
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
                         $('#txtCreditLimit').val(data.CreditLimit);
@@ -613,117 +588,9 @@
                 });
 
 
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("AllRegionGet", "Configuration")",
-                        datatype: "Json",
-                        data: { companyId:@Model.CompanyFK },
-                        success: function (data) {
-                            if (data) {
-                                $("#ddlRegionId").empty();
-                                $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
-                                $(data).each(function (index, item) {
-                                    $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    
 
-                                });
-
-                                $("#ddlRegionId").val(region);
-
-
-                            }
-                        }
-                    });
-
-                @* $ $('#ddlAreaId').off('change', function () {
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetAreaList", "Configuration")",
-                        datatype: "Json",
-                        data: { companyId:@Model.CompanyFK, zoneId: 0, regionId: 0 },
-                        success: function (data) {
-                            if (data) {
-                                $("#ddlAreaId").empty();
-                                $("#ddlAreaId").append("<option value=''>==Select Area==</option>");
-                                $(data).each(function (index, item) {
-                                    $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                    $("#ddlAreaId").val(area);
-                                });
-
-
-
-                            }
-                        }
-                    });
-                });*@
-
-
-                    @*$.ajax({
-                        type: "GET",
-                        url: "@Url.Action("CommonSubZonesGet", "Configuration")",
-                        datatype: "Json",
-                        data: { id: zoneValue },
-                        success: function (data) {
-                            if (data) {
-                                $("#ddlSubZoneId").empty();
-                                $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
-                                $(data).each(function (index, item) {
-                                    $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-
-                                });
-
-                                $("#ddlSubZoneId").val(subzone);
-
-                            }
-                        }
-                    });*@
-
-
-
-
-                //$("#ddlSubZoneId").val(subzone).trigger('change');
-
-
-
-
-
-
-
-
-
-
-
-
-                @*$('#ddlCommon_DivisionFk').val(division).trigger('change');
-
-                         // Repopulate the ddlCommon_DistrictsFk dropdown
-                            $.ajax({
-                               type: "GET",
-                               url: "@Url.Action("CommonDistrictsGet", "Configuration")",
-                                datatype: "Json",
-                                data: { id: division },
-                               success: function(data) {
-                               $("#ddlCommon_DistrictsFk").empty();
-                                $("#ddlCommon_DistrictsFk").append("<option value=''>==Select District==</option>");
-                                $(data).each(function(index, item) {
-                                $("#ddlCommon_DistrictsFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                        });
-                           }
-                                   });
-
-                          // Repopulate the ddlCommon_UpazilasFk dropdown
-                            $.ajax({
-                                type: "GET",
-                                url: "@Url.Action("CommonUpazilasGet", "Configuration")",
-                                datatype: "Json",
-                                data: { id: district },
-                                success: function(data) {
-                                 $("#ddlCommon_UpazilasFk").empty();
-                                    $("#ddlCommon_UpazilasFk").append("<option value=''>==Select Police Station==</option>");
-                                    $(data).each(function(index, item) {
-                                         $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                            });
-                                     }
-                                 });*@
+                
 
 
 

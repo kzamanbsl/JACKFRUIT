@@ -293,71 +293,71 @@
                 //Bind Region base on Zone Selection
 
 
-            $('#ddlZoneId').on('click', function () {
-                 changeRegion();
+            $('#ddlZoneId').on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
+                
+                changeRegion(0, zoneId);
             });
 
-            $('#ddlRegionId').on('click', function () {
-                changeArea();
+            $('#ddlRegionId').on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
+                var regionId = $("#ddlRegionId :selected").val();
+                changeArea(0, zoneId, regionId);
             });
             
-            function changeRegion() {
-                $.ajax({
-                    type: "get",
-                    url: "/Configuration/GetRegionList",
-                    data: { companyId: $('#CompanyFK').val(), zoneId: $('#ddlZoneId').val() },
-
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        var region = "<select>";
-                        for (var i = 0; i < data.length; i++) {
-                            region = region + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-                        region = region + '</select>';
-                        $('#ddlRegionId').html(region);
-
-                    }
-                });
-            }
-                //$('#ddlZoneId').change(function () {
-
-                    
-                   
-                //});
-
-            function changeArea()
-            {
-                $.ajax({
-                    type: "get",
-                    url: "/Configuration/GetAreaList",
-                    data: { companyId: $('#CompanyFK').val(), zoneId: $('#ddlZoneId').val(), regionId: $('#ddlRegionId').val() },
-
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        var area = "<select>";
-                        for (var i = 0; i < data.length; i++) {
-                            area = area + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-                        area = area + '</select>';
-                        $('#ddlAreaId').html(area);
-                    }
-                });
-            }
-;
+            
 
           
-                ////Bind Area base on Region Selection
-                //$('#ddlRegionId').change(function () {
-
-                    
-                   
-
-                //});
+               
             
             
         });
+        function changeRegion(regionValue,zoneValue) {
+            $.ajax({
+                type: "get",
+                url: "/Configuration/GetRegionList",
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue  },
+
+                datatype: "json",
+               
+                success: function (data) {
+                    if (data) {
+                        $("#ddlRegionId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (regionValue > 0) {
+                            $("#ddlRegionId").val(regionValue);
+                        }
+
+                    }
+                }
+            });
+        }
+
+
+        function changeArea(areaValue,zoneValue,regionValue) {
+            $.ajax({
+                type: "get",
+                url: "/Configuration/GetAreaList",
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, regionId: regionValue },
+
+                datatype: "json",
+                success: function (data) {
+                    if (data) {
+                        $("#ddlAreaId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (areaValue > 0) {
+                            $("#ddlAreaId").val(areaValue);
+                        }
+
+                    }
+                }
+            });
+        };
+
 
         function makeEditble(elem) {
             if (elem !== null) {
@@ -365,10 +365,7 @@
                 $('#subZoneId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                //$('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).change(function (event) {
-                   
-                //    event.stopPropagation();
-                //});
+              
                 $('#txtSubZoneName').val($('#tdSubZoneName_' + rowId).text().trim());
 
                 $('#txtSalesOfficerName').val($('#tdSalesOfficerName_' + rowId).text().trim());
@@ -377,19 +374,17 @@
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
                 $('#txtMobilePersonal').val($('#tdMobilePersonal_' + rowId).text().trim());
                 $('#employeeId').val($('#tdEmployeeId_' + rowId).text().trim());
-                //$('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change", function (event) {
-                //    event.stopPropagation();
-                //});
-
-                //$('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change", function (event) {
-                //    event.stopPropagation();
-                //});
-               
+                
 
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger("change");
-                $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");
-                $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");
+                var zoneId = $("#ddlZoneId :selected").val();
+                changeRegion($('#tdRegionId_' + rowId).val().trim(), zoneId);
 
+                var regionId = $("#ddlRegionId :selected").val();
+
+               /* $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");*/
+        /*        $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");*/
+                changeArea($('#tdAreaId_' + rowId).val().trim(), zoneId, regionId);
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }

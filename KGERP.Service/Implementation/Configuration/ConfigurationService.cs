@@ -947,9 +947,11 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<List<VMCommonDistricts>> CommonSubZonesGet(int id)
         {
-            List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.ZoneId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
+            List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.AreaId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
             return vmCommonDistricts;
-        }
+        }    
+        
+       
         public async Task<List<VMCommonDistricts>> CommonRegionGet(int companyId, int zoneId)
         {
             List<VMCommonDistricts> vmRegions = await Task.Run(() => (_db.Regions.Where(x => x.IsActive == true && x.ZoneId == zoneId && x.CompanyId == companyId)).Select(x => new VMCommonDistricts() { ID = x.RegionId, Name = x.Name }).ToListAsync());
@@ -3408,7 +3410,7 @@ namespace KGERP.Service.Implementation.Configuration
                          SubZoneId = t1.SubZoneId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
-                         AreaId=t1.AreaId,
+                         AreaId=t1.AreaId.Value,
                          RegionId = t1.RegionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -3837,6 +3839,7 @@ namespace KGERP.Service.Implementation.Configuration
                 UpazilaId = vmCommonCustomer.Common_UpazilasFk,
                 ContactName = vmCommonCustomer.ContactPerson,
                 VendorTypeId = (int)Provider.Customer,
+                AreaId= vmCommonCustomer.AreaId,
                 Address = vmCommonCustomer.Address,
                 SubZoneId = vmCommonCustomer.SubZoneId,
                 NID = vmCommonCustomer.NID,

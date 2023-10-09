@@ -670,6 +670,15 @@
             $("#SpcDis").val(0);
             $("#disPercentage").val(0);
         });
+        
+        $("#txtOrderQuantity").keyup(function () {
+
+            var qty = $("#txtOrderQuantity").val();
+            var unitPrice = $("#txtUnitPrice").val();
+            var tAmount = qty * unitPrice;
+            $("#totalAmount").val(tAmount);
+           
+        });
 
         $("#disPercentage").keyup(function () {
 
