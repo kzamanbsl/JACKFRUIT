@@ -89,7 +89,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CustomerLisBySubZonetGet(int subZoneId)
         {
 
-            var commonCustomers = await Task.Run(() => _service.GetCustomerLisBySubZoneId(subZoneId));
+            var commonCustomers = await Task.Run(() => _service.GetCustomerListBySubZoneId(subZoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -748,7 +748,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> SalesOrderLisByCustomerIdGet(int customerId)
         {
 
-            var salesOrders = await Task.Run(() => _service.SalesOrderLisByCustomerIdGet(customerId));
+            var salesOrders = await Task.Run(() => _service.GetSalesOrderListByCustomerId(customerId));
             var list = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }

@@ -85,8 +85,6 @@ namespace KGERP.Service.Implementation.Configuration
                                                              }).OrderByDescending(x => x.PaymentMasterId).AsEnumerable());
             return vmPaymentMaster;
         }
-
-
         public async Task<VMPaymentMaster> GetPaymentMasters(int companyId, int customerId)
         {
             VMPaymentMaster vmPaymentMaster = new VMPaymentMaster();
@@ -109,8 +107,6 @@ namespace KGERP.Service.Implementation.Configuration
             return vmPaymentMaster;
         }
 
-
-       
         public List<object> SubZonesDropDownList(int companyId = 0)
         {
             var list = new List<object>();
@@ -123,8 +119,232 @@ namespace KGERP.Service.Implementation.Configuration
             return list;
 
         }
+        public List<object> OrderMastersDropDownList(int companyId, int customerId)
+        {
+            var orderMastersList = new List<object>();
+            var orderMasters = _db.OrderMasters.Where(a => a.IsActive == true && a.CompanyId == companyId && a.CustomerId == customerId).OrderByDescending(x => x.OrderMasterId).ToList();
+            foreach (var x in orderMasters)
+            {
+                orderMastersList.Add(new { Text = x.OrderNo + " Date: " + x.OrderDate.ToLongDateString(), Value = x.OrderMasterId });
+            }
+            return orderMastersList;
+        }
+        public List<object> PurchaseOrdersDropDownList(int companyId, int customerId)
+        {
+            var purchaseOrdersList = new List<object>();
+            var orderMasters = _db.PurchaseOrders.Where(a => a.IsActive == true && !a.IsCancel && !a.IsHold && a.CompanyId == companyId && a.SupplierId == customerId).OrderByDescending(x => x.PurchaseOrderId).ToList();
+            foreach (var x in orderMasters)
+            {
+                purchaseOrdersList.Add(new { Text = x.PurchaseOrderNo + " Date: " + x.PurchaseDate.Value.ToLongDateString(), Value = x.PurchaseOrderId });
+            }
+            return purchaseOrdersList;
+        }
+        public VMCommonSupplier GetVendorById(int supplierId)
+        {
+            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
+            var vandor = _db.Vendors.Find(supplierId);
+            vmCommonSupplier.ID = vandor.VendorId;
+            vmCommonSupplier.Name = vandor.Name;
+            return vmCommonSupplier;
+        }
 
-        public async Task<VMPayment> ProcurementOrderMastersGetByID(int companyId, int paymentMasterId)
+        private decimal GetOrderValue(long orderMasterId)
+        {
+            double orderValue = (from ts1 in _db.OrderDetails
+                                 join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
+                                 where ts1.OrderMasterId == orderMasterId && ts1.IsActive && ts2.IsActive && !ts2.IsReturn
+                                 select (ts2.DeliveredQty * ts1.UnitPrice) - (double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
+            return Convert.ToDecimal(orderValue);
+
+        }
+        private decimal GetReturnOrderValue(long saleReturnId)
+        {
+            decimal orderValue = (from ts0 in _db.SaleReturnDetails
+                                  join ts1 in _db.OrderDeliverDetails on ts0.OrderDeliverDetailsId equals ts1.OrderDeliverDetailId
+                                  where ts0.SaleReturnId == saleReturnId && ts1.IsActive && ts0.IsActive
+                                  select new
+                                  {
+                                      ReturnQuantity = ts0.Qty,
+                                      UnitPrice = ts1.UnitPrice
+                                  }).AsEnumerable().Select(x => x.ReturnQuantity.Value * Convert.ToDecimal(x.UnitPrice)).DefaultIfEmpty(0).Sum();
+            return orderValue;
+        }
+
+        #region Common Payment
+        public async Task<int> PaymentMasterAdd(VMPayment vmPayment)
+        {
+
+            int result = -1;
+            var vendors = await _db.Vendors.FindAsync(vmPayment.CustomerId);
+
+            #region Payment ID
+            int paymentMastersCount = _db.PaymentMasters.Count(x => x.CompanyId == vmPayment.CompanyFK && x.VendorId == vmPayment.CustomerId);
+
+            if (paymentMastersCount == 0)
+            {
+                paymentMastersCount = 1;
+            }
+            else
+            {
+                paymentMastersCount++;
+            }
+
+            string paymentNo = "C-" + vendors?.Code + "-" + paymentMastersCount.ToString().PadLeft(4, '0');
+            #endregion
+
+            PaymentMaster paymentMaster = new PaymentMaster
+            {
+
+                PaymentNo = paymentNo,
+                TransactionDate = vmPayment.TransactionDate,
+                VendorId = vmPayment.CustomerId.Value,
+                ReferenceNo = vmPayment.ReferenceNo,
+
+                VendorTypeId = vendors.VendorTypeId,
+
+                BankChargeHeadGLId = vmPayment.BankChargeHeadGLId ?? 50613604, //BankCharge HeadGL Id
+
+                BankCharge = vmPayment.BankCharge,
+                CompanyId = vmPayment.CompanyFK.Value,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                PaymentToHeadGLId = vmPayment.Accounting_BankOrCashId,
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            };
+            _db.PaymentMasters.Add(paymentMaster);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = paymentMaster.PaymentMasterId;
+            }
+
+            return result;
+        }
+        public async Task<long> PaymentAdd(VMPayment vmPayment)
+        {
+            long result = -1;
+            var vendor = await _db.Vendors.FindAsync(vmPayment.CustomerId);
+
+            Payment payment = new Payment
+            {
+                PaymentMasterId = vmPayment.PaymentMasterId,
+                InAmount = Convert.ToDecimal(vmPayment.InAmount),
+                OutAmount = vmPayment.OutAmount,
+                ProductType = "F",
+                ReferenceNo = vmPayment.ReferenceNo,
+                TransactionDate = vmPayment.MoneyReceiptDate.Value,
+                MoneyReceiptNo = vmPayment.MoneyReceiptNo,
+                VendorId = vmPayment.CustomerId.Value,
+                OrderMasterId = vmPayment.OrderMasterId,
+                PurchaseOrderId = vmPayment.PurchaseOrderId,
+                CompanyId = vmPayment.CompanyFK.Value,
+                PaymentFromHeadGLId = vendor.HeadGLId,
+                //PaymentToHeadGLId = vmPayment.PaymentToHeadGLId,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true,
+
+            };
+            _db.Payments.Add(payment);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = payment.PaymentId;
+            }
+
+            return result;
+        }
+        public async Task<long> ExpensesAdd(VMPayment vmPayment)
+        {
+            long result = -1;
+
+            Expense expense = new Expense
+            {
+                Amount = vmPayment.ExpensesAmount.Value,
+                CompanyId = vmPayment.CompanyFK.Value,
+                ExpensesHeadGLId = vmPayment.ExpensesHeadGLId,
+                PaymentMasterId = vmPayment.PaymentMasterId,
+                ReferenceNo = vmPayment.ExpensessReference,
+                OutAmount = 0,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true,
+
+            };
+            _db.Expenses.Add(expense);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = expense.ExpensesId;
+            }
+
+            return result;
+        }
+        public async Task<long> IncomeAdd(VMPayment vmPayment)
+        {
+            long result = -1;
+
+            Income income = new Income
+            {
+                Amount = vmPayment.OthersIncomeAmount.Value,
+                CompanyId = vmPayment.CompanyFK.Value,
+                IncomeHeadGLId = vmPayment.OthersIncomeHeadGLId,
+                PaymentMasterId = vmPayment.PaymentMasterId,
+                ReferenceNo = vmPayment.IncomeReference,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true,
+
+            };
+            _db.Incomes.Add(income);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = income.IncomeId;
+            }
+
+            return result;
+        }
+
+
+        public async Task<int> SubmitPaymentMasters(VMPayment vmPayment)  //For Supplier
+        {
+            var result = -1;
+            PaymentMaster model = await _db.PaymentMasters.FindAsync(vmPayment.PaymentMasterId);
+            model.IsFinalized = true;
+
+            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            model.ModifiedDate = DateTime.Now;
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.PaymentMasterId;
+            }
+            if (result > 0 && model.CompanyId == (int)CompanyName.KrishibidSeedLimited)
+            {
+
+                vmPayment = await Task.Run(() => GetSupplierPurchasePayment(model.CompanyId, model.VendorId, model.PaymentMasterId));
+
+                await _accountingService.PaymentPushGCCL(model.CompanyId, vmPayment, (int)GCCLJournalEnum.DebitVoucher);
+
+            }
+
+            return result;
+        }
+        public async Task<int> SubmitCollectionMasters(VMPayment vmPayment)  //For Deport, Dealer and Customer
+        {
+            var result = -1;
+            PaymentMaster model = await _db.PaymentMasters.FindAsync(vmPayment.PaymentMasterId);
+            model.IsFinalized = true;
+
+            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            model.ModifiedDate = DateTime.Now;
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.PaymentMasterId;
+            }
+
+            vmPayment = await Task.Run(() => GetOrderCollectionByPaymentMasterId(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
+            await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
+
+            return result;
+        }
+        public async Task<VMPayment> GetOrderCollectionByPaymentMasterId(int companyId, int paymentMasterId)
         {
             VMPayment vmPayment = new VMPayment();
             if (paymentMasterId > 0)
@@ -218,379 +438,9 @@ namespace KGERP.Service.Implementation.Configuration
             return vmPayment;
         }
 
-        public List<object> OrderMastersDropDownList(int companyId, int customerId)
-        {
-            var orderMastersList = new List<object>();
-            var orderMasters = _db.OrderMasters.Where(a => a.IsActive == true && a.CompanyId == companyId && a.CustomerId == customerId).OrderByDescending(x => x.OrderMasterId).ToList();
-            foreach (var x in orderMasters)
-            {
-                orderMastersList.Add(new { Text = x.OrderNo + " Date: " + x.OrderDate.ToLongDateString(), Value = x.OrderMasterId });
-            }
-            return orderMastersList;
-        }
-
-        public List<object> PurchaseOrdersDropDownList(int companyId, int customerId)
-        {
-            var purchaseOrdersList = new List<object>();
-            var orderMasters = _db.PurchaseOrders.Where(a => a.IsActive == true && !a.IsCancel && !a.IsHold && a.CompanyId == companyId && a.SupplierId == customerId).OrderByDescending(x => x.PurchaseOrderId).ToList();
-            foreach (var x in orderMasters)
-            {
-                purchaseOrdersList.Add(new { Text = x.PurchaseOrderNo + " Date: " + x.PurchaseDate.Value.ToLongDateString(), Value = x.PurchaseOrderId });
-            }
-            return purchaseOrdersList;
-        }
-
-
-       
-        public async Task<int> PaymentMasterAdd(VMPayment vmPayment)
-        {
-            if (vmPayment.CompanyFK == (int)CompanyName.GloriousCropCareLimited)
-            {
-                vmPayment.BankChargeHeadGLId = 39432; // GCCL Bank Charge Head Id
-            }
-            int result = -1;
-            var vendors = await _db.Vendors.FindAsync(vmPayment.CustomerId);
-
-            #region Payment ID
-            int paymentMastersCount = _db.PaymentMasters.Count(x => x.CompanyId == vmPayment.CompanyFK && x.VendorId == vmPayment.CustomerId);
-
-            if (paymentMastersCount == 0)
-            {
-                paymentMastersCount = 1;
-            }
-            else
-            {
-                paymentMastersCount++;
-            }
-
-            string paymentNo = "C-" + vendors?.Code + "-" + paymentMastersCount.ToString().PadLeft(4, '0');
-            #endregion
-
-            PaymentMaster paymentMaster = new PaymentMaster
-            {
-
-                PaymentNo = paymentNo,
-                TransactionDate = vmPayment.TransactionDate,
-                VendorId = vmPayment.CustomerId.Value,
-                ReferenceNo = vmPayment.ReferenceNo,
-
-                VendorTypeId = vendors.VendorTypeId,
-
-                BankChargeHeadGLId = vmPayment.BankChargeHeadGLId ?? 50613604, //BankCharge HeadGL Id
-
-                BankCharge = vmPayment.BankCharge,
-                CompanyId = vmPayment.CompanyFK.Value,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                PaymentToHeadGLId = vmPayment.Accounting_BankOrCashId,
-                CreatedDate = DateTime.Now,
-                IsActive = true
-            };
-            _db.PaymentMasters.Add(paymentMaster);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = paymentMaster.PaymentMasterId;
-            }
-
-
-            return result;
-        }
-        public async Task<long> PaymentAdd(VMPayment vmPayment)
-        {
-            long result = -1;
-            var vendor = await _db.Vendors.FindAsync(vmPayment.CustomerId);
-
-            Payment payment = new Payment
-            {
-                PaymentMasterId = vmPayment.PaymentMasterId,
-                InAmount = Convert.ToDecimal(vmPayment.InAmount),
-                OutAmount = vmPayment.OutAmount,
-                ProductType = "F",
-                ReferenceNo = vmPayment.ReferenceNo,
-                TransactionDate = vmPayment.MoneyReceiptDate.Value,
-                MoneyReceiptNo = vmPayment.MoneyReceiptNo,
-                VendorId = vmPayment.CustomerId.Value,
-                OrderMasterId = vmPayment.OrderMasterId,
-                PurchaseOrderId = vmPayment.PurchaseOrderId,
-                CompanyId = vmPayment.CompanyFK.Value,
-                PaymentFromHeadGLId = vendor.HeadGLId,
-                //PaymentToHeadGLId = vmPayment.PaymentToHeadGLId,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
-                IsActive = true,
-
-            };
-            _db.Payments.Add(payment);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = payment.PaymentId;
-            }
-
-
-            return result;
-        }
-        public async Task<long> ExpensesAdd(VMPayment vmPayment)
-        {
-            long result = -1;
-
-            Expense expense = new Expense
-            {
-                Amount = vmPayment.ExpensesAmount.Value,
-                CompanyId = vmPayment.CompanyFK.Value,
-                ExpensesHeadGLId = vmPayment.ExpensesHeadGLId,
-                PaymentMasterId = vmPayment.PaymentMasterId,
-                ReferenceNo = vmPayment.ExpensessReference,
-                OutAmount = 0,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
-                IsActive = true,
-
-            };
-            _db.Expenses.Add(expense);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = expense.ExpensesId;
-            }
-
-
-            return result;
-        }
-        public async Task<long> IncomeAdd(VMPayment vmPayment)
-        {
-            long result = -1;
-
-            Income income = new Income
-            {
-                Amount = vmPayment.OthersIncomeAmount.Value,
-                CompanyId = vmPayment.CompanyFK.Value,
-                IncomeHeadGLId = vmPayment.OthersIncomeHeadGLId,
-                PaymentMasterId = vmPayment.PaymentMasterId,
-                ReferenceNo = vmPayment.IncomeReference,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
-                IsActive = true,
-
-            };
-            _db.Incomes.Add(income);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = income.IncomeId;
-            }
-
-
-            return result;
-        }
-        public async Task<int> SubmitPaymentMasters(VMPayment vmPayment)
-        {
-            var result = -1;
-            PaymentMaster model = await _db.PaymentMasters.FindAsync(vmPayment.PaymentMasterId);
-            model.IsFinalized = true;
-
-            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            model.ModifiedDate = DateTime.Now;
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = model.PaymentMasterId;
-            }
-            if (result > 0 && model.CompanyId == (int)CompanyName.KrishibidSeedLimited)
-            {
-
-                vmPayment = await Task.Run(() => GetSupplierPurchasePayment(model.CompanyId, model.VendorId, model.PaymentMasterId));
-
-                await _accountingService.PaymentPushGCCL(model.CompanyId, vmPayment, (int)GCCLJournalEnum.DebitVoucher);
-
-            }
-
-            return result;
-        }
-        public async Task<int> SubmitCollectionMasters(VMPayment vmPayment)
-        {
-            var result = -1;
-            PaymentMaster model = await _db.PaymentMasters.FindAsync(vmPayment.PaymentMasterId);
-            model.IsFinalized = true;
-
-            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            model.ModifiedDate = DateTime.Now;
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = model.PaymentMasterId;
-            }
-            if (result > 0 && vmPayment.CompanyFK == (int)CompanyName.GloriousCropCareLimited)
-            {
-
-                vmPayment = await Task.Run(() => ProcurementOrderMastersGetByID(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
-
-                await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
-
-
-            }
-            else if (result > 0 && vmPayment.CompanyFK == (int)CompanyName.KrishibidSeedLimited)
-            {
-
-                vmPayment = await Task.Run(() => ProcurementOrderMastersGetByID(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
-
-                await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
-
-
-            }
-            return result;
-        }
-
-
+        #endregion
 
         
-        public async Task<VmTransaction> GetLedgerInfoByCustomer(VmTransaction vmTransaction)
-        {
-            List<VmTransaction> tempList = new List<VmTransaction>();
-
-
-
-            var dataList1 = (from t1 in _db.OrderMasters
-                             join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
-
-                             where t1.CustomerId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)EnumPOStatus.Submitted
-                             select new VmTransaction
-                             {
-                                 OrderMasterId = t1.OrderMasterId,
-                                 Date = t1.OrderDate,
-                                 Description = "Order No : " + t1.OrderNo,
-                                 Credit = 0,
-                                 Debit = 0,
-                                 Balance = 0,
-                                 CourierCharge = t1.CourierCharge,
-                                 FirstCreateDate = t1.CreateDate
-                             }).Distinct().ToList();
-
-            foreach (var data in dataList1)
-            {
-                data.Credit = GetOrderValue(data.OrderMasterId) + Convert.ToDecimal(data.CourierCharge);
-            }
-
-
-            var dataList2 = (from t1 in _db.Payments
-                             where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true
-                             select new VmTransaction
-                             {
-                                 Date = t1.TransactionDate,
-                                 Description = "Payment Reference : " + t1.ReferenceNo,
-                                 Credit = 0,
-                                 Debit = t1.InAmount,
-                                 Balance = 0,
-                                 FirstCreateDate = t1.CreatedDate
-                             }).Distinct().ToList();
-
-            var dataList3 = (from t1 in _db.SaleReturnDetails
-                             join t2 in _db.SaleReturns on t1.SaleReturnId equals t2.SaleReturnId
-                             where t2.CustomerId == vmTransaction.VendorFK && t1.IsActive == true
-                             select new VmTransaction
-                             {
-                                 OrderMasterId = t2.SaleReturnId,
-                                 Date = t2.ReturnDate,
-                                 Description = "Return Reference : " + t2.SaleReturnNo,
-                                 Credit = 0,
-                                 Debit = 0, //t1.InAmount,
-                                 Balance = 0,
-                                 FirstCreateDate = t2.ReturnDate
-                             }).Distinct().ToList();
-
-            foreach (var data in dataList3)
-            {
-                data.Credit = GetReturnOrderValue(data.OrderMasterId); // Sales Return Id
-            }
-
-            var dataList = dataList1.Union(dataList2).Union(dataList3).OrderBy(x => x.Date).ToList();
-
-
-            var previousBalanceTable = (from t in dataList
-                                        where t.Date < vmTransaction.FromDate
-                                        select
-                                        (
-                                            t.Credit - t.Debit
-                                        )).ToList();
-
-            var countForId = previousBalanceTable.Count();
-
-            var previousBalance = (previousBalanceTable).DefaultIfEmpty(0).Sum();
-
-            var sortedV = (from t in dataList
-                           where t.Date >= vmTransaction.FromDate && t.Date <= vmTransaction.ToDate
-                           select new VmTransaction
-                           {
-                               ID = ++countForId,
-                               Date = t.Date,
-                               Description = t.Description,
-                               Credit = t.Credit,
-                               Debit = t.Debit,
-                               Balance = 0,
-                               OrderMasterId = t.OrderMasterId
-
-                           }).Distinct().ToList();
-
-
-            var supplier = await _db.Vendors.FindAsync(vmTransaction.VendorFK);
-            var companies = await _db.Companies.FindAsync(vmTransaction.CompanyFK);
-
-            var openingBalance = _db.VendorOpenings.Where(c =>
-                c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
-            VmTransaction vmTransition = new VmTransaction();
-            vmTransition.Date = vmTransaction.FromDate;
-            vmTransition.Name = supplier.Name;
-            vmTransition.Description = "Opening Balance";
-            vmTransition.Debit = 0;
-            vmTransition.Credit = openingBalance.Sum(c => c.OpeningAmount);
-            vmTransition.Balance = previousBalance;
-            vmTransition.CompanyAddress = companies.Address;
-            vmTransition.CompanyName = companies.Name;
-            vmTransition.CompanyPhone = companies.Phone;
-            vmTransition.CompanyEmail = companies.Email;
-            vmTransition.FromDate = vmTransaction.FromDate;
-            vmTransition.ToDate = vmTransaction.ToDate;
-
-
-
-            //tempList.Add(vmTransition);
-            sortedV.Insert(0, vmTransition);
-
-            foreach (var x in sortedV)
-            {
-                x.Balance = previousBalance += x.Credit - x.Debit;
-                x.Name = supplier.Name;
-                x.OrderMasterId = x.OrderMasterId;
-                tempList.Add(x);
-            }
-
-
-            vmTransition.DataList = tempList;
-
-            return vmTransition;
-        }
-
-        private decimal GetOrderValue(long orderMasterId)
-        {
-            double orderValue = (from ts1 in _db.OrderDetails
-                                 join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
-                                 where ts1.OrderMasterId == orderMasterId && ts1.IsActive && ts2.IsActive && !ts2.IsReturn
-                                 select (ts2.DeliveredQty * ts1.UnitPrice) - (double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
-            return Convert.ToDecimal(orderValue);
-
-        }
-        private decimal GetReturnOrderValue(long saleReturnId)
-        {
-            decimal orderValue = (from ts0 in _db.SaleReturnDetails
-                                  join ts1 in _db.OrderDeliverDetails on ts0.OrderDeliverDetailsId equals ts1.OrderDeliverDetailId
-                                  where ts0.SaleReturnId == saleReturnId && ts1.IsActive && ts0.IsActive
-                                  select new
-                                  {
-                                      ReturnQuantity = ts0.Qty,
-                                      UnitPrice = ts1.UnitPrice
-                                  }).AsEnumerable().Select(x => x.ReturnQuantity.Value * Convert.ToDecimal(x.UnitPrice)).DefaultIfEmpty(0).Sum();
-            return orderValue;
-        }
-
-        public IEnumerable<VmCustomerAgeing> CustomerAgeingGet(VmCustomerAgeing vmCustomerAgeing)
-        {
-            return _db.Database.SqlQuery<VmCustomerAgeing>("[dbo].[GCCLCustomerAgeing] {0},{1},{2},{3}", vmCustomerAgeing.CompanyFK.Value, vmCustomerAgeing.AsOnDate, vmCustomerAgeing.ZoneId ?? 0, vmCustomerAgeing.SubZoneId ?? 0).AsEnumerable();
-        }
-
         #region Supplier
         public async Task<VMCommonSupplier> GetSupplierList(int companyId)
         {
@@ -618,14 +468,6 @@ namespace KGERP.Service.Implementation.Configuration
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
 
 
-            return vmCommonSupplier;
-        }
-
-        public VMCommonSupplier GetSupplierById(int supplierId)
-        {
-            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            var vandor = _db.Vendors.Find(supplierId);
-            vmCommonSupplier.Name = vandor.Name;
             return vmCommonSupplier;
         }
 
@@ -789,7 +631,7 @@ namespace KGERP.Service.Implementation.Configuration
             return paymentVm;
         }
 
-        public async Task<VmTransaction> GetLedgerInfoBySupplier(VmTransaction vmTransaction)
+        public async Task<VmTransaction> GetSupplierLedger(VmTransaction vmTransaction)
         {
             List<VmTransaction> tempList = new List<VmTransaction>();
 
@@ -994,6 +836,129 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmOrderMaster;
         }
+
+        public async Task<VmTransaction> GetDeportLedger(VmTransaction vmTransaction)
+        {
+            List<VmTransaction> tempList = new List<VmTransaction>();
+
+
+
+            var dataList1 = (from t1 in _db.OrderMasters
+                             join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+
+                             where t1.DeportId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)EnumSOStatus.Received
+                             select new VmTransaction
+                             {
+                                 OrderMasterId = t1.OrderMasterId,
+                                 Date = t1.OrderDate,
+                                 Description = "Order No : " + t1.OrderNo,
+                                 Credit = 0,
+                                 Debit = 0,
+                                 Balance = 0,
+                                 CourierCharge = t1.CourierCharge,
+                                 FirstCreateDate = t1.CreateDate
+                             }).Distinct().ToList();
+
+            foreach (var data in dataList1)
+            {
+                data.Credit = GetOrderValue(data.OrderMasterId) + Convert.ToDecimal(data.CourierCharge);
+            }
+
+
+            var dataList2 = (from t1 in _db.Payments
+                             where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true
+                             select new VmTransaction
+                             {
+                                 Date = t1.TransactionDate,
+                                 Description = "Payment Reference : " + t1.ReferenceNo,
+                                 Credit = 0,
+                                 Debit = t1.InAmount,
+                                 Balance = 0,
+                                 FirstCreateDate = t1.CreatedDate
+                             }).Distinct().ToList();
+
+            var dataList3 = (from t1 in _db.SaleReturnDetails
+                             join t2 in _db.SaleReturns on t1.SaleReturnId equals t2.SaleReturnId
+                             where t2.CustomerId == vmTransaction.VendorFK && t1.IsActive == true
+                             select new VmTransaction
+                             {
+                                 OrderMasterId = t2.SaleReturnId,
+                                 Date = t2.ReturnDate,
+                                 Description = "Return Reference : " + t2.SaleReturnNo,
+                                 Credit = 0,
+                                 Debit = 0, //t1.InAmount,
+                                 Balance = 0,
+                                 FirstCreateDate = t2.ReturnDate
+                             }).Distinct().ToList();
+
+            foreach (var data in dataList3)
+            {
+                data.Credit = GetReturnOrderValue(data.OrderMasterId); // Sales Return Id
+            }
+
+            var dataList = dataList1.Union(dataList2).Union(dataList3).OrderBy(x => x.Date).ToList();
+
+
+            var previousBalanceTable = (from t in dataList
+                                        where t.Date < vmTransaction.FromDate
+                                        select
+                                        (
+                                            t.Credit - t.Debit
+                                        )).ToList();
+
+            var countForId = previousBalanceTable.Count();
+
+            var previousBalance = (previousBalanceTable).DefaultIfEmpty(0).Sum();
+
+            var sortedV = (from t in dataList
+                           where t.Date >= vmTransaction.FromDate && t.Date <= vmTransaction.ToDate
+                           select new VmTransaction
+                           {
+                               ID = ++countForId,
+                               Date = t.Date,
+                               Description = t.Description,
+                               Credit = t.Credit,
+                               Debit = t.Debit,
+                               Balance = 0,
+                               OrderMasterId = t.OrderMasterId
+
+                           }).Distinct().ToList();
+
+
+            var deport = await _db.Vendors.FindAsync(vmTransaction.VendorFK);
+            var company = await _db.Companies.FindAsync(vmTransaction.CompanyFK);
+
+            var openingBalance = _db.VendorOpenings.Where(c => c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
+            VmTransaction vmTransition = new VmTransaction();
+            vmTransition.Date = vmTransaction.FromDate;
+            vmTransition.Name = deport.Name;
+            vmTransition.Description = "Opening Balance";
+            vmTransition.Debit = 0;
+            vmTransition.Credit = openingBalance.Sum(c => c.OpeningAmount);
+            vmTransition.Balance = previousBalance;
+            vmTransition.CompanyAddress = company.Address;
+            vmTransition.CompanyName = company.Name;
+            vmTransition.CompanyPhone = company.Phone;
+            vmTransition.CompanyEmail = company.Email;
+            vmTransition.FromDate = vmTransaction.FromDate;
+            vmTransition.ToDate = vmTransaction.ToDate;
+
+
+            //tempList.Add(vmTransition);
+            sortedV.Insert(0, vmTransition);
+
+            foreach (var x in sortedV)
+            {
+                x.Balance = previousBalance += x.Credit - x.Debit;
+                x.Name = deport.Name;
+                x.OrderMasterId = x.OrderMasterId;
+                tempList.Add(x);
+            }
+
+            vmTransition.DataList = tempList;
+
+            return vmTransition;
+        }
         #endregion
 
         #region Dealer
@@ -1064,6 +1029,128 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmOrderMaster;
         }
+        public async Task<VmTransaction> GetDealerLedger(VmTransaction vmTransaction)
+        {
+            List<VmTransaction> tempList = new List<VmTransaction>();
+
+
+
+            var dataList1 = (from t1 in _db.OrderMasters
+                             join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
+
+                             where t1.DealerId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)EnumSOStatus.Received
+                             select new VmTransaction
+                             {
+                                 OrderMasterId = t1.OrderMasterId,
+                                 Date = t1.OrderDate,
+                                 Description = "Order No : " + t1.OrderNo,
+                                 Credit = 0,
+                                 Debit = 0,
+                                 Balance = 0,
+                                 CourierCharge = t1.CourierCharge,
+                                 FirstCreateDate = t1.CreateDate
+                             }).Distinct().ToList();
+
+            foreach (var data in dataList1)
+            {
+                data.Credit = GetOrderValue(data.OrderMasterId) + Convert.ToDecimal(data.CourierCharge);
+            }
+
+
+            var dataList2 = (from t1 in _db.Payments
+                             where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true
+                             select new VmTransaction
+                             {
+                                 Date = t1.TransactionDate,
+                                 Description = "Payment Reference : " + t1.ReferenceNo,
+                                 Credit = 0,
+                                 Debit = t1.InAmount,
+                                 Balance = 0,
+                                 FirstCreateDate = t1.CreatedDate
+                             }).Distinct().ToList();
+
+            var dataList3 = (from t1 in _db.SaleReturnDetails
+                             join t2 in _db.SaleReturns on t1.SaleReturnId equals t2.SaleReturnId
+                             where t2.CustomerId == vmTransaction.VendorFK && t1.IsActive == true
+                             select new VmTransaction
+                             {
+                                 OrderMasterId = t2.SaleReturnId,
+                                 Date = t2.ReturnDate,
+                                 Description = "Return Reference : " + t2.SaleReturnNo,
+                                 Credit = 0,
+                                 Debit = 0, //t1.InAmount,
+                                 Balance = 0,
+                                 FirstCreateDate = t2.ReturnDate
+                             }).Distinct().ToList();
+
+            foreach (var data in dataList3)
+            {
+                data.Credit = GetReturnOrderValue(data.OrderMasterId); // Sales Return Id
+            }
+
+            var dataList = dataList1.Union(dataList2).Union(dataList3).OrderBy(x => x.Date).ToList();
+
+
+            var previousBalanceTable = (from t in dataList
+                                        where t.Date < vmTransaction.FromDate
+                                        select
+                                        (
+                                            t.Credit - t.Debit
+                                        )).ToList();
+
+            var countForId = previousBalanceTable.Count();
+
+            var previousBalance = (previousBalanceTable).DefaultIfEmpty(0).Sum();
+
+            var sortedV = (from t in dataList
+                           where t.Date >= vmTransaction.FromDate && t.Date <= vmTransaction.ToDate
+                           select new VmTransaction
+                           {
+                               ID = ++countForId,
+                               Date = t.Date,
+                               Description = t.Description,
+                               Credit = t.Credit,
+                               Debit = t.Debit,
+                               Balance = 0,
+                               OrderMasterId = t.OrderMasterId
+
+                           }).Distinct().ToList();
+
+
+            var dealer = await _db.Vendors.FindAsync(vmTransaction.VendorFK);
+            var company = await _db.Companies.FindAsync(vmTransaction.CompanyFK);
+
+            var openingBalance = _db.VendorOpenings.Where(c =>c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
+            VmTransaction vmTransition = new VmTransaction();
+            vmTransition.Date = vmTransaction.FromDate;
+            vmTransition.Name = dealer.Name;
+            vmTransition.Description = "Opening Balance";
+            vmTransition.Debit = 0;
+            vmTransition.Credit = openingBalance.Sum(c => c.OpeningAmount);
+            vmTransition.Balance = previousBalance;
+            vmTransition.CompanyAddress = company.Address;
+            vmTransition.CompanyName = company.Name;
+            vmTransition.CompanyPhone = company.Phone;
+            vmTransition.CompanyEmail = company.Email;
+            vmTransition.FromDate = vmTransaction.FromDate;
+            vmTransition.ToDate = vmTransaction.ToDate;
+
+
+            //tempList.Add(vmTransition);
+            sortedV.Insert(0, vmTransition);
+
+            foreach (var x in sortedV)
+            {
+                x.Balance = previousBalance += x.Credit - x.Debit;
+                x.Name = dealer.Name;
+                x.OrderMasterId = x.OrderMasterId;
+                tempList.Add(x);
+            }
+
+            vmTransition.DataList = tempList;
+
+            return vmTransition;
+        }
         #endregion
 
         #region Customer
@@ -1133,6 +1220,135 @@ namespace KGERP.Service.Implementation.Configuration
                                                            }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
 
             return vmOrderMaster;
+        }
+        public async Task<VmTransaction> GetCustomerLedger(VmTransaction vmTransaction)
+        {
+            List<VmTransaction> tempList = new List<VmTransaction>();
+
+
+
+            var dataList1 = (from t1 in _db.OrderMasters
+                             join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
+
+                             where t1.CustomerId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)EnumSOStatus.Submitted
+                             select new VmTransaction
+                             {
+                                 OrderMasterId = t1.OrderMasterId,
+                                 Date = t1.OrderDate,
+                                 Description = "Order No : " + t1.OrderNo,
+                                 Credit = 0,
+                                 Debit = 0,
+                                 Balance = 0,
+                                 CourierCharge = t1.CourierCharge,
+                                 FirstCreateDate = t1.CreateDate
+                             }).Distinct().ToList();
+
+            foreach (var data in dataList1)
+            {
+                data.Credit = GetOrderValue(data.OrderMasterId) + Convert.ToDecimal(data.CourierCharge);
+            }
+
+
+            var dataList2 = (from t1 in _db.Payments
+                             where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true
+                             select new VmTransaction
+                             {
+                                 Date = t1.TransactionDate,
+                                 Description = "Payment Reference : " + t1.ReferenceNo,
+                                 Credit = 0,
+                                 Debit = t1.InAmount,
+                                 Balance = 0,
+                                 FirstCreateDate = t1.CreatedDate
+                             }).Distinct().ToList();
+
+            var dataList3 = (from t1 in _db.SaleReturnDetails
+                             join t2 in _db.SaleReturns on t1.SaleReturnId equals t2.SaleReturnId
+                             where t2.CustomerId == vmTransaction.VendorFK && t1.IsActive == true
+                             select new VmTransaction
+                             {
+                                 OrderMasterId = t2.SaleReturnId,
+                                 Date = t2.ReturnDate,
+                                 Description = "Return Reference : " + t2.SaleReturnNo,
+                                 Credit = 0,
+                                 Debit = 0, //t1.InAmount,
+                                 Balance = 0,
+                                 FirstCreateDate = t2.ReturnDate
+                             }).Distinct().ToList();
+
+            foreach (var data in dataList3)
+            {
+                data.Credit = GetReturnOrderValue(data.OrderMasterId); // Sales Return Id
+            }
+
+            var dataList = dataList1.Union(dataList2).Union(dataList3).OrderBy(x => x.Date).ToList();
+
+
+            var previousBalanceTable = (from t in dataList
+                                        where t.Date < vmTransaction.FromDate
+                                        select
+                                        (
+                                            t.Credit - t.Debit
+                                        )).ToList();
+
+            var countForId = previousBalanceTable.Count();
+
+            var previousBalance = (previousBalanceTable).DefaultIfEmpty(0).Sum();
+
+            var sortedV = (from t in dataList
+                           where t.Date >= vmTransaction.FromDate && t.Date <= vmTransaction.ToDate
+                           select new VmTransaction
+                           {
+                               ID = ++countForId,
+                               Date = t.Date,
+                               Description = t.Description,
+                               Credit = t.Credit,
+                               Debit = t.Debit,
+                               Balance = 0,
+                               OrderMasterId = t.OrderMasterId
+
+                           }).Distinct().ToList();
+
+
+            var customer = await _db.Vendors.FindAsync(vmTransaction.VendorFK);
+            var company = await _db.Companies.FindAsync(vmTransaction.CompanyFK);
+
+            var openingBalance = _db.VendorOpenings.Where(c =>
+                c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
+            VmTransaction vmTransition = new VmTransaction();
+            vmTransition.Date = vmTransaction.FromDate;
+            vmTransition.Name = customer.Name;
+            vmTransition.Description = "Opening Balance";
+            vmTransition.Debit = 0;
+            vmTransition.Credit = openingBalance.Sum(c => c.OpeningAmount);
+            vmTransition.Balance = previousBalance;
+            vmTransition.CompanyAddress = company.Address;
+            vmTransition.CompanyName = company.Name;
+            vmTransition.CompanyPhone = company.Phone;
+            vmTransition.CompanyEmail = company.Email;
+            vmTransition.FromDate = vmTransaction.FromDate;
+            vmTransition.ToDate = vmTransaction.ToDate;
+
+
+
+            //tempList.Add(vmTransition);
+            sortedV.Insert(0, vmTransition);
+
+            foreach (var x in sortedV)
+            {
+                x.Balance = previousBalance += x.Credit - x.Debit;
+                x.Name = customer.Name;
+                x.OrderMasterId = x.OrderMasterId;
+                tempList.Add(x);
+            }
+
+
+            vmTransition.DataList = tempList;
+
+            return vmTransition;
+        }
+        public IEnumerable<VmCustomerAgeing> CustomerAgeingGet(VmCustomerAgeing vmCustomerAgeing)
+        {
+            return _db.Database.SqlQuery<VmCustomerAgeing>("[dbo].[GCCLCustomerAgeing] {0},{1},{2},{3}", vmCustomerAgeing.CompanyFK.Value, vmCustomerAgeing.AsOnDate, vmCustomerAgeing.ZoneId ?? 0, vmCustomerAgeing.SubZoneId ?? 0).AsEnumerable();
         }
 
         #endregion

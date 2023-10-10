@@ -97,9 +97,6 @@ namespace KGERP.Service.Implementation
             message = string.Empty;
             Vendor vendor = ObjectConverter<VendorModel, Vendor>.Convert(model);
 
-
-
-
             if (id > 0)
             {
                 vendor = _context.Vendors.FirstOrDefault(x => x.VendorId == id);

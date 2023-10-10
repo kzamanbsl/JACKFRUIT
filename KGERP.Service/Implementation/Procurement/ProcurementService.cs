@@ -431,7 +431,7 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonCustomerList;
         }
 
-        public async Task<List<VMCommonCustomer>> GetCustomerLisBySubZoneId(int subZoneId)
+        public async Task<List<VMCommonCustomer>> GetCustomerListBySubZoneId(int subZoneId)
         {
 
             List<VMCommonCustomer> vmCommonCustomerList =
@@ -2314,19 +2314,7 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
-        public async Task<List<VMSalesOrder>> SalesOrderLisByCustomerIdGet(int customerId)
-        {
-
-            List<VMSalesOrder> vmCommonCustomerList =
-                await Task.Run(() => (_db.OrderMasters
-                .Where(x => x.IsActive && x.CustomerId == customerId))
-                .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
-                .ToListAsync());
-
-
-            return vmCommonCustomerList;
-        }
-
+       
         public async Task<VMSalesOrderSlave> FeedSalesOrderDetailsGet(int companyId, int orderMasterId)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
@@ -4276,7 +4264,18 @@ namespace KGERP.Service.Implementation.Procurement
             return vmSalesOrder;
         }
 
+        public async Task<List<VMSalesOrder>> GetSalesOrderListByDeportId(int deportId)
+        {
 
+            List<VMSalesOrder> vmCommonCustomerList = await Task.Run(() => (
+                _db.OrderMasters
+                .Where(x => x.IsActive && x.DeportId == deportId))
+                .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
+                .ToListAsync());
+
+
+            return vmCommonCustomerList;
+        }
         #endregion
 
         #region Dealer Sales
@@ -4729,7 +4728,18 @@ namespace KGERP.Service.Implementation.Procurement
             }
             return vmSalesOrder;
         }
+        public async Task<List<VMSalesOrder>> GetSalesOrderListByDealerId(int dealerId)
+        {
 
+            List<VMSalesOrder> vmCommonCustomerList = await Task.Run(() => (
+                _db.OrderMasters
+                .Where(x => x.IsActive && x.DealerId == dealerId))
+                .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
+                .ToListAsync());
+
+
+            return vmCommonCustomerList;
+        }
         #endregion
 
         #region Food Customer Sales
@@ -5034,6 +5044,18 @@ namespace KGERP.Service.Implementation.Procurement
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
             return vmSalesOrder;
+        }
+        public async Task<List<VMSalesOrder>> GetSalesOrderListByCustomerId(int customerId)
+        {
+
+            List<VMSalesOrder> vmCommonCustomerList = await Task.Run(() => (
+                _db.OrderMasters
+                .Where(x => x.IsActive && x.CustomerId == customerId))
+                .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
+                .ToListAsync());
+
+
+            return vmCommonCustomerList;
         }
 
 

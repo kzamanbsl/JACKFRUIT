@@ -137,7 +137,7 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = supplierId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _collectionService.GetSupplierById(supplierId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _collectionService.GetVendorById(supplierId));
 
 
             return View(vmTransaction);
@@ -146,7 +146,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> POWiseSupplierLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _collectionService.GetLedgerInfoBySupplier(vmTransaction));
+            var vmCommonSupplierLedger = await Task.Run(() => _collectionService.GetSupplierLedger(vmTransaction));
             return View(vmCommonSupplierLedger);
         }
 
@@ -159,7 +159,7 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = customerId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _collectionService.GetSupplierById(customerId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _collectionService.GetVendorById(customerId));
 
             return View(vmTransaction);
         }
@@ -167,7 +167,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> InvoiceWiseCustomerLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _collectionService.GetLedgerInfoByCustomer(vmTransaction));
+            var vmCommonSupplierLedger = await Task.Run(() => _collectionService.GetCustomerLedger(vmTransaction));
             return View(vmCommonSupplierLedger);
         }
 

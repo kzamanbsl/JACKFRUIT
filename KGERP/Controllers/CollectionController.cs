@@ -38,111 +38,7 @@ namespace KGERP.Controllers
             _procurementService = procurementService;
         }
 
-        #region Common Supplier
 
-        [SessionExpire]
-        public async Task<ActionResult> CommonSupplierList(int companyId)
-        {
-            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
-            return View(vmCommonSupplier);
-        }
-
-        [SessionExpire]
-        public async Task<ActionResult> KFMALSupplierList(int companyId)
-        {
-
-            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
-            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
-
-
-            return View(vmCommonSupplier);
-        }
-
-        public async Task<ActionResult> CommonSupplierPurchaseOrderList(int companyId, int supplierId)
-        {
-            VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
-            vmPurchaseOrder = await Task.Run(() => _service.GetPurchaseOrdersListBySupplierId(companyId, supplierId));
-            return View(vmPurchaseOrder);
-        }
-
-        [SessionExpire]
-        [HttpGet]
-        public async Task<ActionResult> SupplierPurchasePaymentSlave(int companyId, int supplierId, int paymentMasterId = 0)
-        {
-            VMPayment vmPayment = new VMPayment();
-            vmPayment = await Task.Run(() => _service.GetSupplierPurchasePayment(companyId, supplierId, paymentMasterId));
-
-            vmPayment.OrderMusterList = new SelectList(_service.PurchaseOrdersDropDownList(companyId, supplierId), "Value", "Text");
-
-            if (companyId == (int)CompanyName.GloriousCropCareLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
-
-            }
-            if (companyId == (int)CompanyName.KrishibidSeedLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-
-            }
-
-            vmPayment.CustomerId = supplierId;
-            return View(vmPayment);
-        }
-
-        [SessionExpire]
-        [HttpPost]
-        public async Task<ActionResult> SupplierPurchasePaymentSlave(VMPayment vmPayment)
-        {
-
-            if (vmPayment.ActionEum == ActionEnum.Add)
-            {
-                if (vmPayment.PaymentMasterId == 0)
-                {
-                    vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
-
-                }
-                await _service.PaymentAdd(vmPayment);
-
-            }
-            else if (vmPayment.ActionEum == ActionEnum.Finalize)
-            {
-                await _service.SubmitPaymentMasters(vmPayment);
-            }
-
-            else
-            {
-                return View("Error");
-            }
-
-            return RedirectToAction(nameof(SupplierPurchasePaymentSlave), new { companyId = vmPayment.CompanyFK, supplierId = vmPayment.CustomerId, paymentMasterId = vmPayment.PaymentMasterId });
-        }
-
-        [SessionExpire]
-        [HttpGet]
-        public async Task<ActionResult> POWiseSupplierLedgerOpening(int companyId, int supplierId)
-        {
-            VmTransaction vmTransaction = new VmTransaction();
-            vmTransaction.FromDate = DateTime.Now.AddDays(-30);
-            vmTransaction.ToDate = DateTime.Now;
-            vmTransaction.VendorFK = supplierId;
-            vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetSupplierById(supplierId));
-
-            return View(vmTransaction);
-        }
-
-        [HttpPost]
-        [SessionExpire]
-        public async Task<ActionResult> POWiseSupplierLedgerOpeningView(VmTransaction vmTransaction)
-        {
-            var vmCommonSupplierLedger = await Task.Run(() => _service.GetLedgerInfoBySupplier(vmTransaction));
-            return View(vmCommonSupplierLedger);
-        }
-
-        #endregion
-
-      
         public JsonResult CommonCustomerByIDGet(int id)
         {
             var model = _service.GetCommonCustomerByID(id);
@@ -172,7 +68,7 @@ namespace KGERP.Controllers
             vmPaymentMaster.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             return View(vmPaymentMaster);
         }
-       
+
         [HttpPost]
         [SessionExpire]
         public async Task<ActionResult> CommonPaymentMastersList(VMPaymentMaster model)
@@ -316,13 +212,107 @@ namespace KGERP.Controllers
             return null;
         }
 
+        #region Common Supplier
+
+        [SessionExpire]
+        public async Task<ActionResult> CommonSupplierList(int companyId)
+        {
+            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
+            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
+            return View(vmCommonSupplier);
+        }
+
+        [SessionExpire]
+        public async Task<ActionResult> KFMALSupplierList(int companyId)
+        {
+
+            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
+            vmCommonSupplier = await Task.Run(() => _service.GetSupplierList(companyId));
+
+
+            return View(vmCommonSupplier);
+        }
+
+        public async Task<ActionResult> CommonSupplierPurchaseOrderList(int companyId, int supplierId)
+        {
+            VMPurchaseOrder vmPurchaseOrder = new VMPurchaseOrder();
+            vmPurchaseOrder = await Task.Run(() => _service.GetPurchaseOrdersListBySupplierId(companyId, supplierId));
+            return View(vmPurchaseOrder);
+        }
+
+        [SessionExpire]
+        [HttpGet]
+        public async Task<ActionResult> SupplierPurchasePaymentSlave(int companyId, int supplierId, int paymentMasterId = 0)
+        {
+            VMPayment vmPayment = new VMPayment();
+            vmPayment = await Task.Run(() => _service.GetSupplierPurchasePayment(companyId, supplierId, paymentMasterId));
+
+            vmPayment.OrderMusterList = new SelectList(_service.PurchaseOrdersDropDownList(companyId, supplierId), "Value", "Text");
+
+            vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+
+            vmPayment.CustomerId = supplierId;
+            return View(vmPayment);
+        }
+
+        [SessionExpire]
+        [HttpPost]
+        public async Task<ActionResult> SupplierPurchasePaymentSlave(VMPayment vmPayment)
+        {
+
+            if (vmPayment.ActionEum == ActionEnum.Add)
+            {
+                if (vmPayment.PaymentMasterId == 0)
+                {
+                    vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
+
+                }
+                await _service.PaymentAdd(vmPayment);
+
+            }
+            else if (vmPayment.ActionEum == ActionEnum.Finalize)
+            {
+                await _service.SubmitPaymentMasters(vmPayment);
+            }
+
+            else
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction(nameof(SupplierPurchasePaymentSlave), new { companyId = vmPayment.CompanyFK, supplierId = vmPayment.CustomerId, paymentMasterId = vmPayment.PaymentMasterId });
+        }
+
+        [SessionExpire]
+        [HttpGet]
+        public async Task<ActionResult> POWiseSupplierLedgerOpening(int companyId, int supplierId)
+        {
+            VmTransaction vmTransaction = new VmTransaction();
+            vmTransaction.FromDate = DateTime.Now.AddDays(-30);
+            vmTransaction.ToDate = DateTime.Now;
+            vmTransaction.VendorFK = supplierId;
+            vmTransaction.CompanyFK = companyId;
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetVendorById(supplierId));
+
+            return View(vmTransaction);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> POWiseSupplierLedgerOpeningView(VmTransaction vmTransaction)
+        {
+            var vmSupplierLedger = await Task.Run(() => _service.GetSupplierLedger(vmTransaction));
+            return View(vmSupplierLedger);
+        }
+
+        #endregion
 
         #region Deport Payment
         public async Task<ActionResult> CommonDeportList(int companyId)
         {
-            VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetDeportList(companyId));
-            return View(vmCommonCustomer);
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport = await Task.Run(() => _service.GetDeportList(companyId));
+            return View(vmCommonDeport);
         }
 
         [SessionExpire]
@@ -339,22 +329,13 @@ namespace KGERP.Controllers
         {
             VMPayment vmPayment = new VMPayment();
 
-            vmPayment = await Task.Run(() => _service.ProcurementOrderMastersGetByID(companyId, paymentMasterId));
+            vmPayment = await Task.Run(() => _service.GetOrderCollectionByPaymentMasterId(companyId, paymentMasterId));
             vmPayment.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
 
-            if (companyId == (int)CompanyName.GloriousCropCareLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
-                vmPayment.ExpensesHeadList = new SelectList(_accountingService.GCCLLCFactoryExpanceHeadGLList(companyId), "Value", "Text");
-                vmPayment.IncomeHeadList = new SelectList(_accountingService.GCCLOtherIncomeHeadGLList(companyId), "Value", "Text");
+            vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
+            vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
 
-            }
-            else if (companyId == (int)CompanyName.KrishibidSeedLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
-                vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
-            }
 
             if ((deportId ?? 0) > 0)
             {
@@ -362,11 +343,11 @@ namespace KGERP.Controllers
                 vmPayment.CustomerId = vendor.VendorId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
 
-                var commonCustomers = await Task.Run(() => _procurementService.GetCustomerLisBySubZoneId(vendor.SubZoneId ?? 0));
-                var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-                vmPayment.CustomerList = new SelectList(customerSelectList, "Value", "Text");
+                var commonDeports = await Task.Run(() => _procurementService.GetDeportLisByZoneId(vendor.ZoneId ?? 0));
+                var deportSelectList = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+                vmPayment.CustomerList = new SelectList(deportSelectList, "Value", "Text");
 
-                var salesOrders = await Task.Run(() => _procurementService.SalesOrderLisByCustomerIdGet(deportId ?? 0));
+                var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByDeportId(deportId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
             }
@@ -425,7 +406,7 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = deportId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetSupplierById(deportId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetVendorById(deportId));
 
             return View(vmTransaction);
         }
@@ -434,8 +415,8 @@ namespace KGERP.Controllers
         [SessionExpire]
         public async Task<ActionResult> InvoiceWiseDeportLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _service.GetLedgerInfoByCustomer(vmTransaction));
-            return View(vmCommonSupplierLedger);
+            var vmLedger = await Task.Run(() => _service.GetDeportLedger(vmTransaction));
+            return View(vmLedger);
         }
 
         #endregion
@@ -462,22 +443,13 @@ namespace KGERP.Controllers
         {
             VMPayment vmPayment = new VMPayment();
 
-            vmPayment = await Task.Run(() => _service.ProcurementOrderMastersGetByID(companyId, paymentMasterId));
+            vmPayment = await Task.Run(() => _service.GetOrderCollectionByPaymentMasterId(companyId, paymentMasterId));
             vmPayment.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
 
-            if (companyId == (int)CompanyName.GloriousCropCareLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
-                vmPayment.ExpensesHeadList = new SelectList(_accountingService.GCCLLCFactoryExpanceHeadGLList(companyId), "Value", "Text");
-                vmPayment.IncomeHeadList = new SelectList(_accountingService.GCCLOtherIncomeHeadGLList(companyId), "Value", "Text");
+            vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
+            vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
 
-            }
-            else if (companyId == (int)CompanyName.KrishibidSeedLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
-                vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
-            }
 
             if ((dealerId ?? 0) > 0)
             {
@@ -485,11 +457,11 @@ namespace KGERP.Controllers
                 vmPayment.CustomerId = vendor.VendorId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
 
-                var commonCustomers = await Task.Run(() => _procurementService.GetCustomerLisBySubZoneId(vendor.SubZoneId ?? 0));
-                var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-                vmPayment.CustomerList = new SelectList(customerSelectList, "Value", "Text");
+                var commonDealers = await Task.Run(() => _procurementService.GetDealerLisByZoneId(vendor.ZoneId ?? 0));
+                var dealerSelectList = commonDealers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+                vmPayment.CustomerList = new SelectList(dealerSelectList, "Value", "Text");
 
-                var salesOrders = await Task.Run(() => _procurementService.SalesOrderLisByCustomerIdGet(dealerId ?? 0));
+                var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByDealerId(dealerId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
             }
@@ -548,7 +520,7 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = dealerId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetSupplierById(dealerId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetVendorById(dealerId));
 
             return View(vmTransaction);
         }
@@ -557,7 +529,7 @@ namespace KGERP.Controllers
         [SessionExpire]
         public async Task<ActionResult> InvoiceWiseDealerLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _service.GetLedgerInfoByCustomer(vmTransaction));
+            var vmCommonSupplierLedger = await Task.Run(() => _service.GetDealerLedger(vmTransaction));
             return View(vmCommonSupplierLedger);
         }
 
@@ -585,22 +557,12 @@ namespace KGERP.Controllers
         {
             VMPayment vmPayment = new VMPayment();
 
-            vmPayment = await Task.Run(() => _service.ProcurementOrderMastersGetByID(companyId, paymentMasterId));
+            vmPayment = await Task.Run(() => _service.GetOrderCollectionByPaymentMasterId(companyId, paymentMasterId));
             vmPayment.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
 
-            if (companyId == (int)CompanyName.GloriousCropCareLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
-                vmPayment.ExpensesHeadList = new SelectList(_accountingService.GCCLLCFactoryExpanceHeadGLList(companyId), "Value", "Text");
-                vmPayment.IncomeHeadList = new SelectList(_accountingService.GCCLOtherIncomeHeadGLList(companyId), "Value", "Text");
-
-            }
-            else if (companyId == (int)CompanyName.KrishibidSeedLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
-                vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
-            }
+            vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
+            vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
 
             if ((customerId ?? 0) > 0)
             {
@@ -608,11 +570,11 @@ namespace KGERP.Controllers
                 vmPayment.CustomerId = vendor.VendorId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
 
-                var commonCustomers = await Task.Run(() => _procurementService.GetCustomerLisBySubZoneId(vendor.SubZoneId ?? 0));
+                var commonCustomers = await Task.Run(() => _procurementService.GetCustomerListBySubZoneId(vendor.SubZoneId ?? 0));
                 var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
                 vmPayment.CustomerList = new SelectList(customerSelectList, "Value", "Text");
 
-                var salesOrders = await Task.Run(() => _procurementService.SalesOrderLisByCustomerIdGet(customerId ?? 0));
+                var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByCustomerId(customerId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
             }
@@ -671,7 +633,7 @@ namespace KGERP.Controllers
             vmTransaction.ToDate = DateTime.Now;
             vmTransaction.VendorFK = customerId;
             vmTransaction.CompanyFK = companyId;
-            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetSupplierById(customerId));
+            vmTransaction.VMCommonSupplier = await Task.Run(() => _service.GetVendorById(customerId));
 
             return View(vmTransaction);
         }
@@ -680,7 +642,7 @@ namespace KGERP.Controllers
         [SessionExpire]
         public async Task<ActionResult> InvoiceWiseCustomerLedgerOpeningView(VmTransaction vmTransaction)
         {
-            var vmCommonSupplierLedger = await Task.Run(() => _service.GetLedgerInfoByCustomer(vmTransaction));
+            var vmCommonSupplierLedger = await Task.Run(() => _service.GetCustomerLedger(vmTransaction));
             return View(vmCommonSupplierLedger);
         }
 
