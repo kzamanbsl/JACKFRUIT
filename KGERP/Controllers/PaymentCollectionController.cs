@@ -81,7 +81,7 @@ namespace KGERP.Controllers
             var model = _collectionService.GetCommonCustomerByID(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        public async Task<ActionResult> CommonCustomerList(int companyId)
+        public ActionResult CommonCustomerList(int companyId)
         {
 
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();

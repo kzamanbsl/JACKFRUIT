@@ -21,12 +21,6 @@ namespace KGERP.Service.Implementation.Configuration
             _accountingService = new AccountingService(db);
         }
 
-        public class EnumModel
-        {
-            public int Value { get; set; }
-            public string Text { get; set; }
-        }
-
         public VMCommonSupplier GetCommonCustomerByID(int id)
         {
             var v = (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Customer && x.VendorId == id)
