@@ -5586,6 +5586,12 @@
     <Content Include="Views\Collection\CommonDeportList.cshtml" />
     <Content Include="Views\Collection\CommonDeportOrderMasterList.cshtml" />
     <Content Include="Views\Collection\CommonDealerOrderMasterList.cshtml" />
+    <Content Include="Views\Collection\DealerOrderCollectionSlave.cshtml" />
+    <Content Include="Views\Collection\DeportOrderCollectionSlave.cshtml" />
+    <Content Include="Views\Collection\InvoiceWiseDealerLedgerOpening.cshtml" />
+    <Content Include="Views\Collection\InvoiceWiseDeportLedgerOpening.cshtml" />
+    <Content Include="Views\Collection\InvoiceWiseDeportLedgerOpeningView.cshtml" />
+    <Content Include="Views\Collection\InvoiceWiseDealerLedgerOpeningView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

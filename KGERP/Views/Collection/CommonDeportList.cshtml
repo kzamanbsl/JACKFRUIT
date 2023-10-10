@@ -62,7 +62,7 @@
                                                 </th>
 
                                                 <th style="width:100px">
-                                                    Payment Received
+                                                    Action
                                                 </th>
                                                 @*<th style="width:100px">
                                                         Ledger
@@ -94,17 +94,13 @@
                                                     </td>
 
                                                     <td style="width:180px;">
-
                                                         @*@Html.ActionLink("Delivery Challan", "POwiseGoodsReceived", new { companyId = item.CompanyFK }, new { @title = "You can see all goods quantity that already Delivered to customer", @class = "InlineBtn", @target = "_blank" })
                                                             <br />*@
-
                                                         @Html.ActionLink("Invoices", "CommonDeportOrderMasterList", new { companyId = item.CompanyFK, deportId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                         <br />
-                                                        @Html.ActionLink("Payment Received", "OrderMasterByID", new { companyId = item.CompanyFK, customerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        @Html.ActionLink("Collection", "DeportOrderCollectionSlave", new { companyId = item.CompanyFK, deportId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                         <br />
-
-                                                        @Html.ActionLink("Customer Ledger", "InvoiceWiseCustomerLedgerOpening", new { companyId = item.CompanyFK, customerId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
-
+                                                        @Html.ActionLink("Ledger", "InvoiceWiseDeportLedgerOpening", new { companyId = item.CompanyFK, deportId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
                                                     </td>
                                                     @*<td style="width:180px;">
                                                             @Html.ActionLink("Payment Received Ledger", "VmLedger2SupplierPayment", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" })

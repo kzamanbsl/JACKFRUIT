@@ -12,7 +12,7 @@
 
 <section class="content-header">
     <h1>
-        <b>Supplier List</b> 
+        <b>Supplier List</b>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -23,100 +23,101 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-                <div class="box">
-                    <div class="box-danger">
-                        <div class="box">
-                            <div class="box-danger">
-                                <div class="box-header">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box">
+                        <div class="box-danger">
+                            <div class="box-header">
 
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="table-responsive">
-                                        <table id="KgErpDataTable" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>SL</th>
-                                                    <th>Code</th>
-                                                    <th>
-                                                        Name
-                                                    </th>
-                                                    <th>
-                                                        Phone
-                                                    </th>
-                                                    <th>
-                                                        Email
-                                                    </th>
-                                                    <th>
-                                                        Contact Person
-                                                    </th>
-                                                    <th>
-                                                        Address
-                                                    </th>
-                                                    <th>Type</th>
-                                                    <th style="width:100px">
-                                                        Supplier Payment
-                                                    </th>
-                                                    @*<th style="width:100px">
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>Code</th>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Phone
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                    Contact Person
+                                                </th>
+                                                <th>
+                                                    Address
+                                                </th>
+                                                <th>Type</th>
+                                                <th style="width:100px">
+                                                    Action
+                                                </th>
+                                                @*<th style="width:100px">
                                                         Ledger
                                                     </th>*@
+                                            </tr>
+                                        </thead>
+                                        @{int sl = 0;
+                                        }
+                                        <tbody>
+                                            @foreach (var item in Model.DataList)
+                                            {
+                                                <tr>
+                                                    <td>@(++sl)</td>
+                                                    <td>
+                                                        @item.Code
+                                                    </td>
+                                                    <td>
+                                                        @item.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.Phone
+                                                    </td>
+                                                    <td>
+                                                        @item.Email
+                                                    </td>
+                                                    <td>
+                                                        @item.ContactPerson
+                                                    </td>
+                                                    <td>
+                                                        @item.Address, @item.Country
+                                                    </td>
+                                                    <td>
+                                                        @if (item.IsForeign == true)
+                                                        {
+                                                            <span class="label label-success">Exporter</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="label label-primary">Local Supplier</span>
+
+                                                        }
+
+                                                    <td style="width:180px;">
+                                                        @Html.ActionLink("Purchases", "CommonSupplierPurchaseOrderList", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        <br />
+                                                        @Html.ActionLink("Payment", "SupplierPurchasePaymentSlave", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        <br />
+                                                        @Html.ActionLink("Ledger", "POWiseSupplierLedgerOpening", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            @{int sl = 0;
                                             }
-                                            <tbody>
-                                                @foreach (var item in Model.DataList)
-                                                {
-                                                    <tr>
-                                                        <td>@(++sl)</td>
-                                                        <td>
-                                                            @item.Code
-                                                        </td>
-                                                        <td>
-                                                            @item.Name
-                                                        </td>
-                                                        <td>
-                                                            @item.Phone
-                                                        </td>
-                                                        <td>
-                                                            @item.Email
-                                                        </td>
-                                                        <td>
-                                                            @item.ContactPerson
-                                                        </td>
-                                                        <td>
-                                                            @item.Address, @item.Country
-                                                        </td>
-                                                        <td>
-                                                            @if (item.IsForeign == true)
-                                                            {
-                                                                <span class="label label-success">Exporter</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="label label-primary">Local Supplier</span>
-
-                                                            }
-                                                        </td>
-                                                        <td style="width:180px;">
-                                                            @Html.ActionLink("Purchases", "CommonSupplierPurchaseOrderList", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
-                                                            <br />
-                                                            @Html.ActionLink("Supplier Payment", "SupplierPurchasePaymentSlave", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
-                                                            <br />
-                                                            @Html.ActionLink("Supplier Ledger", "POWiseSupplierLedgerOpening", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
-</tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="box-footer">
-                                </div>
+
+                            </div>
+                            <div class="box-footer">
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </section>
@@ -125,9 +126,9 @@
 
     <script type="text/javascript">
 
-         $(document).ready(function () {
-             $('.formValidator').bootstrapValidator();
-             $("#ddlCommon_CountriesFk").val(1);
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+            $("#ddlCommon_CountriesFk").val(1);
         });
 
     </script>

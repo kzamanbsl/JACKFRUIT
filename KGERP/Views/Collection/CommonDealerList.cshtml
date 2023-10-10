@@ -60,7 +60,7 @@
                                                 </th>
 
                                                 <th style="width:100px">
-                                                    Payment Received
+                                                    Action
                                                 </th>
                                                 @*<th style="width:100px">
                                                         Ledger
@@ -97,9 +97,9 @@
 
                                                         @Html.ActionLink("Invoices", "CommonDealerOrderMasterList", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                         <br />
-                                                        @Html.ActionLink("Payment Received", "OrderMasterByID", new { companyId = item.CompanyFK, customerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        @Html.ActionLink("Collection", "DealerOrderCollectionSlave", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
                                                         <br />
-                                                        @Html.ActionLink("Customer Ledger", "InvoiceWiseCustomerLedgerOpening", new { companyId = item.CompanyFK, customerId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
+                                                        @Html.ActionLink("Ledger", "InvoiceWiseDealerLedgerOpening", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
 
                                                     </td>
                                                     @*<td style="width:180px;">
