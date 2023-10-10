@@ -68,7 +68,7 @@ namespace KGERP.Service.Implementation.Procurement
 
 
 
-        public IEnumerable<VMPurchaseOrder> DataList { get; set; }
+        public IEnumerable<VMPurchaseOrder> DataList { get; set; }=new List<VMPurchaseOrder>();
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());
         public SelectList TermNCondition { get; set; } = new SelectList(new List<object>());
         public SelectList PRList { get; set; } = new SelectList(new List<object>());
@@ -261,7 +261,7 @@ namespace KGERP.Service.Implementation.Procurement
         public string CourierNo { get; set; }
         public double CourierCharge { get; set; }
 
-        public IEnumerable<VMSalesOrder> DataList { get; set; }
+        public IEnumerable<VMSalesOrder> DataList { get; set; }= new List<VMSalesOrder>();
 
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public SelectList TermNCondition { get; set; } = new SelectList(new List<object>());

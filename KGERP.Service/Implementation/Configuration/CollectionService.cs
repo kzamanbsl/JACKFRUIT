@@ -811,22 +811,25 @@ namespace KGERP.Service.Implementation.Configuration
 
                              }).FirstOrDefault();
             vmOrderMaster.CompanyFK = companyId;
-            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DeportId == deportId)
+            vmOrderMaster.CompanyId = companyId;
+
+            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive==true && x.CompanyId == companyId && x.Status <(int) EnumSOStatus.Closed&& x.DeportId == deportId)
 
                                                            select new VMSalesOrder
                                                            {
                                                                OrderMasterId = t1.OrderMasterId,
-                                                               CustomerId = t1.CustomerId.Value,
+                                                               CustomerId = t1.DeportId.Value,
                                                                CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                                OrderNo = t1.OrderNo,
                                                                OrderDate = t1.OrderDate,
+                                                              
                                                                ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
                                                                Status = t1.Status,
                                                                CompanyFK = t1.CompanyId,
                                                                CourierCharge = t1.CourierCharge,
-                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive == true && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
                                                                CreatedBy = t1.CreatedBy,
-                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+                                                           }).OrderByDescending(x => x.OrderMasterId));
 
             return vmOrderMaster;
         }
@@ -1003,24 +1006,25 @@ namespace KGERP.Service.Implementation.Configuration
 
                              }).FirstOrDefault();
             vmOrderMaster.CompanyFK = companyId;
-            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DealerId == dealerId)
+               
+                vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DealerId == dealerId)
 
-                                                           select new VMSalesOrder
-                                                           {
-                                                               OrderMasterId = t1.OrderMasterId,
-                                                               CustomerId = t1.CustomerId.Value,
-                                                               CreatedBy = t1.CreatedBy,
-                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
-                                                               OrderNo = t1.OrderNo,
-                                                               OrderDate = t1.OrderDate,
-                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                               Status = t1.Status,
-                                                               CompanyFK = t1.CompanyId,
-                                                               CourierCharge = t1.CourierCharge,
-                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+                                                               select new VMSalesOrder
+                                                               {
+                                                                   OrderMasterId = t1.OrderMasterId,
+                                                                   CustomerId = t1.DealerId.Value,
+                                                                   CreatedBy = t1.CreatedBy,
+                                                                   CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                                   OrderNo = t1.OrderNo,
+                                                                   OrderDate = t1.OrderDate,
+                                                                   ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                                   Status = t1.Status,
+                                                                   CompanyFK = t1.CompanyId,
+                                                                   CourierCharge = t1.CourierCharge,
+                                                                   TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
 
-                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
-
+                                                               }).OrderByDescending(x => x.OrderMasterId));
+            
             return vmOrderMaster;
         }
         public async Task<VmTransaction> GetDealerLedger(VmTransaction vmTransaction)
