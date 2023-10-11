@@ -58,6 +58,11 @@
             float: left;
         }
 
+        .table-responsive {
+            overflow-x: auto!important;
+            -webkit-overflow-scrolling: touch;
+        }
+
         @@media print {
             .trclass {
                 background-color: #C0C0C0 !important;
@@ -119,74 +124,78 @@
         @*<img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="~/Images/ReportLogo/Seed_203004464.png" />*@
         <div style="min-height: 900px;">
             <div class="text-center">
-                <table width="100%">
+                <table width="100%" class="mt-2">
                     <tr>
-                        <td style="width:20%"></td>
+                        <td style="width:5%">
+                        
+                        <td style="width:15%"><img height="80" width="80" id="topLogo" src=@CompanyInfo.CompanyLogoUrl /></td>
                         <td style="width:10%">
-                            <img height="80" width="80" id="topLogo" src=@CompanyInfo.CompanyLogoUrl />
-
                         </td>
                         <td style="width:70%">
 
                             <p style="text-align: left; font-size: 25px; font-weight: bold;margin-bottom: 0;">@Model.CompanyName</p>
                             <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">@Model.CompanyAddress</p>
                             <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.CompanyPhone, Email : @Model.CompanyEmail</p>
+                            <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Ledger of @Model.Name</p>
+                            <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  From @Model.FromDate.ToShortDateString() To @Model.ToDate.ToShortDateString()</p>
 
                         </td>
                         <td style="width:20%"></td>
                     </tr>
                 </table>
             </div>
-            <div class="text-center" style="margin-top:50px;">
+            <!--<div class="text-center" style="margin-top:50px;">
                 <table style="width:100%">
                     <tr style="text-align:center">
-                        <th style="font-size:22px"><b>Ledger of @Model.Name</b></th>
+                        <th style="font-size:22px"><b></b></th>
                     </tr>
-                    <tr>
-                        <td style="border-bottom:double;font-size:18px">From @Model.FromDate.ToShortDateString() To @Model.ToDate.ToShortDateString()</td>
+                   <tr>
+                            <td style="border-bottom:double;font-size:18px"></td>
 
-                    </tr>
+                        </tr>
+                </table>
+            </div>-->
+            <div class="table-responsive mt-3">
+                <table id="tbl1" border="1" style="width: 100%; margin-top: 15px;">
+                    <thead style="background-color:#c0c0c0">
+                        <tr>
+                            <th style="text-align: left;padding-left:5px;width:15%">Date</th>
+                            <th style="text-align: left;padding-left:5px;width:40%">Description</th>
+                            <th style="text-align: right;padding-right:5px;width:15%;">Credit</th>
+                            <th style="text-align: right;padding-right:5px;width:15%;">Debit</th>
+                            <th style="text-align: right;padding-right:5px;width:15%;">Balance</th>
+                        </tr>
+                    </thead>
+
+                    @{ int sl = 0;}
+                    <tbody>
+                        <hr style="background-color:grey; border-width:5px">
+                        @foreach (var item in Model.DataList)
+                        {
+                            closingBalance = item.Balance;
+                            totalCr += item.Credit;
+                            totalDr += item.Debit;
+                            <tr>
+                                <th style="text-align: left;padding-left:5px;">@item.Date.Value.ToString("dd-MM-yyyy")</th>
+                                <td style="text-align: left;padding-left:5px;"><b> Order No : <a target="_blank" title="Order Details" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@CompanyInfo.CompanyId&orderMasterId=@item.OrderMasterId">@item.Description</a></b></td>
+                                <td style="text-align: right;padding-right:5px;"><b>@String.Format("{0:0.00}", item.Credit)</b></td>
+                                <td style="text-align: right;padding-right:5px;"> <b>@String.Format("{0:0.00}", item.Debit)</b></td>
+                                <td style="text-align: right;padding-right:5px;"><b> @String.Format("{0:0.00}", item.Balance)</b></td>
+                            </tr>
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr style="font-weight: bold;">
+                            <th></th>
+                            <th style="text-align: right;padding-right:5px;font-size:16px;">Grand Total</th>
+                            <th style="text-align: right;padding-right:5px;font-size:16px;">@String.Format("{0:0.00}", totalCr)</th>
+                            <th style="text-align: right;padding-right:5px;font-size:16px;">@String.Format("{0:0.00}", totalDr)</th>
+                            <th style="text-align: right;padding-right:5px;font-size:16px;">@String.Format("{0:0.00}", closingBalance)</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
-
-            <table id="tbl1" border="1" style="width: 100%; margin-top: 15px;">
-                <thead style="background-color:#c0c0c0">
-                    <tr>
-                        <th style="text-align: left;padding-left:5px;width:15%">Date</th>
-                        <th style="text-align: left;padding-left:5px;width:40%">Description</th>
-                        <th style="text-align: right;padding-right:5px;width:15%;">Credit</th>
-                        <th style="text-align: right;padding-right:5px;width:15%;">Debit</th>
-                        <th style="text-align: right;padding-right:5px;width:15%;">Balance</th>
-                    </tr>
-                </thead>
-
-                @{ int sl = 0;}
-                <tbody>
-                    @foreach (var item in Model.DataList)
-                    {
-                        closingBalance = item.Balance;
-                        totalCr += item.Credit;
-                        totalDr += item.Debit;
-                        <tr>
-                            <th style="text-align: left;padding-left:5px;">@item.Date.Value.ToString("dd-MM-yyyy")</th>
-                            <td style="text-align: left;padding-left:5px;"><b> Order No : <a target="_blank" title="Order Details" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@CompanyInfo.CompanyId&orderMasterId=@item.OrderMasterId">@item.Description</a></b></td>
-                            <td style="text-align: right;padding-right:5px;"><b>@String.Format("{0:0.00}", item.Credit)</b></td>
-                            <td style="text-align: right;padding-right:5px;"> <b>@String.Format("{0:0.00}", item.Debit)</b></td>
-                            <td style="text-align: right;padding-right:5px;"><b> @String.Format("{0:0.00}", item.Balance)</b></td>
-                        </tr>
-                    }
-                </tbody>
-
-                <tfoot>
-                    <tr style="font-weight: bold;">
-                        <th></th>
-                        <th style="text-align: right;padding-right:5px;font-size:16px;">Grand Total</th>
-                        <th style="text-align: right;padding-right:5px;font-size:16px;">@String.Format("{0:0.00}", totalCr)</th>
-                        <th style="text-align: right;padding-right:5px;font-size:16px;">@String.Format("{0:0.00}", totalDr)</th>
-                        <th style="text-align: right;padding-right:5px;font-size:16px;">@String.Format("{0:0.00}", closingBalance)</th>
-                    </tr>
-                </tfoot>
-            </table>
         </div>
 
         <div id="divfooter" class="divfooter text-center footer">

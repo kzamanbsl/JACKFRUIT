@@ -2486,7 +2486,13 @@ namespace KGERP.Service.Implementation.Procurement
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
-                                                      join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
+                                                      
+                                                      join t2 in _db.Vendors on t1.DeportId equals t2.VendorId into t2_join
+                                                      from t2 in t2_join.DefaultIfEmpty()
+                                                      join t2a in _db.Vendors on t1.DealerId  equals t2a.VendorId into t2a_join
+                                                      from t2a in t2a_join.DefaultIfEmpty()
+                                                      join t2b in _db.Vendors on  t1.CustomerId  equals t2b.VendorId into t2b_join
+                                                      from t2b in t2b_join.DefaultIfEmpty()
                                                       join t4 in _db.SubZones on t2.SubZoneId equals t4.SubZoneId
                                                       join t5 in _db.Zones on t4.ZoneId equals t5.ZoneId
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
@@ -2502,20 +2508,16 @@ namespace KGERP.Service.Implementation.Procurement
                                                           Propietor = t2.Propietor,
                                                           CreatedDate = t1.CreateDate,
                                                           ComLogo = t3.CompanyLogo,
-                                                          CustomerPhone = t2.Phone,
-                                                          CustomerAddress = t2.Address,
-                                                          CustomerEmail = t2.Email,
-                                                          ContactPerson = t2.ContactName,
+                                                          
                                                           CompanyFK = t1.CompanyId,
                                                           OrderMasterId = t1.OrderMasterId,
-                                                          CreditLimit = t2.CreditLimit,
+                                                        
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
                                                           OrderDate = t1.OrderDate,
                                                           CreatedBy = t1.CreatedBy,
                                                           CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                           ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                          CommonCustomerName = t2.Name,
                                                           CompanyName = t3.Name,
                                                           CompanyAddress = t3.Address,
                                                           CompanyEmail = t3.Email,
@@ -2525,15 +2527,24 @@ namespace KGERP.Service.Implementation.Procurement
                                                           SubZonesName = t4.Name,
                                                           SubZoneIncharge = t4.SalesOfficerName,
                                                           SubZoneInchargeMobile = t4.MobileOffice,
-                                                          CommonCustomerCode = t2.Code,
-                                                          CustomerTypeFk = t2.CustomerTypeFK,
-                                                          CustomerId = t2.VendorId,
+                                                         
                                                           CourierCharge = t1.CourierCharge,
                                                           FinalDestination = t1.FinalDestination,
                                                           CourierNo = t1.CourierNo,
                                                           DiscountAmount = t1.DiscountAmount ?? 0,
                                                           DiscountRate = t1.DiscountRate ?? 0,
-                                                          TotalAmountAfterDiscount = t1.TotalAmount ?? 0
+                                                          TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
+
+                                                          CreditLimit = t2.CreditLimit??t2a.CreditLimit??t2b.CreditLimit,
+                                                          CustomerPhone = t2.Phone??t2a.Phone??t2b.Phone,
+                                                          CustomerAddress = t2.Address ?? t2a.Address ?? t2b.Address,
+                                                          CustomerEmail = t2.Email ?? t2a.Email ?? t2b.Email,
+                                                          ContactPerson = t2.ContactName ?? t2a.ContactName ?? t2b.ContactName,
+                                                          CommonCustomerName = t2.Name ?? t2a.Name ?? t2b.Name,
+                                                          CommonCustomerCode = t2.Code ?? t2a.Code ?? t2b.Code,
+                                                          CustomerTypeFk = t2.CustomerTypeFK>0 ? t2.CustomerTypeFK: (t2.CustomerTypeFK<=0 && t2a.CustomerTypeFK>0) ?t2a.CustomerTypeFK: (t2.CustomerTypeFK <= 0 && t2a.CustomerTypeFK <=0 && t2b.CustomerTypeFK>0) ? t2b.CustomerTypeFK:0,
+                                                          CustomerId = t2.VendorId >0? t2.VendorId : (t2.VendorId <= 0 && t2a.VendorId > 0) ? t2a.VendorId : (t2.VendorId <= 0 && t2a.VendorId <= 0 && t2b.VendorId > 0) ? t2b.VendorId : 0,
+
                                                       }).FirstOrDefault());
 
             vmSalesOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == orderMasterId)
@@ -2560,7 +2571,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         DiscountRate = t1.DiscountRate,
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
-                                                                    }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
+                                                                    }).OrderByDescending(x => x.OrderDetailId));
 
 
 

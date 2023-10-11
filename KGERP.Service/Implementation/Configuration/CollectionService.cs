@@ -145,9 +145,9 @@ namespace KGERP.Service.Implementation.Configuration
         private decimal GetOrderValue(long orderMasterId)
         {
             double orderValue = (from ts1 in _db.OrderDetails
-                                 join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
-                                 where ts1.OrderMasterId == orderMasterId && ts1.IsActive && ts2.IsActive && !ts2.IsReturn
-                                 select (ts2.DeliveredQty * ts1.UnitPrice) - (double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
+                                 //join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
+                                 where ts1.OrderMasterId == orderMasterId && ts1.IsActive ==true
+                                 select (ts1.Amount) - (double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
             return Convert.ToDecimal(orderValue);
 
         }
@@ -1141,6 +1141,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 x.Balance = previousBalance += x.Credit - x.Debit;
                 x.Name = dealer.Name;
+               
                 x.OrderMasterId = x.OrderMasterId;
                 tempList.Add(x);
             }
