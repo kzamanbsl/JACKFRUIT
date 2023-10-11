@@ -118,7 +118,13 @@
                                                 @Html.ValidationMessageFor(model => model.TransactionDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Type:</label>
+                                                @Html.DropDownListFor(model => model.Accounting_BankOrCashParantId, Model.BankOrCashParantList as SelectList, "==Select Type==", new { id = "ddlAccounting_BankOrCashParantId", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.Accounting_BankOrCashParantId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Bank/ Cash:</label>
@@ -134,15 +140,6 @@
                                                 @Html.ValidationMessageFor(model => model.BankCharge, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Type:</label>
-                                                @Html.DropDownListFor(model => model.Accounting_BankOrCashParantId, Model.BankOrCashParantList as SelectList, "==Select Type==", new { id = "ddlAccounting_BankOrCashParantId", @class = "form-control ddlReset", style = "width:100%", required = "required" })
-                                                @Html.ValidationMessageFor(model => model.Accounting_BankOrCashParantId, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
                                     </div>
 
                                     <div class="row">

@@ -420,7 +420,7 @@
                 var customerId = $("#ddlCustomerId").val();
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("SalesOrderLisByCustomerIdGet", "Procurement")",
+                url: "@Url.Action("GetSalesOrderLisByCustomerId", "Procurement")",
                 datatype: "Json",
                     data: { customerId: customerId},
                     success: function (data) {

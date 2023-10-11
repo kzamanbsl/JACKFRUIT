@@ -418,7 +418,7 @@
                 var customerId = $("#ddlCustomerId").val();
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("SalesOrderLisByCustomerIdGet", "Procurement")",
+                url: "@Url.Action("GetSalesOrderLisByCustomerId", "Procurement")",
                 datatype: "Json",
                     data: { customerId: customerId},
                     success: function (data) {
@@ -439,7 +439,7 @@
                 var orderMasterId = $('#ddOrderMasterId').val();
                 $.ajax({
                        type: "GET",
-                    url: "@Url.Action("GetOrderMasterPayableValue", "Procurement")",
+                    url: "@Url.Action("GetCustomerOrderMasterPayableValue", "Procurement")",
                     datatype: "Json",
                     data: { companyId : "@Model.CompanyFK", orderMasterId: orderMasterId },
                     success: function (data) {

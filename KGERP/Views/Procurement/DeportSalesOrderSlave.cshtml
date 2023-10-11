@@ -631,10 +631,10 @@
 
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
-                datatype: "Json",
-                    data: { zoneId: zoneFk},
+                    type: "GET",
+                    url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
                     success: function (data) {
 
                         if (data) {
@@ -646,8 +646,8 @@
 
                         }
                     }
+                });
             });
-        })
 
             $("#ddlPaymentMethodEnumFK").change(function () {
 
@@ -658,7 +658,7 @@
                 else {
                     $("#piReletedDivId").hide();
                 }
-            })
+            });
         });
 
         $("#txtUnitPrice").keyup(function () {

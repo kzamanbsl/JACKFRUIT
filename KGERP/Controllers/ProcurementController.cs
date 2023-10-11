@@ -508,12 +508,21 @@ namespace KGERP.Controllers
             }
             return null;
         }
-
-        public JsonResult GetOrderMasterPayableValue(int companyId, int orderMasterId)
+        public JsonResult GetDeportOrDealerOrderMasterPayableValue(int companyId, int orderMasterId)
         {
             if (orderMasterId > 0)
             {
-                var list = _service.OrderMasterPayableValueGet(companyId, orderMasterId);
+                var list = _service.DeportOrDealerOrderMasterPayableValue(companyId, orderMasterId);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+
+        public JsonResult GetCustomerOrderMasterPayableValue(int companyId, int orderMasterId)
+        {
+            if (orderMasterId > 0)
+            {
+                var list = _service.CustomerOrderMasterPayableValueGet(companyId, orderMasterId);
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             return null;
@@ -745,7 +754,7 @@ namespace KGERP.Controllers
         }
 
 
-        public async Task<ActionResult> SalesOrderLisByCustomerIdGet(int customerId)
+        public async Task<ActionResult> GetSalesOrderLisByCustomerId(int customerId)
         {
 
             var salesOrders = await Task.Run(() => _service.GetSalesOrderListByCustomerId(customerId));
@@ -1646,6 +1655,13 @@ namespace KGERP.Controllers
         #region Food Sales Order
 
         #region Deport Sales
+        public async Task<ActionResult> GetSalesOrderLisByDeportId(int customerId)
+        {
+
+            var salesOrders = await Task.Run(() => _service.GetSalesOrderListByDeportId(customerId));
+            var list = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public async Task<ActionResult> DeportSalesOrderSlave(int companyId = 0, int orderMasterId = 0)

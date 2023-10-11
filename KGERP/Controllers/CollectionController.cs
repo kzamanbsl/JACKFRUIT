@@ -330,8 +330,8 @@ namespace KGERP.Controllers
             VMPayment vmPayment = new VMPayment();
 
             vmPayment = await Task.Run(() => _service.GetOrderCollectionByPaymentMasterId(companyId, paymentMasterId));
-            vmPayment.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
-
+            //vmPayment.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
+            vmPayment.ZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
             vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
             vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
@@ -341,7 +341,10 @@ namespace KGERP.Controllers
             {
                 VendorModel vendor = _vendorService.GetVendor(deportId ?? 0);
                 vmPayment.CustomerId = vendor.VendorId;
-                vmPayment.SubZoneFk = vendor.SubZoneId;
+                //vmPayment.SubZoneFk = vendor.SubZoneId;
+                vmPayment.ZoneFk = vendor.ZoneId;
+                vmPayment.CommonCustomerName = vendor.Name;
+                vmPayment.CommonCustomerCode = vendor.Code;
 
                 var commonDeports = await Task.Run(() => _procurementService.GetDeportLisByZoneId(vendor.ZoneId ?? 0));
                 var deportSelectList = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
@@ -365,23 +368,19 @@ namespace KGERP.Controllers
                 if (vmPayment.PaymentMasterId == 0)
                 {
                     vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
-
                 }
                 if (vmPayment.OrderMasterId != null)
                 {
                     await _service.PaymentAdd(vmPayment);
-
                 }
                 if (vmPayment.ExpensesHeadGLId != null)
                 {
                     await _service.ExpensesAdd(vmPayment);
-
                 }
 
                 if (vmPayment.OthersIncomeHeadGLId != null)
                 {
                     await _service.IncomeAdd(vmPayment);
-
                 }
             }
             else if (vmPayment.ActionEum == ActionEnum.Finalize)

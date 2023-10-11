@@ -1673,22 +1673,38 @@ namespace KGERP.Service.Implementation.Procurement
             //return salesValue - returnValue.Value + paidValue.Value;
             return (purchaseValue - returnValue.Value) - paidValue.Value;
         }
-
-        public double OrderMasterPayableValueGet(int companyId, int orderMasterId)
+        public double DeportOrDealerOrderMasterPayableValue(int companyId, int orderMasterId)
         {
-            var salesValue = (from t0 in _db.OrderDeliverDetails
-                              join t1 in _db.OrderDetails.Where(a => a.IsActive == true && a.OrderMasterId == orderMasterId) on t0.OrderDetailId equals t1.OrderDetailId
-                              join t2 in _db.OrderMasters.Where(x => x.IsActive == true && x.CompanyId == companyId) on t1.OrderMasterId equals t2.OrderMasterId
-                              select (t0.DeliveredQty * (t1.UnitPrice - (double)t1.DiscountUnit)) - (double)t1.DiscountAmount).DefaultIfEmpty(0).Sum();
+            var salesValue = (from t1 in _db.OrderDetails.Where(a => a.IsActive == true && a.OrderMasterId == orderMasterId)
+                              join t2 in _db.OrderMasters.Where(x => x.IsActive == true && x.CompanyId == companyId && x.Status == (int)EnumSOStatus.Received) on t1.OrderMasterId equals t2.OrderMasterId
+                              select (t1.Qty * (t1.UnitPrice - (double)t1.DiscountUnit)) - (double)t1.DiscountAmount).DefaultIfEmpty(0).Sum();
 
             var returnValue = (from t1 in _db.SaleReturnDetails.Where(a => a.IsActive == true)
                                join t2 in _db.SaleReturns.Where(x => x.IsActive == true && x.CompanyId == companyId) on t1.SaleReturnId equals t2.SaleReturnId
-                               join t3 in _db.OrderDelivers.Where(x => x.IsActive == true && x.CompanyId == companyId && x.OrderMasterId == orderMasterId) on t2.OrderDeliverId equals t3.OrderDeliverId
                                select t1.Qty * t1.Rate).DefaultIfEmpty(0).Sum();
+
             var paidValue = (from t1 in _db.Payments.Where(a => a.IsActive == true && a.OrderMasterId == orderMasterId)
                              select t1.InAmount).DefaultIfEmpty(0).Sum();
+
             return salesValue - Convert.ToDouble(returnValue.Value + paidValue);
         }
+
+        public double CustomerOrderMasterPayableValueGet(int companyId, int orderMasterId)
+        {
+            var salesValue = (from t1 in _db.OrderDetails.Where(a => a.IsActive == true && a.OrderMasterId == orderMasterId)
+                              join t2 in _db.OrderMasters.Where(x => x.IsActive == true && x.CompanyId == companyId && x.Status == (int)EnumSOStatus.Submitted) on t1.OrderMasterId equals t2.OrderMasterId
+                              select (t1.Qty * (t1.UnitPrice - (double)t1.DiscountUnit)) - (double)t1.DiscountAmount).DefaultIfEmpty(0).Sum();
+
+            var returnValue = (from t1 in _db.SaleReturnDetails.Where(a => a.IsActive == true)
+                               join t2 in _db.SaleReturns.Where(x => x.IsActive == true && x.CompanyId == companyId) on t1.SaleReturnId equals t2.SaleReturnId
+                               select t1.Qty * t1.Rate).DefaultIfEmpty(0).Sum();
+
+            var paidValue = (from t1 in _db.Payments.Where(a => a.IsActive == true && a.OrderMasterId == orderMasterId)
+                             select t1.InAmount).DefaultIfEmpty(0).Sum();
+
+            return salesValue - Convert.ToDouble(returnValue.Value + paidValue);
+        }
+
         public async Task<VMPurchaseOrderSlave> ProcurementPurchaseOrderSlaveGet(int companyId, int purchaseOrderId)
         {
             VMPurchaseOrderSlave vmPurchaseOrderSlave = new VMPurchaseOrderSlave();
@@ -2314,7 +2330,7 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
-       
+
         public async Task<VMSalesOrderSlave> FeedSalesOrderDetailsGet(int companyId, int orderMasterId)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
@@ -4267,14 +4283,13 @@ namespace KGERP.Service.Implementation.Procurement
         public async Task<List<VMSalesOrder>> GetSalesOrderListByDeportId(int deportId)
         {
 
-            List<VMSalesOrder> vmCommonCustomerList = await Task.Run(() => (
+            List<VMSalesOrder> vmCommonDeportList = await Task.Run(() => (
                 _db.OrderMasters
-                .Where(x => x.IsActive && x.DeportId == deportId))
+                .Where(x => x.IsActive && x.DeportId == deportId && x.Status == (int)EnumSOStatus.Received))
                 .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
                 .ToListAsync());
 
-
-            return vmCommonCustomerList;
+            return vmCommonDeportList;
         }
         #endregion
 
@@ -4733,7 +4748,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             List<VMSalesOrder> vmCommonCustomerList = await Task.Run(() => (
                 _db.OrderMasters
-                .Where(x => x.IsActive && x.DealerId == dealerId))
+                .Where(x => x.IsActive && x.DealerId == dealerId && x.Status == (int)EnumSOStatus.Received))
                 .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
                 .ToListAsync());
 
@@ -5050,10 +5065,9 @@ namespace KGERP.Service.Implementation.Procurement
 
             List<VMSalesOrder> vmCommonCustomerList = await Task.Run(() => (
                 _db.OrderMasters
-                .Where(x => x.IsActive && x.CustomerId == customerId))
+                .Where(x => x.IsActive && x.CustomerId == customerId && x.Status == (int)EnumSOStatus.Submitted))
                 .Select(x => new VMSalesOrder() { OrderMasterId = x.OrderMasterId, OrderNo = x.OrderNo + " -" + x.OrderDate })
                 .ToListAsync());
-
 
             return vmCommonCustomerList;
         }

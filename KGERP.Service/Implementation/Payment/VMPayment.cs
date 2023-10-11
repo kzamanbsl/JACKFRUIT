@@ -33,6 +33,7 @@ namespace KGERP.Service.Implementation
 
         public decimal ReturnAmount { get; set; }
         public int? CustomerId { get; set; }
+        public int? ZoneFk { get; set; }
         public int? SubZoneFk { get; set; }
 
         public int? ExpensesHeadGLId { get; set; }
@@ -57,6 +58,7 @@ namespace KGERP.Service.Implementation
         public SelectList IncomeHeadList { get; set; } = new SelectList(new List<object>());
 
         public SelectList BankOrCashGLList { get; set; } = new SelectList(new List<object>());
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
 

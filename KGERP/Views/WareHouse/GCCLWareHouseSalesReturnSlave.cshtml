@@ -68,21 +68,21 @@
                                         <td width="27%">@Model.ReturnDate</td>
                                     </tr>
                                     @*<tr>
-                            <td><b>Purchase Order</b></td>
-                            <td>:</td>
-                            <td><a href="~/Warehouse/WareHousePOSlaveReceivingDetailsByPO/@Model.Procurement_PurchaseOrderFk" target="_blank" title="See All Receiving History of This PO">@Model.POCID</a> </td>
+                                            <td><b>Purchase Order</b></td>
+                                            <td>:</td>
+                                            <td><a href="~/Warehouse/WareHousePOSlaveReceivingDetailsByPO/@Model.Procurement_PurchaseOrderFk" target="_blank" title="See All Receiving History of This PO">@Model.POCID</a> </td>
 
-                            <td><b>PO Date</b></td>
-                            <td>:</td>
-                            <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
-                        </tr>
-                        <tr>
+                                            <td><b>PO Date</b></td>
+                                            <td>:</td>
+                                            <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                        <tr>
 
 
-                            <td><b>Delivery Address</b></td>
-                            <td>:</td>
-                            <td>@Model.DeliveryAddress</td>
-                        </tr>*@
+                                            <td><b>Delivery Address</b></td>
+                                            <td>:</td>
+                                            <td>@Model.DeliveryAddress</td>
+                                        </tr>*@
                                     <tr>
                                         <td><b>Return Causes</b></td>
                                         <td>:</td>
@@ -97,60 +97,60 @@
                         }
                         else
                         {
-                    <div class="row">
-                        <div class="box-body">
+                            <div class="row">
+                                <div class="box-body">
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Territory</label>
-                                    @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Territory</label>
+                                            @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Customer</label>
+                                            @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Order Number</label>
+                                            @Html.DropDownListFor(model => model.OrderMasterId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlOrderMasterId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.OrderMasterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Challan No</label>
+                                            @Html.DropDownListFor(model => model.OrderDeliverId, Model.ExistingChallanList as SelectList, "==Select Existing Challan==", new { id = "ddlChallan", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.OrderDeliverId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Return Date</label>
+                                            <input name="ReturnDate" asp-for="ReturnDate" type="text" value="@Model.ReturnDate.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDate" placeholder="Return Date" autocomplete="off">
+
+                                            @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <label>Reason</label>
+
+                                            @Html.TextAreaFor(model => model.Reason, new { @class = "form-control ", @placeholder = "Return Reason" })
+                                            @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Customer</label>
-                                    @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Order Number</label>
-                                    @Html.DropDownListFor(model => model.OrderMasterId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlOrderMasterId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.OrderMasterId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Challan No</label>
-                                    @Html.DropDownListFor(model => model.OrderDeliverId, Model.ExistingChallanList as SelectList, "==Select Existing Challan==", new { id = "ddlChallan", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
-                                    @Html.ValidationMessageFor(model => model.OrderDeliverId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Return Date</label>
-                                    <input name="ReturnDate" asp-for="ReturnDate" type="text" value="@Model.ReturnDate.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDate" placeholder="Return Date" autocomplete="off">
-
-                                    @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label>Reason</label>
-
-                                    @Html.TextAreaFor(model => model.Reason, new { @class = "form-control ", @placeholder = "Return Reason" })
-                                    @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -325,86 +325,76 @@
     <script type="text/javascript">
 
         function makesubmitSaleReturnSubmitable(rowId) {
-             $("#submitSaleReturnId").val(rowId)
+            $("#submitSaleReturnId").val(rowId);
             $('#submitCompanyFK').val("@Model.CompanyFK");
             $('#submitActionId').val(10);
         }
+
         $("#ddlSubZoneFk").change(function () {
-                var subZoneFk = $("#ddlSubZoneFk").val();
-                $.ajax({
+            var subZoneFk = $("#ddlSubZoneFk").val();
+            $.ajax({
                 type: "GET",
                 url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
                 datatype: "Json",
-                    data: { subZoneId: subZoneFk},
-                    success: function (data) {
-                    var items = "";
-                        if (data) {
-                            $("#ddlCustomerId").empty();
-                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-                        }
+                data: { subZoneId: subZoneFk },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlCustomerId").empty();
+                        $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
                     }
-                });
-        })
-
+                }
+            });
+        });
 
 
         $("#ddlCustomerId").change(function () {
 
-         var customerId = $("#ddlCustomerId").val();
+            var customerId = $("#ddlCustomerId").val();
             $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("SalesOrderLisByCustomerIdGet", "Procurement")",
-                    datatype: "Json",
-                data: { customerId: customerId},
-                    success: function (data) {
-                        //debugger;
-                        //var items = "";
-
-                        if (data) {
-                            $("#ddlOrderMasterId").empty();
-                            $("#ddlOrderMasterId").append("<option value=''>==Select Existing Challan==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlOrderMasterId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-                        }
+                type: "GET",
+                url: "@Url.Action("GetSalesOrderLisByCustomerId", "Procurement")",
+                datatype: "Json",
+                data: { customerId: customerId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlOrderMasterId").empty();
+                        $("#ddlOrderMasterId").append("<option value=''>==Select Existing Challan==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlOrderMasterId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
                     }
+                }
             });
-        })
-
-
-
-
+        });
 
 
         $("#ddlOrderMasterId").change(function () {
             var orderMasterId = $("#ddlOrderMasterId").val();
             $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("GetExistingChallanListByOrderMasters", "Warehouse")",
-                    datatype: "Json",
-                data: { id: orderMasterId},
-                    success: function (data) {
-                        
+                type: "GET",
+                url: "@Url.Action("GetExistingChallanListByOrderMasters", "Warehouse")",
+                datatype: "Json",
+                data: { id: orderMasterId },
+                success: function (data) {
 
-                        if (data) {
-                            $("#ddlChallan").empty();
-                            $("#ddlChallan").append("<option value=''>==Select Existing Challan==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlChallan").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-                        }
+
+                    if (data) {
+                        $("#ddlChallan").empty();
+                        $("#ddlChallan").append("<option value=''>==Select Existing Challan==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlChallan").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
                     }
+                }
             });
 
-        })
+        });
 
           $("#ddlChallan").change(function (e) {
                 var orderDeliverId = $("#ddlChallan").val();
-
-
 
                  $.ajax({
                     type: "POST",
@@ -417,7 +407,7 @@
                 });
                 return false;
              });
-       
+
 
     </script>
 }
