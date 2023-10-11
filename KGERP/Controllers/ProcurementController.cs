@@ -745,7 +745,7 @@ namespace KGERP.Controllers
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
             if (orderMasterId > 0)
             {
-                vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                vmSalesOrderSlave = await Task.Run(() => _service.GetCustomerSalesOrderDetails(companyId, orderMasterId));
                 var totalPriceInWord = Convert.ToDecimal(vmSalesOrderSlave.DataListSlave.Select(x => x.TotalAmount).DefaultIfEmpty(0).Sum()) - vmSalesOrderSlave.TotalDiscountAmount;
                 vmSalesOrderSlave.TotalPriceInWord = VmCommonCurrency.NumberToWords(totalPriceInWord, CurrencyType.BDT);
 
@@ -774,7 +774,7 @@ namespace KGERP.Controllers
             }
             else
             {
-                vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                vmSalesOrderSlave = await Task.Run(() => _service.GetCustomerSalesOrderDetails(companyId, orderMasterId));
 
             }
             vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
@@ -1051,7 +1051,7 @@ namespace KGERP.Controllers
                 }
                 else
                 {
-                    vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                    vmSalesOrderSlave = await Task.Run(() => _service.GetCustomerSalesOrderDetails(companyId, orderMasterId));
                 }
 
 
@@ -1188,7 +1188,7 @@ namespace KGERP.Controllers
                 }
                 else
                 {
-                    vmSalesOrderSlave = await Task.Run(() => _service.ProcurementSalesOrderDetailsGet(companyId, orderMasterId));
+                    vmSalesOrderSlave = await Task.Run(() => _service.GetCustomerSalesOrderDetails(companyId, orderMasterId));
                 }
 
 
