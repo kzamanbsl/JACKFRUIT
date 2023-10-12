@@ -140,6 +140,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public decimal Deduction { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+      
         public string DemandNo { get; set; }
         public string ProductDescription { get; set; }
         public DateTime? DeliveryDate { get; set; }
