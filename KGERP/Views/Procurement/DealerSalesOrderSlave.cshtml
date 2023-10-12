@@ -473,10 +473,10 @@
 @section scripts {
 
     <script type="text/javascript">
+        let unitPrice = 0;
 
         var normal= 0;
         $(document).ready(function () {
-
             var orderMasterIdInit = "@Model.OrderMasterId";
 
             if (orderMasterIdInit > 0) {
@@ -510,29 +510,8 @@
             GetProduct(0);
 
 
-            $('#txtProductName').on('change', function () {
-                var productId = $(this).val();
-                $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
-                        datatype: "Json",
-                       data: { companyId: "@Model.CompanyFK", productId: productId },
-                        success: function (data) {
 
-                            if (data) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                $("#txtUnitPrice").val(data.UnitPrice);
-                                var unitQty = $("#txtOrderQuantity").val();
-                                $('#totalAmount').val(unitQty * data.UnitPrice);
-                            }
-                        }
-             });
-
-            });
 
 
 
@@ -743,17 +722,17 @@
             })
         });
 
-        $("#txtUnitPrice").keyup(function () {
+        
+        $("#txtUnitPrice").on('change',function () {
 
             var qty = $("#txtOrderQuantity").val();
             var unitPrice = $("#txtUnitPrice").val();
             var tAmount = qty * unitPrice;
             $("#totalAmount").val(tAmount);
-            $("#SpcDis").val(0);
-            $("#disPercentage").val(0);
+           
         });
 
-        $("#txtOrderQuantity").keyup(function () {
+        $("#txtOrderQuantity").on('change', function () {
 
             var qty = $("#txtOrderQuantity").val();
             var unitPrice = $("#txtUnitPrice").val();
@@ -787,8 +766,25 @@
             $("#totalAmount").val(totalPriceAfterTotalspecial);
 
         });
+        $("#txtUnitPrice").keyup(function () {
 
-        function makeEditble(rowId) {
+            var qty = $("#txtOrderQuantity").val();
+            var unitPrice = $("#txtUnitPrice").val();
+            var tAmount = qty * unitPrice;
+            $("#totalAmount").val(tAmount);
+            //$("#SpcDis").val(0);
+            //$("#disPercentage").val(0);
+        });
+
+        $("#txtOrderQuantity").keyup(function () {
+
+            var qty = $("#txtOrderQuantity").val();
+            var unitPrice = $("#txtUnitPrice").val();
+            var tAmount = qty * unitPrice;
+            $("#totalAmount").val(tAmount);
+
+        });
+          function makeEditble(rowId) {
 
             $.ajax({
 
@@ -797,27 +793,31 @@
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
-
+                      unitPrice = data.UnitPrice;
                       $('#soCreateBtn').val("Update");
                       $("#hidOrderMasterId").val(data.OrderMasterId);
                       $('#ActionId').val(2);
                       $("#CompanyFK").val(data.CompanyFK);
-                      /*$("#txtProductName").val(data.ProductId).trigger('change');*/
-                      $("#ddlRProductFK").val(data.FProductId);
+                      $("#txtProductName").val(data.ProductId).trigger('change');
+                      //$("#ddlRProductFK").val(data.FProductId);
                       $("#txtPackQuantity").val(data.PackQuantity);
                       $("#txtConsumption").val(data.Consumption);
+
                       //GetProduct(data.ProductId);
                       $("#txtOrderQuantity").val(data.Qty);
-                      $('#txtUnitPrice').val(data.UnitPrice);
-                        console.log(data.UnitPrice);
+                      //$('#txtUnitPrice').val(data.UnitPrice);
                       $('#totalAmount').val(data.Qty*data.UnitPrice);
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                 });
-            }
+                }
+               
+            });
+            
+        }
+
+
 
         function makeSubmitble(rowId) {
 
@@ -878,10 +878,33 @@
                     });
         }
 
-        function ChangeProduct(prductId)
-        {
+          $('#txtProductName').on('change', function () {
+                var productId = $(this).val();
+                $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                        datatype: "Json",
+                       data: { companyId: "@Model.CompanyFK", productId: productId },
+                        success: function (data) {
 
+                            if (data) {
+                                $('#tblStockAvailable').show();
+                                $('.txtUnitName').text(data.UnitName);
+                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
-        }
+                                var customerTypeFK = $("#hidCustomerTypeFk").val();
+                                if (unitPrice == 0) {
+                                    $("#txtUnitPrice").val(data.UnitPrice);
+
+                                } else {
+                                    $("#txtUnitPrice").val(unitPrice);
+                                    unitPrice = 0;
+                                }
+                                var unitQty = $("#txtOrderQuantity").val();
+                            }
+                        }
+             });
+
+            });
     </script>
 }

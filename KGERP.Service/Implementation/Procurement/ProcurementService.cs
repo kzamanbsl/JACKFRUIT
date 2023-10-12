@@ -2651,7 +2651,7 @@ namespace KGERP.Service.Implementation.Procurement
                                           where t1.OrderDetailId == id
                                           select new VMSalesOrderSlave
                                           {
-                                              ProductId=t2.ProductId==null?0: t2.ProductId,
+                                              ProductId=t1.ProductId==null?0: t1.ProductId,
                                               OrderMasterId = t1.OrderMasterId,
                                               OrderDetailId = t1.OrderDetailId,
                                               Qty = t1.Qty,
@@ -3949,7 +3949,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.FProductId,
+                ProductId = vmSalesOrderSlave.ProductId??0,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
@@ -3983,7 +3983,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
 
-            model.ProductId = vmSalesOrderSlave.FProductId;
+            model.ProductId = vmSalesOrderSlave.ProductId??0;
             model.Qty = vmSalesOrderSlave.Qty;
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
@@ -4445,7 +4445,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
 
-            model.ProductId = vmSalesOrderSlave.FProductId;
+            model.ProductId = vmSalesOrderSlave.ProductId??0;
             model.Qty = vmSalesOrderSlave.Qty;
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
@@ -4464,7 +4464,9 @@ namespace KGERP.Service.Implementation.Procurement
         }
 
         public async Task<VMSalesOrderSlave> GetDealerSalesOrderDetails(int companyId, int orderMasterId)
+        
         {
+        
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DealerId equals t2.VendorId

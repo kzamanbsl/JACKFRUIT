@@ -52,7 +52,7 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.CustomerTypeFk, new { id = "hidCustomerTypeFk" })
-
+                <span id="hiddenUnitPrice" hidden="hidden"></span>
                 <div class="box-danger">
 
                     <div class="box-body">
@@ -466,10 +466,10 @@
 @section scripts {
 
     <script type="text/javascript">
-
+        let unitPrice = 0;
         var normal= 0;
         $(document).ready(function () {
-
+            let unitPrice = 0;
             var orderMasterIdInit = "@Model.OrderMasterId";
 
             if (orderMasterIdInit > 0) {
@@ -526,7 +526,7 @@
 
 
 
-            $('#txtProductName').on('change', function () {
+            @*$('#txtProductName').on('change', function () {
                 var productId = $(this).val();
                  $("#txtOrderQuantity").val("0");
                 $.ajax({
@@ -542,13 +542,15 @@
                                 $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
                                 var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                $("#txtUnitPrice").val(data.UnitPrice);
+                                unitPrice = data.UnitPrice;
+                                $("#txtUnitPrice").val(unitPrice);
                                 var unitQty = $("#txtOrderQuantity").val();
                                 $('#totalAmount').val(unitQty * data.UnitPrice);
+
                             }
                         }
                     });
-            });
+            });*@
 
 
 
@@ -742,6 +744,23 @@
                 }
             })
         });
+        $("#txtUnitPrice").on('change', function () {
+
+            var qty = $("#txtOrderQuantity").val();
+            var unitPrice = $("#txtUnitPrice").val();
+            var tAmount = qty * unitPrice;
+            $("#totalAmount").val(tAmount);
+
+        });
+
+        $("#txtOrderQuantity").on('change', function () {
+
+            var qty = $("#txtOrderQuantity").val();
+            var unitPrice = $("#txtUnitPrice").val();
+            var tAmount = qty * unitPrice;
+            $("#totalAmount").val(tAmount);
+
+        });
 
         $("#txtUnitPrice").keyup(function () {
 
@@ -796,19 +815,20 @@
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
+                      unitPrice = data.UnitPrice;
 
                       $('#soCreateBtn').val("Update");
                       $("#hidOrderMasterId").val(data.OrderMasterId);
                       $('#ActionId').val(2);
                       $("#CompanyFK").val(data.CompanyFK);
-                      $("#txtProductName").val(data.FProductId).trigger('change');
+                      $('#hiddenUnitPrice').val(data.UnitPrice);
+                      $("#txtProductName").val(data.ProductId).trigger('change');
                       $("#ddlRProductFK").val(data.FProductId);
                       $("#txtPackQuantity").val(data.PackQuantity);
                       $("#txtConsumption").val(data.Consumption);
 
                       $("#txtOrderQuantity").val(data.Qty);
-                      //$('#txtUnitPrice').val(data.UnitPrice);
-                      //$('#totalAmount').val(data.Qty*data.UnitPrice);
+                      $('#totalAmount').val(data.Qty*data.UnitPrice);
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
@@ -848,6 +868,33 @@
             $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
         }
 
+        $('#txtProductName').on('change', function () {
+                var productId = $(this).val();
+                $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                        datatype: "Json",
+                       data: { companyId: "@Model.CompanyFK", productId: productId },
+                        success: function (data) {
 
+                            if (data) {
+                                $('#tblStockAvailable').show();
+                                $('.txtUnitName').text(data.UnitName);
+                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+
+                                var customerTypeFK = $("#hidCustomerTypeFk").val();
+                                if (unitPrice == 0) {
+                                    $("#txtUnitPrice").val(data.UnitPrice);
+
+                                } else {
+                                    $("#txtUnitPrice").val(unitPrice);
+                                    unitPrice = 0;
+                                }
+                                var unitQty = $("#txtOrderQuantity").val();
+                            }
+                        }
+             });
+
+            });
     </script>
 }
