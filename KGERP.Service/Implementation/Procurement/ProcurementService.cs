@@ -2651,8 +2651,7 @@ namespace KGERP.Service.Implementation.Procurement
                                           where t1.OrderDetailId == id
                                           select new VMSalesOrderSlave
                                           {
-
-                                              ProductName = t2.ProductName,
+                                              ProductId=t2.ProductId==null?0: t2.ProductId,
                                               OrderMasterId = t1.OrderMasterId,
                                               OrderDetailId = t1.OrderDetailId,
                                               Qty = t1.Qty,
@@ -4412,7 +4411,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.FProductId,
+                ProductId = vmSalesOrderSlave.ProductId??0,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
@@ -4852,7 +4851,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.FProductId,
+                ProductId = vmSalesOrderSlave.ProductId??0,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),

@@ -934,10 +934,21 @@ namespace KGERP.Service.Implementation.Configuration
                 .Where(x => x.IsActive == true && x.ProductSubCategoryId == productSubCategoryId && x.CompanyId == companyId))
                 .Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
                 .ToListAsync());
-
+           
+            if(productSubCategoryId is 0)
+            {
+                List<VMCommonProduct> vmProductList =
+                await Task.Run(() => (_db.Products
+                .Where(x => x.IsActive == true &&  x.CompanyId == companyId))
+                .Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
+                .ToListAsync());
+                
+                return vmProductList;
+            }
 
             return vmCommonProductList;
-        }
+        } 
+        
         public async Task<List<VMCommonDistricts>> CommonDistrictsGet(int id)
         {
 
@@ -2326,6 +2337,22 @@ namespace KGERP.Service.Implementation.Configuration
             if (categoryId > 0)
             {
                 vmCommonProductSubCategory = await Task.Run(() => (from t1 in _db.ProductCategories.Where(x => x.ProductCategoryId == categoryId && x.IsActive == true)
+
+                                                                   select new VMCommonProductSubCategory
+                                                                   {
+
+                                                                       Common_ProductCategoryFk = t1.ProductCategoryId,
+                                                                       CategoryName = t1.Name,
+                                                                       BaseCommissionRate = t1.CashCustomerRate,
+                                                                       CompanyFK = t1.CompanyId,
+                                                                       ProductType = t1.ProductType,
+                                                                       Description = t1.Address,
+                                                                       Code = t1.Code
+                                                                   }).FirstOrDefault());
+            }
+            else if(categoryId is 0)
+            {
+                vmCommonProductSubCategory = await Task.Run(() => (from t1 in _db.ProductCategories.Where(x => x.IsActive == true)
 
                                                                    select new VMCommonProductSubCategory
                                                                    {

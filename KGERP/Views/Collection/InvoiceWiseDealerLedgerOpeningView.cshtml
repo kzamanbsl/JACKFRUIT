@@ -126,35 +126,34 @@
             <div class="text-center">
                 <table width="100%" class="mt-2">
                     <tr>
-                        <td style="width:5%">
+                        <td style="width:20%"></td>
                         
-                        <td style="width:15%"><img height="80" width="80" id="topLogo" src=@CompanyInfo.CompanyLogoUrl /></td>
-                        <td style="width:10%">
-                        </td>
+                        <td style="width:10%"><img height="80" width="80" id="topLogo" src=@CompanyInfo.CompanyLogoUrl /></td>
                         <td style="width:70%">
 
                             <p style="text-align: left; font-size: 25px; font-weight: bold;margin-bottom: 0;">@Model.CompanyName</p>
                             <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">@Model.CompanyAddress</p>
                             <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.CompanyPhone, Email : @Model.CompanyEmail</p>
-                            <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Ledger of @Model.Name</p>
-                            <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  From @Model.FromDate.ToShortDateString() To @Model.ToDate.ToShortDateString()</p>
+                            @*<p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Ledger of @Model.Name</p>
+                            <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  From @Model.FromDate.ToShortDateString() To @Model.ToDate.ToShortDateString()</p>*@
 
                         </td>
                         <td style="width:20%"></td>
                     </tr>
                 </table>
             </div>
-            <!--<div class="text-center" style="margin-top:50px;">
+            <div class="text-center" style="margin-top:50px;">
                 <table style="width:100%">
                     <tr style="text-align:center">
-                        <th style="font-size:22px"><b></b></th>
-                    </tr>
-                   <tr>
-                            <td style="border-bottom:double;font-size:18px"></td>
+                        <th style="font-size:22px"><b>Ledger of @Model.Name</b></th>
 
-                        </tr>
+                    </tr>
+                    <tr>
+                        <td style="border-bottom:double;font-size:18px">From @Model.FromDate.ToShortDateString() To @Model.ToDate.ToShortDateString()</td>
+
+                    </tr>
                 </table>
-            </div>-->
+            </div>
             <div class="table-responsive mt-3">
                 <table id="tbl1" border="1" style="width: 100%; margin-top: 15px;">
                     <thead style="background-color:#c0c0c0">
@@ -169,7 +168,7 @@
 
                     @{ int sl = 0;}
                     <tbody>
-                        <hr style="background-color:grey; border-width:5px">
+                        @*<hr style="background-color:grey; border-width:5px">*@
                         @foreach (var item in Model.DataList)
                         {
                             closingBalance = item.Balance;

@@ -187,10 +187,13 @@
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
 
-                                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })
-                                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                                            @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
+
+                                            @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+
+                                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                             @Html.HiddenFor(model => model.FProductId, new { id = "ddlRProductFK", @required = "required" })
-                                            @Html.ValidationMessageFor(model => model.FProductId, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -496,7 +499,60 @@
                 }
             });
 
-            $("#txtProductName").autocomplete({
+             $.ajax({
+                        url:"@Url.Action("CommonProductGet", "Configuration")",
+                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            $(data).each(function (i, item) {
+                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            })
+                        },
+                        error: function (response) {
+
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+
+                            //alert(response.responseText);
+                        }
+                    });
+
+
+
+
+
+            $('#txtProductName').on('change', function () {
+                var productId = $(this).val();
+                 $("#txtOrderQuantity").val("0");
+                $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                        datatype: "Json",
+                       data: { companyId: "@Model.CompanyFK", productId: productId },
+                        success: function (data) {
+
+                            if (data) {
+                                $('#tblStockAvailable').show();
+                                $('.txtUnitName').text(data.UnitName);
+                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+
+                                var customerTypeFK = $("#hidCustomerTypeFk").val();
+                                $("#txtUnitPrice").val(data.UnitPrice);
+                                var unitQty = $("#txtOrderQuantity").val();
+                                $('#totalAmount').val(unitQty * data.UnitPrice);
+                            }
+                        }
+                    });
+            });
+
+
+
+            @*$("#txtProductName").autocomplete({
 
                 source: function (request, response) {
 
@@ -562,7 +618,7 @@
             }).focus(function () {
 
                 $(this).autocomplete("search");
-            });
+            });*@
 
             //$('#txtOrderDate').keypress(function (event) {
 
@@ -702,7 +758,7 @@
             var unitPrice = $("#txtUnitPrice").val();
             var tAmount = qty * unitPrice;
             $("#totalAmount").val(tAmount);
-           
+
         });
 
         $("#disPercentage").keyup(function () {
@@ -745,14 +801,14 @@
                       $("#hidOrderMasterId").val(data.OrderMasterId);
                       $('#ActionId').val(2);
                       $("#CompanyFK").val(data.CompanyFK);
-                      $("#txtProductName").val(data.ProductName);
+                      $("#txtProductName").val(data.FProductId).trigger('change');
                       $("#ddlRProductFK").val(data.FProductId);
                       $("#txtPackQuantity").val(data.PackQuantity);
                       $("#txtConsumption").val(data.Consumption);
 
                       $("#txtOrderQuantity").val(data.Qty);
-                      $('#txtUnitPrice').val(data.UnitPrice);
-                      $('#totalAmount').val(data.Qty*data.UnitPrice);
+                      //$('#txtUnitPrice').val(data.UnitPrice);
+                      //$('#totalAmount').val(data.Qty*data.UnitPrice);
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
