@@ -316,7 +316,7 @@ namespace KGERP.Service.Implementation.Procurement
         public double TotalDiscount { get; set; }
         public decimal TotalDiscountAmount { get; set; }
 
-        public IEnumerable<VMSalesOrderSlave> DataListSlave { get; set; }= new List<VMSalesOrderSlave>();
+        public IEnumerable<VMSalesOrderSlave> DataListSlave { get; set; }
         public List<VMSalesOrderSlave> DetailDataList { get; set; } = new List<VMSalesOrderSlave>();
         public SelectList ProductCategoryList { get; set; } = new SelectList(new List<object>());
         public SelectList ProductSubCategoryList { get; set; } = new SelectList(new List<object>());

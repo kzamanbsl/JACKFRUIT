@@ -1675,6 +1675,8 @@ namespace KGERP.Controllers
             }
             else
             {
+                
+                
                 vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
 
             }

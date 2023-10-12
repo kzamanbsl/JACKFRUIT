@@ -183,7 +183,8 @@ namespace KGERP.Service.Implementation.Warehouse
         public IEnumerable<VMWarehousePOReceivingSlave> DataListSlave { get; set; }
         public List<MaterialReceiveDetailModel> MaterialReceiveDetailModel { get; set; }
         public List<VMWarehousePOReceivingSlavePartial> DataListSlavePartial { get; set; }
-       
+        public SelectList ProductList { get; set; } = new SelectList(new List<object>());
+
     }
     public class VMWareHousePOReturnSlavePartial : BaseVM
     {

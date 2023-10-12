@@ -2643,10 +2643,10 @@ namespace KGERP.Service.Implementation.Procurement
         public async Task<VMSalesOrderSlave> GetSingleOrderDetails(int id)
         {
             var v = await Task.Run(() => (from t1 in _db.OrderDetails
-                                          join t2 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t2.ProductId
+                                          join t2 in _db.Products on t1.ProductId equals t2.ProductId
 
-                                          join t4 in _db.ProductSubCategories.Where(x => x.IsActive) on t2.ProductSubCategoryId equals t4.ProductSubCategoryId
-                                          join t3 in _db.ProductCategories.Where(x => x.IsActive) on t4.ProductCategoryId equals t3.ProductCategoryId
+                                          join t4 in _db.ProductSubCategories on t2.ProductSubCategoryId equals t4.ProductSubCategoryId
+                                          join t3 in _db.ProductCategories on t4.ProductCategoryId equals t3.ProductCategoryId
                                           join t5 in _db.Units on t2.UnitId equals t5.UnitId
                                           where t1.OrderDetailId == id
                                           select new VMSalesOrderSlave
@@ -4061,10 +4061,10 @@ namespace KGERP.Service.Implementation.Procurement
                                                       }).FirstOrDefault());
 
             vmSalesOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == orderMasterId)
-                                                                    join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
-                                                                    join t4 in _db.ProductSubCategories.Where(x => x.IsActive) on t3.ProductSubCategoryId equals t4.ProductSubCategoryId
-                                                                    join t5 in _db.ProductCategories.Where(x => x.IsActive) on t4.ProductCategoryId equals t5.ProductCategoryId
-                                                                    join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
+                                                                    join t3 in _db.Products on t1.ProductId equals t3.ProductId
+                                                                    join t4 in _db.ProductSubCategories on t3.ProductSubCategoryId equals t4.ProductSubCategoryId
+                                                                    join t5 in _db.ProductCategories on t4.ProductCategoryId equals t5.ProductCategoryId
+                                                                    join t6 in _db.Units on t3.UnitId equals t6.UnitId
                                                                     select new VMSalesOrderSlave
                                                                     {
                                                                         OrderMasterId = t1.OrderMasterId,

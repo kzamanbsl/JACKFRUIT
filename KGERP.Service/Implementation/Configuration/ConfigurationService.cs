@@ -928,22 +928,27 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<List<VMCommonProduct>> CommonProductGet(int companyId, int productSubCategoryId)
         {
+            List<VMCommonProduct> vmCommonProductList = new List<VMCommonProduct>();
+            
+            if (productSubCategoryId > 0)
+            {
 
-            List<VMCommonProduct> vmCommonProductList =
+          
+                vmCommonProductList =
                 await Task.Run(() => (_db.Products
                 .Where(x => x.IsActive == true && x.ProductSubCategoryId == productSubCategoryId && x.CompanyId == companyId))
                 .Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
                 .ToListAsync());
-           
-            if(productSubCategoryId is 0)
+            }
+            if (productSubCategoryId is 0)
             {
-                List<VMCommonProduct> vmProductList =
+                vmCommonProductList =
                 await Task.Run(() => (_db.Products
                 .Where(x => x.IsActive == true &&  x.CompanyId == companyId))
                 .Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
                 .ToListAsync());
                 
-                return vmProductList;
+               
             }
 
             return vmCommonProductList;

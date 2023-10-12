@@ -138,10 +138,11 @@
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
                                             @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
-                                            
-                                            
-                                            
-                                            
+
+
+                                            @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+
+
                                             @Html.HiddenFor(model => model.ProductId, new { id = "ddlProductFK" })
                                             @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                         </div>
@@ -388,7 +389,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
         var message = '@message';
         if(message){
@@ -473,7 +474,33 @@
         //    });
         //});
 
-        $(function () {
+
+             $.ajax({
+                        url:"@Url.Action("CommonProductGet", "Configuration")",
+                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            $(data).each(function (i, item) {
+                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            })
+                        },
+                        error: function (response) {
+
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+
+                            //alert(response.responseText);
+                        }
+                    });
+
+
+
+        @*$(function () {
             $("#txtProductName").autocomplete({
                 source: function (request, response) {
                 $.ajax({
@@ -523,7 +550,7 @@
                 }).focus(function () {
                 $(this).autocomplete("search");
              });
-        });
+        });*@
 
         function makeEditble(rowId) {
             var companyId = $("#CompanyId").val();
@@ -559,6 +586,47 @@
             let day = date.getDate().toString().padStart(2, '0');
             return day + '/' + month + '/' + year;
         }
+        $('#txtProductName').on('change', function () {
+            var productId = $(this).val();
 
-    </script>
+            $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("CommonProductByID", "Configuration")",
+                    datatype: "Json",
+                data: { id: productId },
+                    success: function (data) {
+                                if (data) {
+
+                                    $('.txtUnitName').text(data.UnitName);
+
+                                }
+                                }
+                            });
+                $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                        datatype: "Json",
+                       data: { companyId: "@Model.CompanyFK", productId: productId },
+                        success: function (data) {
+
+                            if (data) {
+                                $('#tblStockAvailable').show();
+                                $('.txtUnitName').text(data.UnitName);
+                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+
+                                var customerTypeFK = $("#hidCustomerTypeFk").val();
+                                if (unitPrice == 0) {
+                                    $("#txtUnitPrice").val(data.UnitPrice);
+
+                                } else {
+                                    $("#txtUnitPrice").val(unitPrice);
+                                    unitPrice = 0;
+                                }
+                                var unitQty = $("#txtOrderQuantity").val();
+                            }
+                        }
+             });
+
+            });
+</script>
 }
