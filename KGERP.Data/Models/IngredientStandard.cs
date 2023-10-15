@@ -32,7 +32,7 @@ namespace KGERP.Data.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngredientStandardDetail> IngredientStandardDetails { get; set; }
-        public virtual Product Product { get; set; }
         public virtual ProductSubCategory ProductSubCategory { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

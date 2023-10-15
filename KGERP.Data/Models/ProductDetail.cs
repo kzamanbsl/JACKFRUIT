@@ -34,7 +34,7 @@ namespace KGERP.Data.Models
         public string LcNo { get; set; }
         public Nullable<long> DeliveredId { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual StoreDetail StoreDetail { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

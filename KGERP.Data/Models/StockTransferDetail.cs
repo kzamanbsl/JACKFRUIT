@@ -29,7 +29,6 @@ namespace KGERP.Data.Models
         public System.DateTime CreateDate { get; set; }
         public decimal UnitPrice { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual StockTransfer StockTransfer { get; set; }
     }
 }

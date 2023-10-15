@@ -18,8 +18,8 @@ namespace KGERP.Data.Models
         public ProductSubCategory()
         {
             this.IngredientStandards = new HashSet<IngredientStandard>();
-            this.Products = new HashSet<Product>();
             this.ProductionMasters = new HashSet<ProductionMaster>();
+            this.Products = new HashSet<Product>();
         }
     
         public int ProductSubCategoryId { get; set; }
@@ -42,10 +42,10 @@ namespace KGERP.Data.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngredientStandard> IngredientStandards { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductionMaster> ProductionMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

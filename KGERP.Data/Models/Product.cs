@@ -17,19 +17,18 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
+            this.ManagerProductMaps = new HashSet<ManagerProductMap>();
+            this.OrderDeliverDetails = new HashSet<OrderDeliverDetail>();
+            this.OrderDetails = new HashSet<OrderDetail>();
+            this.OrderDetailHistories = new HashSet<OrderDetailHistory>();
+            this.ProductionDetails = new HashSet<ProductionDetail>();
+            this.SaleReturnDetails = new HashSet<SaleReturnDetail>();
             this.IngredientStandards = new HashSet<IngredientStandard>();
             this.PFormulaDetails = new HashSet<PFormulaDetail>();
             this.ProductDetails = new HashSet<ProductDetail>();
             this.ProductFormulas = new HashSet<ProductFormula>();
-            this.StockTransferDetails = new HashSet<StockTransferDetail>();
-            this.StoreDetails = new HashSet<StoreDetail>();
             this.RequisitionItems = new HashSet<RequisitionItem>();
-            this.ManagerProductMaps = new HashSet<ManagerProductMap>();
-            this.ProductionDetails = new HashSet<ProductionDetail>();
-            this.OrderDetails = new HashSet<OrderDetail>();
-            this.OrderDeliverDetails = new HashSet<OrderDeliverDetail>();
-            this.SaleReturnDetails = new HashSet<SaleReturnDetail>();
-            this.OrderDetailHistories = new HashSet<OrderDetailHistory>();
+            this.StoreDetails = new HashSet<StoreDetail>();
         }
     
         public int ProductId { get; set; }
@@ -48,6 +47,7 @@ namespace KGERP.Data.Models
         public decimal TPPrice { get; set; }
         public Nullable<int> UnitId { get; set; }
         public Nullable<double> Qty { get; set; }
+        public Nullable<decimal> Consumption { get; set; }
         public Nullable<double> PackSize { get; set; }
         public Nullable<decimal> FormulaQty { get; set; }
         public Nullable<int> FacingId { get; set; }
@@ -71,35 +71,33 @@ namespace KGERP.Data.Models
         public int Status { get; set; }
         public decimal VartualValue { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ManagerProductMap> ManagerProductMaps { get; set; }
         public virtual FacingInfo FacingInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDeliverDetail> OrderDeliverDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
+        public virtual ProductSubCategory ProductSubCategory { get; set; }
+        public virtual Unit Unit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductionDetail> ProductionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleReturnDetail> SaleReturnDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngredientStandard> IngredientStandards { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PFormulaDetail> PFormulaDetails { get; set; }
-        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductDetail> ProductDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductFormula> ProductFormulas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockTransferDetail> StockTransferDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StoreDetail> StoreDetails { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
-        public virtual ProductSubCategory ProductSubCategory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequisitionItem> RequisitionItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ManagerProductMap> ManagerProductMaps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductionDetail> ProductionDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDeliverDetail> OrderDeliverDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleReturnDetail> SaleReturnDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
+        public virtual ICollection<StoreDetail> StoreDetails { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public long OrderDeliverDetailsId { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual SaleReturn SaleReturn { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

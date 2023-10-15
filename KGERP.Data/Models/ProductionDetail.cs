@@ -30,7 +30,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<decimal> ProcessedQty { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual ProductionMaster ProductionMaster { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

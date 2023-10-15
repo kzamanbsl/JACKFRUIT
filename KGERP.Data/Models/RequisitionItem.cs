@@ -37,7 +37,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public decimal TPPrice { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Requisition Requisition { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
