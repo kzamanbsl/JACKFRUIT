@@ -579,6 +579,7 @@ namespace KGERP.Service.Implementation.Configuration
         public decimal MRPPrice { get; set; }
         public decimal TPPrice { get; set; }
         public double? Qty { get; set; }
+        public double? Consumption { get; set; }
 
         [Required]
         [Range(1, 99999999999999, ErrorMessage = "Unit Price is Required!! not allow zero or nagetive .")]

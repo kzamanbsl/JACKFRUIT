@@ -393,7 +393,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -437,7 +437,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -509,7 +509,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a pr
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1298,7 +1298,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shado
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1369,7 +1369,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a pr
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1463,7 +1463,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a p
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2402,7 +2402,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2703,7 +2703,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2728,7 +2728,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2855,7 +2855,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a prim
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2921,7 +2921,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key de
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3052,7 +3052,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a prim
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3470,7 +3470,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not ha
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3730,7 +3730,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not h
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4280,7 +4280,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a pr
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="UnitId" Type="int" />
           <Property Name="Qty" Type="float" />
-          <Property Name="Consumption" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Consumption" Type="float" />
           <Property Name="PackSize" Type="float" />
           <Property Name="FormulaQty" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FacingId" Type="int" />
@@ -4738,7 +4738,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a pr
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5211,7 +5211,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not ha
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5242,7 +5242,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a pri
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5261,7 +5261,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primar
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5284,7 +5284,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not h
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5307,7 +5307,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a pri
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5344,7 +5344,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a pr
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5358,7 +5358,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a pr
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5390,7 +5390,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not ha
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5418,7 +5418,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5448,7 +5448,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a pr
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -10961,71 +10961,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="OrderDetail" EntitySet="OrderDetails" />
             <End Role="OrderDetailHistory" EntitySet="OrderDetailHistories" />
           </AssociationSet>
-          <EntitySet Name="Products" EntityType="ERPModel.Product" />
-          <AssociationSet Name="FK_ManagerProductMap_Product" Association="ERPModel.FK_ManagerProductMap_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ManagerProductMap" EntitySet="ManagerProductMaps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_FacingInfo" Association="ERPModel.FK_Product_FacingInfo">
-            <End Role="FacingInfo" EntitySet="FacingInfoes" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDeliverDetail_Product" Association="ERPModel.FK_OrderDeliverDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDeliverDetail" EntitySet="OrderDeliverDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Product" Association="ERPModel.FK_OrderDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetailHistory_Product" Association="ERPModel.FK_OrderDetailHistory_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetailHistory" EntitySet="OrderDetailHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductCategory" Association="ERPModel.FK_Product_ProductCategory">
-            <End Role="ProductCategory" EntitySet="ProductCategories" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductSubCategory" Association="ERPModel.FK_Product_ProductSubCategory">
-            <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Unit" Association="ERPModel.FK_Product_Unit">
-            <End Role="Unit" EntitySet="Units" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SaleReturnDetail_Product" Association="ERPModel.FK_SaleReturnDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="SaleReturnDetail" EntitySet="SaleReturnDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IngredientStandard_Product1" Association="ERPModel.FK_IngredientStandard_Product1">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="IngredientStandard" EntitySet="IngredientStandards" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PFormulaDetail_Product" Association="ERPModel.FK_PFormulaDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="PFormulaDetail" EntitySet="PFormulaDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductDetails_Product" Association="ERPModel.FK_ProductDetails_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductDetail" EntitySet="ProductDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductFormula_Product" Association="ERPModel.FK_ProductFormula_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductFormula" EntitySet="ProductFormulas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequisitionItem_Product" Association="ERPModel.FK_RequisitionItem_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="RequisitionItem" EntitySet="RequisitionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StoreDetail_Product" Association="ERPModel.FK_StoreDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="StoreDetail" EntitySet="StoreDetails" />
-          </AssociationSet>
           <EntitySet Name="OrderMasters" EntityType="ERPModel.OrderMaster" />
           <AssociationSet Name="FK_OrderMaster_Company" Association="ERPModel.FK_OrderMaster_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -11062,6 +10997,71 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_OrderMaster_Deport" Association="ERPModel.FK_OrderMaster_Deport">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="OrderMaster" EntitySet="OrderMasters" />
+          </AssociationSet>
+          <EntitySet Name="Products" EntityType="ERPModel.Product" />
+          <AssociationSet Name="FK_ManagerProductMap_Product" Association="ERPModel.FK_ManagerProductMap_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ManagerProductMap" EntitySet="ManagerProductMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_FacingInfo" Association="ERPModel.FK_Product_FacingInfo">
+            <End Role="FacingInfo" EntitySet="FacingInfoes" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientStandard_Product1" Association="ERPModel.FK_IngredientStandard_Product1">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="IngredientStandard" EntitySet="IngredientStandards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDeliverDetail_Product" Association="ERPModel.FK_OrderDeliverDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDeliverDetail" EntitySet="OrderDeliverDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="ERPModel.FK_OrderDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetailHistory_Product" Association="ERPModel.FK_OrderDetailHistory_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetailHistory" EntitySet="OrderDetailHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PFormulaDetail_Product" Association="ERPModel.FK_PFormulaDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="PFormulaDetail" EntitySet="PFormulaDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductCategory" Association="ERPModel.FK_Product_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductSubCategory" Association="ERPModel.FK_Product_ProductSubCategory">
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="ERPModel.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetails_Product" Association="ERPModel.FK_ProductDetails_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductDetail" EntitySet="ProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFormula_Product" Association="ERPModel.FK_ProductFormula_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductFormula" EntitySet="ProductFormulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequisitionItem_Product" Association="ERPModel.FK_RequisitionItem_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="RequisitionItem" EntitySet="RequisitionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SaleReturnDetail_Product" Association="ERPModel.FK_SaleReturnDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="SaleReturnDetail" EntitySet="SaleReturnDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreDetail_Product" Association="ERPModel.FK_StoreDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StoreDetail" EntitySet="StoreDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -19121,8 +19121,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="DiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="PromotionalOfferId" Type="Int32" />
           <NavigationProperty Name="OrderDetailHistories" Relationship="ERPModel.FK_OrderDetailHistory_OrderDetail1" FromRole="OrderDetail" ToRole="OrderDetailHistory" />
-          <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
           <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderDetail" ToRole="OrderMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
         </EntityType>
         <EntityType Name="SalaryInformatrion">
           <Key>
@@ -19397,8 +19397,8 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="DiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="PromotionalOfferId" Type="Int32" />
           <NavigationProperty Name="OrderDetail" Relationship="ERPModel.FK_OrderDetailHistory_OrderDetail1" FromRole="OrderDetailHistory" ToRole="OrderDetail" />
-          <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetailHistory_Product" FromRole="OrderDetailHistory" ToRole="Product" />
           <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDetailHistory_OrderMaster" FromRole="OrderDetailHistory" ToRole="OrderMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetailHistory_Product" FromRole="OrderDetailHistory" ToRole="Product" />
         </EntityType>
         <Association Name="FK_OrderDetailHistory_OrderDetail1">
           <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="1" />
@@ -19409,258 +19409,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="OrderDetailHistory">
               <PropertyRef Name="OrderDetailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="ProductId" />
-          </Key>
-          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="ProductCategoryId" Type="Int32" />
-          <Property Name="ProductSubCategoryId" Type="Int32" />
-          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreditSalePrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaleCommissionRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PurchaseRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PurchaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="UnitId" Type="Int32" />
-          <Property Name="Qty" Type="Double" />
-          <Property Name="Consumption" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PackSize" Type="Double" />
-          <Property Name="FormulaQty" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FacingId" Type="Int32" />
-          <Property Name="JsonData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="OrderNo" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="PackId" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="EngineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ChassisNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CostingPrice" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="DieSize" Type="Decimal" Precision="19" Scale="6" />
-          <Property Name="AccountingHeadId" Type="Int32" />
-          <Property Name="AccountingIncomeHeadId" Type="Int32" />
-          <Property Name="AccountingExpenseHeadId" Type="Int32" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="VartualValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <NavigationProperty Name="ManagerProductMaps" Relationship="ERPModel.FK_ManagerProductMap_Product" FromRole="Product" ToRole="ManagerProductMap" />
-          <NavigationProperty Name="FacingInfo" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="Product" ToRole="FacingInfo" />
-          <NavigationProperty Name="OrderDeliverDetails" Relationship="ERPModel.FK_OrderDeliverDetail_Product" FromRole="Product" ToRole="OrderDeliverDetail" />
-          <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
-          <NavigationProperty Name="OrderDetailHistories" Relationship="ERPModel.FK_OrderDetailHistory_Product" FromRole="Product" ToRole="OrderDetailHistory" />
-          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
-          <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="Product" ToRole="ProductSubCategory" />
-          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
-          <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="Product" ToRole="ProductionDetail" />
-          <NavigationProperty Name="SaleReturnDetails" Relationship="ERPModel.FK_SaleReturnDetail_Product" FromRole="Product" ToRole="SaleReturnDetail" />
-          <NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product1" FromRole="Product" ToRole="IngredientStandard" />
-          <NavigationProperty Name="PFormulaDetails" Relationship="ERPModel.FK_PFormulaDetail_Product" FromRole="Product" ToRole="PFormulaDetail" />
-          <NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="Product" ToRole="ProductDetail" />
-          <NavigationProperty Name="ProductFormulas" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="Product" ToRole="ProductFormula" />
-          <NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="Product" ToRole="RequisitionItem" />
-          <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="Product" ToRole="StoreDetail" />
-        </EntityType>
-        <Association Name="FK_ManagerProductMap_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.ManagerProductMap" Role="ManagerProductMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ManagerProductMap">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_FacingInfo">
-          <End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FacingInfo">
-              <PropertyRef Name="FacingId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="FacingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDeliverDetail_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.OrderDeliverDetail" Role="OrderDeliverDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="OrderDeliverDetail">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDetail_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDetailHistory_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.OrderDetailHistory" Role="OrderDetailHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="OrderDetailHistory">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_ProductCategory">
-          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductCategory">
-              <PropertyRef Name="ProductCategoryId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_ProductSubCategory">
-          <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductSubCategory">
-              <PropertyRef Name="ProductSubCategoryId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductSubCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Unit">
-          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="UnitId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="UnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductionDetails_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ProductionDetail">
-              <PropertyRef Name="RawProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SaleReturnDetail_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="ERPModel.SaleReturnDetail" Role="SaleReturnDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="SaleReturnDetail">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IngredientStandard_Product1">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="IngredientStandard">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PFormulaDetail_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="ERPModel.PFormulaDetail" Role="PFormulaDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="PFormulaDetail">
-              <PropertyRef Name="RProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductDetails_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ProductDetail">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductFormula_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="ERPModel.ProductFormula" Role="ProductFormula" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ProductFormula">
-              <PropertyRef Name="FProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RequisitionItem_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="ERPModel.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="RequisitionItem">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreDetail_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="StoreDetail">
-              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19821,6 +19569,258 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="OrderMaster">
               <PropertyRef Name="DeportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="ProductCategoryId" Type="Int32" />
+          <Property Name="ProductSubCategoryId" Type="Int32" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditSalePrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaleCommissionRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PurchaseRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PurchaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="Qty" Type="Double" />
+          <Property Name="Consumption" Type="Double" />
+          <Property Name="PackSize" Type="Double" />
+          <Property Name="FormulaQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FacingId" Type="Int32" />
+          <Property Name="JsonData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="PackId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="EngineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChassisNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CostingPrice" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="DieSize" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="AccountingHeadId" Type="Int32" />
+          <Property Name="AccountingIncomeHeadId" Type="Int32" />
+          <Property Name="AccountingExpenseHeadId" Type="Int32" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="VartualValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <NavigationProperty Name="ManagerProductMaps" Relationship="ERPModel.FK_ManagerProductMap_Product" FromRole="Product" ToRole="ManagerProductMap" />
+          <NavigationProperty Name="FacingInfo" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="Product" ToRole="FacingInfo" />
+          <NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product1" FromRole="Product" ToRole="IngredientStandard" />
+          <NavigationProperty Name="OrderDeliverDetails" Relationship="ERPModel.FK_OrderDeliverDetail_Product" FromRole="Product" ToRole="OrderDeliverDetail" />
+          <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="OrderDetailHistories" Relationship="ERPModel.FK_OrderDetailHistory_Product" FromRole="Product" ToRole="OrderDetailHistory" />
+          <NavigationProperty Name="PFormulaDetails" Relationship="ERPModel.FK_PFormulaDetail_Product" FromRole="Product" ToRole="PFormulaDetail" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
+          <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="Product" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
+          <NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="Product" ToRole="ProductDetail" />
+          <NavigationProperty Name="ProductFormulas" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="Product" ToRole="ProductFormula" />
+          <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="Product" ToRole="ProductionDetail" />
+          <NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="Product" ToRole="RequisitionItem" />
+          <NavigationProperty Name="SaleReturnDetails" Relationship="ERPModel.FK_SaleReturnDetail_Product" FromRole="Product" ToRole="SaleReturnDetail" />
+          <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="Product" ToRole="StoreDetail" />
+        </EntityType>
+        <Association Name="FK_ManagerProductMap_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ManagerProductMap" Role="ManagerProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ManagerProductMap">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_FacingInfo">
+          <End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacingInfo">
+              <PropertyRef Name="FacingId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="FacingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientStandard_Product1">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="IngredientStandard">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDeliverDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.OrderDeliverDetail" Role="OrderDeliverDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDeliverDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetailHistory_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.OrderDetailHistory" Role="OrderDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDetailHistory">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PFormulaDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.PFormulaDetail" Role="PFormulaDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="PFormulaDetail">
+              <PropertyRef Name="RProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductCategory">
+          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductSubCategory">
+          <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubCategory">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetails_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFormula_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.ProductFormula" Role="ProductFormula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductFormula">
+              <PropertyRef Name="FProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionDetails_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductionDetail">
+              <PropertyRef Name="RawProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequisitionItem_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="RequisitionItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SaleReturnDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.SaleReturnDetail" Role="SaleReturnDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="SaleReturnDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="StoreDetail">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -25326,6 +25326,50 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OrderMasters">
+            <EntityTypeMapping TypeName="ERPModel.OrderMaster">
+              <MappingFragment StoreEntitySet="OrderMaster">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TrackFair" ColumnName="TrackFair" />
+                <ScalarProperty Name="TrackNo" ColumnName="TrackNo" />
+                <ScalarProperty Name="DriverMobileNo" ColumnName="DriverMobileNo" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="CurrentPayable" ColumnName="CurrentPayable" />
+                <ScalarProperty Name="IsOpening" ColumnName="IsOpening" />
+                <ScalarProperty Name="FinalDestination" ColumnName="FinalDestination" />
+                <ScalarProperty Name="CourierCharge" ColumnName="CourierCharge" />
+                <ScalarProperty Name="CourierNo" ColumnName="CourierNo" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
+                <ScalarProperty Name="StockInfoTypeId" ColumnName="StockInfoTypeId" />
+                <ScalarProperty Name="SalePersonId" ColumnName="SalePersonId" />
+                <ScalarProperty Name="ChallanNo" ColumnName="ChallanNo" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="OrderMonthYear" ColumnName="OrderMonthYear" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="DealerId" ColumnName="DealerId" />
+                <ScalarProperty Name="DeportId" ColumnName="DeportId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="DemandId" ColumnName="DemandId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ERPModel.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -25368,50 +25412,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderMasters">
-            <EntityTypeMapping TypeName="ERPModel.OrderMaster">
-              <MappingFragment StoreEntitySet="OrderMaster">
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="TrackFair" ColumnName="TrackFair" />
-                <ScalarProperty Name="TrackNo" ColumnName="TrackNo" />
-                <ScalarProperty Name="DriverMobileNo" ColumnName="DriverMobileNo" />
-                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
-                <ScalarProperty Name="CurrentPayable" ColumnName="CurrentPayable" />
-                <ScalarProperty Name="IsOpening" ColumnName="IsOpening" />
-                <ScalarProperty Name="FinalDestination" ColumnName="FinalDestination" />
-                <ScalarProperty Name="CourierCharge" ColumnName="CourierCharge" />
-                <ScalarProperty Name="CourierNo" ColumnName="CourierNo" />
-                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
-                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
-                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
-                <ScalarProperty Name="StockInfoTypeId" ColumnName="StockInfoTypeId" />
-                <ScalarProperty Name="SalePersonId" ColumnName="SalePersonId" />
-                <ScalarProperty Name="ChallanNo" ColumnName="ChallanNo" />
-                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-                <ScalarProperty Name="OrderMonthYear" ColumnName="OrderMonthYear" />
-                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="DealerId" ColumnName="DealerId" />
-                <ScalarProperty Name="DeportId" ColumnName="DeportId" />
-                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-                <ScalarProperty Name="DemandId" ColumnName="DemandId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

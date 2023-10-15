@@ -2,7 +2,7 @@
 @model KGERP.Service.Implementation.Configuration.VMCommonProduct
 @{
 
-    ViewData["Title"] = "Raw Materials";
+    ViewData["Title"] = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -94,26 +94,29 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Quantity </label>
+                                    <label for="message-text" class="col-form-label">Quantity:</label>
                                     @Html.TextBoxFor(model => model.Qty, new { id = "productQuantity", @class = "form-control", @value = "", @placeholder = "Product Quantity" })
                                     @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "Text-danger" })
                                 </div>
-
-
                             </div>
-
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="col-form-label">TP Price</label>
+                                    <label for="message-text" class="col-form-label">Consumption:</label>
+                                    @Html.TextBoxFor(model => model.Consumption, new { id = "productConsumption", @class = "form-control", @value = "", @placeholder = "Product Consumption" })
+                                    @Html.ValidationMessageFor(model => model.Consumption, "", new { @class = "Text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">TP Price:</label>
                                     @Html.TextBoxFor(model => model.TPPrice, new { id = "tpPrice", @class = "form-control", @value = "", @placeholder = "Product TP Price," })
                                     @Html.ValidationMessageFor(model => model.TPPrice, "", new { @class = "Text-danger" })
-
                                 </div>
-
                             </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="col-form-label">Sale Price</label>
+                                    <label class="col-form-label">Sale Price:</label>
                                     @Html.TextBoxFor(model => model.MRPPrice, new { id = "unitPrice", @class = "form-control", @value = "", @placeholder = "Unit Seal Price" })
                                     @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
                                 </div>
@@ -181,6 +184,9 @@
                                                 Quantity
                                             </th>
                                             <th>
+                                                Consumption
+                                            </th>
+                                            <th>
                                                 TP Price
                                             </th>
                                             <th>
@@ -215,6 +221,9 @@
                                                     </td>
                                                     <td>
                                                         @item.Qty
+                                                    </td>
+                                                    <td>
+                                                        @item.Consumption
                                                     </td>
                                                     <td>
                                                         @item.TPPrice
@@ -309,11 +318,6 @@
         });
 
 
-
-
-
-
-
         function makeEditble(id) {
             if (id !== null) {
                 $.ajax({
@@ -332,6 +336,7 @@
                         $('#ddlCommonUnitFk').val(data.Common_UnitFk).trigger('change');
                         $('#unitPrice').val(data.MRPPrice);
                         $('#productQuantity').val(data.Qty);
+                        $('#productConsumption').val(data.Consumption);
                         $('#tpPrice').val(data.TPPrice);
 
                         $.ajax({

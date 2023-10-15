@@ -2817,6 +2817,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                   MRPPrice = t1.UnitPrice ?? 0,
                                                   TPPrice = t1.TPPrice,
                                                   Qty = t1.Qty,
+                                                  Consumption = t1.Consumption,
                                                   CreditSalePrice = t1.CreditSalePrice,
                                                   SubCategoryName = t2.Name,
                                                   CategoryName = t3.Name,
@@ -3031,6 +3032,7 @@ namespace KGERP.Service.Implementation.Configuration
                 UnitPrice = vmCommonProduct.MRPPrice,
                 TPPrice = vmCommonProduct.TPPrice,
                 Qty = vmCommonProduct.Qty,
+                Consumption = vmCommonProduct.Consumption,
                 CreditSalePrice = vmCommonProduct.CreditSalePrice,
 
                 ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk,
@@ -3098,6 +3100,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonProduct.UnitPrice = vmCommonProduct.MRPPrice;
             commonProduct.TPPrice = vmCommonProduct.TPPrice;
             commonProduct.Qty = vmCommonProduct.Qty;
+            commonProduct.Consumption = vmCommonProduct.Consumption;
             commonProduct.ShortName = vmCommonProduct.ShortName;
             commonProduct.CreditSalePrice = vmCommonProduct.CreditSalePrice;
             commonProduct.ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk;

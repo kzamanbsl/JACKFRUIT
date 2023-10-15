@@ -487,23 +487,6 @@
         <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
         <EntityTypeShape EntityType="ERPModel.OrderDetailHistory" Width="1.5" PointX="68.375" PointY="21.75" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderDetail1" />
-        <EntityTypeShape EntityType="ERPModel.Product" Width="1.5" PointX="36.25" PointY="22.25" />
-        <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Product" />
-        <AssociationConnector Association="ERPModel.FK_Product_FacingInfo" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
-        <AssociationConnector Association="ERPModel.FK_Product_ProductCategory" />
-        <AssociationConnector Association="ERPModel.FK_Product_ProductSubCategory" />
-        <AssociationConnector Association="ERPModel.FK_Product_Unit" />
-        <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_IngredientStandard_Product1" />
-        <AssociationConnector Association="ERPModel.FK_PFormulaDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_ProductDetails_Product" />
-        <AssociationConnector Association="ERPModel.FK_ProductFormula_Product" />
-        <AssociationConnector Association="ERPModel.FK_RequisitionItem_Product" />
-        <AssociationConnector Association="ERPModel.FK_StoreDetail_Product" />
         <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="26.5" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
@@ -514,6 +497,23 @@
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
+        <EntityTypeShape EntityType="ERPModel.Product" Width="1.5" PointX="36.25" PointY="22.625" />
+        <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Product" />
+        <AssociationConnector Association="ERPModel.FK_Product_FacingInfo" />
+        <AssociationConnector Association="ERPModel.FK_IngredientStandard_Product1" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
+        <AssociationConnector Association="ERPModel.FK_PFormulaDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_Product_ProductCategory" />
+        <AssociationConnector Association="ERPModel.FK_Product_ProductSubCategory" />
+        <AssociationConnector Association="ERPModel.FK_Product_Unit" />
+        <AssociationConnector Association="ERPModel.FK_ProductDetails_Product" />
+        <AssociationConnector Association="ERPModel.FK_ProductFormula_Product" />
+        <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
+        <AssociationConnector Association="ERPModel.FK_RequisitionItem_Product" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_StoreDetail_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
