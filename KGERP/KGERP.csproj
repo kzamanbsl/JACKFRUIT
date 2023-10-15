@@ -5592,6 +5592,10 @@
     <Content Include="Views\Collection\InvoiceWiseDeportLedgerOpening.cshtml" />
     <Content Include="Views\Collection\InvoiceWiseDeportLedgerOpeningView.cshtml" />
     <Content Include="Views\Collection\InvoiceWiseDealerLedgerOpeningView.cshtml" />
+    <Content Include="Views\Procurement\DeportSalesOrderDelivaryList.cshtml" />
+    <Content Include="Views\Procurement\DeportSalesOrderDelivarySlave.cshtml" />
+    <Content Include="Views\Procurement\DealerSalesOrderDelivarySlave.cshtml" />
+    <Content Include="Views\Procurement\DealerSalesOrderDelivaryList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

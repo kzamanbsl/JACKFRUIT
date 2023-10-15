@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Implementation.Marketing;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
@@ -2651,7 +2652,7 @@ namespace KGERP.Service.Implementation.Procurement
                                           where t1.OrderDetailId == id
                                           select new VMSalesOrderSlave
                                           {
-                                              ProductId=t1.ProductId==null?0: t1.ProductId,
+                                              ProductId = t1.ProductId == null ? 0 : t1.ProductId,
                                               OrderMasterId = t1.OrderMasterId,
                                               OrderDetailId = t1.OrderDetailId,
                                               Qty = t1.Qty,
@@ -3949,7 +3950,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.ProductId??0,
+                ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
@@ -3983,7 +3984,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
 
-            model.ProductId = vmSalesOrderSlave.ProductId??0;
+            model.ProductId = vmSalesOrderSlave.ProductId ?? 0;
             model.Qty = vmSalesOrderSlave.Qty;
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
@@ -4130,21 +4131,21 @@ namespace KGERP.Service.Implementation.Procurement
             return v;
         }
 
-        public async Task<long> DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        public async Task<long> DeportSalesOrderDelivary(VMSalesOrderSlave vmSalesOrderSlave)
         {
             long result = -1;
-            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
-            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Delivary!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Delivary!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
-            order.Status = (int)EnumSOStatus.Received;
+            order.Status = (int)EnumSOStatus.Delivered;
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
             List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
-            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Delivary!");
 
             List<OrderDetailHistory> history = new List<OrderDetailHistory>();
             //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
@@ -4207,6 +4208,26 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
+        public async Task<long> DeportSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            long result = -1;
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
+            order.Status = (int)EnumSOStatus.Received;
+            order.ModifiedBy = userName;
+            order.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = order.OrderMasterId;
+            }
+            return result;
+        }
+
         public async Task<VMSalesOrder> GetDeportOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
@@ -4248,7 +4269,7 @@ namespace KGERP.Service.Implementation.Procurement
             return vmSalesOrder;
         }
 
-        public async Task<VMSalesOrder> GetDeportOrderMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        public async Task<VMSalesOrder> GetDeportOrderMasterDelivaryList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
             vmSalesOrder.CompanyFK = companyId;
@@ -4260,6 +4281,48 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
                                                           && x.Status >= (int)EnumSOStatus.Submitted
+                                                          && x.Status < (int)EnumSOStatus.Received)
+
+                                                          join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+
+                                                          select new VMSalesOrder
+                                                          {
+                                                              OrderMasterId = t1.OrderMasterId,
+                                                              CustomerId = t2.VendorId,
+                                                              CommonCustomerName = t2.Name,
+                                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                              OrderNo = t1.OrderNo,
+                                                              OrderDate = t1.OrderDate,
+                                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                              CourierNo = t1.CourierNo,
+                                                              FinalDestination = t1.FinalDestination,
+                                                              CourierCharge = t1.CourierCharge,
+                                                              Status = t1.Status,
+
+                                                              CompanyFK = t1.CompanyId,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreatedBy = t1.CreatedBy,
+
+                                                          }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+            if (vStatus != -1 && vStatus != null)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
+            }
+            return vmSalesOrder;
+        }
+
+        public async Task<VMSalesOrder> GetDeportOrderMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder.CompanyFK = companyId;
+
+            vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && x.DeportId > 0
+                                                          && x.StockInfoTypeId == (int)StockInfoTypeEnum.Company
+                                                          && x.OrderDate >= fromDate && x.OrderDate <= toDate
+                                                          && !x.IsOpening
+                                                          && x.Status >= (int)EnumSOStatus.Delivered
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
@@ -4301,6 +4364,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonDeportList;
         }
+
         #endregion
 
         #region Dealer Sales
@@ -4411,7 +4475,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.ProductId??0,
+                ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
@@ -4445,7 +4509,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
 
-            model.ProductId = vmSalesOrderSlave.ProductId??0;
+            model.ProductId = vmSalesOrderSlave.ProductId ?? 0;
             model.Qty = vmSalesOrderSlave.Qty;
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
@@ -4464,9 +4528,9 @@ namespace KGERP.Service.Implementation.Procurement
         }
 
         public async Task<VMSalesOrderSlave> GetDealerSalesOrderDetails(int companyId, int orderMasterId)
-        
+
         {
-        
+
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
@@ -4596,21 +4660,21 @@ namespace KGERP.Service.Implementation.Procurement
             return v;
         }
 
-        public async Task<long> DealerSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        public async Task<long> DealerSalesOrderDelivary(VMSalesOrderSlave vmSalesOrderSlave)
         {
             long result = -1;
-            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
-            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Delivary!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Delivary!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
-            order.Status = (int)EnumSOStatus.Received;
+            order.Status = (int)EnumSOStatus.Delivered;
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
             List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
-            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Delivary!");
 
             List<OrderDetailHistory> history = new List<OrderDetailHistory>();
             //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
@@ -4673,6 +4737,27 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
+        public async Task<long> DealerSalesOrderReceived(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            long result = -1;
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Receive!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
+            order.Status = (int)EnumSOStatus.Received;
+            order.ModifiedBy = userName;
+            order.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = order.OrderMasterId;
+            }
+
+            return result;
+        }
+
         public async Task<VMSalesOrder> GetDealerOrderMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
@@ -4714,7 +4799,7 @@ namespace KGERP.Service.Implementation.Procurement
             return vmSalesOrder;
         }
 
-        public async Task<VMSalesOrder> GetDealerOrderMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        public async Task<VMSalesOrder> GetDealerOrderMasterDelivaryList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             VMSalesOrder vmSalesOrder = new VMSalesOrder();
             vmSalesOrder.CompanyFK = companyId;
@@ -4726,6 +4811,49 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
                                                           && !x.IsOpening
                                                           && x.Status >= (int)EnumSOStatus.Submitted
+                                                          && x.Status < (int)EnumSOStatus.Received)
+
+                                                          join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
+
+                                                          select new VMSalesOrder
+                                                          {
+                                                              OrderMasterId = t1.OrderMasterId,
+                                                              CustomerId = t2.VendorId,
+                                                              CommonCustomerName = t2.Name,
+                                                              CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                              OrderNo = t1.OrderNo,
+                                                              OrderDate = t1.OrderDate,
+                                                              ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                              CourierNo = t1.CourierNo,
+                                                              FinalDestination = t1.FinalDestination,
+                                                              CourierCharge = t1.CourierCharge,
+                                                              Status = t1.Status,
+
+                                                              CompanyFK = t1.CompanyId,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreatedBy = t1.CreatedBy,
+
+                                                          }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
+            if (vStatus != -1 && vStatus != null)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
+            }
+            return vmSalesOrder;
+        }
+
+
+        public async Task<VMSalesOrder> GetDealerOrderMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            VMSalesOrder vmSalesOrder = new VMSalesOrder();
+            vmSalesOrder.CompanyFK = companyId;
+
+            vmSalesOrder.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && x.DealerId > 0
+                                                          && (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
+                                                          && x.OrderDate >= fromDate && x.OrderDate <= toDate
+                                                          && !x.IsOpening
+                                                          && x.Status >= (int)EnumSOStatus.Delivered
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
@@ -4755,6 +4883,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             return vmSalesOrder;
         }
+
         public async Task<List<VMSalesOrder>> GetSalesOrderListByDealerId(int dealerId)
         {
 
@@ -4853,7 +4982,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.ProductId??0,
+                ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),

@@ -36,6 +36,7 @@
     {
         Draft,
         Submitted,
+        Delivered,
         Received,
         Closed
     }
