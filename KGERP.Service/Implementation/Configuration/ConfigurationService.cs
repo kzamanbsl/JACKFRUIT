@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Data.Models;
@@ -760,18 +762,16 @@ namespace KGERP.Service.Implementation.Configuration
 
         public async Task<List<SelectModelType>> GetProductCategory(int companyId, string productType)
         {
-            var list = await _db.ProductCategories
-                .Where(s => s.CompanyId == companyId
-                        && s.ProductType == productType
-                        && s.IsActive == true)
+            
+            var result = await _db.ProductCategories.AsNoTracking()
+                       .Where(c => c.IsActive == true && c.CompanyId == companyId && productType == productType)
+                       .Select(c => new SelectModelType
+                       {
+                           Text = c.Name,
+                           Value = c.ProductCategoryId
+                       }).ToListAsync();
 
-                .Select(e => new SelectModelType()
-                {
-                    Text = e.Name,
-                    Value = e.ProductCategoryId,
-                }).ToListAsync();
-
-            return list;
+          return result;
         }
 
 
@@ -909,10 +909,17 @@ namespace KGERP.Service.Implementation.Configuration
         {
 
             List<VMCommonProductSubCategory> vmCommonProductSubCategoryList =
-                await Task.Run(() => (_db.ProductSubCategories
-                .Where(x => x.IsActive == true && x.ProductCategoryId == categoryId && x.CompanyId == companyId))
-                .Select(x => new VMCommonProductSubCategory() { ID = x.ProductSubCategoryId, Name = x.Name })
-                .ToListAsync());
+                await Task.Run(() => (_db.ProductSubCategories.AsNoTracking()
+                .Where(x => x.IsActive == true && x.ProductCategoryId == categoryId && x.CompanyId == companyId)
+                .Join(_db.ProductCategories.AsNoTracking().Where(c=>c.IsActive==true),
+                t1=>t1.ProductCategoryId,
+                t2=>t2.ProductCategoryId,
+                (t1,t2)=> new VMCommonProductSubCategory
+                { 
+                    ID = t1.ProductSubCategoryId, 
+                    Name = t1.Name 
+                })
+                .ToListAsync()));
 
 
             return vmCommonProductSubCategoryList;
@@ -944,9 +951,16 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 vmCommonProductList =
                 await Task.Run(() => (_db.Products
-                .Where(x => x.IsActive == true &&  x.CompanyId == companyId))
-                .Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
-                .ToListAsync());
+                .Where(x => x.IsActive == true &&  x.CompanyId == companyId)
+                .Join(_db.ProductSubCategories.Where(c=>c.IsActive==true),
+                t1=>t1.ProductSubCategoryId,
+                t2=>t2.ProductSubCategoryId,
+                (t1,t2)=> new VMCommonProduct
+                {
+                    ID = t1.ProductId,
+                    Name = t1.ProductName 
+                })
+                .ToListAsync()));
                 
                
             }
