@@ -131,7 +131,7 @@
                                                 <a href="~/Procurement/DealerSalesOrderReceivedSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Received)
+                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Delivered || item.Status == (int)EnumSOStatus.Received)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print

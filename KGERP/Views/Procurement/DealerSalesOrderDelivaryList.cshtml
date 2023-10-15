@@ -26,8 +26,8 @@
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
             @*<a href="~/Procurement/DealerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
-                <span class="fs fs-plus"></span> New Sales Invoice
-            </a>*@
+                    <span class="fs fs-plus"></span> New Sales Invoice
+                </a>*@
         </li>
     </ol>
 </section>
@@ -128,10 +128,10 @@
                                                     <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDealerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                 }
-                                                <a href="~/Procurement/DealerSalesOrderReceivedSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                <a href="~/Procurement/DealerSalesOrderDelivarySlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Received)
+                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Delivered || item.Status == (int)EnumSOStatus.Received)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print

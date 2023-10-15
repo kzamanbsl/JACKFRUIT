@@ -124,7 +124,7 @@
                                             <th style="padding:5px;text-align:center;">Product</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
                                             <th style="padding:5px;text-align:center;">Sale Price</th>
-                                            @*<th style="padding:5px;text-align:center;">Total Price</th>*@
+                                            <th style="padding:5px;text-align:center;">Remarks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -145,21 +145,22 @@
                                                     @Html.HiddenFor(model => model.DetailDataList[i].FProductId)
                                                     @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
                                                     @Html.HiddenFor(model => model.DetailDataList[i].TotalPrice)
+                                                    @Html.HiddenFor(model => model.DetailDataList[i].Qty)
 
                                                     @(++sl)
                                                 </td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                 <td style="padding:5px;text-align:center;">
-                                                    @*@String.Format("{0:0.00}", item.Qty) @item.UnitName*@
-                                                    @Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control" })
+                                                    @String.Format("{0:0.00}", item.Qty) @item.UnitName
+                                                    @*@Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control" })*@
                                                 </td>
                                                 <td style="padding:5px;text-align:right; font-weight:bold">
                                                     @String.Format("{0:0.00}", item.UnitPrice)
                                                     @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
                                                 </td>
-                                                @*<td style="padding:5px;text-align:right; font-weight:bold">
-                                                    @String.Format("{0:0.00}", item.TotalPrice)
-                                                </td>*@
+                                                <td style="padding:5px;text-align:right; font-weight:bold">
+                                                    @Html.TextAreaFor(model => model.DetailDataList[i].Remarks, new { @class = "form-control", rows = "1" })
+                                                </td>
                                             </tr>
                                             i++;
                                         }
@@ -181,7 +182,7 @@
                         }
                     </div>
 
-                    @if (Model.OrderMasterId > 0 && Model.Status == (int)EnumSOStatus.Submitted)
+                    @if (Model.OrderMasterId > 0 && Model.Status == (int)EnumSOStatus.Delivered)
                     {
                         <div class="box-footer">
 

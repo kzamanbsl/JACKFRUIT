@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Deport SO Delivary List";
+    ViewData["Title"] = "Deport DO List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -18,7 +18,7 @@
 <section class="content-header">
     <h1>
         <span>
-            Deport Sales Delivary List
+            Deport DO List
         </span>
 
     </h1>
@@ -128,10 +128,10 @@
                                                     <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDeportOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                 }
-                                                <a href="~/Procurement/DeportSalesOrderReceivedSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                <a href="~/Procurement/DeportSalesOrderDelivarySlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Received)
+                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status== (int)EnumSOStatus.Delivered || item.Status == (int)EnumSOStatus.Received)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print

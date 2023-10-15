@@ -4221,10 +4221,23 @@ namespace KGERP.Service.Implementation.Procurement
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
+            List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
+
+            foreach (var dt in details)
+            {
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
+                dt.Remarks = obj.Remarks;
+
+                dt.ModifiedBy = userName;
+                dt.ModifedDate = DateTime.Now;
+            }
+
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = order.OrderMasterId;
+                result = vmSalesOrderSlave.OrderMasterId;
             }
+
             return result;
         }
 
@@ -4749,6 +4762,18 @@ namespace KGERP.Service.Implementation.Procurement
             order.Status = (int)EnumSOStatus.Received;
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
+
+            List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Receive!");
+
+            foreach (var dt in details)
+            {
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
+                dt.Remarks = obj.Remarks;
+
+                dt.ModifiedBy = userName;
+                dt.ModifedDate = DateTime.Now;
+            }
 
             if (await _db.SaveChangesAsync() > 0)
             {
