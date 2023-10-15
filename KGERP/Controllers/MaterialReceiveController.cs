@@ -347,6 +347,8 @@ namespace KGERP.Controllers
             }
             vmReceivingSlave.CompanyFK = companyId;
             vmReceivingSlave.CompanyId = companyId;
+            vmReceivingSlave.ReceivedBy = (long)Session["Id"];
+
             return View(vmReceivingSlave);
         }
 
