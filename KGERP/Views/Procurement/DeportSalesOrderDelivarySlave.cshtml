@@ -120,7 +120,9 @@
 
                                                 <th>Challan Date</th>
                                                 <th>:</th>
-                                                <td>@Model.ChallanDate?.ToShortDateString()</td>
+                                                <td>
+                                                @Model.ChallanDate
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Driver Name</th>
@@ -203,8 +205,6 @@
                                 </div>
                             }
 
-
-                            <!--Body Will by Start Here-->
                             <div class="row">
                                 <div class="table-responsive text-nowrap">
                                     <table class="table table-bordered">

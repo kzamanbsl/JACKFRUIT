@@ -4028,6 +4028,13 @@ namespace KGERP.Service.Implementation.Procurement
                                                           DiscountAmount = t1.DiscountAmount ?? 0,
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
+
+                                                          ChallanNo = t1.ChallanNo,
+                                                          ChallanDate = t1.ChallanDate,
+                                                          DriverName = t1.DriverName,
+                                                          DriverMobileNo = t1.DriverMobileNo,
+                                                          TrackNo = t1.TrackNo,
+                                                          TrackFair = t1.TrackFair??0,
                                                           Remarks = t1.Remarks,
 
                                                           ZoneName = t5.Name,
@@ -4225,6 +4232,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Received;
+
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
@@ -4577,7 +4585,15 @@ namespace KGERP.Service.Implementation.Procurement
                                                           DiscountAmount = t1.DiscountAmount ?? 0,
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
+
+                                                          ChallanNo = t1.ChallanNo,
+                                                          ChallanDate = t1.ChallanDate,
+                                                          DriverName = t1.DriverName,
+                                                          DriverMobileNo = t1.DriverMobileNo,
+                                                          TrackNo = t1.TrackNo,
+                                                          TrackFair = t1.TrackFair??0,
                                                           Remarks = t1.Remarks,
+
                                                           CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                           ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
 
@@ -4690,6 +4706,13 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Delivered;
+            order.ChallanNo = vmSalesOrderSlave.ChallanNo;
+            order.ChallanDate = vmSalesOrderSlave.ChallanDate;
+            order.DriverName = vmSalesOrderSlave.DriverName;
+            order.DriverMobileNo = vmSalesOrderSlave.DriverMobileNo;
+            order.TrackNo = vmSalesOrderSlave.TrackNo;
+            order.TrackFair = vmSalesOrderSlave.TrackFair;
+
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
@@ -4767,6 +4790,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Received;
+
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
@@ -4928,6 +4952,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonCustomerList;
         }
+
         #endregion
 
         #region Food Customer Sales
