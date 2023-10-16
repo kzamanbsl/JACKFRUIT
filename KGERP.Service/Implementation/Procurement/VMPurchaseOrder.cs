@@ -316,6 +316,14 @@ namespace KGERP.Service.Implementation.Procurement
         public double TotalDiscount { get; set; }
         public decimal TotalDiscountAmount { get; set; }
 
+
+        public string ChallanNo { get; set; }
+        public DateTime? ChallanDate { get; set; }
+        public string DriverName { get; set; }
+        public string DriverMobileNo { get; set; }
+        public string TrackNo { get; set; }
+        public decimal TrackFair { get; set; }
+
         public IEnumerable<VMSalesOrderSlave> DataListSlave { get; set; }
         public List<VMSalesOrderSlave> DetailDataList { get; set; } = new List<VMSalesOrderSlave>();
         public SelectList ProductCategoryList { get; set; } = new SelectList(new List<object>());

@@ -530,13 +530,13 @@
                                                 </td>
                                                 @if (!Model.IsSubmitted)
                                                 {
-                                            <th>
-                                                <a onclick="discountupdate();" data-toggle="modal" data-target="#requpdate" class="linkPointer btn btn-primary btn-block" title="update">
-                                                    <i class='fa fa-save'></i>
-                                                    Save
-                                                </a>
+                                                    <th>
+                                                        <a onclick="discountupdate();" data-toggle="modal" data-target="#requpdate" class="linkPointer btn btn-primary btn-block" title="update">
+                                                            <i class='fa fa-save'></i>
+                                                            Save
+                                                        </a>
 
-                                            </th>
+                                                    </th>
                                                 }
                                             </tr>
                                         }
@@ -551,7 +551,7 @@
                         {
                             <div class="row">
                                 <div class="col-md-6">
-                                   
+
                                     <a class="linkPointer btn btn-warning d-block" target="_blank" href="~/Report/GCCLPRFInvoiceReport?companyId=@Model.CompanyFK&DemandId=@Model.DemandId&reportName=FeedPRFInvoiceReports&CustomerId=@Model.CustomerId&AsOnDate=@Model.CreatedDate.ToString("dd-MM-yyyy")"><i class="fa fa-print"></i> Sales Invoice</a>
                                 </div>
 
@@ -730,14 +730,14 @@
         function fnDiscountParcentage() {
                  var discountParcentage = $("#txtDiscountParcentage").val();
                 var totalIncludingVat = "@(Convert.ToDecimal(TotalPrice) - TotalDiscount)";
-            
+
                 $('#txtTotalDiscount').val((Number((totalIncludingVat / 100) * discountParcentage)).toFixed(2));
             $('#txtPayableAmount').val((Number(totalIncludingVat) - (Number((totalIncludingVat / 100) * discountParcentage)))).toFixed(2);
             }
             function fnTotalDiscountnction() {
                 var totalDiscount = $("#txtTotalDiscount").val();
                 var totalIncludingVat = "@(Convert.ToDecimal(TotalPrice) - TotalDiscount)";;
-               
+
                 $('#txtDiscountParcentage').val((Number((totalDiscount * 100) / totalIncludingVat)).toFixed(2));
                 $('#txtPayableAmount').val((Number(totalIncludingVat) - Number(totalDiscount)).toFixed(2));
             }
@@ -757,9 +757,11 @@
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }
             });
+
             if (Number("@Model.TotalAmountAfterDiscount") == 0) {
                 $('#txtPayableAmount').val("@(Convert.ToDecimal(TotalPrice) - TotalDiscount)");
             }
+
             @*$('#txtTotalDiscount').val("@TotalDiscount");
             $('#txtDiscountParcentage').val("@(Convert.ToDecimal(TotalPrice) > 0 ?(TotalDiscount * 100) / Convert.ToDecimal(TotalPrice):0  )");*@
 
@@ -801,7 +803,7 @@
                 },
 
             select: function (e, i) {
-   
+
                     $("#ddlRProductFK").val(i.item.val);
 
                     $.ajax({
@@ -810,10 +812,10 @@
                         datatype: "Json",
                         data: { companyId: "@Model.CompanyFK", productId: i.item.val },
                         success: function (data) {
-              
+
                             var items = "";
                             if (data) {
-                                
+
                                 $('#tblStockAvailable').show();
                                 $('.txtUnitName').text(data.UnitName);
 
@@ -836,10 +838,12 @@
 
             $("#ddlHeadGLId").change(function () {
                 $("#ddlHeadGLId-error").text("");
-            })
+            });
+
             $("#ddlStockInfoId").change(function () {
                 $("#ddlStockInfoId-error").text("");
-            })
+            });
+
             $("#ddlCustomerId").change(function () {
                $("#ddlCustomerId-error").text("");
                 var customerId = $("#ddlCustomerId").val();
@@ -870,6 +874,7 @@
 
 
         });
+
             function makeEditble(rowId) {
 
             $.ajax({
@@ -894,21 +899,22 @@
                       $("#hidOrderDetailId").val(data.DemandItemId);
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
+                }
                  });
-            }
+        }
+
         function discountupdate() {
            var dis= $("#txtDiscountParcentage").val();
             var tdis = $("#txtTotalDiscount").val();
             $("#GlobalDiscountup").val(dis);
             $("#DiscountAmountup").val(tdis);
 
-            
+
            }
 
-           
+
         function makeSubmitble(rowId) {
-        
+
                 $.ajax({
                         type: "POST",
                         url: "@Url.Action("GetSinglDemandMasters", "Procurement")",
@@ -978,12 +984,6 @@
                 $("#spnCreditLimitExceed").text("")
             }
         }
-
-
-
-
-
-
 
     </script>
 }

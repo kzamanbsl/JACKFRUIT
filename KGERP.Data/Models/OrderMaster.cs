@@ -35,6 +35,7 @@ namespace KGERP.Data.Models
         public string OrderMonthYear { get; set; }
         public string OrderNo { get; set; }
         public string ChallanNo { get; set; }
+        public Nullable<System.DateTime> ChallanDate { get; set; }
         public Nullable<long> SalePersonId { get; set; }
         public Nullable<int> StockInfoTypeId { get; set; }
         public Nullable<int> StockInfoId { get; set; }

@@ -487,16 +487,6 @@
         <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
         <EntityTypeShape EntityType="ERPModel.OrderDetailHistory" Width="1.5" PointX="68.375" PointY="21.75" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderDetail1" />
-        <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="26.5" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
-        <AssociationConnector Association="ERPModel.FK_EMI_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
         <EntityTypeShape EntityType="ERPModel.Product" Width="1.5" PointX="36.25" PointY="22.625" />
         <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Product" />
         <AssociationConnector Association="ERPModel.FK_Product_FacingInfo" />
@@ -514,6 +504,16 @@
         <AssociationConnector Association="ERPModel.FK_RequisitionItem_Product" />
         <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_StoreDetail_Product" />
+        <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="26.375" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
+        <AssociationConnector Association="ERPModel.FK_EMI_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Customer" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Dealer" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Deport" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

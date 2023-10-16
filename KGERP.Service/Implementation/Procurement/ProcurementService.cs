@@ -4141,6 +4141,13 @@ namespace KGERP.Service.Implementation.Procurement
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Delivered;
+            order.ChallanNo = vmSalesOrderSlave.ChallanNo;
+            order.ChallanDate = vmSalesOrderSlave.ChallanDate;
+            order.DriverName = vmSalesOrderSlave.DriverName;
+            order.DriverMobileNo = vmSalesOrderSlave.DriverMobileNo;
+            order.TrackNo = vmSalesOrderSlave.TrackNo;
+            order.TrackFair = vmSalesOrderSlave.TrackFair;
+
             order.ModifiedBy = userName;
             order.ModifiedDate = DateTime.Now;
 
