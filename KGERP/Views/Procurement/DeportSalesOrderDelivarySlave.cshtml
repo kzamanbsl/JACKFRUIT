@@ -111,7 +111,7 @@
                                             <td>@Model.CreatedBy</td>
                                         </tr>
 
-                                        @if (Model.Status > (int)EnumSOStatus.Submitted)
+                                        @if (Model.Status >= (int)EnumSOStatus.Delivered)
                                         {
                                             <tr>
                                                 <th>Challan No</th>
