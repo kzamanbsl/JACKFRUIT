@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -18,6 +19,7 @@ namespace KGERP.Service.Implementation
       // public int BranchName { get; set; }
 
         public int PaymentId { get; set; }
+        
         public decimal InAmount { get; set; }
         public decimal? OutAmount { get; set; }
         public string DepositType { get; set; }
@@ -93,6 +95,7 @@ namespace KGERP.Service.Implementation
         public Nullable<int> PaymentFromHeadGLId { get; set; }
         public Nullable<int> PaymentToHeadGLId { get; set; }
         public Nullable<int> BankChargeHeadGLId { get; set; }
+  
         public DateTime? MoneyReceiptDate { get; set; }
         public decimal BankCharge { get; set; }
         public decimal TotalAmount { get; set; }

@@ -94,7 +94,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Collection Date:</label>
-                                                <input name="TransactionDate" asp-for="TransactionDate" value="@DateTime.Now.ToString("MM/dd/yyyy")" type="text" required="required" class="datepicker form-control" id="txtPaymentDate" placeholder="Payment Date" autocomplete="off">
+                                                <input name="TransactionDate" asp-for="TransactionDate" value="@DateTime.Now.ToString("dd/mm/yyyy")" type="text" required="required" class=" form-control" id="txtPaymentDate" placeholder="Payment Date" autocomplete="off">
                                                 @Html.ValidationMessageFor(model => model.TransactionDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -144,7 +144,8 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>MR Date:</label>
-                                                <input name="MoneyReceiptDate" asp-for="MoneyReceiptDate" type="text" class="datepicker form-control" id="txtMoneyReceiptDate" placeholder="MR Date" autocomplete="off">
+
+                                                <input name="MoneyReceiptDate" asp-for="MoneyReceiptDate" type="datetime" class="datepicker form-control" id="datePickerById" placeholder="MR Date"  autocomplete="off">
                                                 @Html.ValidationMessageFor(model => model.MoneyReceiptDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -201,7 +202,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Collected Amount:</label>
-                                                <input name="InAmount" asp-for="InAmount" type="number" class="form-control" id="txtPaidAmount" placeholder="Paid" required="required">
+                                                <input name="InAmount" asp-for="InAmount" type="number" min="0.01" class="form-control" id="txtPaidAmount" placeholder="Paid" required="required">
                                                 @Html.ValidationMessageFor(model => model.InAmount, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -333,7 +334,7 @@
                 </div>
             }
 
-            @using (Html.BeginForm("DeportOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "deportOCFormId", @class = "formValidator" }))
+            @using (Html.BeginForm("DeportOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "deportOCFormId", @class = "formValidator" }))
             {
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal fade" id="submitPaymentMasterIdModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -483,6 +484,29 @@
                     }
                 });
             })
+        });
+        $('#txtPaymentDate').datepicker({
+            format: "dd/mm/yyyy",
+            todayHighlight: true,
+            autoclose: true,
+            clearBtn: true
+        }).on('changeDate', function (ev) {
+
+            if ($(this).parents('form') && $(this).attr('required')) {
+                $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+            }
+        });
+
+        $('#datePickerById').datepicker({
+            format: "dd/mm/yyyy",
+            todayHighlight: true,
+            autoclose: true,
+            clearBtn: true
+        }).on('changeDate', function (ev) {
+
+            if ($(this).parents('form') && $(this).attr('required')) {
+                $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+            }
         });
 
     </script>

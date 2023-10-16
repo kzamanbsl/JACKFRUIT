@@ -383,9 +383,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                        join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId
                                                        join t3 in _db.OrderMasters on t1.OrderMasterId equals t3.OrderMasterId
                                                        join t0 in _db.Vendors on t1.VendorId equals t0.VendorId
-                                                       join t5 in _db.HeadGLs on t1.PaymentFromHeadGLId equals t5.Id
+                                                       join t5 in _db.HeadGLs on t1.PaymentFromHeadGLId equals t5.Id into t5_join
+                                                  from t5 in t5_join.DefaultIfEmpty()
 
-                                                       select new VMPayment
+                                                  select new VMPayment
                                                        {
                                                            TransactionDate = t1.TransactionDate,
                                                            MoneyReceiptNo = t1.MoneyReceiptNo,

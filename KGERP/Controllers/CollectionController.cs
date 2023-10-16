@@ -326,6 +326,7 @@ namespace KGERP.Controllers
         [HttpGet]
         [SessionExpire]
         public async Task<ActionResult> DeportOrderCollectionSlave(int companyId, int paymentMasterId = 0, int? deportId = null)
+        
         {
             VMPayment vmPayment = new VMPayment();
 
