@@ -106,8 +106,14 @@ namespace KGERP.Data.CustomModel
         public long EmployeeId { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
+
+        [DisplayName("Product Category")]
         public int? ProductCategoryId { get; set; }
+
+        [DisplayName("Product SubCategory")]
         public int? ProductSubCategoryId { get; set; }
+
+        [DisplayName("Product")]
         public int? ProductId { get; set; }
         public List<SelectModel> CostCenters { get; set; }
 
@@ -120,7 +126,7 @@ namespace KGERP.Data.CustomModel
 
         public SelectList BankOrCashParantList { get; set; } = new SelectList(new List<object>());
         public SelectList BankOrCashGLList { get; set; } = new SelectList(new List<object>());
-        public List<SelectModel> ProductCategoryList { get; set; }
+        public List<SelectModel> ProductCategoryList { get; set; } =new List<SelectModel>();
         public SelectList ProductSubCategoryList { get; set; } = new SelectList(new List<object>());
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList CostCenterList { get; set; } = new SelectList(new List<object>());

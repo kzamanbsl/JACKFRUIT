@@ -1849,8 +1849,10 @@ namespace KGERP.Controllers
         [SessionExpire]
         public ActionResult ProductList(int companyId)
         {
+            
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+            cm.ProductCategoryList = _configurationService.GetProductCategory(companyId);
             return View(cm);
         }
 
@@ -1862,11 +1864,22 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ProductType={3}", reportName, model.ReportType, model.CompanyId, model.ProductType);
+
+            model.ProductType = "R";
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ProductType={3}&ProductCategoryId={4}&ProductSubCategoryId={5}", reportName, model.ReportType, model.CompanyId, model.ProductType,model.ProductCategoryId,model.ProductSubCategoryId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "GeneralLedger.xls");
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
             }
             if (model.ReportType.Equals(ReportType.PDF))
             {
@@ -1874,7 +1887,7 @@ namespace KGERP.Controllers
             }
             if (model.ReportType.Equals(ReportType.WORD))
             {
-                return File(client.DownloadData(reportUrl), "application/msword", "GeneralLedger.doc");
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
             }
             return View();
         }
