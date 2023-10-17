@@ -121,7 +121,7 @@
                                                 <th>Challan Date</th>
                                                 <th>:</th>
                                                 <td>
-                                                @Model.ChallanDate
+                                                    @Model.ChallanDate
                                                 </td>
                                             </tr>
                                             <tr>
@@ -213,6 +213,7 @@
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
+                                                <th style="padding:5px;text-align:center;">Offer Qty</th>
                                                 <th style="padding:5px;text-align:center;">Sale Price</th>
                                                 @*<th style="padding:5px;text-align:center;">Total Price</th>*@
                                             </tr>
@@ -247,6 +248,17 @@
                                                         else
                                                         {
                                                             @String.Format("{0:0.00}", item.Qty) @item.UnitName
+                                                        }
+
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferQty, new { id = i + "_OfferQty", @class = "form-control" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.OfferQty)
                                                         }
 
                                                     </td>
