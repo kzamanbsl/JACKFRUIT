@@ -4511,6 +4511,7 @@ namespace KGERP.Service.Implementation.Procurement
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
+                OfferQty=vmSalesOrderSlave.OfferQty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -4546,6 +4547,7 @@ namespace KGERP.Service.Implementation.Procurement
             model.ProductId = vmSalesOrderSlave.ProductId ?? 0;
             model.Qty = vmSalesOrderSlave.Qty;
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
+            model.OfferQty = vmSalesOrderSlave.OfferQty;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
@@ -4646,6 +4648,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
+                                                                        OfferQty=t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
                                                                         TotalAmount = t1.Amount,
@@ -4741,6 +4744,7 @@ namespace KGERP.Service.Implementation.Procurement
                     ProductSerial = item.ProductSerial,
                     ProductId = item.ProductId,
                     Qty = item.Qty,
+                    OfferQty=item.OfferQty,
                     UnitPrice = item.UnitPrice,
                     Amount = item.Amount,
                     SpecialBaseCommission = item.SpecialBaseCommission,
@@ -4770,7 +4774,7 @@ namespace KGERP.Service.Implementation.Procurement
                 var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
                 dt.Qty = obj.Qty;
                 dt.Amount = (obj.Qty * dt.UnitPrice);
-
+                dt.OfferQty = obj.OfferQty;
                 dt.ModifiedBy = userName;
                 dt.ModifedDate = DateTime.Now;
             }
@@ -5048,6 +5052,7 @@ namespace KGERP.Service.Implementation.Procurement
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
+                OfferQty=vmSalesOrderSlave.OfferQty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -5082,6 +5087,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             model.ProductId = vmSalesOrderSlave.FProductId;
             model.Qty = vmSalesOrderSlave.Qty;
+            model.OfferQty = vmSalesOrderSlave.OfferQty;
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;
@@ -5169,6 +5175,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
+                                                                        OfferQty=t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
                                                                         TotalAmount = t1.Amount,
