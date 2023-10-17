@@ -15,7 +15,7 @@
 
 <section class="content-header">
     <h1>
-        Collection History of <span style="color:maroon">@Model.CommonCustomerCode-@Model.CommonCustomerName</span>
+        Collection History of <span style="color:maroon">@*@Model.CommonCustomerCode-*@@Model.CommonCustomerName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -26,7 +26,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("DealerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "dealerOCFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("DealerOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "dealerOCFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -336,7 +336,7 @@
 
             }
 
-            @using (Html.BeginForm("DealerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "dealerOCFormId", @class = "formValidator" }))
+            @using (Html.BeginForm("DealerOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "dealerOCFormId", @class = "formValidator" }))
             {
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal fade" id="submitPaymentMasterIdModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -441,7 +441,7 @@
                 var orderMasterId = $('#ddOrderMasterId').val();
                 $.ajax({
                        type: "GET",
-                    url: "@Url.Action("GetOrderMasterPayableValue", "Procurement")",
+                    url: "@Url.Action("GetDeportOrDealerOrderMasterPayableValue", "Procurement")",
                     datatype: "Json",
                     data: { companyId : "@Model.CompanyFK", orderMasterId: orderMasterId },
                     success: function (data) {

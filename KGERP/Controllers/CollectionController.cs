@@ -334,8 +334,8 @@ namespace KGERP.Controllers
             //vmPayment.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
             vmPayment.ZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
             vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-            vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
-            vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
+            //vmPayment.ExpensesHeadList = new SelectList(_accountingService.ExpanceHeadGLList(companyId), "Value", "Text");
+            //vmPayment.IncomeHeadList = new SelectList(_accountingService.OtherIncomeHeadGLList(companyId), "Value", "Text");
 
 
             if ((deportId ?? 0) > 0)
@@ -455,7 +455,10 @@ namespace KGERP.Controllers
             {
                 VendorModel vendor = _vendorService.GetVendor(dealerId ?? 0);
                 vmPayment.CustomerId = vendor.VendorId;
+                vmPayment.ZoneFk = vendor.ZoneId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
+                vmPayment.CommonCustomerName = vendor.Name;
+                vmPayment.CommonCustomerCode = vendor.Code;
 
                 var commonDealers = await Task.Run(() => _procurementService.GetDealerLisByZoneId(vendor.ZoneId ?? 0));
                 var dealerSelectList = commonDealers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
@@ -568,7 +571,10 @@ namespace KGERP.Controllers
             {
                 VendorModel vendor = _vendorService.GetVendor(customerId ?? 0);
                 vmPayment.CustomerId = vendor.VendorId;
+                vmPayment.ZoneFk = vendor.ZoneId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
+                vmPayment.CommonCustomerName = vendor.Name;
+                vmPayment.CommonCustomerCode = vendor.Code;
 
                 var commonCustomers = await Task.Run(() => _procurementService.GetCustomerListBySubZoneId(vendor.SubZoneId ?? 0));
                 var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();

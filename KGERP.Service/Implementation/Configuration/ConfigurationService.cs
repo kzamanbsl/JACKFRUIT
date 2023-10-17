@@ -764,7 +764,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             
             var result = await _db.ProductCategories.AsNoTracking()
-                       .Where(c => c.IsActive == true && c.CompanyId == companyId && productType == productType)
+                       .Where(c => c.IsActive == true && c.CompanyId == companyId/* && productType == productType*/)
                        .Select(c => new SelectModelType
                        {
                            Text = c.Name,
@@ -774,6 +774,27 @@ namespace KGERP.Service.Implementation.Configuration
           return result;
         }
 
+        public List<SelectModel> GetProductCategory(int companyId)
+        {
+            List<SelectModel> selectModelList = new List<SelectModel>();
+            SelectModel selectModel = new SelectModel
+            {
+                Text = "==Select Product Category==",
+                Value = 0,
+            };
+
+            selectModelList.Add(selectModel);
+
+            var v = _db.ProductCategories.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                .Select(x => new SelectModel()
+                {
+                    Text = x.Name,
+                    Value = x.ProductCategoryId
+                }).ToList();
+
+            selectModelList.AddRange(v);
+            return selectModelList;
+        }
 
         public object GetAutoCompleteProduct(int companyId, string prefix, string productType)
         {

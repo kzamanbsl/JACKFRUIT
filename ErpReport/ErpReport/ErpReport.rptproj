@@ -53,7 +53,7 @@
     <DataSet Include="DetailsDSet.rsd" />
   </ItemGroup>
   <ItemGroup>
-    <DataSource Include="SSDataSource.rds" />
+    <DataSource Include="AFDataSource.rds" />
   </ItemGroup>
   <ItemGroup>
     <Report Include="AccountHeadCompanyWise.rdl" />
@@ -64,7 +64,7 @@
     <Report Include="ActiveCustomer.rdl" />
     <Report Include="AdditiveMaterialPOTemplate.rdl" />
     <Report Include="AdvancedAttendanceSearchReport.rdl" />
-    <Report Include="AniTest.rdl" />
+    <Report Include="AF_ProductList.rdl" />
     <Report Include="BalanceSheet.rdl" />
     <Report Include="BalanceSheetGeneralReport.rdl" />
     <Report Include="BalanceSheetNote.rdl" />
@@ -505,7 +505,6 @@
     <Report Include="SuplierWisePurchaseReport.rdl" />
     <Report Include="SupplierProductReport.rdl" />
     <Report Include="SupplierWisaSaleReport.rdl" />
-    <Report Include="Test.rdl" />
     <Report Include="TradingAccountingReceivableDetails.rdl" />
     <Report Include="TradingBalanceSheetNote.rdl" />
     <Report Include="TradingBalanceSheetReport.rdl" />

@@ -13,7 +13,7 @@
 
 <section class="content-header">
     <h1>
-        Collection History of <span style="color:maroon">@Model.CommonCustomerCode-@Model.CommonCustomerName</span>
+        Collection History of <span style="color:maroon">@*@Model.CommonCustomerCode-*@@Model.CommonCustomerName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="col-md-1"> </div>
                                 }
-
+                                @*value="@DateTime.Now.ToString("dd/mm/yyyy")"*@
 
                                 @if (Model.PaymentMasterId == 0)
                                 {
@@ -94,7 +94,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Collection Date:</label>
-                                                <input name="TransactionDate" asp-for="TransactionDate" value="@DateTime.Now.ToString("dd/mm/yyyy")" type="text" required="required" class=" form-control" id="txtPaymentDate" placeholder="Payment Date" autocomplete="off">
+                                                <input name="TransactionDate" asp-for="TransactionDate" type="text" required="required" class=" form-control" id="txtPaymentDate" placeholder="Payment Date" autocomplete="off">
                                                 @Html.ValidationMessageFor(model => model.TransactionDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
                                             <div class="form-group">
                                                 <label>MR Date:</label>
 
-                                                <input name="MoneyReceiptDate" asp-for="MoneyReceiptDate" type="datetime" class="datepicker form-control" id="datePickerById" placeholder="MR Date"  autocomplete="off">
+                                                <input name="MoneyReceiptDate" asp-for="MoneyReceiptDate" type="datetime" class="datepicker form-control" id="datePickerById" placeholder="MR Date" autocomplete="off">
                                                 @Html.ValidationMessageFor(model => model.MoneyReceiptDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>

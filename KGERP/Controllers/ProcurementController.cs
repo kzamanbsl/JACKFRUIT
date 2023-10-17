@@ -80,9 +80,9 @@ namespace KGERP.Controllers
             var products = _service.GetAutoCompleteCustomer(prefix, companyId);
             return Json(products, JsonRequestBehavior.AllowGet);
         }
-        public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
+        public async Task<ActionResult> CustomerListByZonetGet(int zoneId)
         {
-            var commonCustomers = await Task.Run(() => _service.GetCustomerLisByZoneId(zoneId));
+            var commonCustomers = await Task.Run(() => _service.GetCustomerListByZoneId(zoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -1804,7 +1804,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DeportSalesOrderDelivarySlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            var resutl = await _service.DeportSalesOrderDelivary(vmSalesOrderSlave);
+            var result = await _service.DeportSalesOrderDelivary(vmSalesOrderSlave);
             return RedirectToAction(nameof(DeportSalesOrderDelivaryList), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 

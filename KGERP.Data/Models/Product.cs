@@ -20,8 +20,6 @@ namespace KGERP.Data.Models
             this.ManagerProductMaps = new HashSet<ManagerProductMap>();
             this.IngredientStandards = new HashSet<IngredientStandard>();
             this.OrderDeliverDetails = new HashSet<OrderDeliverDetail>();
-            this.OrderDetails = new HashSet<OrderDetail>();
-            this.OrderDetailHistories = new HashSet<OrderDetailHistory>();
             this.PFormulaDetails = new HashSet<PFormulaDetail>();
             this.ProductDetails = new HashSet<ProductDetail>();
             this.ProductFormulas = new HashSet<ProductFormula>();
@@ -29,6 +27,8 @@ namespace KGERP.Data.Models
             this.RequisitionItems = new HashSet<RequisitionItem>();
             this.SaleReturnDetails = new HashSet<SaleReturnDetail>();
             this.StoreDetails = new HashSet<StoreDetail>();
+            this.OrderDetails = new HashSet<OrderDetail>();
+            this.OrderDetailHistories = new HashSet<OrderDetailHistory>();
         }
     
         public int ProductId { get; set; }
@@ -79,10 +79,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDeliverDetail> OrderDeliverDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PFormulaDetail> PFormulaDetails { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductSubCategory ProductSubCategory { get; set; }
@@ -99,5 +95,9 @@ namespace KGERP.Data.Models
         public virtual ICollection<SaleReturnDetail> SaleReturnDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreDetail> StoreDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
     }
 }

@@ -157,6 +157,7 @@
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
+                                                <th style="padding:5px;text-align:center;">Offer Qty</th>
                                                 <th style="padding:5px;text-align:center;">Sale Price</th>
                                                 <th style="padding:5px;text-align:center;">Remarks</th>
                                             </tr>
@@ -187,6 +188,9 @@
                                                     <td style="padding:5px;text-align:center;">
                                                         @String.Format("{0:0.00}", item.Qty) @item.UnitName
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control" })*@
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @String.Format("{0:0.00}", item.OfferQty)
                                                     </td>
                                                     <td style="padding:5px;text-align:right; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)

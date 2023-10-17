@@ -25,6 +25,7 @@ namespace KGERP.Data.Models
         public double Qty { get; set; }
         public double UnitPrice { get; set; }
         public double Amount { get; set; }
+        public double OfferQty { get; set; }
         public decimal SpecialBaseCommission { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }
@@ -44,7 +45,7 @@ namespace KGERP.Data.Models
         public Nullable<int> PromotionalOfferId { get; set; }
     
         public virtual OrderDetail OrderDetail { get; set; }
-        public virtual Product Product { get; set; }
         public virtual OrderMaster OrderMaster { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

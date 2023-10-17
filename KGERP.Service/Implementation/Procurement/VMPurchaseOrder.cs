@@ -302,6 +302,7 @@ namespace KGERP.Service.Implementation.Procurement
 
         public double TotalPrice { get { return Qty * UnitPrice; } }
         public string TotalPriceInWord { get; set; }
+        public double OfferQty { get; set; }
         public string UnitName { get; set; }
         public string ProductCategoryName { get; set; }
         public string ProductSubCategoryName { get; set; }

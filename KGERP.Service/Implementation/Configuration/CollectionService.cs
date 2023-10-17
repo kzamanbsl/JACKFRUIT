@@ -145,8 +145,8 @@ namespace KGERP.Service.Implementation.Configuration
         private decimal GetOrderValue(long orderMasterId)
         {
             double orderValue = (from ts1 in _db.OrderDetails
-                                 //join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
-                                 where ts1.OrderMasterId == orderMasterId && ts1.IsActive ==true
+                                     //join ts2 in _db.OrderDeliverDetails on ts1.OrderDetailId equals ts2.OrderDetailId
+                                 where ts1.OrderMasterId == orderMasterId && ts1.IsActive == true
                                  select (ts1.Amount) - (double)ts1.DiscountAmount).DefaultIfEmpty(0).Sum();
             return Convert.ToDecimal(orderValue);
 
@@ -333,8 +333,8 @@ namespace KGERP.Service.Implementation.Configuration
                 result = model.PaymentMasterId;
             }
 
-            vmPayment = await Task.Run(() => GetOrderCollectionByPaymentMasterId(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
-            await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
+           // vmPayment = await Task.Run(() => GetOrderCollectionByPaymentMasterId(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
+           // await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
 
             return result;
         }
@@ -384,9 +384,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                        join t3 in _db.OrderMasters on t1.OrderMasterId equals t3.OrderMasterId
                                                        join t0 in _db.Vendors on t1.VendorId equals t0.VendorId
                                                        join t5 in _db.HeadGLs on t1.PaymentFromHeadGLId equals t5.Id into t5_join
-                                                  from t5 in t5_join.DefaultIfEmpty()
+                                                       from t5 in t5_join.DefaultIfEmpty()
 
-                                                  select new VMPayment
+                                                       select new VMPayment
                                                        {
                                                            TransactionDate = t1.TransactionDate,
                                                            MoneyReceiptNo = t1.MoneyReceiptNo,
@@ -435,7 +435,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
-        
+
         #region Supplier
         public async Task<VMCommonSupplier> GetSupplierList(int companyId)
         {
@@ -814,7 +814,7 @@ namespace KGERP.Service.Implementation.Configuration
             vmOrderMaster.CompanyFK = companyId;
             vmOrderMaster.CompanyId = companyId;
 
-            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive==true && x.CompanyId == companyId && x.Status <(int) EnumSOStatus.Closed&& x.DeportId == deportId)
+            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive == true && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DeportId == deportId)
 
                                                            select new VMSalesOrder
                                                            {
@@ -823,7 +823,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                                OrderNo = t1.OrderNo,
                                                                OrderDate = t1.OrderDate,
-                                                              
+
                                                                ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
                                                                Status = t1.Status,
                                                                CompanyFK = t1.CompanyId,
@@ -1007,25 +1007,25 @@ namespace KGERP.Service.Implementation.Configuration
 
                              }).FirstOrDefault();
             vmOrderMaster.CompanyFK = companyId;
-               
-                vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DealerId == dealerId)
 
-                                                               select new VMSalesOrder
-                                                               {
-                                                                   OrderMasterId = t1.OrderMasterId,
-                                                                   CustomerId = t1.DealerId.Value,
-                                                                   CreatedBy = t1.CreatedBy,
-                                                                   CustomerPaymentMethodEnumFK = t1.PaymentMethod,
-                                                                   OrderNo = t1.OrderNo,
-                                                                   OrderDate = t1.OrderDate,
-                                                                   ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                                   Status = t1.Status,
-                                                                   CompanyFK = t1.CompanyId,
-                                                                   CourierCharge = t1.CourierCharge,
-                                                                   TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+            vmOrderMaster.DataList = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.CompanyId == companyId && x.Status < (int)EnumSOStatus.Closed && x.DealerId == dealerId)
 
-                                                               }).OrderByDescending(x => x.OrderMasterId));
-            
+                                                           select new VMSalesOrder
+                                                           {
+                                                               OrderMasterId = t1.OrderMasterId,
+                                                               CustomerId = t1.DealerId.Value,
+                                                               CreatedBy = t1.CreatedBy,
+                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
+                                                               OrderNo = t1.OrderNo,
+                                                               OrderDate = t1.OrderDate,
+                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                               Status = t1.Status,
+                                                               CompanyFK = t1.CompanyId,
+                                                               CourierCharge = t1.CourierCharge,
+                                                               TotalAmount = (_db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == t1.OrderMasterId).Select(x => x.Qty * x.UnitPrice - ((double)x.DiscountAmount)).DefaultIfEmpty(0).Sum()),
+
+                                                           }).OrderByDescending(x => x.OrderMasterId));
+
             return vmOrderMaster;
         }
         public async Task<VmTransaction> GetDealerLedger(VmTransaction vmTransaction)
@@ -1119,7 +1119,7 @@ namespace KGERP.Service.Implementation.Configuration
             var dealer = await _db.Vendors.FindAsync(vmTransaction.VendorFK);
             var company = await _db.Companies.FindAsync(vmTransaction.CompanyFK);
 
-            var openingBalance = _db.VendorOpenings.Where(c =>c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
+            var openingBalance = _db.VendorOpenings.Where(c => c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
             VmTransaction vmTransition = new VmTransaction();
             vmTransition.Date = vmTransaction.FromDate;
             vmTransition.Name = dealer.Name;
@@ -1142,7 +1142,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 x.Balance = previousBalance += x.Credit - x.Debit;
                 x.Name = dealer.Name;
-               
+
                 x.OrderMasterId = x.OrderMasterId;
                 tempList.Add(x);
             }

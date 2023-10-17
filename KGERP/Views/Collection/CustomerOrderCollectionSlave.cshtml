@@ -14,7 +14,7 @@
 
 <section class="content-header">
     <h1>
-        Collection History of <span style="color:maroon">@Model.CommonCustomerCode-@Model.CommonCustomerName</span>
+        Collection History of <span style="color:maroon">@*@Model.CommonCustomerCode-*@@Model.CommonCustomerName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -25,7 +25,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CustomerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CustomerOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -100,14 +100,6 @@
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="txtBankCharge" class="col-form-label">Bank Charge:</label>
-                                                @Html.TextBoxFor(model => model.BankCharge, new { id = "txtBankCharge", @class = "form-control", placeholder = "Bank Charge" })
-                                                @Html.ValidationMessageFor(model => model.BankCharge, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
                                                 <label>Type: </label>
                                                 @Html.DropDownListFor(model => model.Accounting_BankOrCashParantId, Model.BankOrCashParantList as SelectList, "==Select Type==", new { id = "ddlAccounting_BankOrCashParantId", @class = "form-control ddlReset", style = "width:100%" })
                                                 @Html.ValidationMessageFor(model => model.Accounting_BankOrCashParantId, "", new { @class = "text-danger" })
@@ -118,6 +110,14 @@
                                                 <label>Bank/ Cash:</label>
                                                 @Html.DropDownListFor(model => model.Accounting_BankOrCashId, Model.BankOrCashGLList as SelectList, new { id = "ddlAccounting_BankOrCashId", @class = "form-control searchingDropdown", style = "width:100%" })
                                                 @Html.ValidationMessageFor(model => model.Accounting_BankOrCashId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="txtBankCharge" class="col-form-label">Bank Charge:</label>
+                                                @Html.TextBoxFor(model => model.BankCharge, new { id = "txtBankCharge", @class = "form-control", placeholder = "Bank Charge" })
+                                                @Html.ValidationMessageFor(model => model.BankCharge, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -334,7 +334,7 @@
                 </div>
             }
 
-            @using (Html.BeginForm("CustomerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator" }))
+            @using (Html.BeginForm("CustomerOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator" }))
             {
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal fade" id="submitPaymentMasterIdModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
