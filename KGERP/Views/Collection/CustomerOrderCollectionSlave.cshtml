@@ -25,7 +25,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CustomerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CustomerOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -334,7 +334,7 @@
                 </div>
             }
 
-            @using (Html.BeginForm("CustomerOrderCollectionSlav", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator" }))
+            @using (Html.BeginForm("CustomerOrderCollectionSlave", "Collection", FormMethod.Post, new { id = "customerOCFormId", @class = "formValidator" }))
             {
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal fade" id="submitPaymentMasterIdModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
