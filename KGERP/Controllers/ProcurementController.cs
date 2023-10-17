@@ -80,9 +80,9 @@ namespace KGERP.Controllers
             var products = _service.GetAutoCompleteCustomer(prefix, companyId);
             return Json(products, JsonRequestBehavior.AllowGet);
         }
-        public async Task<ActionResult> CustomerLisByZonetGet(int zoneId)
+        public async Task<ActionResult> CustomerListByZonetGet(int zoneId)
         {
-            var commonCustomers = await Task.Run(() => _service.GetCustomerLisByZoneId(zoneId));
+            var commonCustomers = await Task.Run(() => _service.GetCustomerListByZoneId(zoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }

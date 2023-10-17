@@ -533,7 +533,7 @@
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("CustomerLisByZonetGet", "Procurement")",
+                url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
                 datatype: "Json",
                     data: { zoneId: zoneFk},
                     success: function (data) {
