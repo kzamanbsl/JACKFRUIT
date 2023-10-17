@@ -227,7 +227,7 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th>Code</th>
+                                            @*<th>Code</th>*@
                                             <th>
                                                 Customer Name
                                             </th>
@@ -274,9 +274,9 @@
                                         {
                                             <tr>
                                                 <td>@(++sl)</td>
-                                                <td>
+                                                @*<td>
                                                     @item.Code
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     <a href="~/Configuration/CommonCustomerByID?customerId=@item.ID" target="_blank">@item.Name</a>
                                                 </td>

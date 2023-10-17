@@ -163,7 +163,7 @@
                                             <div class="form-group">
                                                 @*<label>Territory:</label>*@
                                                 @*@Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                        @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })*@
+                                                    @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })*@
                                                 <div class="form-group">
                                                     <label>Zone:</label>
                                                     @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
