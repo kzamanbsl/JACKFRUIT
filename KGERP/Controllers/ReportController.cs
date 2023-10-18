@@ -402,6 +402,42 @@ namespace KGERP.Controllers
 
         [HttpGet]
         [SessionExpire]
+        public ActionResult DeportSalesInvoiceReport(int companyId, int orderMasterId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+           var reportName = CompanyInfo.ReportPrefix + "DeportSalesInvoiceReport";
+            client.Credentials = nwc;
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&OrderMasterId={2}", reportName, companyId, orderMasterId);
+            return File(client.DownloadData(reportUrl), "application/pdf");
+        }
+
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult DealerSalesInvoiceReport(int companyId, int orderMasterId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            var reportName = CompanyInfo.ReportPrefix + "DealerSalesInvoiceReport";
+            client.Credentials = nwc;
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&OrderMasterId={2}", reportName, companyId, orderMasterId);
+            return File(client.DownloadData(reportUrl), "application/pdf");
+        }
+
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult CustomerSalesInvoiceReport(int companyId, int orderMasterId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            var reportName = CompanyInfo.ReportPrefix + "CustomerSalesInvoiceReport";
+            client.Credentials = nwc;
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&OrderMasterId={2}", reportName, companyId, orderMasterId);
+            return File(client.DownloadData(reportUrl), "application/pdf");
+        }
+
+        [HttpGet]
+        [SessionExpire]
         public ActionResult GCCLPRFInvoiceReport(int companyId, int DemandId, string reportName, int CustomerId, string AsOnDate)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);

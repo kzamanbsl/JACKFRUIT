@@ -134,7 +134,7 @@
                                             <td>
                                                 @if (item.Status >= (int)EnumSOStatus.Submitted)
                                                 {
-                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
+                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/CustomerSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId">
                                                         <i class="fa fa-print"></i>Print
                                                     </a>
                                                 }

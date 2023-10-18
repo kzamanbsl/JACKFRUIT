@@ -65,6 +65,9 @@
     <Report Include="AdditiveMaterialPOTemplate.rdl" />
     <Report Include="AdvancedAttendanceSearchReport.rdl" />
     <Report Include="AF_BankOrCashBook.rdl" />
+    <Report Include="AF_CustomerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DealerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DeportSalesInvoiceReport.rdl" />
     <Report Include="AF_ProductList.rdl" />
     <Report Include="BalanceSheet.rdl" />
     <Report Include="BalanceSheetGeneralReport.rdl" />
