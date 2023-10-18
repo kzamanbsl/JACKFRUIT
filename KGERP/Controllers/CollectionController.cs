@@ -351,7 +351,7 @@ namespace KGERP.Controllers
                 var commonDeports = await Task.Run(() => _procurementService.GetDeportLisByZoneId(vendor.ZoneId ?? 0));
                 var deportSelectList = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
                 vmPayment.CustomerList = new SelectList(deportSelectList, "Value", "Text");
-                vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, deportId);
+                vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, deportId,0);
                 var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByDeportId(deportId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
@@ -401,13 +401,15 @@ namespace KGERP.Controllers
 
         [HttpGet]
         [SessionExpire]
-        public async Task<ActionResult> DeportOrderCollectionView(int companyId,int deportId)
+        public async Task<ActionResult> DeportOrderCollectionView(int companyId,int deportId,int paymentId)
         {
             VMPayment vmPayment = new VMPayment();
+            vmPayment = await _service.GetPaymentDetailsById(paymentId);
+
             VendorModel vendor = _vendorService.GetVendor(deportId);
              vmPayment.CommonCustomerName = vendor.Name;
-        
 
+            vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, deportId, 0);
             return View(vmPayment);
         }
 

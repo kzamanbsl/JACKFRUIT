@@ -5,7 +5,7 @@
     ViewData["Title"] = "Deport Sales Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-
+    int sl = 0;
 }
 
 <style type="text/css">
@@ -31,7 +31,7 @@
 
             <div class="box">
                 <div class="box-danger">
-                    <div class="box">
+                    
 
                         <div class="box-body ">
                             <div class="col-md-10">
@@ -43,11 +43,11 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.PaymentNo</label>
+                                            <label class="col-form-label">@Model.OrderNo</label>
                                         </td>
                                         <th style="width:18%">Payment Date</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.TransactionDate.ToString("dd-MM-yyyy")</td>
+                                        <td style="width:30%">@Model.OrderDate.ToString("dd-MM-yyyy")</td>
                                     </tr>
                                     <tr>
                                         <th style="width:18%">
@@ -55,20 +55,20 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.PaymentNo</label>
+                                            <label class="col-form-label"></label>
                                         </td>
                                         <th style="width:18%">Type</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.TransactionDate.ToString("dd-MM-yyyy")</td>
+                                        <td style="width:30%"></td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <th style="width:18%">
                                             Bank/ Cash
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                            <label class="col-form-label"></label>
                                         </td>
                                         <th style="width:18%">Bank Charge</th>
                                         <th style="width:2%">:</th>
@@ -80,11 +80,11 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                            <label class="col-form-label"></label>
                                         </td>
                                         <th style="width:18%">Payment No</th>
                                         <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.BankCharge</th>
+                                        <th style="width:30%">@Model.PaymentNo</th>
                                     </tr>
                                     <tr>
                                         <th style="width:18%">
@@ -92,11 +92,11 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                            <label class="col-form-label">@Model.OrderDate.ToString("dd-MM-yyyy")</label>
                                         </td>
                                         <th style="width:18%">Reference No</th>
                                         <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.BankCharge</th>
+                                        <th style="width:30%">@Model.ReferenceNo</th>
                                     </tr>
                                     <tr>
                                         <th style="width:18%">
@@ -104,11 +104,11 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                            <label class="col-form-label"></label>
                                         </td>
                                         <th style="width:18%">Deport </th>
                                         <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.BankCharge</th>
+                                        <th style="width:30%"></th>
                                     </tr>
                                     <tr>
                                         <th style="width:18%">
@@ -116,19 +116,89 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                            <label class="col-form-label">@Model.InAmount</label>
                                         </td>
-                                        <th style="width:18%">Deport </th>
-                                        <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.BankCharge</th>
+                                        <th style="width:18%">
+
+                                        </th>
+                                        <th style="width:2%"></th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label"></label>
+                                        </td>
+
                                     </tr>
 
                                 </table>
                             </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="PaymentDetailDataTable" class="table table-striped" style="width:contain; background-color:#ddd;">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">SL</th>
+                                            <th style="text-align:center">Payment No</th>
+                                            <th style="text-align:center">Payment Date</th>
+                                            <th style="text-align:center">Reference No.</th>
+
+                                            <th style="text-align:center">Order No.</th>
+                                            <th style="text-align:right!important;">Tottal Amount</th>
+                                           
+
+
+                                            <th style="text-align:center">Detail</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.PaymentList)
+                                        {
+                                            #region Link Title
+
+
+                                            //if (item.Status == (int)EnumSOStatus.Draft)
+                                            //{ statusTitle = "Make Submit"; }
+
+                                            //if (item.Status == (int)EnumSOStatus.Submitted)
+                                            //{ statusTitle = "Undo Submit"; }
+
+                                            #endregion
+
+                                            <tr>
+                                                <td style="text-align:center;">@(++sl)</td>
+                                                <td style="text-align:center;">@item.PaymentNo</td>
+
+                                                <td style="text-align:center;">@item.OrderDate.ToString("dd-MM-yyyy")</td>
+                                                <td style="text-align:center;">@item.ReferenceNo</td>
+                                                <td style="text-align:center;">
+                                                    @item.OrderNo
+                                                </td>
+                                                <td style="text-align:right;">@item.InAmount</td>
+                                                <td style="text-align:center;">
+
+                                                    <a href="~/Collection/DeportOrderCollectionView?companyId=@item.CompanyFK&deportId=@item.VendorId&paymentId=@item.PaymentId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+
+                                                </td>
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                 </div>
+                
             </div>
         </div>
     </div>
+
+
+
 </section>
+<script>
+
+    $('#PaymentDetailDataTable').DataTable();
+</script>

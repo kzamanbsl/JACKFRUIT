@@ -334,8 +334,8 @@ namespace KGERP.Service.Implementation.Configuration
                 result = model.PaymentMasterId;
             }
 
-           // vmPayment = await Task.Run(() => GetOrderCollectionByPaymentMasterId(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
-           // await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
+            // vmPayment = await Task.Run(() => GetOrderCollectionByPaymentMasterId(vmPayment.CompanyFK.Value, model.PaymentMasterId)); // , model.VendorId, 
+            // await _accountingService.CullectionPushGCCL(vmPayment.CompanyFK.Value, vmPayment, (int)GCCLJournalEnum.CreditVoucher);
 
             return result;
         }
@@ -433,59 +433,96 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmPayment;
         }
-        public async Task<List<VMPayment>> GetPaymentCollectionListByVendorId(int companyId,  int? VendorId)
+        public async Task<List<VMPayment>> GetPaymentCollectionListByVendorId(int companyId, int? VendorId, int paymentMasterId)
         {
             var List = new List<VMPayment>();
 
-            if(VendorId != (null | 0))
+            if (VendorId != (null | 0))
             {
-                List = (List<VMPayment>) await (from t1 in _db.Payments.AsNoTracking().Where(C => C.IsActive == true && C.CompanyId == companyId && C.VendorId == VendorId)
-                       join t2 in _db.PaymentMasters.AsNoTracking() on t1.PaymentMasterId equals t2.PaymentMasterId
-                       join t3 in _db.OrderMasters.AsNoTracking() on (t1.OrderMasterId==null?0: t1.OrderMasterId) equals t3.OrderMasterId
-                       into t3_Join from t3 in t3_Join.DefaultIfEmpty()
-                        select new VMPayment
-                       {
-                           PaymentNo=t2.PaymentNo,
-                            OrderNo = t3.OrderNo,
-                          InAmount=t1.InAmount,
-                          OrderDate=t1.TransactionDate,
-                          ReferenceNo=t2.ReferenceNo,
-                          CompanyFK=t1.CompanyId,
-                          VendorId=t1.VendorId,
-                          OrderMasterId=t3.OrderMasterId,
-                       }).OrderByDescending(c=>c.OrderDate).ToListAsync();
-            }
+                if (paymentMasterId > 0)
+                {
+                    List = (List<VMPayment>)await (from t1 in _db.Payments.AsNoTracking().Where(C => C.IsActive == true && C.CompanyId == companyId
+                                                                     && C.VendorId == VendorId && C.PaymentMasterId == paymentMasterId)
+                                                   join t2 in _db.PaymentMasters.AsNoTracking() on t1.PaymentMasterId equals t2.PaymentMasterId
+                                                   join t3 in _db.OrderMasters.AsNoTracking() on (t1.OrderMasterId == null ? 0 : t1.OrderMasterId) equals t3.OrderMasterId
+                                                   into t3_Join
+                                                   from t3 in t3_Join.DefaultIfEmpty()
+                                                   select new VMPayment
+                                                   {
+                                                       PaymentNo = t2.PaymentNo,
+                                                       OrderNo = t3.OrderNo,
+                                                       InAmount = t1.InAmount,
+                                                       OrderDate = t1.TransactionDate,
+                                                       ReferenceNo = t2.ReferenceNo,
+                                                       CompanyFK = t1.CompanyId,
+                                                       VendorId = t1.VendorId,
+                                                       OrderMasterId = t3.OrderMasterId,
+                                                       PaymentMasterId=t2.PaymentMasterId,
+                                                      PaymentId= t1.PaymentId
+                                                   }).OrderByDescending(c => c.OrderDate).ToListAsync();
 
+
+
+                }
+                if (paymentMasterId ==0)
+                {
+                    List = (List<VMPayment>)await (from t1 in _db.PaymentMasters.AsNoTracking().Where(C => C.IsActive == true && C.CompanyId == companyId && C.VendorId == VendorId)
+                                                   join t2 in _db.Payments.AsNoTracking() on t1.PaymentMasterId equals t2.PaymentMasterId
+                                                   join t3 in _db.OrderMasters.AsNoTracking() on (t2.OrderMasterId == null ? 0 : t2.OrderMasterId) equals t3.OrderMasterId
+                                                   into t3_Join
+                                                   from t3 in t3_Join.DefaultIfEmpty()
+                                                   select new VMPayment
+                                                   {
+                                                       PaymentNo = t1.PaymentNo,
+                                                       OrderNo = t3.OrderNo,
+                                                       InAmount = t2.InAmount,
+                                                       OrderDate = t1.TransactionDate,
+                                                       ReferenceNo = t2.ReferenceNo,
+                                                       CompanyFK = t1.CompanyId,
+                                                       VendorId = t1.VendorId,
+                                                       OrderMasterId = t3.OrderMasterId,
+                                                       PaymentMasterId = t1.PaymentMasterId,
+                                                       PaymentId=t2.PaymentId
+
+                                                   }).OrderByDescending(c => c.OrderDate).ToListAsync();
+                }
+            }
 
             return List;
         }
-        public async Task<List<VMPayment>> GetPaymentDetailsByVendorId(int companyId,  int? VendorId)
+        public async Task<VMPayment> GetPaymentDetailsById( int paymentId)
         {
-            var List = new List<VMPayment>();
+            var vmpayment = new VMPayment();
 
-            if(VendorId != (null | 0))
+            if (vmpayment != null)
             {
-                List = (List<VMPayment>) await (from t1 in _db.Payments.AsNoTracking().Where(C => C.IsActive == true && C.CompanyId == companyId && C.VendorId == VendorId)
-                       join t2 in _db.PaymentMasters.AsNoTracking() on t1.PaymentMasterId equals t2.PaymentMasterId
-                       join t3 in _db.OrderMasters.AsNoTracking() on (t1.OrderMasterId==null?0: t1.OrderMasterId) equals t3.OrderMasterId
-                       into t3_Join from t3 in t3_Join.DefaultIfEmpty()
-                        select new VMPayment
-                       {
-                           PaymentNo=t2.PaymentNo,
-                            OrderNo = t3.OrderNo,
-                          InAmount=t1.InAmount,
-                          OrderDate=t1.TransactionDate,
-                          ReferenceNo=t2.ReferenceNo,
-                          CompanyFK=t1.CompanyId,
-                          VendorId=t1.VendorId,
-                          OrderMasterId=t3.OrderMasterId,
-                          BankName=t1.BranchName,
+                vmpayment = await (from t1 in _db.Payments.Where(c => c.PaymentId == paymentId)
+                                   join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId
+                                   join t3 in _db.OrderMasters.AsNoTracking() on (t1.OrderMasterId == null ? 0 : t1.OrderMasterId) equals t3.OrderMasterId
+                                     into t3_Join
+                                   from t3 in t3_Join.DefaultIfEmpty()
+                                   select new VMPayment
+                                   {
+                                       PaymentNo = t2.PaymentNo,
+                                       OrderNo = t3.OrderNo,
+                                       InAmount = t1.InAmount,
+                                       OrderDate = t1.TransactionDate,
+                                       ReferenceNo = t2.ReferenceNo,
+                                       CompanyFK = t1.CompanyId,
+                                       VendorId = t1.VendorId,
+                                       OrderMasterId = t3.OrderMasterId,
+                                       PaymentMasterId = t2.PaymentMasterId,
+                                       PaymentId = t1.PaymentId,
+                                       MoneyReceiptNo = t1.MoneyReceiptNo,
+                                       BankCharge = t2.BankCharge,
 
-                       }).OrderByDescending(c=>c.OrderDate).ToListAsync();
+                                   }).FirstOrDefaultAsync();
             }
+          
 
 
-            return List;
+
+            return vmpayment;
         }
         #endregion
 
