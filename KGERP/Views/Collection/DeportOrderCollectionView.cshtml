@@ -1,0 +1,134 @@
+@model KGERP.Service.Implementation.VMPayment
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Deport Sales Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Collection History of <span style="color:maroon">@*@Model.CommonCustomerCode-*@@Model.CommonCustomerName</span>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Deport Collection</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box">
+
+                        <div class="box-body ">
+                            <div class="col-md-10">
+                                <table class="table mt-5">
+
+                                    <tr>
+                                        <th style="width:18%">
+                                            Invoice No
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.PaymentNo</label>
+                                        </td>
+                                        <th style="width:18%">Payment Date</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.TransactionDate.ToString("dd-MM-yyyy")</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Collection To
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.PaymentNo</label>
+                                        </td>
+                                        <th style="width:18%">Type</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.TransactionDate.ToString("dd-MM-yyyy")</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th style="width:18%">
+                                            Bank/ Cash
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                        </td>
+                                        <th style="width:18%">Bank Charge</th>
+                                        <th style="width:2%">:</th>
+                                        <th style="width:30%">@Model.BankCharge</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Money Recive Name
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                        </td>
+                                        <th style="width:18%">Payment No</th>
+                                        <th style="width:2%">:</th>
+                                        <th style="width:30%">@Model.BankCharge</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Money Recive Date
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                        </td>
+                                        <th style="width:18%">Reference No</th>
+                                        <th style="width:2%">:</th>
+                                        <th style="width:30%">@Model.BankCharge</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Zone
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                        </td>
+                                        <th style="width:18%">Deport </th>
+                                        <th style="width:2%">:</th>
+                                        <th style="width:30%">@Model.BankCharge</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Collected Amount
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.ReferenceNo</label>
+                                        </td>
+                                        <th style="width:18%">Deport </th>
+                                        <th style="width:2%">:</th>
+                                        <th style="width:30%">@Model.BankCharge</th>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
@@ -350,12 +351,14 @@ namespace KGERP.Controllers
                 var commonDeports = await Task.Run(() => _procurementService.GetDeportLisByZoneId(vendor.ZoneId ?? 0));
                 var deportSelectList = commonDeports.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
                 vmPayment.CustomerList = new SelectList(deportSelectList, "Value", "Text");
-
+                vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, deportId);
                 var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByDeportId(deportId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
             }
 
+            
+            
             return View(vmPayment);
         }
 
@@ -395,6 +398,22 @@ namespace KGERP.Controllers
 
             return RedirectToAction(nameof(DeportOrderCollectionSlave), new { companyId = vmPayment.CompanyFK, paymentMasterId = vmPayment.PaymentMasterId, deportId = vmPayment.CustomerId });
         }
+
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> DeportOrderCollectionView(int companyId,int deportId)
+        {
+            VMPayment vmPayment = new VMPayment();
+            VendorModel vendor = _vendorService.GetVendor(deportId);
+             vmPayment.CommonCustomerName = vendor.Name;
+        
+
+            return View(vmPayment);
+        }
+
+
+
+
 
         [SessionExpire]
         [HttpGet]

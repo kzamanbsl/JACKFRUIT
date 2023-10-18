@@ -5596,6 +5596,9 @@
     <Content Include="Views\Procurement\DeportSalesOrderDelivarySlave.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivarySlave.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryList.cshtml" />
+    <Content Include="Views\Collection\DeportOrderCollectionView.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

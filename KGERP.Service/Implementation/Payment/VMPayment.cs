@@ -52,6 +52,7 @@ namespace KGERP.Service.Implementation
         public int? Accounting_BankOrCashId { get; set; }
        public IEnumerable<VMPayment> DataList { get; set; }
         public IEnumerable<VMPayment> DataListExpenses { get; set; }
+        public IEnumerable<VMPayment> PaymentList { get; set; }
         public IEnumerable<VMPayment> DataListIncome { get; set; }
 
         public SelectList OrderMusterList { get; set; } = new SelectList(new List<object>());
