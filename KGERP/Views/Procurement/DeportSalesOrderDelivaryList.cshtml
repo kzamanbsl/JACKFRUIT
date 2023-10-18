@@ -90,6 +90,7 @@
                                         <th>Order Date</th>
                                         <th>Deport</th>
                                         <th>Delivery Date</th>
+                                        <th>Challan No</th>
                                         <th>Payment Method</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -119,6 +120,9 @@
                                             <td>
                                                 @if (item.ExpectedDeliveryDate != null)
                                                 {<span>@item.ExpectedDeliveryDate.Value.ToString("dd-MM-yyyy")</span>}
+                                            </td>
+                                            <td>
+                                                <a href="~/Procurement/DeportSalesOrderDelivaryChallan?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Challan">@item.ChallanNo</a>
                                             </td>
                                             <td>@item.POPaymentMethodName</td>
                                             <td>@item.EnumStatusName</td>

@@ -260,6 +260,8 @@ namespace KGERP.Service.Implementation.Procurement
         public string FinalDestination { get; set; }
         public string CourierNo { get; set; }
         public double CourierCharge { get; set; }
+        public string ChallanNo { get; set; }
+        public DateTime? ChallanDate { get; set; }
 
         public IEnumerable<VMSalesOrder> DataList { get; set; }= new List<VMSalesOrder>();
 

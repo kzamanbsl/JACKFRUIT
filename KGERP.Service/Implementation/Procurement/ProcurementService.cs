@@ -4322,6 +4322,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
                                                               OrderNo = t1.OrderNo,
                                                               OrderDate = t1.OrderDate,
+                                                              ChallanNo = t1.ChallanNo,
+                                                              ChallanDate = t1.ChallanDate,
                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
                                                               CourierNo = t1.CourierNo,
                                                               FinalDestination = t1.FinalDestination,

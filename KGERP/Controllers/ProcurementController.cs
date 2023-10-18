@@ -1839,6 +1839,20 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> DeportSalesOrderDelivaryChallan(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId > 0)
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
+            }
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpGet]
         public async Task<ActionResult> DeportSalesOrderReceivedSlave(int companyId = 0, int orderMasterId = 0)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
@@ -2066,6 +2080,21 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DealerSalesOrderDelivaryList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> DealerSalesOrderDelivaryChallan(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId > 0)
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDealerSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
+            }
+
+            return View(vmSalesOrderSlave);
+        }
+
 
         [HttpGet]
         public async Task<ActionResult> DealerSalesOrderReceivedSlave(int companyId = 0, int orderMasterId = 0)
