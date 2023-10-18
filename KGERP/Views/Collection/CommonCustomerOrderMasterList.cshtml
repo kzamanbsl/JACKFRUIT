@@ -67,7 +67,7 @@
                                                 grangTotal += item.TotalAmount + Convert.ToDouble(item.CourierCharge);
                                                 <tr>
                                                     <td>@(++sl)</td>
-                                                    <td><a target="_blank" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId">@item.OrderNo</a></td>
+                                                    <td><a target="_blank" href="~/Report/CustomerSalesInvoiceReport?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId">@item.OrderNo</a></td>
 
                                                     <td style="text-align:center;">
                                                         @item.OrderDate.ToString("dd-MM-yyyy")
