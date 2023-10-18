@@ -124,12 +124,15 @@
                                             <td>@item.POPaymentMethodName</td>
                                             <td>@item.EnumStatusName</td>
                                             <td>
-                                                <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
+                                                {
+                                                    <a id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    <a id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                }
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumSOStatus.Submitted)
+                                                @if (item.Status >= (int)EnumSOStatus.Submitted)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/GCCLSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReports">
                                                         <i class="fa fa-print"></i>Print
@@ -141,11 +144,7 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.Status == (int)EnumSOStatus.Closed)
-                                                {
-                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Closed</i></span>
-                                                }
-                                                else
+                                                @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {
                                                     <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitFoodCustomerOrderModal" title="@statusTitle" data-placement="top">
                                                         @if (item.Status == (int)EnumSOStatus.Submitted)
@@ -158,6 +157,11 @@
                                                         }
                                                     </a>
                                                 }
+                                                @if (item.Status == (int)EnumSOStatus.Closed)
+                                                {
+                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Closed</i></span>
+                                                }
+                                               
                                             </td>
                                         </tr>
                                     }

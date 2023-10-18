@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.5.33516.290</am:Version>
+      <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-17T13:51:53.8638241Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-10-18T06:17:38.7467094Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -957,7 +957,7 @@ order By ProductCategoryOrderNo,ProductSubCategory,ProductName</CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.51042in</Height>
+          <Height>0.32292in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <Style>
