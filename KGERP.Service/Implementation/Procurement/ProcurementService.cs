@@ -4651,6 +4651,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         TotalAmount = t1.Amount,
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
+                                                                      
                                                                         PromotionalOfferId = t1.PromotionalOfferId,
                                                                         ProductCategoryId = t5.ProductCategoryId,
                                                                         ProductSubCategoryId = t4.ProductSubCategoryId,
@@ -4888,6 +4889,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               OrderNo = t1.OrderNo,
                                                               OrderDate = t1.OrderDate,
                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
+                                                              ChallanNo=t1.ChallanNo,
+                                                              ChallanDate=t1.ChallanDate,
                                                               CourierNo = t1.CourierNo,
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,

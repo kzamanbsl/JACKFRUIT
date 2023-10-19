@@ -122,12 +122,10 @@
                                                 {<span>@item.ExpectedDeliveryDate.Value.ToString("dd-MM-yyyy")</span>}
                                             </td>
                                             <td>
-                                                <a href="~/Procurement/DealerSalesOrderDelivaryChallan?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Challan">@item.ChallanNo</a>
-                                            </td>
-                                            <td>@item.POPaymentMethodName</td>
-                                            <td>
                                                 <a target="_blank" href="~/Procurement/DealerSalesOrderDelivaryChallan?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Challan">@item.ChallanNo</a>
                                             </td>
+                                            <td>@item.POPaymentMethodName</td>
+                                            
                                             <td>@item.EnumStatusName</td>
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
