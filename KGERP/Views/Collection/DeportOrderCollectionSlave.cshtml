@@ -380,66 +380,70 @@
 
 
     </div>
-    <div class="row">
-        <div class="table-responsive">
-            <table id="PaymentDetailDataTable" class="table table-striped" style="width:contain; background-color:#ddd;">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">SL</th>
-                        <th style="text-align:center">Payment No</th>
-                        <th style="text-align:center">Payment Date</th>
-                        <th style="text-align:center">Reference No.</th>
-
-                        <th style="text-align:center">Order No.</th>
-                        <th style="text-align:right!important;">Tottal Amount</th>
-                        <th style="text-align:center;">Status</th>
-
-
-                        <th style="text-align:center">Detail</th>
-
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.PaymentList)
-                    {
-                        #region Link Title
-
-
-                        //if (item.Status == (int)EnumSOStatus.Draft)
-                        //{ statusTitle = "Make Submit"; }
-
-                        //if (item.Status == (int)EnumSOStatus.Submitted)
-                        //{ statusTitle = "Undo Submit"; }
-
-                        #endregion
-
+    @if (Model.PaymentMasterId < 1&& Model.PaymentList.Count()>0)
+    {
+        <div class="row">
+            <div class="table-responsive">
+                <table id="PaymentDetailDataTable" class="table table-striped" style="width:contain; background-color:#ddd;">
+                    <thead>
                         <tr>
-                            <td style="text-align:center;">@(++sl)</td>
-                            <td style="text-align:center;">@item.PaymentNo</td>
+                            <th style="text-align:center">SL</th>
+                            <th style="text-align:center">Collection No</th>
+                            <th style="text-align:center">Collection Date</th>
+                            <th style="text-align:center">Reference No.</th>
 
-                            <td style="text-align:center;">@item.OrderDate.ToString("dd-MM-yyyy")</td>
-                            <td style="text-align:center;">@item.ReferenceNo</td>
-                            <td style="text-align:center;">
-                                @item.OrderNo
-                            </td>
-                            <td style="text-align:right;"><a id="StatusSubmit">Submit</a></td>
-                            <td style="text-align:right;">@item.InAmount</td>
-                            <td style="text-align:center;"> 
+                            <th style="text-align:center">Order No.</th>
+                            <th style="text-align:center;">Status</th>
 
-                                <a href="~/Collection/DeportOrderCollectionView?companyId=@item.CompanyFK&deportId=@item.VendorId&paymentId=@item.PaymentId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                            <th style="text-align:right!important;">Tottal Amount</th>
 
 
-                            </td>
+                            <th style="text-align:center">Action</th>
 
 
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PaymentList)
+                        {
+                            #region Link Title
+
+
+                            //if (item.Status == (int)EnumSOStatus.Draft)
+                            //{ statusTitle = "Make Submit"; }
+
+                            //if (item.Status == (int)EnumSOStatus.Submitted)
+                            //{ statusTitle = "Undo Submit"; }
+
+                            #endregion
+
+                            <tr>
+                                <td style="text-align:center;">@(++sl)</td>
+                                <td style="text-align:center;">@item.PaymentNo</td>
+
+                                <td style="text-align:center;">@item.OrderDate.ToString("dd-MM-yyyy")</td>
+                                <td style="text-align:center;">@item.ReferenceNo</td>
+                                <td style="text-align:center;">
+                                    @item.OrderNo
+                                </td>
+                                <td style="text-align:center;"><a id="StatusSubmit">Submit</a></td>
+                                <td style="text-align:right;">@item.InAmount</td>
+                                <td style="text-align:center;">
+
+                                    <a target="_blank" href="~/Collection/DeportOrderCollectionView?companyId=@item.CompanyFK&deportId=@item.VendorId&paymentId=@item.PaymentId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+
+                                </td>
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</section>
+    }
+    </section>
 
 <div>
     <div class="modal fade">

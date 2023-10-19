@@ -17,7 +17,7 @@
 
 <section class="content-header">
     <h1>
-        Collection History of <span style="color:maroon">@*@Model.CommonCustomerCode-*@@Model.CommonCustomerName</span>
+        Collection History of <span style="color:maroon">@*@Model.CommonCustomerCode-*@@Model.PaymentNo</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -45,7 +45,7 @@
                                         <td style="width:30%">
                                             <label class="col-form-label">@Model.OrderNo</label>
                                         </td>
-                                        <th style="width:18%">Payment Date</th>
+                                        <th style="width:18%">Collection Date</th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">@Model.OrderDate.ToString("dd-MM-yyyy")</td>
                                     </tr>
@@ -72,7 +72,7 @@
                                         </td>
                                         <th style="width:18%">Bank Charge</th>
                                         <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.BankCharge</th>
+                                        <th style="width:30%">@string.Format("{0:0.00}", Model.BankCharge)</th>
                                     </tr>
                                     <tr>
                                         <th style="width:18%">
@@ -82,9 +82,9 @@
                                         <td style="width:30%">
                                             <label class="col-form-label"></label>
                                         </td>
-                                        <th style="width:18%">Payment No</th>
+                                        <th style="width:18%">Money Receipt No</th>
                                         <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.PaymentNo</th>
+                                        <th style="width:30%">@Model.MoneyReceiptNo</th>
                                     </tr>
                                     <tr>
                                         <th style="width:18%">
@@ -98,7 +98,7 @@
                                         <th style="width:2%">:</th>
                                         <th style="width:30%">@Model.ReferenceNo</th>
                                     </tr>
-                                    <tr>
+                                    @*<tr>
                                         <th style="width:18%">
                                             Zone
                                         </th>
@@ -126,7 +126,7 @@
                                             <label class="col-form-label"></label>
                                         </td>
 
-                                    </tr>
+                                    </tr>*@
 
                                 </table>
                             </div>
@@ -137,8 +137,8 @@
                                     <thead>
                                         <tr>
                                             <th style="text-align:center">SL</th>
-                                            <th style="text-align:center">Payment No</th>
-                                            <th style="text-align:center">Payment Date</th>
+                                            <th style="text-align:center">Collection No</th>
+                                            <th style="text-align:center">Collection Date</th>
                                             <th style="text-align:center">Reference No.</th>
 
                                             <th style="text-align:center">Order No.</th>
@@ -146,7 +146,7 @@
                                            
 
 
-                                            <th style="text-align:center">Detail</th>
+                                            <th style="text-align:center">Print</th>
 
 
                                         </tr>
@@ -198,7 +198,3 @@
 
 
 </section>
-<script>
-
-    $('#PaymentDetailDataTable').DataTable();
-</script>

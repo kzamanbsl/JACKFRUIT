@@ -257,7 +257,7 @@
                         <th style="text-align: left;padding-left:5px;">SL</th>
                         <th style="text-align: left;padding-left:5px;">Product</th>
                         <th style="text-align: center;padding-left:5px;"> Pack Quantity</th>
-                        <th style="text-align: center;padding-left:5px;">Consumption</th>
+                        <th style="text-align: center;padding-left:5px;">Offer Quantity</th>
                         <th style="text-align: center;padding-left:5px;">Total Delivered</th>
 
                     </tr>
@@ -269,7 +269,7 @@
                             <td style="text-align: center">@(++sl)</td>
                             <td style="text-align: left;padding-left:5px;">@item.ProductName</td>
                             <td style="text-align: center">@item.Qty<span></span></td>
-                            <th style="text-align: center">@item.Consumption <span></span></th>
+                            <th style="text-align: center">@item.OfferQty <span></span></th>
                             <th style="text-align: center">@(item.Qty+item.OfferQty) <span></span></th>
                         </tr>
                     }

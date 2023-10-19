@@ -484,7 +484,7 @@ namespace KGERP.Controllers
                 var commonDealers = await Task.Run(() => _procurementService.GetDealerLisByZoneId(vendor.ZoneId ?? 0));
                 var dealerSelectList = commonDealers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
                 vmPayment.CustomerList = new SelectList(dealerSelectList, "Value", "Text");
-
+                vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, dealerId, paymentMasterId);
                 var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByDealerId(dealerId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
@@ -600,7 +600,7 @@ namespace KGERP.Controllers
                 var commonCustomers = await Task.Run(() => _procurementService.GetCustomerListBySubZoneId(vendor.SubZoneId ?? 0));
                 var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
                 vmPayment.CustomerList = new SelectList(customerSelectList, "Value", "Text");
-
+                vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, customerId, paymentMasterId);
                 var salesOrders = await Task.Run(() => _procurementService.GetSalesOrderListByCustomerId(customerId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");

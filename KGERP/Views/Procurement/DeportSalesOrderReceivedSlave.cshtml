@@ -159,6 +159,8 @@
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
                                                 <th style="padding:5px;text-align:center;">Offer Qty</th>
                                                 <th style="padding:5px;text-align:center;">Sale Price</th>
+                                                <th style="padding:5px;text-align:center;">Tottal Qty</th>
+
                                                 <th style="padding:5px;text-align:center;">Remarks</th>
                                             </tr>
                                         </thead>
@@ -195,6 +197,9 @@
                                                     <td style="padding:5px;text-align:right; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center; font-weight:bold">
+                                                        @String.Format("{0:0.00}", (item.Qty+ item.OfferQty))
                                                     </td>
                                                     <td style="padding:5px; font-weight:bold">
                                                         @if (Model.Status == (int)EnumSOStatus.Delivered)
