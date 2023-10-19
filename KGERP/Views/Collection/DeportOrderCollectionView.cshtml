@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
+    decimal totalAmount = 0;
 }
 
 <style type="text/css">
@@ -31,107 +32,106 @@
 
             <div class="box">
                 <div class="box-danger">
-                    
 
-                        <div class="box-body ">
-                            <div class="col-md-10">
-                                <table class="table mt-5">
 
-                                    <tr>
-                                        <th style="width:18%">
-                                            Invoice No
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label">@Model.OrderNo</label>
-                                        </td>
-                                        <th style="width:18%">Collection Date</th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.OrderDate.ToString("dd-MM-yyyy")</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:18%">
-                                            Collection To
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label"></label>
-                                        </td>
-                                        <th style="width:18%">Type</th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%"></td>
-                                    </tr>
+                    <div class="box-body ">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <table class="table mt-5">
 
-                                    <tr>
-                                        <th style="width:18%">
-                                            Bank/ Cash
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label"></label>
-                                        </td>
-                                        <th style="width:18%">Bank Charge</th>
-                                        <th style="width:2%">:</th>
-                                        <th style="width:30%">@string.Format("{0:0.00}", Model.BankCharge)</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:18%">
-                                            Money Recive Name
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label"></label>
-                                        </td>
-                                        <th style="width:18%">Money Receipt No</th>
-                                        <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.MoneyReceiptNo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:18%">
-                                            Money Recive Date
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label">@Model.OrderDate.ToString("dd-MM-yyyy")</label>
-                                        </td>
-                                        <th style="width:18%">Reference No</th>
-                                        <th style="width:2%">:</th>
-                                        <th style="width:30%">@Model.ReferenceNo</th>
-                                    </tr>
-                                    @*<tr>
-                                        <th style="width:18%">
-                                            Zone
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label"></label>
-                                        </td>
-                                        <th style="width:18%">Deport </th>
-                                        <th style="width:2%">:</th>
-                                        <th style="width:30%"></th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:18%">
-                                            Collected Amount
-                                        </th>
-                                        <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label">@Model.InAmount</label>
-                                        </td>
-                                        <th style="width:18%">
+                                <tr>
+                                    <th style="width:18%">
+                                        Invoice No
+                                    </th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%">
+                                        <label class="col-form-label">@Model.OrderNo</label>
+                                    </td>
+                                    <th style="width:18%">Collection Date</th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%">@Model.OrderDate.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <th style="width:18%">
+                                        Collection To
+                                    </th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%">
+                                        <label class="col-form-label"></label>
+                                    </td>
+                                    <th style="width:18%">Type</th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%"></td>
+                                </tr>
 
-                                        </th>
-                                        <th style="width:2%"></th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label"></label>
-                                        </td>
+                                <tr>
+                                    <th style="width:18%">
+                                        Bank/ Cash
+                                    </th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%">
+                                        <label class="col-form-label"></label>
+                                    </td>
+                                    <th style="width:18%">Bank Charge</th>
+                                    <th style="width:2%">:</th>
+                                    <th style="width:30%">@string.Format("{0:0.00}", Model.BankCharge)</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:18%">
+                                        Money Recive Name
+                                    </th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%">
+                                        <label class="col-form-label"></label>
+                                    </td>
+                                    <th style="width:18%">Money Receipt No</th>
+                                    <th style="width:2%">:</th>
+                                    <th style="width:30%">@Model.MoneyReceiptNo</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:18%">
+                                        Money Recive Date
+                                    </th>
+                                    <th style="width:2%">:</th>
+                                    <td style="width:30%">
+                                        <label class="col-form-label">@Model.OrderDate.ToString("dd-MM-yyyy")</label>
+                                    </td>
+                                    <th style="width:18%">Reference No</th>
+                                    <th style="width:2%">:</th>
+                                    <th style="width:30%">@Model.ReferenceNo</th>
+                                </tr>
+                                @*<tr>
+                    <th style="width:18%">
+                        Zone
+                    </th>
+                    <th style="width:2%">:</th>
+                    <td style="width:30%">
+                        <label class="col-form-label"></label>
+                    </td>
+                    <th style="width:18%">Deport </th>
+                    <th style="width:2%">:</th>
+                    <th style="width:30%"></th>
+                </tr>
+                <tr>
+                    <th style="width:18%">
+                        Collected Amount
+                    </th>
+                    <th style="width:2%">:</th>
+                    <td style="width:30%">
+                        <label class="col-form-label">@Model.InAmount</label>
+                    </td>
+                    <th style="width:18%">
 
-                                    </tr>*@
+                    </th>
+                    <th style="width:2%"></th>
+                    <td style="width:30%">
+                        <label class="col-form-label"></label>
+                    </td>
 
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
+                </tr>*@
+
+                            </table>
+
                             <div class="table-responsive">
                                 <table id="PaymentDetailDataTable" class="table table-striped" style="width:contain; background-color:#ddd;">
                                     <thead>
@@ -142,8 +142,8 @@
                                             <th style="text-align:center">Reference No.</th>
 
                                             <th style="text-align:center">Order No.</th>
-                                            <th style="text-align:right!important;">Tottal Amount</th>
-                                           
+                                            <th style="text-align:right!important;">Total Amount</th>
+
 
 
 
@@ -155,7 +155,7 @@
                                         {
                                             #region Link Title
 
-
+                                            @totalAmount += item.InAmount;
                                             //if (item.Status == (int)EnumSOStatus.Draft)
                                             //{ statusTitle = "Make Submit"; }
 
@@ -176,20 +176,34 @@
                                                 <td style="text-align:right;">@item.InAmount</td>
                                                 @*<td style="text-align:center;">
 
-                                                    <a href="~/Collection/DeportOrderCollectionView?companyId=@item.CompanyFK&deportId=@item.VendorId&paymentId=@item.PaymentId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                    <a href="~/Collection/DeportOrderCollectionView?companyId=@item.CompanyFK&deportId=@item.VendorId&paymentId=@item.PaymentId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
 
-                                                </td>*@
+                                </td>*@
 
 
                                             </tr>
                                         }
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="text-align:right;"  colspan="5">
+                                                Total Amount:
+                                            </th>
+                                            <th style="text-align:right;">
+                                                @totalAmount
+                                            </th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
+
                             </div>
                         </div>
+                        <div class="col-md-1"></div>
+                    </div>
+
                 </div>
-                
+
             </div>
         </div>
     </div>
