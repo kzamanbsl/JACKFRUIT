@@ -401,15 +401,15 @@ namespace KGERP.Controllers
 
         [HttpGet]
         [SessionExpire]
-        public async Task<ActionResult> DeportOrderCollectionView(int companyId,int deportId,int paymentId)
+        public async Task<ActionResult> DeportOrderCollectionView(int paymentId)
         {
             VMPayment vmPayment = new VMPayment();
             vmPayment = await _service.GetPaymentDetailsById(paymentId);
 
-            VendorModel vendor = _vendorService.GetVendor(deportId);
+            VendorModel vendor = _vendorService.GetVendor(vmPayment.VendorId);
              vmPayment.CommonCustomerName = vendor.Name;
 
-            vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(companyId, deportId, 0);
+            vmPayment.PaymentList = await _service.GetPaymentCollectionListByVendorId(vmPayment.CompanyFK??0, vmPayment.VendorId, vmPayment.PaymentMasterId);
             return View(vmPayment);
         }
 
