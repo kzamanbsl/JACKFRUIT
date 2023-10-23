@@ -195,10 +195,11 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="form-group">
+                                            <div id="amountDiv" class="form-group">
                                                 <label for="txtPaidAmount" class="col-form-label">Collected Amount:</label>
-                                                <input name="InAmount" asp-for="InAmount" type="text" class="form-control" id="txtPaidAmount" placeholder="Paid">
+                                                <input name="InAmount" asp-for="InAmount" type="text" class="form-control" id="txtPaidAmount" placeholder="Paid" required="required">
                                                 @Html.ValidationMessageFor(model => model.InAmount, "", new { @class = "text-danger" })
+                                                <span id="collectedAmount" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -379,7 +380,7 @@
     </div>
 
 
-    @if (Model.PaymentMasterId < 1 )
+    @if (Model.PaymentMasterId < 1)
     {
         <div class="row">
             <div class="table-responsive">
@@ -517,6 +518,37 @@
                     }
                 });
             });
+
+            $('#ddOrderMasterId').on('change', function () {
+               
+                    $('#amountDiv').removeClass("has-error");
+                    $("#collectedAmount").text("").removeClass("error-msg");
+                $("#txtPaidAmount").removeClass("input-validation-error");
+                $("#txtPaidAmount").addClass("input-validation-valid");
+                
+               
+            });
+
+            $("#txtPaidAmount").on("input", function () {
+                var PayableAmount = $('#txtPayableAmount').val();
+                var PaidAmount = $('#txtPaidAmount').val();
+
+                if (parseFloat(PayableAmount) < parseFloat(PaidAmount)) {
+                    $('#amountDiv').addClass("has-error");
+                    $("#collectedAmount").text("Wrong Collected Amount").addClass("error-msg");
+
+                }
+                else {
+
+
+                    if (PaidAmount != '') {
+                        $('#amountDiv').removeClass("has-error");
+                        $("#collectedAmount").text("").removeClass("error-msg");
+                    }
+
+                }
+            });
+
 
             $("#ddlAccounting_BankOrCashParantId").change(function () {
                 var bankOrCashParantId = $("#ddlAccounting_BankOrCashParantId").val();

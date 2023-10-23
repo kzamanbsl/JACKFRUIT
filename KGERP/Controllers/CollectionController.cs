@@ -12,10 +12,10 @@ using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using Remotion.Collections;
 
 namespace KGERP.Controllers
 {
-
     public class CollectionController : Controller
     {
 
@@ -369,6 +369,21 @@ namespace KGERP.Controllers
 
             if (vmPayment.ActionEum == ActionEnum.Add)
             {
+                if (vmPayment.OrderMasterId != null)
+                {
+                  var payableAmount=  _procurementService.DeportOrDealerOrderMasterPayableValue
+                                             (vmPayment.CompanyFK??0,Convert.ToInt32(vmPayment.OrderMasterId));
+
+                    if(payableAmount<Convert.ToDouble(vmPayment.InAmount))
+                    {
+                        return RedirectToAction(nameof(DeportOrderCollectionSlave), new { companyId = vmPayment.CompanyFK, paymentMasterId = vmPayment.PaymentMasterId, deportId = vmPayment.CustomerId });
+
+                    }
+
+
+                }
+
+
                 if (vmPayment.PaymentMasterId == 0)
                 {
                     vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
@@ -500,6 +515,20 @@ namespace KGERP.Controllers
 
             if (vmPayment.ActionEum == ActionEnum.Add)
             {
+                if (vmPayment.OrderMasterId != null)
+                {
+                    var payableAmount = _procurementService.DeportOrDealerOrderMasterPayableValue
+                                               (vmPayment.CompanyFK ?? 0, Convert.ToInt32(vmPayment.OrderMasterId));
+
+                    if (payableAmount < Convert.ToDouble(vmPayment.InAmount))
+                    {
+                        return RedirectToAction(nameof(DealerOrderCollectionSlave), new { companyId = vmPayment.CompanyFK, paymentMasterId = vmPayment.PaymentMasterId, dealerId = vmPayment.CustomerId });
+
+                    }
+
+
+                }
+
                 if (vmPayment.PaymentMasterId == 0)
                 {
                     vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
@@ -616,6 +645,20 @@ namespace KGERP.Controllers
 
             if (vmPayment.ActionEum == ActionEnum.Add)
             {
+                if (vmPayment.OrderMasterId != null)
+                {
+                    var payableAmount = _procurementService.CustomerOrderMasterPayableValueGet
+                                               (vmPayment.CompanyFK ?? 0, Convert.ToInt32(vmPayment.OrderMasterId));
+
+                    if (payableAmount < Convert.ToDouble(vmPayment.InAmount))
+                    {
+                        return RedirectToAction(nameof(CustomerOrderCollectionSlave), new { companyId = vmPayment.CompanyFK, paymentMasterId = vmPayment.PaymentMasterId, customerId = vmPayment.CustomerId });
+
+                    }
+
+
+                }
+
                 if (vmPayment.PaymentMasterId == 0)
                 {
                     vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
