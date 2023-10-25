@@ -89,7 +89,7 @@
                                             <td>
                                                 @if (item.ReceivedDate.HasValue)
                                                 {
-                                                    @item.ReceivedDate.Value.ToString("dd/MMM/yyyy")
+                                                    @item.ReceivedDate.Value.ToString("dd/MM/yyyy")
                                                 }
                                             </td>
                                             <td> @item.StoreInfoName</td>
@@ -107,12 +107,12 @@
                                                 }
                                             </td>
                                             <td>
-                                                <a href="~/Warehouse/WarehousePOReceivingSlaveReport?companyId=@item.CompanyId&materialReceiveId=@item.MaterialReceiveId" target="_blank" class="btn btn-primary btn-xs">
+                                                <a href="~/MaterialReceive/FoodStockDetailReport?companyId=@item.CompanyId&materialReceiveId=@item.MaterialReceiveId" target="_blank" title="Detail Report" class="btn btn-primary btn-xs">
                                                     Report
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="~/MaterialReceive/FoodStockCreateOrEdit?companyId=@item.CompanyId&materialReceiveId=@item.MaterialReceiveId" title="Details" class="btn btn-success btn-xs">
+                                                <a href="~/MaterialReceive/FoodStockCreateOrEdit?companyId=@item.CompanyId&materialReceiveId=@item.MaterialReceiveId" target="_blank" title="Details" class="btn btn-success btn-xs">
                                                     <i class="fa fa-sticky-note"></i>
                                                 </a>
                                             </td>

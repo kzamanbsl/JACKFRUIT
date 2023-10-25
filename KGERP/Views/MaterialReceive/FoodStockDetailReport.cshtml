@@ -1,14 +1,10 @@
-﻿@model KGERP.Service.Implementation.Warehouse.VMOrderDeliverDetail
+﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
 @{
     Layout = null;
-    int sl = 0;
-
 }
 
-
-@using KG.Core.Services;
-@using KGERP.Utility
 <!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -16,7 +12,7 @@
     <meta name="viewport" content="width=device-width" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title> Delivery Challan Information of @Model.ChallanNo</title>
+    <title>  Store In Information of @Model.ReceiveNo</title>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -38,18 +34,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <style>
-        /* h4 {
-                    border-bottom: 2px solid black;
-                    display: inline;
-                }
-        */
-        /*.footer {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    text-align: center;
-                }*/
-
         .trclass {
             border: 1px solid #000;
             font-size: 16px;
@@ -80,9 +64,7 @@
             body {
                 margin-top: 5px;
             }
-            /*body {
-                        margin: 1.6cm;
-                    }*/
+
             #haderTitle {
                 color: white !important;
                 background-color: black !important;
@@ -104,15 +86,6 @@
                 display: none !important;
             }
         }
-        /*div.divfooter {
-                        margin-top: 15px;
-                        bottom: 0;
-                        display: inherit;
-                    }*/
-        /*#divfooter {
-                        display: block !important;
-                    }*/
-        }
     </style>
 
     <script>
@@ -122,13 +95,12 @@
     </script>
 </head>
 
-
 <body>
-    <span id="print" style="float: right; position: fixed;right: 0; vertical-align: top; display: inline-block;" onclick="printDiv()" class="btn btn-default">
+    <span id="print" style="float: right; position: fixed;right: 0; vertical-align: top; display: inline-block;" onclick="printDiv()" class="btn btn-primary">
         Print
     </span>
     <div id="page">
-        <img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="@CompanyInfo.CompanyLogoUrl" />
+        @*<img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="@KGERP.Utility.CompanyInfo.CompanyLogoUrl" />*@
         <div style="min-height: 900px;">
             <div class="text-center">
                 <div class="row">
@@ -136,7 +108,7 @@
                         <tr>
                             <td style="width:20%"></td>
                             <td style="width:10%">
-                                <img height="80" width="80" id="topLogo" src="~/Images/Logo/@Model.CompanyLogo" />
+                                <img height="80" width="80" id="topLogo" src="@KGERP.Utility.CompanyInfo.CompanyLogoUrl" />
 
                             </td>
                             <td style="width:70%">
@@ -152,6 +124,7 @@
                     </table>
                 </div>
             </div>
+            <br />
             <div class="text-center">
                 <table style="width:100%">
                     <tr style="text-align:center">
@@ -160,148 +133,112 @@
                 </table>
             </div>
             <br />
-
             <table style="width: 100%">
-                <tbody>
-                    <tr>
-                        <th style="width:18%">Challan NO</th>
-                        <th style="width:2%">:</th>
-                        <td style="width:30%"><b>@Model.ChallanNo</b></td>
+                <tr>
+                    <td style="width: 2%">
+                        <strong>Supplier</strong>
+                    </td>
+                    <td colspan="3" style="width: 98%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.SupplierName</span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 10%">
+                        <strong>Store Info</strong>
+                    </td>
+                    <td style="width: 50%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.StoreName</span>
 
-                        <th style="font-weight: bold;width:18%">Delivery Date</th>
-                        <th style="width:2%">:</th>
-                        <td style="width:30%">@Model.DeliveryDate.Value.ToString("dd-MM-yyyy")</td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Invoice No
-                        </th>
-                        <th>:</th>
-                        <td>
-                            <label class="col-form-label">@Model.OrderNo</label>
-                        </td>
-                        <th>Date</th>
-                        <th>:</th>
-                        <td>@Model.OrderDate.ToShortDateString()</td>
-                    </tr>
+                        </strong>
+                    </td>
+                    <td style="width: 10%">
+                        <strong>Stock Date</strong>
+                    </td>
+                    <td style="width: 30%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.ReceivedDate.ToString("dd-MM-yyyy")</span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 10%">
+                        <strong>Challan No</strong>
+                    </td>
+                    <td style="width: 50%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.Challan</span>
 
-                    <tr>
-                        <th>
-                            Payment Mode
-                        </th>
-                        <th>:</th>
-                        <td>
-                            <label class="col-form-label">@Model.POPaymentMethodName</label>
-                        </td>
-                        <th>Warehouse</th>
-                        <th>:</th>
-                        <td> @Model.Warehouse</td>
-                    </tr>
+                        </strong>
+                    </td>
+                    <td style="width: 10%">
+                        <strong>Stored By</strong>
+                    </td>
+                    <td style="width: 30%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.ReceiveByName</span>
 
-                    <tr>
-                        <th>Zone</th>
-                        <th>:</th>
-                        <td>@Model.ZoneName</td>
+                        </strong>
+                    </td>
 
-                        <th>Incharge</th>
-                        <th>:</th>
-                        <td>@Model.ZoneIncharge</td>
-                    </tr>
-                    <tr>
-                        <th>Customer</th>
-                        <th>:</th>
-                        <td>@Model.CustomerName</td>
-                        <th>Phone</th>
-                        <th>:</th>
-                        <td>@Model.CustomerPhone</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <th>:</th>
-                        <td>@Model.CustomerEmail</td>
-                        <th>Address</th>
-                        <th>:</th>
-                        <td>@Model.CustomerAddress</td>
-                    </tr>
-                    <tr>
-                        <th>Contact Person</th>
-                        <th>:</th>
-                        <td>@Model.ContactPerson</td>
-                        <th>Created By</th>
-                        <th>:</th>
-                        <td>@Model.CreatedBy</td>
-                    </tr>
-
-                    <tr>
-                        <th>Zone Mobile(Per)</th>
-                        <th>:</th>
-                        <td>@Model.SubZoneMobilePersonal</td>
-                        <th>Zone Mobile(Office)</th>
-                        <th>:</th>
-                        <td>@Model.ZoneMobileOffice</td>
-                    </tr>
-
-                    <tr>
-                        <th>Courier No</th>
-                        <th>:</th>
-                        <td>@Model.CourierNo</td>
-                        <th> Courier Charge </th>
-                        <th>:</th>
-                        <td>@Model.CourierCharge</td>
-                    </tr>
-
-                    <tr>
-                        <th>Territory</th>
-                        <th>:</th>
-                        <td>@Model.Territory</td>
-                        <th> Territory Incharge </th>
-                        <th>:</th>
-                        <td>@Model.TerritoryIncharge</td>
-                    </tr>
-                </tbody>
+                </tr>
 
             </table>
-
-
             <br />
 
-            <div style="font-weight: bold;font-size: 16px"> Item Details: </div>
-            <table id="tbl1" border="1" style="width: 100%; font-size: 16px; margin-top: 15px;">
-                <thead style="background-color:#c0c0c0">
+            <div style="font-weight: bold;font-size: 16px; margin-bottom:10px;"> Products Details: </div>
+           
+            <div class="table-responsive col-md-12 text-nowrap">
+                <table class="table" style="width: 100%" cellspacing="0" rules="all" border="1">
                     <tr>
-                        <th style="text-align: left;padding-left:5px;">SL</th>
-                        <th style="text-align: left;padding-left:5px;">Product</th>
-                        <th style="text-align: center;padding-left:5px;"> Pack Quantity</th>
-                        <th style="text-align: center;padding-left:5px;">Consumption</th>
-                        <th style="text-align: center;padding-left:5px;">Total Delivered</th>
-
+                        <th style="text-align: center">SL</th>
+                        <th style="text-align:left;">Product Name</th>
+                        <th style="text-align: right;">Stock Qty</th>
+                        <th style="text-align:right;">Stock Rate</th>
+                        <th style="text-align:right;">Sale Price</th>
+                        <th style="text-align:right;">Total Stock Amount</th>
+                        <th style="text-align:right;">Total Sale Amount</th>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.DataListDetail)
+                    @{
+                        int sl = 0;
+                        decimal totalStockInAmount = 0;
+                        decimal totalSaleAmount = 0;
+                        decimal stockinLineTotal = 0;
+                        decimal saleLineTotal = 0;
+                    }
+
+                    @foreach (var item in Model.DataListSlave)
                     {
+                        totalStockInAmount += item.StockInQty * item.StockInRate;
+                        totalSaleAmount += item.StockInQty * item.UnitPrice;
+                        stockinLineTotal = item.StockInQty * item.StockInRate;
+                        saleLineTotal = item.StockInQty * item.UnitPrice;
                         <tr>
-                            <td style="text-align: center">@(++sl)</td>
-
-                            <td style="text-align: left;padding-left:5px;">@item.ProductSubCategory @item.ProductName</td>
-
-                            <td style="text-align: center">@item.PackQuantity <span>Pcs</span></td>
-                            <th style="text-align: center">@item.Consumption <span>gm</span></th>
-                            <th style="text-align: center">@item.TotalDelivered <span>KG</span></th>
-
+                            <td>@(++sl) </td>
+                            <td style="text-align:left;">@item.ProductSubCategory @item.ProductName</td>
+                            <td style="text-align: right;"> @item.StockInQty.ToString("0.00")</td>
+                            <th style="text-align:right;"> @item.StockInRate.ToString("0.00") </th>
+                            <th style="text-align:right;"> @item.UnitPrice.ToString("0.00") </th>
+                            <td style="text-align:right;">@stockinLineTotal.ToString("0.00")</td>
+                            <td style="text-align:right;">@saleLineTotal.ToString("0.00")</td>
                         </tr>
                     }
-                </tbody>
-
-                <tfoot>
-
-                </tfoot>
-            </table>
-
-
+                    <tr>
+                        <td> </td>
+                        <th colspan="4">Total </th>
+                        <th style="text-align:right;"> @totalStockInAmount.ToString("0.00")  </th>
+                        <th style="text-align:right;"> @totalSaleAmount.ToString("0.00")  </th>
+                    </tr>
+                </table>
+            </div>
         </div>
-
-
 
 
         <div id="divfooter" class="divfooter text-center footer">
@@ -325,7 +262,7 @@
                         </td>
                         <td style="text-align: center;">
                             <span style="border-top: 2px solid #000000;">
-                                <b> Customer's Signature </b>
+                                <b>  </b>
                             </span>
 
                         </td>
@@ -345,9 +282,6 @@
                 </tbody>
             </table>
         </div>
-
-
-
     </div>
     <!-- /.content -->
     <!-- /.content-wrapper -->
