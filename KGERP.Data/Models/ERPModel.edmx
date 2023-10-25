@@ -393,7 +393,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -437,7 +437,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Attendance_Shadow' does not ha
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -509,7 +509,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendanceType' does not have 
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1298,7 +1298,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendenceApproveApplication_S
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1369,7 +1369,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Audit' does not have 
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1463,7 +1463,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Shadow' does not have
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2402,7 +2402,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not 
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2703,7 +2703,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.LeaveApplication_Shadow' does 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2728,7 +2728,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessAttenendance' does not 
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2855,7 +2855,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessLeave' does not have a 
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2921,7 +2921,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.PS' does not have a primary ke
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3052,7 +3052,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ServerConfig' does not have a 
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3470,7 +3470,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does no
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3529,6 +3529,46 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
           <Property Name="IsActive" Type="bit" />
           <Property Name="ImageDocId" Type="bigint" />
           <Property Name="NIDDocId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="DemageDetail">
+          <Key>
+            <PropertyRef Name="DemageDetailId" />
+          </Key>
+          <Property Name="DemageDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DemageMasterId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="DemageTypeId" Type="int" Nullable="false" />
+          <Property Name="DemageQty" Type="float" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalPrice" Type="float" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DemageMaster">
+          <Key>
+            <PropertyRef Name="DemageMasterId" />
+          </Key>
+          <Property Name="DemageMasterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OperationDate" Type="datetime" Nullable="false" />
+          <Property Name="DemageFromId" Type="int" Nullable="false" />
+          <Property Name="FromDeportId" Type="int" />
+          <Property Name="FromDealerId" Type="int" />
+          <Property Name="FromCustomerId" Type="int" />
+          <Property Name="ToDeportId" Type="int" />
+          <Property Name="ToDealerId" Type="int" />
+          <Property Name="ToStockInfoId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Demand">
           <Key>
@@ -3730,7 +3770,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4741,7 +4781,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have 
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5214,7 +5254,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does no
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5245,7 +5285,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vw_Attendence' does not have a
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5264,7 +5304,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwAllHeads' does not have a pr
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5287,7 +5327,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwDemandForSaleInvoice' does n
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5310,7 +5350,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwFTPFileInfo' does not have a
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5347,7 +5387,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwKGRECustomer' does not have 
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5361,7 +5401,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwProductPrice' does not have 
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5393,7 +5433,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSeedMaterialRcvList' does no
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5421,7 +5461,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSMSList' does not have a pri
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5451,7 +5491,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamInfoList' does not have 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -6201,6 +6241,114 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="CustomerNomineeInfo">
               <PropertyRef Name="RelationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageDetail_DemageMaster">
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="1" />
+          <End Role="DemageDetail" Type="Self.DemageDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DemageMaster">
+              <PropertyRef Name="DemageMasterId" />
+            </Principal>
+            <Dependent Role="DemageDetail">
+              <PropertyRef Name="DemageMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="DemageDetail" Type="Self.DemageDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="DemageDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_Customer">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="FromCustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_StockInfo">
+          <End Role="StockInfo" Type="Self.StockInfo" Multiplicity="0..1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="ToStockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_ToDealerVendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="ToDealerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_ToDeportVendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="ToDeportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_VendorDealer">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="FromDealerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_VendorDeport">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="DemageMaster" Type="Self.DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="FromDeportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8337,6 +8485,8 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySet Name="CustomerGroupInfo" EntityType="Self.CustomerGroupInfo" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CustomerGroupMapping" EntityType="Self.CustomerGroupMapping" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CustomerNomineeInfo" EntityType="Self.CustomerNomineeInfo" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="DemageDetail" EntityType="Self.DemageDetail" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="DemageMaster" EntityType="Self.DemageMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Demand" EntityType="Self.Demand" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DemandItem" EntityType="Self.DemandItem" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DemandItemDetail" EntityType="Self.DemandItemDetail" Schema="Erp" store:Type="Tables" />
@@ -9180,6 +9330,42 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_CustomerNomineeInfo_PRM_Relation" Association="Self.FK_CustomerNomineeInfo_PRM_Relation">
             <End Role="PRM_Relation" EntitySet="PRM_Relation" />
             <End Role="CustomerNomineeInfo" EntitySet="CustomerNomineeInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageDetail_DemageMaster" Association="Self.FK_DemageDetail_DemageMaster">
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+            <End Role="DemageDetail" EntitySet="DemageDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageDetail_Product" Association="Self.FK_DemageDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="DemageDetail" EntitySet="DemageDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_Company" Association="Self.FK_DemageMaster_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_Customer" Association="Self.FK_DemageMaster_Customer">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_StockInfo" Association="Self.FK_DemageMaster_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfo" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_ToDealerVendor" Association="Self.FK_DemageMaster_ToDealerVendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_ToDeportVendor" Association="Self.FK_DemageMaster_ToDeportVendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_VendorDealer" Association="Self.FK_DemageMaster_VendorDealer">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_VendorDeport" Association="Self.FK_DemageMaster_VendorDeport">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="DemageMaster" EntitySet="DemageMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_DemandItem_Demand" Association="Self.FK_DemandItem_Demand">
             <End Role="Demand" EntitySet="Demand" />
@@ -11065,6 +11251,44 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_OrderDetailHistory_Product" Association="ERPModel.FK_OrderDetailHistory_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetailHistory" EntitySet="OrderDetailHistories" />
+          </AssociationSet>
+          <EntitySet Name="DemageDetails" EntityType="ERPModel.DemageDetail" />
+          <EntitySet Name="DemageMasters" EntityType="ERPModel.DemageMaster" />
+          <AssociationSet Name="FK_DemageMaster_Company" Association="ERPModel.FK_DemageMaster_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageDetail_DemageMaster" Association="ERPModel.FK_DemageDetail_DemageMaster">
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+            <End Role="DemageDetail" EntitySet="DemageDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageDetail_Product" Association="ERPModel.FK_DemageDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="DemageDetail" EntitySet="DemageDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_Customer" Association="ERPModel.FK_DemageMaster_Customer">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_StockInfo" Association="ERPModel.FK_DemageMaster_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_ToDealerVendor" Association="ERPModel.FK_DemageMaster_ToDealerVendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_ToDeportVendor" Association="ERPModel.FK_DemageMaster_ToDeportVendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_VendorDealer" Association="ERPModel.FK_DemageMaster_VendorDealer">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemageMaster_VendorDeport" Association="ERPModel.FK_DemageMaster_VendorDeport">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="DemageMaster" EntitySet="DemageMasters" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -16595,6 +16819,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="StockInfoes" Relationship="ERPModel.FK_StockInfo_Company" FromRole="Company" ToRole="StockInfo" />
           <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_Company" FromRole="Company" ToRole="OrderDeliver" />
           <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Company" FromRole="Company" ToRole="OrderMaster" />
+          <NavigationProperty Name="DemageMasters" Relationship="ERPModel.FK_DemageMaster_Company" FromRole="Company" ToRole="DemageMaster" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -18591,6 +18816,11 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Customer" FromRole="Vendor" ToRole="OrderMaster" />
           <NavigationProperty Name="OrderMasters1" Relationship="ERPModel.FK_OrderMaster_Dealer" FromRole="Vendor" ToRole="OrderMaster" />
           <NavigationProperty Name="OrderMasters2" Relationship="ERPModel.FK_OrderMaster_Deport" FromRole="Vendor" ToRole="OrderMaster" />
+          <NavigationProperty Name="DemageMasters" Relationship="ERPModel.FK_DemageMaster_Customer" FromRole="Vendor" ToRole="DemageMaster" />
+          <NavigationProperty Name="DemageMasters1" Relationship="ERPModel.FK_DemageMaster_ToDealerVendor" FromRole="Vendor" ToRole="DemageMaster" />
+          <NavigationProperty Name="DemageMasters2" Relationship="ERPModel.FK_DemageMaster_ToDeportVendor" FromRole="Vendor" ToRole="DemageMaster" />
+          <NavigationProperty Name="DemageMasters3" Relationship="ERPModel.FK_DemageMaster_VendorDealer" FromRole="Vendor" ToRole="DemageMaster" />
+          <NavigationProperty Name="DemageMasters4" Relationship="ERPModel.FK_DemageMaster_VendorDeport" FromRole="Vendor" ToRole="DemageMaster" />
           </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
@@ -18850,6 +19080,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_StockInfo" FromRole="StockInfo" ToRole="Store" />
           <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_StockInfo" FromRole="StockInfo" ToRole="OrderDeliver" />
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_StockInfo" FromRole="StockInfo" ToRole="SaleReturn" />
+          <NavigationProperty Name="DemageMasters" Relationship="ERPModel.FK_DemageMaster_StockInfo" FromRole="StockInfo" ToRole="DemageMaster" />
         </EntityType>
         <Association Name="FK_StockInfo_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19391,6 +19622,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="Product" ToRole="StoreDetail" />
           <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="OrderDetailHistories" Relationship="ERPModel.FK_OrderDetailHistory_Product" FromRole="Product" ToRole="OrderDetailHistory" />
+          <NavigationProperty Name="DemageDetails" Relationship="ERPModel.FK_DemageDetail_Product" FromRole="Product" ToRole="DemageDetail" />
         </EntityType>
         <Association Name="FK_ManagerProductMap_Product">
           <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
@@ -19827,6 +20059,164 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="OrderDetailHistory">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DemageDetail">
+          <Key>
+            <PropertyRef Name="DemageDetailId" />
+          </Key>
+          <Property Name="DemageDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DemageMasterId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="DemageTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DemageQty" Type="Double" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DemageMaster" Relationship="ERPModel.FK_DemageDetail_DemageMaster" FromRole="DemageDetail" ToRole="DemageMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_DemageDetail_Product" FromRole="DemageDetail" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="DemageMaster">
+          <Key>
+            <PropertyRef Name="DemageMasterId" />
+          </Key>
+          <Property Name="DemageMasterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OperationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DemageFromId" Type="Int32" Nullable="false" />
+          <Property Name="FromDeportId" Type="Int32" />
+          <Property Name="FromDealerId" Type="Int32" />
+          <Property Name="FromCustomerId" Type="Int32" />
+          <Property Name="ToDeportId" Type="Int32" />
+          <Property Name="ToDealerId" Type="Int32" />
+          <Property Name="ToStockInfoId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_DemageMaster_Company" FromRole="DemageMaster" ToRole="Company" />
+          <NavigationProperty Name="DemageDetails" Relationship="ERPModel.FK_DemageDetail_DemageMaster" FromRole="DemageMaster" ToRole="DemageDetail" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_DemageMaster_Customer" FromRole="DemageMaster" ToRole="Vendor" />
+          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_DemageMaster_StockInfo" FromRole="DemageMaster" ToRole="StockInfo" />
+          <NavigationProperty Name="Vendor1" Relationship="ERPModel.FK_DemageMaster_ToDealerVendor" FromRole="DemageMaster" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_DemageMaster_ToDeportVendor" FromRole="DemageMaster" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor3" Relationship="ERPModel.FK_DemageMaster_VendorDealer" FromRole="DemageMaster" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor4" Relationship="ERPModel.FK_DemageMaster_VendorDeport" FromRole="DemageMaster" ToRole="Vendor" />
+        </EntityType>
+        <Association Name="FK_DemageMaster_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageDetail_DemageMaster">
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="1" />
+          <End Type="ERPModel.DemageDetail" Role="DemageDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DemageMaster">
+              <PropertyRef Name="DemageMasterId" />
+            </Principal>
+            <Dependent Role="DemageDetail">
+              <PropertyRef Name="DemageMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.DemageDetail" Role="DemageDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="DemageDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_Customer">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="FromCustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="ToStockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_ToDealerVendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="ToDealerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_ToDeportVendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="ToDeportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_VendorDealer">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="FromDealerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemageMaster_VendorDeport">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.DemageMaster" Role="DemageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="DemageMaster">
+              <PropertyRef Name="FromDeportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -25421,6 +25811,48 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
                 <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
                 <ScalarProperty Name="OrderDetailHistoryId" ColumnName="OrderDetailHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DemageDetails">
+            <EntityTypeMapping TypeName="ERPModel.DemageDetail">
+              <MappingFragment StoreEntitySet="DemageDetail">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="DemageQty" ColumnName="DemageQty" />
+                <ScalarProperty Name="DemageTypeId" ColumnName="DemageTypeId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="DemageMasterId" ColumnName="DemageMasterId" />
+                <ScalarProperty Name="DemageDetailId" ColumnName="DemageDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DemageMasters">
+            <EntityTypeMapping TypeName="ERPModel.DemageMaster">
+              <MappingFragment StoreEntitySet="DemageMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ToStockInfoId" ColumnName="ToStockInfoId" />
+                <ScalarProperty Name="ToDealerId" ColumnName="ToDealerId" />
+                <ScalarProperty Name="ToDeportId" ColumnName="ToDeportId" />
+                <ScalarProperty Name="FromCustomerId" ColumnName="FromCustomerId" />
+                <ScalarProperty Name="FromDealerId" ColumnName="FromDealerId" />
+                <ScalarProperty Name="FromDeportId" ColumnName="FromDeportId" />
+                <ScalarProperty Name="DemageFromId" ColumnName="DemageFromId" />
+                <ScalarProperty Name="OperationDate" ColumnName="OperationDate" />
+                <ScalarProperty Name="DemageMasterId" ColumnName="DemageMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -295,6 +295,8 @@ namespace KGERP.Data.Models
         public virtual DbSet<OrderMaster> OrderMasters { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderDetailHistory> OrderDetailHistories { get; set; }
+        public virtual DbSet<DemageDetail> DemageDetails { get; set; }
+        public virtual DbSet<DemageMaster> DemageMasters { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
