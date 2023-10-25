@@ -351,6 +351,18 @@
              console.log(unitPrice);
              console.log(offerQty);
              totalPrice.text((quantity + offerQty) * unitPrice);
+        }); 
+        $('.quantityValue').keyup(function () {
+            
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue').val()) || 0; 
+            var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
+             var unitPrice = parseFloat($row.find('.unitPrice').text());
+             var totalPrice = $row.find('.totalPrice');
+             console.log(quantity);
+             console.log(unitPrice);
+             console.log(offerQty);
+             totalPrice.text((quantity + offerQty) * unitPrice);
         });
 
 
