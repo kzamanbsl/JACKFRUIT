@@ -131,22 +131,22 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="txtDescription" class="col-form-label">MR Name:</label>
-                                                <input name="MoneyReceiptName" asp-for="MoneyReceiptName" type="text" class="form-control" , placeholder="MR Name">
+                                                <label for="txtDescription" class="col-form-label">Received By</label>
+                                                <input name="MoneyReceiptName" asp-for="MoneyReceiptName" type="text" class="form-control" , placeholder="Money Receiving Name">
                                                 @Html.ValidationMessageFor(model => model.MoneyReceiptName, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="txtDescription" class="col-form-label">MR No:</label>
-                                                <input name="MoneyReceiptNo" asp-for="MoneyReceiptNo" type="text" class="form-control" placeholder="MR No">
+                                                <label for="txtDescription" class="col-form-label">Money Receipt No:</label>
+                                                <input name="MoneyReceiptNo" asp-for="MoneyReceiptNo" type="text" class="form-control" placeholder="Receipt Number">
                                                 @Html.ValidationMessageFor(model => model.MoneyReceiptNo, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>MR Date:</label>
-                                                <input name="MoneyReceiptDate" asp-for="MoneyReceiptDate" type="text" class="datePicker form-control" id="txtPaymentDate" placeholder="MR Date" autocomplete="off">
+                                                <label>Money Receipt Date:</label>
+                                                <input name="MoneyReceiptDate" asp-for="MoneyReceiptDate" type="text" class="datePicker form-control" id="txtPaymentDate" placeholder="Money Receiving Date" autocomplete="off">
                                                 @Html.ValidationMessageFor(model => model.MoneyReceiptDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>

@@ -511,7 +511,7 @@ namespace KGERP.Service.Implementation.Accounting
                      select new
                      {
                          Value = t1.Id,
-                         Text = t1.AccCode + " -" + t1.AccName
+                         Text = t1.AccName
                      }).ToList();
 
             foreach (var item in v)
@@ -1378,7 +1378,7 @@ namespace KGERP.Service.Implementation.Accounting
                                      select new HeadGLModel
                                      {
                                          Id = t1.Id,
-                                         AccName = t1.AccCode + " -" + t1.AccName
+                                         AccName = t1.AccName
                                      }).ToList());
             return headGLModelList;
         }

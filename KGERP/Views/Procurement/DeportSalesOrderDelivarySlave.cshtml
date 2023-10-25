@@ -215,7 +215,7 @@
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
                                                 <th style="padding:5px;text-align:center;">Offer Qty</th>
                                                 <th style="padding:5px;text-align:center;">Sale Price</th>
-                                                @*<th style="padding:5px;text-align:center;">Total Price</th>*@
+                                                <th style="padding:5px;text-align:center;">Total Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -243,7 +243,7 @@
                                                     <td style="padding:5px;text-align:center;">
                                                         @if (Model.Status == (int)EnumSOStatus.Submitted)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control quantityValue" })
                                                         }
                                                         else
                                                         {
@@ -254,7 +254,7 @@
                                                     <td style="padding:5px;text-align:center;">
                                                         @if (Model.Status == (int)EnumSOStatus.Submitted)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferQty, new { id = i + "_OfferQty", @class = "form-control" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferQty, new { id = i + "_OfferQty", @class = "form-control offerQuantityValue" })
                                                         }
                                                         else
                                                         {
@@ -262,13 +262,13 @@
                                                         }
 
                                                     </td>
-                                                    <td style="padding:5px;text-align:right; font-weight:bold">
+                                                    <td class="unitPrice" style="padding:5px;text-align:right; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
                                                     </td>
-                                                    @*<td style="padding:5px;text-align:right; font-weight:bold">
+                                                    <td class="totalPrice" style="padding:5px;text-align:right; font-weight:bold">
                                                             @String.Format("{0:0.00}", item.TotalPrice)
-                                                        </td>*@
+                                                        </td>
                                                 </tr>
                                                 i++;
                                             }
@@ -330,7 +330,31 @@
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }
             });
-        }
+        });
+
+        $(document).on('change', '.offerQuantityValue input', function () {
+            alert('okk');
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue input').val()) || 0; 
+            var offerQty = parseFloat($row.find('.offerQuantityValue input').val()) || 0;
+            var totalPrice = $row.find('.totalPrice');
+            totalPrice.text(quantity * offerQty);
+        });
+         $('.offerQuantityValue').keyup(function () {
+            
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue').val()) || 0; 
+            var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
+             var unitPrice = parseFloat($row.find('.unitPrice').text());
+             var totalPrice = $row.find('.totalPrice');
+             console.log(quantity);
+             console.log(unitPrice);
+             console.log(offerQty);
+             totalPrice.text((quantity + offerQty) * unitPrice);
+        });
+
+
+
 
     </script>
 }
