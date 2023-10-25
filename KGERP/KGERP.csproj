@@ -468,6 +468,7 @@
     <Compile Include="Controllers\ClientBookingListController.cs" />
     <Compile Include="Controllers\CostHeadsController.cs" />
     <Compile Include="Controllers\Crm\CrmsController.cs" />
+    <Compile Include="Controllers\DemageController.cs" />
     <Compile Include="Controllers\ProductionMasterController.cs" />
     <Compile Include="Controllers\KGRECustomerMapHeadGlController.cs" />
     <Compile Include="Controllers\MoneyReceiptProcess\RealStateMoneyReceiptController.cs" />
@@ -5601,6 +5602,7 @@
     </Content>
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryChallan.cshtml" />
+    <Content Include="Views\MaterialReceive\FoodStockDetailReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

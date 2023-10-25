@@ -571,6 +571,7 @@ namespace KGERP.Service.Implementation
                                     join t6 in _context.Employees on t1.ReceivedBy equals t6.Id
                                     join t8 in _context.VoucherMaps.Where(X => X.CompanyId == companyId && X.IntegratedFrom == "MaterialReceive") on t1.MaterialReceiveId equals t8.IntegratedId into t8_Join
                                     from t8 in t8_Join.DefaultIfEmpty()
+                                    join t9 in _context.Companies on t1.CompanyId equals t9.CompanyId
                                     where t1.IsActive && t1.CompanyId == companyId && t1.MaterialReceiveId == materialReceiveId
                                     select new VMWarehousePOReceivingSlave
                                     {
@@ -584,6 +585,11 @@ namespace KGERP.Service.Implementation
                                         ReceiveByName = t6.Name,
 
                                         CompanyId = t1.CompanyId,
+                                        CompanyName = t4.Name,
+                                        CompanyAddress = t4.Address,
+                                        CompanyPhone = t4.Phone,
+                                        CompanyEmail = t4.Email,
+
                                         ChallanCID = t1.ReceiveNo,
                                         ChallanDate = t1.ChallanDate,
                                         Challan = t1.ChallanNo,

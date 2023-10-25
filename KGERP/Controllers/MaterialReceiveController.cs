@@ -435,6 +435,17 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(FoodIndex), new { companyId = model.companyId, fromDate = model.FromDate, toDate = model.ToDate });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> FoodStockDetailReport(int companyId, long materialReceiveId = 0)
+        {
+            VMWarehousePOReceivingSlave vmReceivingSlave = new VMWarehousePOReceivingSlave();
+            if (materialReceiveId > 0)
+            {
+                vmReceivingSlave = _materialReceiveService.GetFoodStocks(companyId, materialReceiveId);
+            }
+            return View(vmReceivingSlave);
+        }
+
         #endregion
     }
 }
