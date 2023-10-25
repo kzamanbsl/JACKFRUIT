@@ -13,7 +13,6 @@ using System.Web.Security;
 
 namespace KGERP.Controllers
 {
-
     public class UserController : Controller
     {
         ERPEntities employeeRepository = new ERPEntities();
@@ -25,6 +24,7 @@ namespace KGERP.Controllers
         {
             return View();
         }
+
         //Registration POST action 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -36,7 +36,7 @@ namespace KGERP.Controllers
 
             User user = ObjectConverter<UserModel, User>.Convert(model);
 
-            if (ModelState.IsValid)
+            if (model.UserName != null && model.Email != null && model.Password != null) // ModelState.IsValid is removed for the handle of model exceptions
             {
 
                 #region //Email is already Exist 
@@ -57,6 +57,7 @@ namespace KGERP.Controllers
                 // user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword); 
                 #endregion
                 user.IsEmailVerified = true;
+                user.Active = true;
 
                 #region Save to Database
                 using (ERPEntities dc = new ERPEntities())
@@ -68,6 +69,8 @@ namespace KGERP.Controllers
                     //SendVerificationLinkEmail(user.EmailID, user.ActivationCode.ToString());
                     //message = "Registration successfully done. Account activation link " + 
                     //    " has been sent to your email id:" + user.EmailID;
+
+                    message = "Registration successfully done";
                     Status = true;
                 }
                 #endregion
@@ -75,11 +78,12 @@ namespace KGERP.Controllers
             else
             {
                 message = "Invalid Request";
+                Status = false;
             }
 
             ViewBag.Message = message;
             ViewBag.Status = Status;
-            return View(user);
+            return RedirectToAction("Registration");
         }
 
         //Verify Account  

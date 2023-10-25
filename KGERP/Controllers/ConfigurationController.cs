@@ -34,6 +34,27 @@ namespace KGERP.Controllers
         }
 
         #region User Role Menuitem
+
+        // Client menu Assign view
+        public async Task<ActionResult> ClientMenuAssignment(int companyId = 21)
+        {
+            VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
+            vmUserMenuAssignment.CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text");
+
+            return View(vmUserMenuAssignment);
+        }
+
+        // Client menu assign post
+        [HttpPost]
+        public async Task<ActionResult> ClientMenuAssignment(VMUserMenuAssignment model)
+        {
+            VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
+            vmUserMenuAssignment = await _service.UserMenuAssignmentGet(model);
+            return View(vmUserMenuAssignment);
+        }
+
+
+        // User menu Assign view
         public async Task<ActionResult> UserMenuAssignment(int companyId)
         {
             VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
@@ -42,6 +63,7 @@ namespace KGERP.Controllers
             return View(vmUserMenuAssignment);
         }
 
+        // User menu assign post
         [HttpPost]
         public async Task<ActionResult> UserMenuAssignment(VMUserMenuAssignment model)
         {

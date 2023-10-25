@@ -2750,3 +2750,8 @@ ERROR 2023-10-16 21:09:18,631 37142ms UserController         Login              
    at System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in F:\KG Project\JACKFRUIT\KGERP\Controllers\UserController.cs:line 127
+ERROR 2023-10-25 10:40:04,198 60029ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\CsharpApplication\KGeCom\New folder\JACKFRUIT\KGERP\Controllers\UserController.cs:line 127
+ERROR 2023-10-25 10:57:07,080 129480ms UserController         Login              - System.NullReferenceException: Object reference not set to an instance of an object.
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\CsharpApplication\KGeCom\New folder\JACKFRUIT\KGERP\Controllers\UserController.cs:line 150
