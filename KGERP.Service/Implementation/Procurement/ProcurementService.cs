@@ -4442,7 +4442,7 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId, // Company Warehouse or Deport
+                StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId, //Sale from Company Warehouse or Deport 
                 StockInfoId = stockInfoId, // Company or Deport
                 IsActive = true,
                 OrderStatus = "N",
@@ -4998,7 +4998,7 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                StockInfoTypeId = (int)StockInfoTypeEnum.Dealer,
+                StockInfoTypeId = (int)StockInfoTypeEnum.Dealer,////Sale from Dealer
                 StockInfoId = (int)vmSalesOrderSlave.StockInfoId,
                 IsActive = true,
                 OrderStatus = "N",

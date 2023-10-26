@@ -179,6 +179,7 @@
         Credit,
         LC
     }
+    ////Sale FROM Company Warehouse or Deport or Dealer or Customer (prop: StockInfoTypeId)
     public enum StockInfoTypeEnum
     {
         Company = 1,
