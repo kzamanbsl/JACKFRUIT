@@ -4892,7 +4892,7 @@ namespace KGERP.Controllers
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
-                ReportName = "RealEstateProjectWaisBookingReport"
+                ReportName = "RealEstateProjectWiseBookingReport"
             };
             return View(cm);
         }
@@ -4905,7 +4905,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            model.ReportName = "RealEstateProjectWaisBookingReport";
+            model.ReportName = "RealEstateProjectWiseBookingReport";
 
             if (model.ProductId == null)
             {
@@ -5037,14 +5037,14 @@ namespace KGERP.Controllers
                 ToDate = DateTime.Now,
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
-                ReportName = "RealEstateProjectWiseCollaction"
+                ReportName = "RealEstateProjectWiseCollection"
             };
             return View(cm);
         }
 
         [HttpPost]
         [SessionExpire]
-        public ActionResult RealEstateProjectWiseCollaction(ReportCustomModel model)
+        public ActionResult RealEstateProjectWiseCollection(ReportCustomModel model)
         {
             string reportName = "";
             reportName = "RealEstateProjectWiseCollaction";
@@ -5203,7 +5203,7 @@ namespace KGERP.Controllers
             return View(cm);
         }
 
-         [HttpPost]
+        [HttpPost]
         [SessionExpire]
         public ActionResult DealerListReport(ReportCustomModel model)
         {
@@ -5230,9 +5230,9 @@ namespace KGERP.Controllers
             return View(rcl);
         }
 
-        [HttpGet]
+        [HttpPost]
         [SessionExpire]
-        public ActionResult CustomerListReportView(ReportCustomerModel model)
+        public ActionResult CustomerListReport(ReportCustomerModel model)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
