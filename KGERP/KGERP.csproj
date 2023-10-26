@@ -5608,6 +5608,8 @@
     <Content Include="Views\Demage\DamageMasterSlave.cshtml" />
     <Content Include="Views\Report\DeportListReport.cshtml" />
     <Content Include="Views\Report\DealerListReport.cshtml" />
+    <Content Include="Views\Report\DeportProductStockReport.cshtml" />
+    <Content Include="Views\Report\DealerProductStockReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
