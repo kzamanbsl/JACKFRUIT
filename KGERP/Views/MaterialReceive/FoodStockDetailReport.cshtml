@@ -135,17 +135,6 @@
             <br />
             <table style="width: 100%">
                 <tr>
-                    <td style="width: 2%">
-                        <strong>Supplier</strong>
-                    </td>
-                    <td colspan="3" style="width: 98%; border-bottom: 1px solid #000000">
-                        &nbsp;&nbsp;&nbsp;
-                        <strong>
-                            <span>@Model.SupplierName</span>
-                        </strong>
-                    </td>
-                </tr>
-                <tr>
                     <td style="width: 10%">
                         <strong>Store Info</strong>
                     </td>
@@ -153,9 +142,19 @@
                         &nbsp;&nbsp;&nbsp;
                         <strong>
                             <span>@Model.StoreName</span>
-
                         </strong>
                     </td>
+                    <td style="width: 10%">
+                        <strong>Stock No</strong>
+                    </td>
+                    <td style="width: 30%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.ReceiveNo</span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
                     <td style="width: 10%">
                         <strong>Stock Date</strong>
                     </td>
@@ -165,18 +164,6 @@
                             <span>@Model.ReceivedDate.ToString("dd-MM-yyyy")</span>
                         </strong>
                     </td>
-                </tr>
-                <tr>
-                    <td style="width: 10%">
-                        <strong>Challan No</strong>
-                    </td>
-                    <td style="width: 50%; border-bottom: 1px solid #000000">
-                        &nbsp;&nbsp;&nbsp;
-                        <strong>
-                            <span>@Model.Challan</span>
-
-                        </strong>
-                    </td>
                     <td style="width: 10%">
                         <strong>Stored By</strong>
                     </td>
@@ -184,23 +171,39 @@
                         &nbsp;&nbsp;&nbsp;
                         <strong>
                             <span>@Model.ReceiveByName</span>
-
                         </strong>
                     </td>
-
                 </tr>
-
+                <tr>
+                    <td style="width: 10%">
+                        <strong>Supplier</strong>
+                    </td>
+                    <td style="width: 50%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.SupplierName</span>
+                        </strong>
+                    </td>
+                    <td style="width: 10%">
+                        <strong>Challan No</strong>
+                    </td>
+                    <td style="width: 50%; border-bottom: 1px solid #000000">
+                        &nbsp;&nbsp;&nbsp;
+                        <strong>
+                            <span>@Model.Challan</span>
+                        </strong>
+                    </td>
+                </tr>
             </table>
             <br />
 
-            <div style="font-weight: bold;font-size: 16px; margin-bottom:10px;"> Products Details: </div>
-           
             <div class="table-responsive col-md-12 text-nowrap">
-                <table class="table" style="width: 100%" cellspacing="0" rules="all" border="1">
+                <div style="font-weight: bold;font-size: 16px; margin-bottom:10px;">Products Details: </div>
+                <table class="table table-bordered">
                     <tr>
-                        <th style="text-align: center">SL</th>
+                        <th style="text-align:center">SL</th>
                         <th style="text-align:left;">Product Name</th>
-                        <th style="text-align: right;">Stock Qty</th>
+                        <th style="text-align:right;">Stock Qty</th>
                         <th style="text-align:right;">Stock Rate</th>
                         <th style="text-align:right;">Sale Price</th>
                         <th style="text-align:right;">Total Stock Amount</th>
@@ -223,9 +226,9 @@
                         <tr>
                             <td>@(++sl) </td>
                             <td style="text-align:left;">@item.ProductSubCategory @item.ProductName</td>
-                            <td style="text-align: right;"> @item.StockInQty.ToString("0.00")</td>
-                            <th style="text-align:right;"> @item.StockInRate.ToString("0.00") </th>
-                            <th style="text-align:right;"> @item.UnitPrice.ToString("0.00") </th>
+                            <td style="text-align:right;">@item.StockInQty.ToString("0.00")</td>
+                            <th style="text-align:right;">@item.StockInRate.ToString("0.00")</th>
+                            <th style="text-align:right;">@item.UnitPrice.ToString("0.00")</th>
                             <td style="text-align:right;">@stockinLineTotal.ToString("0.00")</td>
                             <td style="text-align:right;">@saleLineTotal.ToString("0.00")</td>
                         </tr>
@@ -233,8 +236,8 @@
                     <tr>
                         <td> </td>
                         <th colspan="4">Total </th>
-                        <th style="text-align:right;"> @totalStockInAmount.ToString("0.00")  </th>
-                        <th style="text-align:right;"> @totalSaleAmount.ToString("0.00")  </th>
+                        <th style="text-align:right;">@totalStockInAmount.ToString("0.00")</th>
+                        <th style="text-align:right;">@totalSaleAmount.ToString("0.00")</th>
                     </tr>
                 </table>
             </div>
@@ -245,15 +248,13 @@
             <table style="width:100%">
                 <thead>
                     <tr>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
+                        <td style="width: 33%"></td>
+                        <td style="width: 33%"></td>
+                        <td style="width: 33%"></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-
                         <td style="text-align: center;">
                             <span style="border-top: 2px solid #000000;">
                                 <b>Prepared by</b>
@@ -262,16 +263,8 @@
                         </td>
                         <td style="text-align: center;">
                             <span style="border-top: 2px solid #000000;">
-                                <b>  </b>
-                            </span>
-
-                        </td>
-
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
                                 <b>Checked by</b>
                             </span>
-
                         </td>
                         <td style="text-align: center;">
                             <span style="border-top: 2px solid #000000;text-align:right;">
@@ -283,6 +276,7 @@
             </table>
         </div>
     </div>
+
     <!-- /.content -->
     <!-- /.content-wrapper -->
     <!-- ./wrapper -->
@@ -298,39 +292,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/demo.js"></script>
 
     <script>
-        $(function () {
-            SummerizeTable('#tbl1', 1);
-            //SummerizeTable('#tbl1', 2);
-            //SummerizeTable('#tbl1', 5);
-        });
-        function SummerizeTable(table, indexno) {
-            $(table).each(function () {
-                $(table).find('td').each(function () {
-                    var $this = $(this);
-                    var col = indexno;
-                    var html = $this.html();
-                    var row = $(this).parent()[0].rowIndex;
-                    var span = 1;
-                    var cell_above = $($this.parent().prev().children()[col]);
+            //$(function () {
+            //    SummerizeTable('#tbl1', 1);
+            //    //SummerizeTable('#tbl1', 2);
+            //    //SummerizeTable('#tbl1', 5);
+            //});
+            //function SummerizeTable(table, indexno) {
+            //    $(table).each(function () {
+            //        $(table).find('td').each(function () {
+            //            var $this = $(this);
+            //            var col = indexno;
+            //            var html = $this.html();
+            //            var row = $(this).parent()[0].rowIndex;
+            //            var span = 1;
+            //            var cell_above = $($this.parent().prev().children()[col]);
 
-                    // look for cells one above another with the same text
-                    while (cell_above.html() === html) { // if the text is the same
-                        span += 1; // increase the span
-                        cell_above_old = cell_above; // store this cell
-                        cell_above = $(cell_above.parent().prev().children()[col]); // and go to the next cell above
-                    }
+            //            // look for cells one above another with the same text
+            //            while (cell_above.html() === html) { // if the text is the same
+            //                span += 1; // increase the span
+            //                cell_above_old = cell_above; // store this cell
+            //                cell_above = $(cell_above.parent().prev().children()[col]); // and go to the next cell above
+            //            }
 
-                    // if there are at least two columns with the same value,
-                    // set a new span to the first and hide the other
-                    if (span > 1) {
-                        // console.log(span);
-                        $(cell_above_old).attr('rowspan', span);
-                        $this.hide();
-                    }
+            //            // if there are at least two columns with the same value,
+            //            // set a new span to the first and hide the other
+            //            if (span > 1) {
+            //                // console.log(span);
+            //                $(cell_above_old).attr('rowspan', span);
+            //                $this.hide();
+            //            }
 
-                });
-            });
-        }
+            //        });
+            //    });
+            //}
     </script>
 </body>
 
