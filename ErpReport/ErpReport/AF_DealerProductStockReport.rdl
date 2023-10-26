@@ -48,7 +48,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_ProductStockList</CommandText>
+        <CommandText>sp_DealerProductStockList</CommandText>
       </Query>
       <Fields>
         <Field Name="ProductCategoryName">
