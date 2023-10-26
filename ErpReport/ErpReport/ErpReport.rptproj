@@ -66,7 +66,9 @@
     <Report Include="AdvancedAttendanceSearchReport.rdl" />
     <Report Include="AF_BankOrCashBook.rdl" />
     <Report Include="AF_CustomerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DealerProductStockReport.rdl" />
     <Report Include="AF_DealerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DeportProductStockReport.rdl" />
     <Report Include="AF_DeportSalesInvoiceReport.rdl" />
     <Report Include="AF_ProductList.rdl" />
     <Report Include="AF_ProductStockReport.rdl" />
