@@ -1880,55 +1880,6 @@ namespace KGERP.Controllers
             return View();
         }
 
-        // GET: General Ledger Report
-        [HttpGet]
-        [SessionExpire]
-        public ActionResult ProductList(int companyId)
-        {
-            
-            Session["CompanyId"] = companyId;
-            ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
-            cm.ProductCategoryList = _configurationService.GetProductCategory(companyId);
-            return View(cm);
-        }
-
-        [HttpGet]
-        [SessionExpire]
-        public ActionResult GetProductListReport(ReportCustomModel model)
-        {
-            string reportName = CompanyInfo.ReportPrefix + "ProductList";
-            NetworkCredential nwc = new NetworkCredential(_admin, _password);
-            WebClient client = new WebClient();
-            client.Credentials = nwc;
-
-            model.ProductType = "R";
-            if (model.ProductCategoryId == null)
-            {
-                model.ProductCategoryId = 0;
-            }
-            if (model.ProductSubCategoryId == null)
-            {
-                model.ProductSubCategoryId = 0;
-            }
-
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ProductType={3}&ProductCategoryId={4}&ProductSubCategoryId={5}", reportName, model.ReportType, model.CompanyId, model.ProductType,model.ProductCategoryId,model.ProductSubCategoryId);
-
-            if (model.ReportType.Equals(ReportType.EXCEL))
-            {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
-            }
-            if (model.ReportType.Equals(ReportType.PDF))
-            {
-                return File(client.DownloadData(reportUrl), "application/pdf");
-            }
-            if (model.ReportType.Equals(ReportType.WORD))
-            {
-                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
-            }
-            return View();
-        }
-
-
         // GET: Stock Receive Report
         [HttpGet]
         [SessionExpire]
@@ -2309,6 +2260,7 @@ namespace KGERP.Controllers
             };
             return View(cm);
         }
+
         [HttpPost]
         [SessionExpire]
         public ActionResult GetSeedProductStockReport(ReportCustomModel model)
@@ -5206,33 +5158,113 @@ namespace KGERP.Controllers
         }
 
 
-        //[HttpPost]
-        //[SessionExpire]
-        //public ActionResult ClientReport(CrmUploadListVm model)
-        //{
+        #region Azlan Food
+        // GET: Product List Report
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult ProductList(int companyId)
+        {
 
+            Session["CompanyId"] = companyId;
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+            cm.ProductCategoryList = _configurationService.GetProductCategory(companyId);
+            return View(cm);
+        }
 
-        //    string reportName = "ClientUploadFile";
-        //    reportName = "ClientUploadFile";
-        //    NetworkCredential nwc = new NetworkCredential(admin, password);
-        //    WebClient client = new WebClient();
-        //    client.Credentials = nwc;
-        //    string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}", reportName, model.ReportType, model.CompanyId);
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult GetProductListReport(ReportCustomModel model)
+        {
+            string reportName = CompanyInfo.ReportPrefix + "ProductList";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
 
-        //    if (model.ReportType.Equals(ReportType.EXCEL))
-        //    {
-        //        return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ClientList.xls");
-        //    }
-        //    if (model.ReportType.Equals(ReportType.PDF))
-        //    {
+            model.ProductType = "R";
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
 
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ProductType={3}&ProductCategoryId={4}&ProductSubCategoryId={5}", reportName, model.ReportType, model.CompanyId, model.ProductType, model.ProductCategoryId, model.ProductSubCategoryId);
 
-        //        return File(client.DownloadData(reportUrl), "application/pdf");
-        //    }
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
+            }
+            return View();
+        }
 
-        //    return View();
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult FoodProductStockReport(int companyId)
+        {
+            ReportCustomModel cm = new ReportCustomModel()
+            {
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
+                ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
+                ReportName = "Product Stock Report"
+            };
+            return View(cm);
+        }
 
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult FoodProductStockReport(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+            if (model.StockId == null)
+            {
+                model.StockId = 0;
+            }
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
 
-        //}
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductStockReport.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductStockReport.doc");
+            }
+            return View();
+        }
+        #endregion
     }
 }

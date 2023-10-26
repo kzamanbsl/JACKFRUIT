@@ -5603,6 +5603,7 @@
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\MaterialReceive\FoodStockDetailReport.cshtml" />
+    <Content Include="Views\Report\FoodProductStockReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

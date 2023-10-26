@@ -69,6 +69,7 @@
     <Report Include="AF_DealerSalesInvoiceReport.rdl" />
     <Report Include="AF_DeportSalesInvoiceReport.rdl" />
     <Report Include="AF_ProductList.rdl" />
+    <Report Include="AF_ProductStockReport.rdl" />
     <Report Include="BalanceSheet.rdl" />
     <Report Include="BalanceSheetGeneralReport.rdl" />
     <Report Include="BalanceSheetNote.rdl" />
