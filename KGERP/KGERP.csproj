@@ -5250,7 +5250,7 @@
     <Content Include="Views\Report\PackagingReceiptPayment.cshtml" />
     <Content Include="Views\Report\PrintingReceiptPayment.cshtml" />
     <Content Include="Views\Report\ProductionSearch.cshtml" />
-    <Content Include="Views\Report\ProductList.cshtml" />
+    <Content Include="Views\Report\ProductListReport.cshtml" />
     <Content Include="Views\Report\ProfitLoss.cshtml" />
     <Content Include="Views\Report\ProfitLossService.cshtml" />
     <Content Include="Views\Report\PropertiesReceiptPaymentReport.cshtml" />
@@ -5604,6 +5604,10 @@
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\MaterialReceive\FoodStockDetailReport.cshtml" />
     <Content Include="Views\Damage\DamageMasterSlave.cshtml" />
+    <Content Include="Views\Report\FoodProductStockReport.cshtml" />
+    <Content Include="Views\Demage\DamageMasterSlave.cshtml" />
+    <Content Include="Views\Report\DeportListReport.cshtml" />
+    <Content Include="Views\Report\DealerListReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -273,6 +274,13 @@ namespace KGERP.Controllers
             vmCommonZone = await Task.Run(() => _service.GetZones(companyId));
             vmCommonZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
             return View(vmCommonZone);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonZonesList(int companyId)
+        {
+            var ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            return Json(ZoneList, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

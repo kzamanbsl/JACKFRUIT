@@ -66,9 +66,12 @@
     <Report Include="AdvancedAttendanceSearchReport.rdl" />
     <Report Include="AF_BankOrCashBook.rdl" />
     <Report Include="AF_CustomerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DealerProductStockReport.rdl" />
     <Report Include="AF_DealerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DeportProductStockReport.rdl" />
     <Report Include="AF_DeportSalesInvoiceReport.rdl" />
     <Report Include="AF_ProductList.rdl" />
+    <Report Include="AF_ProductStockReport.rdl" />
     <Report Include="BalanceSheet.rdl" />
     <Report Include="BalanceSheetGeneralReport.rdl" />
     <Report Include="BalanceSheetNote.rdl" />
@@ -83,6 +86,7 @@
     <Report Include="CompanyMenuReport.rdl" />
     <Report Include="CompanyWiseMonthlyCRReport.rdl" />
     <Report Include="CompanyWiseSMSReport.rdl" />
+    <Report Include="Copy of AF_ProductStockReport.rdl" />
     <Report Include="CreditCustomerInformation.rdl" />
     <Report Include="Customer.rdl" />
     <Report Include="CustomerBaseMonthlyCRReport.rdl" />
