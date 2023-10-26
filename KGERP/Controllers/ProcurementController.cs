@@ -95,6 +95,8 @@ namespace KGERP.Controllers
         }
 
         public JsonResult GetFoodProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        
+        
         {
             var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
             var model = _service.GetFoodProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);

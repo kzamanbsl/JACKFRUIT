@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KGERP.Controllers
 {
@@ -5119,7 +5120,7 @@ namespace KGERP.Controllers
         // GET: Product List Report
         [HttpGet]
         [SessionExpire]
-        public ActionResult ProductList(int companyId)
+        public ActionResult ProductListReport(int companyId)
         {
 
             Session["CompanyId"] = companyId;
@@ -5128,9 +5129,9 @@ namespace KGERP.Controllers
             return View(cm);
         }
 
-        [HttpGet]
+        [HttpPost]
         [SessionExpire]
-        public ActionResult GetProductListReport(ReportCustomModel model)
+        public ActionResult ProductListReport(ReportCustomModel model)
         {
             string reportName = CompanyInfo.ReportPrefix + "ProductList";
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
@@ -5164,11 +5165,53 @@ namespace KGERP.Controllers
             return View();
         }
 
-        // GET: Deport List Report
 
+
+        // GET: Deport List Report
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult DeportListReport(int companyId)
+        {
+            Session["CompanyId"] = companyId;
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+            var zone = _configurationService.CommonZonesDropDownList(companyId);
+
+
+            return View(cm);
+        } 
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult DeportListReport(ReportCustomModel model)
+        {
+            
+
+
+            return View();
+        }
 
         // GET: Dealer List Report
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult DealerListReport(int companyId)
+        {
+            Session["CompanyId"] = companyId;
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+            var zone = _configurationService.CommonZonesDropDownList(companyId);
 
+
+            return View(cm);
+        }
+
+         [HttpPost]
+        [SessionExpire]
+        public ActionResult DealerListReport(ReportCustomModel model)
+        {
+            
+
+
+            return View();
+        }
 
         // GET: Customer List Report
         [HttpGet]

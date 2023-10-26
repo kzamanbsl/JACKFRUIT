@@ -23,7 +23,7 @@
         @if (Model.OrderMasterId > 0)
         {
             <span>
-                Sales Invoice History of: <a target="_blank" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@Model.CompanyFK&orderMasterId=@Model.OrderMasterId">@Model.OrderNo</a>
+                Sales Invoice History of:  &nbsp; @Model.OrderNo
             </span>
         }
         else
