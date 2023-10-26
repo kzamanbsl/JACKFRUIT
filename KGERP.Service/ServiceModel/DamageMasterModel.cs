@@ -25,6 +25,7 @@ namespace KGERP.Service.ServiceModel
         public Nullable<int> ToStockInfoId { get; set; }
         public string StockInfoName { get; set; }
         public int StatusId { get; set; }
+        public int ZoneFk { get; set; }
         public string StatusName { get; set; }
         public string Remarks { get; set; }
         public int CompanyId { get; set; }
@@ -36,6 +37,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }
@@ -49,6 +51,7 @@ namespace KGERP.Service.ServiceModel
         public string DamageTypeName { get; set; }
         public double DamageQty { get; set; }
         public decimal UnitPrice { get; set; }
+        public string UnitName { get; set; }
         public double TotalPrice { get; set; }
         public string Remarks { get; set; }
         public bool IsActive { get; set; }

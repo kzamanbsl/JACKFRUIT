@@ -33,11 +33,6 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.Regions on t2.RegionId equals t4.RegionId
-                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
-                                                      join t6 in _db.Vendors on t1.ToDealerId equals t6.VendorId into t6_Join
-                                                      from t6 in t6_Join.DefaultIfEmpty()
-
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
@@ -56,6 +51,21 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                           CreatedBy = t1.CreatedBy,
 
                                                       }).FirstOrDefault());
+            demageMasterModel.DetailList = await Task.Run(() => (from t1 in _db.DamageDetails.Where(x => x.IsActive && x.DamageDetailId == demageMasterId)
+                                                                    join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
+                                                                    //join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
+                                                                    select new DamageDetailModel
+                                                                    {
+                                                                       DamageDetailId = t1.DamageDetailId,
+                                                                       DamageMasterId = t1.DamageMasterId,
+                                                                       DamageQty = t1.DamageQty,
+                                                                       DamageTypeId = t1.DamageTypeId,
+                                                                       ProductId = t1.ProductId,
+                                                                       UnitPrice = t1.UnitPrice,
+                                                                       Remarks = t1.Remarks
+                                                                    }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
+
+
             return demageMasterModel;
         }
         public async Task<int> DamageMasterAdd(DamageMasterModel model)
@@ -255,6 +265,26 @@ namespace KGERP.Service.Implementation.ProdMaster
 
 
             return result;
+        }
+        public async Task<DamageDetailModel> GetSingleDamageDetails(int id)
+        {
+            var v = await Task.Run(() => (from t1 in _db.DamageDetails
+                                          join t2 in _db.Products on t1.ProductId equals t2.ProductId
+                                          join t5 in _db.Units on t2.UnitId equals t5.UnitId
+                                          where t1.DamageDetailId == id && t1.IsActive == true
+                                          select new DamageDetailModel
+                                          {
+                                              DamageMasterId = t1.DamageMasterId,
+                                              DamageDetailId =t1.DamageDetailId,
+                                              DamageTypeId = t1.DamageTypeId,
+                                              ProductId = t1.ProductId,
+                                              DamageQty = t1.DamageQty,
+                                              UnitPrice = t1.UnitPrice,
+                                              TotalPrice = t1.TotalPrice,
+                                              Remarks = t1.Remarks,
+                                              UnitName = t5.Name,
+                                          }).FirstOrDefault());
+            return v;
         }
     }
 }

@@ -20,5 +20,6 @@ namespace KGERP.Service.Interface
         Task<DamageMasterModel> GetDamageMasterById(int demageMaster);
         Task<int> DamageDetailDelete(int id);
         Task<int> DamageMasterDelete(int id);
+        Task<DamageDetailModel> GetSingleDamageDetails(int id);
     }
 }

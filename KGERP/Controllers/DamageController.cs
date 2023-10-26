@@ -94,6 +94,11 @@ namespace KGERP.Controllers
             var model = await _service.GetDamageMasterById(orderMasterId);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        public async Task<JsonResult> SingleDamageDetails(int id)
+        {
+            var model = await _service.GetSingleDamageDetails(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public async Task<ActionResult> DeleteDamageDetailById(DamageMasterModel demageMasterModel)
