@@ -16,21 +16,21 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace KGERP.Service.Implementation.ProdMaster
 {
-    public class DemageService : IDemageService
+    public class DamageService : IDamageService
     {
 
         private readonly ERPEntities _db;
         private readonly ConfigurationService configurationService;
-        public DemageService(ERPEntities db, ConfigurationService configurationService)
+        public DamageService(ERPEntities db, ConfigurationService configurationService)
         {
             _db = db;
             this.configurationService = configurationService;
         }
 
-        public async Task<DemageMasterModel> GetDemageMasterDetail(int companyId, int demageMasterId)
+        public async Task<DamageMasterModel> GetDamageMasterDetail(int companyId, int demageMasterId)
         {
-            DemageMasterModel demageMasterModel = new DemageMasterModel();
-            demageMasterModel = await Task.Run(() => (from t1 in _db.DemageMasters.Where(x => x.IsActive && x.DemageMasterId == demageMasterId && x.CompanyId == companyId)
+            DamageMasterModel demageMasterModel = new DamageMasterModel();
+            demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
                                                       join t4 in _db.Regions on t2.RegionId equals t4.RegionId
@@ -38,11 +38,11 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                       join t6 in _db.Vendors on t1.ToDealerId equals t6.VendorId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
 
-                                                      select new DemageMasterModel
+                                                      select new DamageMasterModel
                                                       {
-                                                          DemageMasterId = t1.DemageMasterId,
+                                                          DamageMasterId = t1.DamageMasterId,
                                                           OperationDate = t1.OperationDate,
-                                                          DemageFromId = t1.DemageFromId,
+                                                          DamageFromId = t1.DamageFromId,
                                                           FromCustomerId = t1.FromCustomerId,
                                                           FromDealerId = t1.FromDealerId,
                                                           FromDeportId = t1.FromDeportId,
@@ -58,15 +58,15 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                       }).FirstOrDefault());
             return demageMasterModel;
         }
-        public async Task<int> DemageMasterAdd(DemageMasterModel model)
+        public async Task<int> DamageMasterAdd(DamageMasterModel model)
         {
             int result = -1;
-            DemageMaster demageMaster = new DemageMaster
+            DamageMaster demageMaster = new DamageMaster
             {
-                DemageMasterId = model.DemageMasterId,
+                DamageMasterId = model.DamageMasterId,
                 OperationDate = model.OperationDate,
                 
-                DemageFromId = model.DemageFromId,
+                DamageFromId = model.DamageFromId,
                 FromDeportId = model.FromDeportId,
                 FromDealerId = model.FromDealerId,
                 FromCustomerId = model.FromCustomerId,
@@ -80,23 +80,23 @@ namespace KGERP.Service.Implementation.ProdMaster
                 CreateDate = DateTime.Now,
                 IsActive = true
             };
-            _db.DemageMasters.Add(demageMaster);
+            _db.DamageMasters.Add(demageMaster);
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageMaster.DemageMasterId;
+                result = demageMaster.DamageMasterId;
             }
             return result;
         }
-        public async Task<int> DemageDetailAdd(DemageMasterModel model)
+        public async Task<int> DamageDetailAdd(DamageMasterModel model)
         {
             int result = -1;
-            DemageDetail demageDetail = new DemageDetail
+            DamageDetail demageDetail = new DamageDetail
             {
-                DemageMasterId = model.DemageMasterId,
-                DemageDetailId = model.DetailModel.DemageDetailId,
-                DemageTypeId = model.DetailModel.DemageTypeId,
+                DamageMasterId = model.DamageMasterId,
+                DamageDetailId = model.DetailModel.DamageDetailId,
+                DamageTypeId = model.DetailModel.DamageTypeId,
                 ProductId = model.DetailModel.ProductId,
-                DemageQty = model.DetailModel.DemageQty,
+                DamageQty = model.DetailModel.DamageQty,
                 UnitPrice = model.DetailModel.UnitPrice,
                 TotalPrice = model.DetailModel.TotalPrice,
                 Remarks = model.DetailModel.Remarks,
@@ -105,33 +105,33 @@ namespace KGERP.Service.Implementation.ProdMaster
                 IsActive = true,
 
             };
-            _db.DemageDetails.Add(demageDetail);
+            _db.DamageDetails.Add(demageDetail);
 
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageDetail.DemageMasterId;
+                result = demageDetail.DamageMasterId;
             }
 
             return result;
         }
-        public async Task<int> DemageDetailEdit(DemageMasterModel model)
+        public async Task<int> DamageDetailEdit(DamageMasterModel model)
         {
             int result = -1;
-            DemageDetail demageDetail = await _db.DemageDetails.FindAsync(model.DetailModel.DemageDetailId);
+            DamageDetail demageDetail = await _db.DamageDetails.FindAsync(model.DetailModel.DamageDetailId);
             if (demageDetail == null) throw new Exception("Sorry! item not found!");
 
             demageDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             demageDetail.ModifiedDate = DateTime.Now;
-            demageDetail.DemageTypeId = model.DetailModel.DemageTypeId;
+            demageDetail.DamageTypeId = model.DetailModel.DamageTypeId;
             demageDetail.ProductId = model.DetailModel.ProductId;
-            demageDetail.DemageQty = model.DetailModel.DemageQty;
+            demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
             demageDetail.TotalPrice = model.DetailModel.TotalPrice;
             demageDetail.Remarks = model.DetailModel.Remarks;
             demageDetail.IsActive = true;
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageDetail.DemageDetailId;
+                result = demageDetail.DamageDetailId;
             }
 
             return result;
@@ -140,20 +140,20 @@ namespace KGERP.Service.Implementation.ProdMaster
         {
             int result = -1;
 
-            DemageMaster demageMaster = await _db.DemageMasters.FindAsync(id);
+            DamageMaster demageMaster = await _db.DamageMasters.FindAsync(id);
 
             if (demageMaster == null)
             {
                 throw new Exception("Sorry! item not found!");
             }
 
-            if (demageMaster.StatusId == (int)EnumDemageStatus.Draft)
+            if (demageMaster.StatusId == (int)EnumDamageStatus.Draft)
             {
-                demageMaster.StatusId = (int)EnumDemageStatus.Submitted;
+                demageMaster.StatusId = (int)EnumDamageStatus.Submitted;
             }
             else
             {
-                demageMaster.StatusId = (int)EnumDemageStatus.Draft;
+                demageMaster.StatusId = (int)EnumDamageStatus.Draft;
             }
 
             demageMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -161,15 +161,15 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageMaster.DemageMasterId;
+                result = demageMaster.DamageMasterId;
             }
             return result;
         }
-        public async Task<int> DemageMasterEdit(DemageMasterModel model)
+        public async Task<int> DamageMasterEdit(DamageMasterModel model)
         {
             int result = -1;
-            DemageMaster demageMaster = await _db.DemageMasters.FindAsync(model.DemageMasterId);
-            demageMaster.DemageFromId = model.DemageFromId;
+            DamageMaster demageMaster = await _db.DamageMasters.FindAsync(model.DamageMasterId);
+            demageMaster.DamageFromId = model.DamageFromId;
             demageMaster.FromDeportId = model.FromDeportId;
             demageMaster.FromDealerId = model.FromDealerId;
             demageMaster.FromCustomerId = model.FromCustomerId;
@@ -184,23 +184,23 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageMaster.DemageMasterId;
+                result = demageMaster.DamageMasterId;
             }
 
             return result;
         }
-        public async Task<DemageMasterModel> GetDemageMasterById(int demageMaster)
+        public async Task<DamageMasterModel> GetDamageMasterById(int demageMaster)
         {
 
-            var v = await Task.Run(() => (from t1 in _db.DemageMasters.Where(x => x.IsActive && x.DemageMasterId == demageMaster)
+            var v = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMaster)
                                           join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
                                           join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
 
-                                          select new DemageMasterModel
+                                          select new DamageMasterModel
                                           {
-                                              DemageMasterId = t1.DemageMasterId,
+                                              DamageMasterId = t1.DamageMasterId,
                                               OperationDate = t1.OperationDate,
-                                              DemageFromId = t1.DemageFromId,
+                                              DamageFromId = t1.DamageFromId,
                                               FromDeportId = t1.FromDeportId,
                                               FromDealerId = t1.FromDealerId,
                                               FromCustomerId = t1.FromCustomerId,
@@ -217,11 +217,11 @@ namespace KGERP.Service.Implementation.ProdMaster
                                           }).FirstOrDefault());
             return v;
         }
-        public async Task<int> DemageDetailDelete(int id)
+        public async Task<int> DamageDetailDelete(int id)
         {
             int result = -1;
 
-            DemageDetail demageDetail = await _db.DemageDetails.FindAsync(id);
+            DamageDetail demageDetail = await _db.DamageDetails.FindAsync(id);
             if (demageDetail == null)
             {
                 throw new Exception("Sorry! Order not found!");
@@ -231,15 +231,15 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageDetail.DemageDetailId;
+                result = demageDetail.DamageDetailId;
             }
 
             return result;
         }
-        public async Task<int> DemageMasterDelete(int id)
+        public async Task<int> DamageMasterDelete(int id)
         {
             int result = -1;
-            DemageMaster demageMaster = await _db.DemageMasters.FindAsync(id);
+            DamageMaster demageMaster = await _db.DamageMasters.FindAsync(id);
             if (demageMaster == null)
             {
                 throw new Exception("Sorry! item not found!");
@@ -250,7 +250,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageMaster.ModifiedDate = DateTime.Now;
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = demageMaster.DemageMasterId;
+                result = demageMaster.DamageMasterId;
             }
 
 

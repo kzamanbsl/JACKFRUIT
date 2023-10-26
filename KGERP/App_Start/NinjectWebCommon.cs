@@ -143,7 +143,7 @@ namespace KGERP
             kernel.Bind<IManagerProductMapService>().To<ManagerProductMapService>().InRequestScope();
             kernel.Bind<IExpenseService>().To<ExpenseService>().InRequestScope();
             kernel.Bind<IProductionMasterService>().To<ProductionMasterService>().InRequestScope();
-            kernel.Bind<IDemageService>().To<DemageService>().InRequestScope();
+            kernel.Bind<IDamageService>().To<DamageService>().InRequestScope();
 
 
 

@@ -9,11 +9,11 @@ using System.Web.Mvc;
 
 namespace KGERP.Service.ServiceModel
 {
-    public class DemageMasterModel : BaseVM
+    public class DamageMasterModel : BaseVM
     {
-        public int DemageMasterId { get; set; }
+        public int DamageMasterId { get; set; }
         public System.DateTime OperationDate { get; set; }
-        public int DemageFromId { get; set; }
+        public int DamageFromId { get; set; }
         public Nullable<int> FromDeportId { get; set; }
         public string DeportName { get; set; }
         public Nullable<int> FromDealerId { get; set; }
@@ -30,24 +30,24 @@ namespace KGERP.Service.ServiceModel
         public int CompanyId { get; set; }
         public bool IsActive { get; set; }
 
-        public IEnumerable<DemageMasterModel> DataList { get; set; } = new List<DemageMasterModel>();
-        public DemageDetailModel DetailModel { get; set; } = new DemageDetailModel();
-        public IEnumerable<DemageDetailModel> DetailList { get; set; } = new List<DemageDetailModel>();
+        public IEnumerable<DamageMasterModel> DataList { get; set; } = new List<DamageMasterModel>();
+        public DamageDetailModel DetailModel { get; set; } = new DamageDetailModel();
+        public IEnumerable<DamageDetailModel> DetailList { get; set; } = new List<DamageDetailModel>();
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }
-    public class DemageDetailModel
+    public class DamageDetailModel
     {
-        public int DemageDetailId { get; set; }
-        public int DemageMasterId { get; set; }
+        public int DamageDetailId { get; set; }
+        public int DamageMasterId { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public int DemageTypeId { get; set; }
-        public string DemageTypeName { get; set; }
-        public double DemageQty { get; set; }
+        public int DamageTypeId { get; set; }
+        public string DamageTypeName { get; set; }
+        public double DamageQty { get; set; }
         public decimal UnitPrice { get; set; }
         public double TotalPrice { get; set; }
         public string Remarks { get; set; }

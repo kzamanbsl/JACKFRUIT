@@ -12,13 +12,13 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DemageDetail
+    public partial class DamageDetail
     {
-        public int DemageDetailId { get; set; }
-        public int DemageMasterId { get; set; }
+        public int DamageDetailId { get; set; }
+        public int DamageMasterId { get; set; }
         public int ProductId { get; set; }
-        public int DemageTypeId { get; set; }
-        public double DemageQty { get; set; }
+        public int DamageTypeId { get; set; }
+        public double DamageQty { get; set; }
         public decimal UnitPrice { get; set; }
         public double TotalPrice { get; set; }
         public string Remarks { get; set; }
@@ -28,7 +28,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     
-        public virtual DemageMaster DemageMaster { get; set; }
+        public virtual DamageMaster DamageMaster { get; set; }
         public virtual Product Product { get; set; }
     }
 }

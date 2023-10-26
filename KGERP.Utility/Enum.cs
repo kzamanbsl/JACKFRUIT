@@ -40,7 +40,7 @@
         Received,
         Closed
     }
-    public enum EnumDemageStatus
+    public enum EnumDamageStatus
     {
         Draft,
         Submitted,

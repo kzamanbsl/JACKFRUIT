@@ -15,12 +15,12 @@ using KGERP.Service.Implementation.Configuration;
 namespace KGERP.Controllers
 {
     [SessionExpire]
-    public class DemageController : Controller
+    public class DamageController : Controller
     {
-        private readonly IDemageService _service;
+        private readonly IDamageService _service;
         private readonly  ProcurementService procurementService;
         private readonly IProductService productService;
-        public DemageController(IDemageService service, ProcurementService procurementService,  IProductService productService)
+        public DamageController(IDamageService service, ProcurementService procurementService,  IProductService productService)
         {
             _service = service;
             this.procurementService = procurementService;
@@ -28,21 +28,21 @@ namespace KGERP.Controllers
            
         }
 
-        #region Demage Circle
+        #region Damage Circle
 
         [HttpGet]
         public async Task<ActionResult> DamageMasterSlave(int companyId = 0, int damageMasterId = 0)
         {
-            DemageMasterModel demageMasterModel = new DemageMasterModel();
+            DamageMasterModel demageMasterModel = new DamageMasterModel();
 
             if (damageMasterId == 0)
             {
                 demageMasterModel.CompanyFK = companyId;
-                demageMasterModel.StatusId = (int)EnumDemageStatus.Draft;
+                demageMasterModel.StatusId = (int)EnumDamageStatus.Draft;
             }
             else
             {
-                demageMasterModel = await  _service.GetDemageMasterDetail(companyId, damageMasterId);
+                demageMasterModel = await  _service.GetDamageMasterDetail(companyId, damageMasterId);
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
@@ -51,66 +51,66 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DamageMasterSlave(DemageMasterModel demageMasterModel)
+        public async Task<ActionResult> DamageMasterSlave(DamageMasterModel demageMasterModel)
         {
 
             if (demageMasterModel.ActionEum == ActionEnum.Add)
             {
-                if (demageMasterModel.DemageMasterId == 0)
+                if (demageMasterModel.DamageMasterId == 0)
                 {
-                    demageMasterModel.DemageMasterId = await _service.DemageMasterAdd(demageMasterModel);
+                    demageMasterModel.DamageMasterId = await _service.DamageMasterAdd(demageMasterModel);
 
                 }
-                await _service.DemageDetailAdd(demageMasterModel);
+                await _service.DamageDetailAdd(demageMasterModel);
             }
             else if (demageMasterModel.ActionEum == ActionEnum.Edit)
             {
-                await _service.DemageDetailEdit(demageMasterModel);
+                await _service.DamageDetailEdit(demageMasterModel);
             }
-            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DemageMasterId });
+            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
         }
 
         [HttpPost]
-        public async Task<ActionResult> SubmitDemageMaster(DemageMasterModel demageMasterModel)
+        public async Task<ActionResult> SubmitDamageMaster(DamageMasterModel demageMasterModel)
         {
-            demageMasterModel.DemageMasterId = await _service.SubmitDamageMaster(demageMasterModel.DemageMasterId);
-            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DemageMasterId });
+            demageMasterModel.DamageMasterId = await _service.SubmitDamageMaster(demageMasterModel.DamageMasterId);
+            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
         }
 
 
         //[HttpPost]
-        //public async Task<ActionResult> DemageMasterEdit(DemageMasterModel model)
+        //public async Task<ActionResult> DamageMasterEdit(DamageMasterModel model)
         //{
         //    if (model.ActionEum == ActionEnum.Edit)
         //    {
-        //        await _service.DemageMasterEdit(model);
+        //        await _service.DamageMasterEdit(model);
         //    }
         //    return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = model.CompanyFK });
         //}
 
         [HttpPost]
-        public async Task<JsonResult> GetDemageMasterById(int orderMasterId)
+        public async Task<JsonResult> GetDamageMasterById(int orderMasterId)
         {
-            var model = await _service.GetDemageMasterById(orderMasterId);
+            var model = await _service.GetDamageMasterById(orderMasterId);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteDemageDetailById(DemageMasterModel demageMasterModel)
+        public async Task<ActionResult> DeleteDamageDetailById(DamageMasterModel demageMasterModel)
         {
             if (demageMasterModel.ActionEum == ActionEnum.Delete)
             {
-                demageMasterModel.DetailModel.DemageDetailId = await _service.DemageDetailDelete(demageMasterModel.DetailModel.DemageDetailId);
+                demageMasterModel.DetailModel.DamageDetailId = await _service.DamageDetailDelete(demageMasterModel.DetailModel.DamageDetailId);
             }
-            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, orderMasterId = demageMasterModel.DemageMasterId });
+            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, orderMasterId = demageMasterModel.DamageMasterId });
         }
 
         //[HttpPost]
-        //public async Task<ActionResult> DeleteDemageMasterById(DemageMasterModel demageMasterModel)
+        //public async Task<ActionResult> DeleteDamageMasterById(DamageMasterModel demageMasterModel)
         //{
         //    if (demageMasterModel.ActionEum == ActionEnum.Delete)
         //    {
-        //        demageMasterModel.DemageMasterId = await _service.DemageMasterDelete(demageMasterModel.DemageMasterId);
+        //        demageMasterModel.DamageMasterId = await _service.DamageMasterDelete(demageMasterModel.DamageMasterId);
         //    }
         //    return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = demageMasterModel.CompanyFK });
         //}
