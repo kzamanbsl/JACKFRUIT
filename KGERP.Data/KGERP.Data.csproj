@@ -306,10 +306,10 @@
     <Compile Include="Models\CustomerNomineeInfo.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DemageDetail.cs">
+    <Compile Include="Models\DamageDetail.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DemageMaster.cs">
+    <Compile Include="Models\DamageMaster.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Demand.cs">

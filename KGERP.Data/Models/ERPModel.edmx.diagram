@@ -514,8 +514,8 @@
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderDetail1" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderMaster" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
-        <EntityTypeShape EntityType="ERPModel.DemageDetail" Width="1.5" PointX="74.125" PointY="31.125" />
-        <EntityTypeShape EntityType="ERPModel.DemageMaster" Width="1.5" PointX="70.875" PointY="33.625" />
+        <EntityTypeShape EntityType="ERPModel.DamageDetail" Width="1.5" PointX="74.125" PointY="31.125" />
+        <EntityTypeShape EntityType="ERPModel.DamageMaster" Width="1.5" PointX="70.875" PointY="33.625" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_DemageDetail_DemageMaster" />
         <AssociationConnector Association="ERPModel.FK_DemageDetail_Product" />

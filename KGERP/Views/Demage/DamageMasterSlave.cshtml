@@ -1,0 +1,40 @@
+﻿@model KGERP.Service.ServiceModel.DamageMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Damage Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+    double totalPrice = 0;
+    double discountPrice = 0;
+    decimal dis = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.DemageMasterId > 0)
+        {
+            <span>
+                Damage
+            </span>
+        }
+        else
+        {
+    <span>
+        Damage
+    </span>
+        }
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Damage</li>
+    </ol>
+</section>
