@@ -40,6 +40,12 @@
         Received,
         Closed
     }
+    public enum EnumDemageStatus
+    {
+        Draft,
+        Submitted,
+        Approved
+    }
     public enum EnumExpenseStatus
     {
         Draft,
