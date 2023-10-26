@@ -1746,25 +1746,6 @@ namespace KGERP.Controllers
 
             return View(sr);
         }
-        // GET: Customer List Report
-        [HttpGet]
-        [SessionExpire]
-        public ActionResult CustomerListReport(int companyId, string reportName)
-        {
-
-            Session["CompanyId"] = companyId;
-            ReportCustomerModel rcl = new ReportCustomerModel()
-            {
-                CompanyId = companyId,
-                ReportName = reportName,
-                ZoneFk = 0,
-                ZoneList = _configurationService.GetZoneSelectList(companyId),
-                //SubZoneList = _configurationService.GetSubZoneList(companyId, 0),
-                SubZoneFk = 0
-            };
-
-            return View(rcl);
-        }
 
         [HttpGet]
         [SessionExpire]
@@ -1828,32 +1809,7 @@ namespace KGERP.Controllers
             return View();
         }
 
-        [HttpGet]
-        [SessionExpire]
-        public ActionResult CustomerListReportView(ReportCustomerModel model)
-        {
-            NetworkCredential nwc = new NetworkCredential(_admin, _password);
-            WebClient client = new WebClient();
-            client.Credentials = nwc;
-
-
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", model.ReportName, model.ReportType, model.CompanyId, model.ZoneFk ?? 0, model.SubZoneFk ?? 0);
-
-            if (model.ReportType.Equals(ReportType.EXCEL))
-            {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", model.ReportName + ".xls");
-            }
-            if (model.ReportType.Equals(ReportType.PDF))
-            {
-                return File(client.DownloadData(reportUrl), "application/pdf");
-            }
-            if (model.ReportType.Equals(ReportType.WORD))
-            {
-                return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
-            }
-            return View();
-        }
-
+       
         [HttpGet]
         [SessionExpire]
         public ActionResult SalesRegisterReportView(ReportCustomModel model)
@@ -5159,6 +5115,7 @@ namespace KGERP.Controllers
 
 
         #region Azlan Food
+
         // GET: Product List Report
         [HttpGet]
         [SessionExpire]
@@ -5207,6 +5164,59 @@ namespace KGERP.Controllers
             return View();
         }
 
+        // GET: Deport List Report
+
+
+        // GET: Dealer List Report
+
+
+        // GET: Customer List Report
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult CustomerListReport(int companyId, string reportName)
+        {
+
+            Session["CompanyId"] = companyId;
+            ReportCustomerModel rcl = new ReportCustomerModel()
+            {
+                CompanyId = companyId,
+                ReportName = reportName,
+                ZoneFk = 0,
+                ZoneList = _configurationService.GetZoneSelectList(companyId),
+                //SubZoneList = _configurationService.GetSubZoneList(companyId, 0),
+                SubZoneFk = 0
+            };
+
+            return View(rcl);
+        }
+
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult CustomerListReportView(ReportCustomerModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", model.ReportName, model.ReportType, model.CompanyId, model.ZoneFk ?? 0, model.SubZoneFk ?? 0);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", model.ReportName + ".xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
+            }
+            return View();
+        }
+
+        // Customer Product Stock Report
         [HttpGet]
         [SessionExpire]
         public ActionResult FoodProductStockReport(int companyId)
