@@ -5250,7 +5250,6 @@
     <Content Include="Views\Report\PackagingReceiptPayment.cshtml" />
     <Content Include="Views\Report\PrintingReceiptPayment.cshtml" />
     <Content Include="Views\Report\ProductionSearch.cshtml" />
-    <Content Include="Views\Report\ProductListReport.cshtml" />
     <Content Include="Views\Report\ProfitLoss.cshtml" />
     <Content Include="Views\Report\ProfitLossService.cshtml" />
     <Content Include="Views\Report\PropertiesReceiptPaymentReport.cshtml" />
@@ -5610,6 +5609,7 @@
     <Content Include="Views\Report\DealerListReport.cshtml" />
     <Content Include="Views\Report\DeportProductStockReport.cshtml" />
     <Content Include="Views\Report\DealerProductStockReport.cshtml" />
+    <Content Include="Views\Report\ProductListReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
