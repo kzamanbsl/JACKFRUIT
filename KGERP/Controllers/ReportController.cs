@@ -5409,7 +5409,7 @@ namespace KGERP.Controllers
                 ToDate = DateTime.Now,
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
-                Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
+                SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text"),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 ReportName = "Dealer Product Stock Report"
             };
@@ -5424,9 +5424,13 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             client.Credentials = nwc;
             model.ReportName = CompanyInfo.ReportPrefix + "DealerProductStockReport";
-            if (model.StockId == null)
+            if (model.ZoneId == null)
             {
-                model.StockId = 0;
+                model.ZoneId = 0;
+            }
+            if (model.CustomerId == null)
+            {
+                model.CustomerId = 0;
             }
             if (model.ProductId == null)
             {
@@ -5440,7 +5444,15 @@ namespace KGERP.Controllers
             {
                 model.ProductSubCategoryId = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&DealerId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.CustomerId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {

@@ -208,18 +208,18 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Order Qty (Unit):</label>
-                                                @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
-                                               
+                                            @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Offer Qty:</label>
-                                            
-                                                @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
-                                                @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
-                                                
+
+                                            @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
+                                            @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
+
                                         </div>
                                     </div>
 
@@ -511,31 +511,16 @@
                 }
             });
 
-
-
-
             GetProduct(0);
-
-
-
-
-
-
-
-
-
-
-
-
 
             $("#ddlStockInfoTypeFk").change(function () {
 
                 var stockInfoTypeId = $("#ddlStockInfoTypeFk").val();
                 var zoneFk = $("#ddlZoneFk").val();
-                var deport= @((int)StockInfoTypeEnum.Deport);
+                var deport = @((int)StockInfoTypeEnum.Deport);
                 if (Number(stockInfoTypeId) == deport) {
 
-                document.getElementById('deportDivId').style.display = 'block';
+                    document.getElementById('deportDivId').style.display = 'block';
                     $.ajax({
                         type: "GET",
                         url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
@@ -549,7 +534,6 @@
                                 $(data).each(function (index, item) {
                                     $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                                 });
-
                             }
                         }
                     });
@@ -558,16 +542,16 @@
                     $("#ddlStockInfoId").val();
                 }
 
-             })
+            });
 
             $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                datatype: "Json",
-                    data: { zoneId: zoneFk},
+                    type: "GET",
+                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
                     success: function (data) {
 
                         if (data) {
@@ -580,7 +564,7 @@
                         }
                     }
                 });
-            })
+            });
 
             $("#ddlPaymentMethodEnumFK").change(function () {
 
@@ -594,14 +578,11 @@
             })
         });
 
-        
         $("#txtUnitPrice").on('change',function () {
-
             var qty = $("#txtOrderQuantity").val();
             var unitPrice = $("#txtUnitPrice").val();
             var tAmount = qty * unitPrice;
             $("#totalAmount").val(tAmount);
-           
         });
 
         $("#txtOrderQuantity").on('change', function () {
@@ -614,7 +595,6 @@
         });
 
         $("#disPercentage").keyup(function () {
-
             var qty = $("#txtOrderQuantity").val();
             var Unit = $("#txtUnitPrice").val();
             var PerCentage = $("#disPercentage").val();
@@ -623,7 +603,6 @@
             var totalPriceAfterTotalDisPercen = ammount - discountprice;
             $("#SpcDis").val(discountprice);
             $("#totalAmount").val(totalPriceAfterTotalDisPercen);
-
         });
 
         $("#SpcDis").keyup(function () {
@@ -638,8 +617,8 @@
             $("#totalAmount").val(totalPriceAfterTotalspecial);
 
         });
-        $("#txtUnitPrice").keyup(function () {
 
+        $("#txtUnitPrice").keyup(function () {
             var qty = $("#txtOrderQuantity").val();
             var unitPrice = $("#txtUnitPrice").val();
             var tAmount = qty * unitPrice;
@@ -656,10 +635,9 @@
             $("#totalAmount").val(tAmount);
 
         });
-          function makeEditble(rowId) {
 
-            $.ajax({
-
+        function makeEditble(rowId) {
+              $.ajax({
                   type: "POST",
                   url: "@Url.Action("SingleOrderDetails", "Procurement")",
                   datatype: "Json",
@@ -679,18 +657,15 @@
                       //GetProduct(data.ProductId);
                       $("#txtOrderQuantity").val(data.Qty);
                       //$('#txtUnitPrice').val(data.UnitPrice);
-                      $('#totalAmount').val(data.Qty*data.UnitPrice);
+                      $('#totalAmount').val(data.Qty * data.UnitPrice);
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-               
-            });
-            
-        }
+                  }
 
-
+              });
+        };
 
         function makeSubmitble(rowId) {
 
@@ -725,33 +700,33 @@
 
         function GetProduct(productId) {
             $.ajax({
-                        url:"@Url.Action("CommonProductGet", "Configuration")",
-                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
+                url: "@Url.Action("CommonProductGet", "Configuration")",
+                data: { companyId: "@Model.CompanyFK", productSubCategoryId: 0 },
+                dataType: "json",
+                type: "get",
+                cache: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
 
-                            $(data).each(function (i, item) {
-                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            })
-                            if (productId > 0) {
-                                $('#txtProductName').val(productId);
-                            }
-                        },
-                        error: function (response) {
+                    $(data).each(function (i, item) {
+                        $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    })
+                    if (productId > 0) {
+                        $('#txtProductName').val(productId);
+                    }
+                },
+                error: function (response) {
 
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
+                    //alert(response.responseText);
+                },
+                failure: function (response) {
 
-                            //alert(response.responseText);
-                        }
-                    });
-        }
+                    //alert(response.responseText);
+                }
+            });
+        };
 
-          $('#txtProductName').on('change', function () {
+        $('#txtProductName').on('change', function () {
                 var productId = $(this).val();
                 $.ajax({
                         type: "GET",
@@ -778,6 +753,7 @@
                         }
              });
 
-            });
+          });
+
     </script>
 }

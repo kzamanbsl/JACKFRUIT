@@ -29,20 +29,18 @@
             </div>
             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
         </div>
-
-        @*<div class="col-md-3">
-                <div class="form-group">
-                    <label>Territory</label>
-                    @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
-                    @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
         <div class="col-md-3">
             <div class="form-group">
-                <label>Store:</label>
-                @Html.DropDownListFor(model => model.StockId, Model.Stocklist as SelectList, "==Select Stock==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
+                <label>Zone:</label>
+                @Html.DropDownListFor(model => model.ZoneId, Model.SelectZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Dealer:</label>
+                @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -105,19 +103,18 @@
             });
         });
 
-        $("#ddlSubZoneFk").change(function () {
-            var subZoneFk = $("#ddlSubZoneFk").val();
+        $("#ddlZoneFk").change(function () {
+            var zoneFk = $("#ddlZoneFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
+                url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
                 datatype: "Json",
-                data: { subZoneId: subZoneFk },
+                data: { zoneId: zoneFk },
                 success: function (data) {
 
-                    var items = "";
                     if (data) {
                         $("#ddlCustomerId").empty();
-                        $("#ddlCustomerId").append("<option value=''>==Select Supplier==</option>");
+                        $("#ddlCustomerId").append("<option value=''>==Select Dealer==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
