@@ -11,6 +11,7 @@ using System.Web.Services.Description;
 using DocumentFormat.OpenXml.EMMA;
 using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Implementation.Configuration;
+using System.Linq;
 
 namespace KGERP.Controllers
 {
@@ -46,6 +47,9 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.DealerDamageTypeList = new SelectList(Enum.GetValues(typeof(EnumDamageTypeDealer)));
+            demageMasterModel.DepoDamageTypeList = new SelectList(Enum.GetValues(typeof(EnumDamageTypeDepo)));
+            demageMasterModel.FactoryDamageTypeList = new SelectList(Enum.GetValues(typeof(EnumDamageTypeFactory)));
 
             return View(demageMasterModel);
         }

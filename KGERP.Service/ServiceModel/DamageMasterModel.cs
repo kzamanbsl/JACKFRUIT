@@ -38,6 +38,9 @@ namespace KGERP.Service.ServiceModel
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
+        public SelectList DealerDamageTypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList DepoDamageTypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList FactoryDamageTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }
@@ -47,7 +50,9 @@ namespace KGERP.Service.ServiceModel
         public int DamageMasterId { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public int DamageTypeId { get; set; }
+        public EnumDamageTypeDealer DealerDamageTypeId { get; set; }
+        public EnumDamageTypeDepo DepoDamageTypeId { get; set; }
+        public EnumDamageTypeFactory FactoryDamageTypeId { get; set; }
         public string DamageTypeName { get; set; }
         public double DamageQty { get; set; }
         public decimal UnitPrice { get; set; }
