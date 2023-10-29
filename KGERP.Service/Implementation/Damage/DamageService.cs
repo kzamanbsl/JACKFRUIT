@@ -40,10 +40,11 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                           {
                                                               DamageMasterId = t1.DamageMasterId,
                                                               OperationDate = t1.OperationDate,
+                                                              CustomerName = t2.Name,
                                                               DamageFromId = t1.DamageFromId,
-                                                              FromCustomerId = t1.FromCustomerId,
+                                                              FromCustomerId = t1.FromCustomerId ,
                                                               FromDealerId = t1.FromDealerId,
-                                                              FromDeportId = t1.FromDeportId,
+                                                              FromDeportId = t1.FromDeportId ,
                                                               ToDealerId = t1.ToDealerId,
                                                               ToDeportId = t1.ToDeportId,
                                                               ToStockInfoId = t1.ToStockInfoId,
@@ -62,8 +63,9 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                          DamageDetailId = t1.DamageDetailId,
                                                                          DamageMasterId = t1.DamageMasterId,
                                                                          DamageQty = t1.DamageQty,
-                                                                         DamageTypeId = t1.DamageTypeId,
+                                                                         DealerDamageTypeId = (EnumDamageTypeDealer)t1.DamageTypeId,
                                                                          ProductId = t1.ProductId,
+                                                                         ProductName = t3.ProductName,
                                                                          UnitPrice = t1.UnitPrice,
                                                                          Remarks = t1.Remarks
                                                                      }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
@@ -113,7 +115,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 DamageMasterId = model.DamageMasterId,
                 DamageDetailId = model.DetailModel.DamageDetailId,
-                DamageTypeId = model.DetailModel.DamageTypeId,
+                DamageTypeId = (int)model.DetailModel.DealerDamageTypeId,
                 ProductId = model.DetailModel.ProductId,
                 DamageQty = model.DetailModel.DamageQty,
                 UnitPrice = model.DetailModel.UnitPrice,
@@ -141,7 +143,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             demageDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             demageDetail.ModifiedDate = DateTime.Now;
-            demageDetail.DamageTypeId = model.DetailModel.DamageTypeId;
+            demageDetail.DamageTypeId = (int)model.DetailModel.DealerDamageTypeId;
             demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
@@ -220,7 +222,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                               DamageMasterId = t1.DamageMasterId,
                                               OperationDate = t1.OperationDate,
                                               DamageFromId = t1.DamageFromId,
-                                              FromDeportId = t1.FromDeportId,
+                                              FromDeportId = t1.FromDeportId ,
                                               FromDealerId = t1.FromDealerId,
                                               FromCustomerId = t1.FromCustomerId,
                                               ToStockInfoId = t1.ToStockInfoId,
@@ -285,7 +287,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                           {
                                               DamageMasterId = t1.DamageMasterId,
                                               DamageDetailId =t1.DamageDetailId,
-                                              DamageTypeId = t1.DamageTypeId,
+                                              DealerDamageTypeId = (EnumDamageTypeDealer)t1.DamageTypeId,
                                               ProductId = t1.ProductId,
                                               DamageQty = t1.DamageQty,
                                               UnitPrice = t1.UnitPrice,

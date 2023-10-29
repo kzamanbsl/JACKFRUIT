@@ -50,8 +50,8 @@
 
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
-                @Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })
-                <span id="hiddenUnitPrice" hidden="hidden"></span>
+                @*@Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })*@
+                @*<span id="hiddenUnitPrice" hidden="hidden"></span>*@
                 <div class="box-danger">
 
                     <div class="box-body">
@@ -126,7 +126,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Customer:</label>
-                                            @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlFromCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.FromCustomerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                             @if (Model.StatusId == (int)EnumDamageStatus.Draft)
                             {
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
 
@@ -157,6 +157,13 @@
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                             @Html.HiddenFor(model => model.DetailModel.ProductId, new { id = "ddlRProductFK", @required = "required" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Damage Type:</label>
+                                            @Html.DropDownListFor(model => model.DetailModel.DealerDamageTypeId, Model.DealerDamageTypeList as SelectList, "==Select Type==", new { id = "ddlDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DealerDamageTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -212,8 +219,8 @@
                                     <thead>
                                         <tr>
                                             <th style="padding:5px;text-align:center;">SL</th>
-                                            <th style="padding:5px;text-align:right;">Damage Type</th>
                                             <th style="padding:5px;text-align:left;">Product</th>
+                                            <th style="padding:5px;text-align:right;">Damage Type</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
                                             <th style="padding:5px;text-align:center;">Unit Price</th>
 
@@ -229,8 +236,8 @@
 
                                             <tr>
                                                 <td style="padding:5px">@(++sl)</td>
-                                                <td style="padding:5px;text-align:right;">@item.DamageTypeName)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                <td style="padding:5px;text-align:right;">@item.DamageTypeName</td>
                                                 <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.DamageQty) @item.UnitName</td>
                                                 <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 @{ if (Model.StatusId == (int)EnumDamageStatus.Draft)
@@ -483,10 +490,10 @@
                     success: function (data) {
 
                         if (data) {
-                            $("#ddlCustomerId").empty();
-                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                            $("#ddlFromCustomerId").empty();
+                            $("#ddlFromCustomerId").append("<option value=''>==Select Customer==</option>");
                             $(data).each(function (index, item) {
-                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                $("#ddlFromCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
 
                         }
@@ -596,7 +603,7 @@
                                 $('.txtUnitName').text(data.UnitName);
                                 $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
 
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
+                               /* var customerTypeFK = $("#hidCustomerTypeFk").val();*/
                                 if (unitPrice == 0) {
                                     $("#txtUnitPrice").val(data.UnitPrice);
 
