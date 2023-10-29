@@ -138,6 +138,7 @@ namespace KGERP.Data.CustomModel
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());
         public SelectList Stocklist { get; set; } = new SelectList(new List<object>());
         public List<SelectModelType> ZoneList { get; set; } = new List<SelectModelType> { };
+        public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public int? CustomerId { get; set; }
@@ -176,6 +177,7 @@ namespace KGERP.Data.CustomModel
         public int? DepartmentId { get; set; } = 0;
         public int? DesignationId { get; set; } = 0;
     }
+
     public class ReportCustomerModel
     {
         public int CustomerId { get; set; }

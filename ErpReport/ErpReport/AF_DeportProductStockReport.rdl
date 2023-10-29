@@ -9,21 +9,21 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-29T04:54:02.6696529Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-10-29T09:08:21.8874733Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ProductStockReportDS">
+    <DataSource Name="DeportProductStockReportDS">
       <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>67be62a9-c711-4edd-b132-14d9323d34ee</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ProductStockReportDSet">
+    <DataSet Name="DeportProductStockReportDSet">
       <Query>
-        <DataSourceName>ProductStockReportDS</DataSourceName>
+        <DataSourceName>DeportProductStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@StrFromDate">
             <Value>=Parameters!StrFromDate.Value</Value>
@@ -43,12 +43,12 @@
           <QueryParameter Name="@Common_ProductFK">
             <Value>=Parameters!Common_ProductFK.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@StockInfoId">
-            <Value>=Parameters!StockInfoId.Value</Value>
+          <QueryParameter Name="@DeportId">
+            <Value>=Parameters!DeportId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_ProductStockList</CommandText>
+        <CommandText>sp_DeportProductStockList</CommandText>
       </Query>
       <Fields>
         <Field Name="ReportTitle">
@@ -127,7 +127,7 @@
     </DataSet>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>ProductStockReportDS</DataSourceName>
+        <DataSourceName>DeportProductStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -161,7 +161,7 @@ WHERE CompanyId = @CompanyId </CommandText>
     </DataSet>
     <DataSet Name="SignatoryDataSet">
       <Query>
-        <DataSourceName>ProductStockReportDS</DataSourceName>
+        <DataSourceName>DeportProductStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -2000,10 +2000,10 @@ order By OrderBy Desc</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ProductStockReportDSet</DataSetName>
+            <DataSetName>DeportProductStockReportDSet</DataSetName>
             <Left>1.0132in</Left>
             <Height>1.45417in</Height>
-            <Width>10.00187in</Width>
+            <Width>10.00189in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2203,7 +2203,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>ReportTitle</Label>
-                      <Value>=First(Fields!ReportTitle.Value, "ProductStockReportDSet")</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DeportProductStockReportDSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>11pt</FontSize>
@@ -2371,9 +2371,9 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Common Product FK</Prompt>
     </ReportParameter>
-    <ReportParameter Name="StockInfoId">
+    <ReportParameter Name="DeportId">
       <DataType>Integer</DataType>
-      <Prompt>StockInfoId</Prompt>
+      <Prompt>Deport Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -2412,9 +2412,9 @@ order By OrderBy Desc</CommandText>
           <ParameterName>Common_ProductFK</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
+          <ColumnIndex>3</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>StockInfoId</ParameterName>
+          <ParameterName>DeportId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
