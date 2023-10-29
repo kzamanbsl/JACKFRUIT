@@ -5604,7 +5604,6 @@
     <Content Include="Views\MaterialReceive\FoodStockDetailReport.cshtml" />
     <Content Include="Views\Damage\DamageMasterSlave.cshtml" />
     <Content Include="Views\Report\FoodProductStockReport.cshtml" />
-    <Content Include="Views\Demage\DamageMasterSlave.cshtml" />
     <Content Include="Views\Report\DeportProductStockReport.cshtml" />
     <Content Include="Views\Report\DealerProductStockReport.cshtml" />
     <Content Include="Views\Report\ProductListReport.cshtml" />
