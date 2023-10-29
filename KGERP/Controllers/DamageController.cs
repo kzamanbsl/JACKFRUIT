@@ -47,10 +47,7 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
-            demageMasterModel.DealerDamageTypeList = new SelectList(Enum.GetValues(typeof(EnumDamageTypeDealer)));
-            demageMasterModel.DepoDamageTypeList = new SelectList(Enum.GetValues(typeof(EnumDamageTypeDepo)));
-            demageMasterModel.FactoryDamageTypeList = new SelectList(Enum.GetValues(typeof(EnumDamageTypeFactory)));
-
+           
             return View(demageMasterModel);
         }
 
@@ -111,7 +108,7 @@ namespace KGERP.Controllers
             {
                 demageMasterModel.DetailModel.DamageDetailId = await _service.DamageDetailDelete(demageMasterModel.DetailModel.DamageDetailId);
             }
-            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, orderMasterId = demageMasterModel.DamageMasterId });
+            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
         }
 
         //[HttpPost]
