@@ -30,40 +30,49 @@ namespace KGERP.Service.Implementation.ProdMaster
         public async Task<DamageMasterModel> GetDamageMasterDetail(int companyId, int demageMasterId)
         {
             DamageMasterModel demageMasterModel = new DamageMasterModel();
-            demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
-                                                      join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
-                                                      join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      select new DamageMasterModel
-                                                      {
-                                                          DamageMasterId = t1.DamageMasterId,
-                                                          OperationDate = t1.OperationDate,
-                                                          DamageFromId = t1.DamageFromId,
-                                                          FromCustomerId = t1.FromCustomerId,
-                                                          FromDealerId = t1.FromDealerId,
-                                                          FromDeportId = t1.FromDeportId,
-                                                          ToDealerId = t1.ToDealerId,
-                                                          ToDeportId = t1.ToDeportId,
-                                                          ToStockInfoId = t1.ToStockInfoId,
-                                                          StatusId = t1.StatusId,
-                                                          CompanyFK = t1.CompanyId,
-                                                          CompanyId = t1.CompanyId,
-                                                          CreatedDate = (DateTime)t1.CreateDate,
-                                                          CreatedBy = t1.CreatedBy,
+            try
+            {
 
-                                                      }).FirstOrDefault());
-            demageMasterModel.DetailList = await Task.Run(() => (from t1 in _db.DamageDetails.Where(x => x.IsActive && x.DamageDetailId == demageMasterId)
-                                                                    join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
-                                                                    //join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
-                                                                    select new DamageDetailModel
-                                                                    {
-                                                                       DamageDetailId = t1.DamageDetailId,
-                                                                       DamageMasterId = t1.DamageMasterId,
-                                                                       DamageQty = t1.DamageQty,
-                                                                       DamageTypeId = t1.DamageTypeId,
-                                                                       ProductId = t1.ProductId,
-                                                                       UnitPrice = t1.UnitPrice,
-                                                                       Remarks = t1.Remarks
-                                                                    }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
+                demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
+                                                          join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
+                                                          join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
+                                                          select new DamageMasterModel
+                                                          {
+                                                              DamageMasterId = t1.DamageMasterId,
+                                                              OperationDate = t1.OperationDate,
+                                                              DamageFromId = t1.DamageFromId,
+                                                              FromCustomerId = t1.FromCustomerId,
+                                                              FromDealerId = t1.FromDealerId,
+                                                              FromDeportId = t1.FromDeportId,
+                                                              ToDealerId = t1.ToDealerId,
+                                                              ToDeportId = t1.ToDeportId,
+                                                              ToStockInfoId = t1.ToStockInfoId,
+                                                              StatusId = t1.StatusId,
+                                                              CompanyFK = t1.CompanyId,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreatedDate = (DateTime)t1.CreateDate,
+                                                              CreatedBy = t1.CreatedBy,
+
+                                                          }).FirstOrDefault());
+                demageMasterModel.DetailList = await Task.Run(() => (from t1 in _db.DamageDetails.Where(x => x.IsActive && x.DamageDetailId == demageMasterId)
+                                                                     join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
+                                                                     //join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
+                                                                     select new DamageDetailModel
+                                                                     {
+                                                                         DamageDetailId = t1.DamageDetailId,
+                                                                         DamageMasterId = t1.DamageMasterId,
+                                                                         DamageQty = t1.DamageQty,
+                                                                         DamageTypeId = t1.DamageTypeId,
+                                                                         ProductId = t1.ProductId,
+                                                                         UnitPrice = t1.UnitPrice,
+                                                                         Remarks = t1.Remarks
+                                                                     }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
 
             return demageMasterModel;
