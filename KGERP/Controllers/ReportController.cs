@@ -5299,6 +5299,14 @@ namespace KGERP.Controllers
             {
                 model.ProductSubCategoryId = 0;
             }
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+            }
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
