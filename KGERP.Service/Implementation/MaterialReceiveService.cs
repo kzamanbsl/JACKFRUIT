@@ -712,7 +712,7 @@ namespace KGERP.Service.Implementation
                 ReceivedBy = vmPOReceivingSlave.ReceivedBy,
                 Remarks = vmPOReceivingSlave.Remarks,
                 AllowLabourBill = vmPOReceivingSlave.AllowLabourBill,
-                ChallanDate = vmPOReceivingSlave.ChallanDate,
+                ChallanDate = vmPOReceivingSlave.ReceivedDate,
                 ChallanNo = vmPOReceivingSlave.Challan,
                 CompanyId = vmPOReceivingSlave.CompanyId,
 
