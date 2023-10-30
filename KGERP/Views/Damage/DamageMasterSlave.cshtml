@@ -106,21 +106,28 @@
                         @if (Model.DamageMasterId == 0)
                         {
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="message-text" class="col-form-label">Date :</label>
                                     <div class="form-group">
                                         <input name="OperationDate" asp-for="OperationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
                                         @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Zone:</label>
                                         @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Dealer:</label>
+                                        @Html.DropDownListFor(model => model.ToDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Customer:</label>
                                         @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlFromCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
