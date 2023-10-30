@@ -5609,6 +5609,7 @@
     <Content Include="Views\Report\ProductListReport.cshtml" />
     <Content Include="Views\Report\DealerListReport.cshtml" />
     <Content Include="Views\Report\DeportListReport.cshtml" />
+    <Content Include="Views\Damage\DamageMasterList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

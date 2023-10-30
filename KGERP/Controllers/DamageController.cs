@@ -79,20 +79,20 @@ namespace KGERP.Controllers
         }
 
 
-        //[HttpPost]
-        //public async Task<ActionResult> DamageMasterEdit(DamageMasterModel model)
-        //{
-        //    if (model.ActionEum == ActionEnum.Edit)
-        //    {
-        //        await _service.DamageMasterEdit(model);
-        //    }
-        //    return RedirectToAction(nameof(DamageMasterList), new { companyId = model.CompanyFK });
-        //}
+        [HttpPost]
+        public async Task<ActionResult> DamageMasterEdit(DamageMasterModel model)
+        {
+            if (model.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DamageMasterEdit(model);
+            }
+            return RedirectToAction(nameof(DamageMasterList), new { companyId = model.CompanyFK });
+        }
 
         [HttpPost]
-        public async Task<JsonResult> GetDamageMasterById(int orderMasterId)
+        public async Task<JsonResult> GetDamageMasterById(int damageMasterId)
         {
-            var model = await _service.GetDamageMasterById(orderMasterId);
+            var model = await _service.GetDamageMasterById(damageMasterId);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
         public async Task<JsonResult> SingleDamageDetails(int id)
@@ -111,15 +111,15 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> DeleteDamageMasterById(DamageMasterModel demageMasterModel)
-        //{
-        //    if (demageMasterModel.ActionEum == ActionEnum.Delete)
-        //    {
-        //        demageMasterModel.DamageMasterId = await _service.DamageMasterDelete(demageMasterModel.DamageMasterId);
-        //    }
-        //    return RedirectToAction(nameof(DamageMasterList), new { companyId = demageMasterModel.CompanyFK });
-        //}
+        [HttpPost]
+        public async Task<ActionResult> DeleteDamageMasterById(DamageMasterModel demageMasterModel)
+        {
+            if (demageMasterModel.ActionEum == ActionEnum.Delete)
+            {
+                demageMasterModel.DamageMasterId = await _service.DamageMasterDelete(demageMasterModel.DamageMasterId);
+            }
+            return RedirectToAction(nameof(DamageMasterList), new { companyId = demageMasterModel.CompanyFK });
+        }
 
         [HttpGet]
         public async Task<ActionResult> DamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
@@ -128,7 +128,7 @@ namespace KGERP.Controllers
             if (!toDate.HasValue) toDate = DateTime.Now;
 
             DamageMasterModel damageMasterModel = new DamageMasterModel();
-            //vmSalesOrder = await _service.GetFoodCustomerOrderMasterList(companyId, fromDate, toDate, vStatus);
+            damageMasterModel = await _service.GetDamageMasterList(companyId, fromDate, toDate, vStatus);
 
             damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -137,6 +137,8 @@ namespace KGERP.Controllers
                 vStatus = -1;
             }
             damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
+            damageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+
             return View(damageMasterModel);
         }
 

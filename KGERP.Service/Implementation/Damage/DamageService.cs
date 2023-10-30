@@ -35,10 +35,16 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
                                                       from t2 in t2_Join.DefaultIfEmpty()
+                                                      join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
+                                                      from t3 in t3_Join.DefaultIfEmpty()
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
                                                           OperationDate = t1.OperationDate,
+                                                          DealerName = t3.Name,
+                                                          DealerAddress = t3.Address,
+                                                          DealerEmail = t3.Email,
+                                                          DealerPhone = t3.Phone,
                                                           CustomerName = t2.Name,
                                                           CustomerEmail = t2.Email,
                                                           CustomerPhone = t2.Phone,
@@ -188,6 +194,7 @@ namespace KGERP.Service.Implementation.ProdMaster
         {
             int result = -1;
             DamageMaster demageMaster = await _db.DamageMasters.FindAsync(model.DamageMasterId);
+            demageMaster.OperationDate = model.OperationDate;
             demageMaster.DamageFromId = model.DamageFromId;
             demageMaster.FromDeportId = model.FromDeportId;
             demageMaster.FromDealerId = model.FromDealerId;
@@ -208,12 +215,15 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             return result;
         }
-        public async Task<DamageMasterModel> GetDamageMasterById(int demageMaster)
+        public async Task<DamageMasterModel> GetDamageMasterById(int demageMasterId)
         {
 
-            var v = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMaster)
-                                          join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
-                                          join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
+            var v = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId)
+                                          join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
+                                          from t2 in t2_Join.DefaultIfEmpty()
+                                          join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
+                                          from t3 in t3_Join.DefaultIfEmpty()
+                                          join t4 in _db.Companies on t1.CompanyId equals t4.CompanyId
 
                                           select new DamageMasterModel
                                           {
@@ -223,15 +233,17 @@ namespace KGERP.Service.Implementation.ProdMaster
                                               FromDeportId = t1.FromDeportId,
                                               FromDealerId = t1.FromDealerId,
                                               FromCustomerId = t1.FromCustomerId,
+                                              ZoneFk = t3.ZoneId ?? t2.ZoneId,
                                               ToStockInfoId = t1.ToStockInfoId,
                                               ToDeportId = t1.ToDeportId,
                                               ToDealerId = t1.ToDealerId,
                                               Remarks = t1.Remarks,
                                               StatusId = (EnumDamageStatus)t1.StatusId,
                                               CompanyFK = t1.CompanyId,
-                                              CompanyName = t3.Name,
+                                              CompanyId = t1.CompanyId,
+                                              CompanyName = t4.Name,
                                               CreatedBy = t1.CreatedBy,
-                                              CreatedDate = (DateTime)t1.CreateDate
+                                              CreatedDate = t1.CreateDate
 
                                           }).FirstOrDefault());
             return v;
@@ -299,27 +311,38 @@ namespace KGERP.Service.Implementation.ProdMaster
                                           }).FirstOrDefault());
             return v;
         }
-        public async Task<DamageMasterModel> GetDamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? StatusId)
+        public async Task<DamageMasterModel> GetDamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
         {
             DamageMasterModel damageMasterModel = new DamageMasterModel();
             damageMasterModel.CompanyFK = companyId;
             damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
-                                                          && x.FromCustomerId > 0
+                                                          && (x.ToDealerId > 0 || x.FromCustomerId > 0)
                                                           && x.OperationDate >= fromDate && x.OperationDate <= toDate)
-                                                               join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
+                                                               join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
+                                                               from t2 in t2_Join.DefaultIfEmpty()
+                                                               join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
+                                                               from t3 in t3_Join.DefaultIfEmpty()
 
                                                                select new DamageMasterModel
                                                                {
+                                                                   DamageMasterId = t1.DamageMasterId,
+                                                                   StatusId = (EnumDamageStatus)t1.StatusId,
+                                                                   OperationDate = t1.OperationDate,
+                                                                   FromCustomerId = t1.FromCustomerId,
+                                                                   CustomerName = t2.Name,
+                                                                   ToDealerId = t1.ToDealerId,
+                                                                   DealerName = t3.Name,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedBy = t1.CreatedBy,
+                                                                   IsActive = t1.IsActive,
 
                                                                }).OrderByDescending(x => x.DamageMasterId).AsEnumerable());
 
-            if (StatusId != -1 && StatusId != null)
+            if (statusId != -1 && statusId != null)
             {
-                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)StatusId);
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)statusId);
             }
             return damageMasterModel;
         }

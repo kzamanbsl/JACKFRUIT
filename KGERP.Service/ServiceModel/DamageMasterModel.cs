@@ -14,22 +14,32 @@ namespace KGERP.Service.ServiceModel
         public int DamageMasterId { get; set; }
         public System.DateTime OperationDate { get; set; }
         public int DamageFromId { get; set; }
+
         public Nullable<int> FromDeportId { get; set; }
         public string DeportName { get; set; }
+
         public Nullable<int> FromDealerId { get; set; }
         public string DealerName { get; set; }
+        public string DealerAddress { get; set; }
+        public string DealerPhone { get; set; }
+        public string DealerEmail { get; set; }
+
         public Nullable<int> FromCustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerPhone { get; set; }
         public string CustomerEmail { get; set; }
+
         public Nullable<int> ToDeportId { get; set; }
         public Nullable<int> ToDealerId { get; set; }
+
         public Nullable<int> ToStockInfoId { get; set; }
         public string StockInfoName { get; set; }
+
         public EnumDamageStatus StatusId { get; set; }
-        public int? ZoneFk { get; set; }
         public string StatusName { get { return BaseFunctionalities.GetEnumDescription(this.StatusId); } }
+
+        public int? ZoneFk { get; set; }
         public string Remarks { get; set; }
         public int CompanyId { get; set; }
         public bool IsActive { get; set; }
@@ -45,6 +55,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
+        public SelectList EnumDamageStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageStatus>(), "Value", "Text"); } }
         public SelectList DealerDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeDealer>(), "Value", "Text"); } }
         public SelectList DepoDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeDepo>(), "Value", "Text"); } }
         public SelectList FactoryDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeFactory>(), "Value", "Text"); } }

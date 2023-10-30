@@ -70,6 +70,24 @@
                                         <td>@Model.StatusName</td>
                                     </tr>
                                     <tr>
+                                        <th>Dealer </th>
+                                        <th>:</th>
+                                        <td>@Model.DealerName</td>
+
+                                        <th>Dealer Phone</th>
+                                        <th>:</th>
+                                        <td>@Model.DealerPhone</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dealer Email</th>
+                                        <th>:</th>
+                                        <td>@Model.DealerEmail</td>
+                                        <th>Dealer Address</th>
+                                        <th>:</th>
+                                        <td>@Model.DealerAddress</td>
+                                    </tr>
+
+                                    <tr>
                                         <th>Customer</th>
                                         <th>:</th>
                                         <td>@Model.CustomerName</td>
@@ -464,23 +482,23 @@
                     }
                 });
 
-                $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                        datatype: "Json",
-                            data: { zoneId: zoneFk},
-                            success: function (data) {
+                 $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
 
-                                if (data) {
-                                    $("#ddlStockInfoId").empty();
-                                    $("#ddlStockInfoId").append("<option value=''>==Select Stock From==</option>");
-                                    $(data).each(function (index, item) {
-                                        $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                    });
+                        if (data) {
+                            $("#ddlDealerId").empty();
+                            $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
 
-                                }
-                            }
-                    });
+                        }
+                    }
+                });
             })
 
             $("#ddlPaymentMethodEnumFK").change(function () {
