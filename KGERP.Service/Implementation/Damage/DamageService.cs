@@ -74,7 +74,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      Remarks = t1.Remarks
                                                                  }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
 
-           
+
             return demageMasterModel;
         }
         public async Task<int> DamageMasterAdd(DamageMasterModel model)
@@ -298,6 +298,30 @@ namespace KGERP.Service.Implementation.ProdMaster
                                               CompanyId = t0.CompanyId
                                           }).FirstOrDefault());
             return v;
+        }
+        public async Task<DamageMasterModel> GetDamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? StatusId)
+        {
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
+            damageMasterModel.CompanyFK = companyId;
+            damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && x.FromCustomerId > 0
+                                                          && x.OperationDate >= fromDate && x.OperationDate <= toDate)
+                                                               join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId
+
+                                                               select new DamageMasterModel
+                                                               {
+                                                                   CompanyFK = t1.CompanyId,
+                                                                   CompanyId = t1.CompanyId,
+                                                                   CreatedBy = t1.CreatedBy,
+
+                                                               }).OrderByDescending(x => x.DamageMasterId).AsEnumerable());
+
+            if (StatusId != -1 && StatusId != null)
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)StatusId);
+            }
+            return damageMasterModel;
         }
     }
 }

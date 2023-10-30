@@ -33,6 +33,10 @@ namespace KGERP.Service.ServiceModel
         public string Remarks { get; set; }
         public int CompanyId { get; set; }
         public bool IsActive { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string StrFromDate { get; set; }
+        public string StrToDate { get; set; }
 
         public IEnumerable<DamageMasterModel> DataList { get; set; } = new List<DamageMasterModel>();
         public DamageDetailModel DetailModel { get; set; } = new DamageDetailModel();

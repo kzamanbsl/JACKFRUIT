@@ -2902,7 +2902,7 @@ ERROR 2023-10-30 11:06:32,033 3164531ms HomeController         MenuPartial      
    at System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
    at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
-   at KGERP.Controllers.HomeController.MenuPartial() in D:\RunningWork\JACKFRUIT\KGERP\Controllers\HomeController.cs:line 641
+at KGERP.Controllers.HomeController.MenuPartial() in D:\RunningWork\JACKFRUIT\KGERP\Controllers\HomeController.cs:line 641
 ERROR 2023-10-30 11:06:56,812 3189310ms HomeController         MenuPartial        - System.InvalidOperationException: The cast to value type 'System.Int32' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
    at System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
    at lambda_method(Closure , Shaper )
@@ -3047,3 +3047,4 @@ ERROR 2023-10-30 11:32:28,526 246797ms HomeController         MenuPartial       
    at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at KGERP.Controllers.HomeController.MenuPartial() in D:\RunningWork\JACKFRUIT\KGERP\Controllers\HomeController.cs:line 641
+
