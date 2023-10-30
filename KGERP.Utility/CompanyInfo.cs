@@ -14,7 +14,8 @@
         public static string CompanyShortName = "AF";
         public static string CompanyLogoUrl = "/Content/img/JfERPLogo.png";
         public static string CompanyMenuName = "Azlan Food";
-        public static string ReportPrefix = "AF_";
+        //public static string ReportPrefix = "AF_";
+        public static string ReportPrefix = "AFTest_";
         #endregion
 
         #endregion

@@ -559,21 +559,6 @@ namespace KGERP.Service.Implementation.Procurement
             return vMRI;
         }
 
-        public VMProductStock GetFoodProductStockByProductId(int companyId, int productId, int stockInfoId)
-        {
-            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
-            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
-            {
-                stockInfoId = stockInfo.StockInfoId;
-            }
-
-            VMProductStock vmProductStock = new VMProductStock();
-
-            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC FoodStockQuantityByProductAndStockInfoId {0},{1},{2}", companyId, productId, stockInfoId).FirstOrDefault();
-
-            return vmProductStock;
-        }
-
         #endregion
 
         #region Enum Model
@@ -2554,7 +2539,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           ContactPerson = t2.ContactName,
                                                           CommonCustomerName = t2.Name,
                                                           CommonCustomerCode = t2.Code,
-                                                          CustomerTypeFk = t2.CustomerTypeFK, 
+                                                          CustomerTypeFk = t2.CustomerTypeFK,
                                                           CustomerId = t2.VendorId
 
                                                       }).FirstOrDefault());
@@ -4396,6 +4381,32 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonDeportList;
         }
 
+        public VMProductStock GetFoodProductStockByProductId(int companyId, int productId, int stockInfoId)
+        {
+            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
+            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
+            {
+                stockInfoId = stockInfo.StockInfoId;
+            }
+            //*** Reprot Parameters ***
+            //@CompanyId int,
+            //@StrFromDate varchar(50),
+            //@StrToDate varchar(50),
+            //@Common_ProductCategoryFk int,
+            //@Common_ProductSubCategoryFk int,
+            //@Common_ProductFK int,
+            //@StockInfoId int
+
+            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+
+            VMProductStock vmProductStock = new VMProductStock();
+
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
+                companyId, strFromDate, strToDate,0,0, productId, stockInfoId).FirstOrDefault();
+
+            return vmProductStock;
+        }
         #endregion
 
         #region Dealer Sales
@@ -4508,7 +4519,7 @@ namespace KGERP.Service.Implementation.Procurement
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
-                OfferQty=vmSalesOrderSlave.OfferQty,
+                OfferQty = vmSalesOrderSlave.OfferQty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -4645,13 +4656,13 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
-                                                                        OfferQty=t1.OfferQty,
+                                                                        OfferQty = t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
                                                                         TotalAmount = t1.Amount,
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
-                                                                      
+
                                                                         PromotionalOfferId = t1.PromotionalOfferId,
                                                                         ProductCategoryId = t5.ProductCategoryId,
                                                                         ProductSubCategoryId = t4.ProductSubCategoryId,
@@ -4742,7 +4753,7 @@ namespace KGERP.Service.Implementation.Procurement
                     ProductSerial = item.ProductSerial,
                     ProductId = item.ProductId,
                     Qty = item.Qty,
-                    OfferQty=item.OfferQty,
+                    OfferQty = item.OfferQty,
                     UnitPrice = item.UnitPrice,
                     Amount = item.Amount,
                     SpecialBaseCommission = item.SpecialBaseCommission,
@@ -4889,8 +4900,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               OrderNo = t1.OrderNo,
                                                               OrderDate = t1.OrderDate,
                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
-                                                              ChallanNo=t1.ChallanNo,
-                                                              ChallanDate=t1.ChallanDate,
+                                                              ChallanNo = t1.ChallanNo,
+                                                              ChallanDate = t1.ChallanDate,
                                                               CourierNo = t1.CourierNo,
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
@@ -4964,6 +4975,32 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonCustomerList;
         }
 
+        public VMProductStock GetDeportProductStockByProductId(int companyId, int productId, int stockInfoId)
+        {
+            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
+            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
+            {
+                stockInfoId = stockInfo.StockInfoId;
+            }
+            //*** Reprot Parameters ***
+            //@CompanyId int,
+            //@StrFromDate varchar(50),
+            //@StrToDate varchar(50),
+            //@Common_ProductCategoryFk int,
+            //@Common_ProductSubCategoryFk int,
+            //@Common_ProductFK int,
+            //@StockInfoId int
+
+            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+
+            VMProductStock vmProductStock = new VMProductStock();
+
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
+                companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
+
+            return vmProductStock;
+        }
         #endregion
 
         #region Food Customer Sales
@@ -5052,7 +5089,7 @@ namespace KGERP.Service.Implementation.Procurement
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = vmSalesOrderSlave.Qty,
-                OfferQty=vmSalesOrderSlave.OfferQty,
+                OfferQty = vmSalesOrderSlave.OfferQty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -5175,7 +5212,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OrderMasterId = t1.OrderMasterId,
                                                                         OrderDetailId = t1.OrderDetailId,
                                                                         Qty = t1.Qty,
-                                                                        OfferQty=t1.OfferQty,
+                                                                        OfferQty = t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
                                                                         TotalAmount = t1.Amount,
@@ -5284,7 +5321,32 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonCustomerList;
         }
 
+        public VMProductStock GetDealerProductStockByProductId(int companyId, int productId, int stockInfoId)
+        {
+            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
+            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
+            {
+                stockInfoId = stockInfo.StockInfoId;
+            }
+            //*** Reprot Parameters ***
+            //@CompanyId int,
+            //@StrFromDate varchar(50),
+            //@StrToDate varchar(50),
+            //@Common_ProductCategoryFk int,
+            //@Common_ProductSubCategoryFk int,
+            //@Common_ProductFK int,
+            //@StockInfoId int
 
+            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+
+            VMProductStock vmProductStock = new VMProductStock();
+
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
+                companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
+
+            return vmProductStock;
+        }
         #endregion
 
         #endregion
