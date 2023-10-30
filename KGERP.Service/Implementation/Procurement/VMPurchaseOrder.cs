@@ -434,26 +434,41 @@ namespace KGERP.Service.Implementation.Procurement
 
     public class VMProductStock : BaseVM
     {
+        public string ReportTitle { get; set; }
         public int ProductCategoryId { get; set; }
         public string ProductCategoryName { get; set; }
         public int ProductSubCategoryId { get; set; }
         public string ProductSubCategoryName { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public string UnitName { get; set; }
+        public double Consumption { get; set; }
+
         public decimal UnitPrice { get; set; }
         public decimal TPPrice { get; set; }
-        public decimal? CreditSalePrice { get; set; }
-
+       
         public decimal CostingPrice { get; set; }
+        public string UnitName { get; set; }
+        public int UnitId { get; set; }
+
         public decimal ReceiveQty { get; set; }
-        public decimal SalesQuantity { get; set; }
+        public double ReceiveQtyCtn { get; set; }
+        public decimal ReceiveQtyPcs => (ReceiveQty - (decimal)(ReceiveQtyCtn * Consumption));
+
+        public decimal SalesQty { get; set; }
+        public double SalesQtyCtn { get; set; }
+        public decimal SalesQtyPcs => (SalesQty - (decimal)(SalesQtyCtn * Consumption));
+
+
+        public decimal CurrentStockQty { get; set; }
+        public double CurrentStockQtyCtn { get; set; }
+        public decimal CurrentStockQtyPcs => (CurrentStockQty - (decimal)(CurrentStockQtyCtn * Consumption));
+
+
+        public decimal? CreditSalePrice { get; set; }
         public decimal SaleReturnQuantity { get; set; }
         public decimal StockAdjustExcessQty { get; set; }
         public decimal StockAdjustLessQty { get; set; }
-        public decimal CurrentStock { get; set; }
-
-
+       
     }
 
     public class VmCustomerAgeingPrint
