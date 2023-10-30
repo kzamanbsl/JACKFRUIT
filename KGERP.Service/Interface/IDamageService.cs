@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
@@ -21,5 +22,6 @@ namespace KGERP.Service.Interface
         Task<int> DamageDetailDelete(int id);
         Task<int> DamageMasterDelete(int id);
         Task<DamageDetailModel> GetSingleDamageDetails(int id);
+        Task<DamageMasterModel> GetDamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
     }
 }

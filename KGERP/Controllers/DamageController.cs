@@ -86,7 +86,7 @@ namespace KGERP.Controllers
         //    {
         //        await _service.DamageMasterEdit(model);
         //    }
-        //    return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = model.CompanyFK });
+        //    return RedirectToAction(nameof(DamageMasterList), new { companyId = model.CompanyFK });
         //}
 
         [HttpPost]
@@ -118,38 +118,41 @@ namespace KGERP.Controllers
         //    {
         //        demageMasterModel.DamageMasterId = await _service.DamageMasterDelete(demageMasterModel.DamageMasterId);
         //    }
-        //    return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = demageMasterModel.CompanyFK });
+        //    return RedirectToAction(nameof(DamageMasterList), new { companyId = demageMasterModel.CompanyFK });
         //}
 
-        //[HttpGet]
-        //public async Task<ActionResult> FoodCustomerSalesOrderList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
-        //{
-        //    if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
-        //    if (!toDate.HasValue) toDate = DateTime.Now;
+        [HttpGet]
+        public async Task<ActionResult> DamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
 
-        //    VMSalesOrder vmSalesOrder = new VMSalesOrder();
-        //    vmSalesOrder = await _service.GetFoodCustomerOrderMasterList(companyId, fromDate, toDate, vStatus);
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
+            //vmSalesOrder = await _service.GetFoodCustomerOrderMasterList(companyId, fromDate, toDate, vStatus);
 
-        //    vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
-        //    vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
-        //    vmSalesOrder.Status = vStatus ?? -1;
+            damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if(vStatus == null)
+            {
+                vStatus = -1;
+            }
+            damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
+            return View(damageMasterModel);
+        }
 
-        //    return View(vmSalesOrder);
-        //}
+        [HttpPost]
+        public ActionResult DamageOrderSearch(VMSalesOrder vmSalesOrder)
+        {
+            if (vmSalesOrder.CompanyId > 0)
+            {
+                Session["CompanyId"] = vmSalesOrder.CompanyId;
+            }
 
-        //[HttpPost]
-        //public ActionResult FoodCustomerSalesOrderSearch(VMSalesOrder vmSalesOrder)
-        //{
-        //    if (vmSalesOrder.CompanyId > 0)
-        //    {
-        //        Session["CompanyId"] = vmSalesOrder.CompanyId;
-        //    }
+            vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
+            vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
+            return RedirectToAction(nameof(DamageMasterList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
 
-        //    vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
-        //    vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
-        //    return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
-
-        //}
+        }
 
         #endregion
 
