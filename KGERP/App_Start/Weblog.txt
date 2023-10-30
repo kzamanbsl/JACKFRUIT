@@ -2895,3 +2895,11 @@ ERROR 2023-10-26 22:34:54,315 563924ms UserController         Login             
    at System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in F:\KG Project\JACKFRUIT\KGERP\Controllers\UserController.cs:line 127
+ERROR 2023-10-30 11:35:03,414 62601ms HomeController         MenuPartial        - System.InvalidOperationException: The cast to value type 'System.Int32' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+   at System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   at lambda_method(Closure , Shaper )
+   at System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   at System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.HomeController.MenuPartial() in D:\JACKFRUIT\KGERP\Controllers\HomeController.cs:line 641
