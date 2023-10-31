@@ -1900,6 +1900,14 @@ namespace KGERP.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetDeportProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetDeportProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Dealer Sales
@@ -2143,14 +2151,7 @@ namespace KGERP.Controllers
 
         }
 
-        public JsonResult GetDeportProductStockByProductId(int companyId, int productId, int? stockInfoId)
-        {
-            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.GetDeportProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
-
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
+       
         #endregion
 
         #region Food Customer Sales

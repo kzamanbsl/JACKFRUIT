@@ -4989,14 +4989,14 @@ namespace KGERP.Service.Implementation.Procurement
             //@Common_ProductCategoryFk int,
             //@Common_ProductSubCategoryFk int,
             //@Common_ProductFK int,
-            //@StockInfoId int
+            //@DeportId int
 
             var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
             var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
 
             VMProductStock vmProductStock = new VMProductStock();
 
-            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DeportProductStockList {0},{1},{2},{3},{4},{5},{6}",
                 companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
 
             return vmProductStock;

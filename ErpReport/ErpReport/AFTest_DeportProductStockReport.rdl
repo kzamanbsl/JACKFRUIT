@@ -7,15 +7,15 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.7.34009.444</am:Version>
+      <am:Version>17.5.33516.290</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-29T09:08:21.8874733Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-10-31T07:03:27.8619852Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DeportProductStockReportDS">
-      <DataSourceReference>AFDataSource</DataSourceReference>
+      <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>67be62a9-c711-4edd-b132-14d9323d34ee</rd:DataSourceID>
     </DataSource>
@@ -2379,7 +2379,7 @@ order By OrderBy Desc</CommandText>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2412,8 +2412,8 @@ order By OrderBy Desc</CommandText>
           <ParameterName>Common_ProductFK</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>3</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>DeportId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
