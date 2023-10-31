@@ -9,21 +9,21 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.5.33516.290</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-31T10:13:40.3972697Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-10-31T09:37:09.0230807Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ProductStockReportDS">
-      <DataSourceReference>AFDataSource</DataSourceReference>
+    <DataSource Name="DealerProductStockReportDS">
+      <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>67be62a9-c711-4edd-b132-14d9323d34ee</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ProductStockReportDSet">
+    <DataSet Name="DealerProductStockReportDSet">
       <Query>
-        <DataSourceName>ProductStockReportDS</DataSourceName>
+        <DataSourceName>DealerProductStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@StrFromDate">
             <Value>=Parameters!StrFromDate.Value</Value>
@@ -43,12 +43,15 @@
           <QueryParameter Name="@Common_ProductFK">
             <Value>=Parameters!Common_ProductFK.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@StockInfoId">
-            <Value>=Parameters!StockInfoId.Value</Value>
+          <QueryParameter Name="@StockInfoTypeId">
+            <Value>=Parameters!StockInfoTypeId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DealerId">
+            <Value>=Parameters!DealerId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_ProductStockList</CommandText>
+        <CommandText>sp_DealerProductStockList</CommandText>
       </Query>
       <Fields>
         <Field Name="ReportTitle">
@@ -127,7 +130,7 @@
     </DataSet>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>ProductStockReportDS</DataSourceName>
+        <DataSourceName>DealerProductStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -161,7 +164,7 @@ WHERE CompanyId = @CompanyId </CommandText>
     </DataSet>
     <DataSet Name="SignatoryDataSet">
       <Query>
-        <DataSourceName>ProductStockReportDS</DataSourceName>
+        <DataSourceName>DealerProductStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -2000,7 +2003,7 @@ order By OrderBy Desc</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ProductStockReportDSet</DataSetName>
+            <DataSetName>DealerProductStockReportDSet</DataSetName>
             <Left>1.0132in</Left>
             <Height>1.45417in</Height>
             <Width>10.00189in</Width>
@@ -2203,7 +2206,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>ReportTitle</Label>
-                      <Value>=First(Fields!ReportTitle.Value, "ProductStockReportDSet")</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DealerProductStockReportDSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>11pt</FontSize>
@@ -2371,15 +2374,19 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Common Product FK</Prompt>
     </ReportParameter>
-    <ReportParameter Name="StockInfoId">
+    <ReportParameter Name="StockInfoTypeId">
       <DataType>Integer</DataType>
-      <Prompt>StockInfoId</Prompt>
+      <Prompt>Stock Info Type Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DealerId">
+      <DataType>Integer</DataType>
+      <Prompt>Dealer Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2412,9 +2419,14 @@ order By OrderBy Desc</CommandText>
           <ParameterName>Common_ProductFK</ParameterName>
         </CellDefinition>
         <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>StockInfoTypeId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
           <ColumnIndex>2</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>StockInfoId</ParameterName>
+          <RowIndex>2</RowIndex>
+          <ParameterName>DealerId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

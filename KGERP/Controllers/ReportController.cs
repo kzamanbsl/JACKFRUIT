@@ -5432,6 +5432,10 @@ namespace KGERP.Controllers
             {
                 model.CustomerId = 0;
             }
+            if (model.StockInfoTypeId == null)
+            {
+                model.StockInfoTypeId = 0;
+            }
             if (model.ProductId == null)
             {
                 model.ProductId = 0;
@@ -5452,7 +5456,7 @@ namespace KGERP.Controllers
             {
                 model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&DealerId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.CustomerId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoTypeId={8}&DealerId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId,model.StockInfoTypeId, model.CustomerId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
