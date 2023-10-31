@@ -51,6 +51,7 @@ namespace KGERP.Service.ServiceModel
         public IEnumerable<DamageMasterModel> DataList { get; set; } = new List<DamageMasterModel>();
         public DamageDetailModel DetailModel { get; set; } = new DamageDetailModel();
         public IEnumerable<DamageDetailModel> DetailList { get; set; } = new List<DamageDetailModel>();
+        public List<DamageDetailModel> DetailDataList { get; set; } = new List<DamageDetailModel>();
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());

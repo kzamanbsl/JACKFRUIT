@@ -8,6 +8,7 @@ using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             this.configurationService = configurationService;
         }
 
+        #region Dealer Damage Circle
         public async Task<DamageMasterModel> GetDamageMasterDetail(int companyId, int demageMasterId)
         {
             DamageMasterModel demageMasterModel = new DamageMasterModel();
@@ -346,5 +348,134 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             return damageMasterModel;
         }
+        #endregion
+        #region Dealer Damage received circle
+    
+        public async Task<int> DealerDamageReceived(DamageMasterModel damageMasterModel)
+        {
+            int result = -1;
+            if (damageMasterModel.DamageMasterId <= 0) throw new Exception("Sorry! Damage not found to Receive!");
+            if (damageMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! Damage  Detail not found to Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            DamageMaster damageMaster = _db.DamageMasters.FirstOrDefault(c => c.DamageMasterId == damageMasterModel.DamageMasterId);
+            damageMaster.StatusId = (int)EnumDamageStatus.Received;
+
+            damageMaster.ModifiedBy = userName;
+            damageMaster.ModifiedDate = DateTime.Now;
+
+            List<DamageDetail> details = _db.DamageDetails.Where(c => c.DamageMasterId == damageMasterModel.DamageMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
+
+            List<OrderDetailHistory> history = new List<OrderDetailHistory>();
+            //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+            foreach (var item in details)
+            {
+                history.Add(new OrderDetailHistory
+                {
+                    //OrderDetailHistoryId = 0,
+                    //OrderDetailId = item.OrderDetailId,
+                    //OrderMasterId = item.OrderMasterId,
+                    //DemandItemId = item.DemandItemId,
+                    //CustomerId = item.CustomerId,
+                    //OrderDate = item.OrderDate,
+                    //ProductSerial = item.ProductSerial,
+                    //ProductId = item.ProductId,
+                    //Qty = item.Qty,
+                    //OfferQty = item.OfferQty,
+                    //UnitPrice = item.UnitPrice,
+                    //Amount = item.Amount,
+                    //SpecialBaseCommission = item.SpecialBaseCommission,
+                    //Remarks = item.Remarks,
+                    //StyleNo = item.StyleNo,
+                    //Comsumption = item.Comsumption,
+                    //PackQuantity = item.PackQuantity,
+                    //DiscountRate = item.DiscountRate,
+                    //DiscountUnit = item.DiscountUnit,
+                    //DiscountAmount = item.DiscountAmount,
+                    //PromotionalOfferId = item.PromotionalOfferId,
+                    //AvgParchaseRate = item.AvgParchaseRate,
+                    //IsActive = item.IsActive,
+                    //Status = item.Status,
+
+                    //CreatedBy = item.CreatedBy,
+                    //CreateDate = item.CreateDate,
+                    //ModifiedBy = item.ModifiedBy,
+                    //ModifedDate = item.ModifedDate,
+                    //CompanyId = item.CompanyId
+
+                });
+            }
+
+            foreach (var dt in details)
+            {
+                var obj = damageMasterModel.DetailDataList.FirstOrDefault(c => c.DamageDetailId == dt.DamageDetailId);
+                dt.DamageQty = obj.DamageQty;
+                dt.UnitPrice = obj.UnitPrice;
+                dt.Remarks = obj.Remarks;
+                dt.ModifiedBy = userName;
+                dt.ModifiedDate = DateTime.Now;
+            }
+
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                _db.OrderDetailHistories.AddRange(history);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = damageMasterModel.DamageMasterId;
+                }
+                scope.Commit();
+            }
+            return result;
+        }
+        public async Task<DamageMasterModel> GetDealerDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
+            damageMasterModel.CompanyFK = companyId;
+
+            damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
+                                                          && x.CompanyId == companyId
+                                                          && (x.ToDealerId > 0 || x.FromCustomerId > 0)
+                                                          && x.OperationDate >= fromDate && x.OperationDate <= toDate
+                                                          && x.StatusId <= (int)EnumDamageStatus.Received
+                                                          && x.StatusId != (int)EnumDamageStatus.Draft)
+                                                               join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
+                                                               from t2 in t2_Join.DefaultIfEmpty()
+                                                               join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
+                                                               from t3 in t3_Join.DefaultIfEmpty()
+                                                               select new DamageMasterModel
+                                                               {
+                                                                   DamageMasterId = t1.DamageMasterId,
+                                                                   OperationDate = t1.OperationDate,
+                                                                   DealerName = t3.Name,
+                                                                   DealerAddress = t3.Address,
+                                                                   DealerEmail = t3.Email,
+                                                                   DealerPhone = t3.Phone,
+                                                                   CustomerName = t2.Name,
+                                                                   CustomerEmail = t2.Email,
+                                                                   CustomerPhone = t2.Phone,
+                                                                   CustomerAddress = t2.Address,
+                                                                   DamageFromId = t1.DamageFromId,
+                                                                   FromCustomerId = t1.FromCustomerId,
+                                                                   FromDealerId = t1.FromDealerId,
+                                                                   FromDeportId = t1.FromDeportId,
+                                                                   ToDealerId = t1.ToDealerId,
+                                                                   ToDeportId = t1.ToDeportId,
+                                                                   ToStockInfoId = t1.ToStockInfoId,
+                                                                   StatusId = (EnumDamageStatus)t1.StatusId,
+                                                                   CompanyFK = t1.CompanyId,
+                                                                   CompanyId = t1.CompanyId,
+                                                                   CreatedDate = t1.CreateDate,
+                                                                   CreatedBy = t1.CreatedBy,
+
+                                                               }).OrderByDescending(x => x.DamageMasterId).AsEnumerable());
+            if (vStatus != -1 && vStatus != null)
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)vStatus);
+            }
+            return damageMasterModel;
+        }
+        #endregion
     }
 }
