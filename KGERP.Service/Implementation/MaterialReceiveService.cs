@@ -802,9 +802,7 @@ namespace KGERP.Service.Implementation
 
         public async Task<long> FoodStockApprove(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
-
-
-
+            
             long result = -1;
             MaterialReceive materialReceive = await _context.MaterialReceives.FindAsync(vmPOReceivingSlave.MaterialReceiveId);
 
@@ -817,55 +815,30 @@ namespace KGERP.Service.Implementation
                 else
                 {
                     materialReceive.IsSubmitted = false;
-
                 }
+
                 materialReceive.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 materialReceive.ModifiedDate = DateTime.Now;
 
 
-                var materialDetailsList = await _context.MaterialReceiveDetails.Where(x => x.IsActive == true &&
-                                 x.MaterialReceiveId == materialReceive.MaterialReceiveId).ToListAsync();
+                var materialDetailsList = await _context.MaterialReceiveDetails.Where(x => x.IsActive == true && x.MaterialReceiveId == materialReceive.MaterialReceiveId).ToListAsync();
+                var productIds = materialDetailsList.Select(p => p.ProductId).Distinct().ToList();
+                var productList = _context.Products.Where(p => productIds.Contains(p.ProductId)).ToList();
 
-                var productsId = materialDetailsList.Select(p => p.ProductId).ToList();
-
-                var productList = _context.Products.Where(p => productsId.Contains(p.ProductId)).ToList();
-
-                foreach (var material in materialDetailsList)
+                foreach (var product in productList)
                 {
-                    var product = productList.Where(c => c.ProductId == material.ProductId).FirstOrDefault();
-
-
-
-                    product.UnitPrice = material.UnitPrice < 1 ? product.UnitPrice : material.UnitPrice;
-                    product.TPPrice = material.StockInRate < 1 ? product.TPPrice : material.StockInRate ?? 0;
-                    if (material.StockInQty > 0)
-                    {
-                        product.Qty = Convert.ToDouble(material.StockInQty);
-                    }
-
+                    var detail = materialDetailsList.FirstOrDefault(c => c.ProductId == product.ProductId);
+                    product.UnitPrice = detail != null && detail.UnitPrice > 0 ? detail.UnitPrice : product.UnitPrice;
+                    product.TPPrice = (decimal)(detail != null && detail.StockInRate > 0? detail.StockInRate : product.TPPrice);
                 }
 
-                var transaction = _context.Database.BeginTransaction();
-
-                try
+                using (var scope = _context.Database.BeginTransaction())
                 {
-
-                    _context.SaveChanges();
-                    transaction.Commit();
+                    await _context.SaveChangesAsync();
+                    scope.Commit();
                     result = materialReceive.MaterialReceiveId;
                 }
-                catch
-                {
 
-
-                    transaction.Rollback();
-                }
-
-
-                //if (await _context.SaveChangesAsync() > 0)
-                //{
-                    
-                //}
             }
 
             return result;
