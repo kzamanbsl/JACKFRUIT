@@ -162,7 +162,7 @@
                                                        @item.UnitName
                                                     </td>
 
-                                                    <td class="unitPrice" style="padding:5px;text-align:right; font-weight:bold">
+                                                    <td class="unitPrice" style="padding:5px;text-align:center; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
                                                     </td>
@@ -180,7 +180,7 @@
                         }
                     </div>
 
-                    @if (Model.DamageMasterId > 0 && Model.StatusId == EnumDamageStatus.Submitted)
+                    @if (Model.DamageMasterId > 0 && Model.StatusId != EnumDamageStatus.Received)
                     {
                         <div class="box-footer">
 

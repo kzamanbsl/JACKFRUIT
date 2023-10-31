@@ -12,14 +12,9 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DamageDetail
+    public partial class DamageDetailHistory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DamageDetail()
-        {
-            this.DamageDetailHistories = new HashSet<DamageDetailHistory>();
-        }
-    
+        public int DamageDetailHistoryId { get; set; }
         public int DamageDetailId { get; set; }
         public int DamageMasterId { get; set; }
         public int ProductId { get; set; }
@@ -34,9 +29,8 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     
+        public virtual DamageDetail DamageDetail { get; set; }
         public virtual DamageMaster DamageMaster { get; set; }
         public virtual Product Product { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DamageDetailHistory> DamageDetailHistories { get; set; }
     }
 }

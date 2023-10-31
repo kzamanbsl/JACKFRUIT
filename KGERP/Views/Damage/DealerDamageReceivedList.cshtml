@@ -116,7 +116,7 @@
                                             <td>@item.CustomerName</td>
                                             <td>@item.StatusName</td>
                                             <td>
-                                                @if (item.StatusId == EnumDamageStatus.Draft || item.StatusId == EnumDamageStatus.Submitted)
+                                                @if (item.StatusId == EnumDamageStatus.Received || item.StatusId == EnumDamageStatus.Submitted)
                                                 {
                                                     <a href="~/Damage/DealerDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }

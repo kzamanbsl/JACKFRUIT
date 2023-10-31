@@ -368,43 +368,23 @@ namespace KGERP.Service.Implementation.ProdMaster
             List<DamageDetail> details = _db.DamageDetails.Where(c => c.DamageMasterId == damageMasterModel.DamageMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-            List<OrderDetailHistory> history = new List<OrderDetailHistory>();
-            //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+            List<DamageDetailHistory> history = new List<DamageDetailHistory>();
             foreach (var item in details)
             {
-                history.Add(new OrderDetailHistory
+                history.Add(new DamageDetailHistory
                 {
-                    //OrderDetailHistoryId = 0,
-                    //OrderDetailId = item.OrderDetailId,
-                    //OrderMasterId = item.OrderMasterId,
-                    //DemandItemId = item.DemandItemId,
-                    //CustomerId = item.CustomerId,
-                    //OrderDate = item.OrderDate,
-                    //ProductSerial = item.ProductSerial,
-                    //ProductId = item.ProductId,
-                    //Qty = item.Qty,
-                    //OfferQty = item.OfferQty,
-                    //UnitPrice = item.UnitPrice,
-                    //Amount = item.Amount,
-                    //SpecialBaseCommission = item.SpecialBaseCommission,
-                    //Remarks = item.Remarks,
-                    //StyleNo = item.StyleNo,
-                    //Comsumption = item.Comsumption,
-                    //PackQuantity = item.PackQuantity,
-                    //DiscountRate = item.DiscountRate,
-                    //DiscountUnit = item.DiscountUnit,
-                    //DiscountAmount = item.DiscountAmount,
-                    //PromotionalOfferId = item.PromotionalOfferId,
-                    //AvgParchaseRate = item.AvgParchaseRate,
-                    //IsActive = item.IsActive,
-                    //Status = item.Status,
-
-                    //CreatedBy = item.CreatedBy,
-                    //CreateDate = item.CreateDate,
-                    //ModifiedBy = item.ModifiedBy,
-                    //ModifedDate = item.ModifedDate,
-                    //CompanyId = item.CompanyId
-
+                    DamageDetailHistoryId = 0,
+                    DamageMasterId = item.DamageMasterId,
+                    DamageDetailId = item.DamageDetailId,
+                    DamageTypeId = item.DamageTypeId,
+                    ProductId = item.ProductId,
+                    DamageQty = item.DamageQty,
+                    UnitPrice = item.UnitPrice,
+                    TotalPrice = item.TotalPrice,
+                    Remarks = item.Remarks,
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                    IsActive = true,
                 });
             }
 
@@ -420,7 +400,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             using (var scope = _db.Database.BeginTransaction())
             {
-                _db.OrderDetailHistories.AddRange(history);
+                _db.DamageDetailHistories.AddRange(history);
                 if (await _db.SaveChangesAsync() > 0)
                 {
                     result = damageMasterModel.DamageMasterId;
