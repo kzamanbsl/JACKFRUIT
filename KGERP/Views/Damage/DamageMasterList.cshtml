@@ -91,7 +91,6 @@
                                         <th>Customer</th>
                                         <th>Status</th>
                                         <th>Action</th>
-                                        <th>Print</th>
                                         <th>Change Status</th>
                                     </tr>
                                 </thead>
@@ -122,18 +121,6 @@
                                                     <a id="@item.DamageMasterId" onclick=" makeEditble(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#editDamageMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     <a href="~/Damage/DamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.StatusId >= EnumDamageStatus.Submitted)
-                                                {
-                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/CustomerSalesInvoiceReport?companyId=@Model.CompanyFK&damageMasterId=@item.DamageMasterId">
-                                                        <i class="fa fa-print"></i>Print
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <span>Print</span>
                                                 }
                                             </td>
                                             <td>
@@ -168,7 +155,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("DamageMasterEdit", "Damage", FormMethod.Post))
+@using (Html.BeginForm("DamageMasterEdit", "Damage", FormMethod.Post, new { id = "dealerDamageEditForm", @class = "formValidator" }))
 {
     <div class="modal fade" id="editDamageMasterModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -278,7 +265,7 @@
 
                 <div class="modal-footer">
                     <div class="col-md-3">
-                        <button type="button" onclick="resetFoodCustomerSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
                         <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
@@ -321,7 +308,7 @@
 
                 <div class="modal-footer">
                     <div class="col-md-3">
-                        <button type="button" onclick="resetFoodCustomerSalesOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
                         <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
@@ -351,12 +338,12 @@
         });
 
       $(document).ready(function () {
-          $("#ddlZoneFk").change(updateDropdowns);
+          /*$("#ddlZoneFk").change(updateDropdowns);*/
       });
 
         function resetForm() {
 
-            $('#dealerDamageMasterListFormId')[0].reset();
+            $('#dealerDamageEditForm')[0].reset();
                 $('#DMEditActionId').val(1);
         }
 
@@ -399,9 +386,9 @@
                 $('#deleteActionId').val(3);
         }
 
-        function resetFoodCustomerSalesOrderForm() {
+        function resetDamageEditForm() {
 
-              $('#salesOrderListFormId')[0].reset();
+            $('#dealerDamageEditForm')[0].reset();
               $('#ActionId').val(1);
         }
 
@@ -421,14 +408,15 @@
         }
 
         function makeEditble(rowId) {
-
+            $("#ddlDealerId").empty();
+            $("#ddlFromCustomerId").empty();
                  $.ajax({
                         type: "POST",
                         url: "@Url.Action("GetDamageMasterById", "Damage")",
                         datatype: "Json",
                         data: { damageMasterId: rowId },
                      success: function (data) {
-
+                         
                          $("#hidEditDamageMasterId").val(data.DamageMasterId);
                          $('#DMEditActionId').val(2);
                          $("#DMEditCompanyFK").val(data.CompanyFK);
@@ -442,8 +430,8 @@
                          $('#hiddenFromCustomerId').val(data.FromCustomerId);
                          $('#hiddenToDealerId').val(data.ToDealerId);
 
-                         $("#ddlZoneFk").change(updateDropdowns);
-
+                         //$("#ddlZoneFk").change(updateDropdowns);
+                         updateDropdowns();
                      }
                  });
         }

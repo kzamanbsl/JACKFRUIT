@@ -7,119 +7,120 @@
 
 Date: 25-10-2023
 ================
-+DemageMaster Table
++DamageMaster Table
 	
-		USE [AzlanFoodDb]
+	USE [AzlanFoodDb_Dev]
+	GO
+
+	/****** Object:  Table [Erp].[DamageMaster]    Script Date: 10/31/2023 3:37:33 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[DamageMaster](
+		[DamageMasterId] [int] IDENTITY(1,1) NOT NULL,
+		[OperationDate] [datetime] NOT NULL,
+		[DamageFromId] [int] NOT NULL,
+		[FromDeportId] [int] NULL,
+		[FromDealerId] [int] NULL,
+		[FromCustomerId] [int] NULL,
+		[ToDeportId] [int] NULL,
+		[ToDealerId] [int] NULL,
+		[ToStockInfoId] [int] NULL,
+		[StatusId] [int] NOT NULL,
+		[Remarks] [nvarchar](500) NULL,
+		[CompanyId] [int] NOT NULL,
+		[CreatedBy] [nvarchar](128) NOT NULL,
+		[CreateDate] [datetime] NOT NULL,
+		[ModifiedBy] [nvarchar](128) NULL,
+		[ModifiedDate] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+	 CONSTRAINT [PK_DemageMaster] PRIMARY KEY CLUSTERED 
+	(
+		[DamageMasterId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] ADD  CONSTRAINT [DF_DemageMaster_DemageFromId]  DEFAULT ((0)) FOR [DamageFromId]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] ADD  CONSTRAINT [DF_DemageMaster_IsActive]  DEFAULT ((1)) FOR [IsActive]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_Company] FOREIGN KEY([CompanyId])
+	REFERENCES [dbo].[Company] ([CompanyId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_Company]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_Customer] FOREIGN KEY([FromCustomerId])
+	REFERENCES [Erp].[Vendor] ([VendorId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_Customer]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_StockInfo] FOREIGN KEY([ToStockInfoId])
+	REFERENCES [Erp].[StockInfo] ([StockInfoId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_StockInfo]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_ToDealerVendor] FOREIGN KEY([ToDealerId])
+	REFERENCES [Erp].[Vendor] ([VendorId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_ToDealerVendor]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_ToDeportVendor] FOREIGN KEY([ToDeportId])
+	REFERENCES [Erp].[Vendor] ([VendorId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_ToDeportVendor]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_VendorDealer] FOREIGN KEY([FromDealerId])
+	REFERENCES [Erp].[Vendor] ([VendorId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_VendorDealer]
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_VendorDeport] FOREIGN KEY([FromDeportId])
+	REFERENCES [Erp].[Vendor] ([VendorId])
+	GO
+
+	ALTER TABLE [Erp].[DamageMaster] CHECK CONSTRAINT [FK_DemageMaster_VendorDeport]
+	GO
+
+
+
+
+
++DamageDetail
+
+		USE [AzlanFoodDb_Dev]
 		GO
 
-		/****** Object:  Table [Erp].[DemageMaster]    Script Date: 10/25/2023 2:25:34 PM ******/
+		/****** Object:  Table [Erp].[DamageDetail]    Script Date: 10/31/2023 3:36:43 PM ******/
 		SET ANSI_NULLS ON
 		GO
 
 		SET QUOTED_IDENTIFIER ON
 		GO
 
-		CREATE TABLE [Erp].[DemageMaster](
-			[DemageMasterId] [int] IDENTITY(1,1) NOT NULL,
-			[OperationDate] [datetime] NOT NULL,
-			[DemageFromId] [int] NOT NULL,
-			[FromDeportId] [int] NULL,
-			[FromDealerId] [int] NULL,
-			[FromCustomerId] [int] NULL,
-			[ToDeportId] [int] NULL,
-			[ToDealerId] [int] NULL,
-			[ToStockInfoId] [int] NULL,
-			[StatusId] [int] NOT NULL,
-			[Remarks] [nvarchar](500) NULL,
-			[CompanyId] [int] NOT NULL,
-			[CreatedBy] [nvarchar](128) NOT NULL,
-			[CreateDate] [datetime] NULL,
-			[ModifiedBy] [nvarchar](128) NULL,
-			[ModifiedDate] [datetime] NULL,
-			[IsActive] [bit] NOT NULL,
-		 CONSTRAINT [PK_DemageMaster] PRIMARY KEY CLUSTERED 
-		(
-			[DemageMasterId] ASC
-		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] ADD  CONSTRAINT [DF_DemageMaster_DemageFromId]  DEFAULT ((0)) FOR [DemageFromId]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] ADD  CONSTRAINT [DF_DemageMaster_IsActive]  DEFAULT ((1)) FOR [IsActive]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_Company] FOREIGN KEY([CompanyId])
-		REFERENCES [dbo].[Company] ([CompanyId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_Company]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_Customer] FOREIGN KEY([FromCustomerId])
-		REFERENCES [Erp].[Vendor] ([VendorId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_Customer]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_StockInfo] FOREIGN KEY([ToStockInfoId])
-		REFERENCES [Erp].[StockInfo] ([StockInfoId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_StockInfo]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_ToDealerVendor] FOREIGN KEY([ToDealerId])
-		REFERENCES [Erp].[Vendor] ([VendorId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_ToDealerVendor]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_ToDeportVendor] FOREIGN KEY([ToDeportId])
-		REFERENCES [Erp].[Vendor] ([VendorId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_ToDeportVendor]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_VendorDealer] FOREIGN KEY([FromDealerId])
-		REFERENCES [Erp].[Vendor] ([VendorId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_VendorDealer]
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster]  WITH CHECK ADD  CONSTRAINT [FK_DemageMaster_VendorDeport] FOREIGN KEY([FromDeportId])
-		REFERENCES [Erp].[Vendor] ([VendorId])
-		GO
-
-		ALTER TABLE [Erp].[DemageMaster] CHECK CONSTRAINT [FK_DemageMaster_VendorDeport]
-		GO
-
-
-
-
-+DemageDetail
-
-		USE [AzlanFoodDb]
-		GO
-
-		/****** Object:  Table [Erp].[DemageDetail]    Script Date: 10/25/2023 2:27:11 PM ******/
-		SET ANSI_NULLS ON
-		GO
-
-		SET QUOTED_IDENTIFIER ON
-		GO
-
-		CREATE TABLE [Erp].[DemageDetail](
-			[DemageDetailId] [int] IDENTITY(1,1) NOT NULL,
-			[DemageMasterId] [int] NOT NULL,
+		CREATE TABLE [Erp].[DamageDetail](
+			[DamageDetailId] [int] IDENTITY(1,1) NOT NULL,
+			[DamageMasterId] [int] NOT NULL,
 			[ProductId] [int] NOT NULL,
-			[DemageTypeId] [int] NOT NULL,
-			[DemageQty] [float] NOT NULL,
+			[DamageTypeId] [int] NOT NULL,
+			[DamageQty] [float] NOT NULL,
 			[UnitPrice] [decimal](18, 2) NOT NULL,
 			[TotalPrice] [float] NOT NULL,
 			[Remarks] [nvarchar](500) NULL,
@@ -130,40 +131,111 @@ Date: 25-10-2023
 			[ModifiedDate] [datetime] NULL,
 		 CONSTRAINT [PK_DemageDetail] PRIMARY KEY CLUSTERED 
 		(
-			[DemageDetailId] ASC
+			[DamageDetailId] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 		) ON [PRIMARY]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] ADD  CONSTRAINT [DF_DemageDetail_DemageTypeId]  DEFAULT ((0)) FOR [DemageTypeId]
+		ALTER TABLE [Erp].[DamageDetail] ADD  CONSTRAINT [DF_DemageDetail_DemageTypeId]  DEFAULT ((0)) FOR [DamageTypeId]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] ADD  CONSTRAINT [DF_DemageDetail_DemageQty]  DEFAULT ((0)) FOR [DemageQty]
+		ALTER TABLE [Erp].[DamageDetail] ADD  CONSTRAINT [DF_DemageDetail_DemageQty]  DEFAULT ((0)) FOR [DamageQty]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] ADD  CONSTRAINT [DF_DemageDetail_UnitPrice]  DEFAULT ((0)) FOR [UnitPrice]
+		ALTER TABLE [Erp].[DamageDetail] ADD  CONSTRAINT [DF_DemageDetail_UnitPrice]  DEFAULT ((0)) FOR [UnitPrice]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] ADD  CONSTRAINT [DF_Table_1_TotalQty]  DEFAULT ((0)) FOR [TotalPrice]
+		ALTER TABLE [Erp].[DamageDetail] ADD  CONSTRAINT [DF_Table_1_TotalQty]  DEFAULT ((0)) FOR [TotalPrice]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] ADD  CONSTRAINT [DF_DemageDetail_IsActive]  DEFAULT ((1)) FOR [IsActive]
+		ALTER TABLE [Erp].[DamageDetail] ADD  CONSTRAINT [DF_DemageDetail_IsActive]  DEFAULT ((1)) FOR [IsActive]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail]  WITH CHECK ADD  CONSTRAINT [FK_DemageDetail_DemageMaster] FOREIGN KEY([DemageMasterId])
-		REFERENCES [Erp].[DemageMaster] ([DemageMasterId])
+		ALTER TABLE [Erp].[DamageDetail]  WITH CHECK ADD  CONSTRAINT [FK_DemageDetail_DemageMaster] FOREIGN KEY([DamageMasterId])
+		REFERENCES [Erp].[DamageMaster] ([DamageMasterId])
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] CHECK CONSTRAINT [FK_DemageDetail_DemageMaster]
+		ALTER TABLE [Erp].[DamageDetail] CHECK CONSTRAINT [FK_DemageDetail_DemageMaster]
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail]  WITH CHECK ADD  CONSTRAINT [FK_DemageDetail_Product] FOREIGN KEY([ProductId])
+		ALTER TABLE [Erp].[DamageDetail]  WITH CHECK ADD  CONSTRAINT [FK_DemageDetail_Product] FOREIGN KEY([ProductId])
 		REFERENCES [Erp].[Product] ([ProductId])
 		GO
 
-		ALTER TABLE [Erp].[DemageDetail] CHECK CONSTRAINT [FK_DemageDetail_Product]
+		ALTER TABLE [Erp].[DamageDetail] CHECK CONSTRAINT [FK_DemageDetail_Product]
 		GO
 
 
 
 
+
+31-10-2023
+==========
++DamageDetailHistory (use below script)
+		USE [AzlanFoodDb_Dev]
+		GO
+
+		/****** Object:  Table [Erp].[DamageDetail]    Script Date: 10/31/2023 3:15:11 PM ******/
+		SET ANSI_NULLS ON
+		GO
+
+		SET QUOTED_IDENTIFIER ON
+		GO
+
+		CREATE TABLE [Erp].[DamageDetailHistory](
+			[DamageDetailHistoryId] [int] IDENTITY(1,1) NOT NULL,
+			[DamageDetailId] [int] NOT NULL,
+			[DamageMasterId] [int] NOT NULL,
+			[ProductId] [int] NOT NULL,
+			[DamageTypeId] [int] NOT NULL,
+			[DamageQty] [float] NOT NULL,
+			[UnitPrice] [decimal](18, 2) NOT NULL,
+			[TotalPrice] [float] NOT NULL,
+			[Remarks] [nvarchar](500) NULL,
+			[IsActive] [bit] NOT NULL,
+			[CreatedBy] [nvarchar](128) NOT NULL,
+			[CreateDate] [datetime] NOT NULL,
+			[ModifiedBy] [nvarchar](128) NULL,
+			[ModifiedDate] [datetime] NULL,
+		 CONSTRAINT [PK_DamageDetailHistory] PRIMARY KEY CLUSTERED 
+		(
+			[DamageDetailHistoryId] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] ADD  CONSTRAINT [DF_DamageDetailHistory_DemageTypeId]  DEFAULT ((0)) FOR [DamageTypeId]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] ADD  CONSTRAINT [DF_DamageDetailHistory_DemageQty]  DEFAULT ((0)) FOR [DamageQty]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] ADD  CONSTRAINT [DF_DamageDetailHistory_UnitPrice]  DEFAULT ((0)) FOR [UnitPrice]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] ADD  CONSTRAINT [DF_DamageDetailHistory_TotalQty]  DEFAULT ((0)) FOR [TotalPrice]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] ADD  CONSTRAINT [DF_DamageDetailHistory_IsActive]  DEFAULT ((1)) FOR [IsActive]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory]  WITH CHECK ADD  CONSTRAINT [FK_DamageDetailHistory_DemageMaster] FOREIGN KEY([DamageMasterId])
+		REFERENCES [Erp].[DamageMaster] ([DamageMasterId])
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] CHECK CONSTRAINT [FK_DamageDetailHistory_DemageMaster]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory]  WITH CHECK ADD  CONSTRAINT [FK_DamageDetailHistory_Product] FOREIGN KEY([ProductId])
+		REFERENCES [Erp].[Product] ([ProductId])
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] CHECK CONSTRAINT [FK_DamageDetailHistory_Product]
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory]  WITH CHECK ADD  CONSTRAINT [FK_DamageDetailHistory_DamageDetail] FOREIGN KEY([DamageDetailId])
+		REFERENCES [Erp].[DamageDetail] ([DamageDetailId])
+		GO
+
+		ALTER TABLE [Erp].[DamageDetailHistory] CHECK CONSTRAINT [FK_DamageDetailHistory_DamageDetail]
+		GO

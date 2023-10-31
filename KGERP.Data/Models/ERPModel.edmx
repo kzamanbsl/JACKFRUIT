@@ -3548,6 +3548,25 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="DamageDetailHistory">
+          <Key>
+            <PropertyRef Name="DamageDetailHistoryId" />
+          </Key>
+          <Property Name="DamageDetailHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DamageDetailId" Type="int" Nullable="false" />
+          <Property Name="DamageMasterId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="DamageTypeId" Type="int" Nullable="false" />
+          <Property Name="DamageQty" Type="float" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalPrice" Type="float" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="DamageMaster">
           <Key>
             <PropertyRef Name="DamageMasterId" />
@@ -6244,6 +6263,42 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DamageDetailHistory_DamageDetail">
+          <End Role="DamageDetail" Type="Self.DamageDetail" Multiplicity="1" />
+          <End Role="DamageDetailHistory" Type="Self.DamageDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DamageDetail">
+              <PropertyRef Name="DamageDetailId" />
+            </Principal>
+            <Dependent Role="DamageDetailHistory">
+              <PropertyRef Name="DamageDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DamageDetailHistory_DemageMaster">
+          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="1" />
+          <End Role="DamageDetailHistory" Type="Self.DamageDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DamageMaster">
+              <PropertyRef Name="DamageMasterId" />
+            </Principal>
+            <Dependent Role="DamageDetailHistory">
+              <PropertyRef Name="DamageMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DamageDetailHistory_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="DamageDetailHistory" Type="Self.DamageDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="DamageDetailHistory">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DemageDetail_DemageMaster">
           <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="1" />
           <End Role="DamageDetail" Type="Self.DamageDetail" Multiplicity="*" />
@@ -8486,6 +8541,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySet Name="CustomerGroupMapping" EntityType="Self.CustomerGroupMapping" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CustomerNomineeInfo" EntityType="Self.CustomerNomineeInfo" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DamageDetail" EntityType="Self.DamageDetail" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="DamageDetailHistory" EntityType="Self.DamageDetailHistory" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DamageMaster" EntityType="Self.DamageMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Demand" EntityType="Self.Demand" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DemandItem" EntityType="Self.DemandItem" Schema="Erp" store:Type="Tables" />
@@ -9330,6 +9386,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_CustomerNomineeInfo_PRM_Relation" Association="Self.FK_CustomerNomineeInfo_PRM_Relation">
             <End Role="PRM_Relation" EntitySet="PRM_Relation" />
             <End Role="CustomerNomineeInfo" EntitySet="CustomerNomineeInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DamageDetailHistory_DamageDetail" Association="Self.FK_DamageDetailHistory_DamageDetail">
+            <End Role="DamageDetail" EntitySet="DamageDetail" />
+            <End Role="DamageDetailHistory" EntitySet="DamageDetailHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DamageDetailHistory_DemageMaster" Association="Self.FK_DamageDetailHistory_DemageMaster">
+            <End Role="DamageMaster" EntitySet="DamageMaster" />
+            <End Role="DamageDetailHistory" EntitySet="DamageDetailHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DamageDetailHistory_Product" Association="Self.FK_DamageDetailHistory_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="DamageDetailHistory" EntitySet="DamageDetailHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_DemageDetail_DemageMaster" Association="Self.FK_DemageDetail_DemageMaster">
             <End Role="DamageMaster" EntitySet="DamageMaster" />
@@ -11289,6 +11357,19 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_DemageMaster_VendorDeport" Association="ERPModel.FK_DemageMaster_VendorDeport">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="DamageMaster" EntitySet="DamageMasters" />
+          </AssociationSet>
+          <EntitySet Name="DamageDetailHistories" EntityType="ERPModel.DamageDetailHistory" />
+          <AssociationSet Name="FK_DamageDetailHistory_DamageDetail" Association="ERPModel.FK_DamageDetailHistory_DamageDetail">
+            <End Role="DamageDetail" EntitySet="DamageDetails" />
+            <End Role="DamageDetailHistory" EntitySet="DamageDetailHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DamageDetailHistory_DemageMaster" Association="ERPModel.FK_DamageDetailHistory_DemageMaster">
+            <End Role="DamageMaster" EntitySet="DamageMasters" />
+            <End Role="DamageDetailHistory" EntitySet="DamageDetailHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DamageDetailHistory_Product" Association="ERPModel.FK_DamageDetailHistory_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="DamageDetailHistory" EntitySet="DamageDetailHistories" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -19623,6 +19704,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="OrderDetailHistories" Relationship="ERPModel.FK_OrderDetailHistory_Product" FromRole="Product" ToRole="OrderDetailHistory" />
           <NavigationProperty Name="DamageDetails" Relationship="ERPModel.FK_DemageDetail_Product" FromRole="Product" ToRole="DamageDetail" />
+          <NavigationProperty Name="DamageDetailHistories" Relationship="ERPModel.FK_DamageDetailHistory_Product" FromRole="Product" ToRole="DamageDetailHistory" />
         </EntityType>
         <Association Name="FK_ManagerProductMap_Product">
           <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
@@ -20081,6 +20163,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DamageMaster" Relationship="ERPModel.FK_DemageDetail_DemageMaster" FromRole="DamageDetail" ToRole="DamageMaster" />
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_DemageDetail_Product" FromRole="DamageDetail" ToRole="Product" />
+          <NavigationProperty Name="DamageDetailHistories" Relationship="ERPModel.FK_DamageDetailHistory_DamageDetail" FromRole="DamageDetail" ToRole="DamageDetailHistory" />
         </EntityType>
         <EntityType Name="DamageMaster">
           <Key>
@@ -20111,6 +20194,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_DemageMaster_ToDeportVendor" FromRole="DamageMaster" ToRole="Vendor" />
           <NavigationProperty Name="Vendor3" Relationship="ERPModel.FK_DemageMaster_VendorDealer" FromRole="DamageMaster" ToRole="Vendor" />
           <NavigationProperty Name="Vendor4" Relationship="ERPModel.FK_DemageMaster_VendorDeport" FromRole="DamageMaster" ToRole="Vendor" />
+          <NavigationProperty Name="DamageDetailHistories" Relationship="ERPModel.FK_DamageDetailHistory_DemageMaster" FromRole="DamageMaster" ToRole="DamageDetailHistory" />
         </EntityType>
         <Association Name="FK_DemageMaster_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20217,6 +20301,64 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="DamageMaster">
               <PropertyRef Name="FromDeportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DamageDetailHistory">
+          <Key>
+            <PropertyRef Name="DamageDetailHistoryId" />
+          </Key>
+          <Property Name="DamageDetailHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DamageDetailId" Type="Int32" Nullable="false" />
+          <Property Name="DamageMasterId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="DamageTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DamageQty" Type="Double" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DamageDetail" Relationship="ERPModel.FK_DamageDetailHistory_DamageDetail" FromRole="DamageDetailHistory" ToRole="DamageDetail" />
+          <NavigationProperty Name="DamageMaster" Relationship="ERPModel.FK_DamageDetailHistory_DemageMaster" FromRole="DamageDetailHistory" ToRole="DamageMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_DamageDetailHistory_Product" FromRole="DamageDetailHistory" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_DamageDetailHistory_DamageDetail">
+          <End Type="ERPModel.DamageDetail" Role="DamageDetail" Multiplicity="1" />
+          <End Type="ERPModel.DamageDetailHistory" Role="DamageDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DamageDetail">
+              <PropertyRef Name="DamageDetailId" />
+            </Principal>
+            <Dependent Role="DamageDetailHistory">
+              <PropertyRef Name="DamageDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DamageDetailHistory_DemageMaster">
+          <End Type="ERPModel.DamageMaster" Role="DamageMaster" Multiplicity="1" />
+          <End Type="ERPModel.DamageDetailHistory" Role="DamageDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DamageMaster">
+              <PropertyRef Name="DamageMasterId" />
+            </Principal>
+            <Dependent Role="DamageDetailHistory">
+              <PropertyRef Name="DamageMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DamageDetailHistory_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.DamageDetailHistory" Role="DamageDetailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="DamageDetailHistory">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -25853,6 +25995,26 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="DamageFromId" ColumnName="DamageFromId" />
                 <ScalarProperty Name="OperationDate" ColumnName="OperationDate" />
                 <ScalarProperty Name="DamageMasterId" ColumnName="DamageMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DamageDetailHistories">
+            <EntityTypeMapping TypeName="ERPModel.DamageDetailHistory">
+              <MappingFragment StoreEntitySet="DamageDetailHistory">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="DamageQty" ColumnName="DamageQty" />
+                <ScalarProperty Name="DamageTypeId" ColumnName="DamageTypeId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="DamageMasterId" ColumnName="DamageMasterId" />
+                <ScalarProperty Name="DamageDetailId" ColumnName="DamageDetailId" />
+                <ScalarProperty Name="DamageDetailHistoryId" ColumnName="DamageDetailHistoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

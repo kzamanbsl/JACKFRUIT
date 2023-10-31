@@ -1,0 +1,233 @@
+﻿@model KGERP.Service.ServiceModel.DamageMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Dealer Damage Received";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+    double totalPrice = 0;
+    double discountPrice = 0;
+    decimal dis = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+            <span>
+                Dealer Damage Receive
+            </span>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Dealer Damage Receive</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("DealerDamageReceivedSlave", "Damage", FormMethod.Post, new { id = "dealerDamageSlaveReceiveFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.DamageMasterId, new { id = "hidDamageMasterId" })
+                @Html.HiddenFor(model => model.DetailModel.DamageDetailId, new { id = "hidDamageDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+
+                <div class="box-danger">
+
+                    <div class="box-body">
+                        @if (Model.DamageMasterId > 0)
+                        {
+                            <div class="row">
+
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-10">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:18%"> Date</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.OperationDate.ToShortDateString()</td>
+
+                                            <th>Status</th>
+                                            <th>:</th>
+                                            <td>@Model.StatusName</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dealer </th>
+                                            <th>:</th>
+                                            <td>@Model.DealerName</td>
+
+                                            <th>Dealer Phone</th>
+                                            <th>:</th>
+                                            <td>@Model.DealerPhone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dealer Email</th>
+                                            <th>:</th>
+                                            <td>@Model.DealerEmail</td>
+                                            <th>Dealer Address</th>
+                                            <th>:</th>
+                                            <td>@Model.DealerAddress</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerName</td>
+
+                                            <th>Customer Phone</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerPhone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Customer Email</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerEmail</td>
+                                            <th>Customer Address</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerAddress</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Remarks</th>
+                                            <th>:</th>
+                                            <td>@Model.Remarks</td>
+
+                                            <th>Created By</th>
+                                            <th>:</th>
+                                            <td>@Model.CreatedBy</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-1"> </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="table-responsive text-nowrap">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="bg-success">
+                                                <th style="padding:5px;text-align:center;">SL</th>
+                                                <th style="padding:5px;text-align:center;">Damage Type</th>
+                                                <th style="padding:5px;text-align:center;">Product</th>
+                                                <th style="padding:5px;text-align:center;">Quantity</th>
+                                                <th style="padding:5px;text-align:center;">Unit</th>
+                                                <th style="padding:5px;text-align:center;">Unit Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int i = 0;
+                                            }
+                                            @foreach (var item in Model.DetailDataList)
+                                            {
+                                               
+                                                <tr>
+                                                    <td style="padding: 10px; text-align: left;">
+
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].DamageDetailId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].DamageMasterId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].ProductId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].DealerDamageTypeId)
+
+                                                        @(++sl)
+                                                    </td>
+                                                    <td style="padding:5px;text-align:left;">@item.DamageTypeName</td>
+                                                    <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.StatusId == EnumDamageStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamageQty, new { id = i + "_Qty", @class = "form-control quantityValue" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.DamageQty)
+                                                        }
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                       @item.UnitName
+                                                    </td>
+
+                                                    <td class="unitPrice" style="padding:5px;text-align:center; font-weight:bold">
+                                                        @String.Format("{0:0.00}", item.UnitPrice)
+                                                        @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
+                                                    </td>
+                                                </tr>
+                                                i++;
+                                            }
+                                        </tbody>
+
+                                    
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+
+                    @if (Model.DamageMasterId > 0 && Model.StatusId != EnumDamageStatus.Received)
+                    {
+                        <div class="box-footer">
+
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block">Receive</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //$("#Qty").keyup(function () {
+
+            //    var qty = $("#txtOrderQuantity").val();
+            //    var Unit = $("#txtUnitPrice").val();
+            //    var specialDis = $("#SpcDis").val();
+            //    var ammount = qty * Unit;
+            //    var percentage = ((specialDis / ammount) * 100);
+            //    var totalPriceAfterTotalspecial = ammount - specialDis;
+            //    $("#disPercentage").val(percentage);
+            //    $("#totalAmount").val(totalPriceAfterTotalspecial);
+
+            //});
+
+            //function calculateAmount() {
+            //    var packQuantity = $('#txtPackQuantity').val();
+            //    var consumption = $("#txtConsumption").val();
+            //    var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
+            //    $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
+            //}
+        });
+
+    </script>
+}

@@ -5610,6 +5610,8 @@
     <Content Include="Views\Report\DealerListReport.cshtml" />
     <Content Include="Views\Report\DeportListReport.cshtml" />
     <Content Include="Views\Damage\DamageMasterList.cshtml" />
+    <Content Include="Views\Damage\DealerDamageReceivedSlave.cshtml" />
+    <Content Include="Views\Damage\DealerDamageReceivedList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

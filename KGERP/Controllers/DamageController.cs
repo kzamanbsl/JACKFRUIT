@@ -29,7 +29,7 @@ namespace KGERP.Controllers
            
         }
 
-        #region Damage Circle
+        #region Dealer Damage Circle
 
         [HttpGet]
         public async Task<ActionResult> DamageMasterSlave(int companyId = 0, int damageMasterId = 0)
@@ -143,22 +143,78 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult DamageOrderSearch(VMSalesOrder vmSalesOrder)
+        public ActionResult DamageOrderSearch(DamageMasterModel damageMasterModel)
         {
-            if (vmSalesOrder.CompanyId > 0)
+            if (damageMasterModel.CompanyId > 0)
             {
-                Session["CompanyId"] = vmSalesOrder.CompanyId;
+                Session["CompanyId"] = damageMasterModel.CompanyId;
             }
 
-            vmSalesOrder.FromDate = Convert.ToDateTime(vmSalesOrder.StrFromDate);
-            vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
-            return RedirectToAction(nameof(DamageMasterList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
+            damageMasterModel.FromDate = Convert.ToDateTime(damageMasterModel.StrFromDate);
+            damageMasterModel.ToDate = Convert.ToDateTime(damageMasterModel.StrToDate);
+            return RedirectToAction(nameof(DamageMasterList), new { companyId = damageMasterModel.CompanyId, fromDate = damageMasterModel.FromDate, toDate = damageMasterModel.ToDate, vStatus = (int)damageMasterModel.StatusId });
 
         }
 
         #endregion
 
+        #region Depo from Dealer Damage Recieve Circle
+        [HttpGet]
+        public async Task<ActionResult> DealerDamageReceivedSlave(int companyId = 0, int damageMasterId = 0)
+        {
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
 
+            if (damageMasterId > 0)
+            {
+                damageMasterModel = await _service.GetDamageMasterDetail(companyId, damageMasterId);
+                damageMasterModel.DetailDataList = damageMasterModel.DetailList.ToList();
+            }
+
+            return View(damageMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DealerDamageReceivedSlave(DamageMasterModel damageMasterModel)
+        {
+            var resutl = await _service.DealerDamageReceived(damageMasterModel);
+            return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DealerDamageReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
+            damageMasterModel = await _service.GetDealerDamageMasterReceivedList(companyId, fromDate, toDate, vStatus);
+
+            damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
+
+            return View(damageMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult DealerDamageMasterReceivedSearch(DamageMasterModel damageMasterModel)
+        {
+            if (damageMasterModel.CompanyId > 0)
+            {
+                Session["CompanyId"] = damageMasterModel.CompanyId;
+            }
+
+            damageMasterModel.FromDate = Convert.ToDateTime(damageMasterModel.StrFromDate);
+            damageMasterModel.ToDate = Convert.ToDateTime(damageMasterModel.StrToDate);
+            return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyId, fromDate = damageMasterModel.FromDate, toDate = damageMasterModel.ToDate, vStatus = (int)damageMasterModel.StatusId });
+
+        }
+
+        #endregion
     }
 
 }
