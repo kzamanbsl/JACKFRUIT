@@ -377,6 +377,8 @@ namespace KGERP.Controllers
         public async Task<ActionResult> FoodStockSubmit(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
             vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.FoodStockApprove(vmPOReceivingSlave);
+
+          
             return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
         }
 
