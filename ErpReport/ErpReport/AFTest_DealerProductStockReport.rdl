@@ -9,13 +9,13 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.5.33516.290</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-31T03:58:07.9198839Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-10-31T03:59:30.1620322Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DealerProductStockReportDS">
-      <DataSourceReference>AFDataSource</DataSourceReference>
+      <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>67be62a9-c711-4edd-b132-14d9323d34ee</rd:DataSourceID>
     </DataSource>
