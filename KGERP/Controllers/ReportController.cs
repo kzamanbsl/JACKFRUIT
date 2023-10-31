@@ -5185,10 +5185,39 @@ namespace KGERP.Controllers
         [SessionExpire]
         public ActionResult DeportListReport(ReportCustomModel model)
         {
+            string reportName = CompanyInfo.ReportPrefix + "DeportList";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+
+            if (model.ZoneId == null)
+            {
+                model.ZoneId = 0;
+            }
+            if (model.SubZoneFk == null)
+            {
+                model.SubZoneFk = 0;
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.SubZoneFk);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
+            }
+            Session["CompanyId"] = model.CompanyId;
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = model.CompanyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
 
 
-
-            return View();
+            return View(cm);
         }
 
         // GET: Dealer List Report
@@ -5198,7 +5227,6 @@ namespace KGERP.Controllers
         {
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
-            var zone = _configurationService.CommonZonesDropDownList(companyId);
 
 
             return View(cm);
@@ -5208,25 +5236,65 @@ namespace KGERP.Controllers
         [SessionExpire]
         public ActionResult DealerListReport(ReportCustomModel model)
         {
-            return View();
+            string reportName = CompanyInfo.ReportPrefix + "DealerList";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+
+            if (model.ZoneId == null)
+            {
+                model.ZoneId = 0;
+            }
+            if (model.SubZoneFk == null)
+            {
+                model.SubZoneFk = 0;
+            } 
+            if (model.AreaId == null)
+            {
+                model.AreaId = 0;
+            }
+            if (model.TerritoryId == null)
+            {
+                model.TerritoryId = 0;
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.SubZoneFk, model.AreaId,model.TerritoryId);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
+            }
+           
+            Session["CompanyId"] = model.CompanyId;
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = model.CompanyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+
+            return View(cm);
         }
 
         // GET: Customer List Report
         [HttpGet]
         [SessionExpire]
-        public ActionResult CustomerListReport(int companyId, string reportName)
+        public ActionResult CustomerListReport(int companyId)
         {
 
             Session["CompanyId"] = companyId;
             ReportCustomerModel rcl = new ReportCustomerModel()
             {
                 CompanyId = companyId,
-                ReportName = reportName,
                 ZoneFk = 0,
                 ZoneList = _configurationService.GetZoneSelectList(companyId),
                 //SubZoneList = _configurationService.GetSubZoneList(companyId, 0),
                 SubZoneFk = 0
             };
+
 
             return View(rcl);
         }
@@ -5235,12 +5303,14 @@ namespace KGERP.Controllers
         [SessionExpire]
         public ActionResult CustomerListReport(ReportCustomerModel model)
         {
+            string reportName = CompanyInfo.ReportPrefix + "CustomerList";
+
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
 
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", model.ReportName, model.ReportType, model.CompanyId, model.ZoneFk ?? 0, model.SubZoneFk ?? 0);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.SubZoneFk, model.AreaId, model.TerritoryId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5254,6 +5324,8 @@ namespace KGERP.Controllers
             {
                 return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
             }
+
+           
             return View();
         }
 
