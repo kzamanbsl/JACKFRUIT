@@ -1892,21 +1892,6 @@ namespace KGERP.Controllers
 
         }
 
-        public JsonResult GetFoodProductStockByProductId(int companyId, int productId, int? stockInfoId)
-        {
-            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.GetFoodProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
-
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetDeportProductStockByProductId(int companyId, int productId, int? stockInfoId)
-        {
-            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.GetDeportProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
-
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
 
         #endregion
 
@@ -2278,10 +2263,30 @@ namespace KGERP.Controllers
 
         }
 
-        public JsonResult GetDealerProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        #endregion
+
+        #region Get Stocks
+
+        public JsonResult GetFoodProductStockByProductId(int companyId, int productId, int? stockInfoId)
         {
             var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.GetDealerProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+            var model = _service.GetFoodProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDeportProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetDeportProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDealerProductStockByProductId(int companyId, int productId, int? stockInfoTypeId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetDealerProductStockByProductId(companyId, productId, stockInfoTypeId??0, stockInfoIdVal ?? 0);
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }

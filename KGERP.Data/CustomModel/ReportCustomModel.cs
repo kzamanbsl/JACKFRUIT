@@ -185,6 +185,8 @@ namespace KGERP.Data.CustomModel
         public int CompanyId { get; set; }
         public List<SelectModel> ZoneList { get; set; } = new List<SelectModel> { };
         public int? ZoneFk { get; set; }
+        public int? AreaId { get; set; }
+        public int? TerritoryId { get; set; }
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public int? SubZoneFk { get; set; }
         public string ReportName { get; set; }

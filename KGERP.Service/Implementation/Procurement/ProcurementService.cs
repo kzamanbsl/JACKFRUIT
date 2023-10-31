@@ -4381,32 +4381,6 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonDeportList;
         }
 
-        public VMProductStock GetFoodProductStockByProductId(int companyId, int productId, int stockInfoId)
-        {
-            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
-            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
-            {
-                stockInfoId = stockInfo.StockInfoId;
-            }
-            //*** Reprot Parameters ***
-            //@CompanyId int,
-            //@StrFromDate varchar(50),
-            //@StrToDate varchar(50),
-            //@Common_ProductCategoryFk int,
-            //@Common_ProductSubCategoryFk int,
-            //@Common_ProductFK int,
-            //@StockInfoId int
-
-            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
-            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
-
-            VMProductStock vmProductStock = new VMProductStock();
-
-            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
-                companyId, strFromDate, strToDate,0,0, productId, stockInfoId).FirstOrDefault();
-
-            return vmProductStock;
-        }
         #endregion
 
         #region Dealer Sales
@@ -4974,33 +4948,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonCustomerList;
         }
-
-        public VMProductStock GetDeportProductStockByProductId(int companyId, int productId, int stockInfoId)
-        {
-            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
-            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
-            {
-                stockInfoId = stockInfo.StockInfoId;
-            }
-            //*** Reprot Parameters ***
-            //@CompanyId int,
-            //@StrFromDate varchar(50),
-            //@StrToDate varchar(50),
-            //@Common_ProductCategoryFk int,
-            //@Common_ProductSubCategoryFk int,
-            //@Common_ProductFK int,
-            //@DeportId int
-
-            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
-            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
-
-            VMProductStock vmProductStock = new VMProductStock();
-
-            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DeportProductStockList {0},{1},{2},{3},{4},{5},{6}",
-                companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
-
-            return vmProductStock;
-        }
+       
         #endregion
 
         #region Food Customer Sales
@@ -5321,7 +5269,10 @@ namespace KGERP.Service.Implementation.Procurement
             return vmCommonCustomerList;
         }
 
-        public VMProductStock GetDealerProductStockByProductId(int companyId, int productId, int stockInfoId)
+        #endregion
+
+        #region Get Stocks
+        public VMProductStock GetFoodProductStockByProductId(int companyId, int productId, int stockInfoId)
         {
             var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
             if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
@@ -5347,7 +5298,63 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmProductStock;
         }
+        public VMProductStock GetDeportProductStockByProductId(int companyId, int productId, int stockInfoId)
+        {
+            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
+            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
+            {
+                stockInfoId = stockInfo.StockInfoId;
+            }
+            //*** Reprot Parameters ***
+            //@CompanyId int,
+            //@StrFromDate varchar(50),
+            //@StrToDate varchar(50),
+            //@Common_ProductCategoryFk int,
+            //@Common_ProductSubCategoryFk int,
+            //@Common_ProductFK int,
+            //@DeportId int
+
+            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+
+            VMProductStock vmProductStock = new VMProductStock();
+
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DeportProductStockList {0},{1},{2},{3},{4},{5},{6}",
+                companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
+
+            return vmProductStock;
+        }
+        public VMProductStock GetDealerProductStockByProductId(int companyId, int productId,int stockInfoTypeId, int stockInfoId)
+        {
+            var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
+            if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
+            {
+                stockInfoId = stockInfo.StockInfoId;
+            }
+            //*** Reprot Parameters ***
+            //@CompanyId int,
+            //@StrFromDate varchar(50),
+            //@StrToDate varchar(50),
+            //@Common_ProductCategoryFk int,
+            //@Common_ProductSubCategoryFk int,
+            //@Common_ProductFK int,
+            //@StockInfoTypeId int,
+            //@StockInfoId int
+
+            var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+
+            VMProductStock vmProductStock = new VMProductStock();
+
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DealerProductStockList {0},{1},{2},{3},{4},{5},{6},{7}",
+                companyId, strFromDate, strToDate, 0, 0, productId, stockInfoTypeId, stockInfoId).FirstOrDefault();
+
+            return vmProductStock;
+        }
+
+
         #endregion
+
 
         #endregion
     }

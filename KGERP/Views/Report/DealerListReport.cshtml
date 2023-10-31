@@ -9,7 +9,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("DeportListReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+            @using (Html.BeginForm("DealerListReport", "Report", FormMethod.Post, new { @id = "idForm" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -91,8 +91,8 @@
 
     $(document).ready(function () {
         $("#ddlCommon_RegionFk").append("<option value=''>=Select Region=</option>");
-        $("#ddlCommon_AreFk").append("<option value=''>=Select Region=</option>");
-        $("#ddlCommon_TerritoryFk").append("<option value=''>=Select Region=</option>");
+        $("#ddlCommon_AreFk").append("<option value=''>=Select Area=</option>");
+        $("#ddlCommon_TerritoryFk").append("<option value=''>=Select Territory=</option>");
 
 
             $.ajax({
