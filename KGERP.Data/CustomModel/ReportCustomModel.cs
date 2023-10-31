@@ -142,6 +142,7 @@ namespace KGERP.Data.CustomModel
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public int? CustomerId { get; set; }
+        public int? StockInfoTypeId { get; set; }
         public int SalaryTag { get; set; } = 0;
         public string AttendanceStatusvalue { get; set; } = "";
 

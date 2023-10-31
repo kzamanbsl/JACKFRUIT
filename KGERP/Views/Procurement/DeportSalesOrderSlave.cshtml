@@ -817,7 +817,6 @@
                 datatype: "Json",
                 data: { companyId: "@Model.CompanyFK", productId: productId },
                 success: function (data) {
-                    //$('#stockAvailable').text(0 + 'ctn and ' + 0 + 'pcs');
                     if (data) {
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);

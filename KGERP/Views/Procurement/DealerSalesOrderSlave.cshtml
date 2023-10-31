@@ -726,33 +726,63 @@
         };
 
         $('#txtProductName').on('change', function () {
-                var productId = $(this).val();
+            var productId = $(this).val();
+            var stockInfoTypeIdVal = $("#ddlStockInfoTypeFk").val();
+            var stockInfoIdVal = $("#ddlStockInfoId").val();
+
+            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Company)) {
                 $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
-                        datatype: "Json",
-                       data: { companyId: "@Model.CompanyFK", productId: productId },
-                        success: function (data) {
+                    type: "GET",
+                    url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                    datatype: "Json",
+                    data: { companyId: "@Model.CompanyFK", productId: productId },
+                    success: function (data) {
+                        if (data) {
+                            $('#tblStockAvailable').show();
+                            $('.txtUnitName').text(data.UnitName);
+                            $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
-                            if (data) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+                            if (unitPrice == 0) {
+                                $("#txtUnitPrice").val(data.UnitPrice);
 
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                if (unitPrice == 0) {
-                                    $("#txtUnitPrice").val(data.UnitPrice);
-
-                                } else {
-                                    $("#txtUnitPrice").val(unitPrice);
-                                    unitPrice = 0;
-                                }
-                                var unitQty = $("#txtOrderQuantity").val();
+                            } else {
+                                $("#txtUnitPrice").val(unitPrice);
+                                unitPrice = 0;
                             }
+                            var unitQty = $("#txtOrderQuantity").val();
                         }
-             });
+                    }
+                });
+            }
 
-          });
+            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Deport)) {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDeportProductStockByProductId", "Procurement")",
+                    datatype: "Json",
+                    data: { companyId: "@Model.CompanyFK", productId: productId, stockInfoId: stockInfoIdVal },
+                    success: function (data) {
+
+                        if (data) {
+                            $('#tblStockAvailable').show();
+                            $('.txtUnitName').text(data.UnitName);
+                            $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+
+                            if (unitPrice == 0) {
+                                $("#txtUnitPrice").val(data.UnitPrice);
+
+                            } else {
+                                $("#txtUnitPrice").val(unitPrice);
+                                unitPrice = 0;
+                            }
+                            var unitQty = $("#txtOrderQuantity").val();
+                        }
+                    }
+                });
+            }
+
+
+        });
 
     </script>
 }
