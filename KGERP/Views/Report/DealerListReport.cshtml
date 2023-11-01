@@ -35,8 +35,8 @@
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Region:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList, new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.RegionId, Model.SubZoneList, new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -53,8 +53,8 @@
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Territory:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.TerritoryId, Model.SubZoneList, new { id = "ddlCommon_TerritoryFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.TerritoryId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList, new { id = "ddlCommon_TerritoryFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

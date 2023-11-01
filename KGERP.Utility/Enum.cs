@@ -226,7 +226,10 @@
         Finalize,
         Acknowledgement
     }
-    public enum Provider
+    /// <summary>
+    /// Vendor Type Enum
+    /// </summary>
+    public enum Provider 
     {
         Supplier = 1,
         Customer,

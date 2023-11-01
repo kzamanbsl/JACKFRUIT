@@ -26,62 +26,52 @@
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Zone:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.ZoneFk, new SelectList(Model.ZoneList, "Value", "Text"), new { id = "ddlCommon_ZoneFk", @class = "searchingDropdown form-control" })
+                                        @Html.DropDownListFor(model => model.ZoneFk, new SelectList(Model.ZoneList, "Value", "Text"), "--Select Zone--", new { id = "ddlCommon_ZoneFk", @class = "searchingDropdown form-control" })
                                         @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Region:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList, new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList, "--Select Region--", new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Area:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.ZoneList, "Value", "Text"), new { id = "ddlCommon_AreFk", @class = "searchingDropdown form-control" })
+                                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), "--Select Area--", new { id = "ddlCommon_AreFk", @class = "searchingDropdown form-control" })
 
                                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Territory:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.TerritoryId, Model.SubZoneList, new { id = "ddlCommon_TerritoryFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.TerritoryId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList, "--Select Territory--", new { id = "ddlCommon_TerritoryFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-footer">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4 float-end" style="margin-top:24px;">
+                            <div class="row">
+                                <div class="col-md-9"></div>
+                                <div class="col-md-3" style="float:right;display:flex">
                                     <div class="form-group">
-                                        <div class="col-md-7">
-                                            <select asp-for="ReportType" class="pull-right" style="color:#ffffff; background-color:#dd4b39;height:34px;font-size:15px;width:100%" name="ReportType" id="ddlReportType">
-                                                <option value="PDF">PDF</option>
-                                                <option value="EXCEL">EXCEL</option>
-                                                <option value="WORD">WORD</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <input style="width:100%" type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-right" formtarget="_blank" />
-                                        </div>
+                                        <select class="pull-left" style="color:#ffffff; background-color:#dd4b39;height:34px;font-size:15px" name="ReportType" id="ReportType">
+                                            <option value="PDF">PDF</option>
+                                            <option value="EXCEL">EXCEL</option>
+                                            <option value="WORD">WORD</option>
+                                        </select>
+                                        <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-left" formtarget="_blank" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
             }
         </div>
     </div>
@@ -90,28 +80,10 @@
 <script>
 
     $(document).ready(function () {
-        $("#ddlCommon_RegionFk").append("<option value=''>=Select Region=</option>");
-        $("#ddlCommon_AreFk").append("<option value=''>=Select Area=</option>");
-        $("#ddlCommon_TerritoryFk").append("<option value=''>=Select Territory=</option>");
 
 
-            $.ajax({
-            type: "GET",
-            url: "@Url.Action("CommonZonesList", "Configuration")",
-            datatype: "Json",
-            data: { companyId: @Model.CompanyId},
-            success: function (data) {
-                var items = "";
-                if (data) {
-                    $("#ddlCommon_ZoneFk").empty();
-                    $("#ddlCommon_ZoneFk").append("<option value=''>==Select Zone==</option>");
-                    $(data).each(function (index, item) {
-                        $("#ddlCommon_ZoneFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                    });
 
-                }
-            }
-        });
+
 
 
     });

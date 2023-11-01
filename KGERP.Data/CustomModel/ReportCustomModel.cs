@@ -62,7 +62,7 @@ namespace KGERP.Data.CustomModel
         public Nullable<int> StockId { get; set; }
         public Nullable<int> ZoneId { get; set; }
         public Nullable<int> AreaId { get; set; }
-        public Nullable<int> TerritoryId { get; set; }
+        public Nullable<int> RegionId { get; set; }
 
         public List<SelectModel> Years { get; set; }
         public List<SelectModel> Employees { get; set; }
@@ -183,13 +183,18 @@ namespace KGERP.Data.CustomModel
     {
         public int CustomerId { get; set; }
         public int CompanyId { get; set; }
-        public List<SelectModel> ZoneList { get; set; } = new List<SelectModel> { };
+       
         public int? ZoneFk { get; set; }
+        public int? RegionId { get; set; }
         public int? AreaId { get; set; }
-        public int? TerritoryId { get; set; }
-        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public int? SubZoneFk { get; set; }
         public string ReportName { get; set; }
         public string ReportType { get; set; }
+        public List<SelectModel> ZoneList { get; set; } = new List<SelectModel> { };
+        public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
+        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
+
     }
 }
