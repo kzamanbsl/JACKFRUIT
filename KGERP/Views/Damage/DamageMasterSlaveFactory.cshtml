@@ -1,0 +1,618 @@
+﻿@model KGERP.Service.ServiceModel.DamageMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Damage Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+    double totalPrice = 0;
+    double discountPrice = 0;
+    decimal dis = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.DamageMasterId > 0)
+        {
+            <span>
+                Damage
+            </span>
+        }
+        else
+        {
+            <span>
+                Damage
+            </span>
+        }
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Damage</li>
+    </ol>
+</section>
+@using (Html.BeginForm("DamageMasterSlaveFactory", "Damage", FormMethod.Post, new { id = "damageMasterSlaveFacFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.DamageMasterId, new { id = "hidDamageMasterId" })
+                @Html.HiddenFor(model => model.DetailModel.DamageDetailId, new { id = "hidDamageDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @*@Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })*@
+                @*<span id="hiddenUnitPrice" hidden="hidden"></span>*@
+                <div class="box-danger">
+
+                    <div class="box-body">
+                        @if (Model.DamageMasterId > 0)
+                        {
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:18%"> Date</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@Model.OperationDate.ToShortDateString()</td>
+
+                                        <th>Status</th>
+                                        <th>:</th>
+                                        <td>@Model.StatusName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Store House</th>
+                                        <th>:</th>
+                                        <td>@Model.StockInfoName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Depo</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportName</td>
+
+                                        <th>Depo Phone</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportPhone</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Depo Email</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportEmail</td>
+                                        <th>Depo Address</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportAddress</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dealer </th>
+                                        <th>:</th>
+                                        <td>@Model.DealerName</td>
+
+                                        <th>Dealer Phone</th>
+                                        <th>:</th>
+                                        <td>@Model.DealerPhone</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dealer Email</th>
+                                        <th>:</th>
+                                        <td>@Model.DealerEmail</td>
+                                        <th>Dealer Address</th>
+                                        <th>:</th>
+                                        <td>@Model.DealerAddress</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Remarks</th>
+                                        <th>:</th>
+                                        <td>@Model.Remarks</td>
+
+                                        <th>Created By</th>
+                                        <th>:</th>
+                                        <td>@Model.CreatedBy</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-1"> </div>
+                        }
+
+                    <div class="box-body">
+
+                        @if (Model.DamageMasterId == 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="message-text" class="col-form-label">Date :</label>
+                                    <div class="form-group">
+                                        <input name="OperationDate" asp-for="OperationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
+                                        @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Warehouse:</label>
+                                        @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Zone:</label>
+                                        @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Deport:</label>
+                                        @Html.DropDownListFor(model => model.FromDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.FromDeportId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Dealer:</label>
+                                        @Html.DropDownListFor(model => model.FromDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.FromDealerId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-form-label">Remarks:</label>
+                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.StatusId == EnumDamageStatus.Draft)
+                        {
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Product:</label>
+
+                                        @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
+
+                                        @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+
+                                        @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.DetailModel.ProductId, new { id = "ddlRProductFK", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Damage Type:</label>
+                                        @Html.DropDownListFor(model => model.DetailModel.DepoDamageTypeId, Model.DepoDamageTypeList as SelectList, "==Select Type==", new { id = "ddlDepoDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.DepoDamageTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Damage Qty:</label>
+
+                                        @Html.TextBoxFor(model => model.DetailModel.DamageQty, new { id = "txtDamageQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.DamageQty, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Unit Price:</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-form-label">Remarks:</label>
+                                        @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtremarks", placeholder = "Description", @class = "form-control", rows = 1 })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                        @if (Model.StatusId == EnumDamageStatus.Draft)
+                        {
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @*<table class="table" id="tblStockAvailable">
+                                                <tr>
+                                                    <th>Available Stock: </th>
+                                                    <th id="stockAvailable"></th>
+                                                </tr>
+                                            </table>*@
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <input type="submit" id="soCreateBtn" value="Add Damaged Product" class="btn btn-primary btn-block" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <!--Body Will by Start Here-->
+                        @if (Model.DamageMasterId > 0)
+                        {
+
+                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                            <div class="table-responsive col-md-12  text-nowrap">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding:5px;text-align:center;">SL</th>
+                                            <th style="padding:5px;text-align:left;">Product</th>
+                                            <th style="padding:5px;text-align:left;">Damage Type</th>
+                                            <th style="padding:5px;text-align:center;">Quantity</th>
+                                            <th style="padding:5px;text-align:right;">Unit Price</th>
+
+                                            @if (Model.StatusId == (int)EnumDamageStatus.Draft)
+                                            {
+                                                <th style="padding:5px;text-align:center;">Action</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.DetailList)
+                                        {
+
+                                            <tr>
+                                                <td style="padding:5px">@(++sl)</td>
+                                                <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                <td style="padding:5px;text-align:left;">@item.DepoDamageTypeName</td>
+                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.DamageQty) @item.UnitName</td>
+                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
+                                                @{ if (Model.StatusId == (int)EnumDamageStatus.Draft)
+                                                    {
+                                                        <td style="padding:5px;text-align:center;">
+                                                            <a id="@item.DamageDetailId" onclick=" makeEditble(@item.DamageDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                            <a id="@item.DamageDetailId" onclick="makeDeletale(@item.DamageDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteDamageSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                        </td>
+                                                    }
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                    </div>
+
+                    @if (Model.DamageMasterId > 0)
+                    {
+                        <div class="box-footer">
+
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <a id="@Model.DamageMasterId" onclick="makeSubmitble(@Model.DamageMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitDamageModal" data-placement="top">
+                                        @if (Model.StatusId == EnumDamageStatus.Submitted)
+                                        {
+                                            <i>Undo Submit</i>
+                                        }
+                                        else
+                                        {
+                                            <i>Submit</i>
+                                        }
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("SubmitDamageMasterFactory", "Damage", FormMethod.Post, new { id = "submitFacDamageMastersFromSlaveFormId", @class = "formValidator" }))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitDamageModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Damages </b></h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.DamageMasterId, new { id = "hidSubmitDamageMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to proceed ?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteDamageDetailByIdFactory", "Damage", FormMethod.Post, new { id = "deleteFacDamageSlaveFormId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Damage Item</b></h5>
+                </div>
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.DetailModel.DamageDetailId, new { id = "hidDeleteDamageDetailId" })
+                    @Html.HiddenFor(model => model.DamageMasterId, new { id = "hidDeleteDamageMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this Damage Item?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetDamageDeleteSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btndelete" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+        let unitPrice = 0;
+        var normal= 0;
+        $(document).ready(function () {
+            let unitPrice = 0;
+            var damageMasterId = "@Model.DamageMasterId";
+
+            if (damageMasterId > 0) {
+                $('#txtProductName').focus();
+            }
+
+            $('#dealerSalesOrderSlaveFormId').on('keyup keypress', function (e) {
+
+                var keyCode = e.keyCode || e.which;
+                if (keyCode === 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            $('#tblStockAvailable').hide();
+
+            $('#datePickerById').datepicker({
+                format: "dd/MM/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true
+            }).on('changeDate', function (ev) {
+
+                if ($(this).parents('form') && $(this).attr('required')) {
+                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+                }
+            });
+
+             $.ajax({
+                        url:"@Url.Action("CommonProductGet", "Configuration")",
+                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            $(data).each(function (i, item) {
+                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            })
+                        },
+                        error: function (response) {
+
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+
+                            //alert(response.responseText);
+                        }
+                    });
+
+
+
+
+
+
+
+            $("#ddlZoneFk").change(function () {
+
+                var zoneFk = $("#ddlZoneFk").val();
+               $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlToDeportId").empty();
+                            $("#ddlToDeportId").append("<option value=''>==Select Deport==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlToDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+
+                 $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlDealerId").empty();
+                            $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+            })
+
+            $("#ddlPaymentMethodEnumFK").change(function () {
+
+                var paymethod = $("#ddlPaymentMethodEnumFK").val();
+                if (paymethod === "@((int)VendorsPaymentMethodEnum.LC)") {
+                    $("#piReletedDivId").show();
+                }
+                else {
+                    $("#piReletedDivId").hide();
+                }
+            })
+        });
+
+
+        function makeEditble(rowId) {
+
+            $.ajax({
+
+                  type: "POST",
+                  url: "@Url.Action("SingleDamageDetailsFactory", "Damage")",
+                  datatype: "Json",
+                  data: { id: rowId },
+                  success: function (data) {
+                      unitPrice = data.UnitPrice;
+
+                      $('#soCreateBtn').val("Update");
+                      $("#hidDamageMasterId").val(data.DamageMasterId);
+                      $('#ActionId').val(2);
+                      $("#CompanyFK").val(data.CompanyId);
+                      $('#hiddenUnitPrice').val(data.UnitPrice);
+                      $("#txtProductName").val(data.ProductId).trigger('change');
+                      $("#ddlRProductFK").val(data.ProductId);
+                      $("#txtDamageQuantity").val(data.DamageQty);
+                      $("#ddlDepoDamageTypeId").val(data.DepoDamageTypeId).trigger('change');
+                      $("#hidDamageDetailId").val(data.DamageDetailId);
+                      $("#txtremarks").text(data.Remarks);
+                      $('.txtUnitName').text(data.UnitName);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                 });
+            }
+
+        function makeSubmitble(rowId) {
+
+            if (@Model.StatusId == 0) {
+                $('.submitOrDraftText').text("Make Submit");
+            }
+            else {
+                $('.submitOrDraftText').text("Make Draft");
+            }
+            $('#hidSubmitDamageMasterId').val(@Model.DamageMasterId);
+        }
+
+        function makeDeletale(rowId) {
+
+            $('#hidDeleteDamageDetailId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+
+        function resetDamageDeleteSlaveForm() {
+
+            $('#dealerSalesOrderSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+        function calculateAmount() {
+
+            var packQuantity = $('#txtPackQuantity').val();
+            var consumption = $("#txtConsumption").val();
+            var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
+            $('#txtDamageQuantity').val(Number((quantityInKg).toFixed(3)))
+        }
+
+        $('#txtProductName').on('change', function () {
+                var productId = $(this).val();
+                $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                        datatype: "Json",
+                       data: { companyId: "@Model.CompanyFK", productId: productId },
+                        success: function (data) {
+
+                            if (data) {
+                                $('#tblStockAvailable').show();
+                                $('.txtUnitName').text(data.UnitName);
+                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+
+                               /* var customerTypeFK = $("#hidCustomerTypeFk").val();*/
+                                if (unitPrice == 0) {
+                                    $("#txtUnitPrice").val(data.UnitPrice);
+
+                                } else {
+                                    $("#txtUnitPrice").val(unitPrice);
+                                    unitPrice = 0;
+                                }
+                                var unitQty = $("#txtDamageQuantity").val();
+                            }
+                        }
+             });
+
+            });
+    </script>
+}

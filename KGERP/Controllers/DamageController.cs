@@ -21,12 +21,15 @@ namespace KGERP.Controllers
         private readonly IDamageService _service;
         private readonly  ProcurementService procurementService;
         private readonly IProductService productService;
-        public DamageController(IDamageService service, ProcurementService procurementService,  IProductService productService)
+        private readonly IStockInfoService _stockInfoService;
+        public DamageController(IDamageService service, IStockInfoService stockInfoService, ProcurementService procurementService,  IProductService productService)
         {
             _service = service;
             this.procurementService = procurementService;
             this.productService = productService;
-           
+            _stockInfoService = stockInfoService;
+
+
         }
 
         #region 1. Dealer Damage Circle
@@ -436,6 +439,7 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
 
             return View(demageMasterModel);
         }

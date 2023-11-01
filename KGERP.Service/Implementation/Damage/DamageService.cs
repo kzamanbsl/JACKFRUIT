@@ -911,29 +911,32 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
                                                       from t2 in t2_Join.DefaultIfEmpty()
-                                                      join t3 in _db.Vendors on t1.ToDeportId equals t3.VendorId into t3_Join
+                                                      join t3 in _db.Vendors on t1.FromDeportId equals t3.VendorId into t3_Join
                                                       from t3 in t3_Join.DefaultIfEmpty()
+                                                      join t4 in _db.StockInfoes on t1.ToStockInfoId equals t4.StockInfoId into t4_Join
+                                                      from t4 in t4_Join.DefaultIfEmpty()
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
                                                           OperationDate = t1.OperationDate,
 
+                                                          FromDeportId = t1.FromDeportId,
                                                           DeportName = t3.Name,
                                                           DeportAddress = t3.Address,
                                                           DeportEmail = t3.Email,
                                                           DeportPhone = t3.Phone,
 
+                                                          FromDealerId = t1.FromDealerId,
                                                           DealerName = t2.Name,
                                                           DealerAddress = t2.Address,
                                                           DealerEmail = t2.Email,
                                                           DealerPhone = t2.Phone,
 
+                                                          ToStockInfoId = t1.ToStockInfoId,
+                                                          StockInfoName = t4.Name,
+
                                                           DamageFromId = t1.DamageFromId,
-                                                          FromDealerId = t1.FromDealerId,
-                                                          ToDeportId = t1.ToDeportId,
-
                                                           StatusId = (EnumDamageStatus)t1.StatusId,
-
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
                                                           CreatedDate = t1.CreateDate,
