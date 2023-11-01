@@ -5284,7 +5284,6 @@ namespace KGERP.Controllers
         [SessionExpire]
         public ActionResult CustomerListReport(int companyId)
         {
-
             Session["CompanyId"] = companyId;
             ReportCustomerModel rcl = new ReportCustomerModel()
             {
@@ -5294,7 +5293,6 @@ namespace KGERP.Controllers
                 //SubZoneList = _configurationService.GetSubZoneList(companyId, 0),
                 SubZoneFk = 0
             };
-
 
             return View(rcl);
         }
@@ -5309,8 +5307,7 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             client.Credentials = nwc;
 
-
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.RegionId, model.AreaId, model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={4}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.RegionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
