@@ -5307,11 +5307,26 @@ namespace KGERP.Controllers
         public ActionResult CustomerListReport(ReportCustomerModel model)
         {
             string reportName = CompanyInfo.ReportPrefix + "CustomerList";
-
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
 
+            if (model.ZoneFk == null)
+            {
+                model.ZoneFk = 0;
+            }
+            if (model.RegionId == null)
+            {
+                model.RegionId = 0;
+            }
+            if (model.AreaId == null)
+            {
+                model.AreaId = 0;
+            }
+            if (model.SubZoneFk == null)
+            {
+                model.SubZoneFk = 0;
+            }
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={4}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.RegionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
@@ -5326,7 +5341,6 @@ namespace KGERP.Controllers
             {
                 return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
             }
-
            
             return View();
         }
