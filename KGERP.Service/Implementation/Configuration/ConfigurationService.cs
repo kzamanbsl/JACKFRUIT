@@ -27,12 +27,93 @@ namespace KGERP.Service.Implementation.Configuration
             _db = db;
         }
 
-        //#region User role Menu item
+        #region User role Menu item
+        #region ClientUserMenuAssignment
+
+
+        public ClientMenu ClientUserMenuAssignment(ClientMenu model)
+        {
+
+            ClientMenu viewData = new ClientMenu()
+            {
+                CompanySubMenus = _db.CompanySubMenus.Where(x => x.CompanyId == model.CompanyId && x.IsActive == true).ToList(),
+                CompanyUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == model.UserId).ToList(),
+            };
+
+            //Super Admin Allowed Menus
+            var baseMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
+
+            var baseMenuIds = baseMenus.Select(c => c.CompanyMenuId).ToList().Distinct();
+            viewData.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
+
+            var userSubMenuIds = viewData?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).ToList().Distinct();
+            var unAssignedSubMenus = baseMenus?.Count()>0 && userSubMenuIds?.Count() > 0
+                ? baseMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
+                : baseMenus;
+
+            foreach (var item in unAssignedSubMenus)
+            {
+                ClientUserMenu data = new ClientUserMenu()
+                {
+                    UserMenuId = item.CompanyUserMenuId,
+                    IsActive = item.IsActive,
+                    UserId = item.UserId,
+                    MenuId = item.CompanyMenuId,
+                    MenuName = _db.CompanyMenus.Find(item.CompanyMenuId).Name,
+                    SubMenuId = item.CompanySubMenuId,
+                    SubMenuName = _db.CompanySubMenus.Find(item.CompanySubMenuId).Name,
+                    SubMenuController = _db.CompanySubMenus.Find(item.CompanySubMenuId).Controller,
+                    SubMenuAction = _db.CompanySubMenus.Find(item.CompanySubMenuId).Action
+                };
+
+                viewData.ClientUserMenus.Add(data);
+            }
+
+
+            return viewData;
+        }
+
+        public object ClientCompanyUserMenuEdit(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
+        {
+
+            var existPermission = _db.CompanyUserMenus.FirstOrDefault(c => c.UserId == userId && c.CompanyId == companyId && c.CompanyMenuId == menuId && c.CompanySubMenuId == subMenuId);
+            if (existPermission?.CompanyUserMenuId > 0)
+            {
+                existPermission.IsActive = isActive;
+            }
+            else
+            {
+                CompanyUserMenu userMenu = new CompanyUserMenu
+                {
+                    CompanyMenuId = menuId,
+                    CompanySubMenuId = subMenuId,
+                    IsActive = false,
+                    IsView = true,
+                    CompanyId = companyId,
+                    UserId = userId,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedDate = DateTime.Now
+                };
+                _db.CompanyUserMenus.Add(userMenu);
+            }
+
+            if (_db.SaveChanges() > 0)
+            {
+                return new { indexNo = index, isSuccess = true };
+            }
+            return new { indexNo = index, isSuccess = false };
+
+        }
+
+        #endregion
+
+
+
         public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)
         {
             VMUserMenuAssignment vmMenuAssignment = new VMUserMenuAssignment();
             vmMenuAssignment.CompanyFK = vmUserMenuAssignment.CompanyFK;
-            var companySubMenus = await _db.CompanySubMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK).ToListAsync();
+            var companySubMenus = await _db.CompanySubMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK && x.IsActive == true).ToListAsync();
             var companySubMenusId = companySubMenus.Select(x => x.CompanySubMenuId).ToList();
 
             var companyUserMenus = await _db.CompanyUserMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK && x.UserId == vmUserMenuAssignment.UserId).ToListAsync();
@@ -229,6 +310,8 @@ namespace KGERP.Service.Implementation.Configuration
         //    return result;
         //}
         //#endregion
+
+        #endregion
 
         public async Task<VMUserMenu> AccountingCostCenterGet(int companyId)
         {
@@ -891,7 +974,21 @@ namespace KGERP.Service.Implementation.Configuration
 
             return v;
         }
+        public object GetUserClientMenuAssign(string prefix)
+        {
+            var v = (from t1 in _db.Users.Where(q => q.Active)
+                         //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
+                         //from t2 in t2_Join.DefaultIfEmpty()
+                     where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
 
+                     select new
+                     {
+                         label = (t1.UserName + " ( " + t1.Email + " )"),
+                         val = t1.UserName
+                     }).OrderBy(x => x.label).Take(100).ToList();
+            var result = v.Where(c => c.val != "ISS0001");
+            return result;
+        }
         public List<SelectModel> GetEmployeeSelectModels(int companyId)
         {
             return _db.Employees.Where(x => x.CompanyId == companyId && x.Active == true).ToList().Select(x => new SelectModel()
@@ -1411,7 +1508,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel();
-            
+
 
             var v = _db.Zones.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
                 .Select(x => new SelectModel()

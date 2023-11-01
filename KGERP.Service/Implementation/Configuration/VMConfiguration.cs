@@ -66,12 +66,11 @@ namespace KGERP.Service.Implementation.Configuration
         public int? CompanySubMenuId { get; set; }
         public int? CompanyUserMenuId { get; set; }
         public SelectList CompanyList { get; set; }
-        public List<Company> Companies { get; set; }
         public string Title { get; set; }
         public List<CompanyMenu> CompanyMenus { get; set; }
         public List<CompanySubMenu> CompanySubMenus { get; set; }
         public List<CompanyUserMenu> CompanyUserMenus { get; set; }
-        public List<ClientUserMenu> ClientUserMenus { get; set; }
+        public List<ClientUserMenu> ClientUserMenus { get; set; } = new List<ClientUserMenu>();
     }
 
     public class ClientUserMenu

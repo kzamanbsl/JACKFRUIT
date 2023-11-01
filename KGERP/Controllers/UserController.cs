@@ -22,7 +22,8 @@ namespace KGERP.Controllers
         [HttpGet]
         public ActionResult Registration()
         {
-            return View();
+            var model = new UserModel();
+            return View(model);
         }
 
         //Registration POST action 
@@ -30,21 +31,22 @@ namespace KGERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] UserModel model)
         {
-            bool Status = false;
+            bool status = false;
             string message = "";
 
 
             User user = ObjectConverter<UserModel, User>.Convert(model);
 
-            if (model.UserName != null && model.Email != null && model.Password != null) // ModelState.IsValid is removed for the handle of model exceptions
+            if (ModelState.IsValid && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Email) && string.IsNullOrEmpty(model.Password))
             {
 
                 #region //Email is already Exist 
                 var isExist = IsEmailExist(user.Email);
                 if (isExist)
                 {
-                    ModelState.AddModelError("EmailExist", "Email already exist");
-                    return View(user);
+                    //ModelState.AddModelError("EmailExist", "Email already exist");
+                    message = "Email already exist";
+                    return View(model);
                 }
                 #endregion
 
@@ -70,19 +72,19 @@ namespace KGERP.Controllers
                     //message = "Registration successfully done. Account activation link " + 
                     //    " has been sent to your email id:" + user.EmailID;
 
-                    message = "Registration successfully done";
-                    Status = true;
+                    message = "Registration successfully done!";
+                    status = true;
                 }
                 #endregion
             }
             else
             {
-                message = "Invalid Request";
-                Status = false;
+                message = "Invalid Request!";
+                status = false;
             }
 
             ViewBag.Message = message;
-            ViewBag.Status = Status;
+            ViewBag.Status = status;
             return RedirectToAction("Registration");
         }
 
@@ -283,6 +285,7 @@ namespace KGERP.Controllers
                 //}
             }
         }
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Login(UserLogin login, string ReturnUrl = "")
@@ -353,6 +356,7 @@ namespace KGERP.Controllers
         //}
 
         //Logout
+
         [Authorize]
         [HttpPost]
         [SessionExpire]

@@ -36,7 +36,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="message-text" class="col-form-label">User</label>
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Title", @id = "txtEmployeeKGId", @style = "max-width: 100%" } })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Title", @id = "txtUserName", @style = "max-width: 100%" } })
                     @Html.HiddenFor(model => model.UserId, new { id = "ddlREmployeeKGId" })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
@@ -50,7 +50,7 @@
             </div>
 
             <div class="col-md-3">
-                @if (Model.Companies != null)
+                @if (Model.CompanyList != null)
                 {
                     <div class="form-group">
                         <label for="message-text" class="col-form-label"></label>
@@ -89,7 +89,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @{ int sls = 1;}
+                                        @{
+                                            int sls = 1;
+                                            int index = 0;
+                                        }
                                         @foreach (var userMenu in Model.ClientUserMenus)
                                         {
                                             if (menu.CompanyMenuId == userMenu.MenuId)
@@ -109,22 +112,22 @@
                                                     <td>
                                                         @if (userMenu.IsActive == true)
                                                         {
-                                                            <a id="unassign_@userMenu.UserMenuId" style="cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,false);" title="Unassign"
+                                                            <a id="unassign_@index" style="cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId, false);" title="Unassign"
                                                                data-placement="top">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                             </a>
-                                                            <a id="assign_@userMenu.UserMenuId" style="display:none;cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,true);" title="Assign"
+                                                            <a id="assign_@index" style="display:none;cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
                                                                data-placement="top">
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </a>
                                                         }
                                                         else
                                                         {
-                                                            <a id="assign_@userMenu.UserMenuId" style="cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,true);" title="Assign"
+                                                            <a id="assign_@index" style="cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
                                                                data-placement="top">
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </a>
-                                                            <a id="unassign_@userMenu.UserMenuId" style="display: none;cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,false);" title="Unassign"
+                                                            <a id="unassign_@index" style="display: none;cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,false);" title="Unassign"
                                                                data-placement="top">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                             </a>
@@ -132,6 +135,8 @@
                                                     </td>
                                                 </tr>
                                             }
+
+                                            index++;
                                         }
                                     </tbody>
                                 </table>
@@ -151,36 +156,38 @@
 
         });
 
-        function menuAssign(id, status) {
-
-            var roleMenuItemId = id;
-            var isActive = status;
+        function menuAssign(index, userId,menuId,subMenuId, isActive) {
+            var indexVal = index;
+            var userIdVal = userId;
+            var isActiveVal = isActive;
+            var companyIdVal = $('#CompanyId').val();;
+            var menuIdVal = menuId;
+            var subMenuIdVal = subMenuId;
 
             $.ajax({
                 type: "post",
                 url: "@Url.Action("ClientCompanyUserMenuEdit", "Configuration")",
-                data: { id: roleMenuItemId, isActive: isActive },
+                data: {index:indexVal, userId: userIdVal, isActive: isActiveVal, companyId: companyIdVal, menuId: menuIdVal, subMenuId: subMenuIdVal },
                 datatype: "json",
                 traditional: true,
                 success: function (data) {
-                    console.log(data);
-                    if (data.updatedstatus) {
-                        $('#assign_' + data.menuid).hide();
-                        $('#unassign_' + data.menuid).show();
+                    if (data.isSuccess) {
+                        $('#assign_' + data.indexNo).hide();
+                        $('#unassign_' + data.indexNo).show();
 
                     } else {
-                        $('#assign_' + data.menuid).show();
-                        $('#unassign_' + data.menuid).hide();
+                        $('#assign_' + data.indexNo).show();
+                        $('#unassign_' + data.indexNo).hide();
                     }
                 }
             });
         }
 
 
-        $("#txtEmployeeKGId").autocomplete({
+        $("#txtUserName").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                       url:"@Url.Action("getallEmployeeforMenu", "Configuration")",
+                       url:"@Url.Action("GetUserClientMenuAssign", "Configuration")",
                         //data: "{ 'prefix': '" + request.term + "'}",
                         data: { prefix: request.term },
                         dataType: "json",
@@ -203,7 +210,7 @@
 
             select: function (e, i) {
                 $("#ddlREmployeeKGId").val(i.item.val);
-                $('#txtEmployeeKGId').focus();
+                $('#txtUserName').focus();
 
                 },
 

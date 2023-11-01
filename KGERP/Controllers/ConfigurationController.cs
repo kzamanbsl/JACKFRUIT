@@ -6,6 +6,8 @@ using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.EMMA;
+using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
@@ -38,101 +40,35 @@ namespace KGERP.Controllers
 
         #region User Role Menuitem
 
-        // Client user menu assign
-        public ActionResult ClientUserMenuAssignment()
+        #region ClientUserMenuAssignment
+
+        public ActionResult ClientUserMenuAssignment(int companyId=0)
         {
-            var viewData = new ClientMenu()
+            var dto = new ClientMenu
             {
-                Companies = _db.Companies.Where(x => x.IsCompany == true && x.IsActive == true).ToList(),
+                CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text")
             };
-
-            viewData.CompanyList = new SelectList(viewData.Companies, "CompanyId", "Name");
-            return View(viewData);
+            return View(dto);
         }
-
-        // Client menu assign post
 
         [HttpPost]
         public ActionResult ClientUserMenuAssignment(ClientMenu model)
         {
-            if (model.CompanyId != null)
-            {
-                ClientMenu viewData = new ClientMenu()
-                {
-                    Companies = _db.Companies.Where(x => x.IsCompany == true && x.IsActive == true).ToList(),
-                    CompanyMenus = _db.CompanyMenus.Where(x => x.CompanyId == model.CompanyId && x.IsActive == true).ToList(),
-                    CompanySubMenus = _db.CompanySubMenus.Where(x => x.CompanyId == model.CompanyId && x.IsActive == true).ToList(),
-                    CompanyUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == model.UserId).ToList(),
-                };
+            if (model.CompanyId == null) return View(model);
+            ClientMenu viewData = _service.ClientUserMenuAssignment(model);
+            viewData.CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text");
+            return View(viewData);
 
-                var allowedMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
-
-
-                var filteredCompanyMenus = new List<CompanyMenu>();
-
-                foreach (var checkedItem in allowedMenus)
-                {
-                    var matchingMenu = viewData.CompanyMenus.FirstOrDefault(menu => menu.CompanyMenuId == checkedItem.CompanyMenuId);
-
-                    if (matchingMenu != null && !filteredCompanyMenus.Any(menu => menu.CompanyMenuId == matchingMenu.CompanyMenuId))
-                    {
-                        filteredCompanyMenus.Add(matchingMenu);
-                    }
-                }
-                viewData.CompanyMenus = filteredCompanyMenus;
-
-                foreach (var checkedItem in allowedMenus)
-                {
-                    foreach (var item in viewData.CompanyUserMenus)
-                    {
-                        if (checkedItem.CompanySubMenuId == item.CompanySubMenuId)
-                        {
-                            ClientUserMenu data = new ClientUserMenu()
-                            {
-                                UserMenuId = item.CompanyUserMenuId,
-                                IsActive = item.IsActive,
-                                UserId = item.UserId,
-                                MenuId = item.CompanyMenuId,
-                                MenuName = _db.CompanyMenus.Find(item.CompanyMenuId).Name,
-                                SubMenuId = item.CompanySubMenuId,
-                                SubMenuName = _db.CompanySubMenus.Find(item.CompanySubMenuId).Name,
-                                SubMenuController = _db.CompanySubMenus.Find(item.CompanySubMenuId).Controller,
-                                SubMenuAction = _db.CompanySubMenus.Find(item.CompanySubMenuId).Action
-                            };
-
-                            // Check if ClientUserMenus is null, if so, initialize it
-                            if (viewData.ClientUserMenus == null)
-                            {
-                                viewData.ClientUserMenus = new List<ClientUserMenu>();
-                            }
-
-                            viewData.ClientUserMenus.Add(data);
-                        }
-                    }
-                }   
-
-                viewData.CompanyList = new SelectList(viewData.Companies, "CompanyId", "Name");
-                return View(viewData);
-            }
-
-            return View(model);
         }
 
-        public JsonResult ClientCompanyUserMenuEdit(int id, bool isActive)
+        public JsonResult ClientCompanyUserMenuEdit(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
         {
+            var result = _service.ClientCompanyUserMenuEdit(index, userId, isActive, companyId, menuId, subMenuId);
+            return Json(result, JsonRequestBehavior.AllowGet);
 
-            var permission = _db.CompanyUserMenus.Find(id);
-            permission.IsActive = isActive;
-            _db.SaveChanges();
-
-            ClientMenu model = new ClientMenu()
-            {
-                CompanySubMenuId = id,
-                IsActive = isActive
-            };
-
-            return Json(new { menuid = model.CompanySubMenuId, updatedstatus =  model.IsActive});
         }
+
+        #endregion
 
         // User menu assign
         public async Task<ActionResult> UserMenuAssignment(int companyId)
@@ -1190,8 +1126,14 @@ namespace KGERP.Controllers
 
         public JsonResult getallEmployeeforMenu(string prefix)
         {
-            var products = _service.AllEmployeeForMenu(prefix);
-            return Json(products, JsonRequestBehavior.AllowGet);
+            var users = _service.AllEmployeeForMenu(prefix);
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUserClientMenuAssign(string prefix)
+        {
+            var users = _service.GetUserClientMenuAssign(prefix);
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
 
         #region Common Supplier
