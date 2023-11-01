@@ -14,6 +14,8 @@ using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
 using Microsoft.AspNetCore.Mvc;
 using System.Web.Services.Description;
+using System.Security.Policy;
+using System.Drawing;
 
 namespace KGERP.Controllers
 {
@@ -5291,7 +5293,10 @@ namespace KGERP.Controllers
                 CompanyId = companyId,
                 ZoneFk = 0,
                 ZoneList = _configurationService.GetZoneSelectList(companyId),
-                //SubZoneList = _configurationService.GetSubZoneList(companyId, 0),
+                RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0), "Value", "Text"),
+                 AreaList= new SelectList(_configurationService.CommonAreaDropDownList(companyId, 0, 0), "Value", "Text"),
+                SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text"),
+              
                 SubZoneFk = 0
             };
 
