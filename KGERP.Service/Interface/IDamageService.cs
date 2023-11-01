@@ -55,5 +55,26 @@ namespace KGERP.Service.Interface
         #endregion
         #endregion
 
+        #region 3.Factory Damage
+
+        #region Factory Damage Circle
+        Task<DamageMasterModel> GetDamageMasterDetailFactory(int companyId, int demageMasterId);
+        Task<int> DamageMasterAddFactory(DamageMasterModel model);
+        Task<int> DamageDetailAddFactory(DamageMasterModel model);
+        Task<int> DamageDetailEditFactory(DamageMasterModel model);
+        Task<int> SubmitDamageMasterFactory(int? id = 0);
+        Task<int> DamageMasterEditFactory(DamageMasterModel model);
+        Task<DamageMasterModel> GetDamageMasterByIdFactory(int demageMaster);
+        Task<int> DamageDetailDeleteFactory(int id);
+        Task<int> DamageMasterDeleteFactory(int id);
+        Task<DamageDetailModel> GetSingleDamageDetailsFactory(int id);
+        Task<DamageMasterModel> GetDamageMasterListFactory(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
+        #endregion
+
+        #region Factory Damage Received Circle
+        Task<int> FactoryDamageReceived(DamageMasterModel damageMasterModel);
+        Task<DamageMasterModel> GetFactoryDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        #endregion
+        #endregion
     }
 }

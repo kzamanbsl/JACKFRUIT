@@ -138,7 +138,9 @@ namespace KGERP.Data.CustomModel
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());
         public SelectList Stocklist { get; set; } = new SelectList(new List<object>());
         public List<SelectModelType> ZoneList { get; set; } = new List<SelectModelType> { };
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
         public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public int? CustomerId { get; set; }
