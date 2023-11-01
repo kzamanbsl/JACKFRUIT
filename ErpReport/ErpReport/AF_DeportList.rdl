@@ -9,21 +9,21 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-01T09:59:22.6981093Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-01T09:58:07.9210735Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="CustomerListDS">
+    <DataSource Name="DeportListDS">
       <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>de237ddf-2ebf-4078-b156-c3363cfa7481</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="CustomerListDataSet">
+    <DataSet Name="DeportListDataSet">
       <Query>
-        <DataSourceName>CustomerListDS</DataSourceName>
+        <DataSourceName>DeportListDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -34,15 +34,9 @@
           <QueryParameter Name="@RegionId">
             <Value>=Parameters!RegionId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@AreaId">
-            <Value>=Parameters!AreaId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@SubZoneId">
-            <Value>=Parameters!SubZoneId.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_CustomerList</CommandText>
+        <CommandText>sp_DeportList</CommandText>
       </Query>
       <Fields>
         <Field Name="VendorId">
@@ -121,31 +115,15 @@
           <DataField>RegionName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="AreaId">
-          <DataField>AreaId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="NID">
           <DataField>NID</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AreaName">
-          <DataField>AreaName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SubZoneId">
-          <DataField>SubZoneId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="SubZoneName">
-          <DataField>SubZoneName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
     <DataSet Name="SignatoryDataSet">
       <Query>
-        <DataSourceName>CustomerListDS</DataSourceName>
+        <DataSourceName>DeportListDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -540,7 +518,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Territory</Value>
+                                  <Value>Region</Value>
                                   <Style>
                                     <FontFamily>arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -964,30 +942,6 @@ order By OrderBy Desc</CommandText>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
-                                <TextRun>
-                                  <Value>,</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!AreaName.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>,</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!SubZoneName.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
@@ -1108,7 +1062,7 @@ order By OrderBy Desc</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>CustomerListDataSet</DataSetName>
+            <DataSetName>DeportListDataSet</DataSetName>
             <Top>0.10292in</Top>
             <Left>0.99751in</Left>
             <Height>0.4625in</Height>
@@ -1275,7 +1229,7 @@ order By OrderBy Desc</CommandText>
           <ReportItems>
             <Image Name="CompanyLogo">
               <Source>External</Source>
-              <Value>=First(Fields!CompanyLogo.Value, "CustomerListDataSet")</Value>
+              <Value>=First(Fields!CompanyLogo.Value, "DeportListDataSet")</Value>
               <Sizing>FitProportional</Sizing>
               <Top>0.05208in</Top>
               <Left>0.99751in</Left>
@@ -1303,7 +1257,7 @@ order By OrderBy Desc</CommandText>
                     </TextRun>
                     <TextRun>
                       <Label>CompanyName</Label>
-                      <Value>=First(Fields!CompanyName.Value, "CustomerListDataSet")</Value>
+                      <Value>=First(Fields!CompanyName.Value, "DeportListDataSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1319,7 +1273,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>CompanyAddress</Label>
-                      <Value>=First(Fields!CompanyAddress.Value, "CustomerListDataSet")</Value>
+                      <Value>=First(Fields!CompanyAddress.Value, "DeportListDataSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -1349,7 +1303,7 @@ order By OrderBy Desc</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Customer List</Value>
+                      <Value>Deport List</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1458,14 +1412,6 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Region Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="AreaId">
-      <DataType>Integer</DataType>
-      <Prompt>Area Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="SubZoneId">
-      <DataType>Integer</DataType>
-      <Prompt>Sub Zone Id</Prompt>
-    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1486,16 +1432,6 @@ order By OrderBy Desc</CommandText>
           <ColumnIndex>2</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>RegionId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>3</ColumnIndex>
-          <RowIndex>0</RowIndex>
-          <ParameterName>AreaId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>SubZoneId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

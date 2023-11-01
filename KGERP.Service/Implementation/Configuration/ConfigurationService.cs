@@ -2076,7 +2076,9 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (zoneId.HasValue && zoneId > 0 && regionId > 0)
             {
-                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.RegionId == regionId && x.IsActive == true).ToList()
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.RegionId == regionId 
+                
+                ).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
