@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -25,36 +26,115 @@ namespace KGERP.Controllers
         private readonly IFTPService _ftpService;
         private readonly IDepartmentService _departmentService = new DepartmentService();
         private readonly HrDesignationService _hrDesignationService = new HrDesignationService();
+        private readonly ERPEntities _db;
 
-        public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService)
+        public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService, ERPEntities db)
         {
             _service = configurationService;
             _companyService = companyService;
-            this._ftpService = ftpService;
+            _ftpService = ftpService;
+            _db = db;
         }
 
         #region User Role Menuitem
 
-        // Client menu Assign view
-        public async Task<ActionResult> ClientMenuAssignment(int companyId = 21)
+        // Client user menu assign
+        public ActionResult ClientUserMenuAssignment()
         {
-            VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
-            vmUserMenuAssignment.CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text");
+            var viewData = new ClientMenu()
+            {
+                Companies = _db.Companies.Where(x => x.IsCompany == true && x.IsActive == true).ToList(),
+            };
 
-            return View(vmUserMenuAssignment);
+            viewData.CompanyList = new SelectList(viewData.Companies, "CompanyId", "Name");
+            return View(viewData);
         }
 
         // Client menu assign post
+
         [HttpPost]
-        public async Task<ActionResult> ClientMenuAssignment(VMUserMenuAssignment model)
+        public ActionResult ClientUserMenuAssignment(ClientMenu model)
         {
-            VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
-            vmUserMenuAssignment = await _service.UserMenuAssignmentGet(model);
-            return View(vmUserMenuAssignment);
+            if (model.CompanyId != null)
+            {
+                ClientMenu viewData = new ClientMenu()
+                {
+                    Companies = _db.Companies.Where(x => x.IsCompany == true && x.IsActive == true).ToList(),
+                    CompanyMenus = _db.CompanyMenus.Where(x => x.CompanyId == model.CompanyId && x.IsActive == true).ToList(),
+                    CompanySubMenus = _db.CompanySubMenus.Where(x => x.CompanyId == model.CompanyId && x.IsActive == true).ToList(),
+                    CompanyUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == model.UserId).ToList(),
+                };
+
+                var allowedMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
+
+
+                var filteredCompanyMenus = new List<CompanyMenu>();
+
+                foreach (var checkedItem in allowedMenus)
+                {
+                    var matchingMenu = viewData.CompanyMenus.FirstOrDefault(menu => menu.CompanyMenuId == checkedItem.CompanyMenuId);
+
+                    if (matchingMenu != null && !filteredCompanyMenus.Any(menu => menu.CompanyMenuId == matchingMenu.CompanyMenuId))
+                    {
+                        filteredCompanyMenus.Add(matchingMenu);
+                    }
+                }
+                viewData.CompanyMenus = filteredCompanyMenus;
+
+                foreach (var checkedItem in allowedMenus)
+                {
+                    foreach (var item in viewData.CompanyUserMenus)
+                    {
+                        if (checkedItem.CompanySubMenuId == item.CompanySubMenuId)
+                        {
+                            ClientUserMenu data = new ClientUserMenu()
+                            {
+                                UserMenuId = item.CompanyUserMenuId,
+                                IsActive = item.IsActive,
+                                UserId = item.UserId,
+                                MenuId = item.CompanyMenuId,
+                                MenuName = _db.CompanyMenus.Find(item.CompanyMenuId).Name,
+                                SubMenuId = item.CompanySubMenuId,
+                                SubMenuName = _db.CompanySubMenus.Find(item.CompanySubMenuId).Name,
+                                SubMenuController = _db.CompanySubMenus.Find(item.CompanySubMenuId).Controller,
+                                SubMenuAction = _db.CompanySubMenus.Find(item.CompanySubMenuId).Action
+                            };
+
+                            // Check if ClientUserMenus is null, if so, initialize it
+                            if (viewData.ClientUserMenus == null)
+                            {
+                                viewData.ClientUserMenus = new List<ClientUserMenu>();
+                            }
+
+                            viewData.ClientUserMenus.Add(data);
+                        }
+                    }
+                }   
+
+                viewData.CompanyList = new SelectList(viewData.Companies, "CompanyId", "Name");
+                return View(viewData);
+            }
+
+            return View(model);
         }
 
+        public JsonResult ClientCompanyUserMenuEdit(int id, bool isActive)
+        {
 
-        // User menu Assign view
+            var permission = _db.CompanyUserMenus.Find(id);
+            permission.IsActive = isActive;
+            _db.SaveChanges();
+
+            ClientMenu model = new ClientMenu()
+            {
+                CompanySubMenuId = id,
+                IsActive = isActive
+            };
+
+            return Json(new { menuid = model.CompanySubMenuId, updatedstatus =  model.IsActive});
+        }
+
+        // User menu assign
         public async Task<ActionResult> UserMenuAssignment(int companyId)
         {
             VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
@@ -63,7 +143,6 @@ namespace KGERP.Controllers
             return View(vmUserMenuAssignment);
         }
 
-        // User menu assign post
         [HttpPost]
         public async Task<ActionResult> UserMenuAssignment(VMUserMenuAssignment model)
         {
@@ -297,6 +376,13 @@ namespace KGERP.Controllers
             return View(vmCommonZone);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> CommonZonesList(int companyId)
+        {
+            var ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            return Json(ZoneList, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CommonZone(VMCommonZone vmCommonZone)
         {
@@ -381,7 +467,7 @@ namespace KGERP.Controllers
         #region Common Area
 
         [HttpGet]
-        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0,int regionId=0)
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int regionId = 0)
         {
             var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, regionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
@@ -478,7 +564,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId=vmCommonSubZone.RegionId, areaId=vmCommonSubZone.AreaId });
+            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId = vmCommonSubZone.RegionId, areaId = vmCommonSubZone.AreaId });
         }
 
         #endregion
@@ -778,7 +864,7 @@ namespace KGERP.Controllers
             vmCommonProduct = await _service.GetProduct(companyId, categoryId, subCategoryId, "R");
 
             vmCommonProduct.UnitList = new SelectList(_service.UnitDropDownList(companyId), "Value", "Text");
-            vmCommonProduct.ProductCategoryList = new SelectList(await _service.GetProductCategory(companyId,  "R"), "Value", "Text");
+            vmCommonProduct.ProductCategoryList = new SelectList(await _service.GetProductCategory(companyId, "R"), "Value", "Text");
             return View(vmCommonProduct);
         }
 
@@ -1315,7 +1401,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(RSCommonCustomerGroup), new { companyId = vmCommonCustomer.CompanyFK, vendorId = vmCommonCustomer.VendorReferenceId });
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> CommonFeedCustomer(int companyId, int zoneId = 0, int? subZoneId = 0)
         {
@@ -1335,7 +1421,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0,int regionId =0, int areaId=0, int subZoneId = 0)
+        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
@@ -1599,7 +1685,7 @@ namespace KGERP.Controllers
             var dts = await Task.Run(() => _service.CommonRegionGet(companyId, zoneId));
             var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
-        }  
+        }
         [HttpGet]
         public async Task<ActionResult> AllRegionGet(int companyId)
         {
@@ -1609,7 +1695,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-      
+
 
         [HttpGet]
         public async Task<ActionResult> CommonUpazilasGet(int id)

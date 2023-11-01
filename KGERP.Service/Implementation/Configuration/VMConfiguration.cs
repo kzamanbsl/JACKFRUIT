@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using KGERP.Data.Models;
+using KGERP.Service.ServiceModel;
 using KGERP.Service.ServiceModel.RealState;
 using KGERP.Utility;
 using Newtonsoft.Json;
@@ -55,6 +57,34 @@ namespace KGERP.Service.Implementation.Configuration
         public string Action { get; set; }
         public string Param { get; set; }
 
+    }
+
+    public class ClientMenu : BaseVM
+    {
+        public int? CompanyId { get; set; }
+        public int? CompanyMenuId { get; set; }
+        public int? CompanySubMenuId { get; set; }
+        public int? CompanyUserMenuId { get; set; }
+        public SelectList CompanyList { get; set; }
+        public List<Company> Companies { get; set; }
+        public string Title { get; set; }
+        public List<CompanyMenu> CompanyMenus { get; set; }
+        public List<CompanySubMenu> CompanySubMenus { get; set; }
+        public List<CompanyUserMenu> CompanyUserMenus { get; set; }
+        public List<ClientUserMenu> ClientUserMenus { get; set; }
+    }
+
+    public class ClientUserMenu
+    {
+        public bool IsActive { get; set; }
+        public long UserMenuId { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public int MenuId { get; set; }
+        public string MenuName { get; set; } = string.Empty;
+        public int SubMenuId { get; set; }
+        public string SubMenuName { get; set; } = string.Empty;
+        public string SubMenuController { get; set; } = string.Empty;
+        public string SubMenuAction { get; set; } = string.Empty;
     }
 
     public class VMUserMenuAssignment : BaseVM
@@ -142,18 +172,18 @@ namespace KGERP.Service.Implementation.Configuration
         public string Email { get; set; }
         public string MobileOffice { get; set; }
         public string MobilePersonal { get; set; }
-     
+
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
         public List<SelectModel> AreaList { get; set; } = new List<SelectModel>();
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
-        
+
 
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
         public Nullable<int> RegionId { get; set; }
-        public string RegionName{ get; set; }
+        public string RegionName { get; set; }
         public Nullable<int> AreaId { get; set; }
         public string AreaName { get; set; }
         public IEnumerable<VMCommonSubZone> DataList { get; set; }
@@ -163,7 +193,7 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonRegion : BaseVM
     {
-       
+
         public string Name { get; set; }
         public string Code { get; set; }
         public string RegionIncharge { get; set; }
@@ -206,7 +236,7 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
-       
+
         public IEnumerable<VMCommonArea> DataList { get; set; }
 
 
@@ -240,7 +270,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int? RegionId { get; set; }
         public int? AreaId { get; set; }
         public int? SubZoneId { get; set; }
-       
+
         public HttpPostedFileBase file { get; set; }
         public string ImageFileUrl { get; set; }
         public long ImageDocId { get; set; }

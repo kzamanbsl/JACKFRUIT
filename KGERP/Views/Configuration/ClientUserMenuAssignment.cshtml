@@ -1,0 +1,218 @@
+﻿@{
+    ViewData["Title"] = "User Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 1;
+}
+
+@model KGERP.Service.Implementation.Configuration.ClientMenu
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Menu Assign
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+
+        <li class="active">Company Menu Assign</li>
+    </ol>
+</section>
+
+<hr />
+
+<section class="row mt-2">
+    <div class="container">
+        @using (Html.BeginForm("ClientUserMenuAssignment", "Configuration", FormMethod.Post, new { id = "clientMenuForm", @class = "formValidator", onreset = "resetDDL();" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">User</label>
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Title", @id = "txtEmployeeKGId", @style = "max-width: 100%" } })
+                    @Html.HiddenFor(model => model.UserId, new { id = "ddlREmployeeKGId" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Select Company</label>
+                    @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList as SelectList, "---Select Company List---", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                @if (Model.Companies != null)
+                {
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label"></label>
+                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Show Menu</button>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <hr />
+
+    <div class="container">
+        @if (Model.CompanyMenus != null)
+        {
+            foreach (var menu in Model.CompanyMenus)
+            {
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_@menu.CompanyMenuId">
+                                <i class="fa fa-arrow-down"></i>&nbsp;@menu.Name
+                            </a>
+                        </h4>
+
+                        <div id="collapse_@menu.CompanyMenuId" class="panel-collapse collapse ">
+                            <div class="box-body">
+                                <table class="table table-striped tablewithsearch ">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%">#</th>
+                                            <th style="width: 20%">Link Name</th>
+                                            <th style="width: 40%">Link</th>
+                                            <th style="width: 10%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{ int sls = 1;}
+                                        @foreach (var userMenu in Model.ClientUserMenus)
+                                        {
+                                            if (menu.CompanyMenuId == userMenu.MenuId)
+                                            {
+                                                <tr>
+                                                    <td style="font-weight: bold">
+                                                        @sls
+                                                        @{sls++;}
+                                                    </td>
+
+                                                    <td>
+                                                        @userMenu.SubMenuName
+                                                    <td>
+                                                        @userMenu.SubMenuController/@userMenu.SubMenuAction
+                                                    </td>
+
+                                                    <td>
+                                                        @if (userMenu.IsActive == true)
+                                                        {
+                                                            <a id="unassign_@userMenu.UserMenuId" style="cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,false);" title="Unassign"
+                                                               data-placement="top">
+                                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                            </a>
+                                                            <a id="assign_@userMenu.UserMenuId" style="display:none;cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,true);" title="Assign"
+                                                               data-placement="top">
+                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a id="assign_@userMenu.UserMenuId" style="cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,true);" title="Assign"
+                                                               data-placement="top">
+                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                            </a>
+                                                            <a id="unassign_@userMenu.UserMenuId" style="display: none;cursor:pointer;" onclick=" menuAssign(@userMenu.UserMenuId,false);" title="Unassign"
+                                                               data-placement="top">
+                                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+        });
+
+        function menuAssign(id, status) {
+
+            var roleMenuItemId = id;
+            var isActive = status;
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("ClientCompanyUserMenuEdit", "Configuration")",
+                data: { id: roleMenuItemId, isActive: isActive },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    console.log(data);
+                    if (data.updatedstatus) {
+                        $('#assign_' + data.menuid).hide();
+                        $('#unassign_' + data.menuid).show();
+
+                    } else {
+                        $('#assign_' + data.menuid).show();
+                        $('#unassign_' + data.menuid).hide();
+                    }
+                }
+            });
+        }
+
+
+        $("#txtEmployeeKGId").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                       url:"@Url.Action("getallEmployeeforMenu", "Configuration")",
+                        //data: "{ 'prefix': '" + request.term + "'}",
+                        data: { prefix: request.term },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            //alert(response.responseText);
+                        }
+                    });
+                },
+
+            select: function (e, i) {
+                $("#ddlREmployeeKGId").val(i.item.val);
+                $('#txtEmployeeKGId').focus();
+
+                },
+
+                minLength: 1,
+                cache: true
+
+            }).focus(function () {
+                $(this).autocomplete("search");
+        });
+
+    </script>
+}

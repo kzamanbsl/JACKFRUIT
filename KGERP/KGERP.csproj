@@ -5601,7 +5601,7 @@
     </Content>
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryChallan.cshtml" />
-    <Content Include="Views\Configuration\ClientMenuAssignment.cshtml" />
+    <Content Include="Views\Configuration\ClientUserMenuAssignment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
