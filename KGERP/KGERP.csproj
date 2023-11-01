@@ -5612,6 +5612,10 @@
     <Content Include="Views\Damage\DamageMasterList.cshtml" />
     <Content Include="Views\Damage\DealerDamageReceivedSlave.cshtml" />
     <Content Include="Views\Damage\DealerDamageReceivedList.cshtml" />
+    <Content Include="Views\Damage\DamageMasterListDepo.cshtml" />
+    <Content Include="Views\Damage\DamageMasterSlaveDepo.cshtml" />
+    <Content Include="Views\Damage\DepoDamageReceivedList.cshtml" />
+    <Content Include="Views\Damage\DepoDamageReceivedSlave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,7 +16,6 @@ namespace KGERP.Service.ServiceModel
         public int DamageFromId { get; set; }
 
         public Nullable<int> FromDeportId { get; set; }
-        public string DeportName { get; set; }
 
         public Nullable<int> FromDealerId { get; set; }
         public string DealerName { get; set; }
@@ -31,6 +30,10 @@ namespace KGERP.Service.ServiceModel
         public string CustomerEmail { get; set; }
 
         public Nullable<int> ToDeportId { get; set; }
+        public string DeportName { get; set; }
+        public string DeportAddress { get; set; }
+        public string DeportPhone { get; set; }
+        public string DeportEmail { get; set; }
         public Nullable<int> ToDealerId { get; set; }
 
         public Nullable<int> ToStockInfoId { get; set; }
@@ -73,8 +76,11 @@ namespace KGERP.Service.ServiceModel
         public string DamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.DealerDamageTypeId); } }
 
         public EnumDamageTypeDepo DepoDamageTypeId { get; set; }
+        public string DepoDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.DepoDamageTypeId); } }
+
         public EnumDamageTypeFactory FactoryDamageTypeId { get; set; }
-       
+        public string FactoryDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.FactoryDamageTypeId); } }
+
         public double DamageQty { get; set; }
         public decimal UnitPrice { get; set; }
         public string UnitName { get; set; }

@@ -50,70 +50,73 @@
     }
     public enum EnumDamageTypeFactory
     {
-        DateExpired_Fac = 1,
-        AirLess_Fac,
-        Soggy_Fac,
-        Broken_Fac,
-        CutByRat_Fac,
+        Factory_DateExpired = 1,
+        Factory_AirLess,
+        Factory_Soggy,
+        Factory_Broken,
+        Factory_CutByRat,
 
-        DateExpired_Dpt,
-        AirLess_Dpt,
-        Soggy_Dpt,
-        Broken_Dpt,
-        CutByRat_Dpt,
+        Depo_DateExpired,
+        Depo_AirLess,
+        Depo_Soggy,
+        Depo_Broken,
+        Depo_CutByRat,
 
-        DateExpired_Dlr,
-        AirLess_Dlr,
-        Soggy_Dlr,
-        Broken_Dlr,
-        CutByRat_Dlr,
+        Dealer_DateExpired,
+        Dealer_AirLess,
+        Dealer_Soggy,
+        Dealer_Broken,
+        Dealer_CutByRat,
     }
+
     public enum EnumDamageTypeDepo
     {
-        DateExpired_Fac = 1,
-        AirLess_Fac,
-        Soggy_Fac,
-        Broken_Fac,
-        CutByRat_Fac,
+        Factory_DateExpired = 1,
+        Factory_AirLess,
+        Factory_Soggy,
+        Factory_Broken,
+        Factory_CutByRat,
 
-        DateExpired_Dpt,
-        AirLess_Dpt,
-        Soggy_Dpt,
-        Broken_Dpt,
-        CutByRat_Dpt,
+        Depo_DateExpired,
+        Depo_AirLess,
+        Depo_Soggy,
+        Depo_Broken,
+        Depo_CutByRat,
 
-        DateExpired_Dlr,
-        AirLess_Dlr,
-        Soggy_Dlr,
-        Broken_Dlr,
-        CutByRat_Dlr,
+        Dealer_DateExpired,
+        Dealer_AirLess,
+        Dealer_Soggy,
+        Dealer_Broken,
+        Dealer_CutByRat,
     }
+
     public enum EnumDamageTypeDealer
     {
-        DateExpired_Fac = 1,
-        AirLess_Fac,
-        Soggy_Fac,
-        Broken_Fac,
-        CutByRat_Fac,
+        Factory_DateExpired = 1,
+        Factory_AirLess,
+        Factory_Soggy,
+        Factory_Broken,
+        Factory_CutByRat,
 
-        DateExpired_Dpt,
-        AirLess_Dpt,
-        Soggy_Dpt,
-        Broken_Dpt,
-        CutByRat_Dpt,
+        Depo_DateExpired,
+        Depo_AirLess,
+        Depo_Soggy,
+        Depo_Broken,
+        Depo_CutByRat,
 
-        DateExpired_Dlr,
-        AirLess_Dlr,
-        Soggy_Dlr,
-        Broken_Dlr,
-        CutByRat_Dlr,
+        Dealer_DateExpired,
+        Dealer_AirLess,
+        Dealer_Soggy,
+        Dealer_Broken,
+        Dealer_CutByRat,
 
-        DateExpired_Mar,
-        AirLess_Mar,
-        Soggy_Mar,
-        Broken_Mar,
-        CutByRat_Mar
+        Market_DateExpired,
+        Market_AirLess,
+        Market_Soggy,
+        Market_Broken,
+        Market_CutByRat
     }
+
     #endregion
 
     public enum EnumExpenseStatus
