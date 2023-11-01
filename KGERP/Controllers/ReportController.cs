@@ -5199,7 +5199,7 @@ namespace KGERP.Controllers
                 model.SubZoneFk = 0;
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.RegionId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5246,19 +5246,19 @@ namespace KGERP.Controllers
                 model.ZoneId = 0;
             }
            
+            if (model.RegionId == null)
+            {
+                model.RegionId = 0;
+            }
             if (model.AreaId == null)
             {
                 model.AreaId = 0;
-            }
-            if (model.TerritoryId == null)
-            {
-                model.TerritoryId = 0;
             }
             if (model.SubZoneFk == null)
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.SubZoneFk, model.AreaId,model.TerritoryId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.RegionId, model.AreaId,model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5310,7 +5310,7 @@ namespace KGERP.Controllers
             client.Credentials = nwc;
 
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.SubZoneFk, model.AreaId, model.TerritoryId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.RegionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
