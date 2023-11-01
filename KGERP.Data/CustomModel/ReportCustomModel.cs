@@ -61,6 +61,8 @@ namespace KGERP.Data.CustomModel
         public Nullable<int> CostCenterId { get; set; }
         public Nullable<int> StockId { get; set; }
         public Nullable<int> ZoneId { get; set; }
+        public Nullable<int> AreaId { get; set; }
+        public Nullable<int> RegionId { get; set; }
 
         public List<SelectModel> Years { get; set; }
         public List<SelectModel> Employees { get; set; }
@@ -136,9 +138,11 @@ namespace KGERP.Data.CustomModel
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());
         public SelectList Stocklist { get; set; } = new SelectList(new List<object>());
         public List<SelectModelType> ZoneList { get; set; } = new List<SelectModelType> { };
+        public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public int? CustomerId { get; set; }
+        public int? StockInfoTypeId { get; set; }
         public int SalaryTag { get; set; } = 0;
         public string AttendanceStatusvalue { get; set; } = "";
 
@@ -174,15 +178,23 @@ namespace KGERP.Data.CustomModel
         public int? DepartmentId { get; set; } = 0;
         public int? DesignationId { get; set; } = 0;
     }
+
     public class ReportCustomerModel
     {
         public int CustomerId { get; set; }
         public int CompanyId { get; set; }
-        public List<SelectModel> ZoneList { get; set; } = new List<SelectModel> { };
+       
         public int? ZoneFk { get; set; }
-        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
+        public int? RegionId { get; set; }
+        public int? AreaId { get; set; }
         public int? SubZoneFk { get; set; }
         public string ReportName { get; set; }
         public string ReportType { get; set; }
+        public List<SelectModel> ZoneList { get; set; } = new List<SelectModel> { };
+        public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
+        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
+
     }
 }

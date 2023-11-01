@@ -306,6 +306,15 @@
     <Compile Include="Models\CustomerNomineeInfo.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DamageDetail.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DamageDetailHistory.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DamageMaster.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Demand.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>

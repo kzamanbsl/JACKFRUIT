@@ -46,6 +46,7 @@ namespace KGERP.Data.Models
             this.StockInfoes = new HashSet<StockInfo>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
             this.OrderMasters = new HashSet<OrderMaster>();
+            this.DamageMasters = new HashSet<DamageMaster>();
         }
     
         public int CompanyId { get; set; }
@@ -131,5 +132,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<OrderDeliver> OrderDelivers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters { get; set; }
     }
 }

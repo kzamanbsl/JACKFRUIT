@@ -31,6 +31,11 @@ namespace KGERP.Data.Models
             this.OrderMasters = new HashSet<OrderMaster>();
             this.OrderMasters1 = new HashSet<OrderMaster>();
             this.OrderMasters2 = new HashSet<OrderMaster>();
+            this.DamageMasters = new HashSet<DamageMaster>();
+            this.DamageMasters1 = new HashSet<DamageMaster>();
+            this.DamageMasters2 = new HashSet<DamageMaster>();
+            this.DamageMasters3 = new HashSet<DamageMaster>();
+            this.DamageMasters4 = new HashSet<DamageMaster>();
         }
     
         public int VendorId { get; set; }
@@ -134,5 +139,15 @@ namespace KGERP.Data.Models
         public virtual ICollection<OrderMaster> OrderMasters1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters3 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters4 { get; set; }
     }
 }

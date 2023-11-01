@@ -40,6 +40,82 @@
         Received,
         Closed
     }
+
+    #region Damage Enums
+    public enum EnumDamageStatus
+    {
+        Draft,
+        Submitted,
+        Received
+    }
+    public enum EnumDamageTypeFactory
+    {
+        DateExpired_Fac = 1,
+        AirLess_Fac,
+        Soggy_Fac,
+        Broken_Fac,
+        CutByRat_Fac,
+
+        DateExpired_Dpt,
+        AirLess_Dpt,
+        Soggy_Dpt,
+        Broken_Dpt,
+        CutByRat_Dpt,
+
+        DateExpired_Dlr,
+        AirLess_Dlr,
+        Soggy_Dlr,
+        Broken_Dlr,
+        CutByRat_Dlr,
+    }
+    public enum EnumDamageTypeDepo
+    {
+        DateExpired_Fac = 1,
+        AirLess_Fac,
+        Soggy_Fac,
+        Broken_Fac,
+        CutByRat_Fac,
+
+        DateExpired_Dpt,
+        AirLess_Dpt,
+        Soggy_Dpt,
+        Broken_Dpt,
+        CutByRat_Dpt,
+
+        DateExpired_Dlr,
+        AirLess_Dlr,
+        Soggy_Dlr,
+        Broken_Dlr,
+        CutByRat_Dlr,
+    }
+    public enum EnumDamageTypeDealer
+    {
+        DateExpired_Fac = 1,
+        AirLess_Fac,
+        Soggy_Fac,
+        Broken_Fac,
+        CutByRat_Fac,
+
+        DateExpired_Dpt,
+        AirLess_Dpt,
+        Soggy_Dpt,
+        Broken_Dpt,
+        CutByRat_Dpt,
+
+        DateExpired_Dlr,
+        AirLess_Dlr,
+        Soggy_Dlr,
+        Broken_Dlr,
+        CutByRat_Dlr,
+
+        DateExpired_Mar,
+        AirLess_Mar,
+        Soggy_Mar,
+        Broken_Mar,
+        CutByRat_Mar
+    }
+    #endregion
+
     public enum EnumExpenseStatus
     {
         Draft,
@@ -147,7 +223,10 @@
         Finalize,
         Acknowledgement
     }
-    public enum Provider
+    /// <summary>
+    /// Vendor Type Enum
+    /// </summary>
+    public enum Provider 
     {
         Supplier = 1,
         Customer,
@@ -173,6 +252,7 @@
         Credit,
         LC
     }
+    ////Sale FROM Company Warehouse or Deport or Dealer or Customer (prop: StockInfoTypeId)
     public enum StockInfoTypeEnum
     {
         Company = 1,

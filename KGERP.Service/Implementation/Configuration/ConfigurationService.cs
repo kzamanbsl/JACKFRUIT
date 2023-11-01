@@ -1410,12 +1410,8 @@ namespace KGERP.Service.Implementation.Configuration
         public List<SelectModel> GetZoneSelectList(int companyId)
         {
             List<SelectModel> selectModelList = new List<SelectModel>();
-            SelectModel selectModel = new SelectModel
-            {
-                Text = "==Select Zone==",
-                Value = 0,
-            };
-            selectModelList.Add(selectModel);
+            SelectModel selectModel = new SelectModel();
+            
 
             var v = _db.Zones.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
                 .Select(x => new SelectModel()

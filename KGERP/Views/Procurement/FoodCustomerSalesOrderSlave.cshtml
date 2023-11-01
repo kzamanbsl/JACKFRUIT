@@ -23,7 +23,7 @@
         @if (Model.OrderMasterId > 0)
         {
             <span>
-                Sales Invoice History of: <a target="_blank" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@Model.CompanyFK&orderMasterId=@Model.OrderMasterId">@Model.OrderNo</a>
+                Sales Invoice History of:&nbsp; @Model.OrderNo
             </span>
         }
         else
@@ -200,19 +200,19 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Order Qty:</label>
-                                           
-                                                @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
-                                                
+
+                                            @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Offer Qty:</label>
-                                           
-                                                @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
-                                                @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
-                                                
+
+                                            @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
+                                            @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
+
                                         </div>
                                     </div>
 
@@ -507,43 +507,38 @@
                 }
             });
 
-             $.ajax({
-                        url:"@Url.Action("CommonProductGet", "Configuration")",
-                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
+            $.ajax({
+                url: "@Url.Action("CommonProductGet", "Configuration")",
+                data: { companyId: "@Model.CompanyFK", productSubCategoryId: 0 },
+                dataType: "json",
+                type: "get",
+                cache: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
 
-                            $(data).each(function (i, item) {
-                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            })
-                        },
-                        error: function (response) {
+                    $(data).each(function (i, item) {
+                        $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    })
+                },
+                error: function (response) {
 
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
+                    //alert(response.responseText);
+                },
+                failure: function (response) {
 
-                            //alert(response.responseText);
-                        }
-                    });
+                    //alert(response.responseText);
+                }
+            });
 
-
-
-
-
-            
 
             $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
-                type: "GET",
-                url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
-                datatype: "Json",
-                    data: { zoneId: zoneFk},
+                    type: "GET",
+                    url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
                     success: function (data) {
 
                         if (data) {
@@ -558,23 +553,23 @@
                 });
 
                 $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                        datatype: "Json",
-                            data: { zoneId: zoneFk},
-                            success: function (data) {
+                    type: "GET",
+                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
 
-                                if (data) {
-                                    $("#ddlStockInfoId").empty();
-                                    $("#ddlStockInfoId").append("<option value=''>==Select Stock From==</option>");
-                                    $(data).each(function (index, item) {
-                                        $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                    });
+                        if (data) {
+                            $("#ddlStockInfoId").empty();
+                            $("#ddlStockInfoId").append("<option value=''>==Select Stock From==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
 
-                                }
-                            }
-                    });
-            })
+                        }
+                    }
+                });
+            });
 
             $("#ddlPaymentMethodEnumFK").change(function () {
 
@@ -585,8 +580,9 @@
                 else {
                     $("#piReletedDivId").hide();
                 }
-            })
+            });
         });
+
         $("#txtUnitPrice").on('change', function () {
 
             var qty = $("#txtOrderQuantity").val();
@@ -614,6 +610,7 @@
             $("#SpcDis").val(0);
             $("#disPercentage").val(0);
         });
+
         $("#txtOrderQuantity").keyup(function () {
 
             var qty = $("#txtOrderQuantity").val();
@@ -713,32 +710,34 @@
         }
 
         $('#txtProductName').on('change', function () {
-                var productId = $(this).val();
-                $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
-                        datatype: "Json",
-                       data: { companyId: "@Model.CompanyFK", productId: productId },
-                        success: function (data) {
+            var productId = $(this).val();
+            var stockInfoIdVal = $("#ddlStockInfoId").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetDealerProductStockByProductId", "Procurement")",
+                datatype: "Json",
+                data: { companyId: "@Model.CompanyFK", productId: productId, stockInfoId: stockInfoIdVal },
+                success: function (data) {
 
-                            if (data) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+                    if (data) {
+                        $('#tblStockAvailable').show();
+                        $('.txtUnitName').text(data.UnitName);
+                        $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                if (unitPrice == 0) {
-                                    $("#txtUnitPrice").val(data.UnitPrice);
+                        if (unitPrice == 0) {
+                            $("#txtUnitPrice").val(data.UnitPrice);
 
-                                } else {
-                                    $("#txtUnitPrice").val(unitPrice);
-                                    unitPrice = 0;
-                                }
-                                var unitQty = $("#txtOrderQuantity").val();
-                            }
                         }
-             });
-
+                        else {
+                            $("#txtUnitPrice").val(unitPrice);
+                            unitPrice = 0;
+                        }
+                        var unitQty = $("#txtOrderQuantity").val();
+                    }
+                }
             });
+
+        });
+
     </script>
 }

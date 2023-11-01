@@ -23,7 +23,7 @@
         @if (Model.OrderMasterId > 0)
         {
             <span>
-                Sales Invoice History of: <a target="_blank" href="~/Procurement/ProcurementSalesOrderDetailsReport?companyId=@Model.CompanyFK&orderMasterId=@Model.OrderMasterId">@Model.OrderNo</a>
+                Sales Invoice History of: &nbsp; @Model.OrderNo
             </span>
         }
         else
@@ -144,7 +144,6 @@
                                 </div>
 
                                 <div class="row">
-
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Zone:</label>
@@ -208,18 +207,18 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Order Qty (Unit):</label>
-                                                @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
-                                               
+                                            @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Offer Qty:</label>
-                                            
-                                                @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
-                                                @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
-                                                
+
+                                            @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
+                                            @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
+
                                         </div>
                                     </div>
 
@@ -511,31 +510,16 @@
                 }
             });
 
-
-
-
             GetProduct(0);
-
-
-
-
-
-
-
-
-
-
-
-
 
             $("#ddlStockInfoTypeFk").change(function () {
 
                 var stockInfoTypeId = $("#ddlStockInfoTypeFk").val();
                 var zoneFk = $("#ddlZoneFk").val();
-                var deport= @((int)StockInfoTypeEnum.Deport);
+                var deport = @((int)StockInfoTypeEnum.Deport);
                 if (Number(stockInfoTypeId) == deport) {
 
-                document.getElementById('deportDivId').style.display = 'block';
+                    document.getElementById('deportDivId').style.display = 'block';
                     $.ajax({
                         type: "GET",
                         url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
@@ -549,7 +533,6 @@
                                 $(data).each(function (index, item) {
                                     $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                                 });
-
                             }
                         }
                     });
@@ -558,16 +541,16 @@
                     $("#ddlStockInfoId").val();
                 }
 
-             })
+            });
 
             $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                datatype: "Json",
-                    data: { zoneId: zoneFk},
+                    type: "GET",
+                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
                     success: function (data) {
 
                         if (data) {
@@ -580,7 +563,7 @@
                         }
                     }
                 });
-            })
+            });
 
             $("#ddlPaymentMethodEnumFK").change(function () {
 
@@ -594,14 +577,11 @@
             })
         });
 
-        
         $("#txtUnitPrice").on('change',function () {
-
             var qty = $("#txtOrderQuantity").val();
             var unitPrice = $("#txtUnitPrice").val();
             var tAmount = qty * unitPrice;
             $("#totalAmount").val(tAmount);
-           
         });
 
         $("#txtOrderQuantity").on('change', function () {
@@ -614,7 +594,6 @@
         });
 
         $("#disPercentage").keyup(function () {
-
             var qty = $("#txtOrderQuantity").val();
             var Unit = $("#txtUnitPrice").val();
             var PerCentage = $("#disPercentage").val();
@@ -623,7 +602,6 @@
             var totalPriceAfterTotalDisPercen = ammount - discountprice;
             $("#SpcDis").val(discountprice);
             $("#totalAmount").val(totalPriceAfterTotalDisPercen);
-
         });
 
         $("#SpcDis").keyup(function () {
@@ -638,8 +616,8 @@
             $("#totalAmount").val(totalPriceAfterTotalspecial);
 
         });
-        $("#txtUnitPrice").keyup(function () {
 
+        $("#txtUnitPrice").keyup(function () {
             var qty = $("#txtOrderQuantity").val();
             var unitPrice = $("#txtUnitPrice").val();
             var tAmount = qty * unitPrice;
@@ -656,10 +634,9 @@
             $("#totalAmount").val(tAmount);
 
         });
-          function makeEditble(rowId) {
 
-            $.ajax({
-
+        function makeEditble(rowId) {
+              $.ajax({
                   type: "POST",
                   url: "@Url.Action("SingleOrderDetails", "Procurement")",
                   datatype: "Json",
@@ -679,18 +656,15 @@
                       //GetProduct(data.ProductId);
                       $("#txtOrderQuantity").val(data.Qty);
                       //$('#txtUnitPrice').val(data.UnitPrice);
-                      $('#totalAmount').val(data.Qty*data.UnitPrice);
+                      $('#totalAmount').val(data.Qty * data.UnitPrice);
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-               
-            });
-            
-        }
+                  }
 
-
+              });
+        };
 
         function makeSubmitble(rowId) {
 
@@ -725,59 +699,90 @@
 
         function GetProduct(productId) {
             $.ajax({
-                        url:"@Url.Action("CommonProductGet", "Configuration")",
-                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
+                url: "@Url.Action("CommonProductGet", "Configuration")",
+                data: { companyId: "@Model.CompanyFK", productSubCategoryId: 0 },
+                dataType: "json",
+                type: "get",
+                cache: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
 
-                            $(data).each(function (i, item) {
-                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            })
-                            if (productId > 0) {
-                                $('#txtProductName').val(productId);
-                            }
-                        },
-                        error: function (response) {
+                    $(data).each(function (i, item) {
+                        $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    })
+                    if (productId > 0) {
+                        $('#txtProductName').val(productId);
+                    }
+                },
+                error: function (response) {
 
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
+                    //alert(response.responseText);
+                },
+                failure: function (response) {
 
-                            //alert(response.responseText);
-                        }
-                    });
-        }
-
-          $('#txtProductName').on('change', function () {
-                var productId = $(this).val();
-                $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
-                        datatype: "Json",
-                       data: { companyId: "@Model.CompanyFK", productId: productId },
-                        success: function (data) {
-
-                            if (data) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
-
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                if (unitPrice == 0) {
-                                    $("#txtUnitPrice").val(data.UnitPrice);
-
-                                } else {
-                                    $("#txtUnitPrice").val(unitPrice);
-                                    unitPrice = 0;
-                                }
-                                var unitQty = $("#txtOrderQuantity").val();
-                            }
-                        }
-             });
-
+                    //alert(response.responseText);
+                }
             });
+        };
+
+        $('#txtProductName').on('change', function () {
+            var productId = $(this).val();
+            var stockInfoTypeIdVal = $("#ddlStockInfoTypeFk").val();
+            var stockInfoIdVal = $("#ddlStockInfoId").val();
+
+            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Company)) {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                    datatype: "Json",
+                    data: { companyId: "@Model.CompanyFK", productId: productId },
+                    success: function (data) {
+                        if (data) {
+                            $('#tblStockAvailable').show();
+                            $('.txtUnitName').text(data.UnitName);
+                            $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+
+                            if (unitPrice == 0) {
+                                $("#txtUnitPrice").val(data.UnitPrice);
+
+                            } else {
+                                $("#txtUnitPrice").val(unitPrice);
+                                unitPrice = 0;
+                            }
+                            var unitQty = $("#txtOrderQuantity").val();
+                        }
+                    }
+                });
+            }
+
+            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Deport)) {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDeportProductStockByProductId", "Procurement")",
+                    datatype: "Json",
+                    data: { companyId: "@Model.CompanyFK", productId: productId, stockInfoId: stockInfoIdVal },
+                    success: function (data) {
+
+                        if (data) {
+                            $('#tblStockAvailable').show();
+                            $('.txtUnitName').text(data.UnitName);
+                            $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+
+                            if (unitPrice == 0) {
+                                $("#txtUnitPrice").val(data.UnitPrice);
+
+                            } else {
+                                $("#txtUnitPrice").val(unitPrice);
+                                unitPrice = 0;
+                            }
+                            var unitQty = $("#txtOrderQuantity").val();
+                        }
+                    }
+                });
+            }
+
+
+        });
+
     </script>
 }

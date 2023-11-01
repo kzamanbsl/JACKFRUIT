@@ -265,6 +265,7 @@
     <Compile Include="Implementation\KGRE\KGREService.cs" />
     <Compile Include="Implementation\LandOwnerService.cs" />
     <Compile Include="Implementation\Marketing\VMOrderMaster.cs" />
+    <Compile Include="Implementation\Damage\DamageService.cs" />
     <Compile Include="Implementation\ProdMaster\ProductionMasterService.cs" />
     <Compile Include="Implementation\RealStateCostHeadService\RealStateCostHead_Service.cs" />
     <Compile Include="Implementation\RealStateMoneyReceipt\MoneyReceiptService.cs" />
@@ -352,6 +353,7 @@
     <Compile Include="Interface\IEmployeeLoanService.cs" />
     <Compile Include="Interface\ILandOwnerService.cs" />
     <Compile Include="Interface\IOfficerAssignService.cs" />
+    <Compile Include="Interface\IDamageService.cs" />
     <Compile Include="Interface\IProductionMasterService.cs" />
     <Compile Include="Interface\IPurchaseReturnService.cs" />
     <Compile Include="Interface\IPFDataService.cs" />
@@ -464,6 +466,7 @@
     <Compile Include="ServiceModel\AccountSignatoryService.cs" />
     <Compile Include="ServiceModel\Approval_Process_Model\ApprovalSystemViewModel.cs" />
     <Compile Include="ServiceModel\BookingHeadServiceModel.cs" />
+    <Compile Include="ServiceModel\DamageMasterModel.cs" />
     <Compile Include="ServiceModel\DropDown.cs" />
     <Compile Include="ServiceModel\ErpLogViewModel.cs" />
     <Compile Include="ServiceModel\ExpenseModel.cs" />

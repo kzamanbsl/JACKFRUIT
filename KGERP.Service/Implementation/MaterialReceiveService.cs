@@ -571,6 +571,7 @@ namespace KGERP.Service.Implementation
                                     join t6 in _context.Employees on t1.ReceivedBy equals t6.Id
                                     join t8 in _context.VoucherMaps.Where(X => X.CompanyId == companyId && X.IntegratedFrom == "MaterialReceive") on t1.MaterialReceiveId equals t8.IntegratedId into t8_Join
                                     from t8 in t8_Join.DefaultIfEmpty()
+                                    join t9 in _context.Companies on t1.CompanyId equals t9.CompanyId
                                     where t1.IsActive && t1.CompanyId == companyId && t1.MaterialReceiveId == materialReceiveId
                                     select new VMWarehousePOReceivingSlave
                                     {
@@ -584,6 +585,11 @@ namespace KGERP.Service.Implementation
                                         ReceiveByName = t6.Name,
 
                                         CompanyId = t1.CompanyId,
+                                        CompanyName = t4.Name,
+                                        CompanyAddress = t4.Address,
+                                        CompanyPhone = t4.Phone,
+                                        CompanyEmail = t4.Email,
+
                                         ChallanCID = t1.ReceiveNo,
                                         ChallanDate = t1.ChallanDate,
                                         Challan = t1.ChallanNo,
@@ -706,7 +712,7 @@ namespace KGERP.Service.Implementation
                 ReceivedBy = vmPOReceivingSlave.ReceivedBy,
                 Remarks = vmPOReceivingSlave.Remarks,
                 AllowLabourBill = vmPOReceivingSlave.AllowLabourBill,
-                ChallanDate = vmPOReceivingSlave.ChallanDate,
+                ChallanDate = vmPOReceivingSlave.ReceivedDate,
                 ChallanNo = vmPOReceivingSlave.Challan,
                 CompanyId = vmPOReceivingSlave.CompanyId,
 
@@ -791,8 +797,12 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
+        
+
+
         public async Task<long> FoodStockApprove(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
+            
             long result = -1;
             MaterialReceive materialReceive = await _context.MaterialReceives.FindAsync(vmPOReceivingSlave.MaterialReceiveId);
 
@@ -805,15 +815,32 @@ namespace KGERP.Service.Implementation
                 else
                 {
                     materialReceive.IsSubmitted = false;
-
                 }
+
                 materialReceive.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 materialReceive.ModifiedDate = DateTime.Now;
-                if (await _context.SaveChangesAsync() > 0)
+
+
+                var materialDetailsList = await _context.MaterialReceiveDetails.Where(x => x.IsActive == true && x.MaterialReceiveId == materialReceive.MaterialReceiveId).ToListAsync();
+                var productIds = materialDetailsList.Select(p => p.ProductId).Distinct().ToList();
+                var productList = _context.Products.Where(p => productIds.Contains(p.ProductId)).ToList();
+
+                foreach (var product in productList)
                 {
+                    var detail = materialDetailsList.FirstOrDefault(c => c.ProductId == product.ProductId);
+                    product.UnitPrice = detail != null && detail.UnitPrice > 0 ? detail.UnitPrice : product.UnitPrice;
+                    product.TPPrice = (decimal)(detail != null && detail.StockInRate > 0? detail.StockInRate : product.TPPrice);
+                }
+
+                using (var scope = _context.Database.BeginTransaction())
+                {
+                    await _context.SaveChangesAsync();
+                    scope.Commit();
                     result = materialReceive.MaterialReceiveId;
                 }
+
             }
+
             return result;
         }
 
@@ -838,33 +865,33 @@ namespace KGERP.Service.Implementation
         {
             VMWarehousePOReceivingSlave materialReceiveModel = new VMWarehousePOReceivingSlave();
             materialReceiveModel = await Task.Run(() => (from t1 in _context.MaterialReceiveDetails
-                                    join t2 in _context.Products on t1.ProductId equals t2.ProductId
-                                    join t3 in _context.Units on t2.UnitId equals t3.UnitId into t3_join
-                                    from t3 in t3_join.DefaultIfEmpty()
+                                                         join t2 in _context.Products on t1.ProductId equals t2.ProductId
+                                                         join t3 in _context.Units on t2.UnitId equals t3.UnitId into t3_join
+                                                         from t3 in t3_join.DefaultIfEmpty()
 
-                                    where t1.IsActive && t1.MaterialReceiveDetailId == materialReceiveDetailId
-                                    select new VMWarehousePOReceivingSlave
-                                    {
-                                        MaterialReceiveId = t1.MaterialReceiveId,
-                                        MaterialReceiveDetailId = t1.MaterialReceiveDetailId,
-                                        BagId = t1.BagId,
-                                        BagQty = t1.BagQty,
-                                        BagWeight = t1.BagWeight,
+                                                         where t1.IsActive && t1.MaterialReceiveDetailId == materialReceiveDetailId
+                                                         select new VMWarehousePOReceivingSlave
+                                                         {
+                                                             MaterialReceiveId = t1.MaterialReceiveId,
+                                                             MaterialReceiveDetailId = t1.MaterialReceiveDetailId,
+                                                             BagId = t1.BagId,
+                                                             BagQty = t1.BagQty,
+                                                             BagWeight = t1.BagWeight,
 
-                                        Deduction = t1.Deduction,
-                                        IsActive = t1.IsActive,
-                                        ProductId = t1.ProductId,
-                                        ProductName = t2.ProductName,
-                                        //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
-                                        ReceivedQuantity = t1.ReceiveQty,
-                                        StockInQty = t1.StockInQty ?? 0,
-                                        StockInRate = t1.StockInRate ?? 0,
-                                        UnitPrice = t1.UnitPrice,
-                                        UnitName=t3.Name,
-                                        CompanyId=companyId,
-                                        CompanyFK=companyId
+                                                             Deduction = t1.Deduction,
+                                                             IsActive = t1.IsActive,
+                                                             ProductId = t1.ProductId,
+                                                             ProductName = t2.ProductName,
+                                                             //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
+                                                             ReceivedQuantity = t1.ReceiveQty,
+                                                             StockInQty = t1.StockInQty ?? 0,
+                                                             StockInRate = t1.StockInRate ?? 0,
+                                                             UnitPrice = t1.UnitPrice,
+                                                             UnitName = t3.Name,
+                                                             CompanyId = companyId,
+                                                             CompanyFK = companyId
 
-                                    }).FirstOrDefault());
+                                                         }).FirstOrDefault());
 
             return materialReceiveModel;
         }

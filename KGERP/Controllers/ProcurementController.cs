@@ -94,14 +94,6 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetFoodProductStockByProductId(int companyId, int productId, int? stockInfoId)
-        {
-            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.GetFoodProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
-
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
         #region Supplier Opening
 
         [HttpGet]
@@ -1675,10 +1667,7 @@ namespace KGERP.Controllers
             }
             else
             {
-                
-                
                 vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
-
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
@@ -2147,6 +2136,7 @@ namespace KGERP.Controllers
 
         }
 
+       
         #endregion
 
         #region Food Customer Sales
@@ -2271,6 +2261,34 @@ namespace KGERP.Controllers
             vmSalesOrder.ToDate = Convert.ToDateTime(vmSalesOrder.StrToDate);
             return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = vmSalesOrder.CompanyId, fromDate = vmSalesOrder.FromDate, toDate = vmSalesOrder.ToDate, vStatus = vmSalesOrder.Status });
 
+        }
+
+        #endregion
+
+        #region Get Stocks
+
+        public JsonResult GetFoodProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetFoodProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDeportProductStockByProductId(int companyId, int productId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetDeportProductStockByProductId(companyId, productId, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDealerProductStockByProductId(int companyId, int productId, int? stockInfoTypeId, int? stockInfoId)
+        {
+            var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
+            var model = _service.GetDealerProductStockByProductId(companyId, productId, stockInfoTypeId??0, stockInfoIdVal ?? 0);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

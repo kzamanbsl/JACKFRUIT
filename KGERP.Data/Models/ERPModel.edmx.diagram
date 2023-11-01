@@ -514,6 +514,21 @@
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderDetail1" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderMaster" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
+        <EntityTypeShape EntityType="ERPModel.DamageDetail" Width="1.5" PointX="74.125" PointY="31.125" />
+        <EntityTypeShape EntityType="ERPModel.DamageMaster" Width="1.5" PointX="70.875" PointY="33.625" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_Company" />
+        <AssociationConnector Association="ERPModel.FK_DemageDetail_DemageMaster" />
+        <AssociationConnector Association="ERPModel.FK_DemageDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_Customer" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_ToDealerVendor" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_ToDeportVendor" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_VendorDealer" />
+        <AssociationConnector Association="ERPModel.FK_DemageMaster_VendorDeport" />
+        <EntityTypeShape EntityType="ERPModel.DamageDetailHistory" Width="1.5" PointX="76.375" PointY="29" />
+        <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_DamageDetail" />
+        <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_DemageMaster" />
+        <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

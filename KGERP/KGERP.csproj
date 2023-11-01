@@ -468,6 +468,7 @@
     <Compile Include="Controllers\ClientBookingListController.cs" />
     <Compile Include="Controllers\CostHeadsController.cs" />
     <Compile Include="Controllers\Crm\CrmsController.cs" />
+    <Compile Include="Controllers\DamageController.cs" />
     <Compile Include="Controllers\ProductionMasterController.cs" />
     <Compile Include="Controllers\KGRECustomerMapHeadGlController.cs" />
     <Compile Include="Controllers\MoneyReceiptProcess\RealStateMoneyReceiptController.cs" />
@@ -5249,7 +5250,6 @@
     <Content Include="Views\Report\PackagingReceiptPayment.cshtml" />
     <Content Include="Views\Report\PrintingReceiptPayment.cshtml" />
     <Content Include="Views\Report\ProductionSearch.cshtml" />
-    <Content Include="Views\Report\ProductList.cshtml" />
     <Content Include="Views\Report\ProfitLoss.cshtml" />
     <Content Include="Views\Report\ProfitLossService.cshtml" />
     <Content Include="Views\Report\PropertiesReceiptPaymentReport.cshtml" />
@@ -5602,6 +5602,17 @@
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\Configuration\ClientUserMenuAssignment.cshtml" />
+    <Content Include="Views\MaterialReceive\FoodStockDetailReport.cshtml" />
+    <Content Include="Views\Damage\DamageMasterSlave.cshtml" />
+    <Content Include="Views\Report\FoodProductStockReport.cshtml" />
+    <Content Include="Views\Report\DeportProductStockReport.cshtml" />
+    <Content Include="Views\Report\DealerProductStockReport.cshtml" />
+    <Content Include="Views\Report\ProductListReport.cshtml" />
+    <Content Include="Views\Report\DealerListReport.cshtml" />
+    <Content Include="Views\Report\DeportListReport.cshtml" />
+    <Content Include="Views\Damage\DamageMasterList.cshtml" />
+    <Content Include="Views\Damage\DealerDamageReceivedSlave.cshtml" />
+    <Content Include="Views\Damage\DealerDamageReceivedList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
