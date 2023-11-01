@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Web.Services.Description;
 using System.Security.Policy;
 using System.Drawing;
+using System.Collections;
 
 namespace KGERP.Controllers
 {
@@ -5178,6 +5179,8 @@ namespace KGERP.Controllers
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
             var zone = _configurationService.CommonZonesDropDownList(companyId);
+            cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            cm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0), "Value", "Text");
 
 
             return View(cm);
@@ -5196,16 +5199,16 @@ namespace KGERP.Controllers
             {
                 model.ZoneId = 0;
             }
-            if (model.SubZoneFk == null)
+            if (model.RegionId == null)
             {
-                model.SubZoneFk = 0;
+                model.RegionId = 0;
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.RegionId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.RegionId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "DeportList.xls");
             }
             if (model.ReportType.Equals(ReportType.PDF))
             {
@@ -5213,7 +5216,7 @@ namespace KGERP.Controllers
             }
             if (model.ReportType.Equals(ReportType.WORD))
             {
-                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
+                return File(client.DownloadData(reportUrl), "application/msword", "DeportList.doc");
             }
             Session["CompanyId"] = model.CompanyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = model.CompanyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
@@ -5229,8 +5232,10 @@ namespace KGERP.Controllers
         {
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
-
-
+            cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            cm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0), "Value", "Text");
+            cm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId, 0, 0), "Value", "Text");
+            cm.SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(cm);
         }
 
@@ -5260,11 +5265,11 @@ namespace KGERP.Controllers
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&SubZoneId={3}&AreaId={5}&TerritoryId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.RegionId, model.AreaId,model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={3}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.RegionId, model.AreaId,model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductList.xls");
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel",  reportName+".xls");
             }
             if (model.ReportType.Equals(ReportType.PDF))
             {
@@ -5272,7 +5277,7 @@ namespace KGERP.Controllers
             }
             if (model.ReportType.Equals(ReportType.WORD))
             {
-                return File(client.DownloadData(reportUrl), "application/msword", "ProductList.doc");
+                return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
             }
            
             Session["CompanyId"] = model.CompanyId;

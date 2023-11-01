@@ -9,21 +9,21 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-01T09:59:22.6981093Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-01T10:47:08.8280715Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="CustomerListDS">
+    <DataSource Name="DealerListDS">
       <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>de237ddf-2ebf-4078-b156-c3363cfa7481</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="CustomerListDataSet">
+    <DataSet Name="DealerListDataSet">
       <Query>
-        <DataSourceName>CustomerListDS</DataSourceName>
+        <DataSourceName>DealerListDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -37,12 +37,12 @@
           <QueryParameter Name="@AreaId">
             <Value>=Parameters!AreaId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@SubZoneId">
+          <QueryParameter Name="@SubzoneId">
             <Value>=Parameters!SubZoneId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_CustomerList</CommandText>
+        <CommandText>sp_DealerList</CommandText>
       </Query>
       <Fields>
         <Field Name="VendorId">
@@ -145,7 +145,7 @@
     </DataSet>
     <DataSet Name="SignatoryDataSet">
       <Query>
-        <DataSourceName>CustomerListDS</DataSourceName>
+        <DataSourceName>DealerListDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -1108,7 +1108,7 @@ order By OrderBy Desc</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>CustomerListDataSet</DataSetName>
+            <DataSetName>DealerListDataSet</DataSetName>
             <Top>0.10292in</Top>
             <Left>0.99751in</Left>
             <Height>0.4625in</Height>
@@ -1275,7 +1275,7 @@ order By OrderBy Desc</CommandText>
           <ReportItems>
             <Image Name="CompanyLogo">
               <Source>External</Source>
-              <Value>=First(Fields!CompanyLogo.Value, "CustomerListDataSet")</Value>
+              <Value>=First(Fields!CompanyLogo.Value, "DealerListDataSet")</Value>
               <Sizing>FitProportional</Sizing>
               <Top>0.05208in</Top>
               <Left>0.99751in</Left>
@@ -1303,7 +1303,7 @@ order By OrderBy Desc</CommandText>
                     </TextRun>
                     <TextRun>
                       <Label>CompanyName</Label>
-                      <Value>=First(Fields!CompanyName.Value, "CustomerListDataSet")</Value>
+                      <Value>=First(Fields!CompanyName.Value, "DealerListDataSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1319,7 +1319,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>CompanyAddress</Label>
-                      <Value>=First(Fields!CompanyAddress.Value, "CustomerListDataSet")</Value>
+                      <Value>=First(Fields!CompanyAddress.Value, "DealerListDataSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -1349,7 +1349,7 @@ order By OrderBy Desc</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Customer List</Value>
+                      <Value>Dealer List</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
