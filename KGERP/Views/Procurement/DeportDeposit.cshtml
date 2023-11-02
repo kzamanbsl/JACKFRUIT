@@ -263,7 +263,7 @@
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
 
-              $("#txtCustomerName").autocomplete({
+              @*$("#txtCustomerName").autocomplete({
                 source: function (request, response) {
                     $.ajax({
                         url:"@Url.Action("GetAutoCompleteSCustomer", "Procurement")",
@@ -295,7 +295,7 @@
 
             }).focus(function () {
                 $(this).autocomplete("search");
-            });
+            });*@
 
 
 

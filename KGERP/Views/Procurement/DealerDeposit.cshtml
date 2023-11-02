@@ -82,7 +82,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group" style="padding:0px">
                                         <label>Dealer:</label>
-                                        @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Customer Name", @id = "txtCustomerName" } })
+                                        @Html.DropDownListFor(model => model.VendorId, Model.DealerList as SelectList, "--Dealer--", new { id = "ddlParentId", @class = "form-control searchingDropdown", required = "true" })
 
                                         @Html.HiddenFor(model => model.VendorId, new { id = "ddlCommon_CustomerFK" })
                                         @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })

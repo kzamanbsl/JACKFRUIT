@@ -2346,7 +2346,7 @@ namespace KGERP.Controllers
             vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Dealer);
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vendorDepositModel.CompanyFK = companyId;
-
+            vendorDepositModel.DealerList= new SelectList(_Configurationservice.CommonDealerDropDownList(), "Value", "Text");
             return View(vendorDepositModel);
         }
 
@@ -2377,6 +2377,7 @@ namespace KGERP.Controllers
             vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Customer);
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vendorDepositModel.CompanyFK = companyId;
+            vendorDepositModel.CustomerList = new SelectList(_Configurationservice.CommonCustomerDropDownList(), "Value", "Text");
 
             return View(vendorDepositModel);
         }

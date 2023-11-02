@@ -2600,6 +2600,26 @@ namespace KGERP.Service.Implementation.Configuration
                 list.Add(new { Text = x.Name, Value = x.VendorId });
             }
             return list;
+        } 
+        public List<object> CommonDealerDropDownList()
+        {
+            var list = new List<object>();
+            var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.VendorId });
+            }
+            return list;
+        }    
+        public List<object> CommonCustomerDropDownList()
+        {
+            var list = new List<object>();
+            var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true).ToList();
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.VendorId });
+            }
+            return list;
         }
         public List<object> CommonCustomerPaymentType()
         {

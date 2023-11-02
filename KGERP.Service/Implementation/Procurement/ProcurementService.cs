@@ -5364,8 +5364,8 @@ namespace KGERP.Service.Implementation.Procurement
             VendorDepositModel vendorDeposit = new VendorDepositModel();
             vendorDeposit.DataList = await (
 
-                from t1 in _db.VendorDeposits.Where(c => c.IsActive)
-                join t2 in _db.Vendors on t1.VendorTypeId equals t2.VendorTypeId
+                from t1 in _db.VendorDeposits.Where(c => c.IsActive& c.VendorTypeId==(int)vendor)
+                join t2 in _db.Vendors on t1.VendorId equals t2.VendorId
                 into t2_Join from  t2 in t2_Join.DefaultIfEmpty()
                 join t3 in _db.Companies on t2.CompanyId equals t3.CompanyId
                 into t3_Join from t3 in t3_Join.DefaultIfEmpty()
