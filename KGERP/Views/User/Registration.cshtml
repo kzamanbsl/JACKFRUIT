@@ -41,25 +41,25 @@
 
                                 <div class="form-group">
                                     <label for="" class="form-control-label">User Name:</label>
-                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control  input-sm", @placeholder = "User Name", required = "true", })
+                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="form-control-label">Email:</label>
-                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control  input-sm", @placeholder = "email", required = "true" })
+                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control", @placeholder = "email", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-12" })
                                     <div class="col-12">
-                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "password", required = "true" } })
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-12" })
                                     <div class="col-12">
-                                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "confirm password", required = "true" } })
                                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
