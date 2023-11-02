@@ -32,14 +32,13 @@ namespace KGERP.Service.ServiceModel
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Confirm password and password do not match")]
-
-        public bool Active { get; set; }
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Old Password")]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
 
+        public bool Active { get; set; }
         public IEnumerable<UserModel> DataList { get; set; }
     }
 }
