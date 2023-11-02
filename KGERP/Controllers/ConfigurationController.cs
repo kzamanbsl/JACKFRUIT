@@ -6,6 +6,8 @@ using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.EMMA;
+using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
@@ -31,10 +33,48 @@ namespace KGERP.Controllers
         {
             _service = configurationService;
             _companyService = companyService;
-            this._ftpService = ftpService;
+            _ftpService = ftpService;
         }
 
         #region User Role Menuitem
+
+        #region ClientUserMenuAssignment
+
+        public ActionResult ClientUserMenuAssignment(int companyId=0)
+        {
+            var dto = new ClientMenu
+            {
+                CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text")
+            };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public ActionResult ClientUserMenuAssignment(ClientMenu model)
+        {
+            if (model.CompanyId == null) return View(model);
+            ClientMenu viewData = _service.ClientUserMenuAssignment(model);
+            viewData.CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text");
+            return View(viewData);
+
+        }
+
+        public JsonResult ClientCompanyUserMenuUpdate(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
+        {
+            var result = _service.ClientCompanyUserMenuUpdate(index, userId, isActive, companyId, menuId, subMenuId);
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetUserClientMenuAssign(string prefix)
+        {
+            var users = _service.GetUserClientMenuAssign(prefix);
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        // User menu assign
         public async Task<ActionResult> UserMenuAssignment(int companyId)
         {
             VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
@@ -367,7 +407,7 @@ namespace KGERP.Controllers
         #region Common Area
 
         [HttpGet]
-        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0,int regionId=0)
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int regionId = 0)
         {
             var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, regionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
@@ -464,7 +504,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId=vmCommonSubZone.RegionId, areaId=vmCommonSubZone.AreaId });
+            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId = vmCommonSubZone.RegionId, areaId = vmCommonSubZone.AreaId });
         }
 
         #endregion
@@ -764,7 +804,7 @@ namespace KGERP.Controllers
             vmCommonProduct = await _service.GetProduct(companyId, categoryId, subCategoryId, "R");
 
             vmCommonProduct.UnitList = new SelectList(_service.UnitDropDownList(companyId), "Value", "Text");
-            vmCommonProduct.ProductCategoryList = new SelectList(await _service.GetProductCategory(companyId,  "R"), "Value", "Text");
+            vmCommonProduct.ProductCategoryList = new SelectList(await _service.GetProductCategory(companyId, "R"), "Value", "Text");
             return View(vmCommonProduct);
         }
 
@@ -1090,9 +1130,11 @@ namespace KGERP.Controllers
 
         public JsonResult getallEmployeeforMenu(string prefix)
         {
-            var products = _service.AllEmployeeForMenu(prefix);
-            return Json(products, JsonRequestBehavior.AllowGet);
+            var users = _service.AllEmployeeForMenu(prefix);
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
+
+       
 
         #region Common Supplier
 
@@ -1301,7 +1343,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(RSCommonCustomerGroup), new { companyId = vmCommonCustomer.CompanyFK, vendorId = vmCommonCustomer.VendorReferenceId });
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> CommonFeedCustomer(int companyId, int zoneId = 0, int? subZoneId = 0)
         {
@@ -1321,7 +1363,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0,int regionId =0, int areaId=0, int subZoneId = 0)
+        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
@@ -1585,7 +1627,7 @@ namespace KGERP.Controllers
             var dts = await Task.Run(() => _service.CommonRegionGet(companyId, zoneId));
             var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
-        }  
+        }
         [HttpGet]
         public async Task<ActionResult> AllRegionGet(int companyId)
         {
@@ -1595,7 +1637,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-      
+
 
         [HttpGet]
         public async Task<ActionResult> CommonUpazilasGet(int id)

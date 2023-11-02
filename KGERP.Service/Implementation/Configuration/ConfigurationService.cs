@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Data.Models;
@@ -27,12 +26,133 @@ namespace KGERP.Service.Implementation.Configuration
             _db = db;
         }
 
-        //#region User role Menuitem
+        #region User role Menu item
+
+        #region ClientUserMenuAssignment
+
+
+        public ClientMenu ClientUserMenuAssignment(ClientMenu model)
+        {
+
+            ClientMenu clientMenu = new ClientMenu()
+            {
+                CompanyUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == model.UserId).ToList(),
+            };
+
+            //Super Admin Allowed Menus
+            var baseUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
+
+            var baseMenuIds = baseUserMenus.Select(c => c.CompanyMenuId).Distinct().ToList();
+            clientMenu.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
+            var subMenus = clientMenu.CompanyMenus.SelectMany(c=>c.CompanySubMenus).ToList();
+
+            //Assigned Submenu
+            var userSubMenuIds = clientMenu?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).Distinct().ToList();
+            if (userSubMenuIds?.Count() > 0)
+            {
+                foreach (var item in clientMenu.CompanyUserMenus)
+                {
+                    var subMenu = subMenus.FirstOrDefault(c => c.CompanySubMenuId == item.CompanySubMenuId);
+                    ClientUserMenu data = new ClientUserMenu()
+                    {
+                        CompanyUserMenuId = item.CompanyUserMenuId,
+                        IsActive = item.IsActive,
+                        UserId = item.UserId,
+                        MenuId = item.CompanyMenuId,
+                        MenuName = clientMenu.CompanyMenus.FirstOrDefault(c => c.CompanyMenuId == item.CompanyMenuId)?.Name,
+                        SubMenuId = item.CompanySubMenuId,
+                        SubMenuName = subMenu?.Name,
+                        SubMenuController = subMenu?.Controller,
+                        SubMenuAction = subMenu?.Action
+                    };
+
+                    clientMenu.ClientUserMenus.Add(data);
+                }
+            }
+
+            //Un Assigned Submenu
+            var unAssignedSubMenus = baseUserMenus?.Count()>0 && userSubMenuIds?.Count() > 0
+                ? baseUserMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
+                : baseUserMenus;
+
+            foreach (var item in unAssignedSubMenus)
+            {
+                var subMenu = subMenus.FirstOrDefault(c => c.CompanySubMenuId == item.CompanySubMenuId);
+                ClientUserMenu data = new ClientUserMenu()
+                {
+                    CompanyUserMenuId = 0,
+                    IsActive = false,
+                    UserId = model.UserId,
+                    MenuId = item.CompanyMenuId,
+                    MenuName = clientMenu.CompanyMenus.FirstOrDefault(c=>c.CompanyMenuId==item.CompanyMenuId)?.Name,
+                    SubMenuId = item.CompanySubMenuId,
+                    SubMenuName = subMenu?.Name,
+                    SubMenuController = subMenu?.Controller,
+                    SubMenuAction = subMenu?.Action
+                };
+
+                clientMenu.ClientUserMenus.Add(data);
+            }
+
+
+            return clientMenu;
+        }
+
+        public object ClientCompanyUserMenuUpdate(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
+        {
+
+            var existPermission = _db.CompanyUserMenus.FirstOrDefault(c => c.UserId == userId && c.CompanyId == companyId && c.CompanyMenuId == menuId && c.CompanySubMenuId == subMenuId);
+            if (existPermission?.CompanyUserMenuId > 0)
+            {
+                existPermission.IsActive = isActive;
+            }
+            else
+            {
+                CompanyUserMenu userMenu = new CompanyUserMenu
+                {
+                    CompanyMenuId = menuId,
+                    CompanySubMenuId = subMenuId,
+                    IsActive = true,
+                    IsView = true,
+                    CompanyId = companyId,
+                    UserId = userId,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedDate = DateTime.Now
+                };
+                _db.CompanyUserMenus.Add(userMenu);
+            }
+
+            if (_db.SaveChanges() > 0)
+            {
+                return new { indexNo = index, isSuccess = isActive };
+            }
+            return new { indexNo = index, isSuccess = false };
+
+        }
+        public object GetUserClientMenuAssign(string prefix)
+        {
+            var v = (from t1 in _db.Users.Where(q => q.Active)
+                //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
+                //from t2 in t2_Join.DefaultIfEmpty()
+                where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
+
+                select new
+                {
+                    label = (t1.UserName + " ( " + t1.Email + " )"),
+                    val = t1.UserName
+                }).OrderBy(x => x.label).Take(100).ToList();
+            var result = v.Where(c => c.val != "ISS0001" && c.val != "ISS0002");
+            return result;
+        }
+        #endregion
+
+
+
         public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)
         {
             VMUserMenuAssignment vmMenuAssignment = new VMUserMenuAssignment();
             vmMenuAssignment.CompanyFK = vmUserMenuAssignment.CompanyFK;
-            var companySubMenus = await _db.CompanySubMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK).ToListAsync();
+            var companySubMenus = await _db.CompanySubMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK && x.IsActive == true).ToListAsync();
             var companySubMenusId = companySubMenus.Select(x => x.CompanySubMenuId).ToList();
 
             var companyUserMenus = await _db.CompanyUserMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK && x.UserId == vmUserMenuAssignment.UserId).ToListAsync();
@@ -70,7 +190,6 @@ namespace KGERP.Service.Implementation.Configuration
                 {
                     var x = ex.Message;
                 }
-
 
             }
             vmMenuAssignment.DataList = await Task.Run(() => CompanyUserMenuDataLoad(vmUserMenuAssignment));
@@ -230,6 +349,8 @@ namespace KGERP.Service.Implementation.Configuration
         //    return result;
         //}
         //#endregion
+
+        #endregion
 
         public async Task<VMUserMenu> AccountingCostCenterGet(int companyId)
         {
@@ -762,7 +883,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         public async Task<List<SelectModelType>> GetProductCategory(int companyId, string productType)
         {
-            
+
             var result = await _db.ProductCategories.AsNoTracking()
                        .Where(c => c.IsActive == true && c.CompanyId == companyId/* && productType == productType*/)
                        .Select(c => new SelectModelType
@@ -771,7 +892,7 @@ namespace KGERP.Service.Implementation.Configuration
                            Value = c.ProductCategoryId
                        }).ToListAsync();
 
-          return result;
+            return result;
         }
 
         public List<SelectModel> GetProductCategory(int companyId)
@@ -812,7 +933,7 @@ namespace KGERP.Service.Implementation.Configuration
                          label = t3.Name + " " + t2.Name + " " + t1.ProductName,
                          val = t1.ProductId,
                          unit = t4.Name,
-                         price = t1.UnitPrice??0,
+                         price = t1.UnitPrice ?? 0,
                          tpPrice = t1.TPPrice,
                          qty = t1.Qty ?? 0
                      }).OrderBy(x => x.label).Take(20).ToList();
@@ -892,7 +1013,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             return v;
         }
-
+        
         public List<SelectModel> GetEmployeeSelectModels(int companyId)
         {
             return _db.Employees.Where(x => x.CompanyId == companyId && x.Active == true).ToList().Select(x => new SelectModel()
@@ -932,13 +1053,13 @@ namespace KGERP.Service.Implementation.Configuration
             List<VMCommonProductSubCategory> vmCommonProductSubCategoryList =
                 await Task.Run(() => (_db.ProductSubCategories.AsNoTracking()
                 .Where(x => x.IsActive == true && x.ProductCategoryId == categoryId && x.CompanyId == companyId)
-                .Join(_db.ProductCategories.AsNoTracking().Where(c=>c.IsActive==true),
-                t1=>t1.ProductCategoryId,
-                t2=>t2.ProductCategoryId,
-                (t1,t2)=> new VMCommonProductSubCategory
-                { 
-                    ID = t1.ProductSubCategoryId, 
-                    Name = t1.Name 
+                .Join(_db.ProductCategories.AsNoTracking().Where(c => c.IsActive == true),
+                t1 => t1.ProductCategoryId,
+                t2 => t2.ProductCategoryId,
+                (t1, t2) => new VMCommonProductSubCategory
+                {
+                    ID = t1.ProductSubCategoryId,
+                    Name = t1.Name
                 })
                 .ToListAsync()));
 
@@ -957,11 +1078,11 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<List<VMCommonProduct>> CommonProductGet(int companyId, int productSubCategoryId)
         {
             List<VMCommonProduct> vmCommonProductList = new List<VMCommonProduct>();
-            
+
             if (productSubCategoryId > 0)
             {
 
-          
+
                 vmCommonProductList =
                 await Task.Run(() => (_db.Products
                 .Where(x => x.IsActive == true && x.ProductSubCategoryId == productSubCategoryId && x.CompanyId == companyId))
@@ -972,23 +1093,23 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 vmCommonProductList =
                 await Task.Run(() => (_db.Products
-                .Where(x => x.IsActive == true &&  x.CompanyId == companyId)
-                .Join(_db.ProductSubCategories.Where(c=>c.IsActive==true),
-                t1=>t1.ProductSubCategoryId,
-                t2=>t2.ProductSubCategoryId,
-                (t1,t2)=> new VMCommonProduct
+                .Where(x => x.IsActive == true && x.CompanyId == companyId)
+                .Join(_db.ProductSubCategories.Where(c => c.IsActive == true),
+                t1 => t1.ProductSubCategoryId,
+                t2 => t2.ProductSubCategoryId,
+                (t1, t2) => new VMCommonProduct
                 {
                     ID = t1.ProductId,
-                    Name = t1.ProductName 
+                    Name = t1.ProductName
                 })
                 .ToListAsync()));
-                
-               
+
+
             }
 
             return vmCommonProductList;
-        } 
-        
+        }
+
         public async Task<List<VMCommonDistricts>> CommonDistrictsGet(int id)
         {
 
@@ -1000,9 +1121,9 @@ namespace KGERP.Service.Implementation.Configuration
         {
             List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.AreaId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
             return vmCommonDistricts;
-        }    
-        
-       
+        }
+
+
         public async Task<List<VMCommonDistricts>> CommonRegionGet(int companyId, int zoneId)
         {
             List<VMCommonDistricts> vmRegions = await Task.Run(() => (_db.Regions.Where(x => x.IsActive == true && x.ZoneId == zoneId && x.CompanyId == companyId)).Select(x => new VMCommonDistricts() { ID = x.RegionId, Name = x.Name }).ToListAsync());
@@ -1010,7 +1131,7 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<List<VMCommonDistricts>> AllRegionGet(int companyId)
         {
-            List<VMCommonDistricts> vmRegions = await Task.Run(() => (_db.Regions.Where(x => x.IsActive == true  && x.CompanyId == companyId)).Select(x => new VMCommonDistricts() { ID = x.RegionId, Name = x.Name }).ToListAsync());
+            List<VMCommonDistricts> vmRegions = await Task.Run(() => (_db.Regions.Where(x => x.IsActive == true && x.CompanyId == companyId)).Select(x => new VMCommonDistricts() { ID = x.RegionId, Name = x.Name }).ToListAsync());
             return vmRegions;
         }
 
@@ -1412,7 +1533,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel();
-            
+
 
             var v = _db.Zones.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
                 .Select(x => new SelectModel()
@@ -2386,7 +2507,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                        Code = t1.Code
                                                                    }).FirstOrDefault());
             }
-            else if(categoryId is 0)
+            else if (categoryId is 0)
             {
                 vmCommonProductSubCategory = await Task.Run(() => (from t1 in _db.ProductCategories.Where(x => x.IsActive == true)
 
@@ -3496,7 +3617,7 @@ namespace KGERP.Service.Implementation.Configuration
                          SubZoneId = t1.SubZoneId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
-                         AreaId=t1.AreaId.Value,
+                         AreaId = t1.AreaId.Value,
                          RegionId = t1.RegionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -3914,18 +4035,18 @@ namespace KGERP.Service.Implementation.Configuration
             var newString = totalSupplier.ToString().PadLeft(4, '0');
             #endregion
 
-            
-            
+
+
             Vendor commonCustomer = new Vendor
             {
                 Name = vmCommonCustomer.Name,
                 Phone = vmCommonCustomer.Phone,
                 Email = vmCommonCustomer.Email,
-                DistrictId=vmCommonCustomer.Common_DistrictsFk,
+                DistrictId = vmCommonCustomer.Common_DistrictsFk,
                 UpazilaId = vmCommonCustomer.Common_UpazilasFk,
                 ContactName = vmCommonCustomer.ContactPerson,
                 VendorTypeId = (int)Provider.Customer,
-                AreaId= vmCommonCustomer.AreaId,
+                AreaId = vmCommonCustomer.AreaId,
                 Address = vmCommonCustomer.Address,
                 SubZoneId = vmCommonCustomer.SubZoneId,
                 NID = vmCommonCustomer.NID,
@@ -4606,7 +4727,7 @@ namespace KGERP.Service.Implementation.Configuration
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
                          SubZoneId = t1.SubZoneId.Value,
-                         AreaId=t1.AreaId,
+                         AreaId = t1.AreaId,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId,
@@ -6573,4 +6694,3 @@ namespace KGERP.Service.Implementation.Configuration
 
 
 }
-

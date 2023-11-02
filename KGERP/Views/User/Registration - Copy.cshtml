@@ -1,0 +1,125 @@
+﻿@model KGERP.Service.ServiceModel.UserModel
+@{
+    ViewBag.Title = "Registration";
+}
+<h2>Registration</h2>
+<hr />
+
+@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+{
+    if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            <strong>Success!</strong>@ViewBag.Message
+        </div>
+    }
+}
+else
+{
+    using (Html.BeginForm())
+    {
+        <div class="col-md-5">
+            <div class="form-horizontal">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" }, @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("EmailExist", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-12">
+                        <input type="submit" value="Create" class="btn btn-primary form-control" />
+                    </div>
+                </div>
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>Error!</strong>@ViewBag.Message
+                </div>
+            }
+        </div>
+
+        <div class="col-md-7 p-5">
+            <table class="table table-striped" id="userdata">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    }
+}
+
+@section Scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/User/GetUsers', 
+                type: 'GET',
+                success: function (data) {
+                    displayUsers(data);
+                },
+                error: function () {
+                    alert('Error retrieving user data.');
+                }
+            });
+
+            function displayUsers(users) {
+                var tableBody = $('#userdata tbody');
+                tableBody.empty();
+
+                $.each(users, function (index, user) {
+                    var loginLink = $('<a/>', {
+                        text: 'Active',
+                        href: '/User/EditOrDelete?username=' + user.UserName 
+                    });
+
+                    var row = $('<tr>').append(
+                        $('<td>').text(index + 1),
+                        $('<td>').text(user.UserName),
+                        $('<td>').text(user.Email),
+                        $('<td>').append(loginLink)
+                    );
+
+                    tableBody.append(row);
+                });
+            }
+        });
+    </script>
+}

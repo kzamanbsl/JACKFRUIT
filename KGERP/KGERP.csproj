@@ -5601,6 +5601,7 @@
     </Content>
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryChallan.cshtml" />
     <Content Include="Views\Procurement\DealerSalesOrderDelivaryChallan.cshtml" />
+    <Content Include="Views\Configuration\ClientUserMenuAssignment.cshtml" />
     <Content Include="Views\MaterialReceive\FoodStockDetailReport.cshtml" />
     <Content Include="Views\Damage\DamageMasterSlave.cshtml" />
     <Content Include="Views\Report\FoodProductStockReport.cshtml" />
@@ -5627,6 +5628,8 @@
     <Content Include="Views\Damage\CustomerDamageReceivedList.cshtml" />
     <Content Include="Views\Damage\CustomerDamageReceivedSlave.cshtml" />
     <Content Include="Views\Damage\DamageMasterListCustomer.cshtml" />
+    <Content Include="Views\Procurement\VendorDeposit.cshtml" />
+    <Content Include="Views\User\Registration - Copy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

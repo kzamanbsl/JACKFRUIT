@@ -1,84 +1,212 @@
 ﻿@model KGERP.Service.ServiceModel.UserModel
 @{
-    ViewBag.Title = "Registration";
+    ViewData["Title"] = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Registration</h2>
-@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
-{
-    if (ViewBag.Message != null)
-    {
-        <div class="alert alert-success">
-            <strong>Success!</strong>@ViewBag.Message
-        </div>
-    }
-}
-else
-{
-    using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        User
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">User</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("Registration", "User", FormMethod.Post, new { id = "commonUserFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="box">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="box-danger">
+                            @*<div class="box-header">
+                                    <h4>Add Unit</h4>
+                                </div>*@
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                @Html.HiddenFor(model => model.UserId, new { Value = "", id = "userId" })
+                                @*@Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })*@
+                                @*@Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })*@
+
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">User Name:</label>
+                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control  input-sm", @placeholder = "User Name", required = "true", })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Email:</label>
+                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control  input-sm", @placeholder = "email", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-12" })
+                                    <div class="col-12">
+                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-12" })
+                                    <div class="col-12">
+                                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-danger">
+                                        <strong>Error!</strong>@ViewBag.Message
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="box">
+
+                        <div class="box-danger">
+                            <div class="box-header">
+                                @*<h4>Unit List</h4>*@
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+
+                                <div class="table-responsive col-md-12">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>User Name</th>
+                                                <th>Email</th>
+                                                <th>Active</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @{int sl = 0;
+                                        }
+                                        <tbody>
+                                            @foreach (var item in Model.DataList)
+                                            {
+                                                <tr>
+                                                    <td>@(++sl)</td>
+                                                    <td id="tdUserName_@item.UserId">@item.UserName</td>
+                                                    <td id="tdEmail_@item.UserId">@item.Email</td>
+                                                    <td id="tdActive_@item.UserId">
+                                                        @item.Active
+                                                    </td>
+                                                    <td>
+                                                        <a id="@item.UserId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                        <a id="@item.UserId" onclick="makeDeletable(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#unitDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-          
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                    @Html.ValidationMessage("EmailExist", new { @class = "text-danger" })
+
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("InactiveUser", "User", FormMethod.Post, new { id = "commonUserFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.UserId, new { Value = "", id = "userIdInactive" })
+
+    <div class="modal fade" id="unitDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>User Inactive</b></h5>
+
                 </div>
-            </div>
-            @*<div class="form-group">
-                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <h3>Are you sure to User Inactive?</h3>
+                    </div>
                 </div>
-            </div>*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
                 </div>
             </div>
         </div>
-        if (ViewBag.Message != null)
-        {
-            <div class="alert alert-danger">
-                <strong>Error!</strong>@ViewBag.Message
-            </div>
+    </div>
+}
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+        });
+
+
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#userId').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+               // $('#txtUserName').val($('#tdUnitName_' + rowId).text().trim());
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            }
         }
-    }
-}
 
-<div>
-    @Html.ActionLink("Login", "Login")
-</div>
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#userIdDelete').val(id);
+                $('#ActionIdDelete').val(3);
+  
+            }
+        }
 
-@section Scripts{
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        function resetForm() {
+            $('#commonUserFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+
+        }
+
+    </script>
 }
 

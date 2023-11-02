@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
@@ -8,43 +9,47 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
-
     public class UserController : Controller
     {
-        ERPEntities employeeRepository = new ERPEntities();
+        ERPEntities _context = new ERPEntities();
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         //Registration Action
         [HttpGet]
         public ActionResult Registration()
         {
-            return View();
+            var model = GetUsers();
+            return View(model);
         }
+
         //Registration POST action 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] UserModel model)
         {
-            bool Status = false;
+            bool status = false;
             string message = "";
 
 
             User user = ObjectConverter<UserModel, User>.Convert(model);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Email) && string.IsNullOrEmpty(model.Password))
             {
 
                 #region //Email is already Exist 
                 var isExist = IsEmailExist(user.Email);
                 if (isExist)
                 {
-                    ModelState.AddModelError("EmailExist", "Email already exist");
-                    return View(user);
+                    //ModelState.AddModelError("EmailExist", "Email already exist");
+                    message = "Email already exist";
+                    return View(model);
                 }
                 #endregion
 
@@ -57,6 +62,7 @@ namespace KGERP.Controllers
                 // user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword); 
                 #endregion
                 user.IsEmailVerified = true;
+                user.Active = true;
 
                 #region Save to Database
                 using (ERPEntities dc = new ERPEntities())
@@ -68,18 +74,62 @@ namespace KGERP.Controllers
                     //SendVerificationLinkEmail(user.EmailID, user.ActivationCode.ToString());
                     //message = "Registration successfully done. Account activation link " + 
                     //    " has been sent to your email id:" + user.EmailID;
-                    Status = true;
+
+                    message = "Registration successfully done!";
+                    status = true;
                 }
                 #endregion
             }
             else
             {
-                message = "Invalid Request";
+                message = "Invalid Request!";
+                status = false;
             }
 
             ViewBag.Message = message;
-            ViewBag.Status = Status;
-            return View(user);
+            ViewBag.Status = status;
+            return RedirectToAction("Registration");
+        }
+
+        private UserModel GetUsers()
+        {
+            ERPEntities _db = new ERPEntities();
+
+            UserModel userModel = new UserModel();
+
+            userModel.DataList = (from t1 in _db.Users
+                                  where t1.UserId > 0
+                                  select new UserModel
+                                  {
+                                      UserId = t1.UserId,
+                                      UserName = t1.UserName,
+                                      Email = t1.Email,
+                                      Active = t1.Active
+
+                                  }).OrderByDescending(x => x.UserId).AsEnumerable();
+            userModel.DataList = userModel.DataList.Where(c => c.UserName != "ISS0002");
+            return userModel;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> InactiveUser(UserModel model)
+        {
+
+            if (model.UserId > 0)
+            {
+                var user = await _context.Users.FindAsync(model.UserId);
+                if (user != null)
+                {
+                    var b = user.Active == true ? user.Active == false : user.Active == true;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(Registration));
         }
 
         //Verify Account  
@@ -279,6 +329,7 @@ namespace KGERP.Controllers
                 //}
             }
         }
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Login(UserLogin login, string ReturnUrl = "")
@@ -349,6 +400,7 @@ namespace KGERP.Controllers
         //}
 
         //Logout
+
         [Authorize]
         [HttpPost]
         [SessionExpire]
