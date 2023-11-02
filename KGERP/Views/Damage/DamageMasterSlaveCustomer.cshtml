@@ -38,7 +38,7 @@
         <li class="active">Damage</li>
     </ol>
 </section>
-@using (Html.BeginForm("DamageMasterSlave", "Damage", FormMethod.Post, new { id = "damageMasterSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DamageMasterSlaveCustomer", "Damage", FormMethod.Post, new { id = "damageMasterSlaveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -140,12 +140,19 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Dealer:</label>
+                                        <label>To Dealer:</label>
                                         @Html.DropDownListFor(model => model.ToDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                               
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From Customer:</label>
+                                        @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlFromCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.FromCustomerId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -446,12 +453,35 @@
 
                             //alert(response.responseText);
                         }
-             });
+                    });
+
+
+
+
+
 
 
             $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
+                $.ajax({
+                type: "GET",
+                url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
+                datatype: "Json",
+                    data: { zoneId: zoneFk},
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlFromCustomerId").empty();
+                            $("#ddlFromCustomerId").append("<option value=''>==Select Customer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlFromCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+
                  $.ajax({
                     type: "GET",
                     url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",

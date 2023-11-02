@@ -30,7 +30,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("DealerDamageReceivedSlave", "Damage", FormMethod.Post, new { id = "dealerDamageSlaveReceiveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("CustomerDamageReceivedSlave", "Damage", FormMethod.Post, new { id = "CustomerDamageSlaveReceiveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -79,6 +79,24 @@
                                             <th>Dealer Address</th>
                                             <th>:</th>
                                             <td>@Model.DealerAddress</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerName</td>
+
+                                            <th>Customer Phone</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerPhone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Customer Email</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerEmail</td>
+                                            <th>Customer Address</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerAddress</td>
                                         </tr>
 
                                         <tr>
