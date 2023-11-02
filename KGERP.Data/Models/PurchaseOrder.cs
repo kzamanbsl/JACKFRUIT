@@ -19,6 +19,7 @@ namespace KGERP.Data.Models
         {
             this.PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             this.MaterialReceives = new HashSet<MaterialReceive>();
+            this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
         }
     
         public long PurchaseOrderId { get; set; }
@@ -76,5 +77,7 @@ namespace KGERP.Data.Models
         public virtual StockInfo StockInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialReceive> MaterialReceives { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
     }
 }

@@ -5203,6 +5203,51 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does no
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="VendorDeposit">
+          <Key>
+            <PropertyRef Name="VendorDepositId" />
+          </Key>
+          <Property Name="VendorDepositId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="VoucherId" Type="bigint" />
+          <Property Name="VendorTypeId" Type="int" Nullable="false" />
+          <Property Name="DepositDate" Type="datetime" Nullable="false" />
+          <Property Name="DepositAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AdjustedAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsSubmit" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="BankCharge" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="BankChargeHeadGlId" Type="int" />
+          <Property Name="PaymentToHeadGlId" Type="int" />
+          <Property Name="IsAdjusted" Type="bit" />
+        </EntityType>
+        <EntityType Name="VendorDepositHistory">
+          <Key>
+            <PropertyRef Name="VendorDepositHistoryId" />
+          </Key>
+          <Property Name="VendorDepositHistoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="VendorDepositId" Type="int" Nullable="false" />
+          <Property Name="VendorTypeId" Type="int" Nullable="false" />
+          <Property Name="OrderMasterId" Type="bigint" />
+          <Property Name="PurchaseOrderId" Type="bigint" />
+          <Property Name="HistoryDate" Type="datetime" Nullable="false" />
+          <Property Name="PaymentAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="OpeningDepositAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="PaymentId" Type="int" />
+        </EntityType>
         <EntityType Name="VendorOffer">
           <Key>
             <PropertyRef Name="VendorOfferId" />
@@ -8233,6 +8278,126 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VendorDeposit_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="VendorDeposit" Type="Self.VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDeposit_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="VendorDeposit" Type="Self.VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDeposit_VendorType">
+          <End Role="VendorType" Type="Self.VendorType" Multiplicity="1" />
+          <End Role="VendorDeposit" Type="Self.VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VendorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDeposit_Voucher">
+          <End Role="Voucher" Type="Self.Voucher" Multiplicity="0..1" />
+          <End Role="VendorDeposit" Type="Self.VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voucher">
+              <PropertyRef Name="VoucherId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="VendorDepositHistory" Type="Self.VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_OrderMaster">
+          <End Role="OrderMaster" Type="Self.OrderMaster" Multiplicity="0..1" />
+          <End Role="VendorDepositHistory" Type="Self.VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderMaster">
+              <PropertyRef Name="OrderMasterId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="OrderMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="VendorDepositHistory" Type="Self.VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorDeposit">
+          <End Role="VendorDeposit" Type="Self.VendorDeposit" Multiplicity="1" />
+          <End Role="VendorDepositHistory" Type="Self.VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorDeposit">
+              <PropertyRef Name="VendorDepositId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorDepositId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorDepositHistory">
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="0..1" />
+          <End Role="VendorDepositHistory" Type="Self.VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorType">
+          <End Role="VendorType" Type="Self.VendorType" Multiplicity="1" />
+          <End Role="VendorDepositHistory" Type="Self.VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_VendorOffer_Vendor">
           <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
           <End Role="VendorOffer" Type="Self.VendorOffer" Multiplicity="*" />
@@ -8612,6 +8777,8 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySet Name="UpazilaAssign" EntityType="Self.UpazilaAssign" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorDeed" EntityType="Self.VendorDeed" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="VendorDeposit" EntityType="Self.VendorDeposit" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="VendorDepositHistory" EntityType="Self.VendorDepositHistory" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorOffer" EntityType="Self.VendorOffer" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorOpening" EntityType="Self.VendorOpening" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorType" EntityType="Self.VendorType" Schema="Erp" store:Type="Tables" />
@@ -10043,6 +10210,46 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Zone" EntitySet="Zone" />
             <End Role="Vendor" EntitySet="Vendor" />
           </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_Company" Association="Self.FK_VendorDeposit_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_Vendor" Association="Self.FK_VendorDeposit_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_VendorType" Association="Self.FK_VendorDeposit_VendorType">
+            <End Role="VendorType" EntitySet="VendorType" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_Voucher" Association="Self.FK_VendorDeposit_Voucher">
+            <End Role="Voucher" EntitySet="Voucher" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_Company" Association="Self.FK_VendorDepositHistory_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_OrderMaster" Association="Self.FK_VendorDepositHistory_OrderMaster">
+            <End Role="OrderMaster" EntitySet="OrderMaster" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_Vendor" Association="Self.FK_VendorDepositHistory_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorDeposit" Association="Self.FK_VendorDepositHistory_VendorDeposit">
+            <End Role="VendorDeposit" EntitySet="VendorDeposit" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorDepositHistory" Association="Self.FK_VendorDepositHistory_VendorDepositHistory">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorType" Association="Self.FK_VendorDepositHistory_VendorType">
+            <End Role="VendorType" EntitySet="VendorType" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_VendorOffer_Vendor" Association="Self.FK_VendorOffer_Vendor">
             <End Role="Vendor" EntitySet="Vendor" />
             <End Role="VendorOffer" EntitySet="VendorOffer" />
@@ -11370,6 +11577,48 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_DamageDetailHistory_Product" Association="ERPModel.FK_DamageDetailHistory_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="DamageDetailHistory" EntitySet="DamageDetailHistories" />
+          </AssociationSet>
+          <EntitySet Name="VendorDeposits" EntityType="ERPModel.VendorDeposit" />
+          <EntitySet Name="VendorDepositHistories" EntityType="ERPModel.VendorDepositHistory" />
+          <AssociationSet Name="FK_VendorDeposit_Company" Association="ERPModel.FK_VendorDeposit_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_Company" Association="ERPModel.FK_VendorDepositHistory_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_Voucher" Association="ERPModel.FK_VendorDeposit_Voucher">
+            <End Role="Voucher" EntitySet="Vouchers" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_OrderMaster" Association="ERPModel.FK_VendorDepositHistory_OrderMaster">
+            <End Role="OrderMaster" EntitySet="OrderMasters" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorDepositHistory" Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_Vendor" Association="ERPModel.FK_VendorDeposit_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_Vendor" Association="ERPModel.FK_VendorDepositHistory_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDeposit_VendorType" Association="ERPModel.FK_VendorDeposit_VendorType">
+            <End Role="VendorType" EntitySet="VendorTypes" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorDeposit" Association="ERPModel.FK_VendorDepositHistory_VendorDeposit">
+            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorType" Association="ERPModel.FK_VendorDepositHistory_VendorType">
+            <End Role="VendorType" EntitySet="VendorTypes" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -13556,6 +13805,8 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="VendorTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorType" ToRole="VendorOpening" />
+          <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_VendorType" FromRole="VendorType" ToRole="VendorDeposit" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorType" FromRole="VendorType" ToRole="VendorDepositHistory" />
         </EntityType>
         <EntityType Name="AttendanceType">
           <Key>
@@ -15965,6 +16216,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="VoucherType" Relationship="ERPModel.FK_Voucher_VoucherType" FromRole="Voucher" ToRole="VoucherType" />
           <NavigationProperty Name="VoucherDetails" Relationship="ERPModel.FK_VoucherDetail_Voucher" FromRole="Voucher" ToRole="VoucherDetail" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Voucher" FromRole="Voucher" ToRole="VendorOpening" />
+          <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_Voucher" FromRole="Voucher" ToRole="VendorDeposit" />
         </EntityType>
         <EntityType Name="VoucherDetail">
           <Key>
@@ -16901,6 +17153,8 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="OrderDelivers" Relationship="ERPModel.FK_OrderDeliver_Company" FromRole="Company" ToRole="OrderDeliver" />
           <NavigationProperty Name="OrderMasters" Relationship="ERPModel.FK_OrderMaster_Company" FromRole="Company" ToRole="OrderMaster" />
           <NavigationProperty Name="DamageMasters" Relationship="ERPModel.FK_DemageMaster_Company" FromRole="Company" ToRole="DamageMaster" />
+          <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_Company" FromRole="Company" ToRole="VendorDeposit" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_Company" FromRole="Company" ToRole="VendorDepositHistory" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -18173,6 +18427,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
           <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
           <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" FromRole="PurchaseOrder" ToRole="VendorDepositHistory" />
         </EntityType>
         <Association Name="FK_PurchaseOrder_ModeOfPurchase">
           <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
@@ -18902,6 +19157,8 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="DamageMasters2" Relationship="ERPModel.FK_DemageMaster_ToDeportVendor" FromRole="Vendor" ToRole="DamageMaster" />
           <NavigationProperty Name="DamageMasters3" Relationship="ERPModel.FK_DemageMaster_VendorDealer" FromRole="Vendor" ToRole="DamageMaster" />
           <NavigationProperty Name="DamageMasters4" Relationship="ERPModel.FK_DemageMaster_VendorDeport" FromRole="Vendor" ToRole="DamageMaster" />
+          <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_Vendor" FromRole="Vendor" ToRole="VendorDeposit" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_Vendor" FromRole="Vendor" ToRole="VendorDepositHistory" />
           </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
@@ -19926,6 +20183,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_OrderMaster_Deport" FromRole="OrderMaster" ToRole="Vendor" />
           <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderMaster" ToRole="OrderDetail" />
           <NavigationProperty Name="OrderDetailHistories" Relationship="ERPModel.FK_OrderDetailHistory_OrderMaster" FromRole="OrderMaster" ToRole="OrderDetailHistory" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_OrderMaster" FromRole="OrderMaster" ToRole="VendorDepositHistory" />
         </EntityType>
         <Association Name="FK_OrderMaster_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20359,6 +20617,182 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="DamageDetailHistory">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VendorDeposit">
+          <Key>
+            <PropertyRef Name="VendorDepositId" />
+          </Key>
+          <Property Name="VendorDepositId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="VoucherId" Type="Int64" />
+          <Property Name="VendorTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DepositDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DepositAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AdjustedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsSubmit" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="BankCharge" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="BankChargeHeadGlId" Type="Int32" />
+          <Property Name="PaymentToHeadGlId" Type="Int32" />
+          <Property Name="IsAdjusted" Type="Boolean" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_VendorDeposit_Company" FromRole="VendorDeposit" ToRole="Company" />
+          <NavigationProperty Name="Voucher" Relationship="ERPModel.FK_VendorDeposit_Voucher" FromRole="VendorDeposit" ToRole="Voucher" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorDeposit_Vendor" FromRole="VendorDeposit" ToRole="Vendor" />
+          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorDeposit_VendorType" FromRole="VendorDeposit" ToRole="VendorType" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorDeposit" FromRole="VendorDeposit" ToRole="VendorDepositHistory" />
+        </EntityType>
+        <EntityType Name="VendorDepositHistory">
+          <Key>
+            <PropertyRef Name="VendorDepositHistoryId" />
+          </Key>
+          <Property Name="VendorDepositHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="VendorDepositId" Type="Int32" Nullable="false" />
+          <Property Name="VendorTypeId" Type="Int32" Nullable="false" />
+          <Property Name="OrderMasterId" Type="Int64" />
+          <Property Name="PurchaseOrderId" Type="Int64" />
+          <Property Name="HistoryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PaymentAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="OpeningDepositAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_VendorDepositHistory_Company" FromRole="VendorDepositHistory" ToRole="Company" />
+          <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_VendorDepositHistory_OrderMaster" FromRole="VendorDepositHistory" ToRole="OrderMaster" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" FromRole="VendorDepositHistory" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorDepositHistory_Vendor" FromRole="VendorDepositHistory" ToRole="Vendor" />
+          <NavigationProperty Name="VendorDeposit" Relationship="ERPModel.FK_VendorDepositHistory_VendorDeposit" FromRole="VendorDepositHistory" ToRole="VendorDeposit" />
+          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorDepositHistory_VendorType" FromRole="VendorDepositHistory" ToRole="VendorType" />
+        </EntityType>
+        <Association Name="FK_VendorDeposit_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDeposit_Voucher">
+          <End Type="ERPModel.Voucher" Role="Voucher" Multiplicity="0..1" />
+          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voucher">
+              <PropertyRef Name="VoucherId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_OrderMaster">
+          <End Type="ERPModel.OrderMaster" Role="OrderMaster" Multiplicity="0..1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderMaster">
+              <PropertyRef Name="OrderMasterId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="OrderMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorDepositHistory">
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDeposit_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDeposit_VendorType">
+          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
+          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VendorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorDeposit">
+          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorDeposit">
+              <PropertyRef Name="VendorDepositId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorDepositId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorType">
+          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26015,6 +26449,53 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="DamageMasterId" ColumnName="DamageMasterId" />
                 <ScalarProperty Name="DamageDetailId" ColumnName="DamageDetailId" />
                 <ScalarProperty Name="DamageDetailHistoryId" ColumnName="DamageDetailHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VendorDeposits">
+            <EntityTypeMapping TypeName="ERPModel.VendorDeposit">
+              <MappingFragment StoreEntitySet="VendorDeposit">
+                <ScalarProperty Name="IsAdjusted" ColumnName="IsAdjusted" />
+                <ScalarProperty Name="PaymentToHeadGlId" ColumnName="PaymentToHeadGlId" />
+                <ScalarProperty Name="BankChargeHeadGlId" ColumnName="BankChargeHeadGlId" />
+                <ScalarProperty Name="BankCharge" ColumnName="BankCharge" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsSubmit" ColumnName="IsSubmit" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AdjustedAmount" ColumnName="AdjustedAmount" />
+                <ScalarProperty Name="DepositAmount" ColumnName="DepositAmount" />
+                <ScalarProperty Name="DepositDate" ColumnName="DepositDate" />
+                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="VendorDepositId" ColumnName="VendorDepositId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VendorDepositHistories">
+            <EntityTypeMapping TypeName="ERPModel.VendorDepositHistory">
+              <MappingFragment StoreEntitySet="VendorDepositHistory">
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="OpeningDepositAmount" ColumnName="OpeningDepositAmount" />
+                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+                <ScalarProperty Name="HistoryDate" ColumnName="HistoryDate" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
+                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
+                <ScalarProperty Name="VendorDepositId" ColumnName="VendorDepositId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="VendorDepositHistoryId" ColumnName="VendorDepositHistoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

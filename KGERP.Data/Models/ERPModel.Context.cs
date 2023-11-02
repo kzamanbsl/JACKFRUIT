@@ -298,6 +298,8 @@ namespace KGERP.Data.Models
         public virtual DbSet<DamageDetail> DamageDetails { get; set; }
         public virtual DbSet<DamageMaster> DamageMasters { get; set; }
         public virtual DbSet<DamageDetailHistory> DamageDetailHistories { get; set; }
+        public virtual DbSet<VendorDeposit> VendorDeposits { get; set; }
+        public virtual DbSet<VendorDepositHistory> VendorDepositHistories { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

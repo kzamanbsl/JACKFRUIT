@@ -529,6 +529,18 @@
         <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_DamageDetail" />
         <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_DemageMaster" />
         <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_Product" />
+        <EntityTypeShape EntityType="ERPModel.VendorDeposit" Width="1.5" PointX="63.875" PointY="46" />
+        <EntityTypeShape EntityType="ERPModel.VendorDepositHistory" Width="1.5" PointX="69.125" PointY="40.625" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_Company" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Company" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_OrderMaster" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_VendorType" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorDeposit" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
