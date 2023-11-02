@@ -306,7 +306,7 @@
             $.ajax({
 
                   type: "POST",
-                  url: "@Url.Action("CustomerDepositEdit", "Procurement")",
+                  url: "@Url.Action("GetVendorDepositById", "Procurement")",
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {

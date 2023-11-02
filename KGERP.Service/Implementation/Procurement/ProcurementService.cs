@@ -5373,7 +5373,7 @@ namespace KGERP.Service.Implementation.Procurement
                 into t4_Join from t4 in t4_Join.DefaultIfEmpty()
                 join t5 in _db.HeadGLs on t1.BankChargeHeadGlId equals t5.Id
                 into t5_Join from t5 in t5_Join.DefaultIfEmpty()
-                where t2.VendorTypeId == (int)vendor
+                
                 select new VendorDepositModel
                 {
                     DepositDate = t1.DepositDate,
@@ -5506,83 +5506,16 @@ namespace KGERP.Service.Implementation.Procurement
         {
             int result = -1;
             VendorDeposit vendorDeposit = _db.VendorDeposits.Find(vendorDepositId);
-            var supplier = _db.Vendors.FirstOrDefault(x => x.VendorId == vendorDeposit.VendorId);
-            var costCenter = _db.Accounting_CostCenter.FirstOrDefault(x => x.CompanyId == supplier.CompanyId);
-            DateTime voucherDate = vendorDeposit.DepositDate;
-            int voucherTypeId = (int)SeedJournalEnum.DebitVoucher;
-            VoucherType voucherType = _db.VoucherTypes.FirstOrDefault(x => x.VoucherTypeId == voucherTypeId);
-            string voucherNo = string.Empty;
-            int vouchersCount = _db.Vouchers.Count(x => x.VoucherTypeId == voucherTypeId && x.CompanyId == supplier.CompanyId
-                && x.VoucherDate.Value.Month == voucherDate.Month
-                && x.VoucherDate.Value.Year == voucherDate.Year) + 1;
-
-            voucherNo = voucherType?.Code + "-" + vouchersCount.ToString().PadLeft(6, '0');
-            Voucher voucher = new Voucher
-            {
-                VoucherTypeId = voucherTypeId,
-                VoucherNo = voucherNo,
-                Accounting_CostCenterFk = costCenter.CostCenterId,
-                VoucherStatus = "A",
-                VoucherDate = vendorDeposit.DepositDate,
-                Narration = vendorDeposit.Description, /* vmJournalSlave.Title + " " + vmJournalSlave.Narration,*/
-                ChqDate = null,
-                ChqName = null,
-                ChqNo = null,
-                IsActive = true,
-                IsSubmit = true,
-                IsIntegrated = true,
-
-                CompanyId = supplier.CompanyId,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreateDate = DateTime.Now
-            };
+            var vendor = _db.Vendors.FirstOrDefault(x => x.VendorId == vendorDeposit.VendorId);
+            vendorDeposit.IsSubmit = true;
 
             using (var scope = _db.Database.BeginTransaction())
             {
                 try
                 {
-                    _db.Vouchers.Add(voucher);
                     _db.SaveChanges();
-                    VoucherDetail voucherDetail = new VoucherDetail
-                    {
-                        VoucherId = voucher.VoucherId,
-                        DebitAmount = 0,
-                        CreditAmount = Convert.ToDouble(vendorDeposit.DepositAmount),
-                        AccountHeadId = supplier.HeadGLId,
-                        Particular = voucherNo + "-" + vendorDeposit.DepositDate.ToShortDateString().ToString() + "-" + vendorDeposit.Description,
-                        IsActive = true,
-                        TransactionDate = voucher.VoucherDate,
-                        IsVirtual = false
-                    };
-
-                    _db.VoucherDetails.Add(voucherDetail);
+                    vendor.CurrentDeposit = vendorDeposit.AdjustedAmount + vendor.CurrentDeposit;
                     _db.SaveChanges();
-
-                    vendorDeposit.VoucherId = voucherDetail.VoucherId;
-                    vendorDeposit.IsSubmit = true;
-                    _db.SaveChanges();
-
-                    //Accounting headgls id for cash in hand
-
-                    var accHead = _db.HeadGLs.Find(vendorDeposit.PaymentToHeadGlId);
-                    if (accHead != null)
-                    {
-                        VoucherDetail voucherDetailSecond = new VoucherDetail
-                        {
-                            VoucherId = voucher.VoucherId,
-                            DebitAmount = Convert.ToDouble(vendorDeposit.DepositAmount),
-                            CreditAmount = 0,
-                            AccountHeadId = accHead.Id,
-                            Particular = voucherNo + "-" + vendorDeposit.DepositDate.ToShortDateString().ToString() + "-" + vendorDeposit.Description,
-                            IsActive = true,
-                            TransactionDate = voucher.VoucherDate,
-                            IsVirtual = false
-                        };
-
-                        _db.VoucherDetails.Add(voucherDetailSecond);
-                        _db.SaveChanges();
-
-                    }
                     scope.Commit();
                     return vendorDeposit.VendorDepositId;
                 }

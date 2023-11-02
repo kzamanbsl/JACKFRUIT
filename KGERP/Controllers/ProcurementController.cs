@@ -2401,6 +2401,20 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CustomerDeposit), new { companyId = vendorDeposit.CompanyFK });
 
         }
+
+        [HttpPost]
+        public async Task<JsonResult> GetVendorDepositById(int id)
+        {
+            var model = await _service.GetSingleVendorDeposit(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        
+        [HttpPost]
+        public JsonResult SubmitVendorDeposit(int vendorDepositId, int companyId = 0)
+        {
+            var products = _service.VendorDepositSubmit(vendorDepositId);
+            return Json(new { success = true, companyId = companyId }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }
