@@ -3048,3 +3048,6 @@ ERROR 2023-10-30 11:32:28,526 246797ms HomeController         MenuPartial       
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at KGERP.Controllers.HomeController.MenuPartial() in D:\RunningWork\JACKFRUIT\KGERP\Controllers\HomeController.cs:line 641
 
+ERROR 2023-11-02 13:03:37,736 286966ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\CsharpApplication\KGeCom\JACKFRUIT\KGERP\Controllers\UserController.cs:line 133

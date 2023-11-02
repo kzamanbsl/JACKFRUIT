@@ -26,6 +26,24 @@ namespace KGERP.Controllers
             return View(model);
         }
 
+        //Get User Json
+        public JsonResult GetUsers()
+        {
+            using (ERPEntities dc = new ERPEntities())
+            {
+                var users = dc.Users
+                    .Where(x => x.UserName != "ISS0002") // Filter out the user with ID 'ISS0002'
+                    .Select(x => new { UserName = x.UserName, Email = x.Email })
+                    .ToList();
+
+                var lastUser = dc.Users
+                .OrderByDescending(x => x.UserId)
+                .FirstOrDefault();
+               
+                return Json(users, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //Registration POST action 
         [HttpPost]
         [ValidateAntiForgeryToken]
