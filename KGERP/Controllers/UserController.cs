@@ -33,21 +33,20 @@ namespace KGERP.Controllers
         //Registration POST action 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] UserModel model)
+        //public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] UserModel model)
+        public ActionResult Registration(UserModel model)
         {
-            bool status = false;
-            string message = "";
-
-
+            
             User user = ObjectConverter<UserModel, User>.Convert(model);
 
-            if (ModelState.IsValid && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Email) && string.IsNullOrEmpty(model.Password))
+            if (ModelState.IsValid && !string.IsNullOrEmpty(model.UserName) && !string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password))
             {
                 #region User Name is already Exist 
-                var isUserName = IsEmailExist(user.UserName);
+                var isUserName = IsUserNameExist(user.UserName);
                 if (isUserName)
                 {
-                    message = "User Name already exist!";
+                    ViewBag.Error = "User Name already exist!";
+                    model = GetUsers();
                     return View(model);
                 }
                 #endregion
@@ -57,7 +56,8 @@ namespace KGERP.Controllers
                 if (isExist)
                 {
                     //ModelState.AddModelError("EmailExist", "Email already exist");
-                    message = "Email already exist!";
+                    ViewBag.Error = "Email already exist!";
+                    model = GetUsers();
                     return View(model);
                 }
                 #endregion
@@ -86,20 +86,18 @@ namespace KGERP.Controllers
                     //message = "Registration successfully done. Account activation link " + 
                     //    " has been sent to your email id:" + user.EmailID;
 
-                    message = "Registration successfully done!";
-                    status = true;
+                    ViewBag.Message = "Registration successfully done!";
+                    ViewBag.Status = true;
                 }
                 #endregion
             }
             else
             {
-                message = "Invalid Request!";
-                status = false;
+                ViewBag.Error = "Invalid Request!";
             }
 
-            ViewBag.Message = message;
-            ViewBag.Status = status;
-            return RedirectToAction("Registration");
+            model = GetUsers();
+            return View(model);
         }
 
         private UserModel GetUsers()
