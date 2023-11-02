@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Data.Models;
@@ -45,10 +44,33 @@ namespace KGERP.Service.Implementation.Configuration
 
             var baseMenuIds = baseUserMenus.Select(c => c.CompanyMenuId).Distinct().ToList();
             clientMenu.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
-            //var subMenus = _db.CompanySubMenus.Where(x => userSubMenuIds.Contains(x.CompanySubMenuId)).ToList();
             var subMenus = clientMenu.CompanyMenus.SelectMany(c=>c.CompanySubMenus).ToList();
 
+            //Assigned Submenu
             var userSubMenuIds = clientMenu?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).Distinct().ToList();
+            if (userSubMenuIds?.Count() > 0)
+            {
+                foreach (var item in clientMenu.CompanyUserMenus)
+                {
+                    var subMenu = subMenus.FirstOrDefault(c => c.CompanySubMenuId == item.CompanySubMenuId);
+                    ClientUserMenu data = new ClientUserMenu()
+                    {
+                        CompanyUserMenuId = item.CompanyUserMenuId,
+                        IsActive = item.IsActive,
+                        UserId = item.UserId,
+                        MenuId = item.CompanyMenuId,
+                        MenuName = clientMenu.CompanyMenus.FirstOrDefault(c => c.CompanyMenuId == item.CompanyMenuId)?.Name,
+                        SubMenuId = item.CompanySubMenuId,
+                        SubMenuName = subMenu?.Name,
+                        SubMenuController = subMenu?.Controller,
+                        SubMenuAction = subMenu?.Action
+                    };
+
+                    clientMenu.ClientUserMenus.Add(data);
+                }
+            }
+
+            //Un Assigned Submenu
             var unAssignedSubMenus = baseUserMenus?.Count()>0 && userSubMenuIds?.Count() > 0
                 ? baseUserMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
                 : baseUserMenus;
