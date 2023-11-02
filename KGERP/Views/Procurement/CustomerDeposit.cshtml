@@ -18,12 +18,12 @@
 <section class="content-header">
     <h1>
         <span>
-            @Model.VendorTypeName Deposit
+            Customer Deposit
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Vendor Deposit</li>
+        <li class="active">Customer Deposit</li>
     </ol>
 </section>
 
@@ -81,7 +81,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group" style="padding:0px">
-                                        <label>@Model.VendorTypeName:</label>
+                                        <label>Customer:</label>
                                         @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Customer Name", @id = "txtCustomerName" } })
 
                                         @Html.HiddenFor(model => model.VendorId, new { id = "ddlCommon_CustomerFK" })

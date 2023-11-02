@@ -5357,5 +5357,242 @@ namespace KGERP.Service.Implementation.Procurement
 
 
         #endregion
+
+        #region Vendor Deposit
+        public async Task<VendorDepositModel> GetVendorList(Provider vendor)
+        {
+            VendorDepositModel vendorDeposit = new VendorDepositModel();
+            vendorDeposit.DataList = await (
+
+                from t1 in _db.VendorDeposits.Where(c => c.IsActive)
+                join t2 in _db.Vendors on t1.VendorTypeId equals t2.VendorTypeId
+                into t2_Join from  t2 in t2_Join.DefaultIfEmpty()
+                join t3 in _db.Companies on t2.CompanyId equals t3.CompanyId
+                into t3_Join from t3 in t3_Join.DefaultIfEmpty()
+                join t4 in _db.HeadGLs on t1.PaymentToHeadGlId equals t4.Id
+                into t4_Join from t4 in t4_Join.DefaultIfEmpty()
+                join t5 in _db.HeadGLs on t1.BankChargeHeadGlId equals t5.Id
+                into t5_Join from t5 in t5_Join.DefaultIfEmpty()
+                where t2.VendorTypeId == (int)vendor
+                select new VendorDepositModel
+                {
+                    DepositDate = t1.DepositDate,
+                    DepositAmount = t1.DepositAmount,
+                    VendorDepositId = t1.VendorDepositId,
+                    CompanyFK = t2.CompanyId,
+                    CompanyId = t2.CompanyId,
+                    VendorName = t2.Name,
+                    BankCharge = t1.BankCharge,
+                    Accounting_BankOrCashId = t1.PaymentToHeadGlId,
+                    PaymentToHeadGLName = t4.AccName,
+                    BankChargeHeadGLName = t5.AccName,
+                    Accounting_BankOrCashParantId = t1.BankChargeHeadGlId,
+                    CreatedDate = t1.CreateDate,
+                    Description = t1.Description,
+                    IsSubmit = t1.IsSubmit
+                }).OrderByDescending(c=>c.VendorDepositId).ToListAsync();
+
+
+            return vendorDeposit;
+        }
+
+
+        public async Task<int> VendorDepositAdd(VendorDepositModel depositModel)
+        {
+            int result = -1;
+            var vendor = await _db.Vendors.FirstOrDefaultAsync(c => c.VendorId == depositModel.VendorId);
+            if (vendor != null)
+            {
+                var model = new VendorDeposit()
+                {
+                    VendorId = vendor.VendorId,
+                    VendorDepositId = depositModel.VendorDepositId,
+                    VendorTypeId = vendor.VendorTypeId,
+                    DepositDate = depositModel.DepositDate,
+                    DepositAmount = depositModel.DepositAmount,
+                    Description = depositModel.Description,
+                    BankCharge = depositModel.BankCharge,
+                    PaymentToHeadGlId = depositModel.Accounting_BankOrCashId,
+                    BankChargeHeadGlId = depositModel.Accounting_BankOrCashParantId ?? 50613604,
+                    VoucherId = null,
+                    IsActive = true,
+                    IsSubmit = false,
+                    CreateDate = DateTime.Now,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CompanyId = depositModel.CompanyFK ?? vendor.CompanyId,
+
+                };
+
+
+
+                _db.VendorDeposits.Add(model);
+
+                if (_db.SaveChanges() > 0)
+                {
+                    result = model.VendorDepositId;
+                }
+
+            }
+
+
+            return result;
+        }
+
+
+        public async Task<int> VendorDepositUpdate(VendorDepositModel vendorDepositModel)
+        {
+            int result = -1;
+            VendorDeposit vendorDeposit = _db.VendorDeposits.Find(vendorDepositModel.VendorDepositId);
+            Vendor supplier = _db.Vendors.FirstOrDefault(x => x.VendorId == vendorDepositModel.VendorId);
+            if (supplier != null)
+            {
+                vendorDeposit.VendorId = supplier.VendorId;
+                vendorDeposit.VendorTypeId = supplier.VendorTypeId;
+                vendorDeposit.DepositDate = vendorDepositModel.DepositDate;
+                vendorDeposit.DepositAmount = vendorDepositModel.DepositAmount;
+                vendorDeposit.Description = vendorDepositModel.Description;
+                vendorDeposit.BankCharge = vendorDepositModel.BankCharge;
+                vendorDeposit.PaymentToHeadGlId = vendorDepositModel.Accounting_BankOrCashId;
+                vendorDeposit.BankChargeHeadGlId = vendorDepositModel.Accounting_BankOrCashParantId;
+                vendorDeposit.VoucherId = null;
+                vendorDeposit.IsActive = true;
+                vendorDeposit.IsSubmit = false;
+                vendorDeposit.ModifiedDate = DateTime.Now;
+                vendorDeposit.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                vendorDeposit.CompanyId = vendorDepositModel.CompanyFK ?? supplier.CompanyId;
+
+                if (_db.SaveChanges() > 0)
+                {
+                    result = vendorDeposit.VendorDepositId;
+                }
+            }
+            return result;
+        }
+
+        public async Task<VendorDepositModel> GetSingleVendorDeposit(int id)
+        {
+            var v = await Task.Run(() => (from t1 in _db.VendorDeposits.Where(x => x.IsActive && x.VendorDepositId == id)
+                                          join t2 in _db.Vendors on t1.VendorId equals t2.VendorId into t2_Join
+                                          from t2 in t2_Join.DefaultIfEmpty()
+                                          join t4 in _db.Companies on t2.CompanyId equals t4.CompanyId into t4_Join
+                                          from t4 in t4_Join.DefaultIfEmpty()
+                                          join t5 in _db.HeadGLs on t1.PaymentToHeadGlId equals t5.Id into t5_join
+                                          from t5 in t5_join.DefaultIfEmpty()
+                                          join t6 in _db.HeadGLs on t1.BankChargeHeadGlId equals t6.Id into t6_join
+                                          from t6 in t6_join.DefaultIfEmpty()
+                                          select new VendorDepositModel
+                                          {
+                                              DepositDate = t1.DepositDate,
+                                              DepositAmount = t1.DepositAmount,
+                                              VendorDepositId = t1.VendorDepositId,
+                                              CompanyFK = t2.CompanyId,
+                                              CompanyId = t2.CompanyId,
+                                              VendorId = t1.VendorId,
+                                              VendorTypeId = t2.VendorTypeId,
+                                              VendorName = t2.Name,
+                                              BankCharge = t1.BankCharge,
+                                              Accounting_BankOrCashId = t1.PaymentToHeadGlId,
+                                              PaymentToHeadGLName = t5.AccName,
+                                              BankChargeHeadGLName = t6.AccName,
+                                              Accounting_BankOrCashParantId = t1.BankChargeHeadGlId,
+                                              CreatedDate = t1.CreateDate,
+                                              Description = t1.Description,
+                                              IsSubmit = t1.IsSubmit
+                                          }).FirstOrDefaultAsync());
+            return v;
+        }
+
+        public async Task<int> VendorDepositSubmit(int vendorDepositId)
+        {
+            int result = -1;
+            VendorDeposit vendorDeposit = _db.VendorDeposits.Find(vendorDepositId);
+            var supplier = _db.Vendors.FirstOrDefault(x => x.VendorId == vendorDeposit.VendorId);
+            var costCenter = _db.Accounting_CostCenter.FirstOrDefault(x => x.CompanyId == supplier.CompanyId);
+            DateTime voucherDate = vendorDeposit.DepositDate;
+            int voucherTypeId = (int)SeedJournalEnum.DebitVoucher;
+            VoucherType voucherType = _db.VoucherTypes.FirstOrDefault(x => x.VoucherTypeId == voucherTypeId);
+            string voucherNo = string.Empty;
+            int vouchersCount = _db.Vouchers.Count(x => x.VoucherTypeId == voucherTypeId && x.CompanyId == supplier.CompanyId
+                && x.VoucherDate.Value.Month == voucherDate.Month
+                && x.VoucherDate.Value.Year == voucherDate.Year) + 1;
+
+            voucherNo = voucherType?.Code + "-" + vouchersCount.ToString().PadLeft(6, '0');
+            Voucher voucher = new Voucher
+            {
+                VoucherTypeId = voucherTypeId,
+                VoucherNo = voucherNo,
+                Accounting_CostCenterFk = costCenter.CostCenterId,
+                VoucherStatus = "A",
+                VoucherDate = vendorDeposit.DepositDate,
+                Narration = vendorDeposit.Description, /* vmJournalSlave.Title + " " + vmJournalSlave.Narration,*/
+                ChqDate = null,
+                ChqName = null,
+                ChqNo = null,
+                IsActive = true,
+                IsSubmit = true,
+                IsIntegrated = true,
+
+                CompanyId = supplier.CompanyId,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreateDate = DateTime.Now
+            };
+
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    _db.Vouchers.Add(voucher);
+                    _db.SaveChanges();
+                    VoucherDetail voucherDetail = new VoucherDetail
+                    {
+                        VoucherId = voucher.VoucherId,
+                        DebitAmount = 0,
+                        CreditAmount = Convert.ToDouble(vendorDeposit.DepositAmount),
+                        AccountHeadId = supplier.HeadGLId,
+                        Particular = voucherNo + "-" + vendorDeposit.DepositDate.ToShortDateString().ToString() + "-" + vendorDeposit.Description,
+                        IsActive = true,
+                        TransactionDate = voucher.VoucherDate,
+                        IsVirtual = false
+                    };
+
+                    _db.VoucherDetails.Add(voucherDetail);
+                    _db.SaveChanges();
+
+                    vendorDeposit.VoucherId = voucherDetail.VoucherId;
+                    vendorDeposit.IsSubmit = true;
+                    _db.SaveChanges();
+
+                    //Accounting headgls id for cash in hand
+
+                    var accHead = _db.HeadGLs.Find(vendorDeposit.PaymentToHeadGlId);
+                    if (accHead != null)
+                    {
+                        VoucherDetail voucherDetailSecond = new VoucherDetail
+                        {
+                            VoucherId = voucher.VoucherId,
+                            DebitAmount = Convert.ToDouble(vendorDeposit.DepositAmount),
+                            CreditAmount = 0,
+                            AccountHeadId = accHead.Id,
+                            Particular = voucherNo + "-" + vendorDeposit.DepositDate.ToShortDateString().ToString() + "-" + vendorDeposit.Description,
+                            IsActive = true,
+                            TransactionDate = voucher.VoucherDate,
+                            IsVirtual = false
+                        };
+
+                        _db.VoucherDetails.Add(voucherDetailSecond);
+                        _db.SaveChanges();
+
+                    }
+                    scope.Commit();
+                    return vendorDeposit.VendorDepositId;
+                }
+                catch (Exception ex)
+                {
+                    scope.Rollback();
+                    return result;
+                }
+            }
+        }
+        #endregion
     }
 }
