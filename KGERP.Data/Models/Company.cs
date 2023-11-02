@@ -47,6 +47,8 @@ namespace KGERP.Data.Models
             this.OrderDelivers = new HashSet<OrderDeliver>();
             this.OrderMasters = new HashSet<OrderMaster>();
             this.DamageMasters = new HashSet<DamageMaster>();
+            this.VendorDeposits = new HashSet<VendorDeposit>();
+            this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
         }
     
         public int CompanyId { get; set; }
@@ -134,5 +136,9 @@ namespace KGERP.Data.Models
         public virtual ICollection<OrderMaster> OrderMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageMaster> DamageMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VendorDeposit> VendorDeposits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
     }
 }

@@ -1,0 +1,401 @@
+﻿@model KGERP.Service.ServiceModel.VendorDepositModel
+
+@{
+    ViewData["Title"] = "Customer Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+    decimal TotalPrice = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+            @Model.VendorTypeName Deposit
+        </span>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Vendor Deposit</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("VendorDeposit", "Procurement", FormMethod.Post, new { id = "CustomerDepositFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.VendorDepositId, new { id = "hideVendorDepositId" })
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                <span hidden="hidden" id="hidBankOrCashId"></span>
+
+                <div class="box-danger">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Deposit Date:</label>
+                                        <input name="DepositDate" asp-for="DepositDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDepositDate" placeholder="Date" autocomplete="off">
+                                        @Html.ValidationMessageFor(model => model.DepositDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Type :</label>
+                                        @Html.DropDownListFor(model => model.Accounting_BankOrCashParantId, Model.BankOrCashParantList as SelectList, "==Select Type==", new { id = "ddlAccounting_BankOrCashParantId", @class = "form-control ddlReset", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.Accounting_BankOrCashParantId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Bank/Cash :</label>
+                                        @Html.DropDownListFor(model => model.Accounting_BankOrCashId, Model.BankOrCashGLList as SelectList, new { id = "ddlAccounting_BankOrCashId", @class = "form-control ", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.Accounting_BankOrCashId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtBankCharge" class="col-form-label">Bank Charge:</label>
+                                        @Html.TextBoxFor(model => model.BankCharge, new { id = "txtBankCharge", @class = "form-control", placeholder = "Bank Charge" })
+                                        @Html.ValidationMessageFor(model => model.BankCharge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" style="padding:0px">
+                                        <label>@Model.VendorTypeName:</label>
+                                        @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Customer Name", @id = "txtCustomerName" } })
+
+                                        @Html.HiddenFor(model => model.VendorId, new { id = "ddlCommon_CustomerFK" })
+                                        @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Deposit Amount:</label>
+                                        @Html.TextBoxFor(model => model.DepositAmount, new { id = "txtDepositAmount", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Deposit Amount", required = "Required" })
+                                        @Html.ValidationMessageFor(model => model.DepositAmount, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-form-label">Description:</label>
+                                        @Html.TextAreaFor(model => model.Description, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-8">
+
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <button type="submit" id="SDCreateBtn" class="btn btn-primary btn-block">
+                                        <i class='fa fa-plus'></i>
+                                        <span>Save</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Body Will by Start Here-->
+
+
+                        <div class="table-responsive col-md-12  text-nowrap">
+                            <table id="KgErpDataTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Date</th>
+                                        <th>Bank/Cash</th>
+                                        <th style="text-align:right">Bank Charge</th>
+                                        <th>Customer</th>
+                                        <th style="text-align:right">Deposit Amount</th>
+                                        <th>Description</th>
+
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        <th>Change Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model.DataList.Count() > 0)
+                                    {
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            <tr>
+                                                <td>@(++sl)</td>
+                                                <td>@item.DepositDate.ToString("dd-MM-yyyy")</td>
+                                                <td>@item.PaymentToHeadGLName</td>
+                                                <td style="text-align:right">@String.Format("{0:0.000}", item.BankCharge)</td>
+                                                <td>@item.VendorName</td>
+                                                <td style="text-align:right">@String.Format("{0:0.000}", item.DepositAmount)</td>
+                                                <td>@item.Description</td>
+
+                                                @if (item.IsSubmit == false)
+                                                {
+                                                    <td style="padding: 5px; text-align: center; ">
+                                                        Draft
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="padding:5px;text-align:center;">Submitted</td>
+                                                }
+
+                                                @if (item.IsSubmit == false)
+                                                {
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.VendorDepositId" onclick="makeEditble(@item.VendorDepositId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <span class="disabled" title="Not Allowed"><i class="fa fa-edit" aria-hidden="true"></i></span>
+                                                    </td>
+
+                                                }
+
+                                                @if (item.IsSubmit == false)
+                                                {
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.VendorDepositId" onclick="makeSubmitble(@item.VendorDepositId);" class="linkPointer btn" title="Submit now" data-toggle="modal" style="width:100%" data-target="#submitCustomerDepositModal" data-placement="top">Submit</a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="padding:5px;text-align:center;">Submitted</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("SubmitCustomerDeposit", "Procurement", FormMethod.Post, new { id = "supplierDepositId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitCustomerDepositModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input hidden="hidden" id="vOpeningId" />
+                    <input hidden="hidden" id="intCompanyId" />
+                    <div style="text-align:center">
+                        <h3>Are you sure to submit this customer deposit?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetCustomerDepositForm();" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" onclick="submitDepositPost();" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        function makeDeletale(rowId) {
+            $('#hidDeleteCustomerDepositSlaveId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+
+        function resetCustomerDepositForm() {
+            $('#hideSubmitCustomerDepositId')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+
+
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+              $("#txtCustomerName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url:"@Url.Action("GetAutoCompleteSCustomer", "Procurement")",
+                        data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                           response($.map(data, function (item) {
+                               return item;
+                           }))
+                        },
+                        error: function (response) {
+                         //alert(response.responseText);
+                        },
+                        failure: function (response) {
+                         //alert(response.responseText);
+                        }
+                    });
+                },
+
+                select: function (e, i) {
+                    $("#ddlCommon_CustomerFK").val(i.item.val);
+
+                    },
+                minLength: 1,
+                cache: true
+
+            }).focus(function () {
+                $(this).autocomplete("search");
+            });
+
+
+
+        });
+
+         function makeEditble(rowId) {
+
+            $.ajax({
+
+                  type: "POST",
+                  url: "@Url.Action("CustomerDepositEdit", "Procurement")",
+                  datatype: "Json",
+                  data: { id: rowId },
+                  success: function (data) {
+
+                      $('#SDCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                      $("#hideVendorDepositId").val(data.VendorDepositId);
+                      $('#ActionId').val(2);
+                      $("#CompanyFK").val(data.CompanyId);
+                      var ticks = parseInt(data.DepositDate.replace(/\/Date\((.*?)\)\//gi, '$1'), 10);
+                      var date = new Date(ticks);
+
+                      // Now 'date' contains the JavaScript Date object with the converted date
+                      var year = date.getFullYear();
+                      var month = String(date.getMonth() + 1).padStart(2, '0');
+                      var day = String(date.getDate()).padStart(2, '0');
+
+                      var formattedDate = year + '-' + month + '-' + day; // Format: YYYY-MM-DD
+                      $("#txtDepositDate").val(formattedDate);
+                      $("#txtCustomerName").val(data.VendorName);
+                      $("#ddlCommon_CustomerFK").val(data.VendorId);
+                      $('#txtDepositAmount').val(data.DepositAmount);
+                      $("#txtDescription").val(data.Description);
+                      $("#txtBankCharge").val(data.BankCharge);
+                      $("#ddlAccounting_BankOrCashParantId").val(data.Accounting_BankOrCashParantId).trigger('change');
+                      $("#ddlAccounting_BankOrCashId").val(data.Accounting_BankOrCashId).trigger('change');
+                      $("#hidBankOrCashId").val(data.Accounting_BankOrCashId);
+
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                 });
+            }
+
+         $("#ddlAccounting_BankOrCashParantId").change(function () {
+                    var bankOrCashParantId = $("#ddlAccounting_BankOrCashParantId").val();
+
+      
+                    $.ajax({
+
+                        type: "GET",
+                        url: "@Url.Action("HeadGLByHead5ParentIdGet", "Vouchers")",
+                        datatype: "Json",
+                             data: { companyId: "@Model.CompanyFK", parentId: bankOrCashParantId},
+                             success: function (data) {
+                             var items = "";
+                                if (data) {
+                                $("#ddlAccounting_BankOrCashId").empty();
+                                $(data).each(function (index, item) {
+                                    $("#ddlAccounting_BankOrCashId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                });
+
+
+                                 }
+                                 let bankId = $('#hidBankOrCashId').val();
+                                 $('#ddlAccounting_BankOrCashId').val(bankId).trigger('change'); 
+                        }
+                    });
+
+                })
+
+
+
+
+        function makeSubmitble(rowId) {
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("CustomerDepositEdit", "Procurement")",
+                        datatype: "Json",
+                        data: { id: rowId },
+                        success: function (data) {
+                            $('#vOpeningId').val(rowId);
+                            $('#intcompanyid').val(data.CompanyId);
+                        }
+                 });
+            $('#hideSubmitCustomerDepositId').val(rowId);
+        }
+
+         function submitDepositPost() {
+
+             var x = $('#vOpeningId').val();
+             var y = $('#intCompanyId').val();
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SubmitCustomerDeposit", "Procurement")",
+                        datatype: "Json",
+                        data: { vendorDepositId: x, companyId: y },
+                        success: function (response) {
+                            window.location.href = '/Procurement/CustomerDeposit?companyId=' + response.companyId;
+                        }
+                 });
+        }
+    </script>
+}

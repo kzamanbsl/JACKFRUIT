@@ -65,7 +65,7 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreDetail> StoreDetails { get; set; }
         public virtual Company Company { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual StockInfo StockInfo { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }
