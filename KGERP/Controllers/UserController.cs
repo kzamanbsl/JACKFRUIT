@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
@@ -8,40 +9,24 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
     public class UserController : Controller
     {
-        ERPEntities employeeRepository = new ERPEntities();
+        ERPEntities _context = new ERPEntities();
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         //Registration Action
         [HttpGet]
         public ActionResult Registration()
         {
-            var model = new UserModel();
+            var model = GetUsers();
             return View(model);
-        }
-
-        //Get User Json
-        public JsonResult GetUsers()
-        {
-            using (ERPEntities dc = new ERPEntities())
-            {
-                var users = dc.Users
-                    .Where(x => x.UserName != "ISS0002") // Filter out the user with ID 'ISS0002'
-                    .Select(x => new { UserName = x.UserName, Email = x.Email })
-                    .ToList();
-
-                var lastUser = dc.Users
-                .OrderByDescending(x => x.UserId)
-                .FirstOrDefault();
-               
-                return Json(users, JsonRequestBehavior.AllowGet);
-            }
         }
 
         //Registration POST action 
@@ -104,6 +89,47 @@ namespace KGERP.Controllers
             ViewBag.Message = message;
             ViewBag.Status = status;
             return RedirectToAction("Registration");
+        }
+
+        private UserModel GetUsers()
+        {
+            ERPEntities _db = new ERPEntities();
+
+            UserModel userModel = new UserModel();
+
+            userModel.DataList = (from t1 in _db.Users
+                                  where t1.UserId > 0
+                                  select new UserModel
+                                  {
+                                      UserId = t1.UserId,
+                                      UserName = t1.UserName,
+                                      Email = t1.Email,
+                                      Active = t1.Active
+
+                                  }).OrderByDescending(x => x.UserId).AsEnumerable();
+            userModel.DataList = userModel.DataList.Where(c => c.UserName != "ISS0002");
+            return userModel;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> InactiveUser(UserModel model)
+        {
+
+            if (model.UserId > 0)
+            {
+                var user = await _context.Users.FindAsync(model.UserId);
+                if (user != null)
+                {
+                    var b = user.Active == true ? user.Active == false : user.Active == true;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(Registration));
         }
 
         //Verify Account  

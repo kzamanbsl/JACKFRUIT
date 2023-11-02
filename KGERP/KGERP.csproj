@@ -5626,6 +5626,7 @@
     <Content Include="Views\Damage\CustomerDamageReceivedSlave.cshtml" />
     <Content Include="Views\Damage\DamageMasterListCustomer.cshtml" />
     <Content Include="Views\Procurement\VendorDeposit.cshtml" />
+    <Content Include="Views\User\Registration - Copy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

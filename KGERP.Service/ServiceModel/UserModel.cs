@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KGERP.Service.Implementation.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -38,5 +39,7 @@ namespace KGERP.Service.ServiceModel
         [Display(Name = "Old Password")]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
+
+        public IEnumerable<UserModel> DataList { get; set; }
     }
 }
