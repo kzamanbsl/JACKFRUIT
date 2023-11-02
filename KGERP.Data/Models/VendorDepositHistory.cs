@@ -34,8 +34,8 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         public virtual OrderMaster OrderMaster { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual VendorDeposit VendorDeposit { get; set; }
         public virtual VendorType VendorType { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

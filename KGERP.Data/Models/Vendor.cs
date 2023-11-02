@@ -18,26 +18,26 @@ namespace KGERP.Data.Models
         public Vendor()
         {
             this.MonthlyTargets = new HashSet<MonthlyTarget>();
-            this.EMIs = new HashSet<EMI>();
-            this.LCInfoes = new HashSet<LCInfo>();
-            this.Payments = new HashSet<Payment>();
-            this.PurchaseOrders = new HashSet<PurchaseOrder>();
-            this.PurchaseReturns = new HashSet<PurchaseReturn>();
-            this.Stores = new HashSet<Store>();
-            this.Vendor1 = new HashSet<Vendor>();
-            this.VendorOffers = new HashSet<VendorOffer>();
-            this.VendorOpenings = new HashSet<VendorOpening>();
-            this.SaleReturns = new HashSet<SaleReturn>();
-            this.OrderMasters = new HashSet<OrderMaster>();
-            this.OrderMasters1 = new HashSet<OrderMaster>();
-            this.OrderMasters2 = new HashSet<OrderMaster>();
             this.DamageMasters = new HashSet<DamageMaster>();
             this.DamageMasters1 = new HashSet<DamageMaster>();
             this.DamageMasters2 = new HashSet<DamageMaster>();
             this.DamageMasters3 = new HashSet<DamageMaster>();
             this.DamageMasters4 = new HashSet<DamageMaster>();
+            this.EMIs = new HashSet<EMI>();
+            this.LCInfoes = new HashSet<LCInfo>();
+            this.OrderMasters = new HashSet<OrderMaster>();
+            this.OrderMasters1 = new HashSet<OrderMaster>();
+            this.OrderMasters2 = new HashSet<OrderMaster>();
+            this.Payments = new HashSet<Payment>();
+            this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.PurchaseReturns = new HashSet<PurchaseReturn>();
+            this.SaleReturns = new HashSet<SaleReturn>();
+            this.Stores = new HashSet<Store>();
+            this.Vendor1 = new HashSet<Vendor>();
             this.VendorDeposits = new HashSet<VendorDeposit>();
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
+            this.VendorOffers = new HashSet<VendorOffer>();
+            this.VendorOpenings = new HashSet<VendorOpening>();
         }
     
         public int VendorId { get; set; }
@@ -78,6 +78,9 @@ namespace KGERP.Data.Models
         public Nullable<decimal> CreditCommission { get; set; }
         public string MonthlyIncentive { get; set; }
         public string YearlyIncentive { get; set; }
+        public decimal SecurityAmount { get; set; }
+        public decimal CurrentDeposit { get; set; }
+        public decimal CurrentDue { get; set; }
         public string ClosingTime { get; set; }
         public string Condition { get; set; }
         public string Remarks { get; set; }
@@ -97,7 +100,6 @@ namespace KGERP.Data.Models
         public string GurantorMobileNo { get; set; }
         public bool IsForeign { get; set; }
         public int CustomerTypeFK { get; set; }
-        public decimal SecurityAmount { get; set; }
         public Nullable<int> CustomerStatus { get; set; }
         public string Propietor { get; set; }
         public string ACName { get; set; }
@@ -112,36 +114,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<MonthlyTarget> MonthlyTargets { get; set; }
         public virtual Area Area { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EMI> EMIs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LCInfo> LCInfoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Payment> Payments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
-        public virtual Region Region { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Store> Stores { get; set; }
-        public virtual SubZone SubZone { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vendor> Vendor1 { get; set; }
-        public virtual Vendor Vendor2 { get; set; }
-        public virtual Zone Zone { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VendorOffer> VendorOffers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderMaster> OrderMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderMaster> OrderMasters1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderMaster> OrderMasters2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageMaster> DamageMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageMaster> DamageMasters1 { get; set; }
@@ -152,8 +124,38 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageMaster> DamageMasters4 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EMI> EMIs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LCInfo> LCInfoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderMaster> OrderMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderMaster> OrderMasters1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderMaster> OrderMasters2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
+        public virtual Region Region { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Store> Stores { get; set; }
+        public virtual SubZone SubZone { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vendor> Vendor1 { get; set; }
+        public virtual Vendor Vendor2 { get; set; }
+        public virtual Zone Zone { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorDeposit> VendorDeposits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VendorOffer> VendorOffers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
     }
 }

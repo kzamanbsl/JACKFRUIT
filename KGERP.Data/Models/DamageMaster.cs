@@ -42,13 +42,13 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageDetail> DamageDetails { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual StockInfo StockInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageDetailHistory> DamageDetailHistories { get; set; }
+        public virtual Vendor Vendor { get; set; }
         public virtual Vendor Vendor1 { get; set; }
         public virtual Vendor Vendor2 { get; set; }
         public virtual Vendor Vendor3 { get; set; }
         public virtual Vendor Vendor4 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DamageDetailHistory> DamageDetailHistories { get; set; }
     }
 }
