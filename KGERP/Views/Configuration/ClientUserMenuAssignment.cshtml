@@ -64,7 +64,7 @@
     <hr />
 
     <div class="container">
-        @if (Model.CompanyMenus != null)
+        @if (Model.CompanyMenus?.Count() > 0)
         {
             foreach (var menu in Model.CompanyMenus)
             {
@@ -112,22 +112,22 @@
                                                     <td>
                                                         @if (userMenu.IsActive == true)
                                                         {
-                                                            <a id="unassign_@index" style="cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId, false);" title="Unassign"
+                                                            <a id="unassign_@index" style="cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId, false);" title="Unassign"
                                                                data-placement="top">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                             </a>
-                                                            <a id="assign_@index" style="display:none;cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
+                                                            <a id="assign_@index" style="display:none;cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
                                                                data-placement="top">
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </a>
                                                         }
                                                         else
                                                         {
-                                                            <a id="assign_@index" style="cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
+                                                            <a id="assign_@index" style="cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
                                                                data-placement="top">
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </a>
-                                                            <a id="unassign_@index" style="display: none;cursor:pointer;" onclick=" menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,false);" title="Unassign"
+                                                            <a id="unassign_@index" style="display: none;cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,false);" title="Unassign"
                                                                data-placement="top">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                             </a>
@@ -156,7 +156,7 @@
 
         });
 
-        function menuAssign(index, userId,menuId,subMenuId, isActive) {
+        function menuAssign(index, userId, menuId, subMenuId, isActive) {
             var indexVal = index;
             var userIdVal = userId;
             var isActiveVal = isActive;

@@ -68,15 +68,13 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList CompanyList { get; set; }
         public string Title { get; set; }
         public List<CompanyMenu> CompanyMenus { get; set; }
-        public List<CompanySubMenu> CompanySubMenus { get; set; }
         public List<CompanyUserMenu> CompanyUserMenus { get; set; }
         public List<ClientUserMenu> ClientUserMenus { get; set; } = new List<ClientUserMenu>();
     }
 
     public class ClientUserMenu
     {
-        public bool IsActive { get; set; }
-        public long UserMenuId { get; set; }
+        public long CompanyUserMenuId { get; set; }
         public string UserId { get; set; } = string.Empty;
         public int MenuId { get; set; }
         public string MenuName { get; set; } = string.Empty;
@@ -84,6 +82,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string SubMenuName { get; set; } = string.Empty;
         public string SubMenuController { get; set; } = string.Empty;
         public string SubMenuAction { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
     }
 
     public class VMUserMenuAssignment : BaseVM

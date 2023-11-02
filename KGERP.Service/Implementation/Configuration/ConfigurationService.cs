@@ -35,43 +35,45 @@ namespace KGERP.Service.Implementation.Configuration
         public ClientMenu ClientUserMenuAssignment(ClientMenu model)
         {
 
-            ClientMenu viewData = new ClientMenu()
+            ClientMenu clientMenu = new ClientMenu()
             {
-                CompanySubMenus = _db.CompanySubMenus.Where(x => x.CompanyId == model.CompanyId && x.IsActive == true).ToList(),
                 CompanyUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == model.UserId).ToList(),
             };
 
             //Super Admin Allowed Menus
-            var baseMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
+            var baseUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
 
-            var baseMenuIds = baseMenus.Select(c => c.CompanyMenuId).ToList().Distinct();
-            viewData.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
+            var baseMenuIds = baseUserMenus.Select(c => c.CompanyMenuId).Distinct().ToList();
+            clientMenu.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
+            //var subMenus = _db.CompanySubMenus.Where(x => userSubMenuIds.Contains(x.CompanySubMenuId)).ToList();
+            var subMenus = clientMenu.CompanyMenus.SelectMany(c=>c.CompanySubMenus).ToList();
 
-            var userSubMenuIds = viewData?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).ToList().Distinct();
-            var unAssignedSubMenus = baseMenus?.Count()>0 && userSubMenuIds?.Count() > 0
-                ? baseMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
-                : baseMenus;
+            var userSubMenuIds = clientMenu?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).Distinct().ToList();
+            var unAssignedSubMenus = baseUserMenus?.Count()>0 && userSubMenuIds?.Count() > 0
+                ? baseUserMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
+                : baseUserMenus;
 
             foreach (var item in unAssignedSubMenus)
             {
+                var subMenu = subMenus.FirstOrDefault(c => c.CompanySubMenuId == item.CompanySubMenuId);
                 ClientUserMenu data = new ClientUserMenu()
                 {
-                    UserMenuId = item.CompanyUserMenuId,
-                    IsActive = item.IsActive,
-                    UserId = item.UserId,
+                    CompanyUserMenuId = 0,
+                    IsActive = false,
+                    UserId = model.UserId,
                     MenuId = item.CompanyMenuId,
-                    MenuName = _db.CompanyMenus.Find(item.CompanyMenuId).Name,
+                    MenuName = clientMenu.CompanyMenus.FirstOrDefault(c=>c.CompanyMenuId==item.CompanyMenuId)?.Name,
                     SubMenuId = item.CompanySubMenuId,
-                    SubMenuName = _db.CompanySubMenus.Find(item.CompanySubMenuId).Name,
-                    SubMenuController = _db.CompanySubMenus.Find(item.CompanySubMenuId).Controller,
-                    SubMenuAction = _db.CompanySubMenus.Find(item.CompanySubMenuId).Action
+                    SubMenuName = subMenu?.Name,
+                    SubMenuController = subMenu?.Controller,
+                    SubMenuAction = subMenu?.Action
                 };
 
-                viewData.ClientUserMenus.Add(data);
+                clientMenu.ClientUserMenus.Add(data);
             }
 
 
-            return viewData;
+            return clientMenu;
         }
 
         public object ClientCompanyUserMenuEdit(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
