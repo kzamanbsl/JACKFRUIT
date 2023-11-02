@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Data.Models;
@@ -45,10 +44,33 @@ namespace KGERP.Service.Implementation.Configuration
 
             var baseMenuIds = baseUserMenus.Select(c => c.CompanyMenuId).Distinct().ToList();
             clientMenu.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
-            //var subMenus = _db.CompanySubMenus.Where(x => userSubMenuIds.Contains(x.CompanySubMenuId)).ToList();
             var subMenus = clientMenu.CompanyMenus.SelectMany(c=>c.CompanySubMenus).ToList();
 
+            //Assigned Submenu
             var userSubMenuIds = clientMenu?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).Distinct().ToList();
+            if (userSubMenuIds?.Count() > 0)
+            {
+                foreach (var item in clientMenu.CompanyUserMenus)
+                {
+                    var subMenu = subMenus.FirstOrDefault(c => c.CompanySubMenuId == item.CompanySubMenuId);
+                    ClientUserMenu data = new ClientUserMenu()
+                    {
+                        CompanyUserMenuId = item.CompanyUserMenuId,
+                        IsActive = item.IsActive,
+                        UserId = item.UserId,
+                        MenuId = item.CompanyMenuId,
+                        MenuName = clientMenu.CompanyMenus.FirstOrDefault(c => c.CompanyMenuId == item.CompanyMenuId)?.Name,
+                        SubMenuId = item.CompanySubMenuId,
+                        SubMenuName = subMenu?.Name,
+                        SubMenuController = subMenu?.Controller,
+                        SubMenuAction = subMenu?.Action
+                    };
+
+                    clientMenu.ClientUserMenus.Add(data);
+                }
+            }
+
+            //Un Assigned Submenu
             var unAssignedSubMenus = baseUserMenus?.Count()>0 && userSubMenuIds?.Count() > 0
                 ? baseUserMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
                 : baseUserMenus;
@@ -76,7 +98,7 @@ namespace KGERP.Service.Implementation.Configuration
             return clientMenu;
         }
 
-        public object ClientCompanyUserMenuEdit(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
+        public object ClientCompanyUserMenuUpdate(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
         {
 
             var existPermission = _db.CompanyUserMenus.FirstOrDefault(c => c.UserId == userId && c.CompanyId == companyId && c.CompanyMenuId == menuId && c.CompanySubMenuId == subMenuId);
@@ -90,7 +112,7 @@ namespace KGERP.Service.Implementation.Configuration
                 {
                     CompanyMenuId = menuId,
                     CompanySubMenuId = subMenuId,
-                    IsActive = false,
+                    IsActive = true,
                     IsView = true,
                     CompanyId = companyId,
                     UserId = userId,
@@ -102,12 +124,26 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (_db.SaveChanges() > 0)
             {
-                return new { indexNo = index, isSuccess = true };
+                return new { indexNo = index, isSuccess = isActive };
             }
             return new { indexNo = index, isSuccess = false };
 
         }
+        public object GetUserClientMenuAssign(string prefix)
+        {
+            var v = (from t1 in _db.Users.Where(q => q.Active)
+                //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
+                //from t2 in t2_Join.DefaultIfEmpty()
+                where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
 
+                select new
+                {
+                    label = (t1.UserName + " ( " + t1.Email + " )"),
+                    val = t1.UserName
+                }).OrderBy(x => x.label).Take(100).ToList();
+            var result = v.Where(c => c.val != "ISS0001" && c.val != "ISS0002");
+            return result;
+        }
         #endregion
 
 
@@ -977,21 +1013,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             return v;
         }
-        public object GetUserClientMenuAssign(string prefix)
-        {
-            var v = (from t1 in _db.Users.Where(q => q.Active)
-                         //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
-                         //from t2 in t2_Join.DefaultIfEmpty()
-                     where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
-
-                     select new
-                     {
-                         label = (t1.UserName + " ( " + t1.Email + " )"),
-                         val = t1.UserName
-                     }).OrderBy(x => x.label).Take(100).ToList();
-            var result = v.Where(c => c.val != "ISS0001");
-            return result;
-        }
+        
         public List<SelectModel> GetEmployeeSelectModels(int companyId)
         {
             return _db.Employees.Where(x => x.CompanyId == companyId && x.Active == true).ToList().Select(x => new SelectModel()

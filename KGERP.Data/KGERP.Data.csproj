@@ -862,6 +862,12 @@
     <Compile Include="Models\VendorDeed.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VendorDeposit.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VendorDepositHistory.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\VendorOffer.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>

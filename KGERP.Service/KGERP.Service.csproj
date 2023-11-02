@@ -540,6 +540,7 @@
     <Compile Include="ServiceModel\SupplierProductViewModel.cs" />
     <Compile Include="ServiceModel\TeamMakingProcessViewModel.cs" />
     <Compile Include="ServiceModel\TicketingViewModel.cs" />
+    <Compile Include="ServiceModel\VendorDepositModel.cs" />
     <Compile Include="ServiceModel\VendorOpeningModel.cs" />
     <Compile Include="ServiceModel\VMMaterialRcvList.cs" />
     <Compile Include="ServiceModel\WorkMemberModel.cs" />

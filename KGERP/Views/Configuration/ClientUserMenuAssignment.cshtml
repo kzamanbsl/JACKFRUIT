@@ -112,22 +112,22 @@
                                                     <td>
                                                         @if (userMenu.IsActive == true)
                                                         {
-                                                            <a id="unassign_@index" style="cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId, false);" title="Unassign"
+                                                            <a id="unassign_@index" style="cursor:pointer;" onClick="menuAssign(@index,'@userMenu.UserId',@userMenu.MenuId,@userMenu.SubMenuId, false);" title="Unassign"
                                                                data-placement="top">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                             </a>
-                                                            <a id="assign_@index" style="display:none;cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
+                                                            <a id="assign_@index" style="display:none;cursor:pointer;" onClick="menuAssign(@index,'@userMenu.UserId',@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
                                                                data-placement="top">
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </a>
                                                         }
                                                         else
                                                         {
-                                                            <a id="assign_@index" style="cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
+                                                            <a id="assign_@index" style="cursor:pointer;" onClick="menuAssign(@index,'@userMenu.UserId',@userMenu.MenuId,@userMenu.SubMenuId,true);" title="Assign"
                                                                data-placement="top">
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </a>
-                                                            <a id="unassign_@index" style="display: none;cursor:pointer;" onclick="menuAssign(@index,@userMenu.UserId,@userMenu.MenuId,@userMenu.SubMenuId,false);" title="Unassign"
+                                                            <a id="unassign_@index" style="display: none;cursor:pointer;" onClick="menuAssign(@index,'@userMenu.UserId',@userMenu.MenuId,@userMenu.SubMenuId,false);" title="Unassign"
                                                                data-placement="top">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                             </a>
@@ -166,7 +166,7 @@
 
             $.ajax({
                 type: "post",
-                url: "@Url.Action("ClientCompanyUserMenuEdit", "Configuration")",
+                url: "@Url.Action("ClientCompanyUserMenuUpdate", "Configuration")",
                 data: {index:indexVal, userId: userIdVal, isActive: isActiveVal, companyId: companyIdVal, menuId: menuIdVal, subMenuId: subMenuIdVal },
                 datatype: "json",
                 traditional: true,
@@ -218,7 +218,7 @@
                 cache: true
 
             }).focus(function () {
-                $(this).autocomplete("search");
+            $(this).autocomplete("search");
         });
 
     </script>
