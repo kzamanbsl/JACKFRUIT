@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Azlan Damage Received List";
+    ViewData["Title"] = "Dealer Damage Received List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -18,7 +18,7 @@
 <section class="content-header">
     <h1>
         <span>
-            Azlan Damages Received List
+            Dealer Damages Received List
         </span>
 
     </h1>
@@ -38,7 +38,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("FactoryDamageMasterReceivedSearch", "Damage", FormMethod.Post, new { id = "FactoryReceivedListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("CustomerDamageMasterReceivedSearch", "Damage", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
@@ -87,8 +87,8 @@
                                     <tr>
                                         <th>SL</th>
                                         <th>Date</th>
-                                        <th>Depo</th>
                                         <th>Dealer</th>
+                                        <th>Customer</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
@@ -112,13 +112,13 @@
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.DeportName</td>
                                             <td>@item.DealerName</td>
+                                            <td>@item.CustomerName</td>
                                             <td>@item.StatusName</td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Received || item.StatusId == EnumDamageStatus.Submitted)
                                                 {
-                                                    <a href="~/Damage/FactoryDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a href="~/Damage/CustomerDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
                                             </td>
                                             <td>
@@ -130,7 +130,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="~/Damage/FactoryDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details">Receive</a>
+                                                    <a href="~/Damage/CustomerDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details">Receive</a>
 
                                                 }
 
@@ -166,7 +166,7 @@
 
         function resetForm() {
 
-                $('#FactoryReceivedListFormId')[0].reset();
+                $('#dealerReceivedListFormId')[0].reset();
                 $('#SOEditActionId').val(1);
         }
 

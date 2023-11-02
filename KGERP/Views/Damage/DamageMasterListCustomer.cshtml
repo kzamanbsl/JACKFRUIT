@@ -18,7 +18,7 @@
 <section class="content-header">
     <h1>
         <span>
-            Dealer Damage List
+            Customer Damage List
         </span>
 
     </h1>
@@ -38,7 +38,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("DamageOrderSearch", "Damage", FormMethod.Post, new { id = "dealerDamageMasterListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("DamageOrderSearchCustomer", "Damage", FormMethod.Post, new { id = "dealerDamageMasterListFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
@@ -88,6 +88,7 @@
                                         <th>SL</th>
                                         <th>Date</th>
                                         <th>Dealer</th>
+                                        <th>Customer</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
@@ -112,13 +113,14 @@
                                             <th>@(++sl)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.DealerName</td>
+                                            <td>@item.CustomerName</td>
                                             <td>@item.StatusName</td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Draft || item.StatusId == EnumDamageStatus.Submitted)
                                                 {
                                                     <a id="@item.DamageMasterId" onclick=" makeEditble(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#editDamageMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                    <a href="~/Damage/DamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a href="~/Damage/DamageMasterSlaveCustomer?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
                                             </td>
                                             <td>

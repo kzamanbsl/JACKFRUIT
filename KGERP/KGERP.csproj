@@ -5621,6 +5621,10 @@
     <Content Include="Views\Damage\DamageMasterSlaveFactory.cshtml" />
     <Content Include="Views\Damage\FactoryDamageReceivedList.cshtml" />
     <Content Include="Views\Damage\FactoryDamageReceivedSlave.cshtml" />
+    <Content Include="Views\Damage\DamageMasterSlaveCustomer.cshtml" />
+    <Content Include="Views\Damage\CustomerDamageReceivedList.cshtml" />
+    <Content Include="Views\Damage\CustomerDamageReceivedSlave.cshtml" />
+    <Content Include="Views\Damage\DamageMasterListCustomer.cshtml" />
     <Content Include="Views\Procurement\VendorDeposit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
