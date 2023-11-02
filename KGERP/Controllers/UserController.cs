@@ -18,8 +18,9 @@ namespace KGERP.Controllers
 {
     public class UserController : Controller
     {
-        ERPEntities _context = new ERPEntities();
+        readonly ERPEntities _context = new ERPEntities();
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
 
         //Registration Action
         [HttpGet]
@@ -42,13 +43,21 @@ namespace KGERP.Controllers
 
             if (ModelState.IsValid && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Email) && string.IsNullOrEmpty(model.Password))
             {
+                #region User Name is already Exist 
+                var isUserName = IsEmailExist(user.UserName);
+                if (isUserName)
+                {
+                    message = "User Name already exist!";
+                    return View(model);
+                }
+                #endregion
 
-                #region //Email is already Exist 
+                #region Email is already Exist 
                 var isExist = IsEmailExist(user.Email);
                 if (isExist)
                 {
                     //ModelState.AddModelError("EmailExist", "Email already exist");
-                    message = "Email already exist";
+                    message = "Email already exist!";
                     return View(model);
                 }
                 #endregion
@@ -61,7 +70,9 @@ namespace KGERP.Controllers
                 user.Password = Crypto.Hash(user.Password);
                 // user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword); 
                 #endregion
+
                 user.IsEmailVerified = true;
+
                 user.Active = true;
 
                 #region Save to Database
@@ -411,6 +422,16 @@ namespace KGERP.Controllers
             Session.RemoveAll();
             Session.Abandon();
             return RedirectToAction("Login", "User");
+        }
+
+        [NonAction]
+        public bool IsUserNameExist(string userName)
+        {
+            using (ERPEntities dc = new ERPEntities())
+            {
+                var v = dc.Users.FirstOrDefault(a => a.UserName.ToLower() == userName.ToLower());
+                return v != null;
+            }
         }
 
         [NonAction]
