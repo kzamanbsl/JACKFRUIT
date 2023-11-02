@@ -5623,6 +5623,11 @@
     <Content Include="Views\Procurement\DeportDeposit.cshtml" />
     <Content Include="Views\Procurement\DealerDeposit.cshtml" />
     <Content Include="Views\Procurement\CustomerDeposit.cshtml" />
+    <Content Include="Views\Damage\DamageMasterSlaveCustomer.cshtml" />
+    <Content Include="Views\Damage\CustomerDamageReceivedList.cshtml" />
+    <Content Include="Views\Damage\CustomerDamageReceivedSlave.cshtml" />
+    <Content Include="Views\Damage\DamageMasterListCustomer.cshtml" />
+    <Content Include="Views\Procurement\VendorDeposit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

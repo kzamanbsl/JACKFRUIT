@@ -14,6 +14,12 @@ namespace KGERP.Service.Interface
     {
         #region 1. Dealer Damage
         #region Dealer Damage Circle
+        #region Customer point
+        Task<DamageMasterModel> GetDamageMasterDetailCustomer(int companyId, int demageMasterId);
+        Task<int> DamageMasterAddCustomer(DamageMasterModel model);
+        Task<DamageMasterModel> GetDamageMasterListCustomer(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
+        
+        #endregion
         Task<DamageMasterModel> GetDamageMasterDetail(int companyId, int demageMasterId);
         Task<int> DamageMasterAdd(DamageMasterModel model);
         Task<int> DamageDetailAdd(DamageMasterModel model);
@@ -30,6 +36,11 @@ namespace KGERP.Service.Interface
         #region Dealer Damage Received Circle
         Task<int> DealerDamageReceived(DamageMasterModel damageMasterModel);
         Task<DamageMasterModel> GetDealerDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        
+        #region Customer Damage receive
+        Task<DamageMasterModel> GetCustomerDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+
+        #endregion
         #endregion
         #endregion
 
