@@ -59,11 +59,17 @@ namespace KGERP.Controllers
 
         }
 
-        public JsonResult ClientCompanyUserMenuEdit(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
+        public JsonResult ClientCompanyUserMenuUpdate(int index, string userId, bool isActive, int companyId, int menuId, int subMenuId)
         {
-            var result = _service.ClientCompanyUserMenuEdit(index, userId, isActive, companyId, menuId, subMenuId);
+            var result = _service.ClientCompanyUserMenuUpdate(index, userId, isActive, companyId, menuId, subMenuId);
             return Json(result, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public JsonResult GetUserClientMenuAssign(string prefix)
+        {
+            var users = _service.GetUserClientMenuAssign(prefix);
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -1128,11 +1134,7 @@ namespace KGERP.Controllers
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetUserClientMenuAssign(string prefix)
-        {
-            var users = _service.GetUserClientMenuAssign(prefix);
-            return Json(users, JsonRequestBehavior.AllowGet);
-        }
+       
 
         #region Common Supplier
 
