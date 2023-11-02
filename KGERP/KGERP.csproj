@@ -5620,7 +5620,9 @@
     <Content Include="Views\Damage\DamageMasterSlaveFactory.cshtml" />
     <Content Include="Views\Damage\FactoryDamageReceivedList.cshtml" />
     <Content Include="Views\Damage\FactoryDamageReceivedSlave.cshtml" />
-    <Content Include="Views\Procurement\VendorDeposit.cshtml" />
+    <Content Include="Views\Procurement\DeportDeposit.cshtml" />
+    <Content Include="Views\Procurement\DealerDeposit.cshtml" />
+    <Content Include="Views\Procurement\CustomerDeposit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

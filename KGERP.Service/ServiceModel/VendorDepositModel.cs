@@ -34,5 +34,9 @@ namespace KGERP.Service.ServiceModel
         public SelectList BankOrCashParantList { get; set; } = new SelectList(new List<object>());
         public SelectList BankOrCashGLList { get; set; } = new SelectList(new List<object>());
         public List<VendorDepositModel> DataList { get; set; } = new List<VendorDepositModel>();
+        public SelectList DeportList { get; set; } = new SelectList(new List<object>());
+        public SelectList DealerList { get; set; } = new SelectList(new List<object>());
+        public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
+
     }
 }

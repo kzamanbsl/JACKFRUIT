@@ -27,15 +27,17 @@ namespace KGERP.Controllers
         private readonly IProductService _productService;
         private readonly IStockInfoService _stockInfoService;
         private readonly AccountingService _accountingService;
+        private readonly ConfigurationService _Configurationservice;
 
         private readonly ERPEntities _db = new ERPEntities();
-        public ProcurementController(ProcurementService configurationService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, AccountingService accountingService)
+        public ProcurementController(ProcurementService configurationService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, AccountingService accountingService, ConfigurationService configurationservice)
         {
             this._orderMasterService = orderMasterService;
             _service = configurationService;
             _productService = productService;
             _stockInfoService = stockInfoService;
             _accountingService = accountingService;
+            _Configurationservice = configurationservice;
         }
 
         public JsonResult GetAutoCompleteSupplierGet(string prefix, int companyId)
@@ -98,38 +100,8 @@ namespace KGERP.Controllers
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        [HttpGet]
-        public async Task<ActionResult> VendorDeposit(int companyId,int vendorType)
-        {
-            VendorDepositModel vendorDepositModel = new VendorDepositModel();
 
-            vendorDepositModel.VendorTypeName= Enum.GetName(typeof(Provider), vendorType);
-            vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-            vendorDepositModel.CompanyFK = companyId;
-
-            return View(vendorDepositModel);
-        }  
-
-        [HttpPost]
-        public async Task<ActionResult> VendorDeposit(VendorDepositModel vendorDeposit)
-        {
-            if (vendorDeposit.VendorDepositId == 0)
-            {
-                if (vendorDeposit.ActionEum == ActionEnum.Add)
-                {
-
-                    //vendorDeposit.VendorId = await _service.CustomerDepositAdd(vendorDeposit);
-                }
-            }
-            else if (vendorDeposit.ActionEum == ActionEnum.Edit)
-            {
-                //await _service.CustomerDepositUpdate(vendorDeposit);
-            }
-
-            return RedirectToAction(nameof(VendorDeposit), new { companyId = vendorDeposit.CompanyFK,vendorDeposit.VendorTypeId });
-        
-        }
-
+ 
         #region Supplier Opening
 
         [HttpGet]
@@ -2331,5 +2303,103 @@ namespace KGERP.Controllers
 
         #endregion
 
+
+        #region Vendor Deposit
+        [HttpGet]
+        public async Task<ActionResult> DeportDeposit(int companyId)
+        {
+            var  vendorDepositModel = await _service.GetVendorList(Provider.Deport);
+
+
+            vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Deport);
+            vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            
+            vendorDepositModel.CompanyFK = companyId;
+            vendorDepositModel.DeportList= new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
+            return View(vendorDepositModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeportDeposit(VendorDepositModel vendorDeposit)
+        {
+            if (vendorDeposit.VendorDepositId == 0)
+            {
+                if (vendorDeposit.ActionEum == ActionEnum.Add)
+                {
+
+                    vendorDeposit.VendorId = await _service.VendorDepositAdd(vendorDeposit);
+                }
+            }
+            else if (vendorDeposit.ActionEum == ActionEnum.Edit)
+            {
+                await _service.VendorDepositUpdate(vendorDeposit);
+            }
+
+            return RedirectToAction(nameof(DeportDeposit), new { companyId = vendorDeposit.CompanyFK });
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DealerDeposit(int companyId)
+        {
+            var vendorDepositModel = await _service.GetVendorList(Provider.Dealer);
+            vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Dealer);
+            vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            vendorDepositModel.CompanyFK = companyId;
+
+            return View(vendorDepositModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DealerDeposit(VendorDepositModel vendorDeposit)
+        {
+            if (vendorDeposit.VendorDepositId == 0)
+            {
+                if (vendorDeposit.ActionEum == ActionEnum.Add)
+                {
+
+                    vendorDeposit.VendorId = await _service.VendorDepositAdd(vendorDeposit);
+                }
+            }
+            else if (vendorDeposit.ActionEum == ActionEnum.Edit)
+            {
+                await _service.VendorDepositUpdate(vendorDeposit);
+            }
+
+            return RedirectToAction(nameof(DealerDeposit), new { companyId = vendorDeposit.CompanyFK });
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CustomerDeposit(int companyId)
+        {
+            var vendorDepositModel = await _service.GetVendorList(Provider.Customer);
+            vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Customer);
+            vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            vendorDepositModel.CompanyFK = companyId;
+
+            return View(vendorDepositModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CustomerDeposit(VendorDepositModel vendorDeposit)
+        {
+            if (vendorDeposit.VendorDepositId == 0)
+            {
+                if (vendorDeposit.ActionEum == ActionEnum.Add)
+                {
+
+                    vendorDeposit.VendorId = await _service.VendorDepositAdd(vendorDeposit);
+                }
+            }
+            else if (vendorDeposit.ActionEum == ActionEnum.Edit)
+            {
+                await _service.VendorDepositUpdate(vendorDeposit);
+            }
+
+            return RedirectToAction(nameof(CustomerDeposit), new { companyId = vendorDeposit.CompanyFK });
+
+        }
+        #endregion
     }
 }
