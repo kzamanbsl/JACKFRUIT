@@ -28,14 +28,12 @@ namespace KGERP.Controllers
         private readonly IFTPService _ftpService;
         private readonly IDepartmentService _departmentService = new DepartmentService();
         private readonly HrDesignationService _hrDesignationService = new HrDesignationService();
-        private readonly ERPEntities _db;
 
-        public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService, ERPEntities db)
+        public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService)
         {
             _service = configurationService;
             _companyService = companyService;
             _ftpService = ftpService;
-            _db = db;
         }
 
         #region User Role Menuitem

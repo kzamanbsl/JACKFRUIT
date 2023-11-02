@@ -28,6 +28,7 @@ namespace KGERP.Service.Implementation.Configuration
         }
 
         #region User role Menu item
+
         #region ClientUserMenuAssignment
 
 
