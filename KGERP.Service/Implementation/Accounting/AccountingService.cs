@@ -521,6 +521,7 @@ namespace KGERP.Service.Implementation.Accounting
 
             return list;
 
+        
         }
 
         public List<object> GCCLLCFactoryExpanceHeadGLList(int companyId)

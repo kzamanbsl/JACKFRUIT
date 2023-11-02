@@ -1,10 +1,12 @@
 ﻿using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
+using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,13 +26,16 @@ namespace KGERP.Controllers
         private readonly ProcurementService _service;
         private readonly IProductService _productService;
         private readonly IStockInfoService _stockInfoService;
+        private readonly AccountingService _accountingService;
+
         private readonly ERPEntities _db = new ERPEntities();
-        public ProcurementController(ProcurementService configurationService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService)
+        public ProcurementController(ProcurementService configurationService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, AccountingService accountingService)
         {
             this._orderMasterService = orderMasterService;
             _service = configurationService;
             _productService = productService;
             _stockInfoService = stockInfoService;
+            _accountingService = accountingService;
         }
 
         public JsonResult GetAutoCompleteSupplierGet(string prefix, int companyId)
@@ -92,6 +97,37 @@ namespace KGERP.Controllers
             var commonCustomers = await Task.Run(() => _service.GetCustomerListBySubZoneId(subZoneId));
             var list = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public async Task<ActionResult> VendorDeposit(int companyId,int vendorType)
+        {
+            VendorDepositModel vendorDepositModel = new VendorDepositModel();
+
+            vendorDepositModel.VendorTypeName= Enum.GetName(typeof(Provider), vendorType);
+            vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+            vendorDepositModel.CompanyFK = companyId;
+
+            return View(vendorDepositModel);
+        }  
+
+        [HttpPost]
+        public async Task<ActionResult> VendorDeposit(VendorDepositModel vendorDeposit)
+        {
+            if (vendorDeposit.VendorDepositId == 0)
+            {
+                if (vendorDeposit.ActionEum == ActionEnum.Add)
+                {
+
+                    //vendorDeposit.VendorId = await _service.CustomerDepositAdd(vendorDeposit);
+                }
+            }
+            else if (vendorDeposit.ActionEum == ActionEnum.Edit)
+            {
+                //await _service.CustomerDepositUpdate(vendorDeposit);
+            }
+
+            return RedirectToAction(nameof(VendorDeposit), new { companyId = vendorDeposit.CompanyFK,vendorDeposit.VendorTypeId });
+        
         }
 
         #region Supplier Opening
