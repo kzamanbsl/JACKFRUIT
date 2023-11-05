@@ -315,6 +315,9 @@
     <Compile Include="Models\DamageMaster.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DamageType.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Demand.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>

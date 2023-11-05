@@ -3589,6 +3589,20 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="DamageType">
+          <Key>
+            <PropertyRef Name="DamageTypeId" />
+          </Key>
+          <Property Name="DamageTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DamageTypeForId" Type="int" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Demand">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -8710,6 +8724,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySet Name="DamageDetail" EntityType="Self.DamageDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DamageDetailHistory" EntityType="Self.DamageDetailHistory" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DamageMaster" EntityType="Self.DamageMaster" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="DamageType" EntityType="Self.DamageType" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Demand" EntityType="Self.Demand" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DemandItem" EntityType="Self.DemandItem" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="DemandItemDetail" EntityType="Self.DemandItemDetail" Schema="Erp" store:Type="Tables" />
@@ -11622,6 +11637,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
+          <EntitySet Name="DamageTypes" EntityType="ERPModel.DamageType" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -20800,6 +20816,20 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DamageType">
+          <Key>
+            <PropertyRef Name="DamageTypeId" />
+          </Key>
+          <Property Name="DamageTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DamageTypeForId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -26502,6 +26532,21 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DamageTypes">
+            <EntityTypeMapping TypeName="ERPModel.DamageType">
+              <MappingFragment StoreEntitySet="DamageType">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="DamageTypeForId" ColumnName="DamageTypeForId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DamageTypeId" ColumnName="DamageTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

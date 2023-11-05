@@ -1,0 +1,198 @@
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonDamageType
+@{
+    ViewData["Title"] = "DamageType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        DamageType
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">DamageType</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("CommonDamageType", "Configuration", FormMethod.Post, new { id = "commonDamageTypeFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="box">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="box-danger">
+                            @*<div class="box-header">
+                                    <h4>Add DamageType</h4>
+                                </div>*@
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "DamageTypeId" })
+                                @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
+                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+
+                                <div class="form-group">
+                                    @Html.Label("Damage Type For:", htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.DropDownListFor(model => model.DamageTypeForId, Model.EnumDamageTypeForList as SelectList, "==Select Status==", new { id = "ddlEnumDamageTypeForId", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.DamageTypeForId, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">DamageType Name:</label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtDamageTypeName", @class = "form-control  input-sm", @placeholder = "DamageType Name", required = "true", })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="box">
+
+                        <div class="box-danger">
+                            <div class="box-header">
+                                @*<h4>DamageType List</h4>*@
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+
+                                <div class="table-responsive col-md-12">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>Damage Type For</th>
+                                                <th>Damage Type Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @{int sl = 0;
+                                        }
+                                        <tbody>
+                                            @foreach (var item in Model.DataList)
+                                            {
+                                                <span hidden="hidden" id="#valDamageTypeFor">@item.DamageTypeForId</span>
+                                            @*<input type="hidden" id="damageTypeFor_@item.ID" name="DamageTypeForId" value="@item.DamageTypeForId" />*@
+                                                <tr>
+                                                    <td>@(++sl)</td>
+                                                    <td id="tdDamageTypeForName_@item.ID">@item.DamageTypeForName</td>
+                                                    <td id="tdDamageTypeName_@item.ID">@item.Name</td>
+                                                    <td>
+                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#DamageTypeDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("CommonDamageType", "Configuration", FormMethod.Post, new { id = "commonDamageTypeFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.ID, new { Value = "", id = "DamageTypeIdDelete" })
+    @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
+    @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
+
+    <div class="modal fade" id="DamageTypeDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>DamageType Delete</b></h5>
+
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+        });
+
+
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#DamageTypeId').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                $('#txtDamageTypeName').val($('#tdDamageTypeName_' + rowId).text().trim());
+                var damagetTFor = $('#valDamageTypeFor').val();
+                $('#ddlEnumDamageTypeForId').val(damagetTFor).trigger('change');
+       /*         $('#ddlEnumDamageTypeForId').val($('#damageTypeFor_' + rowId).val().trim()).trigger('change');*/
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            }
+        }
+       
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#DamageTypeIdDelete').val(id);
+                $('#ActionIdDelete').val(3);
+                $("#CompanyFKDelete").val("@Model.CompanyFK");
+            }
+        }
+
+        function resetForm() {
+            $('#commonDamageTypeFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+
+        }
+
+    </script>
+}

@@ -305,6 +305,73 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        #region DamageType
+        public JsonResult AutoCompleteDamageType(int companyId, string prefix)
+        {
+            var products = _service.GetAutoCompleteDamageType(companyId, prefix);
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<JsonResult> SingleCommonDamageType(int id)
+        {
+
+            VMCommonDamageType model = new VMCommonDamageType();
+            model = await _service.GetSingleCommonDamageType(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonDamageType(int companyId)
+        {
+
+            VMCommonDamageType vmCommonDamageType = new VMCommonDamageType();
+            vmCommonDamageType = await Task.Run(() => _service.GetDamageType(companyId));
+            return View(vmCommonDamageType);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonDamageType(VMCommonDamageType vmCommonDamageType)
+        {
+
+            if (vmCommonDamageType.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                await _service.DamageTypeAdd(vmCommonDamageType);
+            }
+            else if (vmCommonDamageType.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.DamageTypeEdit(vmCommonDamageType);
+            }
+            else if (vmCommonDamageType.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.DamageTypeDelete(vmCommonDamageType.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonDamageType), new { companyId = vmCommonDamageType.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonDamageTypeDelete(VMCommonDamageType vmCommonDamageType)
+        {
+
+            if (vmCommonDamageType.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.DamageTypeDelete(vmCommonDamageType.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonDamageType));
+        }
+
+        #endregion
+
         #region Common Zone
 
         [HttpGet]

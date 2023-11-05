@@ -42,6 +42,13 @@
     }
 
     #region Damage Enums
+    public enum EnumDamageTypeFor
+    {
+        Customer = 1,
+        Dealer,
+        Depo,
+        Factory
+    }
     public enum EnumDamageFrom
     {
        Customer = 1,
