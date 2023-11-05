@@ -82,7 +82,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group" style="padding:0px">
                                         <label>Deport:</label>
-                                        @Html.DropDownListFor(model => model.VendorId, Model.DeportList as SelectList, "--Deport--", new { id = "ddlDeportId", @class = "form-control searchingDropdown", required = "true" })
+                                        @Html.DropDownListFor(model => model.VendorId, Model.DeportList as SelectList, "--Deport--", new { id = "DeportVendorId", @class = "form-control searchingDropdown", required = "true" })
 
                                         @Html.HiddenFor(model => model.VendorId, new { id = "ddlCommon_CustomerFK" })
                                         @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
@@ -134,14 +134,14 @@
                                         <th>SL</th>
                                         <th>Date</th>
                                         <th>Bank/Cash</th>
+                                        <th>Deport</th>
                                         <th style="text-align:right">Bank Charge</th>
-                                        <th>Customer</th>
-                                        <th style="text-align:right">Deposit Amount</th>
-                                        <th>Description</th>
 
-                                        <th>Status</th>
+                                        <th style="text-align:right">Deposit Amount</th>
+                                         <th>Description</th>
+
                                         <th>Action</th>
-                                        <th>Change Status</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
 
@@ -154,21 +154,22 @@
                                                 <td>@(++sl)</td>
                                                 <td>@item.DepositDate.ToString("dd-MM-yyyy")</td>
                                                 <td>@item.PaymentToHeadGLName</td>
-                                                <td style="text-align:right">@String.Format("{0:0.000}", item.BankCharge)</td>
                                                 <td>@item.VendorName</td>
+                                                <td style="text-align:right">@String.Format("{0:0.000}", item.BankCharge)</td>
+
                                                 <td style="text-align:right">@String.Format("{0:0.000}", item.DepositAmount)</td>
                                                 <td>@item.Description</td>
 
-                                                @if (item.IsSubmit == false)
-                                                {
-                                                    <td style="padding: 5px; text-align: center; ">
-                                                        Draft
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td style="padding:5px;text-align:center;">Submitted</td>
-                                                }
+                                                @*@if (item.IsSubmit == false)
+        {
+            <td style="padding: 5px; text-align: center; ">
+                Draft
+            </td>
+        }
+        else
+        {
+            <td style="padding:5px;text-align:center;">Submitted</td>
+        }*@
 
                                                 @if (item.IsSubmit == false)
                                                 {
@@ -328,7 +329,7 @@
                       var formattedDate = year + '-' + month + '-' + day; // Format: YYYY-MM-DD
                       $("#txtDepositDate").val(formattedDate);
                       $("#txtCustomerName").val(data.VendorName);
-                      $("#ddlDeportId").val(data.VendorId).trigger('change');
+                      $("#DeportVendorId").val(data.VendorId).trigger('change');
                       $('#txtDepositAmount').val(data.DepositAmount);
                       $("#txtDescription").val(data.Description);
                       $("#txtBankCharge").val(data.BankCharge);
@@ -395,7 +396,7 @@
                         datatype: "Json",
                         data: { vendorDepositId: x, companyId: y },
                         success: function (response) {
-                            window.location.href = '/Procurement/CustomerDeposit?companyId=' + response.companyId;
+                            window.location.href = '/Procurement/DeportDeposit?companyId=' + @Model.CompanyFK;
                         }
                  });
         }

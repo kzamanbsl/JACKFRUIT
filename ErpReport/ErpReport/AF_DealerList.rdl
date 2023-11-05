@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-01T10:47:08.8280715Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-05T06:52:19.2577553Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -101,8 +101,16 @@
           <DataField>Propietor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CurrentDeposit">
+          <DataField>CurrentDeposit</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="SecurityAmount">
           <DataField>SecurityAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CurrentDue">
+          <DataField>CurrentDue</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ZoneId">
@@ -618,7 +626,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Cr. Limit</Value>
+                                  <Value>Deposit Amount</Value>
                                   <Style>
                                     <FontFamily>arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1052,14 +1060,16 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CreditLimit.Value</Value>
+                                  <Value>=format(Fields!CurrentDeposit.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>CreditLimit</rd:DefaultName>
