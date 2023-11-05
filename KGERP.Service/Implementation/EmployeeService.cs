@@ -166,7 +166,7 @@ namespace KGERP.Service.Implementation
 
                 if (lastEmployee == null)
                 {
-                    return new EmployeeModel() { EmployeeId = "KG0001" };
+                    return new EmployeeModel() { EmployeeId = "ISS0001" };
                 }
                 return new EmployeeModel()
                 {

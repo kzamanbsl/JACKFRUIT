@@ -1,6 +1,5 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Models;
-using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
@@ -12,7 +11,6 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -20,13 +18,14 @@ namespace KGERP.Controllers
     {
         readonly ERPEntities _context = new ERPEntities();
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+
 
         //Registration Action
         [HttpGet]
         public ActionResult Registration()
         {
             var model = GetUsers();
+            model.UserName = GenaratEemployeeId();
             return View(model);
         }
 
@@ -36,66 +35,84 @@ namespace KGERP.Controllers
         //public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] UserModel model)
         public ActionResult Registration(UserModel model)
         {
-            
+
             User user = ObjectConverter<UserModel, User>.Convert(model);
 
-            if (ModelState.IsValid && !string.IsNullOrEmpty(model.UserName) && !string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password))
+            if (ModelState.IsValid && string.IsNullOrEmpty(model.EmployeeName) && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Password))
             {
-                #region User Name is already Exist 
-                var isUserName = IsUserNameExist(user.UserName);
-                if (isUserName)
+                ViewBag.Error = "Invalid Request!";
+                model = GetUsers();
+                return View(model);
+            }
+
+            #region User Name is already Exist 
+            var isUserName = IsUserNameExist(user.UserName);
+            if (isUserName)
+            {
+                ViewBag.Error = "User Name already exist!";
+                model = GetUsers();
+                return View(model);
+            }
+            #endregion
+
+            #region Email is already Exist 
+            var isExist = IsEmailExist(user.Email);
+            if (isExist)
+            {
+                //ModelState.AddModelError("EmailExist", "Email already exist");
+                ViewBag.Error = "Email already exist!";
+                model = GetUsers();
+                return View(model);
+            }
+            #endregion
+
+            #region Generate Activation Code 
+            user.ActivationCode = Guid.NewGuid();
+            #endregion
+
+            #region  Password Hashing 
+            user.Password = Crypto.Hash(user.Password);
+            // user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword); 
+            #endregion
+
+            user.IsEmailVerified = true;
+            user.Active = true;
+
+            #region EmployeeAdd
+            var companyId = Convert.ToInt32(Session["CompanyId"]);
+            var employee = new Employee()
+            {
+                Id = 0,
+                EmployeeId = user.UserName,
+                HrAdminId = Convert.ToInt64(HrAdmin.Id),
+                CompanyId = companyId,
+                Name = model.EmployeeName,
+                MobileNo = model.MobileNo,
+                Telephone = model.MobileNo,
+                Email = model.Email,
+                OfficeEmail = model.Email,
+                Active = false,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+
+            };
+
+            #endregion
+
+            #region Save to Database
+            using (var scope = _context.Database.BeginTransaction())
+            {
+                _context.Employees.Add(employee);
+                _context.Users.Add(user);
+                if (_context.SaveChanges() > 0)
                 {
-                    ViewBag.Error = "User Name already exist!";
-                    model = GetUsers();
-                    return View(model);
-                }
-                #endregion
-
-                #region Email is already Exist 
-                var isExist = IsEmailExist(user.Email);
-                if (isExist)
-                {
-                    //ModelState.AddModelError("EmailExist", "Email already exist");
-                    ViewBag.Error = "Email already exist!";
-                    model = GetUsers();
-                    return View(model);
-                }
-                #endregion
-
-                #region Generate Activation Code 
-                user.ActivationCode = Guid.NewGuid();
-                #endregion
-
-                #region  Password Hashing 
-                user.Password = Crypto.Hash(user.Password);
-                // user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword); 
-                #endregion
-
-                user.IsEmailVerified = true;
-
-                user.Active = true;
-
-                #region Save to Database
-                using (ERPEntities dc = new ERPEntities())
-                {
-                    dc.Users.Add(user);
-                    dc.SaveChanges();
-
-                    //Send Email to User
-                    //SendVerificationLinkEmail(user.EmailID, user.ActivationCode.ToString());
-                    //message = "Registration successfully done. Account activation link " + 
-                    //    " has been sent to your email id:" + user.EmailID;
-
                     ViewBag.Message = "Registration successfully done!";
                     ViewBag.Status = true;
                 }
-                #endregion
-            }
-            else
-            {
-                ViewBag.Error = "Invalid Request!";
+                scope.Commit();
             }
 
+            #endregion
             model = GetUsers();
             return View(model);
         }
@@ -106,10 +123,12 @@ namespace KGERP.Controllers
 
             UserModel userModel = new UserModel();
 
-            userModel.DataList = (from t1 in _db.Users
-                                  where t1.UserId > 0
+            userModel.DataList = (from t1 in _db.Users //.Where(c=>c.UserId>0)
+                                  join t2 in _db.Employees on t1.UserName equals t2.EmployeeId
                                   select new UserModel
                                   {
+                                      EmployeeName = t2.Name,
+                                      MobileNo = t2.MobileNo,
                                       UserId = t1.UserId,
                                       UserName = t1.UserName,
                                       Email = t1.Email,
@@ -120,24 +139,58 @@ namespace KGERP.Controllers
             return userModel;
         }
 
+        private string GenaratEemployeeId()
+        {
+            string employeeId = string.Empty;
+            Employee lastEmployee = _context.Employees.OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+
+            if (lastEmployee == null)
+            {
+                employeeId = "ISS0001";
+            }
+            else
+            {
+                employeeId = lastEmployee.EmployeeId;
+            }
+
+            string prefix = employeeId.Substring(0, 3);
+
+            string kgNumber = employeeId.Substring(3);
+            int num = 0;
+            if (employeeId != string.Empty)
+            {
+                num = Convert.ToInt32(kgNumber);
+                ++num;
+            }
+            string newKgNumber = num.ToString().PadLeft(4, '0');
+            var newEmpId = prefix + newKgNumber;
+            return newEmpId;
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> InactiveUser(UserModel model)
         {
 
-            if (model.UserId > 0)
-            {
-                var user = await _context.Users.FindAsync(model.UserId);
-                if (user != null)
-                {
-                    var b = user.Active == true ? user.Active == false : user.Active == true;
-                }
-
-                await _context.SaveChangesAsync();
-            }
-            else
+            if (model.UserId <= 0)
             {
                 return View("Error");
             }
+
+            var user = await _context.Users.FindAsync(model.UserId);
+            var userId = Session["EmployeeId"];
+            if (user != null && userId != null && user.UserName == userId.ToString())
+            {
+                throw new Exception("Sorry! You can't Inactive yourself!");
+            }
+
+            if (user != null)
+            {
+
+                user.Active = user.Active == true ? false : true;
+            }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Registration));
         }
 
