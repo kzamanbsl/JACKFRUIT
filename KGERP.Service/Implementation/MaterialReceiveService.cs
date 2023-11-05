@@ -641,8 +641,11 @@ namespace KGERP.Service.Implementation
                                                       Common_ProductFk = t1.ProductId,
                                                       ReceivedQuantity = t1.ReceiveQty,
                                                       PurchasingPrice = t1.UnitPrice,
+                                                      Consumption = t2.Consumption??0,
                                                       StockInQty = t1.StockInQty.Value,
                                                       StockInRate = t1.StockInRate.Value
+                                                     
+
 
                                                   }).OrderByDescending(x => x.MaterialReceiveId).AsEnumerable();
 

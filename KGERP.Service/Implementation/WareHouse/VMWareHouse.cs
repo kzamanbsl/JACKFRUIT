@@ -92,7 +92,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public int ReceiveGoods { get; set; }
     }
 
-    
+
     public class VMWarehousePOReceivingSlave : VMWareHousePOReceiving
     {
 
@@ -132,7 +132,9 @@ namespace KGERP.Service.Implementation.Warehouse
         public decimal StockLossQuantity { get; set; } = 0;
         public decimal PriviousReturnQuantity { get; set; } = 0;
         public decimal StockInQty { get; set; } = 0;
-
+        public double Consumption { get; set; } = 1;
+        public decimal StockInCtn => Math.Floor(StockInQty / (decimal)Consumption);
+        public decimal StockInPcs => (StockInQty-(StockInCtn * (decimal)Consumption));
 
         public decimal StockInRate { get; set; } = 0;
         public decimal UnitPrice { get; set; } = 0;
