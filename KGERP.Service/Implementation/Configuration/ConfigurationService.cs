@@ -831,6 +831,105 @@ namespace KGERP.Service.Implementation.Configuration
         }
         #endregion
 
+        #region Common DamageType
+        public object GetAutoCompleteDamageType(int companyId, string prefix)
+        {
+            var v = (from t1 in _db.DamageTypes
+
+                     where t1.IsActive == true && t1.CompanyId == companyId
+                     && ((t1.Name.StartsWith(prefix)))
+
+                     select new
+                     {
+                         label = t1.Name ?? "",
+                         val = t1.DamageTypeId
+                     }).OrderBy(x => x.label).Take(10).ToList();
+            return v;
+        }
+        public async Task<VMCommonDamageType> GetDamageType(int companyId)
+        {
+            VMCommonDamageType vmCommonDamageType = new VMCommonDamageType();
+            vmCommonDamageType.CompanyFK = companyId;
+            vmCommonDamageType.DataList = await Task.Run(() => (from t1 in _db.DamageTypes
+                                                                where t1.IsActive == true
+                                                                && t1.CompanyId == companyId
+                                                                select new VMCommonDamageType
+                                                                {
+                                                                    ID = t1.DamageTypeId,
+                                                                    Name = t1.Name,
+                                                                    DamageTypeForId = (EnumDamageTypeFor)t1.DamageTypeForId,
+                                                                    CompanyFK = t1.CompanyId,
+                                                                    CreatedBy = t1.CreatedBy
+
+                                                                }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonDamageType;
+        }
+        public async Task<VMCommonDamageType> GetSingleCommonDamageType(int id)
+        {
+
+            var v = await Task.Run(() => (from t1 in _db.DamageTypes
+                                          where t1.DamageTypeId == id && t1.IsActive == true
+                                          select new VMCommonDamageType
+                                          {
+                                              ID = t1.DamageTypeId,
+                                              Name = t1.Name,
+                                              DamageTypeForId = (EnumDamageTypeFor)t1.DamageTypeForId,
+                                              CompanyFK = t1.CompanyId
+                                          }).FirstOrDefault());
+            return v;
+        }
+        public async Task<int> DamageTypeAdd(VMCommonDamageType vmCommonDamageType)
+        {
+            var result = -1;
+            DamageType commonDamageType = new DamageType
+            {
+                Name = vmCommonDamageType.Name,
+                CompanyId = vmCommonDamageType.CompanyFK,
+                DamageTypeForId = (int)vmCommonDamageType.DamageTypeForId,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            };
+            _db.DamageTypes.Add(commonDamageType);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = commonDamageType.DamageTypeId;
+            }
+            return result;
+        }
+        public async Task<int> DamageTypeEdit(VMCommonDamageType vmCommonDamageType)
+        {
+            var result = -1;
+            DamageType commonDamageType = await _db.DamageTypes.FindAsync(vmCommonDamageType.ID);
+            commonDamageType.Name = vmCommonDamageType.Name;
+            commonDamageType.DamageTypeForId = (int)vmCommonDamageType.DamageTypeForId;
+            commonDamageType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            commonDamageType.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = commonDamageType.DamageTypeId;
+            }
+            return result;
+        }
+        public async Task<int> DamageTypeDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                DamageType commonDamageType = await _db.DamageTypes.FindAsync(id);
+                commonDamageType.IsActive = false;
+                commonDamageType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                commonDamageType.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = commonDamageType.DamageTypeId;
+                }
+            }
+            return result;
+        }
+        #endregion
+
         public object GetAutoCompleteSupplier(int companyId, string prefix)
         {
             var v = (from t1 in _db.Vendors

@@ -541,6 +541,7 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
+        <EntityTypeShape EntityType="ERPModel.DamageType" Width="1.5" PointX="3.375" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -297,11 +297,19 @@ namespace KGERP.Service.Implementation.Procurement
 
         public long OrderDetailId { get; set; }
         public int FProductId { get; set; }
-        public double Qty { get; set; }
+        public double Qty { get; set; } = 0;
         public double UnitPrice { get; set; }
-        public double? Consumption { get; set; }
+        public double? Consumption { get; set; } 
         public double? PackQuantity { get; set; }
-
+        public decimal StockInCtn => (decimal)Math.Floor(Qty / (Consumption == 0 ? 1 : Consumption ?? 1));
+        public decimal StockInPcs
+        {
+            get
+            {
+                double consumptionValue = Consumption ?? 1; // Default to 1 if Consumption is null
+                return (decimal)Qty - (StockInCtn *(decimal) consumptionValue);
+            }
+        }
         public double TotalPrice { get { return Qty * UnitPrice; } }
         public string TotalPriceInWord { get; set; }
         public double OfferQty { get; set; }
