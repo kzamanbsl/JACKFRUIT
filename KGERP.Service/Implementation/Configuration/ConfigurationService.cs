@@ -44,7 +44,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             var baseMenuIds = baseUserMenus.Select(c => c.CompanyMenuId).Distinct().ToList();
             clientMenu.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
-            var subMenus = clientMenu.CompanyMenus.SelectMany(c=>c.CompanySubMenus).ToList();
+            var subMenus = clientMenu.CompanyMenus.SelectMany(c => c.CompanySubMenus).ToList();
 
             //Assigned Submenu
             var userSubMenuIds = clientMenu?.CompanyUserMenus?.Select(c => c.CompanySubMenuId).Distinct().ToList();
@@ -71,7 +71,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
 
             //Un Assigned Submenu
-            var unAssignedSubMenus = baseUserMenus?.Count()>0 && userSubMenuIds?.Count() > 0
+            var unAssignedSubMenus = baseUserMenus?.Count() > 0 && userSubMenuIds?.Count() > 0
                 ? baseUserMenus.Where(c => !userSubMenuIds.Contains(c.CompanySubMenuId))
                 : baseUserMenus;
 
@@ -84,7 +84,7 @@ namespace KGERP.Service.Implementation.Configuration
                     IsActive = false,
                     UserId = model.UserId,
                     MenuId = item.CompanyMenuId,
-                    MenuName = clientMenu.CompanyMenus.FirstOrDefault(c=>c.CompanyMenuId==item.CompanyMenuId)?.Name,
+                    MenuName = clientMenu.CompanyMenus.FirstOrDefault(c => c.CompanyMenuId == item.CompanyMenuId)?.Name,
                     SubMenuId = item.CompanySubMenuId,
                     SubMenuName = subMenu?.Name,
                     SubMenuController = subMenu?.Controller,
@@ -132,15 +132,15 @@ namespace KGERP.Service.Implementation.Configuration
         public object GetUserClientMenuAssign(string prefix)
         {
             var v = (from t1 in _db.Users.Where(q => q.Active)
-                //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
-                //from t2 in t2_Join.DefaultIfEmpty()
-                where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
+                         //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
+                         //from t2 in t2_Join.DefaultIfEmpty()
+                     where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
 
-                select new
-                {
-                    label = (t1.UserName + " ( " + t1.Email + " )"),
-                    val = t1.UserName
-                }).OrderBy(x => x.label).Take(100).ToList();
+                     select new
+                     {
+                         label = (t1.UserName + " ( " + t1.Email + " )"),
+                         val = t1.UserName
+                     }).OrderBy(x => x.label).Take(100).ToList();
             var result = v.Where(c => c.val != "ISS0001" && c.val != "ISS0002");
             return result;
         }
@@ -1013,7 +1013,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             return v;
         }
-        
+
         public List<SelectModel> GetEmployeeSelectModels(int companyId)
         {
             return _db.Employees.Where(x => x.CompanyId == companyId && x.Active == true).ToList().Select(x => new SelectModel()
@@ -1075,7 +1075,7 @@ namespace KGERP.Service.Implementation.Configuration
                 .ToListAsync());
             return vmCommonUnit;
         }
-        public async Task<List<VMCommonProduct>> CommonProductGet(int companyId, int productSubCategoryId)
+        public async Task<List<VMCommonProduct>> CommonProductGet(int? companyId, int productSubCategoryId)
         {
             List<VMCommonProduct> vmCommonProductList = new List<VMCommonProduct>();
 
@@ -1083,27 +1083,40 @@ namespace KGERP.Service.Implementation.Configuration
             {
 
 
-                vmCommonProductList =
-                await Task.Run(() => (_db.Products
-                .Where(x => x.IsActive == true && x.ProductSubCategoryId == productSubCategoryId && x.CompanyId == companyId))
-                .Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
-                .ToListAsync());
+                //vmCommonProductList =
+                //await Task.Run(() => (_db.Products
+                //.Where(x => x.IsActive == true && x.ProductSubCategoryId == productSubCategoryId && x.CompanyId == companyId))
+                //.Select(x => new VMCommonProduct() { ID = x.ProductId, Name = x.ProductName })
+                //.ToListAsync());
+
+                vmCommonProductList = (from t1 in _db.Products
+                                       join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId
+                                       join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId
+
+                                       where t1.CompanyId == companyId && t1.IsActive == true && t2.IsActive == true && t3.IsActive == true &&
+                                       t2.ProductSubCategoryId == productSubCategoryId
+
+                                       select new VMCommonProduct
+                                       {
+                                           ID = t1.ProductId,
+                                           Name = t1.ProductName
+                                       }).OrderBy(x => x.ID).ToList();
             }
+
             if (productSubCategoryId is 0)
             {
-                vmCommonProductList =
-                await Task.Run(() => (_db.Products
-                .Where(x => x.IsActive == true && x.CompanyId == companyId)
-                .Join(_db.ProductSubCategories.Where(c => c.IsActive == true),
-                t1 => t1.ProductSubCategoryId,
-                t2 => t2.ProductSubCategoryId,
-                (t1, t2) => new VMCommonProduct
-                {
-                    ID = t1.ProductId,
-                    Name = t1.ProductName
-                })
-                .ToListAsync()));
+                vmCommonProductList = (from t1 in _db.Products
+                                       join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId
+                                       join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId
 
+                                       where t1.CompanyId == companyId && t1.IsActive == true && t2.IsActive == true && t3.IsActive == true
+                                       //&& t2.ProductSubCategoryId == productSubCategoryId
+
+                                       select new VMCommonProduct
+                                       {
+                                           ID = t1.ProductId,
+                                           Name = t1.ProductName
+                                       }).OrderBy(x => x.ID).ToList();
 
             }
 
@@ -2721,7 +2734,7 @@ namespace KGERP.Service.Implementation.Configuration
                 list.Add(new { Text = x.Name, Value = x.VendorId });
             }
             return list;
-        } 
+        }
         public List<object> CommonDealerDropDownList()
         {
             var list = new List<object>();
@@ -2731,7 +2744,7 @@ namespace KGERP.Service.Implementation.Configuration
                 list.Add(new { Text = x.Name, Value = x.VendorId });
             }
             return list;
-        }    
+        }
         public List<object> CommonCustomerDropDownList()
         {
             var list = new List<object>();
