@@ -300,6 +300,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<VendorDeposit> VendorDeposits { get; set; }
         public virtual DbSet<VendorDepositHistory> VendorDepositHistories { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<DamageType> DamageTypes { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

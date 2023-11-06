@@ -258,6 +258,17 @@ namespace KGERP.Service.Implementation.Configuration
 
         public IEnumerable<VMCommonUnit> DataList { get; set; }
     }
+    public class VMCommonDamageType : BaseVM
+    {
+        public string Name { get; set; }
+        public int DamageTypeId { get; set; }
+        public int? DamageTypeForId { get; set; }
+        //public EnumDamageTypeFor DamageTypeForId { get; set; }
+        public string DamageTypeForName { get { return BaseFunctionalities.GetEnumDescription((EnumDamageTypeFor)DamageTypeForId); } }
+        public SelectList EnumDamageTypeForList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeFor>(), "Value", "Text"); } }
+
+        public IEnumerable<VMCommonDamageType> DataList { get; set; }
+    }
 
     public class VMCommonSupplier : BaseVM
     {

@@ -24,33 +24,54 @@
 {
     <section class="content">
         <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <div class="box">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.IsEmailVerified, new { id = "IsEmailVerified", Value = true })
-                        @Html.HiddenFor(model => model.ActivationCode, new { id = "IsEmailVerified", Value = "" })
-                        <div class="box-danger">
-                            @*<div class="box-header">
-                <h4>Add Unit</h4>
-            </div>*@
-                            <!-- /.box-header -->
-                            <div class="box-body">
-                                @Html.HiddenFor(model => model.UserId, new { Value = @Model.UserId, id = "userId" })
-                                @*@Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })*@
-                                @*@Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })*@
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.IsEmailVerified, new { id = "IsEmailVerified", Value = true })
+                @Html.HiddenFor(model => model.ActivationCode, new { id = "IsEmailVerified", Value = "" })
+                <div class="box-danger">
+                    @*<div class="box-header">
+                            <h4>Add Unit</h4>
+                        </div>*@
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @Html.HiddenFor(model => model.UserId, new { Value = @Model.UserId, id = "userId" })
+                        @*@Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })*@
+                        @*@Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })*@
 
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Name:</label>
+                                    @Html.TextBoxFor(model => model.EmployeeName, new { id = "txtEmployeeName", @class = "form-control", @placeholder = "Name", required = "true", })
+                                    @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-control-label">User Name:</label>
                                     @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Mobile No:</label>
+                                    @Html.TextBoxFor(model => model.MobileNo, new { id = "txtMobileNo", @class = "form-control", @placeholder = "Mobile No" })
+                                    @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-control-label">Email:</label>
-                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control", @placeholder = "email", required = "true" })
+                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control", @placeholder = "email" })
                                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-12" })
                                     <div class="col-12">
@@ -58,6 +79,8 @@
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-12" })
                                     <div class="col-12">
@@ -65,88 +88,103 @@
                                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-5">
-                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-                                    </div>
-
-                                </div>
                             </div>
-                            <div class="box-footer">
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
-                                        <strong>Success! </strong> @ViewBag.Message
-                                    </div>
-                                }
-                                @if (ViewBag.Error != null)
-                                {
-                                    <div class="alert alert-danger">
-                                        <strong>Error! </strong> @ViewBag.Error
-                                    </div>
-                                }
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                            </div>
+                            <div class="col-md-9">
+                                <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
                             </div>
                         </div>
                     </div>
+
+                    <div class="box-footer">
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-success">
+                                <strong>Success! </strong> @ViewBag.Message
+                            </div>
+                        }
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Error! </strong> @ViewBag.Error
+                            </div>
+                        }
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="box">
+            </div>
+        </div>
 
-                        <div class="box-danger">
-                            <div class="box-header">
-                                @*<h4>Unit List</h4>*@
-                            </div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
 
-                                <div class="table-responsive col-md-12">
-                                    <table id="KgErpDataTable" class="table table-striped">
-                                        <thead>
+                    <div class="box-danger">
+                        <!--<div class="box-header">-->
+                        @*<h4>Unit List</h4>*@
+                        <!--</div>-->
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive col-md-12">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>Name</th>
+                                            <th>User Name</th>
+                                            <th>Mobile No</th>
+                                            <th>Email</th>
+                                            <th>Active</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    @{int sl = 0;
+                                    }
+                                    <tbody>
+                                        @foreach (var item in Model.DataList)
+                                        {
                                             <tr>
-                                                <th>SL</th>
-                                                <th>User Name</th>
-                                                <th>Email</th>
-                                                <th>Active</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        @{int sl = 0;
-                                        }
-                                        <tbody>
-                                            @foreach (var item in Model.DataList)
-                                            {
-                                                <tr>
-                                                    <td>@(++sl)</td>
-                                                    <td id="tdUserName_@item.UserId">@item.UserName</td>
-                                                    <td id="tdEmail_@item.UserId">@item.Email</td>
-                                                    <td id="tdActive_@item.UserId">
-                                                        @item.Active
-                                                    </td>
-                                                    <td>
-                                                        <a id="@item.UserId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.UserId" onclick="makeDeletable(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#unitDeleteModal" title="Delete"
+                                                <td>@(++sl)</td>
+                                                <td hidden="hidden" id="tdUserId_@item.UserId">@item.UserId</td>
+                                                <td id="tdEmployeeName_@item.UserId">@item.EmployeeName</td>
+                                                <td id="tdUserName_@item.UserId">@item.UserName</td>
+                                                <td id="tdMobileNo_@item.UserId">@item.MobileNo</td>
+                                                <td id="tdEmail_@item.UserId">@item.Email</td>
+                                                <td id="tdActive_@item.UserId"> @item.Active</td>
+                                                <td>
+                                                    @*<a onclick="makeEditble(@item);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>*@
+                                                    @if (@item.Active)
+                                                    {
+                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Inactive"
                                                            data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
                                                         </a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Active"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
 
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="box-footer">
-                            </div>
+
+                        </div>
+                        <div class="box-footer">
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 }
@@ -155,8 +193,9 @@
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.UserId, new { Value = "", id = "userIdInactive" })
+    @*@Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })*@
 
-    <div class="modal fade" id="unitDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="userDisableModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -168,7 +207,7 @@
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to User Inactive?</h3>
+                        <h3>Are you sure to Inactive User?</h3>
                     </div>
                 </div>
 
@@ -188,32 +227,35 @@
             $('.formValidator').bootstrapValidator();
         });
 
-
-        function makeEditble(elem) {
-            if (elem !== null) {
-                var rowId = elem.id;
+        function makeEditble(obj) {
+            if (obj !== null) {
+                var rowId = obj.UserId;
                 $('#userId').val(rowId);
+                $('#txtEmployeeName').val(obj.EmployeeName);
+                $('#txtUserName').val(obj.UserName);
+                $('#txtMobileNo').val(obj.MobileNo);
+                $('#txtEmail').val(obj.Email);
+                $('#txt').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-               // $('#txtUserName').val($('#tdUnitName_' + rowId).text().trim());
+                // $('#txtUserName').val($('#tdUnitName_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             }
-        }
+        };
 
-        function makeDeletable(id) {
+        function makeDisabled(id) {
             if (id !== null) {
-                $('#userIdDelete').val(id);
-                $('#ActionIdDelete').val(3);
-  
+                $('#userIdInactive').val(id);
+                //$('#ActionIdDelete').val(3);
             }
-        }
+        };
 
         function resetForm() {
             $('#commonUserFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
-        }
+        };
 
     </script>
 }
