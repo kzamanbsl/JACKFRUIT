@@ -260,21 +260,15 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> CheckUnitName(string inputText)
+        public async Task<JsonResult> IsUnitNameExist(string name, int id)
         {
-            if (!string.IsNullOrEmpty(inputText))
+            if (string.IsNullOrEmpty(name))
             {
-                var isDuplicate = await _service.CheckDuplicateUnitName(inputText);
-
-                if (isDuplicate)
-                {
-                    ModelState.AddModelError("Name", "Please provide a unique unit name");
-                    return Json(new { success = true, ModelState = ModelState }, JsonRequestBehavior.AllowGet);
-                }
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                return Json( false , JsonRequestBehavior.AllowGet);
             }
-            ModelState.AddModelError("Name", "Please provide a unit name");
-            return Json(new { success = true, ModelState = ModelState }, JsonRequestBehavior.AllowGet);
+            var isDuplicate = await _service.CheckDuplicateUnitName(name, id);
+           
+            return Json(isDuplicate , JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

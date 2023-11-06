@@ -42,9 +42,9 @@
                                 <div class="form-group">
                                     <label for="" class="form-control-label">Unit Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control  input-sm", @placeholder = "Unit Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                    <span class="text-danger" id="errorMessage"></span>
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
+
                                 <div class="form-group">
                                     <div class="col-md-5">
                                         <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
@@ -153,39 +153,18 @@
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('#txtUnitName').keyup(function () {
-                var inputText = $(this).val();
-
-                if (inputText.trim() !== '') {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Configuration/CheckUnitName",
-                        data: JSON.stringify({ inputText: inputText }),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (response) {
-                            console.log(response);  
-                            console.log(response.success);  
-                            if (!response.success) {
-
-                                $('#errorMessage').empty();
-
-                                if (response.ModelState && response.ModelState.inputText) {
-                                    var errorMessage = response.ModelState.inputText[0];
-                                    $('#errorMessage').text(errorMessage);
-                                    console.log(errorMessage);
-                                }
-                            } else {
-                                $('#errorMessage').empty();
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                } else {
-                    $('#errorMessage').empty();
+        $(document.body).on("change", "#txtUnitName", function () {
+            var unitId = $("#unitId").val();
+            if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 };
+            var value = $(this).val();
+            var param = { name: value, id: unitId??0 };
+            var url = "/Configuration/IsUnitNameExist";
+            $.post(url, param, function (rData) {
+                $('#nameExist').text("");
+                if (rData === true) {
+                    var msg = "Sorry, This " + value + " name already exist!";
+                    $('#nameExist').text(msg);
+                    return;
                 }
             });
         });

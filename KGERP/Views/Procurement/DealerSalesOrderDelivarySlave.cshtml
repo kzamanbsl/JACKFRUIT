@@ -246,7 +246,10 @@
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.Qty) @item.UnitName
+                                                            @*@String.Format("{0:0.00}", item.Qty) @item.UnitName*@
+                                                            @(item.StockInCtn + " Ctn And " +item.StockInPcs.ToString("0")+ " Pcs");
+
+
                                                         }
                                                     </td>
                                                     <td style="padding:5px;text-align:center;">
@@ -256,7 +259,9 @@
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.OfferQty)
+                                                            @*@String.Format("{0:0.00}", item.OfferQty)*@
+                                                            @(item.OfferInCtn + " Ctn And " +item.OfferInPcs.ToString("0")+ " Pcs");
+
                                                         }
                                                     </td>
                                                     <td class="unitPrice" style="padding:5px;text-align:right; font-weight:bold">
