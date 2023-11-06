@@ -194,6 +194,30 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(Registration));
         }
 
+        [HttpPost]
+        public async Task<ActionResult> ChangeUserPassword(UserModel model)
+        {
+
+            if (model.UserId <= 0)
+            {
+                return View("Error");
+            }
+
+            var user = await _context.Users.FindAsync(model.UserId);
+            var userId = Session["UserName"];
+            if (user == null)
+            {
+                throw new Exception("Sorry! No User Found!");
+            }
+
+            #region  Password Hashing 
+            user.Password = Crypto.Hash(model.Password);
+            #endregion
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Registration));
+        }
+
         //Verify Account  
         [HttpGet]
         public ActionResult VerifyAccount(string id)
