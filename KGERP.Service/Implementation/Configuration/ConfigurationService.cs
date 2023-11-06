@@ -857,7 +857,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 {
                                                                     ID = t1.DamageTypeId,
                                                                     Name = t1.Name,
-                                                                    DamageTypeForId = (EnumDamageTypeFor)t1.DamageTypeForId,
+                                                                    DamageTypeForId = t1.DamageTypeForId,
                                                                     CompanyFK = t1.CompanyId,
                                                                     CreatedBy = t1.CreatedBy
 
@@ -873,7 +873,7 @@ namespace KGERP.Service.Implementation.Configuration
                                           {
                                               ID = t1.DamageTypeId,
                                               Name = t1.Name,
-                                              DamageTypeForId = (EnumDamageTypeFor)t1.DamageTypeForId,
+                                              DamageTypeForId = t1.DamageTypeForId,
                                               CompanyFK = t1.CompanyId
                                           }).FirstOrDefault());
             return v;
