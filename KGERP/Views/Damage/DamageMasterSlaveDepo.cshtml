@@ -183,7 +183,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Damage Type:</label>
-                                        @Html.DropDownListFor(model => model.DetailModel.DepoDamageTypeId, Model.DepoDamageTypeList as SelectList, "==Select Type==", new { id = "ddlDepoDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.DetailModel.DepoDamageTypeId, Model.DamageTypeList as SelectList, "==Select Type==", new { id = "ddlDepoDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.DepoDamageTypeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

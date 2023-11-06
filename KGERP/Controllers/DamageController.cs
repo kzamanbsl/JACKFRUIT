@@ -57,6 +57,7 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
 
             return View(demageMasterModel);
         }
@@ -134,7 +135,7 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
-            //demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
             demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
             return View(demageMasterModel);
         }
@@ -389,6 +390,7 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
 
             return View(demageMasterModel);
         }
@@ -582,6 +584,7 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
             demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
 
             return View(demageMasterModel);

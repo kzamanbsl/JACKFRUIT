@@ -783,6 +783,15 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> UnitAdd(VMCommonUnit vmCommonUnit)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonUnit.ID > 0 ? _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.UnitId != vmCommonUnit.ID && c.IsActive == true) : _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.IsActive == true);
+            if (isExist?.UnitId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exist!");
+            }
+            #endregion
+
             Unit commonUnit = new Unit
             {
                 Name = vmCommonUnit.Name,
@@ -799,9 +808,19 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+
         public async Task<int> UnitEdit(VMCommonUnit vmCommonUnit)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonUnit.ID > 0 ? _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.UnitId != vmCommonUnit.ID && c.IsActive == true) : _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.IsActive == true);
+            if (isExist?.UnitId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exist!");
+            }
+            #endregion
+
             Unit commonUnit = await _db.Units.FindAsync(vmCommonUnit.ID);
             commonUnit.Name = vmCommonUnit.Name;
             commonUnit.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -830,14 +849,22 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        public async Task<bool> CheckDuplicateUnitName(string text)
+        public async Task<bool> CheckDuplicateUnitName(string name, int id)
         {
-            if(text != null)
+            if (string.IsNullOrEmpty(name))
             {
-                var unitExists = await _db.Units.AnyAsync(u => u.Name == text);
-                return unitExists;
+                return false;
             }
-            return false;
+            bool isExist = false;
+            if (id > 0)
+            {
+                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.UnitId != id && u.IsActive == true);
+            }
+            else
+            {
+                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+            }
+            return isExist;
         }
         #endregion
 
@@ -2493,6 +2520,15 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ProductFinishCategoryAdd(VMCommonProductCategory productCategoryModel)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = productCategoryModel.ID > 0 ? _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.ProductCategoryId != productCategoryModel.ID && c.IsActive == true) : _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.IsActive == true);
+            if (isExist?.ProductCategoryId > 0)
+            {
+                throw new Exception($"Sorry! This Name {productCategoryModel.Name} already Exist!");
+            }
+            #endregion
+            
             ProductCategory productCategory = new ProductCategory
             {
                 Name = productCategoryModel.Name,
@@ -2583,7 +2619,6 @@ namespace KGERP.Service.Implementation.Configuration
                     //}
                 }
 
-
                 result = productCategory.ProductCategoryId;
             }
             return result;
@@ -2591,6 +2626,15 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ProductFinishCategoryEdit(VMCommonProductCategory vmCommonProductCategory)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonProductCategory.ID > 0 ? _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.ProductCategoryId != vmCommonProductCategory.ID && c.IsActive == true) : _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.IsActive == true);
+            if (isExist?.ProductCategoryId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonProductCategory.Name} already Exist!");
+            }
+            #endregion
+
             ProductCategory productCategory = await _db.ProductCategories.FindAsync(vmCommonProductCategory.ID);
             productCategory.Name = vmCommonProductCategory.Name;
             productCategory.CashCustomerRate = vmCommonProductCategory.CashCommission;
@@ -2619,6 +2663,24 @@ namespace KGERP.Service.Implementation.Configuration
                 }
             }
             return result;
+        }
+
+        public async Task<bool> CheckProductCategoryName(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+            bool isExist = false;
+            if (id > 0)
+            {
+                isExist = await _db.ProductCategories.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.ProductCategoryId != id && u.IsActive == true);
+            }
+            else
+            {
+                isExist = await _db.ProductCategories.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+            }
+            return isExist;
         }
 
         #endregion
