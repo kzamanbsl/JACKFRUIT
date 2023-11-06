@@ -23,19 +23,19 @@
         @if (Model.DamageMasterId > 0)
         {
             <span>
-                Damage
+                Dealer Damage Entry
             </span>
         }
         else
         {
-            <span>
-                Damage
-            </span>
+    <span>
+        Dealer Damage Entry
+    </span>
         }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Damage</li>
+        <li class="active">Dealer Damage Entry</li>
     </ol>
 </section>
 @using (Html.BeginForm("DamageMasterSlave", "Damage", FormMethod.Post, new { id = "damageMasterSlaveFormId", @class = "formValidator" }))
@@ -69,29 +69,7 @@
                                         <td>@Model.StatusName</td>
                                     </tr>
                                     <tr>
-                                        <th>Store House</th>
-                                        <th>:</th>
-                                        <td>@Model.StockInfoName</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Depo</th>
-                                        <th>:</th>
-                                        <td>@Model.DeportName</td>
-
-                                        <th>Depo Phone</th>
-                                        <th>:</th>
-                                        <td>@Model.DeportPhone</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Depo Email</th>
-                                        <th>:</th>
-                                        <td>@Model.DeportEmail</td>
-                                        <th>Depo Address</th>
-                                        <th>:</th>
-                                        <td>@Model.DeportAddress</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Dealer </th>
+                                        <th>From Dealer </th>
                                         <th>:</th>
                                         <td>@Model.DealerName</td>
 
@@ -107,6 +85,29 @@
                                         <th>:</th>
                                         <td>@Model.DealerAddress</td>
                                     </tr>
+                                    <tr>
+                                        <th>To Store House</th>
+                                        <th>:</th>
+                                        <td>@Model.StockInfoName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>To Depo</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportName</td>
+
+                                        <th>Depo Phone</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportPhone</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Depo Email</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportEmail</td>
+                                        <th>Depo Address</th>
+                                        <th>:</th>
+                                        <td>@Model.DeportAddress</td>
+                                    </tr>
+
                                     <tr>
                                         <th>Remarks</th>
                                         <th>:</th>

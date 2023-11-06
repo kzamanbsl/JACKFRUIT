@@ -87,7 +87,9 @@
                                     <tr>
                                         <th>SL</th>
                                         <th>Date</th>
-                                        <th>Dealer</th>
+                                        <th>From Dealer</th>
+                                        <th>To Depo</th>
+                                        <th>To Warehouse</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
@@ -112,6 +114,8 @@
                                             <th>@(++sl)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.DealerName</td>
+                                            <td>@item.DeportName</td>
+                                            <td>@item.StockInfoName</td>
                                             <td>@item.StatusName</td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Draft || item.StatusId == EnumDamageStatus.Submitted)
@@ -173,8 +177,8 @@
                     @Html.HiddenFor(model => model.DamageMasterId, new { id = "hidEditDamageMasterId" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "DMEditActionId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "DMEditCompanyFK" })
-                    <span hidden="hidden" id="hiddenFromCustomerId"></span>
-                    <span hidden="hidden" id="hiddenToDealerId"></span>
+                    <span hidden="hidden" id="hiddenToDepoId"></span>
+                    <span hidden="hidden" id="hiddenFromDealerId"></span>
 
                     <div class="row">
                         <div class="col-md-3">
@@ -184,6 +188,9 @@
                                 @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Zone:</label>
@@ -193,19 +200,32 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Dealer:</label>
-                                @Html.DropDownListFor(model => model.ToDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
+                                <label>From Dealer:</label>
+                                @Html.DropDownListFor(model => model.FromDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.FromDealerId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Customer:</label>
-                                @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlFromCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.FromCustomerId, "", new { @class = "text-danger" })
+                                <label>Damage To:</label>
+                                @Html.DropDownListFor(model => model.DamageToId, Model.EnumStockInfoTypeList as SelectList, "==Select Sales From==", new { id = "ddlDealerDamageToFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.DamageToId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
+                        <div class="col-md-3" id="toDepoId" style="display:none;">
+                            <div class="form-group">
+                                <label>To Depo:</label>
+                                @Html.DropDownListFor(model => model.ToDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.ToDeportId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 " id="wareHouseId" style="display:none;">
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">To Warehouse:</label>
+                                @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new {id="ddlToStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -414,54 +434,106 @@
                         datatype: "Json",
                         data: { damageMasterId: rowId },
                      success: function (data) {
-                         
+
                          $("#hidEditDamageMasterId").val(data.DamageMasterId);
                          $('#DMEditActionId').val(2);
                          $("#DMEditCompanyFK").val(data.CompanyFK);
                          var operationDate = DateCustom(data.OperationDate);
                          $('#txtOperationDate').val(operationDate);
                          $('#ddlZoneFk').val(data.ZoneFk).trigger('change');
-                         $('#ddlDealerId').val(data.ToDealerId);
-                          $('#ddlFromCustomerId').val(data.FromCustomerId);
+                         $('#ddlDealerId').val(data.FromDealerId);
+                         console.log(data.ToDeportId);
+                         if (data.ToDeportId == null) {
+                             //updateDropdowns();
+                             $("#wareHouseId").css("display", "block");
+                             console.log("catch");
+                         } else {
+                             $('#ddlToDeportId').val(data.ToDeportId);
+
+                         }
+                         $('#ddlToStockInfoId').val(data.ToStockInfoId);
                          $('#txtDescription').text(data.Remarks);
 
-                         $('#hiddenFromCustomerId').val(data.FromCustomerId);
-                         $('#hiddenToDealerId').val(data.ToDealerId);
+                         $('#hiddenToDepoId').val(data.ToDeportId);
+                         $('#hiddenFromDealerId').val(data.FromDealerId);
 
                          //$("#ddlZoneFk").change(updateDropdowns);
-                         updateDropdowns();
+
                      }
                  });
         }
+
+         $("#ddlDealerDamageToFk").change(function () {
+                var stockInfoTypeId = $("#ddlDealerDamageToFk").val();
+                var deport = @((int)EnumDealerDamageTo.Deport);
+
+                if (Number(stockInfoTypeId) == deport) {
+                    document.getElementById('toDepoId').style.display = 'block';
+                    document.getElementById('wareHouseId').style.display = 'none';
+
+                    // Make the "To Depo" dropdown required
+                    $("#ddlToDeportId").prop("required", true);
+
+                    // Remove the "required" attribute from the "To Warehouse" dropdown
+                    $("#ddlStockInfoId").prop("required", false);
+                } else {
+                    document.getElementById('toDepoId').style.display = 'none';
+                    document.getElementById('wareHouseId').style.display = 'block';
+
+                    // Make the "To Warehouse" dropdown required
+                    $("#ddlStockInfoId").prop("required", true);
+
+                    // Remove the "required" attribute from the "To Depo" dropdown
+                    $("#ddlToDeportId").prop("required", false);
+                }
+            });
 
         $("#ddlZoneFk").change(updateDropdowns);
 
         function updateDropdowns() {
                var zoneFk = 0;
 
-            var customerid = $('#hiddenFromCustomerId').val();
-            var dealerid = $('#hiddenToDealerId').val();
+            var deportId = $('#hiddenToDepoId').val();
+            var dealerid = $('#hiddenFromDealerId').val();
+            var company = @((int)EnumDealerDamageTo.Company);
+
+            if (dealerid > 0) {
+                $("#ddlDealerDamageToFk").val(company);
+
+                document.getElementById('toDepoId').style.display = 'none';
+                document.getElementById('wareHouseId').style.display = 'block';
+
+            } else if (deportId > 0) {
+
+                $("#ddlDealerDamageToFk").val(@EnumDealerDamageTo.Deport);
+
+                document.getElementById('toDepoId').style.display = 'block';
+                document.getElementById('wareHouseId').style.display = 'none';
+
+            }
 
             zoneFk = $("#ddlZoneFk").val();
             if (zoneFk > 0) {
-                         $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
-                        datatype: "Json",
-                        data: { zoneId: zoneFk },
-                        success: function (data) {
-                            if (data) {
-                                $("#ddlFromCustomerId").empty();
-                                $("#ddlFromCustomerId").append("<option value=''>==Select Customer==</option>");
-                                $(data).each(function (index, item) {
-                                    $("#ddlFromCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                });
-                            }
-                            if (customerid > 0) {
-                                $("#ddlFromCustomerId").val(customerid);
-                            }
+                    $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlToDeportId").empty();
+                            $("#ddlToDeportId").append("<option value=''>==Select Deport==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlToDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
                         }
-                    });
+                        if (deportId > 0) {
+                            $("#ddlToDeportId").val(deportId);
+                        }
+                    }
+                });
 
                 $.ajax({
                     type: "GET",

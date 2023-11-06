@@ -229,7 +229,7 @@ namespace KGERP.Controllers
             }
             damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
             damageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
-
+            damageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
             return View(damageMasterModel);
         }
 

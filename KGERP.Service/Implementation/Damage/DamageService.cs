@@ -169,8 +169,8 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             return damageMasterModel;
         }
-        
-        
+
+
         #endregion
 
         public async Task<DamageMasterModel> GetDamageMasterDetail(int companyId, int demageMasterId)
@@ -178,23 +178,27 @@ namespace KGERP.Service.Implementation.ProdMaster
             DamageMasterModel demageMasterModel = new DamageMasterModel();
 
 
-            demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId)
-                                                      join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
+            demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId && (x.FromDealerId != null || x.FromDealerId != 0))
+                                                     
+                                                      join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
                                                       from t2 in t2_Join.DefaultIfEmpty()
-                                                      join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
+                                                      join t3 in _db.Vendors on t1.ToDeportId equals t3.VendorId into t3_Join
                                                       from t3 in t3_Join.DefaultIfEmpty()
+                                                      join t4 in _db.StockInfoes on t1.ToStockInfoId equals t4.StockInfoId into t4_Join
+                                                      from t4 in t4_Join.DefaultIfEmpty()
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
                                                           OperationDate = t1.OperationDate,
-                                                          DealerName = t3.Name,
-                                                          DealerAddress = t3.Address,
-                                                          DealerEmail = t3.Email,
-                                                          DealerPhone = t3.Phone,
-                                                          CustomerName = t2.Name,
-                                                          CustomerEmail = t2.Email,
-                                                          CustomerPhone = t2.Phone,
-                                                          CustomerAddress = t2.Address,
+                                                          DealerName = t2.Name,
+                                                          DealerAddress = t2.Address,
+                                                          DealerEmail = t2.Email,
+                                                          DealerPhone = t2.Phone,
+                                                          DeportName = t3.Name,
+                                                          DeportEmail = t3.Email,
+                                                          DeportPhone = t3.Phone,
+                                                          DeportAddress = t3.Address,
+
                                                           DamageFromId = (EnumDamageFrom)t1.DamageFromId,
                                                           FromCustomerId = t1.FromCustomerId,
                                                           FromDealerId = t1.FromDealerId,
@@ -202,6 +206,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                           ToDealerId = t1.ToDealerId,
                                                           ToDeportId = t1.ToDeportId,
                                                           ToStockInfoId = t1.ToStockInfoId,
+                                                          StockInfoName = t4.Name,
                                                           StatusId = (EnumDamageStatus)t1.StatusId,
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
@@ -380,11 +385,13 @@ namespace KGERP.Service.Implementation.ProdMaster
         {
 
             var v = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId)
-                                          join t2 in _db.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
+                                          join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
                                           from t2 in t2_Join.DefaultIfEmpty()
                                           join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
                                           from t3 in t3_Join.DefaultIfEmpty()
-                                          join t4 in _db.Companies on t1.CompanyId equals t4.CompanyId
+                                          join t4 in _db.StockInfoes on t1.ToStockInfoId equals t4.StockInfoId into t4_Join
+                                          from t4 in t4_Join.DefaultIfEmpty()
+                                          join t5 in _db.Companies on t1.CompanyId equals t5.CompanyId
 
                                           select new DamageMasterModel
                                           {
@@ -394,7 +401,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                               FromDeportId = t1.FromDeportId,
                                               FromDealerId = t1.FromDealerId,
                                               FromCustomerId = t1.FromCustomerId,
-                                              ZoneFk = t3.ZoneId ?? t2.ZoneId,
+                                              ZoneFk = t2.ZoneId ?? t3.ZoneId,
                                               ToStockInfoId = t1.ToStockInfoId,
                                               ToDeportId = t1.ToDeportId,
                                               ToDealerId = t1.ToDealerId,
@@ -402,7 +409,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                               StatusId = (EnumDamageStatus)t1.StatusId,
                                               CompanyFK = t1.CompanyId,
                                               CompanyId = t1.CompanyId,
-                                              CompanyName = t4.Name,
+                                              CompanyName = t5.Name,
                                               CreatedBy = t1.CreatedBy,
                                               CreatedDate = t1.CreateDate
 
@@ -480,16 +487,24 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                           && x.CompanyId == companyId
                                                           && x.DamageFromId == (int)EnumDamageFrom.Dealer
                                                           && x.OperationDate >= fromDate && x.OperationDate <= toDate)
-                                                               join t3 in _db.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
+                                                               join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
+                                                               from t2 in t2_Join.DefaultIfEmpty()
+                                                               join t3 in _db.Vendors on t1.ToDeportId equals t3.VendorId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
+                                                               join t4 in _db.StockInfoes on t1.ToStockInfoId equals t4.StockInfoId into t4_Join
+                                                               from t4 in t4_Join.DefaultIfEmpty()
 
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
                                                                    OperationDate = t1.OperationDate,
-                                                                   ToDealerId = t1.ToDealerId,
-                                                                   DealerName = t3.Name,
+                                                                   FromDealerId = t1.FromDealerId,
+                                                                   DealerName = t2.Name,
+                                                                   ToDeportId = t1.ToDeportId,
+                                                                   DeportName = t3.Name,
+                                                                   ToStockInfoId = t1.ToStockInfoId,
+                                                                   StockInfoName = t4.Name,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedBy = t1.CreatedBy,
