@@ -178,7 +178,7 @@ namespace KGERP.Controllers
             }
 
             var user = await _context.Users.FindAsync(model.UserId);
-            var userId = Session["EmployeeId"];
+            var userId = Session["UserName"];
             if (user != null && userId != null && user.UserName == userId.ToString())
             {
                 throw new Exception("Sorry! You can't Inactive yourself!");
