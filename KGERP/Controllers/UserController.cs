@@ -36,8 +36,6 @@ namespace KGERP.Controllers
         public ActionResult Registration(UserModel model)
         {
 
-            User user = ObjectConverter<UserModel, User>.Convert(model);
-
             if (ModelState.IsValid && string.IsNullOrEmpty(model.EmployeeName) && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Password))
             {
                 ViewBag.Error = "Invalid Request!";
@@ -46,7 +44,7 @@ namespace KGERP.Controllers
             }
 
             #region User Name is already Exist 
-            var isUserName = IsUserNameExist(user.UserName);
+            var isUserName = IsUserNameExist(model.UserName);
             if (isUserName)
             {
                 ViewBag.Error = "User Name already exist!";
@@ -56,7 +54,7 @@ namespace KGERP.Controllers
             #endregion
 
             #region Email is already Exist 
-            var isExist = IsEmailExist(user.Email);
+            var isExist = IsEmailExist(model.Email);
             if (isExist)
             {
                 //ModelState.AddModelError("EmailExist", "Email already exist");
@@ -65,6 +63,8 @@ namespace KGERP.Controllers
                 return View(model);
             }
             #endregion
+
+            User user = ObjectConverter<UserModel, User>.Convert(model);
 
             #region Generate Activation Code 
             user.ActivationCode = Guid.NewGuid();
@@ -132,7 +132,8 @@ namespace KGERP.Controllers
                                       UserId = t1.UserId,
                                       UserName = t1.UserName,
                                       Email = t1.Email,
-                                      Active = t1.Active
+                                      Active = t1.Active,
+                                      UserTypeId = t1.UserTypeId ?? 0
 
                                   }).OrderByDescending(x => x.UserId).AsEnumerable();
             userModel.DataList = userModel.DataList.Where(c => c.UserName != "ISS0002");

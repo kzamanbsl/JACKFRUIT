@@ -7,33 +7,4 @@
 
 Date: 31-10-2023
 ================
-+ DamageType
-		USE [AzlanFoodDb_Dev]
-		GO
 
-		/****** Object:  Table [Erp].[DamageType]    Script Date: 11/5/2023 4:42:39 PM ******/
-		SET ANSI_NULLS ON
-		GO
-
-		SET QUOTED_IDENTIFIER ON
-		GO
-
-		CREATE TABLE [Erp].[DamageType](
-			[DamageTypeId] [int] IDENTITY(1,1) NOT NULL,
-			[Name] [varchar](255) NOT NULL,
-			[DamageTypeForId] [int] NULL,
-			[CompanyId] [int] NULL,
-			[CreatedBy] [nvarchar](128) NOT NULL,
-			[CreatedDate] [datetime] NOT NULL,
-			[ModifiedBy] [nvarchar](128) NULL,
-			[ModifiedDate] [datetime] NULL,
-			[IsActive] [bit] NOT NULL,
-		 CONSTRAINT [PK_DamageType] PRIMARY KEY CLUSTERED 
-		(
-			[DamageTypeId] ASC
-		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY]
-		GO
-
-		ALTER TABLE [Erp].[DamageType] ADD  CONSTRAINT [DF_DamageType_IsActive]  DEFAULT ((1)) FOR [IsActive]
-		GO

@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Category Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control  input-sm", @placeholder = "Category Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { id= "nameExist", @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-5">
@@ -160,6 +160,23 @@
 
 @section scripts {
     <script type="text/javascript">
+
+        $(document.body).on("change", "#txtProductCategoryName", function () {
+            var productCategoryId = $("#productCategoryId").val();
+            if (productCategoryId == null || productCategoryId == "" || productCategoryId == undefined) { productCategoryId = 0 };
+            var value = $(this).val();
+            var param = { name: value, id: productCategoryId };
+            var url = "/Configuration/IsProductCategoryNameExist";
+            $.post(url, param, function (rData) {
+                $('#nameExist').text("");
+                if (rData === true) {
+                    var msg = "Sorry, This " + value + " name already exist!";
+                    $('#nameExist').text(msg);
+                    return;
+                }
+            });
+        });
+
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
 

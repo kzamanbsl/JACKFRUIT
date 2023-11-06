@@ -825,6 +825,18 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonRawProductCategory), new { companyId = vmCommonProductCategory.CompanyFK });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> IsProductCategoryNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckProductCategoryName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Common Raw Product SubCategory

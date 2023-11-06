@@ -51,7 +51,7 @@
     }
     public enum EnumDamageFrom
     {
-       Customer = 1,
+        Customer = 1,
         Dealer,
         Depo,
         Factory
@@ -138,6 +138,24 @@
 
     #endregion
 
+    public enum EnumUserType
+    {
+        Employee = 1,
+        Management = 2,
+        Deport,
+        Dealer,
+        Customer
+    }
+
+    public enum EnumUserTypeDD
+    {
+        //Employee=1,
+        Management = 2,
+        Deport = 3,
+        Dealer = 4,
+        //Customer=5
+    }
+
     public enum EnumExpenseStatus
     {
         Draft,
@@ -145,6 +163,7 @@
         Approved,
         Closed
     }
+
     public enum EnumStockTransferStatus
     {
         Draft,
@@ -248,7 +267,7 @@
     /// <summary>
     /// Vendor Type Enum
     /// </summary>
-    public enum Provider 
+    public enum Provider
     {
         Supplier = 1,
         Customer,
@@ -311,7 +330,7 @@
     public enum CustomerStatusEnum
     {
         // new enum
-        AllRounder=1,
+        AllRounder = 1,
         Beneficiary,
         CashCustomer,
         Defaulter,

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="67">
+      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="ERPModel.AdminPolicy" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdminSetUp" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdvanceSalary" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="false" />
@@ -90,7 +90,7 @@
         <EntityTypeShape EntityType="ERPModel.sysdiagram" Width="1.5" PointX="38.75" PointY="36.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Upazila" Width="1.5" PointX="8.25" PointY="29.375" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.UrlInfo" Width="1.5" PointX="39.75" PointY="19.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.User" Width="1.5" PointX="39.75" PointY="22.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="ERPModel.User" Width="1.5" PointX="39.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ERPModel.Work" Width="1.5" PointX="14.25" PointY="33.875" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkAssign" Width="1.5" PointX="16.5" PointY="34.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkAssignFile" Width="1.5" PointX="18.75" PointY="35.125" IsExpanded="false" />

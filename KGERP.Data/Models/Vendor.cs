@@ -109,6 +109,7 @@ namespace KGERP.Data.Models
         public int VendorReferenceId { get; set; }
         public long DocId { get; set; }
         public Nullable<int> ParentId { get; set; }
+        public string EmployeeId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlyTarget> MonthlyTargets { get; set; }
