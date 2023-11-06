@@ -60,6 +60,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList DamageTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumDamageStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageStatus>(), "Value", "Text"); } }
         public SelectList EnumDamageFromList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageFrom>(), "Value", "Text"); } }
