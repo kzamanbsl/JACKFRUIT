@@ -153,32 +153,12 @@
 
     <script type="text/javascript">
 
-        //$(document).ready(function () {
-        //    $('#commonUnitFormId').submit(function (event) {
-        //        event.preventDefault();
-
-        //        var unitId = $("#unitId").val();
-        //        if (unitId == null || unitId == ""||unitId==undefined) {unitId=0 }
-        //        var value = $("#txtUnitName").val();
-        //        var param = { name: value, id: unitId };
-        //        var url = "/Configuration/IsUnitNameExist";
-        //        $.post(url, param, function (rData) {
-        //            $('#nameExist').text("");
-        //            if (rData === true) {
-        //                var msg = "Sorry, This " + value + " name already exist!";
-        //                $('#nameExist').text(msg);
-        //                return;
-        //            }
-        //        });
-        //    });
-        //});
-
-        $(document.body).on("keyup", "#txtUnitName", function () {
+        $(document.body).on("change", "#txtUnitName", function () {
             var unitId = $("#unitId").val();
-        if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 }
+            if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 };
             var value = $(this).val();
             var param = { name: value, id: unitId??0 };
-            var url = "/Configuration/IsUnitNameExistS
+            var url = "/Configuration/IsUnitNameExist";
             $.post(url, param, function (rData) {
                 $('#nameExist').text("");
                 if (rData === true) {

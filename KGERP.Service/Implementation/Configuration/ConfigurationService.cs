@@ -783,6 +783,15 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> UnitAdd(VMCommonUnit vmCommonUnit)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonUnit.ID > 0 ? _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.UnitId != vmCommonUnit.ID && c.IsActive == true) : _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.IsActive == true);
+            if (isExist?.UnitId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exsit!");
+            }
+            #endregion
+
             Unit commonUnit = new Unit
             {
                 Name = vmCommonUnit.Name,
@@ -799,9 +808,19 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+
         public async Task<int> UnitEdit(VMCommonUnit vmCommonUnit)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonUnit.ID > 0 ? _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.UnitId != vmCommonUnit.ID && c.IsActive == true) : _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.IsActive == true);
+            if (isExist?.UnitId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exsit!");
+            }
+            #endregion
+
             Unit commonUnit = await _db.Units.FindAsync(vmCommonUnit.ID);
             commonUnit.Name = vmCommonUnit.Name;
             commonUnit.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -839,11 +858,11 @@ namespace KGERP.Service.Implementation.Configuration
             bool isExist = false;
             if (id > 0)
             {
-                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.UnitId != id);
+                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.UnitId != id && u.IsActive == true);
             }
             else
             {
-                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower());
+                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
             }
             return isExist;
         }
