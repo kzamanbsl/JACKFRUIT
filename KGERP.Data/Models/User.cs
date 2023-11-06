@@ -23,5 +23,6 @@ namespace KGERP.Data.Models
         public bool IsEmailVerified { get; set; }
         public Nullable<System.Guid> ActivationCode { get; set; }
         public bool Active { get; set; }
+        public Nullable<int> UserTypeId { get; set; }
     }
 }

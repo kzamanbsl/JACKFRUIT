@@ -3118,6 +3118,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does no
           <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
           <Property Name="ActivationCode" Type="uniqueidentifier" />
           <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="UserTypeId" Type="int" />
         </EntityType>
         <EntityType Name="UserPermission">
           <Key>
@@ -5194,6 +5195,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does no
           <Property Name="VendorReferenceId" Type="int" Nullable="false" />
           <Property Name="DocId" Type="bigint" Nullable="false" />
           <Property Name="ParentId" Type="int" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="VendorDeed">
           <Key>
@@ -13313,6 +13315,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
           <Property Name="ActivationCode" Type="Guid" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="UserTypeId" Type="Int32" />
         </EntityType>
         <EntityType Name="Work">
           <Key>
@@ -20515,6 +20518,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_Vendor" FromRole="Vendor" ToRole="VendorDepositHistory" />
           <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
+          <Property Name="EmployeeId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
@@ -22483,6 +22487,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ERPModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
                 <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
@@ -26463,6 +26468,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySetMapping Name="Vendors">
             <EntityTypeMapping TypeName="ERPModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="DocId" ColumnName="DocId" />
                 <ScalarProperty Name="VendorReferenceId" ColumnName="VendorReferenceId" />
