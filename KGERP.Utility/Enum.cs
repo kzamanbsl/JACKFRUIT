@@ -62,6 +62,11 @@
         Submitted,
         Received
     }
+    public enum EnumDealerDamageTo
+    {
+        Company = 1,
+        Deport
+    }
     public enum EnumDamageTypeFactory
     {
         Factory_DateExpired = 1,
