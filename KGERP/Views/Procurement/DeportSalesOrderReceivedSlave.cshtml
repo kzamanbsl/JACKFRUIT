@@ -189,11 +189,12 @@
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                     <td style="padding:5px;text-align:center;">
-                                                        @String.Format("{0:0.00}", item.Qty) @item.UnitName
+                                                        @*@String.Format("{0:0.00}", item.Qty) @item.UnitName*@
+                                                        @item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control" })*@
                                                     </td>
                                                     <td style="padding:5px;text-align:center;">
-                                                        @String.Format("{0:0.00}", item.OfferQty)
+                                                        @item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs
                                                     </td>
                                                     <td style="padding:5px;text-align:right; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)

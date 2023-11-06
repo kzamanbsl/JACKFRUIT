@@ -310,13 +310,23 @@ namespace KGERP.Service.Implementation.Procurement
                 return (decimal)Qty - (StockInCtn *(decimal) consumptionValue);
             }
         }
+        
         public double TotalPrice { get { return Qty * UnitPrice; } }
         public string TotalPriceInWord { get; set; }
         public double OfferQty { get; set; }
         public string UnitName { get; set; }
         public string ProductCategoryName { get; set; }
         public string ProductSubCategoryName { get; set; }
+        public decimal OfferInCtn => (decimal)Math.Floor(OfferQty / (Consumption == 0 ? 1 : Consumption ?? 1));
+        public decimal OfferInPcs
+        {
+            get
+            {
+                double consumptionValue = Consumption ?? 1;
 
+                return (decimal)OfferQty - (OfferInCtn * (decimal)consumptionValue);
+            }
+        }
         public int ProductSubCategoryId { get; set; }
         public int ProductCategoryId { get; set; }
         public int SubZoneFk { get; set; }
