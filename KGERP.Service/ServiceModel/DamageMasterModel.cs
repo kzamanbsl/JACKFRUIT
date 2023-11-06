@@ -51,12 +51,12 @@ namespace KGERP.Service.ServiceModel
         public DateTime ToDate { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
-
+        public int DamageToId { get; set; }
         public IEnumerable<DamageMasterModel> DataList { get; set; } = new List<DamageMasterModel>();
         public DamageDetailModel DetailModel { get; set; } = new DamageDetailModel();
         public IEnumerable<DamageDetailModel> DetailList { get; set; } = new List<DamageDetailModel>();
         public List<DamageDetailModel> DetailDataList { get; set; } = new List<DamageDetailModel>();
-        public List<SelectModel> StockInfos { get; set; }
+        public List<SelectModel> StockInfos { get; set; } = new List<SelectModel> ();
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
@@ -68,6 +68,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList DepoDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeDepo>(), "Value", "Text"); } }
         public SelectList FactoryDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeFactory>(), "Value", "Text"); } }
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
+        public SelectList EnumDealerDamageToList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDealerDamageTo>(), "Value", "Text"); } }
 
     }
     public class DamageDetailModel
@@ -76,14 +77,21 @@ namespace KGERP.Service.ServiceModel
         public int DamageMasterId { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public EnumDamageTypeDealer DealerDamageTypeId { get; set; }
-        public string DamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.DealerDamageTypeId); } }
+        public int DealerDamageTypeId { get; set; }
+        public string DamageTypeName { get; set; }
+        public int DepoDamageTypeId { get; set; }
+        public string DepoDamageTypeName { get; set; }
+        public int FactoryDamageTypeId { get; set; }
+        public string FactoryDamageTypeName { get; set; }
 
-        public EnumDamageTypeDepo DepoDamageTypeId { get; set; }
-        public string DepoDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.DepoDamageTypeId); } }
+        //public EnumDamageTypeDealer DealerDamageTypeId { get; set; }
+        //public string DamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.DealerDamageTypeId); } }
 
-        public EnumDamageTypeFactory FactoryDamageTypeId { get; set; }
-        public string FactoryDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.FactoryDamageTypeId); } }
+        //public EnumDamageTypeDepo DepoDamageTypeId { get; set; }
+        //public string DepoDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.DepoDamageTypeId); } }
+
+        // public EnumDamageTypeFactory FactoryDamageTypeId { get; set; }
+        //public string FactoryDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.FactoryDamageTypeId); } }
 
         public double DamageQty { get; set; }
         public decimal UnitPrice { get; set; }

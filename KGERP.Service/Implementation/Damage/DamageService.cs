@@ -27,6 +27,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             _db = db;
             this.configurationService = configurationService;
         }
+
         #region 1. Dealer Damage
 
         #region Dealer Damage Circle
@@ -78,7 +79,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      DamageDetailId = t1.DamageDetailId,
                                                                      DamageMasterId = t1.DamageMasterId,
                                                                      DamageQty = t1.DamageQty,
-                                                                     DealerDamageTypeId = (EnumDamageTypeDealer)t1.DamageTypeId,
+                                                                     DealerDamageTypeId = t1.DamageTypeId,
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
@@ -92,9 +93,19 @@ namespace KGERP.Service.Implementation.ProdMaster
         public async Task<int> DamageMasterAddCustomer(DamageMasterModel model)
         {
             int result = -1;
-            if (model.FromCustomerId != null && model.ToDealerId != null)
+            if (model.FromCustomerId != null)
             {
                 model.DamageFromId = EnumDamageFrom.Customer;
+
+            }
+            else if (model.FromDealerId != null)
+            {
+                model.DamageFromId = EnumDamageFrom.Dealer;
+
+            }
+            else if (model.FromDeportId != null)
+            {
+                model.DamageFromId = EnumDamageFrom.Depo;
             }
             DamageMaster demageMaster = new DamageMaster
             {
@@ -202,12 +213,15 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                  join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
                                                                  join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId into t6_Join
                                                                  from t6 in t6_Join.DefaultIfEmpty()
+                                                                 join t7 in _db.DamageTypes.Where(x => x.IsActive) on t1.DamageTypeId equals t7.DamageTypeId into t7_Join
+                                                                 from t7 in t7_Join.DefaultIfEmpty()
                                                                  select new DamageDetailModel
                                                                  {
                                                                      DamageDetailId = t1.DamageDetailId,
                                                                      DamageMasterId = t1.DamageMasterId,
                                                                      DamageQty = t1.DamageQty,
-                                                                     DealerDamageTypeId = (EnumDamageTypeDealer)t1.DamageTypeId,
+                                                                     DealerDamageTypeId = t1.DamageTypeId,
+                                                                     DamageTypeName = t7.Name,
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
@@ -221,15 +235,15 @@ namespace KGERP.Service.Implementation.ProdMaster
         public async Task<int> DamageMasterAdd(DamageMasterModel model)
         {
             int result = -1;
-            if (model.FromCustomerId != null && model.ToDealerId != null)
+            if (model.FromCustomerId != null)
             {
                 model.DamageFromId = EnumDamageFrom.Customer;
 
-            }else if (model.ToDealerId != null && model.FromCustomerId == null)
+            }else if (model.FromDealerId != null)
             {
                 model.DamageFromId = EnumDamageFrom.Dealer;
 
-            }else if(model.FromDealerId != null && model.ToDeportId != null)
+            }else if(model.FromDeportId != null)
             {
                 model.DamageFromId = EnumDamageFrom.Depo;
             }
@@ -294,7 +308,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             demageDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             demageDetail.ModifiedDate = DateTime.Now;
-            demageDetail.DamageTypeId = (int)model.DetailModel.DealerDamageTypeId;
+            demageDetail.DamageTypeId = model.DetailModel.DealerDamageTypeId;
             demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
@@ -447,7 +461,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                           {
                                               DamageMasterId = t1.DamageMasterId,
                                               DamageDetailId = t1.DamageDetailId,
-                                              DealerDamageTypeId = (EnumDamageTypeDealer)t1.DamageTypeId,
+                                              DealerDamageTypeId = t1.DamageTypeId,
                                               ProductId = t1.ProductId,
                                               DamageQty = t1.DamageQty,
                                               UnitPrice = t1.UnitPrice,
@@ -695,7 +709,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      DamageDetailId = t1.DamageDetailId,
                                                                      DamageMasterId = t1.DamageMasterId,
                                                                      DamageQty = t1.DamageQty,
-                                                                     DepoDamageTypeId = (EnumDamageTypeDepo)t1.DamageTypeId,
+                                                                     DepoDamageTypeId = t1.DamageTypeId,
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
@@ -709,6 +723,20 @@ namespace KGERP.Service.Implementation.ProdMaster
         public async Task<int> DamageMasterAddDepo(DamageMasterModel model)
         {
             int result = -1;
+            if (model.FromCustomerId != null)
+            {
+                model.DamageFromId = EnumDamageFrom.Customer;
+
+            }
+            else if (model.FromDealerId != null)
+            {
+                model.DamageFromId = EnumDamageFrom.Dealer;
+
+            }
+            else if (model.FromDeportId != null)
+            {
+                model.DamageFromId = EnumDamageFrom.Depo;
+            }
             DamageMaster demageMaster = new DamageMaster
             {
                 DamageMasterId = model.DamageMasterId,
@@ -921,7 +949,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                           {
                                               DamageMasterId = t1.DamageMasterId,
                                               DamageDetailId = t1.DamageDetailId,
-                                              DepoDamageTypeId = (EnumDamageTypeDepo)t1.DamageTypeId,
+                                              DepoDamageTypeId = t1.DamageTypeId,
                                               ProductId = t1.ProductId,
                                               DamageQty = t1.DamageQty,
                                               UnitPrice = t1.UnitPrice,
@@ -1085,6 +1113,11 @@ namespace KGERP.Service.Implementation.ProdMaster
 
         #endregion
 
+
+
+
+
+
         #region 3. Factory Damage
 
         #region Factory Damage Circle
@@ -1137,7 +1170,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      DamageDetailId = t1.DamageDetailId,
                                                                      DamageMasterId = t1.DamageMasterId,
                                                                      DamageQty = t1.DamageQty,
-                                                                     DepoDamageTypeId = (EnumDamageTypeDepo)t1.DamageTypeId,
+                                                                     DepoDamageTypeId = t1.DamageTypeId,
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
@@ -1366,7 +1399,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                           {
                                               DamageMasterId = t1.DamageMasterId,
                                               DamageDetailId = t1.DamageDetailId,
-                                              DepoDamageTypeId = (EnumDamageTypeDepo)t1.DamageTypeId,
+                                              DepoDamageTypeId = t1.DamageTypeId,
                                               ProductId = t1.ProductId,
                                               DamageQty = t1.DamageQty,
                                               UnitPrice = t1.UnitPrice,
