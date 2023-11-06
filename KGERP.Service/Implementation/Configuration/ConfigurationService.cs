@@ -830,14 +830,22 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        public async Task<bool> CheckDuplicateUnitName(string text)
+        public async Task<bool> CheckDuplicateUnitName(string name, int id)
         {
-            if(text != null)
+            if (string.IsNullOrEmpty(name))
             {
-                var unitExists = await _db.Units.AnyAsync(u => u.Name == text);
-                return unitExists;
+                return false;
             }
-            return false;
+            bool isExist = false;
+            if (id > 0)
+            {
+                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.UnitId != id);
+            }
+            else
+            {
+                isExist = await _db.Units.AnyAsync(u => u.Name.ToLower() == name.ToLower());
+            }
+            return isExist;
         }
         #endregion
 
