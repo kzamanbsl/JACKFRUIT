@@ -53,7 +53,6 @@
                 @*@Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })*@
                 @*<span id="hiddenUnitPrice" hidden="hidden"></span>*@
                 <div class="box-danger">
-
                     <div class="box-body">
                         @if (Model.DamageMasterId > 0)
                         {
@@ -131,6 +130,15 @@
                                         @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">To Warehouse:</label>
+                                        @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Zone:</label>
@@ -140,12 +148,18 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Dealer:</label>
-                                        @Html.DropDownListFor(model => model.ToDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
+                                        <label>To Depo:</label>
+                                        @Html.DropDownListFor(model => model.ToDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ToDeportId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                               
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From Dealer:</label>
+                                        @Html.DropDownListFor(model => model.FromDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.FromDealerId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -177,7 +191,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Damage Type:</label>
-                                        @Html.DropDownListFor(model => model.DetailModel.DealerDamageTypeId, Model.DealerDamageTypeList as SelectList, "==Select Type==", new { id = "ddlDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.DetailModel.DealerDamageTypeId, Model.DamageTypeList as SelectList, "==Select Type==", new { id = "ddlDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.DealerDamageTypeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -448,10 +462,27 @@
                         }
              });
 
-
-            $("#ddlZoneFk").change(function () {
+             $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
+               $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlToDeportId").empty();
+                            $("#ddlToDeportId").append("<option value=''>==Select Deport==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlToDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+
                  $.ajax({
                     type: "GET",
                     url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
@@ -470,6 +501,7 @@
                     }
                 });
             })
+
 
             $("#ddlPaymentMethodEnumFK").change(function () {
 

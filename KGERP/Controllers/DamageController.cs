@@ -20,12 +20,14 @@ namespace KGERP.Controllers
     {
         private readonly IDamageService _service;
         private readonly  ProcurementService procurementService;
+        private readonly  ConfigurationService configurationService;
         private readonly IProductService productService;
         private readonly IStockInfoService _stockInfoService;
-        public DamageController(IDamageService service, IStockInfoService stockInfoService, ProcurementService procurementService,  IProductService productService)
+        public DamageController(ConfigurationService configurationService, IDamageService service, IStockInfoService stockInfoService, ProcurementService procurementService,  IProductService productService)
         {
             _service = service;
             this.procurementService = procurementService;
+            this.configurationService = configurationService;
             this.productService = productService;
             _stockInfoService = stockInfoService;
 
@@ -132,7 +134,8 @@ namespace KGERP.Controllers
 
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
-           
+            //demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
+            demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
             return View(demageMasterModel);
         }
 
