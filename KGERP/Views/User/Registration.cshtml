@@ -171,7 +171,11 @@
                                                             <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                                                         </a>
                                                     }
-
+                                                    &nbsp;
+                                                    <a id="@item.UserId" onclick="makeChangePassword(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userChangePasswordModal" title="Change Password"
+                                                       data-placement="top">
+                                                        <i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }
@@ -220,6 +224,53 @@
     </div>
 }
 
+@using (Html.BeginForm("ChangeUserPassword", "User", FormMethod.Post, new { id = "commonUserFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.UserId, new { Value = "", id = "userIdChangePassword" })
+    @*@Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })*@
+
+    <div class="modal fade" id="userChangePasswordModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Change User Password</b></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-12" })
+                                <div class="col-12">
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "password", required = "true" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-12" })
+                                <div class="col-12">
+                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "confirm password", required = "true" } })
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 
 @section scripts {
     <script type="text/javascript">
@@ -250,7 +301,12 @@
                 //$('#ActionIdDelete').val(3);
             }
         };
-
+        function makeChangePassword(id) {
+            if (id !== null) {
+                $('#userIdChangePassword').val(id);
+                //$('#ActionIdDelete').val(3);
+            }
+        };
         function resetForm() {
             $('#commonUserFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");

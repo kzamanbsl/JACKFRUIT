@@ -829,6 +829,16 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+
+        public async Task<bool> CheckDuplicateUnitName(string text)
+        {
+            if(text != null)
+            {
+                var unitExists = await _db.Units.AnyAsync(u => u.Name == text);
+                return unitExists;
+            }
+            return false;
+        }
         #endregion
 
         #region Common DamageType
@@ -846,6 +856,20 @@ namespace KGERP.Service.Implementation.Configuration
                      }).OrderBy(x => x.label).Take(10).ToList();
             return v;
         }
+
+        public List<object> DamageTypeDropDownList(int companyId = 0)
+        {
+            var list = new List<object>();
+            _db.DamageTypes.Where(x => x.IsActive && x.CompanyId == companyId).Select(x => x).ToList()
+            .ForEach(x => list.Add(new
+            {
+                Value = x.DamageTypeId,
+                Text = x.Name
+            }));
+            return list;
+
+        }
+
         public async Task<VMCommonDamageType> GetDamageType(int companyId)
         {
             VMCommonDamageType vmCommonDamageType = new VMCommonDamageType();
@@ -857,7 +881,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 {
                                                                     ID = t1.DamageTypeId,
                                                                     Name = t1.Name,
-                                                                    DamageTypeForId = (EnumDamageTypeFor)t1.DamageTypeForId,
+                                                                    DamageTypeForId = t1.DamageTypeForId,
                                                                     CompanyFK = t1.CompanyId,
                                                                     CreatedBy = t1.CreatedBy
 
@@ -873,7 +897,7 @@ namespace KGERP.Service.Implementation.Configuration
                                           {
                                               ID = t1.DamageTypeId,
                                               Name = t1.Name,
-                                              DamageTypeForId = (EnumDamageTypeFor)t1.DamageTypeForId,
+                                              DamageTypeForId = t1.DamageTypeForId,
                                               CompanyFK = t1.CompanyId
                                           }).FirstOrDefault());
             return v;

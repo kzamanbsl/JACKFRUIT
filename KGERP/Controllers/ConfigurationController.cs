@@ -228,7 +228,6 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> CommonUnit(int companyId)
         {
-
             VMCommonUnit vmCommonUnit = new VMCommonUnit();
             vmCommonUnit = await Task.Run(() => _service.GetUnit(companyId));
             return View(vmCommonUnit);
@@ -261,6 +260,24 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
+        public async Task<JsonResult> CheckUnitName(string inputText)
+        {
+            if (!string.IsNullOrEmpty(inputText))
+            {
+                var isDuplicate = await _service.CheckDuplicateUnitName(inputText);
+
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError("Name", "Please provide a unique unit name");
+                    return Json(new { success = true, ModelState = ModelState }, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+            ModelState.AddModelError("Name", "Please provide a unit name");
+            return Json(new { success = true, ModelState = ModelState }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> CommonUnitDelete(VMCommonUnit vmCommonUnit)
         {
 
@@ -275,7 +292,6 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonUnit));
         }
-
         #endregion
 
         public async Task<JsonResult> SingleProductCategory(int id)

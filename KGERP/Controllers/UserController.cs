@@ -178,7 +178,7 @@ namespace KGERP.Controllers
             }
 
             var user = await _context.Users.FindAsync(model.UserId);
-            var userId = Session["EmployeeId"];
+            var userId = Session["UserName"];
             if (user != null && userId != null && user.UserName == userId.ToString())
             {
                 throw new Exception("Sorry! You can't Inactive yourself!");
@@ -189,6 +189,30 @@ namespace KGERP.Controllers
 
                 user.Active = user.Active == true ? false : true;
             }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Registration));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeUserPassword(UserModel model)
+        {
+
+            if (model.UserId <= 0)
+            {
+                return View("Error");
+            }
+
+            var user = await _context.Users.FindAsync(model.UserId);
+            var userId = Session["UserName"];
+            if (user == null)
+            {
+                throw new Exception("Sorry! No User Found!");
+            }
+
+            #region  Password Hashing 
+            user.Password = Crypto.Hash(model.Password);
+            #endregion
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Registration));

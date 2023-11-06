@@ -92,10 +92,11 @@
                                         <tbody>
                                             @foreach (var item in Model.DataList)
                                             {
-                                                <span hidden="hidden" id="#valDamageTypeFor">@item.DamageTypeForId</span>
-                                            @*<input type="hidden" id="damageTypeFor_@item.ID" name="DamageTypeForId" value="@item.DamageTypeForId" />*@
+                                                @*<input hidden="hidden" id="#valDamageTypeFor" class="form-control" value="@item.DamageTypeForId">*@
+                                            
                                                 <tr>
-                                                    <td>@(++sl)</td>
+                                                    <td>@(++sl)<input type="hidden" id="damageTypeFor_@item.ID" name="DamageTypeForId" value="@item.DamageTypeForId" />
+                                                    </td>
                                                     <td id="tdDamageTypeForName_@item.ID">@item.DamageTypeForName</td>
                                                     <td id="tdDamageTypeName_@item.ID">@item.Name</td>
                                                     <td>
@@ -172,9 +173,9 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtDamageTypeName').val($('#tdDamageTypeName_' + rowId).text().trim());
-                var damagetTFor = $('#valDamageTypeFor').val();
-                $('#ddlEnumDamageTypeForId').val(damagetTFor).trigger('change');
-       /*         $('#ddlEnumDamageTypeForId').val($('#damageTypeFor_' + rowId).val().trim()).trigger('change');*/
+                //var damagetTFor = $('#valDamageTypeFor').val();
+                //$('#ddlEnumDamageTypeForId').val(damagetTFor).trigger('change');
+             $('#ddlEnumDamageTypeForId').val($('#damageTypeFor_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             }
