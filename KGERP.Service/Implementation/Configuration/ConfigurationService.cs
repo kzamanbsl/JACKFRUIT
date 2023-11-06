@@ -829,6 +829,16 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+
+        public async Task<bool> CheckDuplicateUnitName(string text)
+        {
+            if(text != null)
+            {
+                var unitExists = await _db.Units.AnyAsync(u => u.Name == text);
+                return unitExists;
+            }
+            return false;
+        }
         #endregion
 
         public object GetAutoCompleteSupplier(int companyId, string prefix)
