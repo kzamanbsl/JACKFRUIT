@@ -40,7 +40,7 @@ namespace KGERP.Service.Implementation.Configuration
             };
 
             //Super Admin Allowed Menus
-            var baseUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == "ISS0001" && x.IsActive == true).ToList();
+            var baseUserMenus = _db.CompanyUserMenus.Where(x => x.UserId == CompanyInfo.CompanyAdminUserId && x.IsActive == true).ToList();
 
             var baseMenuIds = baseUserMenus.Select(c => c.CompanyMenuId).Distinct().ToList();
             clientMenu.CompanyMenus = _db.CompanyMenus.Where(x => baseMenuIds.Contains(x.CompanyMenuId)).ToList();
@@ -141,7 +141,7 @@ namespace KGERP.Service.Implementation.Configuration
                          label = (t1.UserName + " ( " + t2.Name + " )"),
                          val = t1.UserName
                      }).OrderBy(x => x.label).Take(100).ToList();
-            var result = v.Where(c => c.val != "ISS0001" && c.val != "ISS0002");
+            var result = v.Where(c => c.val != CompanyInfo.ProjectAdminUserId && c.val != CompanyInfo.CompanyAdminUserId);
             return result;
         }
         #endregion

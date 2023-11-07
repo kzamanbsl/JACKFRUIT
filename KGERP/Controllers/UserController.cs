@@ -179,7 +179,7 @@ namespace KGERP.Controllers
                                       UserTypeId = t1.UserTypeId ?? 0
 
                                   }).OrderByDescending(x => x.UserId).AsEnumerable();
-            userModel.DataList = userModel.DataList.Where(c => c.UserName != "ISS0002");
+            userModel.DataList = userModel.DataList.Where(c => c.UserName != CompanyInfo.ProjectAdminUserId);
             return userModel;
         }
 
@@ -190,23 +190,23 @@ namespace KGERP.Controllers
 
             if (lastEmployee == null)
             {
-                employeeId = "ISS0001";
+                employeeId = CompanyInfo.CompanyAdminUserId;
             }
             else
             {
                 employeeId = lastEmployee.EmployeeId;
             }
 
-            string prefix = employeeId.Substring(0, 3);
+            string prefix = employeeId.Substring(0, 2);
 
-            string kgNumber = employeeId.Substring(3);
+            string kgNumber = employeeId.Substring(2);
             int num = 0;
             if (employeeId != string.Empty)
             {
                 num = Convert.ToInt32(kgNumber);
                 ++num;
             }
-            string newKgNumber = num.ToString().PadLeft(4, '0');
+            string newKgNumber = num.ToString().PadLeft(5, '0');
             var newEmpId = prefix + newKgNumber;
             return newEmpId;
 

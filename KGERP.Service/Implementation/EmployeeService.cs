@@ -116,16 +116,16 @@ namespace KGERP.Service.Implementation
 
         private string GetEmployeeId(string employeeId)
         {
-            string kg = employeeId.Substring(0, 3);
+            string kg = employeeId.Substring(0, 2);
 
-            string kgNumber = employeeId.Substring(3);
+            string kgNumber = employeeId.Substring(2);
             int num = 0;
             if (employeeId != string.Empty)
             {
                 num = Convert.ToInt32(kgNumber);
                 ++num;
             }
-            string newKgNumber = num.ToString().PadLeft(4, '0');
+            string newKgNumber = num.ToString().PadLeft(5, '0');
             return kg + newKgNumber;
         }
 
@@ -166,7 +166,7 @@ namespace KGERP.Service.Implementation
 
                 if (lastEmployee == null)
                 {
-                    return new EmployeeModel() { EmployeeId = "ISS0001" };
+                    return new EmployeeModel() { EmployeeId = CompanyInfo.CompanyAdminUserId };
                 }
                 return new EmployeeModel()
                 {
