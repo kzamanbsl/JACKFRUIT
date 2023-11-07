@@ -2617,6 +2617,14 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ProductSubCategoryAdd(VMCommonProductSubCategory vmCommonProductSubCategory)
         {
             var result = -1;
+            #region IsExist
+            var isExist =  _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.Common_ProductCategoryFk && c.IsActive == true);
+            if (isExist?.ProductSubCategoryId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exist!");
+            }
+            #endregion
+
             ProductSubCategory commonProductSubCategory = new ProductSubCategory
             {
                 Name = vmCommonProductSubCategory.Name,
@@ -2724,7 +2732,26 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+        [HttpPost]
+        public async Task<bool> IsSubCategoryExits(string name ,int categoryId)
+        {
+            var isExits = false;
 
+            if (categoryId > 0)
+            {
+                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.IsActive == true );
+
+            }
+            //else
+            //{
+            //    isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name)&& c.IsActive == true);
+
+            //}
+
+
+            return isExits;
+
+        }
         #endregion
 
         public class CustomerPaymentType
@@ -3234,6 +3261,24 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ProductAdd(VMCommonProduct vmCommonProduct)
         {
             var result = -1;
+
+
+            #region check Duplicate
+           
+          
+               var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() &&
+                          u.ProductCategoryId != vmCommonProduct.CategoryId && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
+
+            
+            if (isExist?.ProductCategoryId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonProduct.Name} already Exist!");
+            }
+
+            #endregion
+
+
+
             #region Genarate Product No
             int lsatProduct = _db.Products.Select(x => x.ProductId).OrderByDescending(ID => ID).FirstOrDefault();
             if (lsatProduct == 0)
@@ -3360,6 +3405,29 @@ namespace KGERP.Service.Implementation.Configuration
                 }
             }
             return result;
+        }
+
+        public async Task<bool> CheckDuplicateProductName(int categoryId, int subCategoryId, string productName,int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(productName) || categoryId == null || subCategoryId == null)
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Products.AnyAsync(u => u.ProductName.ToLower() == productName.ToLower() &&
+                          u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId && u.ProductId !=  id && u.IsActive == true);
+
+            }
+            else if (categoryId > 0 && subCategoryId > 0)
+            {
+                isExist = await _db.Products.AnyAsync(u => u.ProductName.ToLower() == productName.ToLower() &&
+                          u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId &&  u.IsActive == true);
+            }
+           
+            return isExist;
+
         }
         public List<object> ProductSubCategoryDropDownList()
         {

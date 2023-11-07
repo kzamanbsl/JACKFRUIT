@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation;
@@ -882,6 +884,18 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonRawProductSubCategory), new { companyId = vmCommonProductSubCategory.CompanyFK, categoryId = vmCommonProductSubCategory.Common_ProductCategoryFk });
         }
 
+        [HttpPost]
+        public async Task< JsonResult> IsSubCategoryExits(string name, int categoryId)
+        {
+            if(name == null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+            bool isDuplicated = await _service.IsSubCategoryExits(name, categoryId);
+            return Json(isDuplicated, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Common Raw Product
@@ -927,6 +941,18 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(CommonRawProduct), new { companyId = vmCommonProduct.CompanyFK, categoryId = vmCommonProduct.Common_ProductCategoryFk, subCategoryId = vmCommonProduct.Common_ProductSubCategoryFk });
+        }
+
+
+        public async Task<JsonResult> IsProductExist(int categoryId,int subCategoryId,string productName,int id)
+        {
+            if (string.IsNullOrEmpty(productName)|| categoryId==null|| subCategoryId==null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateProductName(categoryId, subCategoryId, productName, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -2200,7 +2226,7 @@ namespace KGERP.Controllers
             vmCommonProduct.GetProductCategoryList = await _service.GetProductCategory(companyId, productType);
             return View(vmCommonProduct);
         }
-
+        
         #endregion
 
         [HttpGet]

@@ -80,7 +80,7 @@
                                         <label for="message-text" class="col-form-label">Origin Name (Variety):</label>
                                     }
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "txtProductValidation", @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -363,6 +363,11 @@
 
         function resetForm() {
             $('#commonProductFormId')[0].reset();
+            ////$('#c').val(0).trigger('change');
+            //$("#CategoryId, #ddlCommonProductSubCategoryFk option").prop("selected", function () {
+            //    // Return defaultSelected property of the option
+            //    return this.defaultSelected;
+            //});
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
         }
@@ -375,6 +380,45 @@
 
             }
         }
+
+
+        $('#txtProductName').change(function () {
+
+            var productName = $('#txtProductName').val();
+            var productId = $('#productId').val();
+            var categoryId = $('#CategoryId').val();
+            var subCategoryId = $('#ddlCommonProductSubCategoryFk').val();
+            console.log(categoryId);
+            if (categoryId == null)
+            {
+
+            } else {
+                $.ajax({
+                type:"post",
+                url: "@Url.Action("IsProductExist", "Configuration")",
+                    data: { categoryId: categoryId, subCategoryId: subCategoryId, productName: productName, id: productId },
+                success: function (data)
+                {
+                    if (data == true) {
+                        $('#txtProductValidation').show();
+                        $('#txtProductValidation').text(`Sorry .. This  ${productName} name already exist!`);
+                    }
+                    else
+                    {
+                        $('#txtProductValidation').hide();
+                    }
+                }
+
+           
+
+
+
+
+            });
+            }
+
+
+        });
 
     </script>
 }

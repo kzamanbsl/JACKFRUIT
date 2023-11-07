@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Sbucategory:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Subcategory", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new {@id= "SubcategoryValidation", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
@@ -231,6 +231,43 @@
             $('#commonProductSubCategoryFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
+
+        $('#txtSubcategoryName').change(function () {
+
+            var name = $('#txtSubcategoryName').val();
+            var categoryId = $('#txtCategoryName').val();
+            console.log(categoryId);
+            if (categoryId == null)
+            {
+
+            } else {
+                $.ajax({
+                type:"post",
+                url: "@Url.Action("IsSubCategoryExits","Configuration")",
+                data: { name: name, categoryId: categoryId },
+                success: function (data)
+                {
+                    if (data == true) {
+                        $('#SubcategoryValidation').show();
+                        $('#SubcategoryValidation').text(`Sorry .. This  ${name} name already exist!`);
+                    }
+                    else
+                    {
+                        $('#SubcategoryValidation').hide();
+                    }
+                }
+
+
+
+
+
+
+            });
+            }
+
+
+        });
+
     </script>
 }
 
