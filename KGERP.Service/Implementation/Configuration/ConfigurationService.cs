@@ -132,8 +132,8 @@ namespace KGERP.Service.Implementation.Configuration
         public object GetUserClientMenuAssign(string prefix)
         {
             var v = (from t1 in _db.Users.Where(q => q.Active)
-                         join t2 in _db.Employees on t1.UserName equals t2.EmployeeId into t2_Join
-                         from t2 in t2_Join.DefaultIfEmpty()
+                     join t2 in _db.Employees on t1.UserName equals t2.EmployeeId into t2_Join
+                     from t2 in t2_Join.DefaultIfEmpty()
                      where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
 
                      select new
@@ -4566,6 +4566,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ContactPerson = t1.ContactName,
                                                                 Address = t1.Address,
                                                                 Code = t1.Code,
+                                                                EmployeeId = t1.EmployeeId,
                                                                 Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
                                                                 Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
                                                                 District = t3.Name,
@@ -4850,6 +4851,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ContactPerson = t1.ContactName,
                                                                 Address = t1.Address,
                                                                 Code = t1.Code,
+                                                                EmployeeId = t1.EmployeeId,
                                                                 Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
                                                                 Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
                                                                 District = t3.Name,

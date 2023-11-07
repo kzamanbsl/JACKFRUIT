@@ -40,7 +40,7 @@ namespace KGERP.Controllers
 
         #region ClientUserMenuAssignment
 
-        public ActionResult ClientUserMenuAssignment(int companyId=0)
+        public ActionResult ClientUserMenuAssignment(int companyId = 0)
         {
             var dto = new ClientMenu
             {
@@ -264,11 +264,11 @@ namespace KGERP.Controllers
         {
             if (string.IsNullOrEmpty(name))
             {
-                return Json( false , JsonRequestBehavior.AllowGet);
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
             var isDuplicate = await _service.CheckDuplicateUnitName(name, id);
-           
-            return Json(isDuplicate , JsonRequestBehavior.AllowGet);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -1223,7 +1223,7 @@ namespace KGERP.Controllers
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
-       
+
 
         #region Common Supplier
 

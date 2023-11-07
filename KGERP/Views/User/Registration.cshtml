@@ -180,14 +180,14 @@
                                                     @*<a onclick="makeEditble(@item);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>*@
                                                     @if (@item.Active)
                                                     {
-                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Inactive"
+                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Make Inactive"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
                                                         </a>
                                                     }
                                                     else
                                                     {
-                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Active"
+                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Make Active"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                                                         </a>
