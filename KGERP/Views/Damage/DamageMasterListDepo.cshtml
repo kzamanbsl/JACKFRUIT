@@ -89,7 +89,7 @@
                                         <th>SL</th>
                                         <th>Date</th>
                                         <th>Depo</th>
-                                        <th>Dealer</th>
+                                        <th>Store House</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
@@ -114,7 +114,7 @@
                                             <th>@(++sl)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.DeportName</td>
-                                            <td>@item.DealerName</td>
+                                            <td>@item.StockInfoName</td>
                                             <td>@item.StatusName</td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Draft || item.StatusId == EnumDamageStatus.Submitted)
@@ -176,8 +176,8 @@
                     @Html.HiddenFor(model => model.DamageMasterId, new { id = "hidEditDamageMasterId" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "DMEditActionId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "DMEditCompanyFK" })
-                    <span hidden="hidden" id="hiddenFromDealerId"></span>
-                    <span hidden="hidden" id="hiddenToDepoId"></span>
+                    <span hidden="hidden" id="hiddenToStockInfo"></span>
+                    <span hidden="hidden" id="hiddenFromDepoId"></span>
 
                     <div class="row">
                         <div class="col-md-3">
@@ -196,16 +196,16 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Deport:</label>
-                                @Html.DropDownListFor(model => model.ToDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                @Html.ValidationMessageFor(model => model.ToDeportId, "", new { @class = "text-danger" })
+                                <label>From Deport:</label>
+                                @Html.DropDownListFor(model => model.FromDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.FromDeportId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 " id="wareHouseId">
                             <div class="form-group">
-                                <label>Dealer:</label>
-                                @Html.DropDownListFor(model => model.FromDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.FromDealerId, "", new { @class = "text-danger" })
+                                <label for="message-text" class="col-form-label">To Warehouse:</label>
+                                @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new {id="ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -426,12 +426,11 @@
                          var operationDate = DateCustom(data.OperationDate);
                          $('#txtOperationDate').val(operationDate);
                          $('#ddlZoneFk').val(data.ZoneFk).trigger('change');
-                         $('#ddlToDeportId').val(data.ToDeportId);
-                         $('#ddlDealerId').val(data.FromDealerId);
+                         $('#ddlToDeportId').val(data.FromDeportId);
+                         $('#ddlStockInfoId').val(data.ToStockInfoId).trigger('change');
                          $('#txtDescription').text(data.Remarks);
 
-                         $('#hiddenFromDealerId').val(data.FromDealerId);
-                         $('#hiddenToDepoId').val(data.ToDeportId);
+                         $('#hiddenFromDepoId').val(data.FromDeportId);
 
                          //$("#ddlZoneFk").change(updateDropdowns);
                          updateDropdowns();
@@ -444,8 +443,7 @@
         function updateDropdowns() {
                var zoneFk = 0;
 
-            var dealerId = $('#hiddenFromDealerId').val();
-            var deportId = $('#hiddenToDepoId').val();
+            var deportId = $('#hiddenFromDepoId').val();
 
             zoneFk = $("#ddlZoneFk").val();
 
@@ -471,26 +469,7 @@
                     }
                 });
 
-                 $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                    datatype: "Json",
-                    data: { zoneId: zoneFk },
-                    success: function (data) {
-
-                        if (data) {
-                            $("#ddlDealerId").empty();
-                            $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-
-                        }
-                        if (dealerId > 0) {
-                            $("#ddlDealerId").val(dealerId);
-                        }
-                    }
-                });
+                
             }
 
         }

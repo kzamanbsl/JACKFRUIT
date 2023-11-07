@@ -179,7 +179,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
 
             demageMasterModel = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId && x.CompanyId == companyId && (x.FromDealerId != null || x.FromDealerId != 0))
-                                                     
+
                                                       join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
                                                       from t2 in t2_Join.DefaultIfEmpty()
                                                       join t3 in _db.Vendors on t1.ToDeportId equals t3.VendorId into t3_Join
@@ -244,11 +244,13 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 model.DamageFromId = EnumDamageFrom.Customer;
 
-            }else if (model.FromDealerId != null)
+            }
+            else if (model.FromDealerId != null)
             {
                 model.DamageFromId = EnumDamageFrom.Dealer;
 
-            }else if(model.FromDeportId != null)
+            }
+            else if (model.FromDeportId != null)
             {
                 model.DamageFromId = EnumDamageFrom.Depo;
             }
@@ -361,7 +363,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             int result = -1;
             DamageMaster demageMaster = await _db.DamageMasters.FindAsync(model.DamageMasterId);
             demageMaster.OperationDate = model.OperationDate;
-            demageMaster.DamageFromId = (int)model.DamageFromId;
+            demageMaster.DamageFromId = demageMaster.DamageFromId;
             demageMaster.FromDeportId = model.FromDeportId;
             demageMaster.FromDealerId = model.FromDealerId;
             demageMaster.FromCustomerId = model.FromCustomerId;
@@ -518,7 +520,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             return damageMasterModel;
         }
-       
+
         #endregion
 
 
@@ -640,7 +642,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             damageMasterModel.CompanyFK = companyId;
 
             damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
-                                                          && x.CompanyId == companyId 
+                                                          && x.CompanyId == companyId
                                                           && x.DamageFromId == (int)EnumDamageFrom.Customer
                                                           && x.ToDealerId != null
                                                           && x.FromCustomerId != null
@@ -873,7 +875,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             int result = -1;
             DamageMaster demageMaster = await _db.DamageMasters.FindAsync(model.DamageMasterId);
             demageMaster.OperationDate = model.OperationDate;
-            demageMaster.DamageFromId = (int)model.DamageFromId;
+            demageMaster.DamageFromId = demageMaster.DamageFromId;
             demageMaster.FromDeportId = model.FromDeportId;
             demageMaster.FromDealerId = model.FromDealerId;
             demageMaster.FromCustomerId = model.FromCustomerId;
@@ -895,9 +897,9 @@ namespace KGERP.Service.Implementation.ProdMaster
         {
 
             var v = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive && x.DamageMasterId == demageMasterId)
-                                          join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
+                                          join t2 in _db.StockInfoes on t1.ToStockInfoId equals t2.StockInfoId into t2_Join
                                           from t2 in t2_Join.DefaultIfEmpty()
-                                          join t3 in _db.Vendors on t1.ToDeportId equals t3.VendorId into t3_Join
+                                          join t3 in _db.Vendors on t1.FromDeportId equals t3.VendorId into t3_Join
                                           from t3 in t3_Join.DefaultIfEmpty()
                                           join t4 in _db.Companies on t1.CompanyId equals t4.CompanyId
 
@@ -909,7 +911,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                               FromDeportId = t1.FromDeportId,
                                               FromDealerId = t1.FromDealerId,
                                               FromCustomerId = t1.FromCustomerId,
-                                              ZoneFk = t3.ZoneId ?? t2.ZoneId,
+                                              ZoneFk = t3.ZoneId,
                                               ToStockInfoId = t1.ToStockInfoId,
                                               ToDeportId = t1.ToDeportId,
                                               ToDealerId = t1.ToDealerId,
@@ -993,22 +995,23 @@ namespace KGERP.Service.Implementation.ProdMaster
             damageMasterModel.CompanyFK = companyId;
             damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
-                                                          && (x.ToDeportId > 0 || x.FromDealerId > 0)
+                                                          && x.DamageFromId == (int)EnumDamageFrom.Depo
+                                                          && x.ToStockInfoId != null
+                                                          && x.FromDeportId != null
                                                           && x.OperationDate >= fromDate && x.OperationDate <= toDate)
-                                                               join t2 in _db.Vendors on t1.FromDealerId equals t2.VendorId into t2_Join
-                                                               from t2 in t2_Join.DefaultIfEmpty()
-                                                               join t3 in _db.Vendors on t1.ToDeportId equals t3.VendorId into t3_Join
+                                                               join t3 in _db.Vendors on t1.FromDeportId equals t3.VendorId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
-
+                                                               join t4 in _db.StockInfoes on t1.ToStockInfoId equals t4.StockInfoId into t4_Join
+                                                               from t4 in t4_Join.DefaultIfEmpty()
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
                                                                    OperationDate = t1.OperationDate,
-                                                                   FromDealerId = t1.FromDealerId,
-                                                                   DealerName = t2.Name,
-                                                                   ToDeportId = t1.ToDeportId,
+                                                                   FromDeportId = t1.FromDeportId,
                                                                    DeportName = t3.Name,
+                                                                   ToStockInfoId = t1.ToStockInfoId,
+                                                                   StockInfoName = t4.Name,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedBy = t1.CreatedBy,

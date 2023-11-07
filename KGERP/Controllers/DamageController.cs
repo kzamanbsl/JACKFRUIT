@@ -392,6 +392,7 @@ namespace KGERP.Controllers
             }
             demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
             demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
+            demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
 
             return View(demageMasterModel);
         }
@@ -483,6 +484,7 @@ namespace KGERP.Controllers
             }
             damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
             damageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            damageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
 
             return View(damageMasterModel);
         }
