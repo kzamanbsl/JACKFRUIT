@@ -99,11 +99,54 @@ namespace KGERP.Controllers
 
             #endregion
 
+            #region Deport or Dealer User Name Add
+
+            Vendor vendor = null;
+            if (model.UserTypeId==(int)EnumUserType.Deport && model.DeportId>0)
+            {
+                 vendor = _context.Vendors.FirstOrDefault(c=>c.VendorId== model.DeportId);
+                if (vendor == null)
+                {
+                    ViewBag.Error = "Deport Not Found!";
+                    model = GetUsers();
+                    return View(model);
+                }
+
+                if (!string.IsNullOrEmpty(vendor.EmployeeId))
+                {
+                    ViewBag.Error = "Deport as a user already exist!";
+                    model = GetUsers();
+                    return View(model);
+                }
+
+                vendor.EmployeeId = user.UserName;
+            }
+
+            if (model.UserTypeId == (int)EnumUserType.Dealer && model.DealerId > 0)
+            {
+                 vendor = _context.Vendors.FirstOrDefault(c => c.VendorId == model.DealerId);
+                if (vendor == null)
+                {
+                    ViewBag.Error = "Dealer Not Found!";
+                    model = GetUsers();
+                    return View(model);
+                }
+                if (!string.IsNullOrEmpty(vendor.EmployeeId))
+                {
+                    ViewBag.Error = "Dealer as a user already exist!";
+                    model = GetUsers();
+                    return View(model);
+                }
+                vendor.EmployeeId = user.UserName;
+            }
+            #endregion
+
             #region Save to Database
             using (var scope = _context.Database.BeginTransaction())
             {
                 _context.Employees.Add(employee);
                 _context.Users.Add(user);
+                
                 if (_context.SaveChanges() > 0)
                 {
                     ViewBag.Message = "Registration successfully done!";
@@ -113,8 +156,8 @@ namespace KGERP.Controllers
             }
 
             #endregion
-            model = GetUsers();
-            return View(model);
+            var dto = GetUsers();
+            return View(dto);
         }
 
         private UserModel GetUsers()

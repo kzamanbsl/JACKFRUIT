@@ -307,6 +307,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string NomineeNID { get; set; }
         public string NomineeRelation { get; set; }
         public int? ParentId { get; set; }
+        public string EmployeeId { get; set; } // EmployeeId is UserName
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());

@@ -213,6 +213,11 @@ namespace KGERP.Service.ServiceModel
 
         [DisplayName("Store Info")]
         public Nullable<int> StockInfoId { get; set; }
+
+        [DataType(DataType.Password)]
+        [MinLength(4, ErrorMessage = "Minimum 4 characters required")]
+        public string Password { get; set; }
+
         //-------------Extended Properties----------------
         public string SearchText { get; set; }
         public string StrJoiningDate { get; set; }
