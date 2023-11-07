@@ -53,7 +53,7 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Region:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtRegionName", @class = "form-control input-sm", @placeholder = "Region", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "RegionValidation", @class = "text-danger" })
 
                                 </div>
                             </div>
@@ -288,6 +288,45 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
+
+        $('#txtRegionName').change(function () {
+
+            var Name = $('#txtRegionName').val();
+            var zoneId = $('#ddlZoneId').val();
+            var regionId = $('#RegionId').val();
+            if (zoneId == null) {
+                zoneId = 0;
+            }
+            if (regionId == null) {
+                regionId = 0;
+            }
+
+                $.ajax({
+                type:"post",
+                url: "@Url.Action("IsRegionExist", "Configuration")",
+                    data: { zoneId: zoneId, regionName: Name, id: regionId },
+                success: function (data)
+                {
+                    if (data == true) {
+                        $('#RegionValidation').show();
+                        $('#RegionValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                    }
+                    else
+                    {
+                        $('#RegionValidation').hide();
+                    }
+                }
+
+
+
+
+
+
+            });
+
+
+
+        });
     </script>
 
 

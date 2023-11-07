@@ -6,8 +6,11 @@ using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
@@ -427,6 +430,22 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonZone), new { companyId = vmCommonZone.CompanyFK });
         }
+        
+        [HttpPost]
+        public async Task<JsonResult> IsZoneExist(string zoneName,int id)
+        {
+            if (string.IsNullOrEmpty(zoneName))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateZoneName(zoneName,id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+
+
+
+
+        }
 
         #endregion
 
@@ -479,8 +498,18 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonRegion), new { companyId = vmCommonRegion.CompanyFK, zoneId = vmCommonRegion.ZoneId });
         }
+      
+        [HttpPost]
+        public async Task<JsonResult> IsRegionExist(int zoneId,string regionName, int id)
+        {
+            if (string.IsNullOrEmpty(regionName))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateRegionName(zoneId,regionName, id);
 
-
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region Common Area

@@ -1604,6 +1604,17 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ZoneAdd(VMCommonZone vmCommonZone)
         {
             var result = -1;
+            #region check Zone Duplicate
+            var isExist = await _db.Zones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZone.Name.ToLower() && u.ZoneId != vmCommonZone.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonZone.Name} already Exist!");
+
+
+            }
+            #endregion
+
+
             Zone zone = new Zone
             {
                 Name = vmCommonZone.Name,
@@ -1782,6 +1793,26 @@ namespace KGERP.Service.Implementation.Configuration
             head4.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             head4.ModifiedDate = DateTime.Now;
             _db.SaveChanges();
+        }
+
+        public async Task<bool> CheckDuplicateZoneName(string zoneName,int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(zoneName) )
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Zones.AnyAsync(u => u.Name.ToLower() == zoneName.ToLower()  && u.ZoneId != id && u.IsActive == true);
+
+            }
+            else 
+            {
+                isExist = await _db.Zones.AnyAsync(u => u.Name.ToLower() == zoneName.ToLower() && u.IsActive == true);
+            }
+
+            return isExist;
         }
 
         #endregion
@@ -2132,6 +2163,17 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> RegionAdd(VMCommonRegion vmCommonRegion)
         {
             var result = -1;
+
+            #region check Region Duplicate
+            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
+
+
+            }
+            #endregion
+
             Region region = new Region
             {
                 Name = vmCommonRegion.Name,
@@ -2198,6 +2240,26 @@ namespace KGERP.Service.Implementation.Configuration
                 }
             }
             return result;
+        }
+
+        public async Task<bool> CheckDuplicateRegionName(int zoneId, string regionName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(regionName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.RegionId != id && u.IsActive == true);
+
+            }
+            else
+            {
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.IsActive == true);
+            }
+
+            return isExist;
         }
 
         #endregion
@@ -3267,7 +3329,7 @@ namespace KGERP.Service.Implementation.Configuration
            
           
                var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() &&
-                          u.ProductCategoryId != vmCommonProduct.CategoryId && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
+                          u.ProductCategoryId == vmCommonProduct.CategoryId && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
 
             
             if (isExist?.ProductCategoryId > 0)
@@ -3422,8 +3484,8 @@ namespace KGERP.Service.Implementation.Configuration
             }
             else if (categoryId > 0 && subCategoryId > 0)
             {
-                isExist = await _db.Products.AnyAsync(u => u.ProductName.ToLower() == productName.ToLower() &&
-                          u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId &&  u.IsActive == true);
+                isExist = await _db.Products.AnyAsync(u => u.ProductName.Equals(productName) &&
+                          u.ProductCategoryId == categoryId && u.ProductSubCategoryId == subCategoryId &&  u.IsActive == true);
             }
            
             return isExist;

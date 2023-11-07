@@ -45,7 +45,7 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Zone:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtZoneName", @class = "form-control input-sm", @placeholder = "Zone Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new {@id="ZoneNameValidation", @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -295,6 +295,42 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
         }
+
+        $('#txtZoneName').change(function () {
+
+            var Name = $('#txtZoneName').val();
+            var zoneId = $('#ZoneId').val();
+            if (zoneId == null) {
+                zoneId = 0;
+            }
+            
+                $.ajax({
+                type:"post",
+                url: "@Url.Action("IsZoneExist", "Configuration")",
+                    data: { zoneName:Name, id:zoneId },
+                success: function (data)
+                {
+                    if (data == true) {
+                        $('#ZoneNameValidation').show();
+                        $('#ZoneNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                    }
+                    else
+                    {
+                        $('#ZoneNameValidation').hide();
+                    }
+                }
+
+
+
+
+
+
+            });
+            
+
+
+        });
+
 
     </script>
 
