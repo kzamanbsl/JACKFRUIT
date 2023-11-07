@@ -88,7 +88,7 @@
                                         <th>SL</th>
                                         <th>Date</th>
                                         <th>Dealer</th>
-                                        <th>Customer</th>
+                                        <th>Store House</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
@@ -113,7 +113,7 @@
                                             <th>@(++sl)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.DealerName</td>
-                                            <td>@item.CustomerName</td>
+                                            <td>@item.StockInfoName</td>
                                             <td>@item.StatusName</td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Received || item.StatusId == EnumDamageStatus.Submitted)

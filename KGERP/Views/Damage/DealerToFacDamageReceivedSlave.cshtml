@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Dealer Damage Received";
+    ViewData["Title"] = "Dealer to Factory Damage Receive List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -21,16 +21,16 @@
 <section class="content-header">
     <h1>
             <span>
-                Dealer Damage Receive
+                Dealer to Factory Damage Receive
             </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Dealer Damage Receive</li>
+        <li class="active"> Dealer to Factory Damage Receive</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("DealerDamageReceivedSlave", "Damage", FormMethod.Post, new { id = "dealerDamageSlaveReceiveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DealerToFacDamageReceivedSlave", "Damage", FormMethod.Post, new { id = "dealerDamageSlaveReceiveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">

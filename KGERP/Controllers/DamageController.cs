@@ -315,7 +315,7 @@ namespace KGERP.Controllers
 
             if (damageMasterId > 0)
             {
-                damageMasterModel = await _service.GetDamageMasterDetail(companyId, damageMasterId);
+                damageMasterModel = await _service.GetDamageMasterDetailCustomer(companyId, damageMasterId);
                 damageMasterModel.DetailDataList = damageMasterModel.DetailList.ToList();
             }
 
