@@ -426,35 +426,48 @@
         }
 
         function makeEditble(rowId) {
-            $("#ddlDealerId").empty();
+            //$("#ddlDealerId").empty();
             $("#ddlFromCustomerId").empty();
-                 $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("GetDamageMasterById", "Damage")",
-                        datatype: "Json",
-                        data: { damageMasterId: rowId },
-                     success: function (data) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetDamageMasterById", "Damage")",
+                datatype: "Json",
+                data: { damageMasterId: rowId },
+                success: function (data) {
+                    updateDropdowns();
 
-                         $("#hidEditDamageMasterId").val(data.DamageMasterId);
-                         $('#DMEditActionId').val(2);
-                         $("#DMEditCompanyFK").val(data.CompanyFK);
-                         var operationDate = DateCustom(data.OperationDate);
-                         $('#txtOperationDate').val(operationDate);
-                         $('#ddlZoneFk').val(data.ZoneFk).trigger('change');
-                         $('#ddlDealerId').val(data.FromDealerId);
-                         console.log(data.ToDeportId);
-                         if (data.ToDeportId == null) {
-                             //updateDropdowns();
+                    $("#hidEditDamageMasterId").val(data.DamageMasterId);
+                    $('#DMEditActionId').val(2);
+                    $("#DMEditCompanyFK").val(data.CompanyFK);
+                    var operationDate = DateCustom(data.OperationDate);
+                    $('#txtOperationDate').val(operationDate);
+                    $('#ddlZoneFk').val(data.ZoneFk).trigger('change');
+                    //$('#ddlDealerId').val(data.FromDealerId).trigger('change');
+
+                    DealerDropdown(data.FromDealerId);
+                    console.log(data.ToDeportId);
+                    if (data.ToDeportId == null) {
+                        $('#ddlDealerDamageToFk').val(1).trigger('change');
                              $("#wareHouseId").css("display", "block");
+                             $('#ddlToStockInfoId').val(data.ToStockInfoId).trigger('change');
                              console.log("catch");
-                         } else {
-                             $('#ddlToDeportId').val(data.ToDeportId);
-
                          }
-                         $('#ddlToStockInfoId').val(data.ToStockInfoId);
+                    else if (data.ToStockInfoId == null) {
+                        $('#ddlDealerDamageToFk').val(2).trigger('change');
+                        $("#wareHouseId").css("display", "none");
+                        $("#toDepoId").css("display", "block");
+
+                        DeportDropdown(data.ToDeportId, data.ZoneFk);
+                        //$('#ddlToDeportId').val(data.ToDeportId).trigger('change');
+
+                    }
+
+
+
+
                          $('#txtDescription').text(data.Remarks);
 
-                         $('#hiddenToDepoId').val(data.ToDeportId);
+                    $('#hiddenToDepoId').val(data.ToDeportId).trigger('change');
                          $('#hiddenFromDealerId').val(data.FromDealerId);
 
                          //$("#ddlZoneFk").change(updateDropdowns);
@@ -555,6 +568,55 @@
                 });
             }
 
+        }
+
+        function DealerDropdown(dealerId) {
+
+            var zoneFk = $("#ddlZoneFk").val();
+             $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
+                    success: function (data) {
+                        if (data) {
+                            $("#ddlDealerId").empty();
+                            $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+                        }
+                        if (dealerId > 0) {
+                            $("#ddlDealerId").val(dealerId);
+                        }
+                    }
+                });
+
+        }
+
+
+        function DeportDropdown(deportId, zoneFk) {
+            
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
+                datatype: "Json",
+                data: { zoneId: zoneFk },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlToDeportId").empty();
+                        $("#ddlToDeportId").append("<option value=''>==Select Deport==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlToDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+
+                    }
+                    if (deportId > 0) {
+                        $("#ddlToDeportId").val(deportId);
+                    }
+                }
+            });
         }
 
     </script>
