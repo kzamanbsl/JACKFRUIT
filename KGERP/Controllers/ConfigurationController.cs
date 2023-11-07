@@ -6,6 +6,8 @@ using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -426,6 +428,22 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(CommonZone), new { companyId = vmCommonZone.CompanyFK });
+        }
+        
+        [HttpPost]
+        public async Task<JsonResult> IsZoneExist(string zoneName,int id)
+        {
+            if (string.IsNullOrEmpty(zoneName))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateZoneName(zoneName,id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+
+
+
+
         }
 
         #endregion
