@@ -155,7 +155,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("DamageMasterEdit", "Damage", FormMethod.Post, new { id = "dealerDamageEditForm", @class = "formValidator" }))
+@using (Html.BeginForm("DamageMasterEditCustomer", "Damage", FormMethod.Post, new { id = "dealerDamageEditForm", @class = "formValidator" }))
 {
     <div class="modal fade" id="editDamageMasterModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -235,7 +235,7 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteDamageMasterById", "Damage", FormMethod.Post))
+@using (Html.BeginForm("DeleteDamageMasterByIdCustomer", "Damage", FormMethod.Post))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -278,7 +278,7 @@
 }
 
 
-@using (Html.BeginForm("SubmitDamageMaster", "Damage", FormMethod.Post))
+@using (Html.BeginForm("SubmitDamageMasterCustomer", "Damage", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

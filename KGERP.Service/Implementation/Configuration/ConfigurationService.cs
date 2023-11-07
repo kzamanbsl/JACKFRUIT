@@ -2163,6 +2163,17 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> RegionAdd(VMCommonRegion vmCommonRegion)
         {
             var result = -1;
+
+            #region check Region Duplicate
+            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
+
+
+            }
+            #endregion
+
             Region region = new Region
             {
                 Name = vmCommonRegion.Name,
@@ -2229,6 +2240,26 @@ namespace KGERP.Service.Implementation.Configuration
                 }
             }
             return result;
+        }
+
+        public async Task<bool> CheckDuplicateRegionName(int zoneId, string regionName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(regionName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.RegionId != id && u.IsActive == true);
+
+            }
+            else
+            {
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.IsActive == true);
+            }
+
+            return isExist;
         }
 
         #endregion
