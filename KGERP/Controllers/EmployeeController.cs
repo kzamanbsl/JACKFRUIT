@@ -232,7 +232,7 @@ namespace KGERP.Controllers
             vm.Shifts = _shiftService.GetShiftSelectModels();
             vm.SalaryGrades = _gradeService.GetGradeSelectModels();
             vm.StoreInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
-            
+
             return View(vm);
         }
 
@@ -308,14 +308,8 @@ namespace KGERP.Controllers
                 vm.Employee.SignatureFileName = sig;
             }
 
-            if (vm.Employee.Id <= 0)
-            {
-                result = _employeeService.SaveEmployee(0, vm.Employee);
-            }
-            else
-            {
-                result = _employeeService.SaveEmployee(vm.Employee.Id, vm.Employee);
-            }
+            result = _employeeService.SaveEmployee(vm.Employee?.Id ?? 0, vm.Employee);
+
             return RedirectToAction("CreateOrEdit", new { id = vm.Employee.Id });
         }
 
@@ -783,10 +777,10 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSalaryAmount(string month)
         {
-            
+
             var obj = await _employeeService.GetEmployeesSalary(month);
 
-            return Json(obj,JsonRequestBehavior.AllowGet);
+            return Json(obj, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -1055,7 +1049,7 @@ namespace KGERP.Controllers
             var obj = _employeeService.SavePaymentSalary(model);
 
             return RedirectToAction("EmployeeSalaryPayAmount");
-            
+
         }
 
 

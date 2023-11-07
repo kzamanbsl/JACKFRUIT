@@ -183,7 +183,7 @@ namespace KGERP.Service.Implementation
                 Id = employee.Id,
                 EmployeeId = employee.EmployeeId,
                 ManagerId = employee.ManagerId,
-                ManagerName=employee.Employee3?.Name,
+                ManagerName = employee.Employee3?.Name,
                 HrAdminId = employee.HrAdminId ?? 0,
                 CompanyId = employee.CompanyId,
                 CardId = employee.CardId,
@@ -219,20 +219,20 @@ namespace KGERP.Service.Implementation
                 ProbationEndDate = employee.ProbationEndDate,
                 PermanentDate = employee.PermanentDate,
                 DepartmentId = employee.DepartmentId,
-                DepartmentName=employee.Department?.Name,
+                DepartmentName = employee.Department?.Name,
                 DesignationId = employee.DesignationId,
-                DesignationName=employee.Designation?.Name,
+                DesignationName = employee.Designation?.Name,
                 EmployeeCategoryId = employee.EmployeeCategoryId,
                 EmployeeCategoryName = employee.DropDownItem3?.Name,
                 ServiceTypeId = employee.ServiceTypeId,
-                ServiceTypeName=employee.DropDownItem5?.Name,
+                ServiceTypeName = employee.DropDownItem5?.Name,
                 JobStatusId = employee.JobStatusId,
                 OfficeTypeId = employee.OfficeTypeId,
-                OfficeTypeName= employee.DropDownItem8?.Name,
+                OfficeTypeName = employee.DropDownItem8?.Name,
                 BankId = employee.BankId,
-                BankName=employee.Bank?.Name,
+                BankName = employee.Bank?.Name,
                 BankBranchId = employee.BankBranchId,
-                BankBranchName=employee.BankBranch?.Name,
+                BankBranchName = employee.BankBranch?.Name,
                 BankAccount = employee.EmployeeId,
                 ShiftId = employee.ShiftId,
                 ShiftName = employee.Shift?.Name,
@@ -254,7 +254,7 @@ namespace KGERP.Service.Implementation
                 CreatedDate = employee.CreatedDate,
                 ModifedBy = employee.ModifedBy,
                 ModifiedDate = employee.ModifiedDate,
-               
+
             };
 
             return result;
@@ -280,6 +280,7 @@ namespace KGERP.Service.Implementation
             {
                 employee = _context.Employees.FirstOrDefault(x => x.Id == id);
                 managerId = employee.ManagerId;
+
                 if (employee == null)
                 {
                     throw new Exception(Constants.DATA_NOT_FOUND);
@@ -304,6 +305,7 @@ namespace KGERP.Service.Implementation
                     {
                         user.Active = false;
                         user.IsEmailVerified = false;
+                        user.UserTypeId = (int)EnumUserType.Employee;
 
                         _context.Users.Add(user);
                         _context.Entry(user).State = EntityState.Modified;
@@ -318,6 +320,8 @@ namespace KGERP.Service.Implementation
                     {
                         user.Active = true;
                         user.IsEmailVerified = true;
+                        user.UserTypeId = (int)EnumUserType.Employee;
+
                         _context.Users.Add(user);
                         _context.Entry(user).State = EntityState.Modified;
                         _context.SaveChanges();
@@ -332,10 +336,11 @@ namespace KGERP.Service.Implementation
                 userModel.Active = true;
                 userModel.IsEmailVerified = true;
 
-                userModel.Password = Crypto.Hash(userModel.UserName.ToLower());
+                userModel.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : Crypto.Hash(userModel.UserName.ToLower());
                 userModel.ConfirmPassword = userModel.Password;
                 userModel.ActivationCode = Guid.NewGuid();
                 User user = ObjectConverter<UserModel, User>.Convert(userModel);
+                user.UserTypeId = (int)EnumUserType.Employee;
 
                 _context.Users.Add(user);
                 int isUserSaved = _context.SaveChanges();
