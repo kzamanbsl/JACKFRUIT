@@ -34,12 +34,9 @@ namespace KGERP.Controllers
 
         }
 
-        #region 1. Dealer Damage Circle
+        #region 0. Customer Damage
 
-        #region 1.1 Dealer Damage Basic CRUD Circle
-
-
-        #region 1.1.1 Customer Damage Entry
+        #region 0.1  Customer Entry Circle
 
         [HttpGet]
         public async Task<ActionResult> DamageMasterSlaveCustomer(int companyId = 0, int damageMasterId = 0)
@@ -79,7 +76,7 @@ namespace KGERP.Controllers
             {
                 await _service.DamageDetailEdit(demageMasterModel);
             }
-            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+            return RedirectToAction(nameof(DamageMasterSlaveCustomer), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
         }
 
         [HttpGet]
@@ -117,7 +114,108 @@ namespace KGERP.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SubmitDamageMasterCustomer(DamageMasterModel demageMasterModel)
+        {
+            demageMasterModel.DamageMasterId = await _service.SubmitDamageMaster(demageMasterModel.DamageMasterId);
+            return RedirectToAction(nameof(DamageMasterSlaveCustomer), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> DamageMasterEditCustomer(DamageMasterModel model)
+        {
+            if (model.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DamageMasterEdit(model);
+            }
+            return RedirectToAction(nameof(DamageMasterListCustomer), new { companyId = model.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDamageDetailByIdCustomer(DamageMasterModel demageMasterModel)
+        {
+            if (demageMasterModel.ActionEum == ActionEnum.Delete)
+            {
+                demageMasterModel.DetailModel.DamageDetailId = await _service.DamageDetailDelete(demageMasterModel.DetailModel.DamageDetailId);
+            }
+            return RedirectToAction(nameof(DamageMasterSlaveCustomer), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDamageMasterByIdCustomer(DamageMasterModel demageMasterModel)
+        {
+            if (demageMasterModel.ActionEum == ActionEnum.Delete)
+            {
+                demageMasterModel.DamageMasterId = await _service.DamageMasterDelete(demageMasterModel.DamageMasterId);
+            }
+            return RedirectToAction(nameof(DamageMasterListCustomer), new { companyId = demageMasterModel.CompanyFK });
+        }
         #endregion
+
+        #region 0.2  Customer receive
+        [HttpGet]
+        public async Task<ActionResult> CustomerDamageReceivedSlave(int companyId = 0, int damageMasterId = 0)
+        {
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
+
+            if (damageMasterId > 0)
+            {
+                damageMasterModel = await _service.GetDamageMasterDetailCustomer(companyId, damageMasterId);
+                damageMasterModel.DetailDataList = damageMasterModel.DetailList.ToList();
+            }
+
+            return View(damageMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CustomerDamageReceivedSlave(DamageMasterModel damageMasterModel)
+        {
+            var resutl = await _service.DealerDamageReceived(damageMasterModel);
+            return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyFK });
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> CustomerDamageReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            DamageMasterModel damageMasterModel = new DamageMasterModel();
+            damageMasterModel = await _service.GetCustomerDamageMasterReceivedList(companyId, fromDate, toDate, vStatus);
+
+            damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
+
+            return View(damageMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult CustomerDamageMasterReceivedSearch(DamageMasterModel damageMasterModel)
+        {
+            if (damageMasterModel.CompanyId > 0)
+            {
+                Session["CompanyId"] = damageMasterModel.CompanyId;
+            }
+
+            damageMasterModel.FromDate = Convert.ToDateTime(damageMasterModel.StrFromDate);
+            damageMasterModel.ToDate = Convert.ToDateTime(damageMasterModel.StrToDate);
+            return RedirectToAction(nameof(CustomerDamageReceivedList), new { companyId = damageMasterModel.CompanyId, fromDate = damageMasterModel.FromDate, toDate = damageMasterModel.ToDate, vStatus = (int)damageMasterModel.StatusId });
+
+        }
+        #endregion
+
+        #endregion
+
+        #region 1. Dealer Damage Circle
+
+        #region 1.1 Dealer Damage Basic CRUD Circle
 
         [HttpGet]
         public async Task<ActionResult> DamageMasterSlave(int companyId = 0, int damageMasterId = 0)
@@ -305,65 +403,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyId, fromDate = damageMasterModel.FromDate, toDate = damageMasterModel.ToDate, vStatus = (int)damageMasterModel.StatusId });
 
         }
-
-
-        #region Customer receive
-        [HttpGet]
-        public async Task<ActionResult> CustomerDamageReceivedSlave(int companyId = 0, int damageMasterId = 0)
-        {
-            DamageMasterModel damageMasterModel = new DamageMasterModel();
-
-            if (damageMasterId > 0)
-            {
-                damageMasterModel = await _service.GetDamageMasterDetailCustomer(companyId, damageMasterId);
-                damageMasterModel.DetailDataList = damageMasterModel.DetailList.ToList();
-            }
-
-            return View(damageMasterModel);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CustomerDamageReceivedSlave(DamageMasterModel damageMasterModel)
-        {
-            var resutl = await _service.DealerDamageReceived(damageMasterModel);
-            return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyFK });
-        }
-
-
-        [HttpGet]
-        public async Task<ActionResult> CustomerDamageReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
-        {
-            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
-            if (!toDate.HasValue) toDate = DateTime.Now;
-
-            DamageMasterModel damageMasterModel = new DamageMasterModel();
-            damageMasterModel = await _service.GetCustomerDamageMasterReceivedList(companyId, fromDate, toDate, vStatus);
-
-            damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
-            damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
-            if (vStatus == null)
-            {
-                vStatus = -1;
-            }
-            damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
-
-            return View(damageMasterModel);
-        }
-
-        [HttpPost]
-        public ActionResult CustomerDamageMasterReceivedSearch(DamageMasterModel damageMasterModel)
-        {
-            if (damageMasterModel.CompanyId > 0)
-            {
-                Session["CompanyId"] = damageMasterModel.CompanyId;
-            }
-
-            damageMasterModel.FromDate = Convert.ToDateTime(damageMasterModel.StrFromDate);
-            damageMasterModel.ToDate = Convert.ToDateTime(damageMasterModel.StrToDate);
-            return RedirectToAction(nameof(CustomerDamageReceivedList), new { companyId = damageMasterModel.CompanyId, fromDate = damageMasterModel.FromDate, toDate = damageMasterModel.ToDate, vStatus = (int)damageMasterModel.StatusId });
-
-        }
-        #endregion
 
         #endregion
 
