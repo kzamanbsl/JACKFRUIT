@@ -2355,6 +2355,19 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> AreaAdd(VMCommonArea vmCommonArea)
         {
             var result = -1;
+
+            #region check Area Duplicate
+            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+
+
+            }
+            #endregion
+
+
+
             Area area = new Area
             {
                 Name = vmCommonArea.Name,
@@ -2424,7 +2437,25 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+        public async Task<bool> CheckDuplicateAreaName(int zoneId, int regionId, string areaName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(areaName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.RegionId == regionId && u.AreaId!= id && u.IsActive == true);
 
+            }
+            else
+            {
+                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.RegionId == regionId && u.IsActive == true);
+            }
+
+            return isExist;
+        }
         #endregion
 
         #region Product Category 
@@ -2680,7 +2711,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var result = -1;
             #region IsExist
-            var isExist =  _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.Common_ProductCategoryFk && c.IsActive == true);
+            var isExist =  _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.CategoryId && c.IsActive == true);
             if (isExist?.ProductSubCategoryId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exist!");
@@ -2795,20 +2826,20 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
         [HttpPost]
-        public async Task<bool> IsSubCategoryExits(string name ,int categoryId)
+        public async Task<bool> IsSubCategoryExits(string name ,int categoryId,int id)
         {
             var isExits = false;
 
-            if (categoryId > 0)
+            if (id > 0)
             {
-                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.IsActive == true );
+                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId&& c.ProductSubCategoryId != id && c.IsActive == true );
 
             }
-            //else
-            //{
-            //    isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name)&& c.IsActive == true);
+            else if(categoryId > 0)
+            {
+                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.IsActive == true);
 
-            //}
+            }
 
 
             return isExits;

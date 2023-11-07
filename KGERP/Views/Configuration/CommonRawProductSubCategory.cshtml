@@ -236,6 +236,7 @@
 
             var name = $('#txtSubcategoryName').val();
             var categoryId = $('#txtCategoryName').val();
+            var subcategoryId = $('#subcategoryId').val();
             console.log(categoryId);
             if (categoryId == null)
             {
@@ -244,7 +245,7 @@
                 $.ajax({
                 type:"post",
                 url: "@Url.Action("IsSubCategoryExits","Configuration")",
-                data: { name: name, categoryId: categoryId },
+                    data: { name: name, categoryId: categoryId, id: subcategoryId },
                 success: function (data)
                 {
                     if (data == true) {

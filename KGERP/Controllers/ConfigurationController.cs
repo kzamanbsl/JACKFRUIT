@@ -562,8 +562,18 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, regionId = vmCommonArea.RegionId });
         }
+        [HttpPost]
+        public async Task<JsonResult> IsAreNameExist(int zoneId,int regionId,string areaName,int id)
+        {
+            if (string.IsNullOrEmpty(areaName))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateAreaName( zoneId,regionId,areaName,id);
 
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
+        }
         #endregion
 
         #region Common SubZone
@@ -914,14 +924,14 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task< JsonResult> IsSubCategoryExits(string name, int categoryId)
+        public async Task< JsonResult> IsSubCategoryExits(string name, int categoryId,int id)
         {
             if(name == null)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
 
             }
-            bool isDuplicated = await _service.IsSubCategoryExits(name, categoryId);
+            bool isDuplicated = await _service.IsSubCategoryExits(name, categoryId, id);
             return Json(isDuplicated, JsonRequestBehavior.AllowGet);
         }
 

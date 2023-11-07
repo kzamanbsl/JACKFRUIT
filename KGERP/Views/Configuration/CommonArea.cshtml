@@ -60,7 +60,7 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Area:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtAreaName", @class = "form-control input-sm", @placeholder = "Area", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "AreaNameValidation", @class = "text-danger" })
 
                                 </div>
                             </div>
@@ -328,6 +328,48 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
+        $('#txtAreaName').change(function () {
+
+            var Name = $('#txtAreaName').val();
+            var zoneId = $('#ddlZoneId').val();
+            var regionId = $('#ddlRegionId').val();
+            var areaId = $('#AreaId').val();
+            if (zoneId == null) {
+                zoneId = 0;
+            }
+            if (regionId == null) {
+                regionId = 0;
+            }
+            console.log(Name);
+            console.log(zoneId);
+            console.log(regionId);
+            console.log(areaId);
+                $.ajax({
+                type:"post",
+                url: "@Url.Action("IsAreNameExist", "Configuration")",
+                    data: { zoneId: zoneId, regionId: regionId, areaName: Name, id: areaId },
+                success: function (data)
+                {
+                    if (data == true) {
+                        $('#AreaNameValidation').show();
+                        $('#AreaNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                    }
+                    else
+                    {
+                        $('#AreaNameValidation').hide();
+                    }
+                }
+
+
+
+
+
+
+            });
+
+
+
+        });
     </script>
 
 }
