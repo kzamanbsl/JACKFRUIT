@@ -12,14 +12,17 @@ namespace KGERP.Service.Interface
 {
     public interface IDamageService
     {
+
         #region 1. Dealer Damage
-        #region Dealer Damage Circle
-        #region Customer point
+        #region 1.1  Dealer Damage Circle
+
+        #region 1.1.1 Customer point
         Task<DamageMasterModel> GetDamageMasterDetailCustomer(int companyId, int demageMasterId);
         Task<int> DamageMasterAddCustomer(DamageMasterModel model);
         Task<DamageMasterModel> GetDamageMasterListCustomer(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
         
         #endregion
+
         Task<DamageMasterModel> GetDamageMasterDetail(int companyId, int demageMasterId);
         Task<int> DamageMasterAdd(DamageMasterModel model);
         Task<int> DamageDetailAdd(DamageMasterModel model);
@@ -33,7 +36,7 @@ namespace KGERP.Service.Interface
         Task<DamageMasterModel> GetDamageMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
         #endregion
 
-        #region Dealer Damage Received Circle
+        #region 1.2  Dealer Damage Received Circle
         Task<int> DealerDamageReceived(DamageMasterModel damageMasterModel);
         Task<DamageMasterModel> GetDealerDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         
@@ -46,7 +49,7 @@ namespace KGERP.Service.Interface
 
         #region 2.Depo Damage
 
-        #region Depo Damage Circle
+        #region 2.1  Depo Damage Circle
         Task<DamageMasterModel> GetDamageMasterDetailDepo(int companyId, int demageMasterId);
         Task<int> DamageMasterAddDepo(DamageMasterModel model);
         Task<int> DamageDetailAddDepo(DamageMasterModel model);
@@ -60,32 +63,25 @@ namespace KGERP.Service.Interface
         Task<DamageMasterModel> GetDamageMasterListDepo(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
         #endregion
 
-        #region Depo Damage Received Circle
+       
+        #endregion
+
+
+        #region 3. Factory Receive Circle
+
+        #region 3.1  Dealer To Factory
+
+        Task<int> DealerToFacDamageReceived(DamageMasterModel damageMasterModel);
+        Task<DamageMasterModel> GetDealerToFacMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+
+        #endregion
+
+        #region 3.2  Depo to Factory
+        Task<DamageMasterModel> GetDamageMasterDetailDepoToFac(int companyId, int demageMasterId);
         Task<int> DepoDamageReceived(DamageMasterModel damageMasterModel);
         Task<DamageMasterModel> GetDepoDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
-        #endregion
 
-        #region 3.Factory Damage
-
-        #region Factory Damage Circle
-        Task<DamageMasterModel> GetDamageMasterDetailFactory(int companyId, int demageMasterId);
-        Task<int> DamageMasterAddFactory(DamageMasterModel model);
-        Task<int> DamageDetailAddFactory(DamageMasterModel model);
-        Task<int> DamageDetailEditFactory(DamageMasterModel model);
-        Task<int> SubmitDamageMasterFactory(int? id = 0);
-        Task<int> DamageMasterEditFactory(DamageMasterModel model);
-        Task<DamageMasterModel> GetDamageMasterByIdFactory(int demageMaster);
-        Task<int> DamageDetailDeleteFactory(int id);
-        Task<int> DamageMasterDeleteFactory(int id);
-        Task<DamageDetailModel> GetSingleDamageDetailsFactory(int id);
-        Task<DamageMasterModel> GetDamageMasterListFactory(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
-        #endregion
-
-        #region Factory Damage Received Circle
-        Task<int> FactoryDamageReceived(DamageMasterModel damageMasterModel);
-        Task<DamageMasterModel> GetFactoryDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
-        #endregion
         #endregion
     }
 }
