@@ -5617,10 +5617,6 @@
     <Content Include="Views\Damage\DamageMasterSlaveDepo.cshtml" />
     <Content Include="Views\Damage\DepoDamageReceivedList.cshtml" />
     <Content Include="Views\Damage\DepoDamageReceivedSlave.cshtml" />
-    <Content Include="Views\Damage\DamageMasterListFactory.cshtml" />
-    <Content Include="Views\Damage\DamageMasterSlaveFactory.cshtml" />
-    <Content Include="Views\Damage\FactoryDamageReceivedList.cshtml" />
-    <Content Include="Views\Damage\FactoryDamageReceivedSlave.cshtml" />
     <Content Include="Views\Procurement\DeportDeposit.cshtml" />
     <Content Include="Views\Procurement\DealerDeposit.cshtml" />
     <Content Include="Views\Procurement\CustomerDeposit.cshtml" />
@@ -5630,6 +5626,8 @@
     <Content Include="Views\Damage\DamageMasterListCustomer.cshtml" />
     <Content Include="Views\User\Registration - Copy.cshtml" />
     <Content Include="Views\Configuration\CommonDamageType.cshtml" />
+    <Content Include="Views\Damage\DealerToFacDamageReceivedList.cshtml" />
+    <Content Include="Views\Damage\DealerToFacDamageReceivedSlave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
