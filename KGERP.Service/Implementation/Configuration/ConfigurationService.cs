@@ -132,13 +132,13 @@ namespace KGERP.Service.Implementation.Configuration
         public object GetUserClientMenuAssign(string prefix)
         {
             var v = (from t1 in _db.Users.Where(q => q.Active)
-                         //join t2 in _db.Designations on t1.DesignationId equals t2.DesignationId into t2_Join
-                         //from t2 in t2_Join.DefaultIfEmpty()
+                     join t2 in _db.Employees on t1.UserName equals t2.EmployeeId into t2_Join
+                     from t2 in t2_Join.DefaultIfEmpty()
                      where (t1.UserName.Contains(prefix) || t1.Email.Contains(prefix))
 
                      select new
                      {
-                         label = (t1.UserName + " ( " + t1.Email + " )"),
+                         label = (t1.UserName + " ( " + t2.Name + " )"),
                          val = t1.UserName
                      }).OrderBy(x => x.label).Take(100).ToList();
             var result = v.Where(c => c.val != "ISS0001" && c.val != "ISS0002");
@@ -200,61 +200,6 @@ namespace KGERP.Service.Implementation.Configuration
             return vmMenuAssignment;
         }
 
-        //public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)
-        //{
-        //    VMUserMenuAssignment vmMenuAssignment = new VMUserMenuAssignment();
-        //    vmMenuAssignment.CompanyFK = vmUserMenuAssignment.CompanyFK;
-        //    var companySubMenus = await _db.CompanySubMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK).ToListAsync();
-        //    var companySubMenusId = companySubMenus.Select(x => x.CompanySubMenuId).ToList();
-
-        //    var companyUserMenus =await _db.CompanyUserMenus.Where(x => x.CompanyId == vmUserMenuAssignment.CompanyFK && x.UserId == vmUserMenuAssignment.UserId).ToListAsync();
-        //    var companyUserMenus_SubMenuId = companyUserMenus.Select(x => x.CompanySubMenuId).ToList();
-
-        //    var companySubMenusNotExistsOnUserMenus = companySubMenusId.Where(CompanySubMenuId => !companyUserMenus_SubMenuId.Contains(CompanySubMenuId)).ToList();
-
-        //    var filteredCompanySubMenus = companySubMenus.Where(x => companySubMenusNotExistsOnUserMenus.Contains(x.CompanySubMenuId)).ToList();
-        //    if (filteredCompanySubMenus.Count() > 0)
-        //    {
-        //        List<CompanyUserMenu> userMenuList = new List<CompanyUserMenu>();
-        //        foreach (var subMenus in filteredCompanySubMenus)
-        //        {
-        //            CompanyUserMenu userMenu = new CompanyUserMenu
-        //            {
-        //                CompanyMenuId = subMenus.CompanyMenuId.Value,
-        //                CompanySubMenuId = subMenus.CompanySubMenuId,
-        //                IsActive = false,
-        //                IsView = true,
-        //                CompanyId = vmUserMenuAssignment.CompanyFK,
-        //                UserId = vmUserMenuAssignment.UserId,
-        //                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-        //                CreatedDate = DateTime.Now
-        //            };
-
-        //            userMenuList.Add(userMenu);
-        //        }
-
-        //        _db.CompanyUserMenus.AddRange(userMenuList);
-        //        try
-        //        {
-        //            await _db.SaveChangesAsync();
-        //        }
-        //        catch(Exception ex)
-        //        {
-        //            var x = ex.Message;
-        //        }
-
-
-        //    }
-        //    vmMenuAssignment.DataList = await Task.Run(() => CompanyUserMenuDataLoad(vmUserMenuAssignment));
-        //    vmMenuAssignment.CompanyFK = vmUserMenuAssignment.CompanyFK;
-        //    vmMenuAssignment.UserId = vmUserMenuAssignment.UserId;
-        //    vmMenuAssignment.CompanyList = new SelectList(CompaniesDropDownList(), "Value", "Text");
-
-        //    return vmMenuAssignment;
-        //}
-
-
-
         public IEnumerable<VMUserMenuAssignment> CompanyUserMenuDataLoad(VMUserMenuAssignment vmMenuAssignment)
         {
             var v = (from t1 in _db.CompanyUserMenus
@@ -282,26 +227,6 @@ namespace KGERP.Service.Implementation.Configuration
             return v;
         }
 
-
-        //public async Task<int> UserRoleMenuItemAdd(VMUserRoleMenuItem vmUserRoleMenuItem)
-        //{
-        //    var result = -1;
-        //    User_RoleMenuItem userRoleMenuItem = new User_RoleMenuItem
-        //    {
-        //        IsAllowed = vmUserRoleMenuItem.IsAllowed,
-        //        User_MenuItemFk = vmUserRoleMenuItem.ID,
-        //        User_RoleFK = vmUserRoleMenuItem.ID,
-        //        User = vmUserRoleMenuItem.User,
-        //        UserID = vmUserRoleMenuItem.UserID
-        //    };
-        //    _db.User_RoleMenuItem.Add(userRoleMenuItem);
-        //    if (await _db.SaveChangesAsync() > 0)
-        //    {
-        //        result = userRoleMenuItem.ID;
-        //    }
-        //    return result;
-        //}
-
         public CompanyUserMenu CompanyUserMenuEdit(VMUserMenuAssignment vmUserMenuAssignment)
         {
             long result = -1;
@@ -317,38 +242,6 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return companyUserMenus;
         }
-
-        ////public async (Task<int>, Task<bool>) UserRoleMenuItemEdit(VMUserRoleMenuItem vmUserRoleMenuItem)
-        ////{
-        ////    var result = -1;
-        ////    //to select Accountining_Chart_Two data.....
-        ////    User_RoleMenuItem userRoleMenuItem = _db.User_RoleMenuItem.Find(vmUserRoleMenuItem.ID);
-        ////    userRoleMenuItem.IsAllowed = vmUserRoleMenuItem.IsAllowed;
-        ////    userRoleMenuItem.User = vmUserRoleMenuItem.User;
-
-        ////    if (await _db.SaveChangesAsync() > 0)
-        ////    {
-        ////        result = userRoleMenuItem.ID;
-        ////    }
-        ////    return result, false;
-        ////}
-        //public async Task<int> UserRoleMenuItemDelete(int id)
-        //{
-        //    int result = -1;
-
-        //    if (id != 0)
-        //    {
-        //        User_RoleMenuItem userRoleMenuItem = _db.User_RoleMenuItem.Find(id);
-        //        userRoleMenuItem.Active = false;
-
-        //        if (await _db.SaveChangesAsync() > 0)
-        //        {
-        //            result = userRoleMenuItem.ID;
-        //        }
-        //    }
-        //    return result;
-        //}
-        //#endregion
 
         #endregion
 
@@ -667,31 +560,6 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
-
-        //public async Task<int> UserSubMenuEdit(VMUserSubMenu vmUserSubMenu)
-        //{
-
-        //    var result = -1;
-        //    //to select Accountining_Chart_Two data.....
-        //    CompanySubMenu userSubMenu = _db.CompanySubMenus.Find(vmUserSubMenu.ID);
-        //    userSubMenu.CompanyMenuId = vmUserSubMenu.User_MenuFk;
-        //    userSubMenu.Name = vmUserSubMenu.Name;
-        //    userSubMenu.OrderNo = vmUserSubMenu.Priority;
-        //    userSubMenu.Controller = vmUserSubMenu.Controller;
-        //    userSubMenu.Action = vmUserSubMenu.Action;
-        //    userSubMenu.LayerNo = vmUserSubMenu.LayerNo;
-        //    userSubMenu.ShortName = vmUserSubMenu.ShortName;
-        //    userSubMenu.Param = vmUserSubMenu.Param;
-        //    userSubMenu.CompanyId = vmUserSubMenu.CompanyFK;
-        //    userSubMenu.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-        //    userSubMenu.ModifiedDate = DateTime.Now;
-        //    _db.Entry(userSubMenu).State = EntityState.Modified;
-        //    if (await _db.SaveChangesAsync() > 0)
-        //    {
-        //        result = userSubMenu.CompanySubMenuId;
-        //    }
-        //    return result;
-        //}
 
         public async Task<int> UserSubMenuDelete(int id)
         {
@@ -2528,7 +2396,7 @@ namespace KGERP.Service.Implementation.Configuration
                 throw new Exception($"Sorry! This Name {productCategoryModel.Name} already Exist!");
             }
             #endregion
-            
+
             ProductCategory productCategory = new ProductCategory
             {
                 Name = productCategoryModel.Name,
@@ -4766,6 +4634,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ContactPerson = t1.ContactName,
                                                                 Address = t1.Address,
                                                                 Code = t1.Code,
+                                                                EmployeeId = t1.EmployeeId,
                                                                 Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
                                                                 Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
                                                                 District = t3.Name,
@@ -5050,6 +4919,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ContactPerson = t1.ContactName,
                                                                 Address = t1.Address,
                                                                 Code = t1.Code,
+                                                                EmployeeId = t1.EmployeeId,
                                                                 Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
                                                                 Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
                                                                 District = t3.Name,

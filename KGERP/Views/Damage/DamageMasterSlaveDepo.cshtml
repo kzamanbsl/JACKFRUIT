@@ -138,16 +138,16 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Deport:</label>
-                                        @Html.DropDownListFor(model => model.ToDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.ToDeportId, "", new { @class = "text-danger" })
+                                        <label>From Deport:</label>
+                                        @Html.DropDownListFor(model => model.FromDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.FromDeportId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 " id="wareHouseId" >
                                     <div class="form-group">
-                                        <label>Dealer:</label>
-                                        @Html.DropDownListFor(model => model.FromDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.FromDealerId, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">To Warehouse:</label>
+                                        @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 

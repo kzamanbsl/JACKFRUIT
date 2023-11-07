@@ -43,28 +43,28 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Name:</label>
+                                    <label class="form-control-label">Name:</label>
                                     @Html.TextBoxFor(model => model.EmployeeName, new { id = "txtEmployeeName", @class = "form-control", @placeholder = "Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">User Name:</label>
-                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", })
+                                    <label class="form-control-label">User Name:</label>
+                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", @readonly = "readonly" })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Mobile No:</label>
+                                    <label class="form-control-label">Mobile No:</label>
                                     @Html.TextBoxFor(model => model.MobileNo, new { id = "txtMobileNo", @class = "form-control", @placeholder = "Mobile No" })
                                     @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Email:</label>
+                                    <label class="form-control-label">Email:</label>
                                     @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control", @placeholder = "email" })
                                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                 </div>
@@ -74,39 +74,37 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-12" })
-                                    <div class="col-12">
-                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "password", required = "true" } })
-                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                    </div>
+                                    <label class="form-control-label">Password:</label>
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "password", required = "true" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-12" })
-                                    <div class="col-12">
-                                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "confirm password", required = "true" } })
-                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                                    </div>
+                                    <label class="form-control-label">Confirm Password:</label>
+                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "confirm password", required = "true" } })
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">User Type:</label>
-                                    @Html.DropDownListFor(model => model.UserTypeId, Model.EnumUserTypeList as SelectList, "==Select Type==", new { id = "ddlUserTypeId", @class = "form-control ddlReset searchingDropdown", required = "required" })
+                                    <label class="form-control-label">User Type:</label>
+                                    @Html.DropDownListFor(model => model.UserTypeId, Model.EnumUserTypeList as SelectList, "==Select Type==", new { id = "ddlUserTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                     @Html.ValidationMessageFor(model => model.UserTypeId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
                             <div class="col-md-3">
                                 <div class="form-group" id="deportDivId" style="display:none;">
                                     <label>Deport:</label>
-                                    @Html.DropDownListFor(model => model.DeportId, Model.CustomerList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown" })
+                                    @Html.DropDownListFor(model => model.DeportId, Model.CustomerList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown", style = "width:100%" })
                                     @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group" id="dealerDivId" style="display:none;">
                                     <label>Dealer:</label>
-                                    @Html.DropDownListFor(model => model.DealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown" })
+                                    @Html.DropDownListFor(model => model.DealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
                                     @Html.ValidationMessageFor(model => model.DealerId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -182,14 +180,14 @@
                                                     @*<a onclick="makeEditble(@item);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>*@
                                                     @if (@item.Active)
                                                     {
-                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Inactive"
+                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Make Inactive"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
                                                         </a>
                                                     }
                                                     else
                                                     {
-                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Active"
+                                                        <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Make Active"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                                                         </a>
@@ -298,9 +296,9 @@
 @section scripts {
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('.formValidator').bootstrapValidator();
-        });
+        //$(document).ready(function () {
+        //    $('.formValidator').bootstrapValidator();
+        //});
 
         $("#ddlUserTypeId").change(function () {
 
@@ -324,7 +322,6 @@
                             $(data).each(function (index, item) {
                                 $("#ddlDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
-
                         }
                     }
                 });

@@ -221,14 +221,16 @@
                                 <table id="KgErpDataTable" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>SL</th>
+                                            <th>
+                                                SL
+                                            </th>
                                             <th>
                                                 Dealer Name
                                             </th>
                                             <th>
                                                 Proprietor
                                             </th>
-                                            <th>Payment Type</th>
+                                            <th>User Name</th>
                                             <th>
                                                 Phone
                                             </th>
@@ -239,10 +241,10 @@
                                                 NID
                                             </th>
                                             <th>
-                                                Security Amount
+                                                Sec Amount
                                             </th>
                                             <th>
-                                                Credit Limit
+                                                Cr Limit
                                             </th>
                                             <th>
                                                 Address
@@ -269,7 +271,7 @@
                                                     @item.Propietor
                                                 </td>
                                                 <td>
-                                                    @item.PaymentType
+                                                    @item.EmployeeId
                                                 </td>
                                                 <td>
                                                     @item.Phone
@@ -356,7 +358,7 @@
 
         $(document).ready(function () {
 
-            
+
 
             $('.formValidator').bootstrapValidator();
 
@@ -364,7 +366,7 @@
                 var zoneId = $("#ddlZoneId :selected").val();
 
                 regionChange(0, zoneId);
-               
+
             });
 
             $("#ddlRegionId").on('change', function () {
@@ -408,7 +410,7 @@
                         });
                         if (regionValue > 0) {
                             $("#ddlRegionId").val(regionValue);
-                            
+
                         }
                     }
                 }
@@ -417,7 +419,7 @@
         function areaChange(areaValue,zoneValue,regionValue)
         {
 
-          
+
                 $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetAreaList", "Configuration")",
@@ -464,10 +466,10 @@
         }
         var editButton = false;
         function changeDistrict(distrcitValue,divisionValue) {
-            
 
 
-              
+
+
                 $.ajax({
                     type: "GET",
                     url: "@Url.Action("CommonDistrictsGet","Configuration")",
@@ -489,14 +491,14 @@
                     }
                 });
 
-            
+
         }
         function changeUpazila(upazilaValue,districtValue) {
 
 
 
 
-        
+
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("CommonUpazilasGet", "Configuration")",
@@ -519,9 +521,9 @@
             });
         }
 
-        
 
-        
+
+
 
 
 
@@ -531,9 +533,9 @@
 
 
         function makeEditble(id) {
-          
+
             if (id !== null) {
-           
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 $.ajax({
                 type: "get",
@@ -557,7 +559,7 @@
                         region = data.RegionId;
                         area = data.AreaId;
                         subzone = data.SubZoneId;
-                       
+
 
                         $("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
                         changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
@@ -566,9 +568,9 @@
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         regionChange(data.RegionId, data.ZoneId);
                         areaChange(data.AreaId, data.ZoneId, data.RegionId);
-                        
+
                         territoryChange(data.SubZoneId,data.AreaId);
-                        
+
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
                         $('#txtCreditLimit').val(data.CreditLimit);
@@ -582,15 +584,15 @@
 
 
 
-                     
+
 
                 }
                 });
 
 
-                    
 
-                
+
+
 
 
 
