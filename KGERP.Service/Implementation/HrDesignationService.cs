@@ -1,8 +1,10 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace KGERP.Service.Implementation
 {
@@ -32,6 +34,15 @@ namespace KGERP.Service.Implementation
         public async Task<int> HrDesignationAdd(VMCommonHrDesignation vmCommonDesignation)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonDesignation.ID > 0 ? _context.Designations.FirstOrDefault(c => c.Name.ToLower() == vmCommonDesignation.Name.ToLower() && c.DesignationId != vmCommonDesignation.ID && c.IsActive == true) : _context.Designations.FirstOrDefault(c => c.Name.ToLower() == vmCommonDesignation.Name.ToLower() && c.IsActive == true);
+            if (isExist?.DesignationId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonDesignation.Name} already Exist!");
+            }
+            #endregion
+
             Designation department = new Designation
             {
                 Name = vmCommonDesignation.Name,
@@ -91,6 +102,24 @@ namespace KGERP.Service.Implementation
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> CheckDesignationName(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+            bool isExist = false;
+            if (id > 0)
+            {
+                isExist = await _context.Designations.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DesignationId != id && u.IsActive == true);
+            }
+            else
+            {
+                isExist = await _context.Designations.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+            }
+            return isExist;
         }
 
     }

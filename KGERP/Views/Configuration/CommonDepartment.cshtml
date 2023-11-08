@@ -47,7 +47,7 @@
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Department Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtDepartmentName", @class = "form-control input-sm ", @placeholder = "Department Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new {id= "nameExist", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
@@ -167,6 +167,24 @@
 
 @section scripts {
     <script type="text/javascript">
+
+        $(document.body).on("change", "#txtDepartmentName", function () {
+            var unitId = $("#DepartmentId").val();
+            if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 };
+            var value = $(this).val();
+            var param = { name: value, id: unitId ?? 0 };
+            var url = "/Configuration/IsDepartmentNameExist";
+            $.post(url, param, function (rData) {
+                $('#nameExist').text("");
+                if (rData === true) {
+                    var msg = "Sorry, This " + value + " name already exist!";
+                    $('#nameExist').text(msg);
+                    return;
+                }
+            });
+        });
+
+
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
 
