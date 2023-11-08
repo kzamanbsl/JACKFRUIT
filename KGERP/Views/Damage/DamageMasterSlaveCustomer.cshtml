@@ -23,14 +23,14 @@
         @if (Model.DamageMasterId > 0)
         {
             <span>
-                Damage
+               Customer Damage Damage Entry
             </span>
         }
         else
         {
-            <span>
-                Damage
-            </span>
+    <span>
+        Customer Damage Damage Entry
+    </span>
         }
     </h1>
     <ol class="breadcrumb">
@@ -268,7 +268,7 @@
                                             <tr>
                                                 <td style="padding:5px">@(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
-                                                <td style="padding:5px;text-align:left;">@item.DamageTypeName</td>
+                                                <td style="padding:5px;text-align:left;">@item.DepoDamageTypeName</td>
                                                 <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.DamageQty) @item.UnitName</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 @{ if (Model.StatusId == (int)EnumDamageStatus.Draft)
@@ -317,7 +317,7 @@
     </section>
 }
 
-@using (Html.BeginForm("SubmitDamageMaster", "Damage", FormMethod.Post, new { id = "submitDamageMastersFromSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("SubmitDamageMasterCustomer", "Damage", FormMethod.Post, new { id = "submitDamageMastersFromSlaveFormId", @class = "formValidator" }))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -354,7 +354,7 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteDamageDetailById", "Damage", FormMethod.Post, new { id = "deleteDamageSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteDamageDetailByIdCustomer", "Damage", FormMethod.Post, new { id = "deleteDamageSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">

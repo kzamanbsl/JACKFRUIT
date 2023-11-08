@@ -75,12 +75,15 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                  join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
                                                                  join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId into t6_Join
                                                                  from t6 in t6_Join.DefaultIfEmpty()
+                                                                 join t7 in _db.DamageTypes.Where(x => x.IsActive) on t1.DamageTypeId equals t7.DamageTypeId into t7_Join
+                                                                 from t7 in t7_Join.DefaultIfEmpty()
                                                                  select new DamageDetailModel
                                                                  {
                                                                      DamageDetailId = t1.DamageDetailId,
                                                                      DamageMasterId = t1.DamageMasterId,
                                                                      DamageQty = t1.DamageQty,
                                                                      DealerDamageTypeId = t1.DamageTypeId,
+                                                                     DepoDamageTypeName = t7.Name,
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
@@ -602,11 +605,12 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                join t3 in _db.Vendors on t1.FromDealerId equals t3.VendorId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _db.Vendors on t1.ToDeportId equals t4.VendorId into t4_Join
-                                                               from t4 in t3_Join.DefaultIfEmpty()
+                                                               from t4 in t4_Join.DefaultIfEmpty()
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
                                                                    OperationDate = t1.OperationDate,
+
                                                                    DealerName = t3.Name,
                                                                    DealerAddress = t3.Address,
                                                                    DealerEmail = t3.Email,
@@ -1107,7 +1111,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                join t3 in _db.Vendors on t1.FromDealerId equals t3.VendorId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _db.StockInfoes on t1.ToStockInfoId equals t4.StockInfoId into t4_Join
-                                                               from t4 in t3_Join.DefaultIfEmpty()
+                                                               from t4 in t4_Join.DefaultIfEmpty()
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,

@@ -172,7 +172,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CustomerDamageReceivedSlave(DamageMasterModel damageMasterModel)
         {
             var resutl = await _service.DealerDamageReceived(damageMasterModel);
-            return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyFK });
+            return RedirectToAction(nameof(CustomerDamageReceivedList), new { companyId = damageMasterModel.CompanyFK });
         }
 
 
