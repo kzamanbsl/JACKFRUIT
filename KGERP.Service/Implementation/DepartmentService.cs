@@ -4,6 +4,7 @@ using KGERP.Service.Interface;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -86,6 +87,25 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
+
+        public async Task<bool> CheckDepartmentName(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+            bool isExist = false;
+            if (id > 0)
+            {
+                isExist = await _db.Departments.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DepartmentId != id && u.IsActive == true);
+            }
+            else
+            {
+                isExist = await _db.Departments.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+            }
+            return isExist;
+        }
+
 
 
         public List<SelectModel> GetDepartmentSelectModels()

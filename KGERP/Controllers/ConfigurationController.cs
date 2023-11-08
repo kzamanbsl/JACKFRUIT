@@ -2013,6 +2013,18 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonDepartment), new { companyId = vmCommonDepartment.CompanyFK });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> IsDepartmentNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _departmentService.CheckDepartmentName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Common Designation
