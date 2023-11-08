@@ -115,15 +115,18 @@
                                     </div>
                                 </div>*@
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Employee.Password, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.Employee.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Employee.Password, "", new { @class = "text-danger" })
+                            @if (Model.Employee.Id == 0)
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.Password, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Employee.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Employee.Password, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -155,7 +158,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Employee.Remarks, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
-                                        @Html.TextAreaFor(model => model.Employee.Remarks, 4, 51, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextAreaFor(model => model.Employee.Remarks, 2, 51, new { htmlAttributes = new { @class = "form-control" } })
                                     </div>
                                 </div>
                             </div>
