@@ -77,6 +77,7 @@
     <Report Include="AF_DeportList.rdl" />
     <Report Include="AF_DeportProductStockReport.rdl" />
     <Report Include="AF_DeportSalesInvoiceReport.rdl" />
+    <Report Include="AF_Employee.rdl" />
     <Report Include="AF_ProductList.rdl" />
     <Report Include="AF_ProductStockReport.rdl" />
     <Report Include="BalanceSheet.rdl" />

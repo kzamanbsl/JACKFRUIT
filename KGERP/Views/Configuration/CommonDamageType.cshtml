@@ -166,8 +166,10 @@
         $(document.body).on("change", "#txtDamageTypeName", function () {
             var unitId = $("#DamageTypeId").val();
             if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 };
+            var damageTypeFroId = $("#ddlEnumDamageTypeForId").val();
+            if (damageTypeFroId == null || damageTypeFroId == "" || damageTypeFroId == undefined) { damageTypeFroId = 0 };
             var value = $(this).val();
-            var param = { name: value, id: unitId ?? 0 };
+            var param = { name: value, damageTypeForId: damageTypeFroId, id: unitId};
             var url = "/Configuration/IsDamageTypeNameExist";
             $.post(url, param, function (rData) {
                 $('#nameExist').text("");
