@@ -385,6 +385,18 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonDamageType));
         }
 
+        [HttpPost]
+        public async Task<JsonResult> IsDamageTypeNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDamageTypeName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Common Zone

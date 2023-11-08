@@ -800,6 +800,15 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> DamageTypeAdd(VMCommonDamageType vmCommonDamageType)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonDamageType.ID > 0 ? _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.DamageTypeId != vmCommonDamageType.ID && c.IsActive == true) : _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.IsActive == true);
+            if (isExist?.DamageTypeId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonDamageType.Name} already Exist!");
+            }
+            #endregion
+
             DamageType commonDamageType = new DamageType
             {
                 Name = vmCommonDamageType.Name,
@@ -847,6 +856,25 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+
+        public async Task<bool> CheckDamageTypeName(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+            bool isExist = false;
+            if (id > 0)
+            {
+                isExist = await _db.DamageTypes.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DamageTypeId != id && u.IsActive == true);
+            }
+            else
+            {
+                isExist = await _db.DamageTypes.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+            }
+            return isExist;
+        }
+
         #endregion
 
         public object GetAutoCompleteSupplier(int companyId, string prefix)

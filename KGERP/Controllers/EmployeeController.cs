@@ -232,7 +232,7 @@ namespace KGERP.Controllers
             vm.Shifts = _shiftService.GetShiftSelectModels();
             vm.SalaryGrades = _gradeService.GetGradeSelectModels();
             vm.StoreInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
-
+            vm.Employee.CompanyId = companyId;
             return View(vm);
         }
 

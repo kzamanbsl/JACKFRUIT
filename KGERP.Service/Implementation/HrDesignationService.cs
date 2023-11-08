@@ -94,7 +94,7 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public bool ChecckName(VMCommonHrDesignation designation)
+        public bool CheckName(VMCommonHrDesignation designation)
         {
             var exit = _context.Designations.FirstOrDefault(f => f.Name.Trim() == designation.Name.Trim());
             if (exit == null)
