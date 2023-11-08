@@ -14,7 +14,7 @@
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="GeneralLedgerDS">
+    <DataSource Name="DeportSalesInvoiceDataSource">
       <Transaction>true</Transaction>
       <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
@@ -24,7 +24,7 @@
   <DataSets>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>GeneralLedgerDS</DataSourceName>
+        <DataSourceName>DeportSalesInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -63,7 +63,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
     </DataSet>
     <DataSet Name="SODataSet">
       <Query>
-        <DataSourceName>GeneralLedgerDS</DataSourceName>
+        <DataSourceName>DeportSalesInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -204,7 +204,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
     </DataSet>
     <DataSet Name="HederData">
       <Query>
-        <DataSourceName>GeneralLedgerDS</DataSourceName>
+        <DataSourceName>DeportSalesInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
