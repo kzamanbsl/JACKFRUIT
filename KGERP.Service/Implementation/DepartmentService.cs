@@ -37,6 +37,15 @@ namespace KGERP.Service.Implementation
         public async Task<int> DepartmentAdd(VMCommonDepartment vmCommonDepartment)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = vmCommonDepartment.ID > 0 ? _db.Departments.FirstOrDefault(c => c.Name.ToLower() == vmCommonDepartment.Name.ToLower() && c.DepartmentId != vmCommonDepartment.ID && c.IsActive == true) : _db.Departments.FirstOrDefault(c => c.Name.ToLower() == vmCommonDepartment.Name.ToLower() && c.IsActive == true);
+            if (isExist?.DepartmentId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonDepartment.Name} already Exist!");
+            }
+            #endregion
+
             Department department = new Department
             {
                 Name = vmCommonDepartment.Name,
