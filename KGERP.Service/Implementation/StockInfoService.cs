@@ -1,9 +1,11 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -112,6 +114,16 @@ namespace KGERP.Service.Implementation
         public async Task<int> StockInfoAdd(StockInfoModel model)
         {
             var result = -1;
+
+            #region check StockInfo Duplicate
+            var isExist = await _context.StockInfoes.FirstOrDefaultAsync(u => u.Name.ToLower() == model.Name.ToLower() && u.StockInfoId != model.StockInfoId && u.IsActive == true);
+            if (isExist?.StockInfoId > 0)
+            {
+                throw new Exception($"Sorry! This Name {model.Name} already Exist!");
+            }
+            #endregion
+
+
             StockInfo obj = new StockInfo
             {
                 Name = model.Name,
@@ -187,5 +199,26 @@ namespace KGERP.Service.Implementation
             disposed = true;
         }
 
+        public async Task<bool> CheckDuplicateStockName(string Name, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(Name))
+            {
+                return  isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _context.StockInfoes.AnyAsync(u => u.Name.ToLower() == Name.ToLower() &&  u.StockInfoId != id && u.IsActive == true);
+
+            }
+            else
+            {
+                isExist = await _context.StockInfoes.AnyAsync(u => u.Name.ToLower() == Name.ToLower() && u.IsActive == true);
+            }
+
+            return isExist;
+
+
+        }
     }
 }
