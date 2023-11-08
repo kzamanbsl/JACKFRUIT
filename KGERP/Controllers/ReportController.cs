@@ -67,9 +67,10 @@ namespace KGERP.Controllers
         public ActionResult GetEmployeeReport(string employeeId)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
+
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/" + CompanyInfo.ReportPrefix + "Employee" + "&rs:Command=Render&rs:Format=PDF&EmployeeId=" + employeeId + "&CompanyId=" + 21);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/" + CompanyInfo.ReportPrefix + "Employee" + "&rs:Command=Render&rs:Format=PDF&EmployeeId=" + employeeId + "&CompanyId=" +CompanyInfo.CompanyId);
             return File(client.DownloadData(reportUrl), "application/pdf");
         }
 
