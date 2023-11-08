@@ -124,6 +124,16 @@
                                                     <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     <a href="~/Damage/DamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
+                                                else if (item.StatusId == EnumDamageStatus.Received && item.ToDeportId != null && item.ToStockInfoId == null)
+                                                {
+                                                    <a href="~/Damage/DealerDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+                                                }
+                                                else if (item.StatusId == EnumDamageStatus.Received && item.ToDeportId == null && item.ToStockInfoId != null)
+                                                {
+                                                    <a href="~/Damage/DealerToFacDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+                                                }
                                             </td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Draft || item.StatusId == EnumDamageStatus.Submitted)
