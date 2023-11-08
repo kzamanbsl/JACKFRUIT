@@ -74,7 +74,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Deport:</label>
@@ -103,7 +103,7 @@
                                         @Html.ValidationMessageFor(model => model.Common_UpazilasFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="row">
                                 <div class="col-md-3">
@@ -141,21 +141,28 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Deport:</label>
+                                        @Html.DropDownListFor(model => model.ParentId, Model.DeportList as SelectList, "--Deport--", new { id = "ddlParentId", @class = "form-control searchingDropdown", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Proprietor:</label>
                                         @Html.TextBoxFor(model => model.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
                                         @Html.ValidationMessageFor(model => model.Propietor, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Contact Person:</label>
                                         @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
                                         @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">NID No:</label>
                                         @Html.TextBoxFor(model => model.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID No" })
@@ -230,6 +237,21 @@
                                             <th>
                                                 Proprietor
                                             </th>
+                                            <th>
+                                                Zone
+                                            </th>
+                                            <th>
+                                                Region
+                                            </th>
+                                            <th>
+                                                Area
+                                            </th>
+                                            <th>
+                                                Territory
+                                            </th>
+                                            <th>
+                                                Incharge
+                                            </th>
                                             <th>User Name</th>
                                             <th>
                                                 Phone
@@ -249,9 +271,9 @@
                                             <th>
                                                 Address
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Zone
-                                            </th>
+                                            </th>*@
 
                                             <th>Action</th>
                                         </tr>
@@ -269,6 +291,21 @@
                                                 </td>
                                                 <td>
                                                     @item.Propietor
+                                                </td>
+                                                <td>
+                                                    @item.ZoneName
+                                                </td> 
+                                                <td>
+                                                    @item.RegionName
+                                                </td> 
+                                                <td>
+                                                    @item.AreaName
+                                                </td> 
+                                                <td>
+                                                    @item.SubZoneName
+                                                </td> 
+                                                <td>
+                                                    @item.ZoneIncharge
                                                 </td>
                                                 <td>
                                                     @item.EmployeeId
@@ -291,9 +328,9 @@
                                                 <td>
                                                     @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.ZoneName (Incharge: @item.ZoneIncharge)
-                                                </td>
+                                                </td>*@
 
                                                 <td>
                                                     <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
@@ -561,9 +598,9 @@
                         subzone = data.SubZoneId;
 
 
-                        $("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
-                        changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
-                        changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
+                        //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
+                        //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
+                        //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
                         //});
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         regionChange(data.RegionId, data.ZoneId);

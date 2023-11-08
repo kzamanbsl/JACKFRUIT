@@ -1,6 +1,7 @@
 ﻿using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace KGERP.ViewModel
 {
@@ -32,5 +33,10 @@ namespace KGERP.ViewModel
         public List<SelectModel> Actives { get; set; }
         public List<SelectModel> BankBranches { get; set; }
         public List<SelectModel> StoreInfos { get; set; }
+
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
+        public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
     }
 }

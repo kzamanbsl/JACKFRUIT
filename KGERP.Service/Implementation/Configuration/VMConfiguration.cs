@@ -361,6 +361,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string BookingNo { get; set; }
         public string ProductName { get; set; }
         public string RegionName { get; set; }
+        public string AreaName { get; set; }
         public string SubZoneName { get; set; }
     }
 
