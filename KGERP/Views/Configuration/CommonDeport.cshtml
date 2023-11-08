@@ -74,7 +74,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Division:</label>
@@ -96,7 +96,7 @@
                                         @Html.ValidationMessageFor(model => model.Common_UpazilasFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="row">
                                 <div class="col-md-4">
@@ -222,6 +222,15 @@
                                             <th>
                                                 Proprietor
                                             </th>
+                                            <th>
+                                                Zone
+                                            </th>
+                                            <th>
+                                                Region
+                                            </th>
+                                            <th>
+                                                Incharge
+                                            </th>
                                             <th>User Name</th>
                                             <th>
                                                 Phone
@@ -241,9 +250,9 @@
                                             <th>
                                                 Address
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Zone
-                                            </th>
+                                            </th>*@
 
                                             <th>Action</th>
                                         </tr>
@@ -261,6 +270,16 @@
                                                 </td>
                                                 <td>
                                                     @item.Propietor
+                                                </td>
+
+                                                <td>
+                                                    @item.ZoneName
+                                                </td>
+                                                <td>
+                                                    @item.RegionName
+                                                </td>
+                                                <td>
+                                                    @item.ZoneIncharge
                                                 </td>
                                                 <td>
                                                     @item.EmployeeId
@@ -283,9 +302,9 @@
                                                 <td>
                                                     @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
                                                 </td>
-                                                <td>
-                                                    @item.ZoneName (Incharge: @item.ZoneIncharge)
-                                                </td>
+                                                @*<td>
+            @item.ZoneName (Incharge: @item.ZoneIncharge)
+        </td>*@
 
                                                 <td>
                                                     <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
@@ -522,11 +541,13 @@
 
 
                         $('#txtEmail').val(data.Email);
-                        $('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
-                        /*districtChange();*/
-                        districtChange(data.Common_DistrictsFk);
-                      
-                        upazilaChange(data.Common_UpazilasFk, data.Common_DistrictsFk);
+                        //$('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
+                        ///*districtChange();*/
+                        //districtChange(data.Common_DistrictsFk);
+
+                        //upazilaChange(data.Common_UpazilasFk, data.Common_DistrictsFk);
+
+
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         regionChange(data.RegionId);
                    
