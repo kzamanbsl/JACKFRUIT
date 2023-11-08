@@ -74,7 +74,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Division:</label>
@@ -96,7 +96,7 @@
                                         @Html.ValidationMessageFor(model => model.Common_UpazilasFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="row">
                                 <div class="col-md-3">
@@ -234,10 +234,22 @@
                                             <th>
                                                 Proprietor
                                             </th>
-                                            <th>Payment Type</th>
                                             <th>
-                                                Customer Type
+                                                Zone
                                             </th>
+                                            <th>
+                                                Region
+                                            </th>
+                                            <th>
+                                                Area
+                                            </th>
+                                            <th>
+                                                Territory
+                                            </th>
+                                            <th>
+                                                Incharge
+                                            </th>
+
                                             <th>
                                                 Phone
                                             </th>
@@ -256,9 +268,9 @@
                                             <th>
                                                 Address
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Zone
-                                            </th>
+                                            </th>*@
 
                                             <th>
                                                 Status
@@ -275,8 +287,8 @@
                                             <tr>
                                                 <td>@(++sl)</td>
                                                 @*<td>
-                                                    @item.Code
-                                                </td>*@
+            @item.Code
+        </td>*@
                                                 <td>
                                                     <a href="~/Configuration/CommonCustomerByID?customerId=@item.ID" target="_blank">@item.Name</a>
                                                 </td>
@@ -284,13 +296,30 @@
                                                     @item.Propietor
                                                 </td>
                                                 <td>
-                                                    @item.PaymentType
+                                                    @item.ZoneName
                                                 </td>
                                                 <td>
-                                                    <span class="bg-gray-light">
-                                                        @item.CustomerType
-                                                    </span>
+                                                    @item.RegionName
                                                 </td>
+                                                <td>
+                                                    @item.AreaName
+                                                </td>
+                                                <td>
+                                                    @item.SubZoneName
+                                                </td>
+                                                <td>
+                                                    @item.ZoneIncharge
+                                                </td>
+
+
+                                                @*<td>
+            @item.PaymentType
+        </td>
+        <td>
+            <span class="bg-gray-light">
+                @item.CustomerType
+            </span>
+        </td>*@
                                                 <td>
                                                     @item.Phone
                                                 </td>
@@ -310,9 +339,9 @@
                                                 <td>
                                                     @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.ZoneName (Incharge: @item.ZoneIncharge)
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     @item.CustomerStatus
                                                 </td>
@@ -555,9 +584,9 @@
 
 
                         $('#txtEmail').val(data.Email);
-                        $('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
-                        districtChange(data.Common_DistrictsFk);
-                        upazilaChange(data.Common_UpazilasFk, data.Common_DistrictsFk);
+                        //$('#ddlCommon_DivisionFk').val(data.Common_DivisionFk).trigger('change');
+                        //districtChange(data.Common_DistrictsFk);
+                        //upazilaChange(data.Common_UpazilasFk, data.Common_DistrictsFk);
 
                         //$('#ddlCommon_DistrictsFk').val(data.Common_DistrictsFk).trigger('change');
                         //$('#ddlCommon_UpazilasFk').val(data.Common_UpazilasFk).trigger('change');
