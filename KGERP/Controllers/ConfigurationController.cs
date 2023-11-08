@@ -265,18 +265,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> IsUnitNameExist(string name, int id)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            var isDuplicate = await _service.CheckDuplicateUnitName(name, id);
-
-            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
         public async Task<ActionResult> CommonUnitDelete(VMCommonUnit vmCommonUnit)
         {
 
@@ -290,6 +278,18 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(CommonUnit));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> IsUnitNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateUnitName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -2062,6 +2062,19 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonHrDesignation), new { companyId = vmCommonDesignation.CompanyFK });
         }
+
+        [HttpPost]
+        public async Task<JsonResult> IsDesignationNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _hrDesignationService.CheckDesignationName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
 
