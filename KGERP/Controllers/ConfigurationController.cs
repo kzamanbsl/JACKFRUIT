@@ -265,18 +265,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> IsUnitNameExist(string name, int id)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            var isDuplicate = await _service.CheckDuplicateUnitName(name, id);
-
-            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
         public async Task<ActionResult> CommonUnitDelete(VMCommonUnit vmCommonUnit)
         {
 
@@ -290,6 +278,18 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(CommonUnit));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> IsUnitNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateUnitName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -563,7 +563,7 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, regionId = vmCommonArea.RegionId });
         }
         [HttpPost]
-        public async Task<JsonResult> IsAreNameExist(int zoneId,int regionId,string areaName,int id)
+        public async Task<JsonResult> IsAreaNameExist(int zoneId,int regionId,string areaName,int id)
         {
             if (string.IsNullOrEmpty(areaName))
             {
@@ -625,6 +625,18 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId = vmCommonSubZone.RegionId, areaId = vmCommonSubZone.AreaId });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> IsSubZoneNameExist(int zoneId, int regionId, int areaId, string subZoneName, int id)
+        {
+            if (string.IsNullOrEmpty(subZoneName))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _service.CheckDuplicateSubZoneName(zoneId, regionId, areaId,subZoneName, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+
+        }
         #endregion
 
 
@@ -2001,6 +2013,18 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonDepartment), new { companyId = vmCommonDepartment.CompanyFK });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> IsDepartmentNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _departmentService.CheckDepartmentName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Common Designation
@@ -2038,6 +2062,19 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonHrDesignation), new { companyId = vmCommonDesignation.CompanyFK });
         }
+
+        [HttpPost]
+        public async Task<JsonResult> IsDesignationNameExist(string name, int id)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _hrDesignationService.CheckDesignationName(name, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
 

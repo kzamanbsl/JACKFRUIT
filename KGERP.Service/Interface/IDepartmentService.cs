@@ -15,5 +15,6 @@ namespace KGERP.Service.Interface
         Task<VMCommonDepartment> GetDepartments(int companyId);
         List<SelectModel> GetDepartmentSelectModels();
         List<SelectListItem> GetDepartmentSelectListModels();
+        Task<bool> CheckDepartmentName(string name, int id);
     }
 }

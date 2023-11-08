@@ -1900,6 +1900,18 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> SubZoneAdd(VMCommonSubZone vmCommonSubZone)
         {
             var result = -1;
+
+            #region check SubZone Duplicate
+            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.RegionId == vmCommonSubZone.RegionId && u.AreaId == vmCommonSubZone.AreaId  && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
+
+
+            }
+            #endregion
+
+
             SubZone subZone = new SubZone
             {
                 Name = vmCommonSubZone.Name,
@@ -2083,7 +2095,25 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+        public async Task<bool> CheckDuplicateSubZoneName(int zoneId, int regionId, int areaId, string subZoneName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(subZoneName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.RegionId == regionId && u.AreaId == areaId && u.SubZoneId != id && u.IsActive == true);
 
+            }
+            else
+            {
+                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.RegionId == regionId && u.AreaId == areaId && u.IsActive == true);
+            }
+
+            return isExist;
+        }
 
         #endregion
 
@@ -3360,7 +3390,7 @@ namespace KGERP.Service.Implementation.Configuration
            
           
                var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() &&
-                          u.ProductCategoryId == vmCommonProduct.CategoryId && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
+                          u.ProductCategoryId == vmCommonProduct.Common_ProductCategoryFk && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
 
             
             if (isExist?.ProductCategoryId > 0)

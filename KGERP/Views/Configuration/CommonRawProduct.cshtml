@@ -48,7 +48,7 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Category:</label>
                                     @*@Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control searchingDropdown", @name = "Brand", , required = "required" } })*@
-                                    @Html.DropDownListFor(model => model.CategoryId, Model.ProductCategoryList as SelectList, "--Select Product Category--", new { id = "CategoryId", value = Model.ProductCategoryList, @class = "form-control searchingDropdown" })
+                                    @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "--Select Product Category--", new { id = "CategoryId", value = Model.ProductCategoryList, @class = "form-control searchingDropdown" })
                                     @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
                                     @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                 </div>
