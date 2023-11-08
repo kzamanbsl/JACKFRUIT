@@ -386,13 +386,13 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> IsDamageTypeNameExist(string name, int id)
+        public async Task<JsonResult> IsDamageTypeNameExist(string name, int damageTypeForId, int id)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name) && damageTypeForId == 0)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDamageTypeName(name, id);
+            var isDuplicate = await _service.CheckDamageTypeName(name, damageTypeForId, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }

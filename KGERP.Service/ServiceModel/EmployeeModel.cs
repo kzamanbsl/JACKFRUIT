@@ -231,6 +231,17 @@ namespace KGERP.Service.ServiceModel
         public string ImagePath { get; set; }
         public string SignaturePath { get; set; }
 
+        [DisplayName("Zone")]
+        public int? ZoneId { get; set; }
+        [DisplayName("Region")]
+        public int? RegionId { get; set; }
+        [DisplayName("Area")]
+        public int? AreaId { get; set; }
+        [DisplayName("SubZone")]
+        public int? SubZoneId { get; set; }
+
+
+
         public virtual StockInfoModel StockInfo { get; set; }
         public virtual BankModel Bank { get; set; }
         public virtual BankBranchModel BankBranch { get; set; }

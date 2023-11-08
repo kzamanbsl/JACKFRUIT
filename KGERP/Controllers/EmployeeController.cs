@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -20,11 +21,13 @@ using System.Linq.Dynamic;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -47,10 +50,12 @@ namespace KGERP.Controllers
         private readonly ERPEntities _db = new ERPEntities();
         private readonly IDistrictService _districtService;
         private readonly IStockInfoService _stockInfoService;
-        public EmployeeController(IDistrictService districtService, IStockInfoService stockInfoService)
+        private readonly ConfigurationService _configurationService;
+        public EmployeeController(IDistrictService districtService, IStockInfoService stockInfoService, ConfigurationService configurationService)
         {
             this._districtService = districtService;
             _stockInfoService = stockInfoService;
+            _configurationService = configurationService;
         }
 
         [SessionExpire]
@@ -232,6 +237,11 @@ namespace KGERP.Controllers
             vm.Shifts = _shiftService.GetShiftSelectModels();
             vm.SalaryGrades = _gradeService.GetGradeSelectModels();
             vm.StoreInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+
+            vm.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text");
+            vm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId), "Value", "Text");
+            vm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId), "Value", "Text");
+            vm.TerritoryList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             vm.Employee.CompanyId = companyId;
             return View(vm);
         }
