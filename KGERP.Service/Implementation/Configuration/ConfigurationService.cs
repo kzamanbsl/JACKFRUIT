@@ -802,7 +802,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region IsExist
-            var isExist = vmCommonDamageType.ID > 0 ? _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.DamageTypeId != vmCommonDamageType.ID && c.IsActive == true) : _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.IsActive == true);
+            var isExist = vmCommonDamageType.ID > 0 ? _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.DamageTypeForId == vmCommonDamageType.DamageTypeForId && c.DamageTypeId != vmCommonDamageType.ID && c.IsActive == true) : _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.DamageTypeForId == vmCommonDamageType.DamageTypeForId && c.IsActive == true);
             if (isExist?.DamageTypeId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonDamageType.Name} already Exist!");
@@ -857,20 +857,20 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        public async Task<bool> CheckDamageTypeName(string name, int id)
+        public async Task<bool> CheckDamageTypeName(string name, int damageTypeForId, int id)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name) && damageTypeForId == 0)
             {
                 return false;
             }
             bool isExist = false;
             if (id > 0)
             {
-                isExist = await _db.DamageTypes.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DamageTypeId != id && u.IsActive == true);
+                isExist = await _db.DamageTypes.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DamageTypeForId == damageTypeForId && u.DamageTypeId != id && u.IsActive == true);
             }
             else
             {
-                isExist = await _db.DamageTypes.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+                isExist = await _db.DamageTypes.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DamageTypeForId == damageTypeForId && u.IsActive == true);
             }
             return isExist;
         }
