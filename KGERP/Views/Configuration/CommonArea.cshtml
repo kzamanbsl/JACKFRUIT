@@ -346,7 +346,7 @@
             console.log(areaId);
                 $.ajax({
                 type:"post",
-                url: "@Url.Action("IsAreNameExist", "Configuration")",
+                url: "@Url.Action("IsAreaNameExist", "Configuration")",
                     data: { zoneId: zoneId, regionId: regionId, areaName: Name, id: areaId },
                 success: function (data)
                 {

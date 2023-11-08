@@ -1,8 +1,10 @@
-﻿using KGERP.Service.Interface;
+﻿using KGERP.Data.Models;
+using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -56,6 +58,15 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(Index), new { companyId = model.CompanyId });
         }
 
+        public async Task<JsonResult> IsStockNameExist(string Name, int id)
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var isDuplicate = await _stockInfoService.CheckDuplicateStockName(Name, id);
 
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+        }
     }
 }

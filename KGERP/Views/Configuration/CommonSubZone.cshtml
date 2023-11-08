@@ -70,7 +70,7 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Territory:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtSubZoneName", @class = "form-control input-sm", @placeholder = "Territory", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "SubZoneNameValidation",@class = "text-danger" })
 
                                 </div>
                             </div>
@@ -265,7 +265,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
@@ -288,14 +288,14 @@
                     }
                 });
             });
-          
-            
+
+
                 //Bind Region base on Zone Selection
 
 
             $('#ddlZoneId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
-                
+
                 changeRegion(0, zoneId);
             });
 
@@ -304,13 +304,13 @@
                 var regionId = $("#ddlRegionId :selected").val();
                 changeArea(0, zoneId, regionId);
             });
-            
-            
 
-          
-               
-            
-            
+
+
+
+
+
+
         });
         function changeRegion(regionValue,zoneValue) {
             $.ajax({
@@ -319,7 +319,7 @@
                 data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue  },
 
                 datatype: "json",
-               
+
                 success: function (data) {
                     if (data) {
                         $("#ddlRegionId").empty();
@@ -365,7 +365,7 @@
                 $('#subZoneId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-              
+
                 $('#txtSubZoneName').val($('#tdSubZoneName_' + rowId).text().trim());
 
                 $('#txtSalesOfficerName').val($('#tdSalesOfficerName_' + rowId).text().trim());
@@ -374,7 +374,7 @@
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
                 $('#txtMobilePersonal').val($('#tdMobilePersonal_' + rowId).text().trim());
                 $('#employeeId').val($('#tdEmployeeId_' + rowId).text().trim());
-                
+
 
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger("change");
                 var zoneId = $("#ddlZoneId :selected").val();
@@ -400,9 +400,50 @@
         function resetForm() {
             $('#commonSubZoneFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
-        }
+    }
 
-    </script>
+
+       $('#txtSubZoneName').change(function () {
+
+           var Name = $('#txtSubZoneName').val();
+            var zoneId = $('#ddlZoneId').val();
+           var regionId = $('#ddlRegionId').val();
+           var areaId = $('#ddlAreaId').val();
+           var subZoneId = $('#subZoneId').val();
+            if (zoneId == null) {
+                zoneId = 0;
+            }
+            if (regionId == null) {
+                regionId = 0;
+            }
+
+                $.ajax({
+                type:"post",
+                url: "@Url.Action("IsSubZoneNameExist", "Configuration")",
+                    data: { zoneId: zoneId, regionId: regionId, areaId: areaId, subZoneName: Name, id: subZoneId },
+                success: function (data)
+                {
+                    if (data == true) {
+                        $('#SubZoneNameValidation').show();
+                        $('#SubZoneNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                    }
+                    else
+                    {
+                        $('#SubZoneNameValidation').hide();
+                    }
+                }
+
+
+
+
+
+
+            });
+
+
+
+        });
+</script>
 
 
 }
