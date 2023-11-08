@@ -169,10 +169,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.Employee.ZoneId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.Employee.ZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlZoneId", @class = "form-control searchingDropdown", required = "true" })
-                                                @Html.ValidationMessageFor(model => model.Employee.ZoneId, "", new { @class = "text-danger" })
+                                                @Html.DropDownListFor(model => model.Employee.ZoneIds, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlZoneId", @class = "form-control searchingDropdown"})
+                                                @Html.ValidationMessageFor(model => model.Employee.ZoneIds, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Employee.RegionId, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
+                                                @Html.DropDownListFor(model => model.Employee.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control searchingDropdown"})
                                                 @Html.ValidationMessageFor(model => model.Employee.RegionId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -191,7 +191,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Employee.AreaId, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control searchingDropdown", required = "true" })
+                                                @Html.DropDownListFor(model => model.Employee.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control searchingDropdown"})
                                                 @Html.ValidationMessageFor(model => model.Employee.AreaId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -201,7 +201,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Employee.SubZoneId, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown", required = "true" })
+                                                @Html.DropDownListFor(model => model.Employee.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"})
                                                 @Html.ValidationMessageFor(model => model.Employee.SubZoneId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
