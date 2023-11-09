@@ -236,9 +236,12 @@ namespace KGERP.Service.ServiceModel
 
         [DisplayName("Region")]
         public int[] RegionIds { get; set; }
-        [DisplayName("Area")]
+
+        [DisplayName("Area")] 
+        public int[] AreaIds { get; set; }
+
         [DisplayName("Territory")]
-        public int?[] SubZoneIds { get; set; }
+        public int[] SubZoneIds { get; set; }
 
 
 

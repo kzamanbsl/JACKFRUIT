@@ -23,6 +23,7 @@ namespace KGERP.Service.ServiceModel
 
         [Display(Name = "User Name")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "User name required")]
+        [StringLength(20)]
         [RegularExpression(@"^[^\s\,]*$", ErrorMessage = "User Name Can't Have Spaces/ Comma")]
         public string UserName { get; set; }
 
