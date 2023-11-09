@@ -178,9 +178,9 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <div class="form-group">
+                                        <div class="form-group" id="regionDev">
                                             @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
+                                            <div class="col-md-8" >
                                                 @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList,new { id = "ddlRegionId", @class = "form-control searchingDropdown"})
                                                 @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
                                             </div>
@@ -188,7 +188,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <div class="form-group">
+                                        <div class="form-group" id="areaDev">
                                             @Html.LabelFor(model => model.Employee.AreaIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 @Html.ListBoxFor(model => model.Employee.AreaIds, Model.AreaList as MultiSelectList,new { id = "ddlAreaId", @class = "form-control searchingDropdown"})
@@ -198,7 +198,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <div class="form-group">
+                                        <div class="form-group" id="subzoneDev">
                                             @Html.LabelFor(model => model.Employee.SubZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 @Html.ListBoxFor(model => model.Employee.SubZoneIds, Model.TerritoryList as MultiSelectList,  new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"  })
@@ -792,24 +792,91 @@
         });
 
 
-        $("#ddlZoneId").change(function (e) {
+        $("#ddlZoneId").on('change',function () {
             var zoneId = $("#ddlZoneId").val();
+            var region = $("#regionDev");
+            var area = $("#areaDev");
+            var subzone = $("#subzoneDev");
 
-    regionChange(0, zoneId);
+            if (zoneId.length > 1) {
+                region.hide();
+                area.hide();
+                subzone.hide();
+                var regionList = $('#ddlRegionId').next().find('.select2-selection__choice');
+                var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
+                var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
+                regionList.remove();
+                areaList.remove();
+                subzoneList.remove();
+                $("#ddlRegionId").val(null);
+                $('#ddlAreaId').val(null);
+                $('#ddlSubZoneId').val(null);
 
-});
+            } else if (2 > zoneId.length) {
+                
+
+                region.show();
+                area.show();
+                subzone.show();
+
+
+                //$('#ddlRegionId option:selected').removeAttr("selected");
+                //$('.select2-selection__rendered').remove();
+                //$("#ddlRegionId option:selected").prop("selected", false);
+                //$("#ddlRegionId").find(".select2-selection__rendered").remove();
+                //$("#ddlRegionId").val([]);
+                //$("#ddlRegionId > option").removeProp("selected");
+
+            };
+            //regionChange(0, zoneId);
+
+        });
+        
+       
 
         $("#ddlRegionId").change(function (e) {
-    var zoneId = $("#ddlZoneId :selected").val();
-    var regionId = $("#ddlRegionId :selected").val();
+    //var zoneId = $("#ddlZoneId :selected").val();
+    var regionValue= $("#ddlRegionId").val();
 
     //areaChange(areaValue, zoneId, regionId);
+            var area = $("#areaDev");
+            var subzone = $("#subzoneDev");
 
+            if (regionValue.length > 1) {
+               
+                area.hide();
+                subzone.hide();
+                var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
+                var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
+                areaList.remove();
+                subzoneList.remove();
+
+                $('#ddlAreaId').val(null);
+                $('#ddlSubZoneId').val(null);
+            } else if (2 > regionValue.length) {
+                area.show();
+                subzone.show();
+            };
 });
 
         $("#ddlAreaId").change(function (e) {
-    var areaId = $("#ddlAreaId :selected").val();
-    territoryChange(0, areaId);
+         var areaValue = $("#ddlAreaId").val();
+            territoryChange(0, areaValue);
+
+            
+
+            //areaChange(areaValue, zoneId, regionId);
+            var subzone = $("#subzoneDev");
+
+            if (areaValue.length > 1) {
+
+                subzone.hide();
+                var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
+                subzoneList.remove();
+                $('#ddlSubZoneId').val(null);
+            } else if (2 > areaValue.length) {
+                subzone.show();
+            };
 });
 
         function regionChange(regionValue,zoneValue) {
