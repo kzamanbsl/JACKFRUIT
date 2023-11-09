@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Drawing;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 
 namespace KGERP.Service.Implementation
@@ -15,7 +17,6 @@ namespace KGERP.Service.Implementation
     public class EmployeeService : IEmployeeService, IDisposable
     {
         private bool disposed = false;
-        private long? managerId;
         private readonly ERPEntities _context;
         public EmployeeService(ERPEntities context)
         {
@@ -273,31 +274,88 @@ namespace KGERP.Service.Implementation
                 throw new Exception(Constants.DATA_NOT_FOUND);
             }
 
-            Employee employee = ObjectConverter<EmployeeModel, Employee>.Convert(model);
-
+            long? managerId = null;
+            bool result = false;
 
             if (id > 0)
             {
-                employee = _context.Employees.FirstOrDefault(x => x.Id == id);
-                managerId = employee.ManagerId;
+                var updateEmployee = _context.Employees.FirstOrDefault(x => x.Id == id);
 
-                if (employee == null)
+                if (updateEmployee == null)
                 {
                     throw new Exception(Constants.DATA_NOT_FOUND);
                 }
 
-                employee.ModifiedDate = DateTime.Now;
-                employee.ModifedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                managerId = model.ManagerId;
+                updateEmployee.ModifiedDate = DateTime.Now;
+                updateEmployee.ModifedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                updateEmployee.Active = model.Active;
+                updateEmployee.EmployeeId = model.EmployeeId;
+                updateEmployee.EndReason = model.EndReason;
+                updateEmployee.ManagerId = model.ManagerId;
+                updateEmployee.HrAdminId = Convert.ToInt64(HrAdmin.Id);
+                updateEmployee.CardId = model.CardId;
+                updateEmployee.ShortName = model.ShortName;
+                updateEmployee.Name = model.Name;
+                updateEmployee.GenderId = model.GenderId;
+                updateEmployee.PresentAddress = model.PresentAddress;
+                updateEmployee.FatherName = model.FatherName;
+                updateEmployee.MotherName = model.MotherName;
+                updateEmployee.SpouseName = model.SpouseName;
+                updateEmployee.Telephone = model.Telephone;
+                updateEmployee.MobileNo = model.MobileNo;
+                updateEmployee.PABX = model.PABX;
+                updateEmployee.FaxNo = model.FaxNo;
+                updateEmployee.Email = model.Email;
+                updateEmployee.SocialId = model.SocialId;
+                updateEmployee.OfficeEmail = model.OfficeEmail;
+                updateEmployee.PermanentAddress = model.PermanentAddress;
+                updateEmployee.DepartmentId = model.DepartmentId;
+                updateEmployee.DesignationId = model.DesignationId;
+                updateEmployee.EmployeeCategoryId = model.EmployeeCategoryId;
+                updateEmployee.ServiceTypeId = model.ServiceTypeId;
+                updateEmployee.JobStatusId = model.JobStatusId;
+                updateEmployee.JoiningDate = model.JoiningDate;
+                updateEmployee.ProbationEndDate = model.ProbationEndDate;
+                updateEmployee.PermanentDate = model.PermanentDate;
+                updateEmployee.CompanyId = model.CompanyId;
+                updateEmployee.ShiftId = model.ShiftId;
+                updateEmployee.DateOfBirth = model.DateOfBirth;
+                updateEmployee.DateOfMarriage = model.DateOfMarriage;
+                updateEmployee.GradeId = model.GradeId;
+                updateEmployee.CountryId = model.CountryId;
+                updateEmployee.MaritalTypeId = model.MaritalTypeId;
+                updateEmployee.DivisionId = model.DivisionId;
+                updateEmployee.DistrictId = model.DistrictId;
+                updateEmployee.UpzillaId = model.UpzillaId;
+                updateEmployee.BankId = model.BankId;
+                updateEmployee.BankBranchId = model.BankBranchId;
+                updateEmployee.BankAccount = model.BankAccount;
+                updateEmployee.DrivingLicenseNo = model.DrivingLicenseNo;
+                updateEmployee.PassportNo = model.PassportNo;
+                updateEmployee.NationalId = model.NationalId;
+                updateEmployee.TinNo = model.TinNo;
+                updateEmployee.ReligionId = model.ReligionId;
+                updateEmployee.BloodGroupId = model.BloodGroupId;
+                updateEmployee.DesignationFlag = model.DesignationFlag;
+                updateEmployee.DisverseMethodId = model.DisverseMethodId;
+                updateEmployee.OfficeTypeId = model.OfficeTypeId;
+                updateEmployee.Remarks = model.Remarks;
+                updateEmployee.EmployeeOrder = model.EmployeeOrder;
+                updateEmployee.SalaryTag = model.SalaryTag;
+                updateEmployee.StockInfoId = model.StockInfoId;
+
                 if (!string.IsNullOrEmpty(model.ImageFileName))
                 {
-                    employee.ImageFileName = model.ImageFileName;
+                    updateEmployee.ImageFileName = model.ImageFileName;
                 }
 
                 if (!string.IsNullOrEmpty(model.SignatureFileName))
                 {
-                    employee.SignatureFileName = model.SignatureFileName;
+                    updateEmployee.SignatureFileName = model.SignatureFileName;
                 }
 
+                #region UserUpdate
                 if (model.Active == false)
                 {
                     User user = _context.Users.FirstOrDefault(d => d.UserName == model.EmployeeId);
@@ -311,7 +369,6 @@ namespace KGERP.Service.Implementation
                         _context.Entry(user).State = EntityState.Modified;
                         _context.SaveChanges();
                     }
-
                 }
                 else
                 {
@@ -327,9 +384,14 @@ namespace KGERP.Service.Implementation
                         _context.SaveChanges();
                     }
                 }
+                #endregion
+
+                result = _context.SaveChanges() > 0;
+                model.Id = updateEmployee.Id;
             }
             else
             {
+                #region UserCreate
                 UserModel userModel = new UserModel();
                 userModel.UserName = model.EmployeeId;
                 userModel.Email = CompanyInfo.CompanyShortName + model.EmployeeId + "@gmail.com";
@@ -348,7 +410,9 @@ namespace KGERP.Service.Implementation
                 {
                     throw new Exception(Constants.OPERATION_FAILE);
                 }
+                #endregion
 
+                Employee employee = ObjectConverter<EmployeeModel, Employee>.Convert(model);
                 employee.HrAdminId = Convert.ToInt64(HrAdmin.Id);
                 employee.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 employee.CreatedDate = DateTime.Now;
@@ -357,9 +421,13 @@ namespace KGERP.Service.Implementation
                 _context.Employees.Add(employee);
                 try
                 {
-                    if (_context.SaveChanges() > 0)
+                    result = _context.SaveChanges() > 0;
+                    if (result==true)
                     {
+                        model.Id = employee.Id;
+
                         _context.Database.ExecuteSqlCommand("exec insertInvalidException {0},{1}", userModel.UserName, userModel.Password);
+                        
                         //-----------------Default Menu Assign--------------------
                         int noOfRowsAffected = _context.Database.ExecuteSqlCommand("spHRMSAssignDefaultMenu {0},{1}", employee.EmployeeId, employee.CreatedBy);
                         return noOfRowsAffected > 0;
@@ -372,75 +440,17 @@ namespace KGERP.Service.Implementation
                 }
             }
 
-            employee.Active = model.Active;
-            employee.EmployeeId = model.EmployeeId;
-            employee.EndReason = model.EndReason;
-            employee.ManagerId = model.ManagerId;
-            employee.HrAdminId = Convert.ToInt64(HrAdmin.Id);
-            employee.CardId = model.CardId;
-            employee.ShortName = model.ShortName;
-            employee.Name = model.Name;
-            employee.GenderId = model.GenderId;
-            employee.PresentAddress = model.PresentAddress;
-            employee.FatherName = model.FatherName;
-            employee.MotherName = model.MotherName;
-            employee.SpouseName = model.SpouseName;
-            employee.Telephone = model.Telephone;
-            employee.MobileNo = model.MobileNo;
-            employee.PABX = model.PABX;
-            employee.FaxNo = model.FaxNo;
-            employee.Email = model.Email;
-            employee.SocialId = model.SocialId;
-            employee.OfficeEmail = model.OfficeEmail;
-            employee.PermanentAddress = model.PermanentAddress;
-            employee.DepartmentId = model.DepartmentId;
-            employee.DesignationId = model.DesignationId;
-            employee.EmployeeCategoryId = model.EmployeeCategoryId;
-            employee.ServiceTypeId = model.ServiceTypeId;
-            employee.JobStatusId = model.JobStatusId;
-            employee.JoiningDate = model.JoiningDate;
-            employee.ProbationEndDate = model.ProbationEndDate;
-            employee.PermanentDate = model.PermanentDate;
-            employee.CompanyId = model.CompanyId;
-            employee.ShiftId = model.ShiftId;
-            employee.DateOfBirth = model.DateOfBirth;
-            employee.DateOfMarriage = model.DateOfMarriage;
-            employee.GradeId = model.GradeId;
-            employee.CountryId = model.CountryId;
-            employee.MaritalTypeId = model.MaritalTypeId;
-            employee.DivisionId = model.DivisionId;
-            employee.DistrictId = model.DistrictId;
-            employee.UpzillaId = model.UpzillaId;
-            employee.BankId = model.BankId;
-            employee.BankBranchId = model.BankBranchId;
-            employee.BankAccount = model.BankAccount;
-            employee.DrivingLicenseNo = model.DrivingLicenseNo;
-            employee.PassportNo = model.PassportNo;
-            employee.NationalId = model.NationalId;
-            employee.TinNo = model.TinNo;
-            employee.ReligionId = model.ReligionId;
-            employee.BloodGroupId = model.BloodGroupId;
-            employee.DesignationFlag = model.DesignationFlag;
-            employee.DisverseMethodId = model.DisverseMethodId;
-            employee.OfficeTypeId = model.OfficeTypeId;
-            employee.Remarks = model.Remarks;
-            employee.EmployeeOrder = model.EmployeeOrder;
-            employee.SalaryTag = model.SalaryTag;
-            employee.StockInfoId = model.StockInfoId;
-            long employeeId = (from i in _context.Employees
-                               where i.EmployeeId == model.EmployeeId
-                               select i.Id).FirstOrDefault();
             try
             {
-                bool u = _context.SaveChanges() > 0;
-                if (u == true)
+
+                if (result == true)
                 {
+                    //long employeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == model.EmployeeId).Id;
                     //model.Id = employee.Id;
                     //context.LeaveApplications.Where(w => w.Id == employeeId && w.ManagerStatus == "Pending").ToList().ForEach(i => i.ManagerId = model.ManagerId);
                     //context.AttendenceApproveApplications.Where(w => w.EmployeeId == employeeId && w.ManagerStatus == 0).ToList().ForEach(i => i.ManagerId = model.ManagerId);
 
-
-                    //Manager update start
+                    #region Manager update start
                     if (managerId != model.ManagerId && model.ManagerId != 0)
                     {
                         var attendenceApprove = _context.AttendenceApproveApplications.Where(x => x.EmployeeId == id && x.ManagerStatus == 0).ToList();
@@ -468,11 +478,51 @@ namespace KGERP.Service.Implementation
                             }
                         }
                     }
+                    #endregion
 
-                    //Manager update end
-
+                    #region Zone Region Area and Territory Update
+                    if (model.SubZoneIds?.Count() > 0)
+                    {
+                        var subZoneIds = model.SubZoneIds.Distinct();
+                        var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
+                        foreach (var subZone in subZones)
+                        {
+                            subZone.EmployeeId = model.Id;
+                        }
+                        
+                    }
+                    else if (model.AreaIds?.Count() > 0)
+                    {
+                        var areaIds = model.AreaIds.Distinct();
+                        var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
+                        foreach (var area in areas)
+                        {
+                            area.EmployeeId = model.Id;
+                        }
+                    }
+                    else if (model.RegionIds?.Count() > 0)
+                    {
+                        var regionIds = model.RegionIds.Distinct();
+                        var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
+                        foreach (var region in regions)
+                        {
+                            region.EmployeeId = model.Id;
+                        }
+                    }
+                    else if (model.ZoneIds?.Count() > 0)
+                    {
+                        var zoneIds = model.ZoneIds.Distinct();
+                        var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
+                        foreach (var zone in zones)
+                        {
+                            zone.EmployeeId = model.Id;
+                        }
+                    }
+                    return _context.SaveChanges() > 0;
+                    #endregion
                 }
-                return u;
+
+                return result;
             }
             catch (Exception ex)
             {
