@@ -232,14 +232,14 @@ namespace KGERP.Service.ServiceModel
         public string SignaturePath { get; set; }
 
         [DisplayName("Zone")]
-        public List<int?> ZoneIds { get; set; }
+        public int?[] ZoneIds { get; set; }
 
         [DisplayName("Region")]
-        public int? RegionId { get; set; }
+        public int?[] RegionIds { get; set; }
         [DisplayName("Area")]
-        public int? AreaId { get; set; }
+        public int?[] AreaIds { get; set; }
         [DisplayName("SubZone")]
-        public int? SubZoneId { get; set; }
+        public int?[] SubZoneIds { get; set; }
 
 
 

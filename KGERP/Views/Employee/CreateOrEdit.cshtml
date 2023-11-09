@@ -171,7 +171,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Employee.ZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.ZoneIds, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlZoneId", @class = "form-control searchingDropdown"})
+                                                @Html.ListBoxFor(model => model.Employee.ZoneIds, Model.ZoneList as MultiSelectList, new { id = "ddlZoneId", @class = "form-control searchingDropdown"})
                                                 @Html.ValidationMessageFor(model => model.Employee.ZoneIds, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -179,30 +179,30 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.Employee.RegionId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control searchingDropdown"})
-                                                @Html.ValidationMessageFor(model => model.Employee.RegionId, "", new { @class = "text-danger" })
+                                                @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList,new { id = "ddlRegionId", @class = "form-control searchingDropdown"})
+                                                @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.Employee.AreaId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.Employee.AreaIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control searchingDropdown"})
-                                                @Html.ValidationMessageFor(model => model.Employee.AreaId, "", new { @class = "text-danger" })
+                                                @Html.ListBoxFor(model => model.Employee.AreaIds, Model.AreaList as MultiSelectList,new { id = "ddlAreaId", @class = "form-control searchingDropdown"})
+                                                @Html.ValidationMessageFor(model => model.Employee.AreaIds, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.Employee.SubZoneId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.Employee.SubZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.Employee.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"})
-                                                @Html.ValidationMessageFor(model => model.Employee.SubZoneId, "", new { @class = "text-danger" })
+                                                @Html.ListBoxFor(model => model.Employee.SubZoneIds, Model.TerritoryList as MultiSelectList,  new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"  })
+                                                @Html.ValidationMessageFor(model => model.Employee.SubZoneIds, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -687,6 +687,10 @@
                 width: 270,
                 showSubtext: true
             });
+            $('#ddlZoneId').prepend('<option disabled  value="">Select Zone(s)</option>');
+            $('#ddlSubZoneId').prepend('<option disabled  value="">Select SubZone(s)</option>');
+            $('#ddlAreaId').prepend('<option disabled  value="">Select Area(s)</option>');
+            $('#ddlRegionId').prepend('<option disabled  value="">Select Region(s)</option>');
 
         });
 
@@ -789,7 +793,8 @@
 
 
         $("#ddlZoneId").change(function (e) {
-    var zoneId = $("#ddlZoneId :selected").val();
+            var zoneId = $("#ddlZoneId").val();
+
     regionChange(0, zoneId);
 
 });
@@ -798,7 +803,7 @@
     var zoneId = $("#ddlZoneId :selected").val();
     var regionId = $("#ddlRegionId :selected").val();
 
-    areaChange(areaValue, zoneId, regionId);
+    //areaChange(areaValue, zoneId, regionId);
 
 });
 

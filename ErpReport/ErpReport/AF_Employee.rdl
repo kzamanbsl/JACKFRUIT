@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-08T10:53:31.7732174Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-08T12:32:36.1693708Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -3307,7 +3307,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Powered by Krishibid Group, IT Department</Value>
+                      <Value />
                       <Style>
                         <FontStyle>Italic</FontStyle>
                         <FontFamily>Arial</FontFamily>
