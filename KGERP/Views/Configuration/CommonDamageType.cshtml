@@ -93,11 +93,11 @@
                                             @foreach (var item in Model.DataList)
                                             {
                                                 @*<input hidden="hidden" id="#valDamageTypeFor" class="form-control" value="@item.DamageTypeForId">*@
-                                            
+
                                                 <tr>
                                                     <td>
                                                         @(++sl)
-                                                    <input type="hidden" id="damageTypeFor_@item.ID" name="DamageTypeForId" value="@item.DamageTypeForId" />
+                                                        <input type="hidden" id="damageTypeFor_@item.ID" name="DamageTypeForId" value="@item.DamageTypeForId" />
                                                     </td>
                                                     <td id="tdDamageTypeForName_@item.ID">@item.DamageTypeForName</td>
                                                     <td id="tdDamageTypeName_@item.ID">@item.Name</td>
@@ -200,7 +200,7 @@
 
             }
         }
-       
+
         function makeDeletable(id) {
             if (id !== null) {
                 $('#DamageTypeIdDelete').val(id);
