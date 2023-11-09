@@ -52,7 +52,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-control-label">User Name:</label>
-                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", @*@readonly = "readonly"*@ })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
                             </div>

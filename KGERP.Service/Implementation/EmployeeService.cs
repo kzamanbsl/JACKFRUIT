@@ -164,7 +164,7 @@ namespace KGERP.Service.Implementation
             {
                 //Employee lastEmployee = context.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
 
-                Employee lastEmployee = _context.Employees.OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+                Employee lastEmployee = _context.Employees.Where(c=>c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
                 if (lastEmployee == null)
                 {
