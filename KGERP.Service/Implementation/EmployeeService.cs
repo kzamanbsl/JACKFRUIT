@@ -34,6 +34,15 @@ namespace KGERP.Service.Implementation
                                                    from t2 in t2_Join.DefaultIfEmpty()
                                                    join t3 in _context.Designations on t1.DesignationId equals t3.DesignationId into t3_Join
                                                    from t3 in t3_Join.DefaultIfEmpty()
+                                                   //join t4 in _context.Zones on t1.Id equals t4.EmployeeId into t4_Join
+                                                   //from t4 in t4_Join.DefaultIfEmpty()
+                                                   //join t5 in _context.Regions on t1.Id equals t5.EmployeeId into t5_Join
+                                                   //from t5 in t4_Join.DefaultIfEmpty()
+                                                   //join t6 in _context.Areas on t1.Id equals t6.EmployeeId into t6_Join
+                                                   //from t6 in t4_Join.DefaultIfEmpty()
+                                                   //join t7 in _context.SubZones on t1.Id equals t7.EmployeeId into t7_Join
+                                                   //from t7 in t4_Join.DefaultIfEmpty()
+
 
                                                    where t1.Active
                                                    select new EmployeeVm
@@ -43,7 +52,8 @@ namespace KGERP.Service.Implementation
                                                        EmployeeName = t1.Name,
                                                        DepartmentName = t2.Name,
                                                        DesignationName = t3.Name,
-                                                       JoiningDate = t1.JoiningDate.Value,
+                                                       JoiningDate= t1.JoiningDate.Value,
+                                                      //ServiceArea= t4.Name.ToString()+t5.Name.ToString()+t6.Name.ToString()+t7.Name.ToString(),
                                                        MobileNo = t1.MobileNo,
                                                        Email = t1.Email,
                                                        Samount = (decimal)((decimal)t1.SalaryAmount == null ? 0 : t1.SalaryAmount)

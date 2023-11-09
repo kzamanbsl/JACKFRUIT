@@ -34,6 +34,7 @@
                                         <th>Department</th>
                                         <th>Designation</th>
                                         <th>Mobile No</th>
+                                        @*<th>Service Area</th>*@
                                         <th>Joining Date</th>
                                         <th>Email</th>
                                         <th>Action</th>
@@ -53,7 +54,14 @@
                                             <td>@item.DepartmentName</td>
                                             <td>@item.DesignationName</td>
                                             <td>@item.MobileNo</td>
-                                            <td>@item.JoiningDate</td>
+                                            @*<td>@item.ServiceArea</td>*@
+                                            <td>
+                                                @if (@item.JoiningDate != null)
+                                                {
+                                                    var date = @item.JoiningDate?.ToString("dd/MM/yyyy");
+                                                    <span>@date</span>
+                                                }
+                                            </td>
                                             <td>@item.Email</td>
                                             <td>
                                                 <a href="@Url.Action("CreateOrEdit", new { id = item.Id })" title="Edit" class="btn btn-info btn-xs">

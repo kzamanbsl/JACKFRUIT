@@ -238,7 +238,7 @@ namespace KGERP.Service.ServiceModel
         public int?[] RegionIds { get; set; }
         [DisplayName("Area")]
         public int?[] AreaIds { get; set; }
-        [DisplayName("SubZone")]
+        [DisplayName("Territory")]
         public int?[] SubZoneIds { get; set; }
 
 
@@ -278,6 +278,7 @@ namespace KGERP.Service.ServiceModel
         public string DepartmentName { get; set; }
         public string DesignationName { get; set; }
         public string MobileNo { get; set; }
+        public string ServiceArea { get; set; }
         public string Email { get; set; }
         public decimal Samount { get; set; }
         public IEnumerable<EmployeeVm> DataList { get; set; }
