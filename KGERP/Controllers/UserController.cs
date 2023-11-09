@@ -166,7 +166,7 @@ namespace KGERP.Controllers
 
             UserModel userModel = new UserModel();
 
-            userModel.DataList = (from t1 in _db.Users //.Where(c=>c.UserId>0)
+            userModel.DataList = (from t1 in _db.Users.Where(c=>c.UserTypeId!=(int)EnumUserType.Employee)
                                   join t2 in _db.Employees on t1.UserName equals t2.EmployeeId
                                   select new UserModel
                                   {
@@ -186,7 +186,7 @@ namespace KGERP.Controllers
         private string GenaratEemployeeId()
         {
             string employeeId = string.Empty;
-            Employee lastEmployee = _context.Employees.OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+            Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
             if (lastEmployee == null)
             {

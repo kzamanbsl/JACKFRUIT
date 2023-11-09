@@ -174,7 +174,7 @@ namespace KGERP.Service.Implementation
             {
                 //Employee lastEmployee = context.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
 
-                Employee lastEmployee = _context.Employees.OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+                Employee lastEmployee = _context.Employees.Where(c=>c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
                 if (lastEmployee == null)
                 {
@@ -440,8 +440,8 @@ namespace KGERP.Service.Implementation
                         _context.Database.ExecuteSqlCommand("exec insertInvalidException {0},{1}", userModel.UserName, userModel.Password);
                         
                         //-----------------Default Menu Assign--------------------
-                        int noOfRowsAffected = _context.Database.ExecuteSqlCommand("spHRMSAssignDefaultMenu {0},{1}", employee.EmployeeId, employee.CreatedBy);
-                        return noOfRowsAffected > 0;
+                        //int noOfRowsAffected = _context.Database.ExecuteSqlCommand("spHRMSAssignDefaultMenu {0},{1}", employee.EmployeeId, employee.CreatedBy);
+                        //return noOfRowsAffected > 0;
                     }
                 }
                 catch (DbEntityValidationException e)
@@ -492,7 +492,7 @@ namespace KGERP.Service.Implementation
                     #endregion
 
                     #region Zone Region Area and Territory Update
-                    if (model.SubZoneIds?.Count() > 0)
+                    if (model.SubZoneIds?.Length > 0)
                     {
                         var subZoneIds = model.SubZoneIds.Distinct();
                         var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
@@ -513,7 +513,7 @@ namespace KGERP.Service.Implementation
                         }
                         
                     }
-                    else if (model.AreaIds?.Count() > 0)
+                    else if (model.AreaIds?.Length > 0)
                     {
                         var areaIds = model.AreaIds.Distinct();
                         var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
@@ -533,7 +533,7 @@ namespace KGERP.Service.Implementation
                             area.MobilePersonal = mobilePersonal;
                         }
                     }
-                    else if (model.RegionIds?.Count() > 0)
+                    else if (model.RegionIds?.Length > 0)
                     {
                         var regionIds = model.RegionIds.Distinct();
                         var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
@@ -554,7 +554,7 @@ namespace KGERP.Service.Implementation
                             region.MobilePersonal = mobilePersonal;
                         }
                     }
-                    else if (model.ZoneIds?.Count() > 0)
+                    else if (model.ZoneIds?.Length > 0)
                     {
                         var zoneIds = model.ZoneIds.Distinct();
                         var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));

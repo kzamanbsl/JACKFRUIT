@@ -11,6 +11,7 @@
         max-width: 100%;
     }
 </style>
+
 <section class="content-header">
     <h1>
         User
@@ -51,7 +52,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-control-label">User Name:</label>
-                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.UserName, new { id = "txtUserName", @class = "form-control", @placeholder = "User Name", required = "true", @*@readonly = "readonly"*@ })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -153,6 +154,7 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
+                                            <th hidden="hidden">UserId</th>
                                             <th>Name</th>
                                             <th>User Name</th>
                                             <th>Mobile No</th>
@@ -168,7 +170,9 @@
                                         @foreach (var item in Model.DataList)
                                         {
                                             <tr>
-                                                <td>@(++sl)</td>
+                                                <td>
+                                                    @(++sl)
+                                                </td>
                                                 <td hidden="hidden" id="tdUserId_@item.UserId">@item.UserId</td>
                                                 <td id="tdEmployeeName_@item.UserId">@item.EmployeeName</td>
                                                 <td id="tdUserName_@item.UserId">@item.UserName</td>
@@ -296,9 +300,9 @@
 @section scripts {
     <script type="text/javascript">
 
-        //$(document).ready(function () {
-        //    $('.formValidator').bootstrapValidator();
-        //});
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+        });
 
         $("#ddlUserTypeId").change(function () {
 
