@@ -793,12 +793,17 @@
 
 
         $("#ddlZoneId").on('change',function () {
-            var zoneId = $("#ddlZoneId").val();
+            var zoneIds = $("#ddlZoneId").val();
             var region = $("#regionDev");
             var area = $("#areaDev");
             var subzone = $("#subzoneDev");
+            if (zoneIds.length == 1)
+            {
+                regionChange(0, zoneIds[0]);
 
-            if (zoneId.length > 1) {
+            }
+
+            if (zoneIds.length > 1) {
                 region.hide();
                 area.hide();
                 subzone.hide();
@@ -812,7 +817,7 @@
                 $('#ddlAreaId').val(null);
                 $('#ddlSubZoneId').val(null);
 
-            } else if (2 > zoneId.length) {
+            } else if (2 > zoneIds.length) {
                 
 
                 region.show();
@@ -828,22 +833,24 @@
                 //$("#ddlRegionId > option").removeProp("selected");
 
             };
-            //regionChange(0, zoneId);
 
         });
         
        
 
         $("#ddlRegionId").change(function (e) {
-    //var zoneId = $("#ddlZoneId :selected").val();
-    var regionValue= $("#ddlRegionId").val();
+            var zoneIds = $("#ddlZoneId").val();
+            var regionValue = $("#ddlRegionId").val();
+            var areaValue = $('#ddlAreaId').val();
 
-    //areaChange(areaValue, zoneId, regionId);
             var area = $("#areaDev");
             var subzone = $("#subzoneDev");
+            if (regionValue.length == 1) {
+                areaChange(0, zoneIds[0], regionValue[0]);
 
+            }
             if (regionValue.length > 1) {
-               
+
                 area.hide();
                 subzone.hide();
                 var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
@@ -857,17 +864,18 @@
                 area.show();
                 subzone.show();
             };
-});
+        });
 
         $("#ddlAreaId").change(function (e) {
-         var areaValue = $("#ddlAreaId").val();
-            territoryChange(0, areaValue);
+            var areaValue = $("#ddlAreaId").val();
 
-            
 
-            //areaChange(areaValue, zoneId, regionId);
             var subzone = $("#subzoneDev");
+            if (areaValue.length == 1) {
 
+                territoryChange(0, areaValue[0]);
+
+            }
             if (areaValue.length > 1) {
 
                 subzone.hide();
@@ -877,77 +885,77 @@
             } else if (2 > areaValue.length) {
                 subzone.show();
             };
-});
+        });
 
-        function regionChange(regionValue,zoneValue) {
-    $.ajax({
-        type: "GET",
-        url: "@Url.Action("CommonRegionGet", "Configuration")",
-        datatype: "Json",
-        data: { companyId:@Model.Employee.CompanyId, zoneId: zoneValue },
-        success: function (data) {
+        function regionChange(regionValue, zoneValue) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("CommonRegionGet", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.Employee.CompanyId, zoneId: zoneValue },
+                success: function (data) {
 
-            if (data) {
-                $("#ddlRegionId").empty();
-                $("#ddlRegionId").append("<option value=''>==Select Territory==</option>");
-                $(data).each(function (index, item) {
-                    $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                });
-                if (regionValue > 0) {
-                    $("#ddlRegionId").val(regionValue);
+                    if (data) {
+                        $("#ddlRegionId").empty();
+                        $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (regionValue > 0) {
+                            $("#ddlRegionId").val(regionValue);
+                        }
+
+                    }
                 }
-
-            }
+            });
         }
-    });
-}
 
         function territoryChange(territoryValue, areaValue) {
 
-        $.ajax({
-        type: "GET",
-        url: "@Url.Action("CommonSubZonesGet", "Configuration")",
-        datatype: "Json",
-            data: { id: areaValue },
-            success: function (data) {
-                if (data) {
-                    $("#ddlSubZoneId").empty();
-                    $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
-                    $(data).each(function (index, item) {
-                        $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        console.log(item.Text);
-                    });
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("CommonSubZonesGet", "Configuration")",
+                datatype: "Json",
+                data: { id: areaValue },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlSubZoneId").empty();
+                        $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            console.log(item.Text);
+                        });
 
-                    if (territoryValue > 0) {
+                        if (territoryValue > 0) {
 
-                        $("#ddlSubZoneId").val(territoryValue).trigger('change');
+                            $("#ddlSubZoneId").val(territoryValue).trigger('change');
+                        }
+
                     }
-
                 }
-            }
-        });
+            });
         }
 
         function areaChange(areaValue, zoneId, regionId) {
 
-    $.ajax({
-        type: "GET",
-        url: "@Url.Action("GetAreaList", "Configuration")",
-        datatype: "Json",
-        data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, regionId: regionId },
-        success: function (data) {
-            if (data) {
-                $("#ddlAreaId").empty();
-                $(data).each(function (index, item) {
-                    $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                });
-                if (areaValue > 0) {
-                    $("#ddlAreaId").val(areaValue);
-                }
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAreaList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, regionId: regionId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlAreaId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (areaValue > 0) {
+                            $("#ddlAreaId").val(areaValue);
+                        }
 
-            }
-        }
-    });
+                    }
+                }
+            });
         };
 
     </script>
