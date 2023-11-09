@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls.WebParts;
 
 namespace KGERP.Service.Implementation
 {
@@ -487,7 +488,18 @@ namespace KGERP.Service.Implementation
                         var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
                         foreach (var subZone in subZones)
                         {
+                            var name= model.Name != null ? model.Name : subZone.SalesOfficerName;
+                            var designation = model.Designation?.Name != null ? model.Designation?.Name : subZone.Designation;
+                            var email = model.Email != null ? model.Email : subZone.Email;
+                            var mobileOffice= model.MobileNo != null ? model.MobileNo : subZone.MobileOffice;
+                            var mobilePersonal= model.Telephone != null ?  model.Telephone : subZone.MobilePersonal;
+
                             subZone.EmployeeId = model.Id;
+                            subZone.SalesOfficerName = name;
+                            subZone.Designation = designation;
+                            subZone.Email = email;
+                            subZone.MobileOffice = mobileOffice;
+                            subZone.MobilePersonal = mobilePersonal;
                         }
                         
                     }
@@ -497,7 +509,18 @@ namespace KGERP.Service.Implementation
                         var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
                         foreach (var area in areas)
                         {
+                            var areaIncharge = model.Name != null ? model.Name : area.AreaIncharge;
+                            var designation = model.Designation?.Name != null ? model.Designation?.Name : area.Designation;
+                            var email = model.Email != null ? model.Email : area.Email;
+                            var mobileOffice = model.MobileNo != null ? model.MobileNo : area.MobileOffice;
+                            var mobilePersonal = model.Telephone != null ? model.Telephone : area.MobilePersonal;
+
                             area.EmployeeId = model.Id;
+                            area.AreaIncharge = areaIncharge;
+                            area.Designation = designation;
+                            area.Email = email;
+                            area.MobileOffice = mobileOffice;
+                            area.MobilePersonal = mobilePersonal;
                         }
                     }
                     else if (model.RegionIds?.Count() > 0)
@@ -506,7 +529,19 @@ namespace KGERP.Service.Implementation
                         var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
                         foreach (var region in regions)
                         {
+                            var regionIncharge = model.Name != null ? model.Name : region.RegionIncharge;
+                            var designation = model.Designation?.Name != null ? model.Designation?.Name : region.Designation;
+                            var email = model.Email != null ? model.Email : region.Email;
+                            var mobileOffice = model.MobileNo != null ? model.MobileNo : region.MobileOffice;
+                            var mobilePersonal = model.Telephone != null ? model.Telephone : region.MobilePersonal;
+
                             region.EmployeeId = model.Id;
+
+                            region.RegionIncharge = regionIncharge;
+                            region.Designation = designation;
+                            region.Email = email;
+                            region.MobileOffice = mobileOffice;
+                            region.MobilePersonal = mobilePersonal;
                         }
                     }
                     else if (model.ZoneIds?.Count() > 0)
@@ -515,7 +550,18 @@ namespace KGERP.Service.Implementation
                         var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
                         foreach (var zone in zones)
                         {
+                            var zoneIncharge = model.Name != null ? model.Name : zone.ZoneIncharge;
+                            var designation = model.Designation?.Name != null ? model.Designation?.Name : zone.Designation;
+                            var email = model.Email != null ? model.Email : zone.Email;
+                            var mobileOffice = model.MobileNo != null ? model.MobileNo : zone.MobileOffice;
+                            var mobilePersonal = model.Telephone != null ? model.Telephone : zone.MobilePersonal;
+
                             zone.EmployeeId = model.Id;
+                            zone.ZoneIncharge = zoneIncharge;
+                            zone.Designation = designation;
+                            zone.Email = email;
+                            zone.MobileOffice = mobileOffice;
+                            zone.MobilePersonal = mobilePersonal;
                         }
                     }
                     return _context.SaveChanges() > 0;

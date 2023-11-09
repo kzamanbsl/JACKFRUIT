@@ -48,7 +48,7 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Spouse")]
         public string SpouseName { get; set; }
 
-        [DisplayName("Telephone")]
+        [DisplayName("Alt Mobile No")]
         public string Telephone { get; set; }
 
         [DisplayName("PABX")]
