@@ -30,7 +30,7 @@
 
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Employee.Id)
+        @Html.HiddenFor(model => model.Employee.Id, new { id = "hidEmployeeId" })
         <div class="row">
             <hr style="border-color:red; padding:0px;margin-top: 10px;margin-bottom: 10px; border-width: 2px;" />
             <!--begin tabs going in narrow content -->
@@ -164,50 +164,50 @@
                                 </div>
                             </div>
 
-                            @if (Model.Employee.Id == 0)
-                            {
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Employee.ZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.ListBoxFor(model => model.Employee.ZoneIds, Model.ZoneList as MultiSelectList, new { id = "ddlZoneId", @class = "form-control searchingDropdown"})
-                                                @Html.ValidationMessageFor(model => model.Employee.ZoneIds, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="regionDev">
-                                            @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8" >
-                                                @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList,new { id = "ddlRegionId", @class = "form-control searchingDropdown"})
-                                                @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="areaDev">
-                                            @Html.LabelFor(model => model.Employee.AreaIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.ListBoxFor(model => model.Employee.AreaIds, Model.AreaList as MultiSelectList,new { id = "ddlAreaId", @class = "form-control searchingDropdown"})
-                                                @Html.ValidationMessageFor(model => model.Employee.AreaIds, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="subzoneDev">
-                                            @Html.LabelFor(model => model.Employee.SubZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.ListBoxFor(model => model.Employee.SubZoneIds, Model.TerritoryList as MultiSelectList,  new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"  })
-                                                @Html.ValidationMessageFor(model => model.Employee.SubZoneIds, "", new { @class = "text-danger" })
-                                            </div>
+                            @*@if (Model.Employee.Id == 0)
+                                {*@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Employee.ZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.ListBoxFor(model => model.Employee.ZoneIds, Model.ZoneList as MultiSelectList, new { id = "ddlZoneId", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Employee.ZoneIds, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                            }
+
+                                <div class="col-md-6">
+                                    <div class="form-group" id="regionDiv">
+                                        @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" id="areaDiv">
+                                        @Html.LabelFor(model => model.Employee.AreaIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.ListBoxFor(model => model.Employee.AreaIds, Model.AreaList as MultiSelectList, new { id = "ddlAreaId", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Employee.AreaIds, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" id="subzoneDiv">
+                                        @Html.LabelFor(model => model.Employee.SubZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.ListBoxFor(model => model.Employee.SubZoneIds, Model.TerritoryList as MultiSelectList, new { id = "ddlSubZoneId", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Employee.SubZoneIds, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*}*@
                         </div>
                     </div>
                 </div>
@@ -665,6 +665,7 @@
     @Styles.Render("~/Content/cssjqryUi")
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             // Enable Live Search.
             $('#designationId').attr('data-live-search', true);
@@ -688,10 +689,32 @@
                 showSubtext: true
             });
             $('#ddlZoneId').prepend('<option disabled  value="">Select Zone(s)</option>');
-            $('#ddlSubZoneId').prepend('<option disabled  value="">Select SubZone(s)</option>');
             $('#ddlAreaId').prepend('<option disabled  value="">Select Area(s)</option>');
             $('#ddlRegionId').prepend('<option disabled  value="">Select Region(s)</option>');
+            $('#ddlSubZoneId').prepend('<option disabled  value="">Select Territory(s)</option>');
 
+            var employeeId = $("#hidEmployeeId").val();
+            var zoneIds = $("#ddlZoneId").val();
+            var regionIds= $("#ddlRegionId").val();
+            var areaIds= $('#ddlAreaId').val();
+            var territoryIds = $('#ddlSubZoneId').val();
+
+            var regionDiv = $("#regionDiv");
+            var areaDiv = $("#areaDiv");
+            var subzoneDiv = $("#subzoneDiv");
+
+            if (employeeId > 0 && territoryIds.length<=0) {
+                subzoneDiv.hide();
+            }
+            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 ) {
+                areaDiv.hide();
+                subzoneDiv.hide();
+            }
+            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && regionIds.length<=0) {
+                regionDiv.hide();
+                areaDiv.hide();
+                subzoneDiv.hide();
+            }
         });
 
         $(function () {
@@ -794,9 +817,10 @@
 
         $("#ddlZoneId").on('change',function () {
             var zoneIds = $("#ddlZoneId").val();
-            var region = $("#regionDev");
-            var area = $("#areaDev");
-            var subzone = $("#subzoneDev");
+            var regionDiv = $("#regionDiv");
+            var areaDiv = $("#areaDiv");
+            var subzoneDiv = $("#subzoneDiv");
+
             if (zoneIds.length == 1)
             {
                 regionChange(0, zoneIds[0]);
@@ -804,55 +828,51 @@
             }
 
             if (zoneIds.length > 1) {
-                region.hide();
-                area.hide();
-                subzone.hide();
+
+                regionDiv.hide();
+                areaDiv.hide();
+                subzoneDiv.hide();
+
                 var regionList = $('#ddlRegionId').next().find('.select2-selection__choice');
                 var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
                 var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
+
                 regionList.remove();
                 areaList.remove();
                 subzoneList.remove();
+
                 $("#ddlRegionId").val(null);
                 $('#ddlAreaId').val(null);
                 $('#ddlSubZoneId').val(null);
 
-            } else if (2 > zoneIds.length) {
-                
+            }
+            else if (2 > zoneIds.length) {
 
-                region.show();
-                area.show();
-                subzone.show();
-
-
-                //$('#ddlRegionId option:selected').removeAttr("selected");
-                //$('.select2-selection__rendered').remove();
-                //$("#ddlRegionId option:selected").prop("selected", false);
-                //$("#ddlRegionId").find(".select2-selection__rendered").remove();
-                //$("#ddlRegionId").val([]);
-                //$("#ddlRegionId > option").removeProp("selected");
-
+                regionDiv.show();
+                areaDiv.show();
+                subzoneDiv.show();
             };
 
         });
-        
-       
+
+
 
         $("#ddlRegionId").change(function (e) {
             var zoneIds = $("#ddlZoneId").val();
             var regionValue = $("#ddlRegionId").val();
             var areaValue = $('#ddlAreaId').val();
 
-            var area = $("#areaDev");
-            var subzone = $("#subzoneDev");
+            var areaDiv = $("#areaDiv");
+            var subzoneDiv = $("#subzoneDiv");
             if (regionValue.length == 1) {
                 areaChange(0, zoneIds[0], regionValue[0]);
 
             }
+
             if (regionValue.length > 1) {
 
-                area.hide();
-                subzone.hide();
+                areaDiv.hide();
+                subzoneDiv.hide();
                 var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
                 var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
                 areaList.remove();
@@ -860,9 +880,10 @@
 
                 $('#ddlAreaId').val(null);
                 $('#ddlSubZoneId').val(null);
-            } else if (2 > regionValue.length) {
-                area.show();
-                subzone.show();
+            }
+            else if (2 > regionValue.length) {
+                areaDiv.show();
+                subzoneDiv.show();
             };
         });
 
@@ -870,7 +891,7 @@
             var areaValue = $("#ddlAreaId").val();
 
 
-            var subzone = $("#subzoneDev");
+            var subzoneDiv = $("#subzoneDiv");
             if (areaValue.length == 1) {
 
                 territoryChange(0, areaValue[0]);
@@ -878,12 +899,13 @@
             }
             if (areaValue.length > 1) {
 
-                subzone.hide();
+                subzoneDiv.hide();
                 var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
                 subzoneList.remove();
                 $('#ddlSubZoneId').val(null);
-            } else if (2 > areaValue.length) {
-                subzone.show();
+            }
+            else if (2 > areaValue.length) {
+                subzoneDiv.show();
             };
         });
 
@@ -923,7 +945,6 @@
                         $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            console.log(item.Text);
                         });
 
                         if (territoryValue > 0) {

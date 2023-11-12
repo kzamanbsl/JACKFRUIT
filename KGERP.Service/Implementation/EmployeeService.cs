@@ -187,9 +187,16 @@ namespace KGERP.Service.Implementation
                 };
             }
             this._context.Database.CommandTimeout = 180;
-            Employee employee = _context.Employees.Include(x => x.FileAttachments).Include("Employee3").Include("Company").Include("Department").Include("Designation").Include("District").Include("Shift").Include("Grade").Include("Bank").Include("BankBranch").Include("DropDownItem").Include("DropDownItem1").Include("DropDownItem2").Include("DropDownItem3").Include("DropDownItem4").Include("DropDownItem5").Include("DropDownItem6").Include("DropDownItem7").Include("DropDownItem8").Include("DropDownItem9").OrderByDescending(x => x.Id == id).FirstOrDefault();
+            Employee employee = _context.Employees
+                //.Include(x => x.FileAttachments).Include("Employee3").Include("Company").Include("Department")
+                //.Include("Designation").Include("District").Include("Shift").Include("Grade").Include("Bank")
+                //.Include("BankBranch").Include("DropDownItem").Include("DropDownItem1").Include("DropDownItem2")
+                //.Include("DropDownItem3").Include("DropDownItem4").Include("DropDownItem5").Include("DropDownItem6")
+                //.Include("DropDownItem7").Include("DropDownItem8").Include("DropDownItem9")
+                .FirstOrDefault(x => x.Id == id);
             this._context.Database.CommandTimeout = 180;
             //var result= ObjectConverter<Employee, EmployeeModel>.Convert(employee);
+
             var result = new EmployeeModel()
             {
 
@@ -268,9 +275,61 @@ namespace KGERP.Service.Implementation
                 ModifedBy = employee.ModifedBy,
                 ModifiedDate = employee.ModifiedDate,
 
+                //SubZoneIds = new int[0],
+                //AreaIds = new int[0],
+                //RegionIds = new int[0],
+                //ZoneIds = new int[0],
+
             };
 
+            if (id > 0)
+            {
+                var territorys=employee.SubZones;
+                var areas=employee.Areas;
+                var reagions=employee.Regions;
+                var zones=employee.Zones;
+
+                if(territorys?.Count()>0)
+                {
+                    var subZoneIds= territorys.Select(c => c.SubZoneId).ToArray();
+                    result.SubZoneIds= subZoneIds;
+
+                    var areaId = territorys.FirstOrDefault().AreaId ?? 0;
+                    result.AreaIds = new int[] {areaId};
+
+                    var regionId= territorys.FirstOrDefault().RegionId ?? 0;
+                    result.RegionIds= new int[] { regionId };
+
+                    var zoneId= territorys.FirstOrDefault().ZoneId;
+                    result.ZoneIds = new int[] { zoneId };
+                }
+                else if (areas?.Count() > 0)
+                {
+                    var areaids= areas.Select(c => c.AreaId).ToArray();
+                    result.AreaIds = areaids;
+
+                    var regionId= areas.FirstOrDefault().RegionId;
+                    result.RegionIds = new int[] { regionId };
+
+                    var zoneId= areas.FirstOrDefault().ZoneId;
+                    result.ZoneIds = new int[] { zoneId };
+                }
+                else if (reagions?.Count() > 0)
+                {
+                    var regionIds= reagions.Select(c => c.RegionId).ToArray();
+                    result.RegionIds = regionIds;
+
+                    var zoneId = reagions.FirstOrDefault().ZoneId;
+                    result.ZoneIds = new int[] { zoneId };
+                }
+                else if (zones?.Count() > 0)
+                {
+                    result.ZoneIds = (int[])zones.Select(c => c.ZoneId);
+                }
+            }
+
             return result;
+
         }
 
         public EmployeeModel GetEmployeeByKGID(string employeeId)
@@ -368,6 +427,7 @@ namespace KGERP.Service.Implementation
                 }
 
                 #region UserUpdate
+               
                 if (model.Active == false)
                 {
                     User user = _context.Users.FirstOrDefault(d => d.UserName == model.EmployeeId);
@@ -379,7 +439,7 @@ namespace KGERP.Service.Implementation
 
                         _context.Users.Add(user);
                         _context.Entry(user).State = EntityState.Modified;
-                        _context.SaveChanges();
+                        result = _context.SaveChanges() > 0;
                     }
                 }
                 else
@@ -393,12 +453,11 @@ namespace KGERP.Service.Implementation
 
                         _context.Users.Add(user);
                         _context.Entry(user).State = EntityState.Modified;
-                        _context.SaveChanges();
+                        result = _context.SaveChanges()>0;
                     }
                 }
                 #endregion
 
-                result = _context.SaveChanges() > 0;
                 model.Id = updateEmployee.Id;
             }
             else
