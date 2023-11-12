@@ -34,14 +34,14 @@ namespace KGERP.Service.Implementation
                                                    from t2 in t2_Join.DefaultIfEmpty()
                                                    join t3 in _context.Designations on t1.DesignationId equals t3.DesignationId into t3_Join
                                                    from t3 in t3_Join.DefaultIfEmpty()
-                                                   //join t4 in _context.Zones on t1.Id equals t4.EmployeeId into t4_Join
-                                                   //from t4 in t4_Join.DefaultIfEmpty()
-                                                   //join t5 in _context.Regions on t1.Id equals t5.EmployeeId into t5_Join
-                                                   //from t5 in t5_Join.DefaultIfEmpty()
-                                                   //join t6 in _context.Areas on t1.Id equals t6.EmployeeId into t6_Join
-                                                   //from t6 in t6_Join.DefaultIfEmpty()
-                                                   //join t7 in _context.SubZones on t1.Id equals t7.EmployeeId into t7_Join
-                                                   //from t7 in t7_Join.DefaultIfEmpty()
+                                                       //join t4 in _context.Zones on t1.Id equals t4.EmployeeId into t4_Join
+                                                       //from t4 in t4_Join.DefaultIfEmpty()
+                                                       //join t5 in _context.Regions on t1.Id equals t5.EmployeeId into t5_Join
+                                                       //from t5 in t5_Join.DefaultIfEmpty()
+                                                       //join t6 in _context.Areas on t1.Id equals t6.EmployeeId into t6_Join
+                                                       //from t6 in t6_Join.DefaultIfEmpty()
+                                                       //join t7 in _context.SubZones on t1.Id equals t7.EmployeeId into t7_Join
+                                                       //from t7 in t7_Join.DefaultIfEmpty()
 
 
                                                    where t1.Active
@@ -52,7 +52,7 @@ namespace KGERP.Service.Implementation
                                                        EmployeeName = t1.Name,
                                                        DepartmentName = t2.Name,
                                                        DesignationName = t3.Name,
-                                                       JoiningDate= t1.JoiningDate.Value,
+                                                       JoiningDate = t1.JoiningDate.Value,
                                                        //ServiceArea = string.Join(", ", t4.Name,t5.Name,t6.Name,t7.Name),
                                                        //ServiceArea = (t4.Name ?? "") + (t5.Name ?? "") + (t6.Name ?? "") + (t7.Name ?? ""),
                                                        MobileNo = t1.MobileNo,
@@ -175,7 +175,7 @@ namespace KGERP.Service.Implementation
             {
                 //Employee lastEmployee = context.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
 
-                Employee lastEmployee = _context.Employees.Where(c=>c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+                Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
                 if (lastEmployee == null)
                 {
@@ -284,39 +284,39 @@ namespace KGERP.Service.Implementation
 
             if (id > 0)
             {
-                var territorys=employee.SubZones;
-                var areas=employee.Areas;
-                var reagions=employee.Regions;
-                var zones=employee.Zones;
+                var territorys = employee.SubZones;
+                var areas = employee.Areas;
+                var reagions = employee.Regions;
+                var zones = employee.Zones;
 
-                if(territorys?.Count()>0)
+                if (territorys?.Count() > 0)
                 {
-                    var subZoneIds= territorys.Select(c => c.SubZoneId).ToArray();
-                    result.SubZoneIds= subZoneIds;
+                    var subZoneIds = territorys.Select(c => c.SubZoneId).ToArray();
+                    result.SubZoneIds = subZoneIds;
 
                     var areaId = territorys.FirstOrDefault().AreaId ?? 0;
-                    result.AreaIds = new int[] {areaId};
+                    result.AreaIds = new int[] { areaId };
 
-                    var regionId= territorys.FirstOrDefault().RegionId ?? 0;
-                    result.RegionIds= new int[] { regionId };
+                    var regionId = territorys.FirstOrDefault().RegionId ?? 0;
+                    result.RegionIds = new int[] { regionId };
 
-                    var zoneId= territorys.FirstOrDefault().ZoneId;
+                    var zoneId = territorys.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { zoneId };
                 }
                 else if (areas?.Count() > 0)
                 {
-                    var areaids= areas.Select(c => c.AreaId).ToArray();
+                    var areaids = areas.Select(c => c.AreaId).ToArray();
                     result.AreaIds = areaids;
 
-                    var regionId= areas.FirstOrDefault().RegionId;
+                    var regionId = areas.FirstOrDefault().RegionId;
                     result.RegionIds = new int[] { regionId };
 
-                    var zoneId= areas.FirstOrDefault().ZoneId;
+                    var zoneId = areas.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { zoneId };
                 }
                 else if (reagions?.Count() > 0)
                 {
-                    var regionIds= reagions.Select(c => c.RegionId).ToArray();
+                    var regionIds = reagions.Select(c => c.RegionId).ToArray();
                     result.RegionIds = regionIds;
 
                     var zoneId = reagions.FirstOrDefault().ZoneId;
@@ -426,8 +426,8 @@ namespace KGERP.Service.Implementation
                     updateEmployee.SignatureFileName = model.SignatureFileName;
                 }
 
-                #region UserUpdate
-               
+                #region User Update
+
                 if (model.Active == false)
                 {
                     User user = _context.Users.FirstOrDefault(d => d.UserName == model.EmployeeId);
@@ -436,9 +436,9 @@ namespace KGERP.Service.Implementation
                         user.Active = false;
                         user.IsEmailVerified = false;
                         user.UserTypeId = (int)EnumUserType.Employee;
-
-                        _context.Users.Add(user);
-                        _context.Entry(user).State = EntityState.Modified;
+                        user.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : user.Password;
+                        //_context.Users.Add(user);
+                        //_context.Entry(user).State = EntityState.Modified;
                         result = _context.SaveChanges() > 0;
                     }
                 }
@@ -450,10 +450,10 @@ namespace KGERP.Service.Implementation
                         user.Active = true;
                         user.IsEmailVerified = true;
                         user.UserTypeId = (int)EnumUserType.Employee;
-
-                        _context.Users.Add(user);
-                        _context.Entry(user).State = EntityState.Modified;
-                        result = _context.SaveChanges()>0;
+                        user.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : user.Password;
+                        //_context.Users.Add(user);
+                        //_context.Entry(user).State = EntityState.Modified;
+                        result = _context.SaveChanges() > 0;
                     }
                 }
                 #endregion
@@ -462,16 +462,16 @@ namespace KGERP.Service.Implementation
             }
             else
             {
-                #region UserCreate
+                #region User Create
                 UserModel userModel = new UserModel();
                 userModel.UserName = model.EmployeeId;
                 userModel.Email = CompanyInfo.CompanyShortName + model.EmployeeId + "@gmail.com";
                 userModel.Active = true;
                 userModel.IsEmailVerified = true;
-
                 userModel.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : Crypto.Hash(userModel.UserName.ToLower());
                 userModel.ConfirmPassword = userModel.Password;
                 userModel.ActivationCode = Guid.NewGuid();
+
                 User user = ObjectConverter<UserModel, User>.Convert(userModel);
                 user.UserTypeId = (int)EnumUserType.Employee;
 
@@ -493,12 +493,12 @@ namespace KGERP.Service.Implementation
                 try
                 {
                     result = _context.SaveChanges() > 0;
-                    if (result==true)
+                    if (result == true)
                     {
                         model.Id = employee.Id;
 
                         _context.Database.ExecuteSqlCommand("exec insertInvalidException {0},{1}", userModel.UserName, userModel.Password);
-                        
+
                         //-----------------Default Menu Assign--------------------
                         //int noOfRowsAffected = _context.Database.ExecuteSqlCommand("spHRMSAssignDefaultMenu {0},{1}", employee.EmployeeId, employee.CreatedBy);
                         //return noOfRowsAffected > 0;
@@ -551,18 +551,81 @@ namespace KGERP.Service.Implementation
                     }
                     #endregion
 
-                    #region Zone Region Area and Territory Update
+                    #region Zone Region Area and Territory Maps
+
+                    #region Remove previous maps
+                    var empZones = _context.Zones.Where(c => c.EmployeeId == model.Id);
+                    var empRegions = _context.Regions.Where(c => c.EmployeeId == model.Id);
+                    var empAreas = _context.Areas.Where(c => c.EmployeeId == model.Id);
+                    var empTerritories = _context.SubZones.Where(c => c.EmployeeId == model.Id);
+
+                    if (empZones?.Count() > 0)
+                    {
+                        foreach (var empZone in empZones)
+                        {
+                            empZone.EmployeeId = null;
+                            empZone.ZoneIncharge = string.Empty;
+                            empZone.Designation = string.Empty;
+                            empZone.Email = string.Empty;
+                            empZone.MobileOffice = string.Empty;
+                            empZone.MobilePersonal = string.Empty;
+                        }
+                    }
+
+                    if (empRegions?.Count() > 0)
+                    {
+                        foreach (var empRegion in empRegions)
+                        {
+                            empRegion.EmployeeId = null;
+                            empRegion.RegionIncharge = string.Empty;
+                            empRegion.Designation = string.Empty;
+                            empRegion.Email = string.Empty;
+                            empRegion.MobileOffice = string.Empty;
+                            empRegion.MobilePersonal = string.Empty;
+                        }
+                    }
+
+                    if (empAreas?.Count() > 0)
+                    {
+                        foreach (var empArea in empAreas)
+                        {
+                            empArea.EmployeeId = null;
+                            empArea.AreaIncharge = string.Empty;
+                            empArea.Designation = string.Empty;
+                            empArea.Email = string.Empty;
+                            empArea.MobileOffice = string.Empty;
+                            empArea.MobilePersonal = string.Empty;
+                        }
+                    }
+
+                    if (empTerritories?.Count() > 0)
+                    {
+                        foreach (var empTerritory in empTerritories)
+                        {
+                            empTerritory.EmployeeId = null;
+                            empTerritory.SalesOfficerName = string.Empty;
+                            empTerritory.Designation = string.Empty;
+                            empTerritory.Email = string.Empty;
+                            empTerritory.MobileOffice = string.Empty;
+                            empTerritory.MobilePersonal = string.Empty;
+                        }
+                    }
+                    _context.SaveChanges();
+
+                    #endregion
+
+                    #region Add new maps
                     if (model.SubZoneIds?.Length > 0)
                     {
                         var subZoneIds = model.SubZoneIds.Distinct();
                         var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
                         foreach (var subZone in subZones)
                         {
-                            var name= model.Name != null ? model.Name : subZone.SalesOfficerName;
-                            var designation = model.Designation?.Name != null ? model.Designation?.Name : subZone.Designation;
-                            var email = model.Email != null ? model.Email : subZone.Email;
-                            var mobileOffice= model.MobileNo != null ? model.MobileNo : subZone.MobileOffice;
-                            var mobilePersonal= model.Telephone != null ?  model.Telephone : subZone.MobilePersonal;
+                            var name = model.Name ?? subZone.SalesOfficerName;
+                            var designation = model.Designation?.Name ?? subZone.Designation;
+                            var email = model.Email ?? subZone.Email;
+                            var mobileOffice = model.MobileNo ?? subZone.MobileOffice;
+                            var mobilePersonal = model.Telephone ?? subZone.MobilePersonal;
 
                             subZone.EmployeeId = model.Id;
                             subZone.SalesOfficerName = name;
@@ -571,7 +634,7 @@ namespace KGERP.Service.Implementation
                             subZone.MobileOffice = mobileOffice;
                             subZone.MobilePersonal = mobilePersonal;
                         }
-                        
+
                     }
                     else if (model.AreaIds?.Length > 0)
                     {
@@ -579,11 +642,11 @@ namespace KGERP.Service.Implementation
                         var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
                         foreach (var area in areas)
                         {
-                            var areaIncharge = model.Name != null ? model.Name : area.AreaIncharge;
-                            var designation = model.Designation?.Name != null ? model.Designation?.Name : area.Designation;
-                            var email = model.Email != null ? model.Email : area.Email;
-                            var mobileOffice = model.MobileNo != null ? model.MobileNo : area.MobileOffice;
-                            var mobilePersonal = model.Telephone != null ? model.Telephone : area.MobilePersonal;
+                            var areaIncharge = model.Name ?? area.AreaIncharge;
+                            var designation = model.Designation?.Name ?? area.Designation;
+                            var email = model.Email ?? area.Email;
+                            var mobileOffice = model.MobileNo ?? area.MobileOffice;
+                            var mobilePersonal = model.Telephone ?? area.MobilePersonal;
 
                             area.EmployeeId = model.Id;
                             area.AreaIncharge = areaIncharge;
@@ -599,14 +662,13 @@ namespace KGERP.Service.Implementation
                         var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
                         foreach (var region in regions)
                         {
-                            var regionIncharge = model.Name != null ? model.Name : region.RegionIncharge;
-                            var designation = model.Designation?.Name != null ? model.Designation?.Name : region.Designation;
-                            var email = model.Email != null ? model.Email : region.Email;
-                            var mobileOffice = model.MobileNo != null ? model.MobileNo : region.MobileOffice;
-                            var mobilePersonal = model.Telephone != null ? model.Telephone : region.MobilePersonal;
+                            var regionIncharge = model.Name ?? region.RegionIncharge;
+                            var designation = model.Designation?.Name ?? region.Designation;
+                            var email = model.Email ?? region.Email;
+                            var mobileOffice = model.MobileNo ?? region.MobileOffice;
+                            var mobilePersonal = model.Telephone ?? region.MobilePersonal;
 
                             region.EmployeeId = model.Id;
-
                             region.RegionIncharge = regionIncharge;
                             region.Designation = designation;
                             region.Email = email;
@@ -620,11 +682,11 @@ namespace KGERP.Service.Implementation
                         var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
                         foreach (var zone in zones)
                         {
-                            var zoneIncharge = model.Name != null ? model.Name : zone.ZoneIncharge;
-                            var designation = model.Designation?.Name != null ? model.Designation?.Name : zone.Designation;
-                            var email = model.Email != null ? model.Email : zone.Email;
-                            var mobileOffice = model.MobileNo != null ? model.MobileNo : zone.MobileOffice;
-                            var mobilePersonal = model.Telephone != null ? model.Telephone : zone.MobilePersonal;
+                            var zoneIncharge = model.Name ?? zone.ZoneIncharge;
+                            var designation = model.Designation?.Name ?? zone.Designation;
+                            var email = model.Email ?? zone.Email;
+                            var mobileOffice = model.MobileNo ?? zone.MobileOffice;
+                            var mobilePersonal = model.Telephone ?? zone.MobilePersonal;
 
                             zone.EmployeeId = model.Id;
                             zone.ZoneIncharge = zoneIncharge;
@@ -635,6 +697,10 @@ namespace KGERP.Service.Implementation
                         }
                     }
                     return _context.SaveChanges() > 0;
+
+
+                    #endregion
+
                     #endregion
                 }
 

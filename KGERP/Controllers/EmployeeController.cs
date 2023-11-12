@@ -293,8 +293,8 @@ namespace KGERP.Controllers
                 var fileExt = System.IO.Path.GetExtension(signature.FileName).Substring(1);
                 if (!supportedTypes.Contains(fileExt))
                 {
-                    string ErrorMessage = Constants.FileType;
-                    throw new Exception(ErrorMessage);
+                    string errorMessage = Constants.FileType;
+                    throw new Exception(errorMessage);
                 }
                 int count = 1;
                 string fileExtension = Path.GetExtension(signature.FileName);
