@@ -30,8 +30,8 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     @*<div class="box-header">
-                        <h4>Add Zone</h4>
-                    </div>*@
+                            <h4>Add Zone</h4>
+                        </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "ZoneId" })
@@ -45,78 +45,82 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Zone:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtZoneName", @class = "form-control input-sm", @placeholder = "Zone Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new {@id="ZoneNameValidation", @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "ZoneNameValidation", @class = "text-danger" })
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            @*<div class="col-md-4">
+                    <div class="form-group">
+                        <label for="" class="form-control-label">Employee:</label>
+                        <div class="">
+                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
+                                new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
+                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group" style="padding:0px">
+                        <label for="message-text" class="col-form-label">Zone Incharge:</label>
+                        @Html.TextBoxFor(model => model.ZoneIncharge, new { id = "txtZoneIncharge", @class = "form-control input-sm", @placeholder = "Zone Incharge", required = "true", })
+                        @Html.ValidationMessageFor(model => model.ZoneIncharge, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+             <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group" style="padding:0px">
+                        <label for="message-text" class="col-form-label">Designation:</label>
+                        @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
+                        @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group" style="padding:0px">
+                        <label for="message-text" class="col-form-label">Email:</label>
+                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group" style="padding:0px">
+                        <label for="message-text" class="col-form-label">Mobile Office:</label>
+                        @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
+                        @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group" style="padding:0px">
+                        <label for="message-text" class="col-form-label">Mobile Personal:</label>
+                        @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
+                        @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">*@
+                         
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="" class="form-control-label">Employee:</label>
-                                    <div class="">
-                                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
-                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                    <div class="col-md-4 text-right" style="margin-top:20px">
+                                        <label></label>
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label></label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Zone Incharge:</label>
-                                    @Html.TextBoxFor(model => model.ZoneIncharge, new { id = "txtZoneIncharge", @class = "form-control input-sm", @placeholder = "Zone Incharge", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.ZoneIncharge, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Designation:</label>
-                                    @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
-
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Email:</label>
-                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Mobile Office:</label>
-                                    @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Mobile Personal:</label>
-                                    @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-5">
-                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-                                </div>
-                                <div class="col-md-7">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
-                                </div>
-
-                            </div>
-                        </div>
 
                     </div>
                     <div class="box-footer">
@@ -131,8 +135,8 @@
 
                     <div class="box-danger">
                         @*<div class="box-header">
-                            <h4>Zone List</h4>
-                        </div>*@
+                                <h4>Zone List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
 
@@ -304,7 +308,7 @@
             if (zoneId == null) {
                 zoneId = 0;
             }
-            
+
                 $.ajax({
                 type:"post",
                 url: "@Url.Action("IsZoneExist", "Configuration")",
@@ -327,7 +331,7 @@
 
 
             });
-            
+
 
 
         });

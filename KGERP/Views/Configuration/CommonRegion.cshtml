@@ -31,8 +31,8 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     @*<div class="box-header">
-                            <h4>Add Region</h4>
-                        </div>*@
+            <h4>Add Region</h4>
+        </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "RegionId" })
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            @*<div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-control-label">Employee:</label>
                                     <div class="">
@@ -110,20 +110,22 @@
                                     @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
+                        </div>*@
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <div class="col-md-5">
+                                <div class="col-md-4 text-right" style="margin-top:20px">
+                                    <label></label>
                                     <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
                                 </div>
-                                <div class="col-md-7">
-                                    <button style="width:100%;" type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+                                <div class="col-md-8">
+                                    <label></label>
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
+                </div>
                     <div class="box-footer">
                     </div>
                 </div>
