@@ -82,12 +82,14 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      DamageDetailId = t1.DamageDetailId,
                                                                      DamageMasterId = t1.DamageMasterId,
                                                                      DamageQty = t1.DamageQty,
+                                                                     Consumption=t3.Consumption,
                                                                      DealerDamageTypeId = t1.DamageTypeId,
                                                                      DepoDamageTypeName = t7.Name,
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
                                                                      UnitName = t6.Name,
+                                                                     TotalPrice=t1.DamageQty*(double)t1.UnitPrice,
                                                                      Remarks = t1.Remarks
                                                                  }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
 
