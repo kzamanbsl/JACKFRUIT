@@ -69,6 +69,7 @@
     <Report Include="AFTest_DeportProductStockReport.rdl" />
     <Report Include="AFTest_ProductStockReport.rdl" />
     <Report Include="AF_BankOrCashBook.rdl" />
+    <Report Include="AF_CustomerDamageReceiptInvoice.rdl" />
     <Report Include="AF_CustomerList.rdl" />
     <Report Include="AF_CustomerSalesInvoiceReport.rdl" />
     <Report Include="AF_DealerList.rdl" />
