@@ -21,7 +21,7 @@
 <section class="content-header">
     <h1>
         <span>
-            Depo Damages Received to Factory
+            Depo to Factory Damage Receive
         </span>
     </h1>
     <ol class="breadcrumb">
@@ -148,8 +148,8 @@
                                                         }
                                                     </td>
                                                     @*<td style="padding:5px;text-align:center;">
-                                                           @item.UnitName
-                                                        </td>*@
+                       @item.UnitName
+                    </td>*@
 
                                                     <td class="unitPrice" style="padding:5px;text-align:center; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
@@ -166,8 +166,7 @@
 
 
                                             <tr>
-                                                <th></th>
-                                                <th colspan="4">Grand Total:</th>
+                                                <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
                                                 <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))</th>
 
                                             </tr>
