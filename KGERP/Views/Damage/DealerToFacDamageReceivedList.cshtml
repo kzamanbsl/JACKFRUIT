@@ -118,7 +118,7 @@
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Received || item.StatusId == EnumDamageStatus.Submitted)
                                                 {
-                                                    <a href="~/Damage/DealerToFacDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a href="~/Damage/DealerToFacDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" target="_blank" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
                                             </td>
                                             <td>
@@ -130,7 +130,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="~/Damage/DealerToFacDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details">Receive</a>
+                                                    <a href="~/Damage/DealerToFacDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" target="_blank" title="Details">Receive</a>
 
                                                 }
 
