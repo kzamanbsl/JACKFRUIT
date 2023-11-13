@@ -116,16 +116,16 @@
                                 </div>*@
 
                             @*@if (Model.Employee.Id == 0)
-                            {*@
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Employee.Password, htmlAttributes: new { @class = "control-label col-md-4" })
-                                        <div class="col-md-8">
-                                            @Html.EditorFor(model => model.Employee.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Employee.Password, "", new { @class = "text-danger" })
-                                        </div>
+                                {*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.Password, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Employee.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Employee.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                            </div>
                             @*}*@
 
                             <div class="col-md-6">
@@ -688,6 +688,7 @@
                 width: 270,
                 showSubtext: true
             });
+
             $('#ddlZoneId').prepend('<option disabled  value="">Select Zone(s)</option>');
             $('#ddlAreaId').prepend('<option disabled  value="">Select Area(s)</option>');
             $('#ddlRegionId').prepend('<option disabled  value="">Select Region(s)</option>');
@@ -696,8 +697,8 @@
             var employeeId = $("#hidEmployeeId").val();
             var zoneIds = $("#ddlZoneId").val();
             var regionIds= $("#ddlRegionId").val();
-            var areaIds= $('#ddlAreaId').val();
-            var territoryIds = $('#ddlSubZoneId').val();
+            var areaIds= $("#ddlAreaId").val();
+            var territoryIds = $("#ddlSubZoneId").val();
 
             var regionDiv = $("#regionDiv");
             var areaDiv = $("#areaDiv");
@@ -705,32 +706,32 @@
 
             if (employeeId > 0 && territoryIds.length<=0) {
                 subzoneDiv.hide();
-                regionChange(0, zoneIds[0]);
-                areaChange(0, zoneIds[0], regionIds[0]);
+                //regionChange(0, zoneIds[0]);
+                //areaChange(0, zoneIds[0], regionIds[0]);
             }
             if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 ) {
-                areaDiv.hide();
                 subzoneDiv.hide();
-                regionChange(0, zoneIds[0]);
+                areaDiv.hide();
+                //regionChange(0, zoneIds[0]);
             }
             if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && regionIds.length<=0) {
-                regionDiv.hide();
-                areaDiv.hide();
                 subzoneDiv.hide();
+                areaDiv.hide();
+                regionDiv.hide();
             }
 
-            if (employeeId > 0 && territoryIds.length > 0) {
-                regionChange(0, zoneIds[0]);
-                areaChange(0, zoneIds[0], regionIds[0]);
-                territoryChange(0, areaIds[0]);
-            }
-            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length > 0) {
-                regionChange(0, zoneIds[0]);
-                areaChange(0, zoneIds[0], regionIds[0]);
-            }
-            if (employeeId > 0 && territoryIds.length >= 0 && areaIds.length<=0 && regionIds.length > 0) {
-                regionChange(0, zoneIds[0]);
-            }
+            //if (employeeId > 0 && territoryIds.length > 0) {
+            //    regionChange(0, zoneIds[0]);
+            //    areaChange(0, zoneIds[0], regionIds[0]);
+            //    territoryChange(0, areaIds[0]);
+            //}
+            //if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length > 0) {
+            //    regionChange(0, zoneIds[0]);
+            //    areaChange(0, zoneIds[0], regionIds[0]);
+            //}
+            //if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 && regionIds.length > 0) {
+            //    regionChange(0, zoneIds[0]);
+            //}
         });
 
         $(function () {
@@ -829,7 +830,7 @@
                 }
             });
         });
-        
+
         $("#ddlZoneId").on('change',function () {
             var zoneIds = $("#ddlZoneId").val();
             var regionDiv = $("#regionDiv");
@@ -839,7 +840,9 @@
             if (zoneIds.length == 1)
             {
                 regionChange(0, zoneIds[0]);
-
+                regionDiv.show();
+                areaDiv.show();
+                subzoneDiv.show();
             }
 
             if (zoneIds.length > 1) {
@@ -857,69 +860,64 @@
                 subzoneList.remove();
 
                 $("#ddlRegionId").val(null);
-                $('#ddlAreaId').val(null);
-                $('#ddlSubZoneId').val(null);
+                $("#ddlAreaId").val(null);
+                $("#ddlSubZoneId").val(null);
 
             }
-            else if (2 > zoneIds.length) {
-
-                regionDiv.show();
-                areaDiv.show();
-                subzoneDiv.show();
-            };
 
         });
-        
+
         $("#ddlRegionId").change(function (e) {
             var zoneIds = $("#ddlZoneId").val();
-            var regionValue = $("#ddlRegionId").val();
-            var areaValue = $('#ddlAreaId').val();
+            var regionIds = $("#ddlRegionId").val();
 
             var areaDiv = $("#areaDiv");
             var subzoneDiv = $("#subzoneDiv");
-            if (regionValue.length == 1) {
-                areaChange(0, zoneIds[0], regionValue[0]);
 
+            if (regionIds.length == 1) {
+                areaChange(0, zoneIds[0], regionIds[0]);
+                areaDiv.show();
+                subzoneDiv.show();
             }
 
-            if (regionValue.length > 1) {
+            if (regionIds.length > 1) {
 
                 areaDiv.hide();
                 subzoneDiv.hide();
+
                 var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
                 var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
+
                 areaList.remove();
                 subzoneList.remove();
 
-                $('#ddlAreaId').val(null);
-                $('#ddlSubZoneId').val(null);
+                $("#ddlAreaId").val(null);
+                $("#ddlSubZoneId").val(null);
             }
-            else if (2 > regionValue.length) {
-                areaDiv.show();
-                subzoneDiv.show();
-            };
         });
 
         $("#ddlAreaId").change(function (e) {
-            var areaValue = $("#ddlAreaId").val();
 
+            var areaIds = $("#ddlAreaId").val();
 
             var subzoneDiv = $("#subzoneDiv");
-            if (areaValue.length == 1) {
 
-                territoryChange(0, areaValue[0]);
+            if (areaIds.length == 1) {
 
+                territoryChange(0, areaIds[0]);
+                subzoneDiv.show();
             }
-            if (areaValue.length > 1) {
+
+            if (areaIds.length > 1) {
 
                 subzoneDiv.hide();
+
                 var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
+
                 subzoneList.remove();
-                $('#ddlSubZoneId').val(null);
+                $("#ddlSubZoneId").val(null);
+
             }
-            else if (2 > areaValue.length) {
-                subzoneDiv.show();
-            };
         });
 
         function regionChange(regionValue, zoneValue) {
@@ -928,14 +926,17 @@
                 url: "@Url.Action("CommonRegionGet", "Configuration")",
                 datatype: "Json",
                 data: { companyId:@Model.Employee.CompanyId, zoneId: zoneValue },
-                success: function (data) {
 
+                success: function (data) {
                     if (data) {
+
                         $("#ddlRegionId").empty();
                         $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
+
                         $(data).each(function (index, item) {
                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
+
                         if (regionValue > 0) {
                             $("#ddlRegionId").val(regionValue);
                         }
@@ -952,12 +953,15 @@
                 url: "@Url.Action("GetAreaList", "Configuration")",
                 datatype: "Json",
                 data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, regionId: regionId },
+
                 success: function (data) {
+
                     if (data) {
                         $("#ddlAreaId").empty();
                         $(data).each(function (index, item) {
                             $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
+
                         if (areaValue > 0) {
                             $("#ddlAreaId").val(areaValue);
                         }
@@ -974,16 +978,18 @@
                 url: "@Url.Action("CommonSubZonesGet", "Configuration")",
                 datatype: "Json",
                 data: { id: areaValue },
+
                 success: function (data) {
+
                     if (data) {
                         $("#ddlSubZoneId").empty();
                         $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
 
                         if (territoryValue > 0) {
-
                             $("#ddlSubZoneId").val(territoryValue).trigger('change');
                         }
 
@@ -994,6 +1000,6 @@
 
 
 
-</script>
+    </script>
 
 }
