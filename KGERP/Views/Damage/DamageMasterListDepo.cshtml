@@ -92,6 +92,7 @@
                                         <th>Store House</th>
                                         <th>Status</th>
                                         <th>Action</th>
+                                        <th>Print</th>
                                         <th>Change Status</th>
                                     </tr>
                                 </thead>
@@ -123,10 +124,22 @@
                                                     <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deletedepoDamageModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     <a href="~/Damage/DamageMasterSlaveDepo?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
-                                                else if (item.StatusId == EnumDamageStatus.Received )
+                                                else if (item.StatusId == EnumDamageStatus.Received)
                                                 {
                                                     <a href="~/Damage/DepoDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.StatusId == EnumDamageStatus.Received)
+                                                {
+                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DeportDamageReceiptInvoiceReport?companyId=@Model.CompanyFK&damageMasterId=@item.DamageMasterId&deportId=@item.FromDeportId">
+                                                        <i class="fa fa-print"></i>Print
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <span>Print</span>
                                                 }
                                             </td>
                                             <td>

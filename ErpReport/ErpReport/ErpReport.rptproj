@@ -65,6 +65,7 @@
     <Report Include="ActiveCustomer.rdl" />
     <Report Include="AdditiveMaterialPOTemplate.rdl" />
     <Report Include="AdvancedAttendanceSearchReport.rdl" />
+    <Report Include="AFTest_CustomerDamageReceiptInvoice.rdl" />
     <Report Include="AFTest_DealerProductStockReport.rdl" />
     <Report Include="AFTest_DeportProductStockReport.rdl" />
     <Report Include="AFTest_ProductStockReport.rdl" />

@@ -92,6 +92,7 @@
                                         <th>To Warehouse</th>
                                         <th>Status</th>
                                         <th>Action</th>
+                                        <th>Print</th>
                                         <th>Change Status</th>
                                     </tr>
                                 </thead>
@@ -133,6 +134,18 @@
                                                 {
                                                     <a href="~/Damage/DealerToFacDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.StatusId == EnumDamageStatus.Received)
+                                                {
+                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DealerDamageReceiptInvoiceReport?companyId=@Model.CompanyFK&damageMasterId=@item.DamageMasterId&dealerId=@item.FromDealerId">
+                                                        <i class="fa fa-print"></i>Print
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <span>Print</span>
                                                 }
                                             </td>
                                             <td>

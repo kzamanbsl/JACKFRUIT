@@ -168,7 +168,9 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    IsActive = t1.IsActive,
 
                                                                }).OrderByDescending(x => x.DamageMasterId).AsEnumerable());
+          
 
+            
             if (statusId != -1 && statusId != null)
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)statusId);

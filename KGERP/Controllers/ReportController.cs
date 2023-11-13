@@ -17,6 +17,7 @@ using System.Web.Services.Description;
 using System.Security.Policy;
 using System.Drawing;
 using System.Collections;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 
 namespace KGERP.Controllers
 {
@@ -5566,6 +5567,56 @@ namespace KGERP.Controllers
             }
             return View();
         }
+
+
+
+        #endregion
+        #region Azlan Damage Food
+
+        // Customer Damage Receipt Report
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> CustomerDamageReceiptInvoiceReport(int companyId,int damageMasterId,int customerId )
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var reportName = CompanyInfo.ReportPrefix + "CustomerDamageReceiptInvoice";
+
+            string reportUrl =  string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}&CustomerId={3}", reportName, companyId, damageMasterId, customerId);
+            return File(client.DownloadData(reportUrl), "application/pdf");
+            
+        }
+        
+        // Deport Damage Receipt Report
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> DeportDamageReceiptInvoiceReport(int companyId, int damageMasterId, int deportId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var reportName = CompanyInfo.ReportPrefix + "DeportDamageReceiptInvoice";
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}&dealerId={3}", reportName, companyId, damageMasterId, deportId);
+            return File(client.DownloadData(reportUrl), "application/pdf");
+            
+        } 
+        // Dealer Damage Receipt Report
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> DealerDamageReceiptInvoiceReport(int companyId, int damageMasterId,int dealerId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var reportName = CompanyInfo.ReportPrefix + "DealerDamageReceiptInvoice";
+            
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}&dealerId={3}", reportName, companyId, damageMasterId, dealerId);
+            return File(client.DownloadData(reportUrl), "application/pdf");
+            
+        }
         #endregion
     }
+
 }
