@@ -324,7 +324,8 @@ namespace KGERP.Service.Implementation
                 }
                 else if (zones?.Count() > 0)
                 {
-                    result.ZoneIds = (int[])zones.Select(c => c.ZoneId);
+                    var zoneIds= zones.Select(c => c.ZoneId).ToArray();
+                    result.ZoneIds = zoneIds;
                 }
             }
 
@@ -615,7 +616,7 @@ namespace KGERP.Service.Implementation
                     #endregion
 
                     #region Add new maps
-                    if (model.SubZoneIds?.Length > 0)
+                    if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length>0 && model.RegionIds?.Length>0 && model.ZoneIds?.Length>0)
                     {
                         var subZoneIds = model.SubZoneIds.Distinct();
                         var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
@@ -636,7 +637,7 @@ namespace KGERP.Service.Implementation
                         }
 
                     }
-                    else if (model.AreaIds?.Length > 0)
+                    else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var areaIds = model.AreaIds.Distinct();
                         var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
@@ -656,7 +657,7 @@ namespace KGERP.Service.Implementation
                             area.MobilePersonal = mobilePersonal;
                         }
                     }
-                    else if (model.RegionIds?.Length > 0)
+                    else if (model.RegionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var regionIds = model.RegionIds.Distinct();
                         var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
