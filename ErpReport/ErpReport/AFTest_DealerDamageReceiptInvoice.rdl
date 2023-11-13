@@ -9,14 +9,14 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-13T12:00:02.0309330Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-13T12:17:41.6448682Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="CustomerDamageReceiptInvoiceDataSource">
+    <DataSource Name="DealerDamageReceiptInvoiceDataSource">
       <Transaction>true</Transaction>
-      <DataSourceReference>AFDataSource</DataSourceReference>
+      <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>cdcb2f2c-7ca3-4782-8265-294164a2cd50</rd:DataSourceID>
     </DataSource>
@@ -24,7 +24,7 @@
   <DataSets>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>CustomerDamageReceiptInvoiceDataSource</DataSourceName>
+        <DataSourceName>DealerDamageReceiptInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -61,9 +61,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="CustomerDamageReceiptInvoiceDataSet">
+    <DataSet Name="DealerDamageReceiptInvoiceDataSet">
       <Query>
-        <DataSourceName>CustomerDamageReceiptInvoiceDataSource</DataSourceName>
+        <DataSourceName>DealerDamageReceiptInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -73,7 +73,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>CustomerDamageReceiptInvoice</CommandText>
+        <CommandText>DealerDamageReceiptInvoice</CommandText>
       </Query>
       <Fields>
         <Field Name="DamageMasterId">
@@ -152,27 +152,19 @@ from Company Where CompanyId=@CompanyId</CommandText>
     </DataSet>
     <DataSet Name="HederData">
       <Query>
-        <DataSourceName>CustomerDamageReceiptInvoiceDataSource</DataSourceName>
+        <DataSourceName>DealerDamageReceiptInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@CustomerId">
-            <Value>=Parameters!CustomerId.Value</Value>
+          <QueryParameter Name="@DamageMasterId">
+            <Value>=Parameters!DamageMasterId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>CustomerDamageReceiptInvoiceHeader</CommandText>
+        <CommandText>DealerDamageReceiptInvoiceHeader</CommandText>
       </Query>
       <Fields>
-        <Field Name="OrderMasterId">
-          <DataField>OrderMasterId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
-        </Field>
-        <Field Name="CompanyId">
-          <DataField>CompanyId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="VendorName">
           <DataField>VendorName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -189,16 +181,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>VendorEmail</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DemandNo">
-          <DataField>DemandNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="VendorPropietor">
           <DataField>VendorPropietor</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="OrderNo">
-          <DataField>OrderNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="VendorAddress">
@@ -209,72 +193,12 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>ContactPersion</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="OrderDate">
-          <DataField>OrderDate</DataField>
+        <Field Name="invoiceDate">
+          <DataField>invoiceDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="ExpectedDeliveryDate">
-          <DataField>ExpectedDeliveryDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="Remarks">
-          <DataField>Remarks</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CourierNo">
-          <DataField>CourierNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CourierCharge">
-          <DataField>CourierCharge</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="CustomerId">
-          <DataField>CustomerId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="CreatedBy">
-          <DataField>CreatedBy</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DiscountAmount">
-          <DataField>DiscountAmount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="DiscountRate">
-          <DataField>DiscountRate</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="FinalDestination">
-          <DataField>FinalDestination</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="GrandTotal">
-          <DataField>GrandTotal</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="SalePersonId">
-          <DataField>SalePersonId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
-        </Field>
-        <Field Name="PaymentMethod">
-          <DataField>PaymentMethod</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CurrentPayable">
-          <DataField>CurrentPayable</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="IsCash">
-          <DataField>IsCash</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="OrderStatus">
-          <DataField>OrderStatus</DataField>
+          <DataField>createdBy</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StockInfoName">
@@ -427,7 +351,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!OrderNo.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -522,14 +446,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="OrderDate">
+                        <Textbox Name="invoiceDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!OrderDate.Value</Value>
+                                  <Value>=Fields!invoiceDate.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -541,7 +465,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>OrderDate</rd:DefaultName>
+                          <rd:DefaultName>invoiceDate</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -636,7 +560,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PaymentMethod.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2707,7 +2631,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!TotalPrice.Value,"#,##0.00")</Value>
+                                  <Value>=Fields!TotalPrice.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2847,7 +2771,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>CustomerDamageReceiptInvoiceDataSet</DataSetName>
+            <DataSetName>DealerDamageReceiptInvoiceDataSet</DataSetName>
             <Top>2.83959in</Top>
             <Left>0.98542in</Left>
             <Height>0.73958in</Height>
@@ -2918,7 +2842,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!TotalAsWord.Value, "CustomerDamageReceiptInvoiceDataSet")</Value>
+                    <Value>=First(Fields!TotalAsWord.Value, "DealerDamageReceiptInvoiceDataSet")</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                     </Style>
@@ -3155,7 +3079,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!Remarks.Value, "HederData")</Value>
+                    <Value />
                     <Style>
                       <FontFamily>times New Roman</FontFamily>
                       <FontWeight>Bold</FontWeight>
@@ -3455,10 +3379,6 @@ from Company Where CompanyId=@CompanyId</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Damage Master Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CustomerId">
-      <DataType>Integer</DataType>
-      <Prompt>Customer Id</Prompt>
-    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -3474,11 +3394,6 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>DamageMasterId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>CustomerId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

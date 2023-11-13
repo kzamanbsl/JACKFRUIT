@@ -130,7 +130,7 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.StatusId == EnumDamageStatus.Received)
+                                                @if (item.StatusId == EnumDamageStatus.Received || item.StatusId == EnumDamageStatus.Submitted)
                                                 {
                                                     <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/CustomerDamageReceiptInvoiceReport?companyId=@Model.CompanyFK&damageMasterId=@item.DamageMasterId&customerId=@item.FromCustomerId">
                                                         <i class="fa fa-print"></i>Print
