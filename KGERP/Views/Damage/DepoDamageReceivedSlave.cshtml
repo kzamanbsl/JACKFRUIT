@@ -80,7 +80,7 @@
                                             <th>:</th>
                                             <td>@Model.DeportAddress</td>
                                         </tr>
-                                        <tr >
+                                        <tr>
                                             <th>To Store House </th>
                                             <th>:</th>
                                             <td>@Model.StockInfoName</td>
@@ -111,8 +111,9 @@
                                                 <th style="padding:5px;text-align:center;">Damage Type</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
-                                                <th style="padding:5px;text-align:center;">Unit</th>
+                                                @*<th style="padding:5px;text-align:center;">Unit</th>*@
                                                 <th style="padding:5px;text-align:center;">Unit Price</th>
+                                                <th style="padding:5px;text-align:right;">Total Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -121,7 +122,7 @@
                                             }
                                             @foreach (var item in Model.DetailDataList)
                                             {
-                                               
+
                                                 <tr>
                                                     <td style="padding: 10px; text-align: left;">
 
@@ -130,7 +131,7 @@
                                                         @Html.HiddenFor(model => model.DetailDataList[i].ProductId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].DealerDamageTypeId)
-
+                                                        <input type="hidden" @(totalPrice = item.TotalPrice + totalPrice) />
                                                         @(++sl)
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.DamageTypeName</td>
@@ -142,23 +143,37 @@
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.DamageQty)
+                                                            @*@String.Format("{0:0.00}", item.DamageQty)*@
+                                                            @(String.Format("{0:0.00}", item.DamageInCtn) + " Ctn and " +String.Format("{0:0.00}", item.DamageInPcs)+ " Pcs")
                                                         }
                                                     </td>
-                                                    <td style="padding:5px;text-align:center;">
-                                                       @item.UnitName
-                                                    </td>
+                                                    @*<td style="padding:5px;text-align:center;">
+                                                           @item.UnitName
+                                                        </td>*@
 
                                                     <td class="unitPrice" style="padding:5px;text-align:center; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
                                                     </td>
+                                                    <td class="totalPrice" style="padding:5px;text-align:right; font-weight:bold">
+                                                        @String.Format("{0:0.00}", totalPrice)
+                                                    </td>
                                                 </tr>
                                                 i++;
                                             }
                                         </tbody>
+                                        <tfoot>
 
-                                    
+
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="4">Grand Total:</th>
+                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))</th>
+
+                                            </tr>
+                                        </tfoot>
+
+
                                     </table>
 
                                 </div>
