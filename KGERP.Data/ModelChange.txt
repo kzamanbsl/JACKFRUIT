@@ -5,6 +5,11 @@
 (*) Update,
 (-) Remove
 
-Date: 31-10-2023
+Date: 14-11-2023
 ================
+*Erp.Product
+	+DeportPrice
+	+DealerPrice
+	+CustomerPrice
+
 
