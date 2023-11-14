@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-13T12:04:52.5766056Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-14T05:04:02.6582425Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -662,7 +662,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!StockInfoName.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1396,7 +1396,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!VendorCode.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1814,7 +1814,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!VendorEmail.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3246,7 +3246,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Damage Receipt Invoice</Value>
+                      <Value>Deport Damage Receipt Invoice</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>

@@ -133,7 +133,7 @@
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Received|| item.StatusId == EnumDamageStatus.Submitted)
                                                 {
-                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DeportDamageReceiptInvoiceReport?companyId=@Model.CompanyFK&damageMasterId=@item.DamageMasterId&deportId=@item.FromDeportId">
+                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DeportDamageReceiptInvoiceReport?companyId=@Model.CompanyFK&damageMasterId=@item.DamageMasterId">
                                                         <i class="fa fa-print"></i>Print
                                                     </a>
                                                 }

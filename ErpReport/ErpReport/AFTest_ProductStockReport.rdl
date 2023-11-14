@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.5.33516.290</am:Version>
+      <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-31T06:05:34.4157040Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-14T08:46:09.0925509Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -966,7 +966,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(((Fields!ReceiveQty.Value)-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0:00")</Value>
+                                  <Value>=format(((Fields!ReceiveQty.Value)-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>

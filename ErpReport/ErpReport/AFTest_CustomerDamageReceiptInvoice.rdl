@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-13T11:54:35.9400961Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-14T05:02:15.9767398Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -2994,7 +2994,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Damage Receipt Invoice</Value>
+                    <Value>Damage Item</Value>
                     <Style>
                       <FontFamily>times New Roman</FontFamily>
                       <FontSize>16pt</FontSize>
@@ -3246,7 +3246,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Deport Sales Invoice</Value>
+                      <Value>Customer Damage Receipt Invoice</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>

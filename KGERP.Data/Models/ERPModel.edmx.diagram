@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="100">
+      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="ERPModel.AdminPolicy" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdminSetUp" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdvanceSalary" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="false" />
@@ -468,21 +468,6 @@
         <AssociationConnector Association="ERPModel.FK_SaleReturn_OrderDeliver" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
-        <EntityTypeShape EntityType="ERPModel.Product" Width="1.5" PointX="36.25" PointY="22.625" />
-        <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Product" />
-        <AssociationConnector Association="ERPModel.FK_Product_FacingInfo" />
-        <AssociationConnector Association="ERPModel.FK_IngredientStandard_Product1" />
-        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_PFormulaDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_Product_ProductCategory" />
-        <AssociationConnector Association="ERPModel.FK_Product_ProductSubCategory" />
-        <AssociationConnector Association="ERPModel.FK_Product_Unit" />
-        <AssociationConnector Association="ERPModel.FK_ProductDetails_Product" />
-        <AssociationConnector Association="ERPModel.FK_ProductFormula_Product" />
-        <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
-        <AssociationConnector Association="ERPModel.FK_RequisitionItem_Product" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_StoreDetail_Product" />
         <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="26.375" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
@@ -491,20 +476,16 @@
         <EntityTypeShape EntityType="ERPModel.OrderDetail" Width="1.5" PointX="66.125" PointY="26.125" />
         <EntityTypeShape EntityType="ERPModel.OrderDetailHistory" Width="1.5" PointX="68.375" PointY="21" />
         <AssociationConnector Association="ERPModel.FK_OrderDetail_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderDetail1" />
         <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
         <EntityTypeShape EntityType="ERPModel.DamageDetail" Width="1.5" PointX="74.125" PointY="31.125" />
         <EntityTypeShape EntityType="ERPModel.DamageMaster" Width="1.5" PointX="70.875" PointY="33.625" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_DemageDetail_DemageMaster" />
-        <AssociationConnector Association="ERPModel.FK_DemageDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_StockInfo" />
         <EntityTypeShape EntityType="ERPModel.DamageDetailHistory" Width="1.5" PointX="76.375" PointY="29" />
         <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_DamageDetail" />
         <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_DemageMaster" />
-        <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_Product" />
         <EntityTypeShape EntityType="ERPModel.VendorDeposit" Width="1.5" PointX="63.875" PointY="46" />
         <EntityTypeShape EntityType="ERPModel.VendorDepositHistory" Width="1.5" PointX="69.125" PointY="40.625" />
         <AssociationConnector Association="ERPModel.FK_VendorDeposit_Company" />
@@ -542,6 +523,25 @@
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
         <EntityTypeShape EntityType="ERPModel.DamageType" Width="1.5" PointX="3.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ERPModel.Product" Width="1.5" PointX="36.25" PointY="22.125" />
+        <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Product" />
+        <AssociationConnector Association="ERPModel.FK_DemageDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_DamageDetailHistory_Product" />
+        <AssociationConnector Association="ERPModel.FK_Product_FacingInfo" />
+        <AssociationConnector Association="ERPModel.FK_IngredientStandard_Product1" />
+        <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_OrderDetailHistory_Product" />
+        <AssociationConnector Association="ERPModel.FK_PFormulaDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_Product_ProductCategory" />
+        <AssociationConnector Association="ERPModel.FK_Product_ProductSubCategory" />
+        <AssociationConnector Association="ERPModel.FK_Product_Unit" />
+        <AssociationConnector Association="ERPModel.FK_ProductDetails_Product" />
+        <AssociationConnector Association="ERPModel.FK_ProductFormula_Product" />
+        <AssociationConnector Association="ERPModel.FK_ProductionDetails_Product" />
+        <AssociationConnector Association="ERPModel.FK_RequisitionItem_Product" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_StoreDetail_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

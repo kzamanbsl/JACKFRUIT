@@ -5401,7 +5401,7 @@ namespace KGERP.Controllers
             }
             if (string.IsNullOrEmpty(model.StrToDate))
             {
-                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); 
             }
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
 
@@ -5576,14 +5576,14 @@ namespace KGERP.Controllers
         // Customer Damage Receipt Report
         [HttpGet]
         [SessionExpire]
-        public async Task<ActionResult> CustomerDamageReceiptInvoiceReport(int companyId,int damageMasterId,int customerId )
+        public async Task<ActionResult> CustomerDamageReceiptInvoiceReport(int companyId,int damageMasterId )
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
             var reportName = CompanyInfo.ReportPrefix + "CustomerDamageReceiptInvoice";
 
-            string reportUrl =  string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}&CustomerId={3}", reportName, companyId, damageMasterId, customerId);
+            string reportUrl =  string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
             return File(client.DownloadData(reportUrl), "application/pdf");
             
         }
@@ -5591,28 +5591,28 @@ namespace KGERP.Controllers
         // Deport Damage Receipt Report
         [HttpGet]
         [SessionExpire]
-        public async Task<ActionResult> DeportDamageReceiptInvoiceReport(int companyId, int damageMasterId, int deportId)
+        public async Task<ActionResult> DeportDamageReceiptInvoiceReport(int companyId, int damageMasterId)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
             var reportName = CompanyInfo.ReportPrefix + "DeportDamageReceiptInvoice";
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}&dealerId={3}", reportName, companyId, damageMasterId, deportId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
             return File(client.DownloadData(reportUrl), "application/pdf");
             
         } 
         // Dealer Damage Receipt Report
         [HttpGet]
         [SessionExpire]
-        public async Task<ActionResult> DealerDamageReceiptInvoiceReport(int companyId, int damageMasterId,int dealerId)
+        public async Task<ActionResult> DealerDamageReceiptInvoiceReport(int companyId, int damageMasterId)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
             var reportName = CompanyInfo.ReportPrefix + "DealerDamageReceiptInvoice";
             
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}&dealerId={3}", reportName, companyId, damageMasterId, dealerId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
             return File(client.DownloadData(reportUrl), "application/pdf");
             
         }

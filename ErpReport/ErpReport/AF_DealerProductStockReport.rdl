@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.5.33516.290</am:Version>
+      <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-31T10:15:57.5631987Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-14T09:16:31.0206654Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -969,7 +969,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(((Fields!ReceiveQty.Value)-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0:00")</Value>
+                                  <Value>=format(((Fields!ReceiveQty.Value)-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1043,7 +1043,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(((Fields!SalesQty.Value)-(Fields!SalesQtyCtn.Value*Fields!Consumption.Value)),"#,##0:00")</Value>
+                                  <Value>=format(((Fields!SalesQty.Value)-(Fields!SalesQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
