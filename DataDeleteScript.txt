@@ -9,6 +9,19 @@ GO
 -- Schema name change
 --ALTER SCHEMA NewSchema TRANSFER [OldSchema].[TableName]
 
+--Duplicate Row Check
+SELECT ProductName, COUNT(*) FROM Erp.Product
+GROUP BY ProductName
+HAVING COUNT(*) > 1
+
+--Duplicate Row Delete
+DELETE FROM Erp.Product
+WHERE ProductId NOT IN (
+    SELECT MIN(ProductId)
+    FROM Erp.Product
+    GROUP BY ProductName
+);
+
 --CompanyUserMenu Delete
 delete from CompanyUserMenu where CompanyId NOT IN (21,26,27)
 delete from CompanyUserMenu where UserId NOT IN ('ISS0001','ISS0002')
@@ -118,14 +131,19 @@ DELETE Erp.MaterialReceive WHERE CompanyId=21
 DELETE FROM Erp.MaterialReceive
 DBCC CHECKIDENT ([Erp.MaterialReceive], RESEED, 0);
 
---OrderMaster and Order Delete
+--OrderMaster and Order Delete, Order Detail History
+SELECT * FROM Erp.OrderDetailHistory
+--DELETE Erp.OrderDetailHistory WHERE OrderMasterId IN (SELECT OrderMasterId FROM Erp.OrderMaster WHERE CompanyId=21)
+DELETE FROM Erp.OrderDetailHistory
+DBCC CHECKIDENT ([Erp.OrderDetailHistory], RESEED, 0);
+
 SELECT * FROM Erp.OrderDetail
-DELETE Erp.OrderDetail WHERE OrderMasterId IN (SELECT OrderMasterId FROM Erp.OrderMaster WHERE CompanyId=21)
+--DELETE Erp.OrderDetail WHERE OrderMasterId IN (SELECT OrderMasterId FROM Erp.OrderMaster WHERE CompanyId=21)
 DELETE FROM Erp.OrderDetail
 DBCC CHECKIDENT ([Erp.OrderDetail], RESEED, 0);
 
 SELECT * FROM Erp.OrderMaster
-DELETE Erp.OrderMaster WHERE CompanyId=21
+--DELETE Erp.OrderMaster WHERE CompanyId=21
 DELETE FROM Erp.OrderMaster
 DBCC CHECKIDENT ([Erp.OrderMaster], RESEED, 0);
 
