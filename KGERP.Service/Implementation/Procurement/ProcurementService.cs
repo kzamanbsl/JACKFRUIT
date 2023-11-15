@@ -3933,8 +3933,8 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
-                Qty = vmSalesOrderSlave.Qty,
-                OfferQty = vmSalesOrderSlave.OfferQty,
+                Qty =(double) (vmSalesOrderSlave.QtyCtn*vmSalesOrderSlave.Consumption)+vmSalesOrderSlave.QtyPcs,
+                OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -3968,8 +3968,9 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
 
             model.ProductId = vmSalesOrderSlave.ProductId ?? 0;
-            model.Qty = vmSalesOrderSlave.Qty;
-            model.OfferQty = vmSalesOrderSlave.OfferQty;
+            model.Qty = (double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs;
+            model.OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) +vmSalesOrderSlave.OfferPcs;
+               
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;

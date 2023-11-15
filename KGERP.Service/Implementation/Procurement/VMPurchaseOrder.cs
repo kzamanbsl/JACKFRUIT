@@ -298,7 +298,10 @@ namespace KGERP.Service.Implementation.Procurement
         public long OrderDetailId { get; set; }
         public int FProductId { get; set; }
         public double Qty { get; set; } = 0;
+        public double QtyCtn { get; set; } = 0;
+        public double QtyPcs { get; set; } = 0;
         public double UnitPrice { get; set; }
+        public decimal? DeportPrice { get; set; } = 0;
         public double? Consumption { get; set; } 
         public double? PackQuantity { get; set; }
         public decimal StockInCtn => (decimal)Math.Floor(Qty / (Consumption == 0 ? 1 : Consumption ?? 1));
@@ -314,6 +317,8 @@ namespace KGERP.Service.Implementation.Procurement
         public double TotalPrice { get { return Qty * UnitPrice; } }
         public string TotalPriceInWord { get; set; }
         public double OfferQty { get; set; }
+        public double OfferCtn { get; set; }
+        public double OfferPcs { get; set; }
         public string UnitName { get; set; }
         public string ProductCategoryName { get; set; }
         public string ProductSubCategoryName { get; set; }
@@ -331,6 +336,7 @@ namespace KGERP.Service.Implementation.Procurement
         public int ProductCategoryId { get; set; }
         public int SubZoneFk { get; set; }
         public int ZoneFk { get; set; }
+        public int RegionFk { get; set; }
         public string OfficerNAme { get; set; }
         public decimal CashDiscountPercent { get; set; }
         public decimal SpecialDiscount { get; set; }
@@ -352,6 +358,7 @@ namespace KGERP.Service.Implementation.Procurement
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }
