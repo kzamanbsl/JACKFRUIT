@@ -12,12 +12,6 @@ using System.Web.Mvc;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
-using Microsoft.AspNetCore.Mvc;
-using System.Web.Services.Description;
-using System.Security.Policy;
-using System.Drawing;
-using System.Collections;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 
 namespace KGERP.Controllers
 {
