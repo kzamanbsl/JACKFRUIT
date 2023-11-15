@@ -619,6 +619,9 @@ namespace KGERP.Service.Implementation.Configuration
         public string UnitName { get; set; }
         public decimal MRPPrice { get; set; }
         public decimal TPPrice { get; set; }
+        public decimal? DeportSalePrice { get; set; }
+        public decimal? DealerSalePrice { get; set; }
+        public decimal? CustomerSalePrice { get; set; }
         public double? Qty { get; set; }
         public double? Consumption { get; set; }
 
