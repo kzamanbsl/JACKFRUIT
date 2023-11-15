@@ -145,31 +145,28 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Zone:</label>
-                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+                                    @*<div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Zone:</label>
+                                                @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Deport:</label>
-                                            @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Deport==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, "==Select Deport==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    @*</div>
 
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
+                                        <div class="row">*@
+                                    <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Remarks:</label>
-                                            @Html.TextAreaFor(model => model.Remarks, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                            @Html.TextAreaFor(model => model.Remarks, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 1 })
                                             @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -179,22 +176,35 @@
                             @if (Model.Status == (int)EnumSOStatus.Draft)
                             {
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
 
                                             @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                             @Html.HiddenFor(model => model.FProductId, new { id = "ddlRProductFK", @required = "required" })
+                                            @Html.HiddenFor(model => model.Consumption, new { id = "ProductConsumption", @required = "required" })
                                         </div>
                                     </div>
 
+                                    @*<div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Order Qty (Unit):</label>
+
+                                                @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                                        <div class="input-group-addon">
+                                                <span class="txtUnitName"></span>
+                                            </div>
+
+                                        </div>
+                                        </div>*@
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Order Qty (Unit):</label>
+                                            <label>Order Ctn:</label>
 
-                                            @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(model => model.QtyCtn, new { id = "txtOrderCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Ctn", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.QtyCtn, "", new { @class = "text-danger" })
                                             @*<div class="input-group-addon">
                                                     <span class="txtUnitName"></span>
                                                 </div>*@
@@ -203,26 +213,54 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Offer Qty:</label>
+                                            <label>Order Pcs:</label>
+
+                                            @Html.TextBoxFor(model => model.QtyPcs, new { id = "txtOrderPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Pcs", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.QtyPcs, "", new { @class = "text-danger" })
+                                            @*<div class="input-group-addon">
+                                                    <span class="txtUnitName"></span>
+                                                </div>*@
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Free Ctn:</label>
                                             @*<div class="input-group">*@
-                                            @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(model => model.OfferCtn, new { id = "txtOfferCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Free Ctn", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.OfferCtn, "", new { @class = "text-danger" })
                                             @*<div class="input-group-addon">
                                                     <span class="txtUnitName"></span>
                                                 </div>*@
                                             @*</div>*@
                                         </div>
                                     </div>
-
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Unit Price:</label>
-                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                                            <label>Free Pcs:</label>
+                                            @*<div class="input-group">*@
+                                            @Html.TextBoxFor(model => model.OfferPcs, new { id = "txtOfferPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Free pcs", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.OfferPcs, "", new { @class = "text-danger" })
+                                            @*<div class="input-group-addon">
+                                                    <span class="txtUnitName"></span>
+                                                </div>*@
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Deport Price:</label>
+                                            @Html.TextBoxFor(model => model.DeportPrice, new { id = "txtDeportPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Deport Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.DeportPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group ">
                                             <label>Total Amount:</label>
                                             @Html.TextBoxFor(model => model.TotalAmount, new { id = "totalAmount", @readonly = "readonly", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Amount", required = "Required" })
@@ -286,8 +324,8 @@
                                                 <td style="padding:5px">@(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                 @*<td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.Qty) @item.UnitName</td>*@
-                                            <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
-                                            <td style="padding:5px;text-align:center;"> @item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs</td>
+                                                <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
+                                                <td style="padding:5px;text-align:center;"> @item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs</td>
                                                 <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
 
@@ -659,7 +697,7 @@
             $("#txtUnitPrice").keyup(function () {
 
                 var qty = $("#txtOrderQuantity").val();
-                var unitPrice = $("#txtUnitPrice").val();
+                var unitPrice = $("#deportPrice").val();
                 var tAmount = qty * unitPrice;
                 $("#totalAmount").val(tAmount);
                 $("#SpcDis").val(0);
@@ -672,7 +710,11 @@
                 var tAmount = qty * unitPrice;
                 $("#totalAmount").val(tAmount);
 
-            });
+            }); 
+
+
+          
+
 
             $("#ddlZoneFk").change(function () {
 
@@ -710,9 +752,11 @@
 
         $("#txtUnitPrice").keyup(function () {
 
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
+            var qtyCtn = $("#txtOrderCtn").val();
+            var qtyPcs = $("#txtOrderPcs").val();
+            var deportPrice = $("#txtDeportPrice").val();
+            var consumption = $("#ProductConsumption").val();
+            var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
             $("#totalAmount").val(tAmount);
             $("#SpcDis").val(0);
             $("#disPercentage").val(0);
@@ -720,11 +764,12 @@
 
         $("#txtOrderQuantity").keyup(function () {
 
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
+            var qtyCtn = $("#txtOrderCtn").val();
+            var qtyPcs = $("#txtOrderPcs").val();
+            var deportPrice = $("#txtDeportPrice").val();
+            var consumption = $("#ProductConsumption").val();
+            var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
             $("#totalAmount").val(tAmount);
-
         });
 
         $("#disPercentage").keyup(function () {
@@ -821,6 +866,7 @@
                     if (data) {
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);
+                        $('#ProductConsumption').val(data.Consumption);
                         $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
                         if (unitPrice == 0) {
