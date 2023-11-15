@@ -3216,7 +3216,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                   ID = t1.ProductId,
                                                   Name = t1.ProductName,
                                                   ShortName = t1.ShortName,
-                                                  MRPPrice = t1.UnitPrice ?? 0,
+                                                  //MRPPrice = t1.UnitPrice ?? 0,
+                                                  DeportSalePrice=t1.DeportPrice,
+                                                  DealerSalePrice=t1.DealerPrice,
+                                                  CustomerSalePrice=t1.CustomerPrice,
                                                   TPPrice = t1.TPPrice,
                                                   Qty = t1.Qty,
                                                   Consumption = t1.Consumption,
@@ -3449,7 +3452,11 @@ namespace KGERP.Service.Implementation.Configuration
                 ProductCode = productId,
                 ShortName = vmCommonProduct.ShortName,
                 ProductName = vmCommonProduct.Name,
-                UnitPrice = vmCommonProduct.MRPPrice,
+                //UnitPrice = vmCommonProduct.MRPPrice,
+                DeportPrice=vmCommonProduct.DeportSalePrice,
+                DealerPrice=vmCommonProduct.DealerSalePrice,
+                CustomerPrice=vmCommonProduct.CustomerSalePrice,
+
                 TPPrice = vmCommonProduct.TPPrice,
                 Qty = vmCommonProduct.Qty,
                 Consumption = vmCommonProduct.Consumption,
@@ -3517,7 +3524,11 @@ namespace KGERP.Service.Implementation.Configuration
             Product commonProduct = await _db.Products.FindAsync(vmCommonProduct.ID);
 
             commonProduct.ProductName = vmCommonProduct.Name;
-            commonProduct.UnitPrice = vmCommonProduct.MRPPrice;
+            //commonProduct.UnitPrice = vmCommonProduct.MRPPrice;
+            commonProduct.DeportPrice = vmCommonProduct.DeportSalePrice;
+            commonProduct.DealerPrice = vmCommonProduct.DealerSalePrice;
+            commonProduct.CustomerPrice = vmCommonProduct.CustomerSalePrice;
+
             commonProduct.TPPrice = vmCommonProduct.TPPrice;
             commonProduct.Qty = vmCommonProduct.Qty;
             commonProduct.Consumption = vmCommonProduct.Consumption;
@@ -3635,7 +3646,10 @@ namespace KGERP.Service.Implementation.Configuration
                          SubCategoryName = t2.Name,
                          CategoryId = t2.ProductCategoryId ?? 0,
                          UnitName = t4.Name,
-                         UnitPrice = t1.UnitPrice,
+                         //UnitPrice = t1.UnitPrice,
+                         DeportSalePrice=t1.DeportPrice,
+                         DealerSalePrice=t1.DealerPrice,
+                         CustomerSalePrice=t1.CustomerPrice,
                          Common_ProductSubCategoryFk = t1.ProductSubCategoryId,
                          Common_UnitFk = t1.UnitId,
                          Common_ProductCategoryFk = t2.ProductCategoryId,
