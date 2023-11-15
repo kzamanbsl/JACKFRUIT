@@ -1678,8 +1678,8 @@ namespace KGERP.Controllers
                 vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.RegionList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            //vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetRegionSelectList(companyId, 0), "Value", "Text");
+            //vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetZoneDivisionSelectList(companyId, 0), "Value", "Text");
 
             return View(vmSalesOrderSlave);
         }
