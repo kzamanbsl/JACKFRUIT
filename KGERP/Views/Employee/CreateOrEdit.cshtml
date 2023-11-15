@@ -181,7 +181,7 @@
                                     <div class="form-group" id="regionDiv">
                                         @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
+                                            @Html.ListBoxFor(model => model.Employee.RegionIds, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
                                             @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -691,7 +691,7 @@
 
             $('#ddlZoneId').prepend('<option disabled  value="">Select Zone(s)</option>');
             $('#ddlAreaId').prepend('<option disabled  value="">Select Area(s)</option>');
-            $('#ddlRegionId').prepend('<option disabled  value="">Select Region(s)</option>');
+            $('#ddlRegionId').prepend('<option disabled  value="">Select ZoneDivision(s)</option>');
             $('#ddlSubZoneId').prepend('<option disabled  value="">Select Territory(s)</option>');
 
             var employeeId = $("#hidEmployeeId").val();
@@ -931,7 +931,7 @@
                     if (data) {
 
                         $("#ddlRegionId").empty();
-                        $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
+                        $("#ddlRegionId").append("<option value=''>==Select ZoneDivision==</option>");
 
                         $(data).each(function (index, item) {
                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
@@ -946,13 +946,13 @@
             });
         }
 
-        function areaChange(areaValue, zoneId, regionId) {
+        function areaChange(areaValue, zoneId, zoneDivisionId) {
 
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetAreaList", "Configuration")",
                 datatype: "Json",
-                data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, regionId: regionId },
+                data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisionId },
 
                 success: function (data) {
 

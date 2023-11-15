@@ -109,9 +109,9 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Region:</label>
-                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">Division:</label>
+                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "--Select Division--", new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -226,7 +226,7 @@
                                                 Zone
                                             </th>
                                             <th>
-                                                Region
+                                                Division
                                             </th>
                                             <th>
                                                 Incharge
@@ -276,7 +276,7 @@
                                                     @item.ZoneName
                                                 </td>
                                                 <td>
-                                                    @item.RegionName
+                                                    @item.ZoneDivisionName
                                                 </td>
                                                 <td>
                                                     @item.ZoneIncharge
@@ -372,7 +372,7 @@
 
 
             $("#ddlZoneId").on('change', function () {
-                regionChange(0);
+                zoneDivisionChange(0);
 
             });
 
@@ -423,16 +423,16 @@
 
                 <!--$.ajax({
                 type: "GET",
-                url: "@Url.Action("CommonRegionGet", "Configuration")",
+                url: "@Url.Action("CommonZoneDivisionGet", "Configuration")",
                 datatype: "Json",
                     data: { companyId:@Model.CompanyFK, zoneId: zoneId },
                     success: function (data) {
 
                         if (data) {
-                            $("#ddlRegionId").empty();
-                            $("#ddlRegionId").append("<option value=''>==Select Territory==</option>");
+                            $("#ddlZoneDivisionId").empty();
+                            $("#ddlZoneDivisionId").append("<option value=''>==Select Territory==</option>");
                             $(data).each(function (index, item) {
-                                $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
 
                         }
@@ -496,22 +496,22 @@
         }
 
 
-        function regionChange(regionValue) {
+        function zoneDivisionChange(zoneDivisionValue) {
                        
             var zoneId = $("#ddlZoneId :selected").val();
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetRegionList", "Configuration")",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
                 datatype: "Json",
                     data: { companyId:@Model.CompanyFK, zoneId: zoneId},
                     success: function (data) {
                         if (data) {
-                            $("#ddlRegionId").empty();
+                            $("#ddlZoneDivisionId").empty();
                             $(data).each(function (index, item) {
-                                $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
-                            if (regionValue > 0) {
-                                $("#ddlRegionId").val(regionValue);
+                            if (zoneDivisionValue > 0) {
+                                $("#ddlZoneDivisionId").val(zoneDivisionValue);
                             }
                            
                         } 
@@ -549,7 +549,7 @@
 
 
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
-                        regionChange(data.RegionId);
+                        zoneDivisionChange(data.ZoneDivisionId);
                    
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);

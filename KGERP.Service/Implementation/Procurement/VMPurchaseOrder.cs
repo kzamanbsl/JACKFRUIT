@@ -229,9 +229,9 @@ namespace KGERP.Service.Implementation.Procurement
         public string CommonCustomerName { get; set; }
         public string CommonCustomerCode { get; set; }
 
-        public string RegionName { get; set; }
-        public string RegionIncharge { get; set; }
-        public string RegionInchargeMobile { get; set; }
+        public string ZoneDivisionName { get; set; }
+        public string ZoneDivisionIncharge { get; set; }
+        public string ZoneDivisionInchargeMobile { get; set; }
 
         public string SubZonesName { get; set; }
         public string SubZoneIncharge { get; set; }

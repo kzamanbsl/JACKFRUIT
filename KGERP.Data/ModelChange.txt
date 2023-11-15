@@ -12,4 +12,18 @@ Date: 14-11-2023
 	+DealerPrice
 	+CustomerPrice
 
+*Erp.Region to Erp.ZoneDivision
+	*ZoneDivisionId to ZoneDivisionId
+	*RegionIncharge to ZoneDivisionIncharge
+
+*Erp.Area to Erp.Region
+	*ZoneDivisionId
+
+*Erp.SubZone
+	*ZoneDivisionId
+
+*Erp.Vendor
+	*ZoneDivisionId
+
+*Erp.MaterialReceiveDetail product foreign key added
 

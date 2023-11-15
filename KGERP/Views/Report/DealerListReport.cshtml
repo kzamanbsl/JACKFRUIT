@@ -33,10 +33,10 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Region:</label>
+                                        <label for="message-text" class="col-form-label">ZoneDivision:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList, "--Select Region--",new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList, "--Select ZoneDivision--",new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -103,7 +103,7 @@
 
         $.ajax({
             type: "GET",
-            url: "@Url.Action("GetRegionList", "Configuration")",
+            url: "@Url.Action("GetZoneDivisionList", "Configuration")",
             datatype: "Json",
             data: { companyId: @Model.CompanyId, zoneId: zoneId },
             success: function (data) {
@@ -125,7 +125,7 @@
             type: "GET",
             url: "@Url.Action("GetAreaList", "Configuration")",
             datatype: "Json",
-            data: { companyId:@Model.CompanyId, zoneId: zoneValue, regionId: regionValue },
+            data: { companyId:@Model.CompanyId, zoneId: zoneValue, zoneDivisionId: regionValue },
             success: function (data) {
                 if (data) {
                     $("#ddlCommon_AreFk").empty();

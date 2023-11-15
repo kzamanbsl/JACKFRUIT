@@ -172,7 +172,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string MobilePersonal { get; set; }
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
         public List<SelectModel> AreaList { get; set; } = new List<SelectModel>();
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
 
@@ -180,8 +180,8 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-        public Nullable<int> RegionId { get; set; }
-        public string RegionName { get; set; }
+        public Nullable<int> ZoneDivisionId { get; set; }
+        public string ZoneDivisionName { get; set; }
         public Nullable<int> AreaId { get; set; }
         public string AreaName { get; set; }
         public IEnumerable<VMCommonSubZone> DataList { get; set; }
@@ -189,12 +189,12 @@ namespace KGERP.Service.Implementation.Configuration
 
     }
 
-    public class VMCommonRegion : BaseVM
+    public class VMCommonZoneDivision : BaseVM
     {
 
         public string Name { get; set; }
         public string Code { get; set; }
-        public string RegionIncharge { get; set; }
+        public string ZoneDivisionIncharge { get; set; }
         public string SalesOfficerName { get; set; }
         public string Designation { get; set; }
         public string Email { get; set; }
@@ -203,13 +203,13 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-        public Nullable<int> RegionId { get; set; }
-        public string RegionName { get; set; }
+        public Nullable<int> ZoneDivisionId { get; set; }
+        public string ZoneDivisionName { get; set; }
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
 
-        public IEnumerable<VMCommonRegion> DataList { get; set; }
+        public IEnumerable<VMCommonZoneDivision> DataList { get; set; }
 
 
     }
@@ -228,11 +228,11 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-        public int RegionId { get; set; }
-        public string RegionName { get; set; }
+        public int ZoneDivisionId { get; set; }
+        public string ZoneDivisionName { get; set; }
         public int AreaId { get; set; }
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
 
         public IEnumerable<VMCommonArea> DataList { get; set; }
@@ -276,7 +276,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string Name { get; set; }
         public int VendorReferenceId { get; set; }
         public int ZoneId { get; set; }
-        public int? RegionId { get; set; }
+        public int? ZoneDivisionId { get; set; }
         public int? AreaId { get; set; }
         public int? SubZoneId { get; set; }
 
@@ -310,7 +310,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string EmployeeId { get; set; } // EmployeeId is UserName
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
 
@@ -360,7 +360,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string FileNo { get; set; }
         public string BookingNo { get; set; }
         public string ProductName { get; set; }
-        public string RegionName { get; set; }
+        public string ZoneDivisionName { get; set; }
         public string AreaName { get; set; }
         public string SubZoneName { get; set; }
     }

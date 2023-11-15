@@ -146,7 +146,7 @@ namespace KGERP.Service.ServiceModel
         public int CustomerStatus { get;  set; }
         public string Propietor { get;  set; }
         public string CountryName { get;  set; }
-        public int? RegionId { get;  set; }
+        public int? ZoneDivisionId { get;  set; }
     }
     public class VendorDeedListVm
     {

@@ -40,6 +40,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
     
         public virtual MaterialReceive MaterialReceive { get; set; }
+        public virtual Product Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
     }

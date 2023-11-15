@@ -738,9 +738,6 @@
     <Compile Include="Models\PurchaseReturnDetail.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Region.cs">
-      <DependentUpon>ERPModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\RentProduction.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
@@ -947,6 +944,9 @@
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Zone.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ZoneDivision.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -52,9 +52,9 @@
 
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Region:</label>
-                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                    <label for="message-text" class="col-form-label">Division:</label>
+                                    @Html.DropDownListFor(model => model.ZoneDivisionId, new SelectList(Model.ZoneDivisionList, "Value", "Text"), new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -167,7 +167,7 @@
                                             <th style="width:5%;">SL</th>
                                             <th hidden="hidden"></th>
                                             <th style="width:10%;">Zone</th>
-                                            <th style="width:10%;">Region</th>
+                                            <th style="width:10%;">Division</th>
                                             <th style="width:10%;">Area</th>
                                             <th style="width:15%;">Territory</th>
                                             <th style="width:10%;">Sales Officer</th>
@@ -192,8 +192,8 @@
                                                     @item.ZoneName
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
-                                                    @item.RegionName
+                                                    <input type="hidden" id="tdZoneDivisionId_@item.ID" value="@item.ZoneDivisionId" />
+                                                    @item.ZoneDivisionName
                                                 </td>
                                                 <td>
                                                     <input type="hidden" id="tdAreaId_@item.ID" value="@item.AreaId" />
@@ -290,44 +290,38 @@
             });
 
 
-                //Bind Region base on Zone Selection
+                //Bind ZoneDivision base on Zone Selection
 
 
             $('#ddlZoneId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
 
-                changeRegion(0, zoneId);
+                changeZoneDivision(0, zoneId);
             });
 
-            $('#ddlRegionId').on('change', function () {
+            $('#ddlZoneDivisionId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
-                var regionId = $("#ddlRegionId :selected").val();
-                changeArea(0, zoneId, regionId);
+                var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
+                changeArea(0, zoneId, zoneDivisionId);
             });
-
-
-
-
-
-
-
         });
-        function changeRegion(regionValue,zoneValue) {
+
+        function changeZoneDivision(regionValue,zoneValue) {
             $.ajax({
                 type: "get",
-                url: "/Configuration/GetRegionList",
+                url: "/Configuration/GetZoneDivisionList",
                 data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue  },
 
                 datatype: "json",
 
                 success: function (data) {
                     if (data) {
-                        $("#ddlRegionId").empty();
+                        $("#ddlZoneDivisionId").empty();
                         $(data).each(function (index, item) {
-                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
                         if (regionValue > 0) {
-                            $("#ddlRegionId").val(regionValue);
+                            $("#ddlZoneDivisionId").val(regionValue);
                         }
 
                     }
@@ -340,7 +334,7 @@
             $.ajax({
                 type: "get",
                 url: "/Configuration/GetAreaList",
-                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, regionId: regionValue },
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: regionValue },
 
                 datatype: "json",
                 success: function (data) {
@@ -378,13 +372,13 @@
 
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger("change");
                 var zoneId = $("#ddlZoneId :selected").val();
-                changeRegion($('#tdRegionId_' + rowId).val().trim(), zoneId);
+                changeZoneDivision($('#tdZoneDivisionId_' + rowId).val().trim(), zoneId);
 
-                var regionId = $("#ddlRegionId :selected").val();
+                var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
 
-               /* $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");*/
+               /* $('#ddlZoneDivisionId').val($('#tdZoneDivisionId_' + rowId).val().trim()).trigger("change");*/
         /*        $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");*/
-                changeArea($('#tdAreaId_' + rowId).val().trim(), zoneId, regionId);
+                changeArea($('#tdAreaId_' + rowId).val().trim(), zoneId, zoneDivisionId);
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -403,46 +397,38 @@
     }
 
 
-       $('#txtSubZoneName').change(function () {
+    $('#txtSubZoneName').change(function () {
 
-           var Name = $('#txtSubZoneName').val();
-            var zoneId = $('#ddlZoneId').val();
-           var regionId = $('#ddlRegionId').val();
-           var areaId = $('#ddlAreaId').val();
-           var subZoneId = $('#subZoneId').val();
-            if (zoneId == null) {
-                zoneId = 0;
-            }
-            if (regionId == null) {
-                regionId = 0;
-            }
+        var Name = $('#txtSubZoneName').val();
+        var zoneId = $('#ddlZoneId').val();
+        var zoneDivisionId = $('#ddlZoneDivisionId').val();
+        var areaId = $('#ddlAreaId').val();
+        var subZoneId = $('#subZoneId').val();
+        if (zoneId == null) {
+            zoneId = 0;
+        }
+        if (zoneDivisionId == null) {
+            zoneDivisionId = 0;
+        }
 
-                $.ajax({
-                type:"post",
-                url: "@Url.Action("IsSubZoneNameExist", "Configuration")",
-                    data: { zoneId: zoneId, regionId: regionId, areaId: areaId, subZoneName: Name, id: subZoneId },
-                success: function (data)
-                {
-                    if (data == true) {
-                        $('#SubZoneNameValidation').show();
-                        $('#SubZoneNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
-                    }
-                    else
-                    {
-                        $('#SubZoneNameValidation').hide();
-                    }
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("IsSubZoneNameExist", "Configuration")",
+            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, areaId: areaId, subZoneName: Name, id: subZoneId },
+            success: function (data) {
+                if (data == true) {
+                    $('#SubZoneNameValidation').show();
+                    $('#SubZoneNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
                 }
-
-
-
-
-
-
-            });
-
-
+                else {
+                    $('#SubZoneNameValidation').hide();
+                }
+            }
 
         });
+
+    });
+
 </script>
 
 

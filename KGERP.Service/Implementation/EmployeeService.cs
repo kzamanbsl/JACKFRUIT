@@ -36,7 +36,7 @@ namespace KGERP.Service.Implementation
                                                    from t3 in t3_Join.DefaultIfEmpty()
                                                        //join t4 in _context.Zones on t1.Id equals t4.EmployeeId into t4_Join
                                                        //from t4 in t4_Join.DefaultIfEmpty()
-                                                       //join t5 in _context.Regions on t1.Id equals t5.EmployeeId into t5_Join
+                                                       //join t5 in _context.ZoneDivisions on t1.Id equals t5.EmployeeId into t5_Join
                                                        //from t5 in t5_Join.DefaultIfEmpty()
                                                        //join t6 in _context.Areas on t1.Id equals t6.EmployeeId into t6_Join
                                                        //from t6 in t6_Join.DefaultIfEmpty()
@@ -277,7 +277,7 @@ namespace KGERP.Service.Implementation
 
                 //SubZoneIds = new int[0],
                 //AreaIds = new int[0],
-                //RegionIds = new int[0],
+                //ZoneDivisionIds = new int[0],
                 //ZoneIds = new int[0],
 
             };
@@ -286,7 +286,7 @@ namespace KGERP.Service.Implementation
             {
                 var territorys = employee.SubZones;
                 var areas = employee.Areas;
-                var reagions = employee.Regions;
+                var zoneDivisions = employee.ZoneDivisions;
                 var zones = employee.Zones;
 
                 if (territorys?.Count() > 0)
@@ -297,8 +297,8 @@ namespace KGERP.Service.Implementation
                     var areaId = territorys.FirstOrDefault().AreaId ?? 0;
                     result.AreaIds = new int[] { areaId };
 
-                    var regionId = territorys.FirstOrDefault().RegionId ?? 0;
-                    result.RegionIds = new int[] { regionId };
+                    var zoneDivisionId = territorys.FirstOrDefault().ZoneDivisionId ?? 0;
+                    result.ZoneDivisionIds = new int[] { zoneDivisionId };
 
                     var zoneId = territorys.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { zoneId };
@@ -308,18 +308,18 @@ namespace KGERP.Service.Implementation
                     var areaids = areas.Select(c => c.AreaId).ToArray();
                     result.AreaIds = areaids;
 
-                    var regionId = areas.FirstOrDefault().RegionId;
-                    result.RegionIds = new int[] { regionId };
+                    var zoneDivisionId = areas.FirstOrDefault().ZoneDivisionId;
+                    result.ZoneDivisionIds = new int[] { zoneDivisionId };
 
                     var zoneId = areas.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { zoneId };
                 }
-                else if (reagions?.Count() > 0)
+                else if (zoneDivisions?.Count() > 0)
                 {
-                    var regionIds = reagions.Select(c => c.RegionId).ToArray();
-                    result.RegionIds = regionIds;
+                    var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
+                    result.ZoneDivisionIds = zoneDivisionIds;
 
-                    var zoneId = reagions.FirstOrDefault().ZoneId;
+                    var zoneId = zoneDivisions.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { zoneId };
                 }
                 else if (zones?.Count() > 0)
@@ -552,11 +552,11 @@ namespace KGERP.Service.Implementation
                     }
                     #endregion
 
-                    #region Zone Region Area and Territory Maps
+                    #region Zone ZoneDivision Area and Territory Maps
 
                     #region Remove previous maps
                     var empZones = _context.Zones.Where(c => c.EmployeeId == model.Id);
-                    var empRegions = _context.Regions.Where(c => c.EmployeeId == model.Id);
+                    var empZoneDivisions = _context.ZoneDivisions.Where(c => c.EmployeeId == model.Id);
                     var empAreas = _context.Areas.Where(c => c.EmployeeId == model.Id);
                     var empTerritories = _context.SubZones.Where(c => c.EmployeeId == model.Id);
 
@@ -573,16 +573,16 @@ namespace KGERP.Service.Implementation
                         }
                     }
 
-                    if (empRegions?.Count() > 0)
+                    if (empZoneDivisions?.Count() > 0)
                     {
-                        foreach (var empRegion in empRegions)
+                        foreach (var empZoneDivision in empZoneDivisions)
                         {
-                            empRegion.EmployeeId = null;
-                            empRegion.RegionIncharge = string.Empty;
-                            empRegion.Designation = string.Empty;
-                            empRegion.Email = string.Empty;
-                            empRegion.MobileOffice = string.Empty;
-                            empRegion.MobilePersonal = string.Empty;
+                            empZoneDivision.EmployeeId = null;
+                            empZoneDivision.ZoneDivisionIncharge = string.Empty;
+                            empZoneDivision.Designation = string.Empty;
+                            empZoneDivision.Email = string.Empty;
+                            empZoneDivision.MobileOffice = string.Empty;
+                            empZoneDivision.MobilePersonal = string.Empty;
                         }
                     }
 
@@ -616,7 +616,7 @@ namespace KGERP.Service.Implementation
                     #endregion
 
                     #region Add new maps
-                    if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length>0 && model.RegionIds?.Length>0 && model.ZoneIds?.Length>0)
+                    if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length>0 && model.ZoneDivisionIds?.Length>0 && model.ZoneIds?.Length>0)
                     {
                         var subZoneIds = model.SubZoneIds.Distinct();
                         var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
@@ -637,7 +637,7 @@ namespace KGERP.Service.Implementation
                         }
 
                     }
-                    else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    else if (model.AreaIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var areaIds = model.AreaIds.Distinct();
                         var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
@@ -657,20 +657,20 @@ namespace KGERP.Service.Implementation
                             area.MobilePersonal = mobilePersonal;
                         }
                     }
-                    else if (model.RegionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
-                        var regionIds = model.RegionIds.Distinct();
-                        var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
+                        var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
+                        var regions = _context.ZoneDivisions.Where(c => zoneDivisionIds.Contains(c.ZoneDivisionId));
                         foreach (var region in regions)
                         {
-                            var regionIncharge = model.Name ?? region.RegionIncharge;
+                            var regionIncharge = model.Name ?? region.ZoneDivisionIncharge;
                             var designation = model.Designation?.Name ?? region.Designation;
                             var email = model.Email ?? region.Email;
                             var mobileOffice = model.MobileNo ?? region.MobileOffice;
                             var mobilePersonal = model.Telephone ?? region.MobilePersonal;
 
                             region.EmployeeId = model.Id;
-                            region.RegionIncharge = regionIncharge;
+                            region.ZoneDivisionIncharge = regionIncharge;
                             region.Designation = designation;
                             region.Email = email;
                             region.MobileOffice = mobileOffice;

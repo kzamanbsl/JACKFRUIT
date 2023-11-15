@@ -3992,7 +3992,7 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.Regions on t2.RegionId equals t4.RegionId
+                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId
                                                       join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
@@ -4023,9 +4023,9 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                           ZoneName = t5.Name,
                                                           ZoneIncharge = t5.ZoneIncharge,
-                                                          RegionName = t4.Name,
-                                                          RegionIncharge = t4.RegionIncharge,
-                                                          RegionInchargeMobile = t4.MobileOffice,
+                                                          ZoneDivisionName = t4.Name,
+                                                          ZoneDivisionIncharge = t4.ZoneDivisionIncharge,
+                                                          ZoneDivisionInchargeMobile = t4.MobileOffice,
 
                                                           CommonCustomerName = t2.Name,
                                                           Propietor = t2.Propietor,
@@ -4554,7 +4554,7 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.Regions on t2.RegionId equals t4.RegionId
+                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId
                                                       join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
 
                                                       //join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
@@ -4600,9 +4600,9 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                           ZoneName = t5.Name,
                                                           ZoneIncharge = t5.ZoneIncharge,
-                                                          RegionName = t4.Name,
-                                                          RegionIncharge = t4.RegionIncharge,
-                                                          RegionInchargeMobile = t4.MobileOffice,
+                                                          ZoneDivisionName = t4.Name,
+                                                          ZoneDivisionIncharge = t4.ZoneDivisionIncharge,
+                                                          ZoneDivisionInchargeMobile = t4.MobileOffice,
 
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
@@ -5096,7 +5096,7 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.Regions on t2.RegionId equals t4.RegionId
+                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId
                                                       join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
                                                       join t6 in _db.Vendors on t1.StockInfoId equals t6.VendorId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
@@ -5120,9 +5120,9 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                           ZoneName = t5.Name,
                                                           ZoneIncharge = t5.ZoneIncharge,
-                                                          RegionName = t4.Name,
-                                                          RegionIncharge = t4.RegionIncharge,
-                                                          RegionInchargeMobile = t4.MobileOffice,
+                                                          ZoneDivisionName = t4.Name,
+                                                          ZoneDivisionIncharge = t4.ZoneDivisionIncharge,
+                                                          ZoneDivisionInchargeMobile = t4.MobileOffice,
 
                                                           CommonCustomerName = t2.Name,
                                                           Propietor = t2.Propietor,

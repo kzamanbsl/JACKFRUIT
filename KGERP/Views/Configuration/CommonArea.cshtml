@@ -51,9 +51,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Region:</label>
-                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                    <label for="message-text" class="col-form-label">Division:</label>
+                                    @Html.DropDownListFor(model => model.ZoneDivisionId, new SelectList(Model.ZoneDivisionList, "Value", "Text"), new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -155,7 +155,7 @@
                                         <tr>
                                             <th style="width:5%;">SL</th>
                                             <th style="width:10%;">Zone</th>
-                                            <th style="width:10%;">Region</th>
+                                            <th style="width:10%;">ZoneDivision</th>
                                             <th style="width:15%;">Area</th>
                                             <th hidden="hidden"></th>
                                             <th style="width:10%;">Area Incharge</th>
@@ -179,8 +179,8 @@
                                                     @item.ZoneName
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
-                                                    @item.RegionName
+                                                    <input type="hidden" id="tdZoneDivisionId_@item.ID" value="@item.ZoneDivisionId" />
+                                                    @item.ZoneDivisionName
                                                 </td>
                                                 <td id="tdAreaName_@item.ID">@item.Name</td>
                                                 <td hidden="hidden" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
@@ -271,12 +271,12 @@
             });
 
             $(function () {
-                //Bind Region base on Zone Selection
+                //Bind ZoneDivision base on Zone Selection
                 $('#ddlZoneId').change(function () {
 
                     $.ajax({
                         type: "get",
-                        url: "/Configuration/GetRegionList",
+                        url: "/Configuration/GetZoneDivisionList",
                         data: { companyId: $('#CompanyFK').val(), zoneId: $('#ddlZoneId').val() },
 
                         datatype: "json",
@@ -287,9 +287,9 @@
                                 region = region + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
                             }
                             region = region + '</select>';
-                            $('#ddlRegionId').html(region);
-                            let regId = $('#tdRegionId_' + $('#AreaId').val()).val();
-                            $('#ddlRegionId').val(regId).trigger('change');
+                            $('#ddlZoneDivisionId').html(region);
+                            let regId = $('#tdZoneDivisionId_' + $('#AreaId').val()).val();
+                            $('#ddlZoneDivisionId').val(regId).trigger('change');
                         }
                     });
                 });
@@ -311,7 +311,7 @@
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
                 $('#txtMobilePersonal').val($('#tdMobilePersonal_' + rowId).text().trim());
                 $('#employeeId').val($('#tdEmployeeId_' + rowId).text().trim());
-                $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");
+                $('#ddlZoneDivisionId').val($('#tdZoneDivisionId_' + rowId).val().trim()).trigger("change");
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -332,22 +332,18 @@
 
             var Name = $('#txtAreaName').val();
             var zoneId = $('#ddlZoneId').val();
-            var regionId = $('#ddlRegionId').val();
+            var zoneDivisionId = $('#ddlZoneDivisionId').val();
             var areaId = $('#AreaId').val();
             if (zoneId == null) {
                 zoneId = 0;
             }
-            if (regionId == null) {
-                regionId = 0;
+            if (zoneDivisionId == null) {
+                zoneDivisionId = 0;
             }
-            console.log(Name);
-            console.log(zoneId);
-            console.log(regionId);
-            console.log(areaId);
                 $.ajax({
                 type:"post",
                 url: "@Url.Action("IsAreaNameExist", "Configuration")",
-                    data: { zoneId: zoneId, regionId: regionId, areaName: Name, id: areaId },
+                    data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, areaName: Name, id: areaId },
                 success: function (data)
                 {
                     if (data == true) {
@@ -359,16 +355,7 @@
                         $('#AreaNameValidation').hide();
                     }
                 }
-
-
-
-
-
-
             });
-
-
-
         });
     </script>
 

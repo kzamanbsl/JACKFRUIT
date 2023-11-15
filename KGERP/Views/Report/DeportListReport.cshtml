@@ -33,10 +33,10 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Region:</label>
+                                        <label for="message-text" class="col-form-label">ZoneDivision:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList, "--Select Region--", new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList, "--Select ZoneDivision--", new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -82,7 +82,7 @@
 
         $.ajax({
             type: "GET",
-            url: "@Url.Action("GetRegionList", "Configuration")",
+            url: "@Url.Action("GetZoneDivisionList", "Configuration")",
             datatype: "Json",
             data: { companyId: @Model.CompanyId, zoneId: zoneId },
             success: function (data) {

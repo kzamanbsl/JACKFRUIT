@@ -48,8 +48,8 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <label>Region</label>
-                @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, null, new { id = "ddlRegionFk", @class = "form-control searchingDropdown", style = "width:100%" })
+                <label>ZoneDivision</label>
+                @Html.DropDownListFor(model => model.RegionFk, Model.ZoneDivisionList as SelectList, null, new { id = "ddlRegionFk", @class = "form-control searchingDropdown", style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.RegionFk, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -132,7 +132,7 @@
             var companyId = $("#hfCompanyId").val();
              $.ajax({
                         type: "get",
-                        url: "/Configuration/GetRegionList",
+                        url: "/Configuration/GetZoneDivisionList",
                  data: { companyId: companyId, zoneId: zoneFk },
 
                         datatype: "json",
@@ -155,7 +155,7 @@
             $.ajax({
                 type: "get",
                 url: "/Configuration/GetSubZoneList",
-                data: { companyId: companyId, zoneId: zoneFk, regionId:regionFk },
+                data: { companyId: companyId, zoneId: zoneFk, zoneDivisionId:regionFk },
 
                 datatype: "json",
                 traditional: true,

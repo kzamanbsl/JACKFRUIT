@@ -34,13 +34,13 @@ namespace KGERP.Data.Models
             this.WorkAssigns = new HashSet<WorkAssign>();
             this.ManagerProductMaps = new HashSet<ManagerProductMap>();
             this.ExpenseMasters = new HashSet<ExpenseMaster>();
-            this.SubZones = new HashSet<SubZone>();
             this.Zones = new HashSet<Zone>();
-            this.Regions = new HashSet<Region>();
-            this.Areas = new HashSet<Area>();
             this.SalaryInformatrions = new HashSet<SalaryInformatrion>();
             this.SaleReturns = new HashSet<SaleReturn>();
             this.OrderMasters = new HashSet<OrderMaster>();
+            this.Areas = new HashSet<Area>();
+            this.SubZones = new HashSet<SubZone>();
+            this.ZoneDivisions = new HashSet<ZoneDivision>();
         }
     
         public long Id { get; set; }
@@ -163,13 +163,7 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubZone> SubZones { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zone> Zones { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Region> Regions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Area> Areas { get; set; }
         public virtual Department Department { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual StockInfo StockInfo { get; set; }
@@ -179,5 +173,11 @@ namespace KGERP.Data.Models
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Area> Areas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubZone> SubZones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
     }
 }

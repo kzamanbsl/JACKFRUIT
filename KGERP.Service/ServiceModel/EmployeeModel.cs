@@ -234,8 +234,8 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Zone")]
         public int[] ZoneIds { get; set; }
 
-        [DisplayName("Region")]
-        public int[] RegionIds { get; set; }
+        [DisplayName("Division")]
+        public int[] ZoneDivisionIds { get; set; }
 
         [DisplayName("Area")] 
         public int[] AreaIds { get; set; }

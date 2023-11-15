@@ -31,6 +31,7 @@ namespace KGERP.Data.Models
             this.RequisitionItems = new HashSet<RequisitionItem>();
             this.SaleReturnDetails = new HashSet<SaleReturnDetail>();
             this.StoreDetails = new HashSet<StoreDetail>();
+            this.MaterialReceiveDetails = new HashSet<MaterialReceiveDetail>();
         }
     
         public int ProductId { get; set; }
@@ -108,5 +109,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<SaleReturnDetail> SaleReturnDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreDetail> StoreDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
     }
 }

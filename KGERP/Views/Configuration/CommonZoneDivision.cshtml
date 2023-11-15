@@ -1,7 +1,7 @@
-﻿@model KGERP.Service.Implementation.Configuration.VMCommonRegion
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonZoneDivision
 @{
 
-    ViewData["Title"] = "Region";
+    ViewData["Title"] = "Division";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,15 +14,15 @@
 
 <section class="content-header">
     <h1>
-        Region
+        Division
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Region</li>
+        <li class="active">Division</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("CommonRegion", "Configuration", FormMethod.Post, new { id = "commonRegionFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("CommonZoneDivision", "Configuration", FormMethod.Post, new { id = "commonZoneDivisionFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
         <div class="row">
@@ -31,11 +31,11 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     @*<div class="box-header">
-            <h4>Add Region</h4>
+            <h4>Add ZoneDivision</h4>
         </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
-                        @Html.HiddenFor(model => model.ID, new { id = "RegionId" })
+                        @Html.HiddenFor(model => model.ID, new { id = "ZoneDivisionId" })
                         @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                         @Html.HiddenFor(model => model.Code, new { id = "Code" })
@@ -51,9 +51,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Region:</label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtRegionName", @class = "form-control input-sm", @placeholder = "Region", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "RegionValidation", @class = "text-danger" })
+                                    <label for="message-text" class="col-form-label">Division:</label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtZoneDivisionName", @class = "form-control input-sm", @placeholder = "Division", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "ZoneDivisionValidation", @class = "text-danger" })
 
                                 </div>
                             </div>
@@ -70,9 +70,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Region Incharge:</label>
-                                    @Html.TextBoxFor(model => model.RegionIncharge, new { id = "txtRegionIncharge", @class = "form-control input-sm", @placeholder = "Region Incharge", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.RegionIncharge, "", new { @class = "text-danger" })
+                                    <label for="message-text" class="col-form-label">ZoneDivision Incharge:</label>
+                                    @Html.TextBoxFor(model => model.ZoneDivisionIncharge, new { id = "txtZoneDivisionIncharge", @class = "form-control input-sm", @placeholder = "ZoneDivision Incharge", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.ZoneDivisionIncharge, "", new { @class = "text-danger" })
 
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                 <div class="box">
                     <div class="box-danger">
                         @*<div class="box-header">
-                                <h4>Region List</h4>
+                                <h4>ZoneDivision List</h4>
                             </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -146,9 +146,9 @@
                                         <tr>
                                             <th style="width:5%;">SL</th>
                                             <th style="width:10%;">Zone</th>
-                                            <th style="width:15%;">Region</th>
+                                            <th style="width:15%;">Division</th>
                                             <th hidden="hidden"></th>
-                                            <th style="width:10%;">Region Incharge</th>
+                                            <th style="width:10%;">Division Incharge</th>
                                             <th style="width:10%;">Designation</th>
                                             <th style="width:10%;">Email</th>
                                             <th style="width:10%;">Mobile Office</th>
@@ -168,9 +168,9 @@
                                                     <input type="hidden" id="commonZoneId_@item.ID" value="@item.ZoneId" />
                                                     @item.ZoneName
                                                 </td>
-                                                <td id="tdRegionName_@item.ID">@item.Name</td>
+                                                <td id="tdZoneDivisionName_@item.ID">@item.Name</td>
                                                 <td hidden="true" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
-                                                <td id="tdRegionIncharge_@item.ID">@item.RegionIncharge</td>
+                                                <td id="tdZoneDivisionIncharge_@item.ID">@item.ZoneDivisionIncharge</td>
                                                 <td id="tdDesignation_@item.ID">@item.Designation</td>
                                                 <td id="tdEmail_@item.ID">@item.Email</td>
                                                 <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
@@ -182,8 +182,8 @@
                                                         <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                     </a>
                                                     <a href="~/Configuration/CommonArea?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Area</a>
-                                                    <a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ZoneId&regionId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Territory</a>
-                                                    @*<a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&regionId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
+                                                    <a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ZoneId&zoneDivisionId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Territory</a>
+                                                    @*<a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&zoneDivisionId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
                                                 </td>
                                             </tr>
                                         }
@@ -201,10 +201,10 @@
 
 }
 
-@using (Html.BeginForm("CommonRegion", "Configuration", FormMethod.Post, new { id = "commonRegionDeleteFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("CommonZoneDivision", "Configuration", FormMethod.Post, new { id = "commonZoneDivisionFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.ID, new { id = "RegionIdDelete" })
+    @Html.HiddenFor(model => model.ID, new { id = "ZoneDivisionIdDelete" })
     @Html.HiddenFor(model => model.ActionId, new { id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.ZoneId, new { id = "zoneIdDelete" })
 
@@ -217,11 +217,11 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Region  Delete</b></h5>
+                    <h5 class="modal-title"><b>Division  Delete</b></h5>
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this Region?</h3>
+                        <h3>Are you sure to delete this Division?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -248,7 +248,7 @@
                     datatype: "json",
                     traditional: true,
                     success: function (result) {
-                        $('#txtRegionIncharge').val(result.Name);
+                        $('#txtZoneDivisionIncharge').val(result.Name);
                         $('#txtDesignation').val(result.DesignationName);
                         $('#txtMobileOffice').val(result.MobileNo);
                         $('#txtMobilePersonal').val(result.MobileNo);
@@ -261,13 +261,13 @@
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#RegionId').val(rowId);
+                $('#ZoneDivisionId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger('change');
-                $('#txtRegionName').val($('#tdRegionName_' + rowId).text().trim());
+                $('#txtZoneDivisionName').val($('#tdZoneDivisionName_' + rowId).text().trim());
 
-                $('#txtRegionIncharge').val($('#tdRegionIncharge_' + rowId).text().trim());
+                $('#txtZoneDivisionIncharge').val($('#tdZoneDivisionIncharge_' + rowId).text().trim());
                 $('#txtDesignation').val($('#tdDesignation_' + rowId).text().trim());
                 $('#txtEmail').val($('#tdEmail_' + rowId).text().trim());
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
@@ -280,57 +280,48 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#RegionIdDelete').val(id);
+                $('#ZoneDivisionIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
             }
         }
 
         function resetForm() {
-            $('#commonRegionFormId')[0].reset();
+            $('#commonZoneDivisionFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
 
-        $('#txtRegionName').change(function () {
+        $('#txtZoneDivisionName').change(function () {
 
-            var Name = $('#txtRegionName').val();
+            var Name = $('#txtZoneDivisionName').val();
             var zoneId = $('#ddlZoneId').val();
-            var regionId = $('#RegionId').val();
+            var zoneDivisionId = $('#ZoneDivisionId').val();
             if (zoneId == null) {
                 zoneId = 0;
             }
-            if (regionId == null) {
-                regionId = 0;
+            if (zoneDivisionId == null) {
+                zoneDivisionId = 0;
             }
 
                 $.ajax({
                 type:"post",
-                url: "@Url.Action("IsRegionExist", "Configuration")",
-                    data: { zoneId: zoneId, regionName: Name, id: regionId },
+                url: "@Url.Action("IsZoneDivisionExist", "Configuration")",
+                    data: { zoneId: zoneId, zoneDivisionName: Name, id: zoneDivisionId },
                 success: function (data)
                 {
                     if (data == true) {
-                        $('#RegionValidation').show();
-                        $('#RegionValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                        $('#ZoneDivisionValidation').show();
+                        $('#ZoneDivisionValidation').text(`Sorry .. This  ${Name} name already exist!`);
                     }
                     else
                     {
-                        $('#RegionValidation').hide();
+                        $('#ZoneDivisionValidation').hide();
                     }
                 }
 
-
-
-
-
-
             });
-
-
 
         });
     </script>
-
-
 }
 

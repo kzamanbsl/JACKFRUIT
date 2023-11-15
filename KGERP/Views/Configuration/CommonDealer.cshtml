@@ -116,9 +116,9 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Region:</label>
-                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">ZoneDivision:</label>
+                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "--Select ZoneDivision--", new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -241,7 +241,7 @@
                                                 Zone
                                             </th>
                                             <th>
-                                                Region
+                                                Division
                                             </th>
                                             <th>
                                                 Area
@@ -296,7 +296,7 @@
                                                     @item.ZoneName
                                                 </td> 
                                                 <td>
-                                                    @item.RegionName
+                                                    @item.ZoneDivisionName
                                                 </td> 
                                                 <td>
                                                     @item.AreaName
@@ -402,14 +402,14 @@
             $('#ddlZoneId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
 
-                regionChange(0, zoneId);
+                zoneDivisionChange(0, zoneId);
 
             });
 
-            $("#ddlRegionId").on('change', function () {
+            $("#ddlZoneDivisionId").on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
-                var regionId = $("#ddlRegionId :selected").val();
-                areaChange(0, zoneId, regionId);
+                var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
+                areaChange(0, zoneId, zoneDivisionId);
 
 
             });
@@ -429,39 +429,38 @@
             });
         });
 
-         function regionChange( regionValue,zoneValue) {
-
+         function zoneDivisionChange( zoneDivisionValue,zoneValue) {
 
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("CommonRegionGet", "Configuration")",
+                url: "@Url.Action("CommonZoneDivisionGet", "Configuration")",
                 datatype: "Json",
                 data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
                 success: function (data) {
 
                     if (data) {
-                        $("#ddlRegionId").empty();
-                        $("#ddlRegionId").append("<option value=''>==Select Region==</option>");
+                        $("#ddlZoneDivisionId").empty();
+                        $("#ddlZoneDivisionId").append("<option value=''>==Select ZoneDivision==</option>");
                         $(data).each(function (index, item) {
-                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-                        if (regionValue > 0) {
-                            $("#ddlRegionId").val(regionValue);
+                        if (zoneDivisionValue > 0) {
+                            $("#ddlZoneDivisionId").val(zoneDivisionValue);
 
                         }
                     }
                 }
             });
         }
-        function areaChange(areaValue,zoneValue,regionValue)
-        {
 
+        function areaChange(areaValue,zoneValue,zoneDivisionValue)
+        {
 
                 $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetAreaList", "Configuration")",
                 datatype: "Json",
-                    data: { companyId:@Model.CompanyFK, zoneId: zoneValue, regionId: regionValue },
+                    data: { companyId:@Model.CompanyFK, zoneId: zoneValue, zoneDivisionId: zoneDivisionValue },
                     success: function (data) {
                         if (data) {
                             $("#ddlAreaId").empty();
@@ -501,11 +500,9 @@
                 }
             });
         }
+
         var editButton = false;
         function changeDistrict(distrcitValue,divisionValue) {
-
-
-
 
                 $.ajax({
                     type: "GET",
@@ -527,14 +524,9 @@
                         }
                     }
                 });
-
-
         }
+
         function changeUpazila(upazilaValue,districtValue) {
-
-
-
-
 
             $.ajax({
                 type: "GET",
@@ -558,25 +550,14 @@
             });
         }
 
-
-
-
-
-
-
-
-
-
-
-
         function makeEditble(id) {
 
             if (id !== null) {
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 $.ajax({
-                type: "get",
-                url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
+                    type: "get",
+                    url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
                     data: { id: id },
                     datatype: "json",
                     traditional: true,
@@ -593,7 +574,7 @@
 
                         $('#txtEmail').val(data.Email);
                         zoneValue = data.ZoneId;
-                        region = data.RegionId;
+                        zoneDivision = data.ZoneDivisionId;
                         area = data.AreaId;
                         subzone = data.SubZoneId;
 
@@ -603,10 +584,10 @@
                         //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
                         //});
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
-                        regionChange(data.RegionId, data.ZoneId);
-                        areaChange(data.AreaId, data.ZoneId, data.RegionId);
+                        zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
+                        areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId);
 
-                        territoryChange(data.SubZoneId,data.AreaId);
+                        territoryChange(data.SubZoneId, data.AreaId);
 
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
@@ -617,23 +598,8 @@
                         $('#txtProprietor').val(data.Propietor);
                         $('#txtPaymentType').val(data.PaymentType);
                         $('#ddlParentId').val(data.ParentId).trigger('change');
-
-
-
-
-
-
-                }
+                    }
                 });
-
-
-
-
-
-
-
-
-
             }
         }
 
@@ -648,7 +614,6 @@
                 $('#ActionIdDelete').val(3);
             }
         }
-
 
     </script>
 }

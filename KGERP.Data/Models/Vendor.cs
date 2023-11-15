@@ -48,7 +48,7 @@ namespace KGERP.Data.Models
         public int CompanyId { get; set; }
         public int VendorTypeId { get; set; }
         public Nullable<int> ZoneId { get; set; }
-        public Nullable<int> RegionId { get; set; }
+        public Nullable<int> ZoneDivisionId { get; set; }
         public Nullable<int> AreaId { get; set; }
         public Nullable<int> SubZoneId { get; set; }
         public string Name { get; set; }
@@ -140,7 +140,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
-        public virtual Region Region { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -158,5 +157,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorOffer> VendorOffers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
+        public virtual ZoneDivision ZoneDivision { get; set; }
     }
 }

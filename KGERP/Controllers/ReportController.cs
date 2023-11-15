@@ -4206,7 +4206,7 @@ namespace KGERP.Controllers
                 model.CustomerId = 0;
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&ProductCategoryId={5}&ProductSubCategoryId={6}&ProductId={7}&ZoneId={8}&RegionId={9}&SubZoneId={10}&CustomerId={11}",
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&ProductCategoryId={5}&ProductSubCategoryId={6}&ProductId={7}&ZoneId={8}&ZoneDivisionId={9}&SubZoneId={10}&CustomerId={11}",
             model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneFk, model.RegionFk, model.SubZoneFk, model.CustomerId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
@@ -4318,7 +4318,7 @@ namespace KGERP.Controllers
                 model.CustomerId = 0;
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&ZoneId={5}&RegionId={6}&SubZoneId={7}&CustomerId={8}",
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&ZoneId={5}&ZoneDivisionId={6}&SubZoneId={7}&CustomerId={8}",
             model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ZoneFk, model.RegionFk, model.SubZoneFk, model.CustomerId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
@@ -5176,7 +5176,7 @@ namespace KGERP.Controllers
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
             var zone = _configurationService.CommonZonesDropDownList(companyId);
             cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
-            cm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0), "Value", "Text");
+            cm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text");
 
 
             return View(cm);
@@ -5195,12 +5195,12 @@ namespace KGERP.Controllers
             {
                 model.ZoneId = 0;
             }
-            if (model.RegionId == null)
+            if (model.ZoneDivisionId == null)
             {
-                model.RegionId = 0;
+                model.ZoneDivisionId = 0;
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.RegionId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={4}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5229,7 +5229,7 @@ namespace KGERP.Controllers
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
             cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
-            cm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0), "Value", "Text");
+            cm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text");
             cm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId, 0, 0), "Value", "Text");
             cm.SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(cm);
@@ -5249,9 +5249,9 @@ namespace KGERP.Controllers
                 model.ZoneId = 0;
             }
            
-            if (model.RegionId == null)
+            if (model.ZoneDivisionId == null)
             {
-                model.RegionId = 0;
+                model.ZoneDivisionId = 0;
             }
             if (model.AreaId == null)
             {
@@ -5261,7 +5261,7 @@ namespace KGERP.Controllers
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={3}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.RegionId, model.AreaId,model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={3}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.AreaId,model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5293,7 +5293,7 @@ namespace KGERP.Controllers
                 CompanyId = companyId,
                 ZoneFk = 0,
                 ZoneList = _configurationService.GetZoneSelectList(companyId),
-                RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0), "Value", "Text"),
+                ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text"),
                  AreaList= new SelectList(_configurationService.CommonAreaDropDownList(companyId, 0, 0), "Value", "Text"),
                 SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text"),
               
@@ -5316,9 +5316,9 @@ namespace KGERP.Controllers
             {
                 model.ZoneFk = 0;
             }
-            if (model.RegionId == null)
+            if (model.ZoneDivisionId == null)
             {
-                model.RegionId = 0;
+                model.ZoneDivisionId = 0;
             }
             if (model.AreaId == null)
             {
@@ -5328,7 +5328,7 @@ namespace KGERP.Controllers
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&RegionId={4}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.RegionId, model.AreaId, model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={4}&AreaId={5}&SubZoneId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.ZoneDivisionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {

@@ -46,7 +46,7 @@ namespace KGERP.Data.CustomModel
 
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
 

@@ -448,7 +448,7 @@ namespace KGERP.Service.Implementation
 
             foreach (var item in subZones)
             {
-                var obj = new { item.SubZoneId, Name = Regex.Replace(item.Name.Trim().ToUpper(), @"\s+", ""), item.RegionId, item.ZoneId };
+                var obj = new { item.SubZoneId, Name = Regex.Replace(item.Name.Trim().ToUpper(), @"\s+", ""), item.ZoneDivisionId, item.ZoneId };
                 subZonesList.Add(obj);
             }
 
@@ -482,7 +482,7 @@ namespace KGERP.Service.Implementation
                     if (matchedNameObj != null)
                     {
                         model.ZoneId = matchedNameObj?.ZoneId ?? null;
-                        model.RegionId = matchedNameObj?.RegionId ?? null;
+                        model.ZoneDivisionId = matchedNameObj?.ZoneDivisionId ?? null;
                         model.SubZoneId = matchedNameObj?.SubZoneId ?? null;
                     }
                 }

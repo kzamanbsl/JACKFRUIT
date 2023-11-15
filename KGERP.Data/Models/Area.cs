@@ -22,7 +22,7 @@ namespace KGERP.Data.Models
     
         public int AreaId { get; set; }
         public int ZoneId { get; set; }
-        public int RegionId { get; set; }
+        public int ZoneDivisionId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -41,9 +41,9 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
-        public virtual Region Region { get; set; }
         public virtual Zone Zone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendors { get; set; }
+        public virtual ZoneDivision ZoneDivision { get; set; }
     }
 }

@@ -35,13 +35,10 @@ namespace KGERP.Data.Models
             this.Employees = new HashSet<Employee>();
             this.ManagerProductMaps = new HashSet<ManagerProductMap>();
             this.ExpenseMasters = new HashSet<ExpenseMaster>();
-            this.SubZones = new HashSet<SubZone>();
-            this.Regions = new HashSet<Region>();
             this.SaleSettings = new HashSet<SaleSetting>();
             this.ProductionMasters = new HashSet<ProductionMaster>();
             this.ProductionStatus = new HashSet<ProductionStatus>();
             this.Expenses = new HashSet<Expense>();
-            this.Areas = new HashSet<Area>();
             this.Departments = new HashSet<Department>();
             this.StockInfoes = new HashSet<StockInfo>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
@@ -49,6 +46,9 @@ namespace KGERP.Data.Models
             this.DamageMasters = new HashSet<DamageMaster>();
             this.VendorDeposits = new HashSet<VendorDeposit>();
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
+            this.Areas = new HashSet<Area>();
+            this.SubZones = new HashSet<SubZone>();
+            this.ZoneDivisions = new HashSet<ZoneDivision>();
         }
     
         public int CompanyId { get; set; }
@@ -113,10 +113,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubZone> SubZones { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Region> Regions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleSetting> SaleSettings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductionMaster> ProductionMasters { get; set; }
@@ -124,8 +120,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<ProductionStatus> ProductionStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Expense> Expenses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Area> Areas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Department> Departments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -140,5 +134,11 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorDeposit> VendorDeposits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Area> Areas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubZone> SubZones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
     }
 }

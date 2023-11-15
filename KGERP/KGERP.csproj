@@ -5555,7 +5555,7 @@
     <Content Include="Views\StockTransfer\KFMALRmTransferIndex.cshtml" />
     <Content Include="Views\Expense\ExpenseSlave.cshtml" />
     <Content Include="Views\Expense\ExpenseList.cshtml" />
-    <Content Include="Views\Configuration\CommonRegion.cshtml" />
+    <Content Include="Views\Configuration\CommonZoneDivision.cshtml" />
     <Content Include="Views\Expense\ExpenseApproveList.cshtml" />
     <Content Include="Views\Expense\ExpenseApprove.cshtml" />
     <Content Include="Views\Report\GroupSaleSummary.cshtml" />

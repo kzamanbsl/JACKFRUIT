@@ -453,64 +453,64 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region Common Region
+        #region Common ZoneDivision
 
         [HttpGet]
-        public async Task<ActionResult> GetRegionList(int companyId, int zoneId = 0)
+        public async Task<ActionResult> GetZoneDivisionList(int companyId, int zoneId = 0)
         {
-            var model = await Task.Run(() => _service.GetRegionSelectList(companyId, zoneId));
+            var model = await Task.Run(() => _service.GetZoneDivisionSelectList(companyId, zoneId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonRegion(int companyId, int zoneId = 0)
+        public async Task<ActionResult> CommonZoneDivision(int companyId, int zoneId = 0)
         {
 
-            VMCommonRegion vmCommonRegion = new VMCommonRegion();
+            VMCommonZoneDivision vmCommonZoneDivision = new VMCommonZoneDivision();
 
-            vmCommonRegion = await Task.Run(() => _service.GetRegions(companyId, zoneId));
-            vmCommonRegion.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonRegion.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+            vmCommonZoneDivision = await Task.Run(() => _service.GetZoneDivisions(companyId, zoneId));
+            vmCommonZoneDivision.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonZoneDivision.EmployeeList = _service.GetEmployeeSelectModels(companyId);
 
-            return View(vmCommonRegion);
+            return View(vmCommonZoneDivision);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CommonRegion(VMCommonRegion vmCommonRegion)
+        public async Task<ActionResult> CommonZoneDivision(VMCommonZoneDivision vmCommonZoneDivision)
         {
 
-            if (vmCommonRegion.ActionEum == ActionEnum.Add)
+            if (vmCommonZoneDivision.ActionEum == ActionEnum.Add)
             {
                 //Add 
 
-                await _service.RegionAdd(vmCommonRegion);
+                await _service.ZoneDivisionAdd(vmCommonZoneDivision);
             }
-            else if (vmCommonRegion.ActionEum == ActionEnum.Edit)
+            else if (vmCommonZoneDivision.ActionEum == ActionEnum.Edit)
             {
                 //Edit
-                await _service.RegionEdit(vmCommonRegion);
+                await _service.ZoneDivisionEdit(vmCommonZoneDivision);
             }
-            else if (vmCommonRegion.ActionEum == ActionEnum.Delete)
+            else if (vmCommonZoneDivision.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                await _service.RegionDelete(vmCommonRegion.ID);
+                await _service.ZoneDivisionDelete(vmCommonZoneDivision.ID);
             }
             else
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonRegion), new { companyId = vmCommonRegion.CompanyFK, zoneId = vmCommonRegion.ZoneId });
+            return RedirectToAction(nameof(CommonZoneDivision), new { companyId = vmCommonZoneDivision.CompanyFK, zoneId = vmCommonZoneDivision.ZoneId });
         }
       
         [HttpPost]
-        public async Task<JsonResult> IsRegionExist(int zoneId,string regionName, int id)
+        public async Task<JsonResult> IsZoneDivisionExist(int zoneId,string zoneDivisionName, int id)
         {
-            if (string.IsNullOrEmpty(regionName))
+            if (string.IsNullOrEmpty(zoneDivisionName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateRegionName(zoneId,regionName, id);
+            var isDuplicate = await _service.CheckDuplicateZoneDivisionName(zoneId,zoneDivisionName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }
@@ -519,22 +519,22 @@ namespace KGERP.Controllers
         #region Common Area
 
         [HttpGet]
-        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int regionId = 0)
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
         {
-            var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, regionId));
+            var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int regionId = 0)
+        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int zoneDivisionId = 0)
         {
 
             VMCommonArea vmCommonArea = new VMCommonArea();
 
-            vmCommonArea = await Task.Run(() => _service.GetAreas(companyId, zoneId, regionId));
+            vmCommonArea = await Task.Run(() => _service.GetAreas(companyId, zoneId, zoneDivisionId));
             vmCommonArea.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonArea.RegionList = _service.GetRegionSelectList(companyId, zoneId);
+            vmCommonArea.ZoneDivisionList = _service.GetZoneDivisionSelectList(companyId, zoneId);
             vmCommonArea.EmployeeList = _service.GetEmployeeSelectModels(companyId);
 
             return View(vmCommonArea);
@@ -564,16 +564,16 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, regionId = vmCommonArea.RegionId });
+            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, zoneDivisionId = vmCommonArea.ZoneDivisionId });
         }
         [HttpPost]
-        public async Task<JsonResult> IsAreaNameExist(int zoneId,int regionId,string areaName,int id)
+        public async Task<JsonResult> IsAreaNameExist(int zoneId,int zoneDivisionId,string areaName,int id)
         {
             if (string.IsNullOrEmpty(areaName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateAreaName( zoneId,regionId,areaName,id);
+            var isDuplicate = await _service.CheckDuplicateAreaName( zoneId,zoneDivisionId,areaName,id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
@@ -583,22 +583,22 @@ namespace KGERP.Controllers
         #region Common SubZone
 
         [HttpGet]
-        public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int regionId = 0)
+        public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
         {
-            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, regionId));
+            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, zoneDivisionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0)
+        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int zoneDivisionId = 0, int areaId = 0)
         {
 
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
-            vmCommonSubZone = await Task.Run(() => _service.GetSubZones(companyId, zoneId, regionId, areaId));
+            vmCommonSubZone = await Task.Run(() => _service.GetSubZones(companyId, zoneId, zoneDivisionId, areaId));
             vmCommonSubZone.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonSubZone.RegionList = _service.GetRegionSelectList(companyId, zoneId);
-            vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, regionId);
+            vmCommonSubZone.ZoneDivisionList = _service.GetZoneDivisionSelectList(companyId, zoneId);
+            vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId);
             vmCommonSubZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
             return View(vmCommonSubZone);
         }
@@ -626,17 +626,17 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, regionId = vmCommonSubZone.RegionId, areaId = vmCommonSubZone.AreaId });
+            return RedirectToAction(nameof(CommonSubZone), new { companyId = vmCommonSubZone.CompanyFK, zoneId = vmCommonSubZone.ZoneId, zoneDivisionId = vmCommonSubZone.ZoneDivisionId, areaId = vmCommonSubZone.AreaId });
         }
 
         [HttpPost]
-        public async Task<JsonResult> IsSubZoneNameExist(int zoneId, int regionId, int areaId, string subZoneName, int id)
+        public async Task<JsonResult> IsSubZoneNameExist(int zoneId, int zoneDivisionId, int areaId, string subZoneName, int id)
         {
             if (string.IsNullOrEmpty(subZoneName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateSubZoneName(zoneId, regionId, areaId,subZoneName, id);
+            var isDuplicate = await _service.CheckDuplicateSubZoneName(zoneId, zoneDivisionId, areaId,subZoneName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
@@ -1533,7 +1533,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
@@ -1542,8 +1542,8 @@ namespace KGERP.Controllers
             vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
             vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
             vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
-            vmCommonCustomer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, regionId), "Value", "Text");
+            vmCommonCustomer.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonCustomer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonCustomer);
         }
@@ -1620,7 +1620,7 @@ namespace KGERP.Controllers
         #region Common Deport
 
         [HttpGet]
-        public async Task<ActionResult> CommonDeport(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonDeport(int companyId, int zoneId = 0, int zoneDivisionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport = await Task.Run(() => _service.GetDeport(companyId, zoneId, subZoneId));
@@ -1629,8 +1629,8 @@ namespace KGERP.Controllers
             vmCommonDeport.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
             vmCommonDeport.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
             vmCommonDeport.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonDeport.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
-            vmCommonDeport.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, regionId), "Value", "Text");
+            vmCommonDeport.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonDeport.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonDeport.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonDeport);
         }
@@ -1682,7 +1682,7 @@ namespace KGERP.Controllers
         #region Common Dealer
 
         [HttpGet]
-        public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
             vmCommonDealer = await Task.Run(() => _service.GetDealer(companyId, zoneId, subZoneId));
@@ -1692,8 +1692,8 @@ namespace KGERP.Controllers
             vmCommonDealer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
             vmCommonDealer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
             vmCommonDealer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonDealer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
-            vmCommonDealer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, regionId), "Value", "Text");
+            vmCommonDealer.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonDealer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonDealer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonDealer);
         }
@@ -1791,18 +1791,18 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonRegionGet(int companyId, int zoneId)
+        public async Task<ActionResult> CommonZoneDivisionGet(int companyId, int zoneId)
         {
 
-            var dts = await Task.Run(() => _service.CommonRegionGet(companyId, zoneId));
+            var dts = await Task.Run(() => _service.CommonZoneDivisionGet(companyId, zoneId));
             var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public async Task<ActionResult> AllRegionGet(int companyId)
+        public async Task<ActionResult> AllZoneDivisionGet(int companyId)
         {
 
-            var dts = await Task.Run(() => _service.AllRegionGet(companyId));
+            var dts = await Task.Run(() => _service.AllZoneDivisionGet(companyId));
             var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
