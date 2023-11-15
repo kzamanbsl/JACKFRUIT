@@ -106,6 +106,12 @@
                                     @Html.ValidationMessageFor(model => model.Consumption, "", new { @class = "Text-danger" })
                                 </div>
                             </div>
+                           
+
+                        </div>
+                        <div class="row">
+
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">TP Price:</label>
@@ -116,13 +122,28 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="col-form-label">Sale Price:</label>
-                                    @Html.TextBoxFor(model => model.MRPPrice, new { id = "unitPrice", @class = "form-control", @value = "", @placeholder = "Unit Seal Price" })
+                                    <label class="col-form-label">Deport Sale Price:</label>
+                                    @Html.TextBoxFor(model => model.DeportSalePrice, new { id = "deportPrice", @class = "form-control", @value = "", @placeholder = "Deport Sale Price" })
                                     @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
                                 </div>
 
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">Dealer Sale Price:</label>
+                                    @Html.TextBoxFor(model => model.DealerSalePrice, new { id = "dealerPrice", @class = "form-control", @value = "", @placeholder = "Dealer Sale Price" })
+                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
+                                </div>
 
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">Customer Sale Price:</label>
+                                    @Html.TextBoxFor(model => model.CustomerSalePrice, new { id = "customerPrice", @class = "form-control", @value = "", @placeholder = "Customer Sale Price" })
+                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
+                                </div>
+
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -190,7 +211,13 @@
                                                 TP Price
                                             </th>
                                             <th>
-                                                Sale Price
+                                               Deport Price
+                                            </th>
+                                            <th>
+                                                Dealer Price
+                                            </th>
+                                            <th>
+                                                Customer Price
                                             </th>
 
                                             <th>Action</th>
@@ -229,7 +256,13 @@
                                                         @item.TPPrice
                                                     </td>
                                                     <td class="text-right">
-                                                        @item.MRPPrice
+                                                        @item.DeportSalePrice
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.DealerSalePrice
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.CustomerSalePrice
                                                     </td>
                                                     <td>
                                                         <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
@@ -333,7 +366,9 @@
                         $('#ActionId').val(2);
                         $('#txtProductName').val(data.Name);
                         $('#ddlCommonUnitFk').val(data.Common_UnitFk).trigger('change');
-                        $('#unitPrice').val(data.MRPPrice);
+                        $('#deportPrice').val(data.DeportSalePrice);
+                        $('#dealerPrice').val(data.DealerSalePrice);
+                        $('#customerPrice').val(data.CustomerSalePrice);
                         $('#productQuantity').val(data.Qty);
                         $('#productConsumption').val(data.Consumption);
                         $('#tpPrice').val(data.TPPrice);
@@ -409,7 +444,7 @@
                     }
                 }
 
-           
+
 
 
 
