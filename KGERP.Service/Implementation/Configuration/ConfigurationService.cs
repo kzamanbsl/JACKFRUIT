@@ -2125,7 +2125,7 @@ namespace KGERP.Service.Implementation.Configuration
 
 
 
-            Region area = new Region
+            Region region = new Region
             {
                 Name = vmCommonRegion.Name,
                 // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
@@ -2144,10 +2144,10 @@ namespace KGERP.Service.Implementation.Configuration
                 IsActive = true
 
             };
-            _db.Regions.Add(area);
+            _db.Regions.Add(region);
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = area.RegionId;
+                result = region.RegionId;
             }
 
             return result;
@@ -2156,24 +2156,24 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> RegionEdit(VMCommonRegion vmCommonRegion)
         {
             var result = -1;
-            Region area = await _db.Regions.FindAsync(vmCommonRegion.ID);
-            area.ZoneId = vmCommonRegion.ZoneId;
-            area.ZoneDivisionId = vmCommonRegion.ZoneDivisionId;
-            area.Name = vmCommonRegion.Name;
+            Region region = await _db.Regions.FindAsync(vmCommonRegion.ID);
+            region.ZoneId = vmCommonRegion.ZoneId;
+            region.ZoneDivisionId = vmCommonRegion.ZoneDivisionId;
+            region.Name = vmCommonRegion.Name;
             // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
-            //area.RegionIncharge = vmCommonRegion.RegionIncharge;
-            //area.SalesOfficerName = vmCommonRegion.SalesOfficerName;
-            //area.Designation = vmCommonRegion.Designation;
-            //area.Email = vmCommonRegion.Email;
-            //area.MobilePersonal = vmCommonRegion.MobilePersonal;
-            //area.MobileOffice = vmCommonRegion.MobileOffice;
-            area.EmployeeId = vmCommonRegion.EmployeeId;
-            area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            area.ModifiedDate = DateTime.Now;
+            //region.RegionIncharge = vmCommonRegion.RegionIncharge;
+            //region.SalesOfficerName = vmCommonRegion.SalesOfficerName;
+            //region.Designation = vmCommonRegion.Designation;
+            //region.Email = vmCommonRegion.Email;
+            //region.MobilePersonal = vmCommonRegion.MobilePersonal;
+            //region.MobileOffice = vmCommonRegion.MobileOffice;
+            region.EmployeeId = vmCommonRegion.EmployeeId;
+            region.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            region.ModifiedDate = DateTime.Now;
 
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = area.RegionId;
+                result = region.RegionId;
             }
             return result;
         }
@@ -2343,6 +2343,7 @@ namespace KGERP.Service.Implementation.Configuration
                 MobilePersonal = vmCommonArea.MobilePersonal,
                 ZoneId = vmCommonArea.ZoneId,
                 ZoneDivisionId = vmCommonArea.ZoneDivisionId,
+                RegionId = vmCommonArea.RegionId,
                 EmployeeId = vmCommonArea.EmployeeId,
                 CompanyId = vmCommonArea.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
