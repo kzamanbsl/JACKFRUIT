@@ -299,9 +299,9 @@ namespace KGERP.Data.Models
         public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         public virtual DbSet<ZoneDivision> ZoneDivisions { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
-        public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<SubZone> SubZones { get; set; }
+        public virtual DbSet<Vendor> Vendors { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

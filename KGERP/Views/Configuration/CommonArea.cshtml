@@ -90,7 +90,7 @@
                             <div class="col-md-4">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Sales Officer:</label>
-                                    @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtSalesOfficerName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
+                                    @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtAreaInchargeName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
                                     @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
 
                                 </div>
@@ -168,9 +168,9 @@
                                             <th hidden="hidden"></th>
                                             <th style="width:10%;">Zone</th>
                                             <th style="width:10%;">Division</th>
-                                            <th style="width:10%;">Area</th>
+                                            <th style="width:10%;">Region</th>
                                             <th style="width:15%;">Area</th>
-                                            <th style="width:10%;">Sales Officer</th>
+                                            <th style="width:10%;">Incharge</th>
                                             <th style="width:10%;">Designation</th>
                                             <th style="width:10%;">Email</th>
                                             <th style="width:10%;">Mobile Office</th>
@@ -200,7 +200,7 @@
                                                     @item.RegionName
                                                 </td>
                                                 <td id="tdAreaName_@item.ID">@item.Name</td>
-                                                <td id="tdSalesOfficerName_@item.ID">@item.SalesOfficerName</td>
+                                                <td id="tdAreaIncharge_@item.ID">@item.AreaIncharge</td>
                                                 <td id="tdDesignation_@item.ID">@item.Designation</td>
                                                 <td id="tdEmail_@item.ID">@item.Email</td>
                                                 <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
@@ -280,7 +280,7 @@
                     datatype: "json",
                     traditional: true,
                     success: function (result) {
-                        $('#txtSalesOfficerName').val(result.Name);
+                        $('#txtAreaInchargeName').val(result.Name);
                         $('#txtDesignation').val(result.DesignationName);
                         $('#txtMobileOffice').val(result.MobileNo);
                         $('#txtMobilePersonal').val(result.MobileNo);
@@ -361,8 +361,7 @@
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
 
                 $('#textAreaId').val($('#tdAreaName_' + rowId).text().trim());
-
-                $('#txtSalesOfficerName').val($('#tdSalesOfficerName_' + rowId).text().trim());
+                $('#txtAreaInchargeName').val($('#tdAreaIncharge_' + rowId).text().trim());
                 $('#txtDesignation').val($('#tdDesignation_' + rowId).text().trim());
                 $('#txtEmail').val($('#tdEmail_' + rowId).text().trim());
                 $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());

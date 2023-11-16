@@ -30,7 +30,8 @@ Date: 14-11-2023
 *Erp.Vendor
 	*ZoneDivisionId
 	*RegionId
-
+	*AreaId
+	
 *Erp.MaterialReceiveDetail product foreign key added
 
 select * from CompanySubMenu where [Name] Like('%Region%')

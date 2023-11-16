@@ -5141,6 +5141,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does no
           <Property Name="ZoneId" Type="int" />
           <Property Name="ZoneDivisionId" Type="int" />
           <Property Name="RegionId" Type="int" />
+          <Property Name="AreaId" Type="int" />
           <Property Name="SubZoneId" Type="int" />
           <Property Name="Name" Type="varchar" MaxLength="250" />
           <Property Name="Code" Type="varchar" MaxLength="50" />
@@ -8335,6 +8336,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Vendor_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="0..1" />
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vendor_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
@@ -10345,6 +10358,10 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Company" EntitySet="Company" />
             <End Role="Unit" EntitySet="Unit" />
           </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Area" Association="Self.FK_Vendor_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vendor_Region" Association="Self.FK_Vendor_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="Vendor" EntitySet="Vendor" />
@@ -11662,10 +11679,60 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
             <End Role="Region" EntitySet="Regions" />
           </AssociationSet>
+          <EntitySet Name="Areas" EntityType="ERPModel.Area" />
+          <AssociationSet Name="FK_Area_Company1" Association="ERPModel.FK_Area_Company1">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Area" EntitySet="Areas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Area_Region" Association="ERPModel.FK_Area_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Area" EntitySet="Areas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Area_Zone1" Association="ERPModel.FK_Area_Zone1">
+            <End Role="Zone" EntitySet="Zones" />
+            <End Role="Area" EntitySet="Areas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Area_ZoneDivision1" Association="ERPModel.FK_Area_ZoneDivision1">
+            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
+            <End Role="Area" EntitySet="Areas" />
+          </AssociationSet>
+          <EntitySet Name="SubZones" EntityType="ERPModel.SubZone" />
+          <AssociationSet Name="FK_SubZone_Company" Association="ERPModel.FK_SubZone_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubZone_Employee" Association="ERPModel.FK_SubZone_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubZone_Area" Association="ERPModel.FK_SubZone_Area">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMaster_SubZone" Association="ERPModel.FK_ExpenseMaster_SubZone">
+            <End Role="SubZone" EntitySet="SubZones" />
+            <End Role="ExpenseMaster" EntitySet="ExpenseMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubZone_Region" Association="ERPModel.FK_SubZone_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubZone_Zone" Association="ERPModel.FK_SubZone_Zone">
+            <End Role="Zone" EntitySet="Zones" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubZone_ZoneDivision" Association="ERPModel.FK_SubZone_ZoneDivision">
+            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
           <EntitySet Name="Vendors" EntityType="ERPModel.Vendor" />
           <AssociationSet Name="FK_MonthlyTarget_Vendor" Association="ERPModel.FK_MonthlyTarget_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="MonthlyTarget" EntitySet="MonthlyTargets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Area" Association="ERPModel.FK_Vendor_Area">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="Vendor" EntitySet="Vendors" />
           </AssociationSet>
           <AssociationSet Name="FK_DemageMaster_Customer" Association="ERPModel.FK_DemageMaster_Customer">
             <End Role="Vendor" EntitySet="Vendors" />
@@ -11731,6 +11798,10 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
+          <AssociationSet Name="FK_Vendor_SubZone" Association="ERPModel.FK_Vendor_SubZone">
+            <End Role="SubZone" EntitySet="SubZones" />
+            <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vendor_Vendor" Association="ERPModel.FK_Vendor_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="Vendor1" EntitySet="Vendors" />
@@ -11758,56 +11829,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_VendorOpening_Vendor" Association="ERPModel.FK_VendorOpening_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
-          </AssociationSet>
-          <EntitySet Name="Areas" EntityType="ERPModel.Area" />
-          <AssociationSet Name="FK_Area_Company1" Association="ERPModel.FK_Area_Company1">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Area" EntitySet="Areas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Region" Association="ERPModel.FK_Area_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="Area" EntitySet="Areas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Zone1" Association="ERPModel.FK_Area_Zone1">
-            <End Role="Zone" EntitySet="Zones" />
-            <End Role="Area" EntitySet="Areas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_ZoneDivision1" Association="ERPModel.FK_Area_ZoneDivision1">
-            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
-            <End Role="Area" EntitySet="Areas" />
-          </AssociationSet>
-          <EntitySet Name="SubZones" EntityType="ERPModel.SubZone" />
-          <AssociationSet Name="FK_SubZone_Company" Association="ERPModel.FK_SubZone_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="SubZone" EntitySet="SubZones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubZone_Employee" Association="ERPModel.FK_SubZone_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="SubZone" EntitySet="SubZones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubZone_Area" Association="ERPModel.FK_SubZone_Area">
-            <End Role="Area" EntitySet="Areas" />
-            <End Role="SubZone" EntitySet="SubZones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExpenseMaster_SubZone" Association="ERPModel.FK_ExpenseMaster_SubZone">
-            <End Role="SubZone" EntitySet="SubZones" />
-            <End Role="ExpenseMaster" EntitySet="ExpenseMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubZone_Region" Association="ERPModel.FK_SubZone_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="SubZone" EntitySet="SubZones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubZone_Zone" Association="ERPModel.FK_SubZone_Zone">
-            <End Role="Zone" EntitySet="Zones" />
-            <End Role="SubZone" EntitySet="SubZones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubZone_ZoneDivision" Association="ERPModel.FK_SubZone_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
-            <End Role="SubZone" EntitySet="SubZones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Vendor_SubZone" Association="ERPModel.FK_Vendor_SubZone">
-            <End Role="SubZone" EntitySet="SubZones" />
-            <End Role="Vendor" EntitySet="Vendors" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -14613,9 +14634,9 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Zone_Employee" FromRole="Zone" ToRole="Employee" />
           <NavigationProperty Name="ZoneDivisions" Relationship="ERPModel.FK_Region_Zone" FromRole="Zone" ToRole="ZoneDivision" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_Zone" FromRole="Zone" ToRole="Region" />
-          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Zone" ToRole="Vendor" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Zone1" FromRole="Zone" ToRole="Area" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Zone" FromRole="Zone" ToRole="SubZone" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Zone" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="Prod_ReferenceSlave">
           <Key>
@@ -20416,9 +20437,9 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Region_Employee" FromRole="ZoneDivision" ToRole="Employee" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Region_Zone" FromRole="ZoneDivision" ToRole="Zone" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_ZoneDivision" FromRole="ZoneDivision" ToRole="Region" />
-          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_ZoneDivision" FromRole="ZoneDivision" ToRole="Vendor" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="ZoneDivision" ToRole="Area" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="ZoneDivision" ToRole="SubZone" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_ZoneDivision" FromRole="ZoneDivision" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_Region_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20482,9 +20503,9 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Area_Employee" FromRole="Region" ToRole="Employee" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Area_Zone" FromRole="Region" ToRole="Zone" />
           <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Area_ZoneDivision" FromRole="Region" ToRole="ZoneDivision" />
-          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Region" FromRole="Region" ToRole="Area" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Region" FromRole="Region" ToRole="SubZone" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
         </EntityType>
         <Association Name="FK_Area_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20534,6 +20555,200 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="AreaId" />
+          </Key>
+          <Property Name="AreaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AreaIncharge" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobilePersonal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeId" Type="Int64" />
+          <Property Name="ZoneId" Type="Int32" />
+          <Property Name="ZoneDivisionId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Area_Company1" FromRole="Area" ToRole="Company" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Area_Region" FromRole="Area" ToRole="Region" />
+          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Area_Zone1" FromRole="Area" ToRole="Zone" />
+          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="Area" ToRole="ZoneDivision" />
+          <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Area" FromRole="Area" ToRole="SubZone" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Area" FromRole="Area" ToRole="Vendor" />
+        </EntityType>
+        <Association Name="FK_Area_Company1">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Area_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Area_Zone1">
+          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="0..1" />
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Area_ZoneDivision1">
+          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="0..1" />
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZoneDivision">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubZone">
+          <Key>
+            <PropertyRef Name="SubZoneId" />
+          </Key>
+          <Property Name="SubZoneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="SalesOfficerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobilePersonal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="AccountHeadId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int64" />
+          <Property Name="ZoneId" Type="Int32" Nullable="false" />
+          <Property Name="ZoneDivisionId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="AreaId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_SubZone_Company" FromRole="SubZone" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_SubZone_Employee" FromRole="SubZone" ToRole="Employee" />
+          <NavigationProperty Name="Area" Relationship="ERPModel.FK_SubZone_Area" FromRole="SubZone" ToRole="Area" />
+          <NavigationProperty Name="ExpenseMasters" Relationship="ERPModel.FK_ExpenseMaster_SubZone" FromRole="SubZone" ToRole="ExpenseMaster" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_SubZone_Region" FromRole="SubZone" ToRole="Region" />
+          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_SubZone_Zone" FromRole="SubZone" ToRole="Zone" />
+          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="SubZone" ToRole="ZoneDivision" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="SubZone" ToRole="Vendor" />
+        </EntityType>
+        <Association Name="FK_SubZone_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubZone_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubZone_Area">
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMaster_SubZone">
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
+          <End Type="ERPModel.ExpenseMaster" Role="ExpenseMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubZone">
+              <PropertyRef Name="SubZoneId" />
+            </Principal>
+            <Dependent Role="ExpenseMaster">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubZone_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubZone_Zone">
+          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubZone_ZoneDivision">
+          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="0..1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZoneDivision">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="VendorId" />
@@ -20548,6 +20763,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="ZoneId" Type="Int32" />
           <Property Name="ZoneDivisionId" Type="Int32" />
           <Property Name="RegionId" Type="Int32" />
+          <Property Name="AreaId" Type="Int32" />
           <Property Name="SubZoneId" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -20609,6 +20825,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="ParentId" Type="Int32" />
           <Property Name="EmployeeId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MonthlyTargets" Relationship="ERPModel.FK_MonthlyTarget_Vendor" FromRole="Vendor" ToRole="MonthlyTarget" />
+          <NavigationProperty Name="Area" Relationship="ERPModel.FK_Vendor_Area" FromRole="Vendor" ToRole="Area" />
           <NavigationProperty Name="DamageMasters" Relationship="ERPModel.FK_DemageMaster_Customer" FromRole="Vendor" ToRole="DamageMaster" />
           <NavigationProperty Name="DamageMasters1" Relationship="ERPModel.FK_DemageMaster_ToDealerVendor" FromRole="Vendor" ToRole="DamageMaster" />
           <NavigationProperty Name="DamageMasters2" Relationship="ERPModel.FK_DemageMaster_ToDeportVendor" FromRole="Vendor" ToRole="DamageMaster" />
@@ -20625,6 +20842,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Region" Relationship="ERPModel.FK_Vendor_Region" FromRole="Vendor" ToRole="Region" />
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
           <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Vendor" FromRole="Vendor" ToRole="Store" />
+          <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="Vendor" ToRole="SubZone" />
           <NavigationProperty Name="Vendor1" Relationship="ERPModel.FK_Vendor_Vendor" FromRole="Vendor" ToRole="Vendor1" />
           <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_Vendor_Vendor" FromRole="Vendor1" ToRole="Vendor" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Vendor" ToRole="Zone" />
@@ -20633,7 +20851,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_Vendor" FromRole="Vendor" ToRole="VendorDepositHistory" />
           <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
-          <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="Vendor" ToRole="SubZone" />
         </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
@@ -20644,6 +20861,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="MonthlyTarget">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Area">
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="AreaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20839,6 +21068,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Vendor_SubZone">
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubZone">
+              <PropertyRef Name="SubZoneId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="SubZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vendor_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
           <End Type="ERPModel.Vendor" Role="Vendor1" Multiplicity="*" />
@@ -20920,211 +21161,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="VendorOpening">
               <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Area">
-          <Key>
-            <PropertyRef Name="AreaId" />
-          </Key>
-          <Property Name="AreaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="AreaIncharge" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MobilePersonal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="EmployeeId" Type="Int64" />
-          <Property Name="ZoneId" Type="Int32" />
-          <Property Name="ZoneDivisionId" Type="Int32" />
-          <Property Name="RegionId" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Area_Company1" FromRole="Area" ToRole="Company" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Area_Region" FromRole="Area" ToRole="Region" />
-          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Area_Zone1" FromRole="Area" ToRole="Zone" />
-          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="Area" ToRole="ZoneDivision" />
-          <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Area" FromRole="Area" ToRole="SubZone" />
-        </EntityType>
-        <Association Name="FK_Area_Company1">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="Area">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="Area">
-              <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Zone1">
-          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="0..1" />
-          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Zone">
-              <PropertyRef Name="ZoneId" />
-            </Principal>
-            <Dependent Role="Area">
-              <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_ZoneDivision1">
-          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="0..1" />
-          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="Area">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="SubZone">
-          <Key>
-            <PropertyRef Name="SubZoneId" />
-          </Key>
-          <Property Name="SubZoneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="SalesOfficerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MobilePersonal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="AccountHeadId" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int64" />
-          <Property Name="ZoneId" Type="Int32" Nullable="false" />
-          <Property Name="ZoneDivisionId" Type="Int32" />
-          <Property Name="RegionId" Type="Int32" />
-          <Property Name="AreaId" Type="Int32" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_SubZone_Company" FromRole="SubZone" ToRole="Company" />
-          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_SubZone_Employee" FromRole="SubZone" ToRole="Employee" />
-          <NavigationProperty Name="Area" Relationship="ERPModel.FK_SubZone_Area" FromRole="SubZone" ToRole="Area" />
-          <NavigationProperty Name="ExpenseMasters" Relationship="ERPModel.FK_ExpenseMaster_SubZone" FromRole="SubZone" ToRole="ExpenseMaster" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_SubZone_Region" FromRole="SubZone" ToRole="Region" />
-          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_SubZone_Zone" FromRole="SubZone" ToRole="Zone" />
-          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="SubZone" ToRole="ZoneDivision" />
-          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="SubZone" ToRole="Vendor" />
-        </EntityType>
-        <Association Name="FK_SubZone_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SubZone_Employee">
-          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SubZone_Area">
-          <End Type="ERPModel.Area" Role="Area" Multiplicity="0..1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Area">
-              <PropertyRef Name="AreaId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="AreaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExpenseMaster_SubZone">
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
-          <End Type="ERPModel.ExpenseMaster" Role="ExpenseMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubZone">
-              <PropertyRef Name="SubZoneId" />
-            </Principal>
-            <Dependent Role="ExpenseMaster">
-              <PropertyRef Name="TerritoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SubZone_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SubZone_Zone">
-          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Zone">
-              <PropertyRef Name="ZoneId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SubZone_ZoneDivision">
-          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="0..1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Vendor_SubZone">
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubZone">
-              <PropertyRef Name="SubZoneId" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="SubZoneId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26752,6 +26788,56 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Areas">
+            <EntityTypeMapping TypeName="ERPModel.Area">
+              <MappingFragment StoreEntitySet="Area">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="MobilePersonal" ColumnName="MobilePersonal" />
+                <ScalarProperty Name="MobileOffice" ColumnName="MobileOffice" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="AreaIncharge" ColumnName="AreaIncharge" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubZones">
+            <EntityTypeMapping TypeName="ERPModel.SubZone">
+              <MappingFragment StoreEntitySet="SubZone">
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AccountHeadId" ColumnName="AccountHeadId" />
+                <ScalarProperty Name="MobilePersonal" ColumnName="MobilePersonal" />
+                <ScalarProperty Name="MobileOffice" ColumnName="MobileOffice" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="SalesOfficerName" ColumnName="SalesOfficerName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SubZoneId" ColumnName="SubZoneId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
             <EntityTypeMapping TypeName="ERPModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
@@ -26815,6 +26901,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SubZoneId" ColumnName="SubZoneId" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />
                 <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
                 <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
@@ -26825,56 +26912,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Areas">
-            <EntityTypeMapping TypeName="ERPModel.Area">
-              <MappingFragment StoreEntitySet="Area">
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
-                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="MobilePersonal" ColumnName="MobilePersonal" />
-                <ScalarProperty Name="MobileOffice" ColumnName="MobileOffice" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="AreaIncharge" ColumnName="AreaIncharge" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SubZones">
-            <EntityTypeMapping TypeName="ERPModel.SubZone">
-              <MappingFragment StoreEntitySet="SubZone">
-                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
-                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="AccountHeadId" ColumnName="AccountHeadId" />
-                <ScalarProperty Name="MobilePersonal" ColumnName="MobilePersonal" />
-                <ScalarProperty Name="MobileOffice" ColumnName="MobileOffice" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="SalesOfficerName" ColumnName="SalesOfficerName" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SubZoneId" ColumnName="SubZoneId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

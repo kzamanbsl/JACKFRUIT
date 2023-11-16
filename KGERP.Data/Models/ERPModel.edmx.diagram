@@ -511,8 +511,22 @@
         <AssociationConnector Association="ERPModel.FK_Area_Employee" />
         <AssociationConnector Association="ERPModel.FK_Area_Zone" />
         <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision" />
-        <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="60.875" PointY="6.625" />
+        <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="61.625" PointY="26.875" />
+        <AssociationConnector Association="ERPModel.FK_Area_Company1" />
+        <AssociationConnector Association="ERPModel.FK_Area_Region" />
+        <AssociationConnector Association="ERPModel.FK_Area_Zone1" />
+        <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision1" />
+        <EntityTypeShape EntityType="ERPModel.SubZone" Width="1.5" PointX="63.875" PointY="18.375" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Company" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Employee" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Area" />
+        <AssociationConnector Association="ERPModel.FK_ExpenseMaster_SubZone" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Zone" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_ZoneDivision" />
+        <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="66.125" PointY="4.875" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_Vendor_Area" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_Customer" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_ToDealerVendor" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_ToDeportVendor" />
@@ -529,6 +543,7 @@
         <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Store_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_Vendor_SubZone" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Zone" />
         <AssociationConnector Association="ERPModel.FK_Vendor_ZoneDivision" />
@@ -536,20 +551,6 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
-        <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="61.625" PointY="26.875" />
-        <AssociationConnector Association="ERPModel.FK_Area_Company1" />
-        <AssociationConnector Association="ERPModel.FK_Area_Region" />
-        <AssociationConnector Association="ERPModel.FK_Area_Zone1" />
-        <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision1" />
-        <EntityTypeShape EntityType="ERPModel.SubZone" Width="1.5" PointX="63.875" PointY="18.375" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Company" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Employee" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Area" />
-        <AssociationConnector Association="ERPModel.FK_ExpenseMaster_SubZone" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Zone" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_ZoneDivision" />
-        <AssociationConnector Association="ERPModel.FK_Vendor_SubZone" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

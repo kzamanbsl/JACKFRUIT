@@ -50,6 +50,7 @@ namespace KGERP.Data.Models
         public Nullable<int> ZoneId { get; set; }
         public Nullable<int> ZoneDivisionId { get; set; }
         public Nullable<int> RegionId { get; set; }
+        public Nullable<int> AreaId { get; set; }
         public Nullable<int> SubZoneId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -113,6 +114,7 @@ namespace KGERP.Data.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlyTarget> MonthlyTargets { get; set; }
+        public virtual Area Area { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageMaster> DamageMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -144,6 +146,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual SubZone SubZone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendor1 { get; set; }
         public virtual Vendor Vendor2 { get; set; }
@@ -157,6 +160,5 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorOffer> VendorOffers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
-        public virtual SubZone SubZone { get; set; }
     }
 }
