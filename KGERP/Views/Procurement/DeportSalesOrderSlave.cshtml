@@ -694,26 +694,43 @@
 
             //    }
             //});
-            $("#txtUnitPrice").keyup(function () {
+            $("#txtDeportPrice").keyup(function () {
 
-                var qty = $("#txtOrderQuantity").val();
-                var unitPrice = $("#deportPrice").val();
-                var tAmount = qty * unitPrice;
+                var qtyCtn = $("#txtOrderCtn").val();
+                var qtyPcs = $("#txtOrderPcs").val();
+                var consumption = $("#ProductConsumption").val();
+                var deportPrice = $("#txtDeportPrice").val();
+                var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
+
                 $("#totalAmount").val(tAmount);
                 $("#SpcDis").val(0);
                 $("#disPercentage").val(0);
             });
-            $("#txtOrderQuantity").keyup(function () {
 
-                var qty = $("#txtOrderQuantity").val();
-                var unitPrice = $("#txtUnitPrice").val();
-                var tAmount = qty * unitPrice;
+            $("#txtOrderCtn").keyup(function () {
+
+                var qtyCtn = $("#txtOrderCtn").val();
+                var qtyPcs = $("#txtOrderPcs").val();
+                var consumption = $("#ProductConsumption").val();
+                var deportPrice = $("#txtDeportPrice").val();
+                var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
                 $("#totalAmount").val(tAmount);
 
-            }); 
+            });
+
+            $("#txtOrderPcs").keyup(function () {
+
+                   var qtyCtn = $("#txtOrderCtn").val();
+                var qtyPcs = $("#txtOrderPcs").val();
+                var consumption = $("#ProductConsumption").val();
+                var deportPrice = $("#txtDeportPrice").val();
+                var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
+                $("#totalAmount").val(tAmount);
+
+            });
 
 
-          
+
 
 
             $("#ddlZoneFk").change(function () {
@@ -788,6 +805,7 @@
         $("#SpcDis").keyup(function () {
 
             var qty = $("#txtOrderQuantity").val();
+
             var Unit = $("#txtUnitPrice").val();
             var specialDis = $("#SpcDis").val();
             var ammount = qty * Unit;

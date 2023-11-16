@@ -178,11 +178,11 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-group" id="regionDiv">
-                                        @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="form-group" id="zoneDivisionDiv">
+                                        @Html.LabelFor(model => model.Employee.DivisionId, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.RegionIds, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
-                                            @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
+                                            @Html.ListBoxFor(model => model.Employee.DivisionId, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Employee.DivisionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -691,46 +691,46 @@
 
             $('#ddlZoneId').prepend('<option disabled  value="">Select Zone(s)</option>');
             $('#ddlAreaId').prepend('<option disabled  value="">Select Area(s)</option>');
-            $('#ddlRegionId').prepend('<option disabled  value="">Select ZoneDivision(s)</option>');
+            $('#ddlzoneDivisionId').prepend('<option disabled  value="">Select ZoneDivision(s)</option>');
             $('#ddlSubZoneId').prepend('<option disabled  value="">Select Territory(s)</option>');
 
             var employeeId = $("#hidEmployeeId").val();
             var zoneIds = $("#ddlZoneId").val();
-            var regionIds= $("#ddlRegionId").val();
+            var zoneDivisionIds= $("#ddlzoneDivisionId").val();
             var areaIds= $("#ddlAreaId").val();
             var territoryIds = $("#ddlSubZoneId").val();
 
-            var regionDiv = $("#regionDiv");
+            var zoneDivisionDiv = $("#zoneDivisionDiv");
             var areaDiv = $("#areaDiv");
             var subzoneDiv = $("#subzoneDiv");
 
             if (employeeId > 0 && territoryIds.length<=0) {
                 subzoneDiv.hide();
-                //regionChange(0, zoneIds[0]);
-                //areaChange(0, zoneIds[0], regionIds[0]);
+                //zoneDivisionChange(0, zoneIds[0]);
+                //areaChange(0, zoneIds[0], zoneDivisionIds[0]);
             }
             if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 ) {
                 subzoneDiv.hide();
                 areaDiv.hide();
-                //regionChange(0, zoneIds[0]);
+                //zoneDivisionChange(0, zoneIds[0]);
             }
-            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && regionIds.length<=0) {
+            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && zoneDivisionIds.length<=0) {
                 subzoneDiv.hide();
                 areaDiv.hide();
-                regionDiv.hide();
+                zoneDivisionDiv.hide();
             }
 
             //if (employeeId > 0 && territoryIds.length > 0) {
-            //    regionChange(0, zoneIds[0]);
-            //    areaChange(0, zoneIds[0], regionIds[0]);
+            //    zoneDivisionChange(0, zoneIds[0]);
+            //    areaChange(0, zoneIds[0], zoneDivisionIds[0]);
             //    territoryChange(0, areaIds[0]);
             //}
             //if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length > 0) {
-            //    regionChange(0, zoneIds[0]);
-            //    areaChange(0, zoneIds[0], regionIds[0]);
+            //    zoneDivisionChange(0, zoneIds[0]);
+            //    areaChange(0, zoneIds[0], zoneDivisionIds[0]);
             //}
-            //if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 && regionIds.length > 0) {
-            //    regionChange(0, zoneIds[0]);
+            //if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 && zoneDivisionIds.length > 0) {
+            //    zoneDivisionChange(0, zoneIds[0]);
             //}
         });
 
@@ -833,33 +833,33 @@
 
         $("#ddlZoneId").on('change',function () {
             var zoneIds = $("#ddlZoneId").val();
-            var regionDiv = $("#regionDiv");
+            var zoneDivisionDiv = $("#zoneDivisionDiv");
             var areaDiv = $("#areaDiv");
             var subzoneDiv = $("#subzoneDiv");
 
             if (zoneIds.length == 1)
             {
-                regionChange(0, zoneIds[0]);
-                regionDiv.show();
+                zoneDivisionChange(0, zoneIds[0]);
+                zoneDivisionDiv.show();
                 areaDiv.show();
                 subzoneDiv.show();
             }
 
             if (zoneIds.length > 1) {
 
-                regionDiv.hide();
+                zoneDivisionDiv.hide();
                 areaDiv.hide();
                 subzoneDiv.hide();
 
-                var regionList = $('#ddlRegionId').next().find('.select2-selection__choice');
+                var zoneDivisionList = $('#ddlzoneDivisionId').next().find('.select2-selection__choice');
                 var areaList = $('#ddlAreaId').next().find('.select2-selection__choice');
                 var subzoneList = $('#ddlSubZoneId').next().find('.select2-selection__choice');
 
-                regionList.remove();
+                zoneDivisionList.remove();
                 areaList.remove();
                 subzoneList.remove();
 
-                $("#ddlRegionId").val(null);
+                $("#ddlzoneDivisionId").val(null);
                 $("#ddlAreaId").val(null);
                 $("#ddlSubZoneId").val(null);
 
@@ -867,20 +867,20 @@
 
         });
 
-        $("#ddlRegionId").change(function (e) {
+        $("#ddlzoneDivisionId").change(function (e) {
             var zoneIds = $("#ddlZoneId").val();
-            var regionIds = $("#ddlRegionId").val();
+            var zoneDivisionIds = $("#ddlzoneDivisionId").val();
 
             var areaDiv = $("#areaDiv");
             var subzoneDiv = $("#subzoneDiv");
 
-            if (regionIds.length == 1) {
-                areaChange(0, zoneIds[0], regionIds[0]);
+            if (zoneDivisionIds.length == 1) {
+                areaChange(0, zoneIds[0], zoneDivisionIds[0]);
                 areaDiv.show();
                 subzoneDiv.show();
             }
 
-            if (regionIds.length > 1) {
+            if (zoneDivisionIds.length > 1) {
 
                 areaDiv.hide();
                 subzoneDiv.hide();
@@ -920,25 +920,25 @@
             }
         });
 
-        function regionChange(regionValue, zoneValue) {
+        function zoneDivisionChange(zoneDivisionValue, zoneValue) {
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("CommonRegionGet", "Configuration")",
+                url: "@Url.Action("CommonzoneDivisionGet", "Configuration")",
                 datatype: "Json",
                 data: { companyId:@Model.Employee.CompanyId, zoneId: zoneValue },
 
                 success: function (data) {
                     if (data) {
 
-                        $("#ddlRegionId").empty();
-                        $("#ddlRegionId").append("<option value=''>==Select ZoneDivision==</option>");
+                        $("#ddlzoneDivisionId").empty();
+                        $("#ddlzoneDivisionId").append("<option value=''>==Select ZoneDivision==</option>");
 
                         $(data).each(function (index, item) {
-                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlzoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
 
-                        if (regionValue > 0) {
-                            $("#ddlRegionId").val(regionValue);
+                        if (zoneDivisionValue > 0) {
+                            $("#ddlzoneDivisionId").val(zoneDivisionValue);
                         }
 
                     }
