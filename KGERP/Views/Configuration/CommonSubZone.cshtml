@@ -61,8 +61,8 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Area:</label>
-                                    @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlAreaId", @class = "form-control searchingDropdown", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -196,7 +196,7 @@
                                                     @item.ZoneDivisionName
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" id="tdAreaId_@item.ID" value="@item.AreaId" />
+                                                    <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
                                                     @item.AreaName
                                                 </td>
                                                 <td id="tdSubZoneName_@item.ID">@item.Name</td>
@@ -339,12 +339,12 @@
                 datatype: "json",
                 success: function (data) {
                     if (data) {
-                        $("#ddlAreaId").empty();
+                        $("#ddlRegionId").empty();
                         $(data).each(function (index, item) {
-                            $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
                         if (areaValue > 0) {
-                            $("#ddlAreaId").val(areaValue);
+                            $("#ddlRegionId").val(areaValue);
                         }
 
                     }
@@ -377,8 +377,8 @@
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
 
                /* $('#ddlZoneDivisionId').val($('#tdZoneDivisionId_' + rowId).val().trim()).trigger("change");*/
-        /*        $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");*/
-                changeArea($('#tdAreaId_' + rowId).val().trim(), zoneId, zoneDivisionId);
+        /*        $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");*/
+                changeArea($('#tdRegionId_' + rowId).val().trim(), zoneId, zoneDivisionId);
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -402,7 +402,7 @@
         var Name = $('#txtSubZoneName').val();
         var zoneId = $('#ddlZoneId').val();
         var zoneDivisionId = $('#ddlZoneDivisionId').val();
-        var areaId = $('#ddlAreaId').val();
+        var regionId = $('#ddlRegionId').val();
         var subZoneId = $('#subZoneId').val();
         if (zoneId == null) {
             zoneId = 0;
@@ -414,7 +414,7 @@
         $.ajax({
             type: "post",
             url: "@Url.Action("IsSubZoneNameExist", "Configuration")",
-            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, areaId: areaId, subZoneName: Name, id: subZoneId },
+            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, subZoneName: Name, id: subZoneId },
             success: function (data) {
                 if (data == true) {
                     $('#SubZoneNameValidation').show();

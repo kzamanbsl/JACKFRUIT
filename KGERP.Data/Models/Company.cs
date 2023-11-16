@@ -46,9 +46,9 @@ namespace KGERP.Data.Models
             this.DamageMasters = new HashSet<DamageMaster>();
             this.VendorDeposits = new HashSet<VendorDeposit>();
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
-            this.Areas = new HashSet<Area>();
-            this.SubZones = new HashSet<SubZone>();
             this.ZoneDivisions = new HashSet<ZoneDivision>();
+            this.Regions = new HashSet<Region>();
+            this.SubZones = new HashSet<SubZone>();
         }
     
         public int CompanyId { get; set; }
@@ -135,10 +135,10 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Area> Areas { get; set; }
+        public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Region> Regions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubZone> SubZones { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
     }
 }

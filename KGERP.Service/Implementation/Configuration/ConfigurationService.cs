@@ -1177,7 +1177,7 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<List<VMCommonDistricts>> CommonSubZonesGet(int id)
         {
-            List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.AreaId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
+            List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.RegionId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
             return vmCommonDistricts;
         }
 
@@ -1898,10 +1898,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                              join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
                                                              join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId into t3_Join
                                                              from t3 in t3_Join.DefaultIfEmpty()
-                                                             join t4 in _db.Areas on t1.AreaId equals t4.AreaId into t4_Join
+                                                             join t4 in _db.Regions on t1.RegionId equals t4.RegionId into t4_Join
                                                              from t4 in t4_Join.DefaultIfEmpty()
                                                              where t1.IsActive == true && t1.CompanyId == companyId
-                                                             && (zoneId > 0 && zoneDivisionId > 0 && areaId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId && t1.AreaId == areaId : t1.SubZoneId > 0)
+                                                             && (zoneId > 0 && zoneDivisionId > 0 && areaId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId && t1.RegionId == areaId : t1.SubZoneId > 0)
                                                              select new VMCommonSubZone
                                                              {
                                                                  ID = t1.SubZoneId,
@@ -1909,8 +1909,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                  ZoneName = t2.Name,
                                                                  ZoneDivisionId = t1.ZoneDivisionId,
                                                                  ZoneDivisionName = t3.Name,
-                                                                 AreaId = t1.AreaId,
-                                                                 AreaName = t4.Name,
+                                                                 RegionId = t1.RegionId,
+                                                                 RegionName = t4.Name,
                                                                  Name = t1.Name,
                                                                  Code = t1.Code,
                                                                  SalesOfficerName = t1.SalesOfficerName,
@@ -1929,7 +1929,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check SubZone Duplicate
-            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.AreaId == vmCommonSubZone.AreaId  && u.IsActive == true);
+            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId  && u.IsActive == true);
             if (isExist?.ZoneId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
@@ -1950,7 +1950,7 @@ namespace KGERP.Service.Implementation.Configuration
                 MobilePersonal = vmCommonSubZone.MobilePersonal,
                 ZoneId = vmCommonSubZone.ZoneId,
                 ZoneDivisionId = vmCommonSubZone.ZoneDivisionId,
-                AreaId = vmCommonSubZone.AreaId,
+                RegionId = vmCommonSubZone.RegionId,
                 EmployeeId = vmCommonSubZone.EmployeeId,
                 CompanyId = vmCommonSubZone.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -2064,7 +2064,7 @@ namespace KGERP.Service.Implementation.Configuration
             SubZone subZone = await _db.SubZones.FindAsync(vmCommonSubZone.ID);
             subZone.ZoneId = vmCommonSubZone.ZoneId;
             subZone.ZoneDivisionId = vmCommonSubZone.ZoneDivisionId;
-            subZone.AreaId = vmCommonSubZone.AreaId;
+            subZone.RegionId = vmCommonSubZone.RegionId;
             subZone.Name = vmCommonSubZone.Name;
             //subZone.Code = vmCommonSubZone.Code; // Don't use code, it will add form Head5
             //subZone.SalesOfficerName = vmCommonSubZone.SalesOfficerName;
@@ -2122,7 +2122,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
-        public async Task<bool> CheckDuplicateSubZoneName(int zoneId, int zoneDivisionId, int areaId, string subZoneName, int id)
+        public async Task<bool> CheckDuplicateSubZoneName(int zoneId, int zoneDivisionId, int regionId, string subZoneName, int id)
         {
             bool isExist = false;
             if (string.IsNullOrEmpty(subZoneName))
@@ -2131,12 +2131,12 @@ namespace KGERP.Service.Implementation.Configuration
             }
             if (id > 0)
             {
-                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.AreaId == areaId && u.SubZoneId != id && u.IsActive == true);
+                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.SubZoneId != id && u.IsActive == true);
 
             }
             else
             {
-                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.AreaId == areaId && u.IsActive == true);
+                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.IsActive == true);
             }
 
             return isExist;
@@ -2321,57 +2321,57 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
-        #region Area
-        public List<object> CommonAreaDropDownList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
+        #region Region
+        public List<object> CommonRegionDropDownList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
         {
             var list = new List<object>();
-            var v = _db.Areas.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 && zoneDivisionId > 0 ? x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId : x.AreaId > 0)).ToList();
+            var v = _db.Regions.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 && zoneDivisionId > 0 ? x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId : x.RegionId > 0)).ToList();
 
             foreach (var x in v)
             {
-                list.Add(new { Text = x.Name, Value = x.AreaId });
+                list.Add(new { Text = x.Name, Value = x.RegionId });
             }
 
             return list;
         }
 
-        public List<SelectModel> GetAreaSelectList(int companyId, int? zoneId, int? zoneDivisionId)
+        public List<SelectModel> GetRegionSelectList(int companyId, int? zoneId, int? zoneDivisionId)
         {
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel
             {
-                Text = "==Select Area==",
+                Text = "==Select Region==",
                 Value = 0,
             };
             selectModelList.Add(selectModel);
 
             if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0)
             {
-                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.AreaId
+                        Value = x.RegionId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
             else if (zoneId.HasValue && zoneId > 0)
             {
-                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.AreaId
+                        Value = x.RegionId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
             else
             {
-                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.AreaId
+                        Value = x.RegionId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
@@ -2379,25 +2379,25 @@ namespace KGERP.Service.Implementation.Configuration
             return selectModelList;
         }
 
-        public async Task<VMCommonArea> GetAreas(int companyId, int zoneId = 0, int zoneDivisionId = 0)
+        public async Task<VMCommonRegion> GetRegions(int companyId, int zoneId = 0, int zoneDivisionId = 0)
         {
-            VMCommonArea vmCommonArea = new VMCommonArea();
-            vmCommonArea.CompanyFK = companyId;
-            vmCommonArea.DataList = await Task.Run(() => (from t1 in _db.Areas
+            VMCommonRegion vmCommonRegion = new VMCommonRegion();
+            vmCommonRegion.CompanyFK = companyId;
+            vmCommonRegion.DataList = await Task.Run(() => (from t1 in _db.Regions
                                                           join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
                                                           join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId
                                                           where t1.IsActive == true && t1.CompanyId == companyId
-                                                          && (zoneId > 0 && zoneDivisionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId : t1.AreaId > 0)
-                                                          select new VMCommonArea
+                                                          && (zoneId > 0 && zoneDivisionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId : t1.RegionId > 0)
+                                                          select new VMCommonRegion
                                                           {
-                                                              ID = t1.AreaId,
+                                                              ID = t1.RegionId,
                                                               ZoneId = t1.ZoneId,
                                                               ZoneName = t2.Name,
                                                               ZoneDivisionId = t1.ZoneDivisionId,
                                                               ZoneDivisionName = t3.Name,
                                                               Name = t1.Name,
                                                               Code = t1.Code,
-                                                              AreaIncharge = t1.AreaIncharge,
+                                                              RegionIncharge = t1.RegionIncharge,
                                                               SalesOfficerName = t1.SalesOfficerName,
                                                               Designation = t1.Designation,
                                                               Email = t1.Email,
@@ -2406,18 +2406,18 @@ namespace KGERP.Service.Implementation.Configuration
                                                               CompanyFK = t1.CompanyId,
                                                               EmployeeId = t1.EmployeeId
                                                           }).OrderByDescending(x => x.ID).AsEnumerable());
-            return vmCommonArea;
+            return vmCommonRegion;
         }
 
-        public async Task<int> AreaAdd(VMCommonArea vmCommonArea)
+        public async Task<int> RegionAdd(VMCommonRegion vmCommonRegion)
         {
             var result = -1;
 
-            #region check Area Duplicate
-            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            #region check Region Duplicate
+            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.ZoneDivisionId == vmCommonRegion.ZoneDivisionId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
             if (isExist?.ZoneId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
 
 
             }
@@ -2425,65 +2425,65 @@ namespace KGERP.Service.Implementation.Configuration
 
 
 
-            Area area = new Area
+            Region area = new Region
             {
-                Name = vmCommonArea.Name,
+                Name = vmCommonRegion.Name,
                 // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
-                AreaIncharge = vmCommonArea.AreaIncharge,
-                SalesOfficerName = vmCommonArea.SalesOfficerName,
-                Designation = vmCommonArea.Designation,
-                Email = vmCommonArea.Email,
-                MobileOffice = vmCommonArea.MobileOffice,
-                MobilePersonal = vmCommonArea.MobilePersonal,
-                ZoneId = vmCommonArea.ZoneId,
-                ZoneDivisionId = vmCommonArea.ZoneDivisionId,
-                EmployeeId = vmCommonArea.EmployeeId,
-                CompanyId = vmCommonArea.CompanyFK.Value,
+                RegionIncharge = vmCommonRegion.RegionIncharge,
+                SalesOfficerName = vmCommonRegion.SalesOfficerName,
+                Designation = vmCommonRegion.Designation,
+                Email = vmCommonRegion.Email,
+                MobileOffice = vmCommonRegion.MobileOffice,
+                MobilePersonal = vmCommonRegion.MobilePersonal,
+                ZoneId = vmCommonRegion.ZoneId,
+                ZoneDivisionId = vmCommonRegion.ZoneDivisionId,
+                EmployeeId = vmCommonRegion.EmployeeId,
+                CompanyId = vmCommonRegion.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 IsActive = true
 
             };
-            _db.Areas.Add(area);
+            _db.Regions.Add(area);
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = area.AreaId;
+                result = area.RegionId;
             }
 
             return result;
         }
 
-        public async Task<int> AreaEdit(VMCommonArea vmCommonArea)
+        public async Task<int> RegionEdit(VMCommonRegion vmCommonRegion)
         {
             var result = -1;
-            Area area = await _db.Areas.FindAsync(vmCommonArea.ID);
-            area.ZoneId = vmCommonArea.ZoneId;
-            area.ZoneDivisionId = vmCommonArea.ZoneDivisionId;
-            area.Name = vmCommonArea.Name;
+            Region area = await _db.Regions.FindAsync(vmCommonRegion.ID);
+            area.ZoneId = vmCommonRegion.ZoneId;
+            area.ZoneDivisionId = vmCommonRegion.ZoneDivisionId;
+            area.Name = vmCommonRegion.Name;
             // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
-            //area.AreaIncharge = vmCommonArea.AreaIncharge;
-            //area.SalesOfficerName = vmCommonArea.SalesOfficerName;
-            //area.Designation = vmCommonArea.Designation;
-            //area.Email = vmCommonArea.Email;
-            //area.MobilePersonal = vmCommonArea.MobilePersonal;
-            //area.MobileOffice = vmCommonArea.MobileOffice;
-            area.EmployeeId = vmCommonArea.EmployeeId;
+            //area.RegionIncharge = vmCommonRegion.RegionIncharge;
+            //area.SalesOfficerName = vmCommonRegion.SalesOfficerName;
+            //area.Designation = vmCommonRegion.Designation;
+            //area.Email = vmCommonRegion.Email;
+            //area.MobilePersonal = vmCommonRegion.MobilePersonal;
+            //area.MobileOffice = vmCommonRegion.MobileOffice;
+            area.EmployeeId = vmCommonRegion.EmployeeId;
             area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             area.ModifiedDate = DateTime.Now;
 
             if (await _db.SaveChangesAsync() > 0)
             {
-                result = area.AreaId;
+                result = area.RegionId;
             }
             return result;
         }
 
-        public async Task<int> AreaDelete(int id)
+        public async Task<int> RegionDelete(int id)
         {
             int result = -1;
             if (id != 0)
             {
-                Area area = await _db.Areas.FindAsync(id);
+                Region area = await _db.Regions.FindAsync(id);
                 area.IsActive = false;
                 area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 area.ModifiedDate = DateTime.Now;
@@ -2494,21 +2494,21 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
-        public async Task<bool> CheckDuplicateAreaName(int zoneId, int zoneDivisionId, string areaName, int id)
+        public async Task<bool> CheckDuplicateRegionName(int zoneId, int zoneDivisionId, string regionName, int id)
         {
             bool isExist = false;
-            if (string.IsNullOrEmpty(areaName))
+            if (string.IsNullOrEmpty(regionName))
             {
                 return isExist;
             }
             if (id > 0)
             {
-                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.AreaId!= id && u.IsActive == true);
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId!= id && u.IsActive == true);
 
             }
             else
             {
-                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.IsActive == true);
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.IsActive == true);
             }
 
             return isExist;
@@ -3915,7 +3915,7 @@ namespace KGERP.Service.Implementation.Configuration
                          SubZoneId = t1.SubZoneId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
-                         AreaId = t1.AreaId.Value,
+                         RegionId = t1.RegionId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -3988,7 +3988,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                               from t7 in t7_def.DefaultIfEmpty()
                                                               join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                               from t8 in t8_def.DefaultIfEmpty()
-                                                              join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def 
+                                                              join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def 
                                                               from t9 in t9_def.DefaultIfEmpty()
 
                                                               where ((zoneId > 0) && (subZoneId == 0) ? t6.ZoneId == zoneId :
@@ -4018,7 +4018,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
                                                                   ZoneName = t6.Name,
-                                                                  AreaName=t9.Name,
+                                                                  RegionName=t9.Name,
                                                                   ZoneIncharge = t6.ZoneIncharge,
                                                                   CreditLimit = t1.CreditLimit,
                                                                   NID = t1.NID,
@@ -4347,7 +4347,7 @@ namespace KGERP.Service.Implementation.Configuration
                 //UpazilaId = vmCommonCustomer.Common_UpazilasFk,
                 ContactName = vmCommonCustomer.ContactPerson,
                 VendorTypeId = (int)Provider.Customer,
-                AreaId = vmCommonCustomer.AreaId,
+                RegionId = vmCommonCustomer.RegionId,
                 Address = vmCommonCustomer.Address,
                 SubZoneId = vmCommonCustomer.SubZoneId,
                 NID = vmCommonCustomer.NID,
@@ -4651,7 +4651,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.NomineePhone = vmCommonCustomer.NomineePhone;
             commonCustomer.ZoneId = vmCommonCustomer.ZoneId;
             commonCustomer.ZoneDivisionId = vmCommonCustomer.ZoneDivisionId;
-            commonCustomer.AreaId = vmCommonCustomer.AreaId;
+            commonCustomer.RegionId = vmCommonCustomer.RegionId;
             commonCustomer.SubZoneId = vmCommonCustomer.SubZoneId;
             commonCustomer.BusinessAddress = vmCommonCustomer.BusinessAddress;
             commonCustomer.NomineeNID = vmCommonCustomer.NomineeNID;
@@ -4747,7 +4747,7 @@ namespace KGERP.Service.Implementation.Configuration
                          ZoneId = t1.ZoneId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId.Value,
                          SubZoneId = t1.SubZoneId.Value,
-                         AreaId = t1.AreaId.Value,
+                         RegionId = t1.RegionId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -4787,7 +4787,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                             from t7 in t7_def.DefaultIfEmpty()
                                                             join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                             from t8 in t8_def.DefaultIfEmpty()
-                                                            join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
+                                                            join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
                                                             from t9 in t9_def.DefaultIfEmpty()
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
@@ -4860,7 +4860,7 @@ namespace KGERP.Service.Implementation.Configuration
                 //UpazilaId = vmCommonDeport.Common_UpazilasFk,
                 ZoneId = vmCommonDeport.ZoneId,
                 ZoneDivisionId = vmCommonDeport.ZoneDivisionId,
-                AreaId = vmCommonDeport.AreaId,
+                RegionId = vmCommonDeport.RegionId,
                 SubZoneId = vmCommonDeport.SubZoneId,
                 Address = vmCommonDeport.Address,
 
@@ -4918,7 +4918,7 @@ namespace KGERP.Service.Implementation.Configuration
             //commonDeport.UpazilaId = vmCommonDeport.Common_UpazilasFk;
             commonDeport.ZoneId = vmCommonDeport.ZoneId;
             commonDeport.ZoneDivisionId = vmCommonDeport.ZoneDivisionId;
-            commonDeport.AreaId = vmCommonDeport.AreaId;
+            commonDeport.RegionId = vmCommonDeport.RegionId;
             commonDeport.SubZoneId = vmCommonDeport.SubZoneId;
             commonDeport.Address = vmCommonDeport.Address;
 
@@ -5029,7 +5029,7 @@ namespace KGERP.Service.Implementation.Configuration
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
                          SubZoneId = t1.SubZoneId.Value,
-                         AreaId = t1.AreaId,
+                         RegionId = t1.RegionId,
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          ZoneDivisionId = t1.ZoneDivisionId,
@@ -5072,7 +5072,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                             from t7 in t7_def.DefaultIfEmpty()
                                                             join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                             from t8 in t8_def.DefaultIfEmpty()
-                                                            join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
+                                                            join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
                                                             from t9 in t9_def.DefaultIfEmpty()
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
@@ -5100,8 +5100,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ZoneId = t1.ZoneId ?? 0,
                                                                 ZoneDivisionId = t1.ZoneDivisionId,
                                                                 ZoneDivisionName = t7.Name,
-                                                                AreaId=t1.AreaId,
-                                                                AreaName=t9.Name,
+                                                                RegionId=t1.RegionId,
+                                                                RegionName=t9.Name,
                                                                 SubZoneId = t1.SubZoneId ?? 0,
                                                                 SubZoneName = t5.Name,
                                                                 ZoneName = t6.Name ,
@@ -5148,7 +5148,7 @@ namespace KGERP.Service.Implementation.Configuration
                 //UpazilaId = vmCommonDealer.Common_UpazilasFk,
                 ZoneId = vmCommonDealer.ZoneId,
                 ZoneDivisionId = vmCommonDealer.ZoneDivisionId,
-                AreaId = vmCommonDealer.AreaId,
+                RegionId = vmCommonDealer.RegionId,
                 SubZoneId = vmCommonDealer.SubZoneId,
                 Address = vmCommonDealer.Address,
 
@@ -5206,7 +5206,7 @@ namespace KGERP.Service.Implementation.Configuration
             //commonDealer.UpazilaId = vmCommonDealer.Common_UpazilasFk;
             commonDealer.ZoneId = vmCommonDealer.ZoneId;
             commonDealer.ZoneDivisionId = vmCommonDealer.ZoneDivisionId;
-            commonDealer.AreaId = vmCommonDealer.AreaId;
+            commonDealer.RegionId = vmCommonDealer.RegionId;
             commonDealer.SubZoneId = vmCommonDealer.SubZoneId;
             commonDealer.Address = vmCommonDealer.Address;
 

@@ -39,15 +39,16 @@ namespace KGERP.Data.Models
         public int AccountHeadId { get; set; }
         public Nullable<long> EmployeeId { get; set; }
         public Nullable<int> ZoneDivisionId { get; set; }
-        public Nullable<int> AreaId { get; set; }
+        public Nullable<int> RegionId { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
+        public virtual Region Region { get; set; }
         public virtual Zone Zone { get; set; }
+        public virtual ZoneDivision ZoneDivision { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendors { get; set; }
-        public virtual ZoneDivision ZoneDivision { get; set; }
     }
 }

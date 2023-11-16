@@ -123,9 +123,6 @@
     <Compile Include="Models\AllowancePolicy.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Area.cs">
-      <DependentUpon>ERPModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
@@ -736,6 +733,9 @@
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PurchaseReturnDetail.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Region.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RentProduction.cs">

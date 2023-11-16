@@ -18,10 +18,10 @@ namespace KGERP.Data.Models
         public Zone()
         {
             this.OfficerAssigns = new HashSet<OfficerAssign>();
-            this.Areas = new HashSet<Area>();
+            this.ZoneDivisions = new HashSet<ZoneDivision>();
+            this.Regions = new HashSet<Region>();
             this.SubZones = new HashSet<SubZone>();
             this.Vendors = new HashSet<Vendor>();
-            this.ZoneDivisions = new HashSet<ZoneDivision>();
         }
     
         public Nullable<int> CompanyId { get; set; }
@@ -48,12 +48,12 @@ namespace KGERP.Data.Models
         public virtual ICollection<OfficerAssign> OfficerAssigns { get; set; }
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Area> Areas { get; set; }
+        public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Region> Regions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubZone> SubZones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendors { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
     }
 }

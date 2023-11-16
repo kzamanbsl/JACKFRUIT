@@ -13,20 +13,27 @@ Date: 14-11-2023
 	+CustomerPrice
 
 *Erp.Region to Erp.ZoneDivision
-	*ZoneDivisionId to ZoneDivisionId
+	*RegionId to ZoneDivisionId
 	*RegionIncharge to ZoneDivisionIncharge
 
 *Erp.Area to Erp.Region
-	*ZoneDivisionId
+	*AreaId to RegionId
+	*AreaIncharge to RegionIncharge
 
 *Erp.SubZone
 	*ZoneDivisionId
+	*RegionId
 
 *Erp.Vendor
 	*ZoneDivisionId
+	*RegionId
 
 *Erp.MaterialReceiveDetail product foreign key added
 
 select * from CompanySubMenu where [Name] Like('%Region%')
 update CompanySubMenu set Name='Division', ShortName='Division', Action='CommonZoneDivision'
 where [Name] Like('%Region%')
+
+select * from Erp.SubZone Where AreaId NOT IN (Select RegionId From Erp.Region)
+Delete From Erp.SubZone Where SubZoneId IN (select SubZoneId from Erp.SubZone Where AreaId NOT IN (Select RegionId From Erp.Region))
+
