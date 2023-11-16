@@ -61,7 +61,7 @@
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Area:</label>
-                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
-                                                    @item.AreaName
+                                                    @item.RegionName
                                                 </td>
                                                 <td id="tdSubZoneName_@item.ID">@item.Name</td>
                                                 <td id="tdSalesOfficerName_@item.ID">@item.SalesOfficerName</td>

@@ -124,9 +124,9 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Area:</label>
-                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control searchingDropdown", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">Region:</label>
+                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -244,7 +244,7 @@
                                                 Division
                                             </th>
                                             <th>
-                                                Area
+                                                Region
                                             </th>
                                             <th>
                                                 Territory
@@ -299,7 +299,7 @@
                                                     @item.ZoneDivisionName
                                                 </td> 
                                                 <td>
-                                                    @item.AreaName
+                                                    @item.RegionName
                                                 </td> 
                                                 <td>
                                                     @item.SubZoneName
@@ -413,8 +413,8 @@
 
 
             });
-            $("#ddlAreaId").on("change", function () {
-                var areaId = $("#ddlAreaId :selected").val();
+            $("#ddlRegionId").on("change", function () {
+                var areaId = $("#ddlRegionId :selected").val();
                 territoryChange(0, areaId);
             });
             $("#ddlCommon_DivisionFk").on('change', function () {
@@ -458,17 +458,17 @@
 
                 $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetAreaList", "Configuration")",
+                url: "@Url.Action("GetRegionList", "Configuration")",
                 datatype: "Json",
                     data: { companyId:@Model.CompanyFK, zoneId: zoneValue, zoneDivisionId: zoneDivisionValue },
                     success: function (data) {
                         if (data) {
-                            $("#ddlAreaId").empty();
+                            $("#ddlRegionId").empty();
                             $(data).each(function (index, item) {
-                                $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
                             if (areaValue > 0) {
-                                $("#ddlAreaId").val(areaValue);
+                                $("#ddlRegionId").val(areaValue);
                             }
 
                         }
@@ -575,7 +575,7 @@
                         $('#txtEmail').val(data.Email);
                         zoneValue = data.ZoneId;
                         zoneDivision = data.ZoneDivisionId;
-                        area = data.AreaId;
+                        area = data.RegionId;
                         subzone = data.SubZoneId;
 
 
@@ -585,9 +585,9 @@
                         //});
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
-                        areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId);
+                        areaChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
 
-                        territoryChange(data.SubZoneId, data.AreaId);
+                        territoryChange(data.SubZoneId, data.RegionId);
 
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
