@@ -144,7 +144,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
-        public virtual SubZone SubZone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendor1 { get; set; }
         public virtual Vendor Vendor2 { get; set; }
@@ -158,5 +157,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorOffer> VendorOffers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
+        public virtual SubZone SubZone { get; set; }
     }
 }

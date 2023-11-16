@@ -144,6 +144,7 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonZone : BaseVM
     {
+        public int ZoneId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string Remarks { get; set; }
@@ -157,41 +158,15 @@ namespace KGERP.Service.Implementation.Configuration
         public string MobilePersonal { get; set; }
         public int HeadGLId { get; set; }
         public Nullable<long> EmployeeId { get; set; }
+
         public IEnumerable<VMCommonZone> DataList { get; set; }
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
     }
 
-    public class VMCommonSubZone : BaseVM
-    {
-        public string Name { get; set; }
-        public string Code { get; set; }
-        public string SalesOfficerName { get; set; }
-        public string Designation { get; set; }
-        public string Email { get; set; }
-        public string MobileOffice { get; set; }
-        public string MobilePersonal { get; set; }
-
-        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
-        public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
-        public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
-
-
-        public int ZoneId { get; set; }
-        public string ZoneName { get; set; }
-        public Nullable<long> EmployeeId { get; set; }
-        public Nullable<int> ZoneDivisionId { get; set; }
-        public string ZoneDivisionName { get; set; }
-        public Nullable<int> RegionId { get; set; }
-        public string RegionName { get; set; }
-        public IEnumerable<VMCommonSubZone> DataList { get; set; }
-
-
-    }
-
     public class VMCommonZoneDivision : BaseVM
     {
-
+        public int ZoneDivisionId { get; set; }
+        public string ZoneDivisionName { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string ZoneDivisionIncharge { get; set; }
@@ -203,8 +178,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-        public Nullable<int> ZoneDivisionId { get; set; }
-        public string ZoneDivisionName { get; set; }
+ 
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
@@ -216,7 +190,8 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonRegion : BaseVM
     {
-
+        public int RegionId { get; set; }
+        public string RegionName { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string RegionIncharge { get; set; }
@@ -230,7 +205,7 @@ namespace KGERP.Service.Implementation.Configuration
         public Nullable<long> EmployeeId { get; set; }
         public int ZoneDivisionId { get; set; }
         public string ZoneDivisionName { get; set; }
-        public int RegionId { get; set; }
+       
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
@@ -239,6 +214,66 @@ namespace KGERP.Service.Implementation.Configuration
 
 
     }
+
+    public class VMCommonArea : BaseVM
+    {
+        public int AreaId { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string AreaIncharge { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string MobileOffice { get; set; }
+        public string MobilePersonal { get; set; }
+        public int? ZoneId { get; set; }
+        public string ZoneName { get; set; }
+        public int? ZoneDivisionId { get; set; }
+        public string ZoneDivisionName { get; set; }
+        public int? RegionId { get; set; }
+        public string RegionName { get; set; }
+
+        public Nullable<long> EmployeeId { get; set; }
+       
+
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
+        public IEnumerable<VMCommonArea> DataList { get; set; }
+
+
+    }
+
+    public class VMCommonSubZone : BaseVM
+    {
+        public int SubZoneId { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string SalesOfficerName { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string MobileOffice { get; set; }
+        public string MobilePersonal { get; set; }
+        public Nullable<long> EmployeeId { get; set; }
+
+        public int ZoneId { get; set; }
+        public string ZoneName { get; set; }
+        public Nullable<int> ZoneDivisionId { get; set; }
+        public string ZoneDivisionName { get; set; }
+        public Nullable<int> RegionId { get; set; }
+        public string RegionName { get; set; }
+        public Nullable<int> AreaId { get; set; }
+        public string AreaName { get; set; }
+
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
+        public IEnumerable<VMCommonSubZone> DataList { get; set; }
+
+
+    }
+
 
     public class VMCommonSize : BaseVM
     {

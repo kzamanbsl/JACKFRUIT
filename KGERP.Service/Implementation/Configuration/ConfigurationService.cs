@@ -1822,19 +1822,19 @@ namespace KGERP.Service.Implementation.Configuration
             _db.SaveChanges();
         }
 
-        public async Task<bool> CheckDuplicateZoneName(string zoneName,int id)
+        public async Task<bool> CheckDuplicateZoneName(string zoneName, int id)
         {
             bool isExist = false;
-            if (string.IsNullOrEmpty(zoneName) )
+            if (string.IsNullOrEmpty(zoneName))
             {
                 return isExist;
             }
             if (id > 0)
             {
-                isExist = await _db.Zones.AnyAsync(u => u.Name.ToLower() == zoneName.ToLower()  && u.ZoneId != id && u.IsActive == true);
+                isExist = await _db.Zones.AnyAsync(u => u.Name.ToLower() == zoneName.ToLower() && u.ZoneId != id && u.IsActive == true);
 
             }
-            else 
+            else
             {
                 isExist = await _db.Zones.AnyAsync(u => u.Name.ToLower() == zoneName.ToLower() && u.IsActive == true);
             }
@@ -1844,7 +1844,585 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
-        #region SubZone
+        #region ZoneDivision
+        public List<object> CommonZoneDivisionDropDownList(int companyId, int zoneId = 0)
+        {
+            var list = new List<object>();
+            var v = _db.ZoneDivisions.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 ? x.ZoneId == zoneId : x.ZoneDivisionId > 0)).ToList();
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.ZoneDivisionId });
+            }
+            return list;
+        }
+
+        public List<SelectModel> GetZoneDivisionSelectList(int companyId, int? zoneId)
+        {
+            List<SelectModel> selectModelList = new List<SelectModel>();
+            SelectModel selectModel = new SelectModel
+            {
+                Text = "==Select ZoneDivision==",
+                Value = 0,
+            };
+            selectModelList.Add(selectModel);
+
+            if (zoneId.HasValue && zoneId > 0)
+            {
+                var v = _db.ZoneDivisions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.ZoneDivisionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else
+            {
+                var v = _db.ZoneDivisions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.ZoneDivisionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+
+            return selectModelList;
+        }
+
+        public async Task<VMCommonZoneDivision> GetZoneDivisions(int companyId, int zoneId = 0)
+        {
+            VMCommonZoneDivision vmCommonZoneDivision = new VMCommonZoneDivision();
+            vmCommonZoneDivision.CompanyFK = companyId;
+            vmCommonZoneDivision.DataList = await Task.Run(() => (from t1 in _db.ZoneDivisions
+                                                                  join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                                  where t1.IsActive == true && t1.CompanyId == companyId
+                                                                  && (zoneId > 0 ? t1.ZoneId == zoneId : t1.ZoneDivisionId > 0)
+                                                                  select new VMCommonZoneDivision
+                                                                  {
+                                                                      ID = t1.ZoneDivisionId,
+                                                                      ZoneId = t1.ZoneId,
+                                                                      ZoneName = t2.Name,
+                                                                      Name = t1.Name,
+                                                                      Code = t1.Code,
+                                                                      ZoneDivisionIncharge = t1.ZoneDivisionIncharge,
+                                                                      SalesOfficerName = t1.SalesOfficerName,
+                                                                      Designation = t1.Designation,
+                                                                      Email = t1.Email,
+                                                                      MobileOffice = t1.MobileOffice,
+                                                                      MobilePersonal = t1.MobilePersonal,
+                                                                      CompanyFK = t1.CompanyId,
+                                                                      EmployeeId = t1.EmployeeId
+                                                                  }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonZoneDivision;
+        }
+
+        public async Task<int> ZoneDivisionAdd(VMCommonZoneDivision vmCommonZoneDivision)
+        {
+            var result = -1;
+
+            #region check ZoneDivision Duplicate
+            var isExist = await _db.ZoneDivisions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZoneDivision.Name.ToLower() && u.ZoneId == vmCommonZoneDivision.ZoneId && u.ZoneDivisionId != vmCommonZoneDivision.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonZoneDivision.Name} already Exist!");
+
+
+            }
+            #endregion
+
+            ZoneDivision zoneDivision = new ZoneDivision
+            {
+                Name = vmCommonZoneDivision.Name,
+                // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
+                ZoneDivisionIncharge = vmCommonZoneDivision.ZoneDivisionIncharge,
+                SalesOfficerName = vmCommonZoneDivision.SalesOfficerName,
+                Designation = vmCommonZoneDivision.Designation,
+                Email = vmCommonZoneDivision.Email,
+                MobileOffice = vmCommonZoneDivision.MobileOffice,
+                MobilePersonal = vmCommonZoneDivision.MobilePersonal,
+                ZoneId = vmCommonZoneDivision.ZoneId,
+                EmployeeId = vmCommonZoneDivision.EmployeeId,
+                CompanyId = vmCommonZoneDivision.CompanyFK.Value,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true
+
+            };
+            _db.ZoneDivisions.Add(zoneDivision);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = zoneDivision.ZoneDivisionId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> ZoneDivisionEdit(VMCommonZoneDivision vmCommonZoneDivision)
+        {
+            var result = -1;
+            ZoneDivision zoneDivision = await _db.ZoneDivisions.FindAsync(vmCommonZoneDivision.ID);
+            zoneDivision.ZoneId = vmCommonZoneDivision.ZoneId;
+            zoneDivision.Name = vmCommonZoneDivision.Name;
+            // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
+            //zoneDivision.ZoneDivisionIncharge = vmCommonZoneDivision.ZoneDivisionIncharge;
+            //zoneDivision.SalesOfficerName = vmCommonZoneDivision.SalesOfficerName;
+            //zoneDivision.Designation = vmCommonZoneDivision.Designation;
+            //zoneDivision.Email = vmCommonZoneDivision.Email;
+            //zoneDivision.MobilePersonal = vmCommonZoneDivision.MobilePersonal;
+            //zoneDivision.MobileOffice = vmCommonZoneDivision.MobileOffice;
+            zoneDivision.EmployeeId = vmCommonZoneDivision.EmployeeId;
+            zoneDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            zoneDivision.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = zoneDivision.ZoneDivisionId;
+            }
+            return result;
+        }
+
+        public async Task<int> ZoneDivisionDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                ZoneDivision zoneDivision = await _db.ZoneDivisions.FindAsync(id);
+                zoneDivision.IsActive = false;
+                zoneDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                zoneDivision.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = zoneDivision.ZoneId;
+                }
+            }
+            return result;
+        }
+
+        public async Task<bool> CheckDuplicateZoneDivisionName(int zoneId, string zoneDivisionName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(zoneDivisionName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.ZoneDivisions.AnyAsync(u => u.Name.ToLower() == zoneDivisionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId != id && u.IsActive == true);
+
+            }
+            else
+            {
+                isExist = await _db.ZoneDivisions.AnyAsync(u => u.Name.ToLower() == zoneDivisionName.ToLower() && u.ZoneId == zoneId && u.IsActive == true);
+            }
+
+            return isExist;
+        }
+
+        #endregion
+
+        #region Region
+        public List<object> CommonRegionDropDownList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
+        {
+            var list = new List<object>();
+            var v = _db.Regions.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 && zoneDivisionId > 0 ? x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId : x.RegionId > 0)).ToList();
+
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.RegionId });
+            }
+
+            return list;
+        }
+
+        public List<SelectModel> GetRegionSelectList(int companyId, int? zoneId, int? zoneDivisionId)
+        {
+            List<SelectModel> selectModelList = new List<SelectModel>();
+            SelectModel selectModel = new SelectModel
+            {
+                Text = "==Select Region==",
+                Value = 0,
+            };
+            selectModelList.Add(selectModel);
+
+            if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0)
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else if (zoneId.HasValue && zoneId > 0)
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+
+            return selectModelList;
+        }
+
+        public async Task<VMCommonRegion> GetRegions(int companyId, int zoneId = 0, int zoneDivisionId = 0)
+        {
+            VMCommonRegion vmCommonRegion = new VMCommonRegion();
+            vmCommonRegion.CompanyFK = companyId;
+            vmCommonRegion.DataList = await Task.Run(() => (from t1 in _db.Regions
+                                                            join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                            join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId
+                                                            where t1.IsActive == true && t1.CompanyId == companyId
+                                                            && (zoneId > 0 && zoneDivisionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId : t1.RegionId > 0)
+                                                            select new VMCommonRegion
+                                                            {
+                                                                ID = t1.RegionId,
+                                                                ZoneId = t1.ZoneId,
+                                                                ZoneName = t2.Name,
+                                                                ZoneDivisionId = t1.ZoneDivisionId,
+                                                                ZoneDivisionName = t3.Name,
+                                                                Name = t1.Name,
+                                                                Code = t1.Code,
+                                                                RegionIncharge = t1.RegionIncharge,
+                                                                SalesOfficerName = t1.SalesOfficerName,
+                                                                Designation = t1.Designation,
+                                                                Email = t1.Email,
+                                                                MobileOffice = t1.MobileOffice,
+                                                                MobilePersonal = t1.MobilePersonal,
+                                                                CompanyFK = t1.CompanyId,
+                                                                EmployeeId = t1.EmployeeId
+                                                            }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonRegion;
+        }
+
+        public async Task<int> RegionAdd(VMCommonRegion vmCommonRegion)
+        {
+            var result = -1;
+
+            #region check Region Duplicate
+            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.ZoneDivisionId == vmCommonRegion.ZoneDivisionId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
+
+
+            }
+            #endregion
+
+
+
+            Region area = new Region
+            {
+                Name = vmCommonRegion.Name,
+                // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
+                RegionIncharge = vmCommonRegion.RegionIncharge,
+                SalesOfficerName = vmCommonRegion.SalesOfficerName,
+                Designation = vmCommonRegion.Designation,
+                Email = vmCommonRegion.Email,
+                MobileOffice = vmCommonRegion.MobileOffice,
+                MobilePersonal = vmCommonRegion.MobilePersonal,
+                ZoneId = vmCommonRegion.ZoneId,
+                ZoneDivisionId = vmCommonRegion.ZoneDivisionId,
+                EmployeeId = vmCommonRegion.EmployeeId,
+                CompanyId = vmCommonRegion.CompanyFK.Value,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true
+
+            };
+            _db.Regions.Add(area);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = area.RegionId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> RegionEdit(VMCommonRegion vmCommonRegion)
+        {
+            var result = -1;
+            Region area = await _db.Regions.FindAsync(vmCommonRegion.ID);
+            area.ZoneId = vmCommonRegion.ZoneId;
+            area.ZoneDivisionId = vmCommonRegion.ZoneDivisionId;
+            area.Name = vmCommonRegion.Name;
+            // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
+            //area.RegionIncharge = vmCommonRegion.RegionIncharge;
+            //area.SalesOfficerName = vmCommonRegion.SalesOfficerName;
+            //area.Designation = vmCommonRegion.Designation;
+            //area.Email = vmCommonRegion.Email;
+            //area.MobilePersonal = vmCommonRegion.MobilePersonal;
+            //area.MobileOffice = vmCommonRegion.MobileOffice;
+            area.EmployeeId = vmCommonRegion.EmployeeId;
+            area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            area.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = area.RegionId;
+            }
+            return result;
+        }
+
+        public async Task<int> RegionDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                Region area = await _db.Regions.FindAsync(id);
+                area.IsActive = false;
+                area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                area.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = area.ZoneDivisionId;
+                }
+            }
+            return result;
+        }
+        public async Task<bool> CheckDuplicateRegionName(int zoneId, int zoneDivisionId, string regionName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(regionName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId != id && u.IsActive == true);
+
+            }
+            else
+            {
+                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.IsActive == true);
+            }
+
+            return isExist;
+        }
+        #endregion
+
+        #region Area
+        public List<object> CommonAreaDropDownList(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0)
+        {
+            var list = new List<object>();
+            var v = _db.Areas.Where(x =>
+            x.IsActive == true && x.CompanyId == companyId
+            && (zoneId > 0 && zoneDivisionId > 0 && regionId > 0 ? x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId
+            : x.AreaId > 0)).ToList();
+
+            foreach (var x in v)
+            {
+                list.Add(new { Text = x.Name, Value = x.RegionId });
+            }
+
+            return list;
+        }
+
+        public List<SelectModel> GetAreaSelectList(int companyId, int? zoneId, int? zoneDivisionId, int? regionId)
+        {
+            List<SelectModel> selectModelList = new List<SelectModel>();
+            SelectModel selectModel = new SelectModel
+            {
+                Text = "==Select Region==",
+                Value = 0,
+            };
+            selectModelList.Add(selectModel);
+
+            if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0 && regionId > 0)
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0)
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else if (zoneId.HasValue && zoneId > 0)
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else
+            {
+                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.RegionId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+
+            return selectModelList;
+        }
+
+        public async Task<VMCommonArea> GetAreas(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0)
+        {
+            VMCommonArea vmCommonArea = new VMCommonArea();
+            vmCommonArea.CompanyFK = companyId;
+            vmCommonArea.DataList = await Task.Run(() => (from t1 in _db.Areas
+                                                          join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                          join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId
+                                                          join t4 in _db.Regions on t1.RegionId equals t4.RegionId
+                                                          where t1.IsActive == true && t1.CompanyId == companyId
+                                                          && (zoneId > 0 && zoneDivisionId > 0 && regionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId && t1.RegionId == regionId : t1.AreaId > 0)
+                                                          select new VMCommonArea
+                                                          {
+                                                              ID = t1.AreaId,
+                                                              ZoneId = t1.ZoneId ?? 0,
+                                                              ZoneName = t2.Name,
+                                                              ZoneDivisionId = t1.ZoneDivisionId ?? 0,
+                                                              ZoneDivisionName = t3.Name,
+                                                              RegionId = t1.RegionId ?? 0,
+                                                              RegionName = t4.Name,
+                                                              Name = t1.Name,
+                                                              Code = t1.Code,
+                                                              AreaIncharge = t1.AreaIncharge,
+                                                              Designation = t1.Designation,
+                                                              Email = t1.Email,
+                                                              MobileOffice = t1.MobileOffice,
+                                                              MobilePersonal = t1.MobilePersonal,
+                                                              CompanyFK = t1.CompanyId,
+                                                              EmployeeId = t1.EmployeeId
+                                                          }).OrderByDescending(x => x.ID).AsEnumerable());
+            return vmCommonArea;
+        }
+
+        public async Task<int> AreaAdd(VMCommonArea vmCommonArea)
+        {
+            var result = -1;
+
+            #region check Area Duplicate
+            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            if (isExist?.ZoneId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+            }
+            #endregion
+
+
+
+            Area area = new Area
+            {
+                Name = vmCommonArea.Name,
+                // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
+                AreaIncharge = vmCommonArea.AreaIncharge,
+                Designation = vmCommonArea.Designation,
+                Email = vmCommonArea.Email,
+                MobileOffice = vmCommonArea.MobileOffice,
+                MobilePersonal = vmCommonArea.MobilePersonal,
+                ZoneId = vmCommonArea.ZoneId,
+                ZoneDivisionId = vmCommonArea.ZoneDivisionId,
+                EmployeeId = vmCommonArea.EmployeeId,
+                CompanyId = vmCommonArea.CompanyFK.Value,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
+                IsActive = true
+
+            };
+            _db.Areas.Add(area);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = area.AreaId;
+            }
+
+            return result;
+        }
+
+        public async Task<int> AreaEdit(VMCommonArea vmCommonArea)
+        {
+            var result = -1;
+            Area area = await _db.Areas.FindAsync(vmCommonArea.ID);
+            area.ZoneId = vmCommonArea.ZoneId;
+            area.ZoneDivisionId = vmCommonArea.ZoneDivisionId;
+            area.RegionId = vmCommonArea.RegionId;
+            area.Name = vmCommonArea.Name;
+            // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
+            //area.RegionIncharge = vmCommonRegion.RegionIncharge;
+            //area.SalesOfficerName = vmCommonRegion.SalesOfficerName;
+            //area.Designation = vmCommonRegion.Designation;
+            //area.Email = vmCommonRegion.Email;
+            //area.MobilePersonal = vmCommonRegion.MobilePersonal;
+            //area.MobileOffice = vmCommonRegion.MobileOffice;
+            area.EmployeeId = vmCommonArea.EmployeeId;
+            area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            area.ModifiedDate = DateTime.Now;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = area.AreaId;
+            }
+            return result;
+        }
+
+        public async Task<int> AreaDelete(int id)
+        {
+            int result = -1;
+            if (id != 0)
+            {
+                Area area = await _db.Areas.FindAsync(id);
+                area.IsActive = false;
+                area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                area.ModifiedDate = DateTime.Now;
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = area.AreaId;
+                }
+            }
+            return result;
+        }
+        public async Task<bool> CheckDuplicateAreaName(int zoneId, int zoneDivisionId, int regionId, string areaName, int id)
+        {
+            bool isExist = false;
+            if (string.IsNullOrEmpty(areaName))
+            {
+                return isExist;
+            }
+            if (id > 0)
+            {
+                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.AreaId != id && u.IsActive == true);
+
+            }
+            else
+            {
+                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.IsActive == true);
+            }
+
+            return isExist;
+        }
+        #endregion
+
+        #region SubZone/Territory
 
         public List<SelectModel> GetSubZoneSelectList(int companyId, int? zoneId, int? zoneDivisionId)
         {
@@ -1929,7 +2507,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check SubZone Duplicate
-            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId  && u.IsActive == true);
+            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.IsActive == true);
             if (isExist?.ZoneId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
@@ -2142,377 +2720,6 @@ namespace KGERP.Service.Implementation.Configuration
             return isExist;
         }
 
-        #endregion
-
-        #region ZoneDivision
-        public List<object> CommonZoneDivisionDropDownList(int companyId, int zoneId = 0)
-        {
-            var list = new List<object>();
-            var v = _db.ZoneDivisions.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 ? x.ZoneId == zoneId : x.ZoneDivisionId > 0)).ToList();
-            foreach (var x in v)
-            {
-                list.Add(new { Text = x.Name, Value = x.ZoneDivisionId });
-            }
-            return list;
-        }
-
-        public List<SelectModel> GetZoneDivisionSelectList(int companyId, int? zoneId)
-        {
-            List<SelectModel> selectModelList = new List<SelectModel>();
-            SelectModel selectModel = new SelectModel
-            {
-                Text = "==Select ZoneDivision==",
-                Value = 0,
-            };
-            selectModelList.Add(selectModel);
-
-            if (zoneId.HasValue && zoneId > 0)
-            {
-                var v = _db.ZoneDivisions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
-                    .Select(x => new SelectModel()
-                    {
-                        Text = x.Name,
-                        Value = x.ZoneDivisionId
-                    }).ToList();
-                selectModelList.AddRange(v);
-            }
-            else
-            {
-                var v = _db.ZoneDivisions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
-                    .Select(x => new SelectModel()
-                    {
-                        Text = x.Name,
-                        Value = x.ZoneDivisionId
-                    }).ToList();
-                selectModelList.AddRange(v);
-            }
-
-            return selectModelList;
-        }
-
-        public async Task<VMCommonZoneDivision> GetZoneDivisions(int companyId, int zoneId = 0)
-        {
-            VMCommonZoneDivision vmCommonZoneDivision = new VMCommonZoneDivision();
-            vmCommonZoneDivision.CompanyFK = companyId;
-            vmCommonZoneDivision.DataList = await Task.Run(() => (from t1 in _db.ZoneDivisions
-                                                            join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
-                                                            where t1.IsActive == true && t1.CompanyId == companyId
-                                                            && (zoneId > 0 ? t1.ZoneId == zoneId : t1.ZoneDivisionId > 0)
-                                                            select new VMCommonZoneDivision
-                                                            {
-                                                                ID = t1.ZoneDivisionId,
-                                                                ZoneId = t1.ZoneId,
-                                                                ZoneName = t2.Name,
-                                                                Name = t1.Name,
-                                                                Code = t1.Code,
-                                                                ZoneDivisionIncharge = t1.ZoneDivisionIncharge,
-                                                                SalesOfficerName = t1.SalesOfficerName,
-                                                                Designation = t1.Designation,
-                                                                Email = t1.Email,
-                                                                MobileOffice = t1.MobileOffice,
-                                                                MobilePersonal = t1.MobilePersonal,
-                                                                CompanyFK = t1.CompanyId,
-                                                                EmployeeId = t1.EmployeeId
-                                                            }).OrderByDescending(x => x.ID).AsEnumerable());
-            return vmCommonZoneDivision;
-        }
-
-        public async Task<int> ZoneDivisionAdd(VMCommonZoneDivision vmCommonZoneDivision)
-        {
-            var result = -1;
-
-            #region check ZoneDivision Duplicate
-            var isExist = await _db.ZoneDivisions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZoneDivision.Name.ToLower() && u.ZoneId == vmCommonZoneDivision.ZoneId && u.ZoneDivisionId != vmCommonZoneDivision.ID && u.IsActive == true);
-            if (isExist?.ZoneId > 0)
-            {
-                throw new Exception($"Sorry! This Name {vmCommonZoneDivision.Name} already Exist!");
-
-
-            }
-            #endregion
-
-            ZoneDivision zoneDivision = new ZoneDivision
-            {
-                Name = vmCommonZoneDivision.Name,
-                // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
-                ZoneDivisionIncharge = vmCommonZoneDivision.ZoneDivisionIncharge,
-                SalesOfficerName = vmCommonZoneDivision.SalesOfficerName,
-                Designation = vmCommonZoneDivision.Designation,
-                Email = vmCommonZoneDivision.Email,
-                MobileOffice = vmCommonZoneDivision.MobileOffice,
-                MobilePersonal = vmCommonZoneDivision.MobilePersonal,
-                ZoneId = vmCommonZoneDivision.ZoneId,
-                EmployeeId = vmCommonZoneDivision.EmployeeId,
-                CompanyId = vmCommonZoneDivision.CompanyFK.Value,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
-                IsActive = true
-
-            };
-            _db.ZoneDivisions.Add(zoneDivision);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = zoneDivision.ZoneDivisionId;
-            }
-
-            return result;
-        }
-
-        public async Task<int> ZoneDivisionEdit(VMCommonZoneDivision vmCommonZoneDivision)
-        {
-            var result = -1;
-            ZoneDivision zoneDivision = await _db.ZoneDivisions.FindAsync(vmCommonZoneDivision.ID);
-            zoneDivision.ZoneId = vmCommonZoneDivision.ZoneId;
-            zoneDivision.Name = vmCommonZoneDivision.Name;
-            // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
-            //zoneDivision.ZoneDivisionIncharge = vmCommonZoneDivision.ZoneDivisionIncharge;
-            //zoneDivision.SalesOfficerName = vmCommonZoneDivision.SalesOfficerName;
-            //zoneDivision.Designation = vmCommonZoneDivision.Designation;
-            //zoneDivision.Email = vmCommonZoneDivision.Email;
-            //zoneDivision.MobilePersonal = vmCommonZoneDivision.MobilePersonal;
-            //zoneDivision.MobileOffice = vmCommonZoneDivision.MobileOffice;
-            zoneDivision.EmployeeId = vmCommonZoneDivision.EmployeeId;
-            zoneDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            zoneDivision.ModifiedDate = DateTime.Now;
-
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = zoneDivision.ZoneDivisionId;
-            }
-            return result;
-        }
-
-        public async Task<int> ZoneDivisionDelete(int id)
-        {
-            int result = -1;
-            if (id != 0)
-            {
-                ZoneDivision zoneDivision = await _db.ZoneDivisions.FindAsync(id);
-                zoneDivision.IsActive = false;
-                zoneDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                zoneDivision.ModifiedDate = DateTime.Now;
-                if (await _db.SaveChangesAsync() > 0)
-                {
-                    result = zoneDivision.ZoneId;
-                }
-            }
-            return result;
-        }
-
-        public async Task<bool> CheckDuplicateZoneDivisionName(int zoneId, string zoneDivisionName, int id)
-        {
-            bool isExist = false;
-            if (string.IsNullOrEmpty(zoneDivisionName))
-            {
-                return isExist;
-            }
-            if (id > 0)
-            {
-                isExist = await _db.ZoneDivisions.AnyAsync(u => u.Name.ToLower() == zoneDivisionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId != id && u.IsActive == true);
-
-            }
-            else
-            {
-                isExist = await _db.ZoneDivisions.AnyAsync(u => u.Name.ToLower() == zoneDivisionName.ToLower() && u.ZoneId == zoneId && u.IsActive == true);
-            }
-
-            return isExist;
-        }
-
-        #endregion
-
-        #region Region
-        public List<object> CommonRegionDropDownList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
-        {
-            var list = new List<object>();
-            var v = _db.Regions.Where(x => x.IsActive == true && x.CompanyId == companyId && (zoneId > 0 && zoneDivisionId > 0 ? x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId : x.RegionId > 0)).ToList();
-
-            foreach (var x in v)
-            {
-                list.Add(new { Text = x.Name, Value = x.RegionId });
-            }
-
-            return list;
-        }
-
-        public List<SelectModel> GetRegionSelectList(int companyId, int? zoneId, int? zoneDivisionId)
-        {
-            List<SelectModel> selectModelList = new List<SelectModel>();
-            SelectModel selectModel = new SelectModel
-            {
-                Text = "==Select Region==",
-                Value = 0,
-            };
-            selectModelList.Add(selectModel);
-
-            if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0)
-            {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
-                    .Select(x => new SelectModel()
-                    {
-                        Text = x.Name,
-                        Value = x.RegionId
-                    }).ToList();
-                selectModelList.AddRange(v);
-            }
-            else if (zoneId.HasValue && zoneId > 0)
-            {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
-                    .Select(x => new SelectModel()
-                    {
-                        Text = x.Name,
-                        Value = x.RegionId
-                    }).ToList();
-                selectModelList.AddRange(v);
-            }
-            else
-            {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
-                    .Select(x => new SelectModel()
-                    {
-                        Text = x.Name,
-                        Value = x.RegionId
-                    }).ToList();
-                selectModelList.AddRange(v);
-            }
-
-            return selectModelList;
-        }
-
-        public async Task<VMCommonRegion> GetRegions(int companyId, int zoneId = 0, int zoneDivisionId = 0)
-        {
-            VMCommonRegion vmCommonRegion = new VMCommonRegion();
-            vmCommonRegion.CompanyFK = companyId;
-            vmCommonRegion.DataList = await Task.Run(() => (from t1 in _db.Regions
-                                                          join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
-                                                          join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId
-                                                          where t1.IsActive == true && t1.CompanyId == companyId
-                                                          && (zoneId > 0 && zoneDivisionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId : t1.RegionId > 0)
-                                                          select new VMCommonRegion
-                                                          {
-                                                              ID = t1.RegionId,
-                                                              ZoneId = t1.ZoneId,
-                                                              ZoneName = t2.Name,
-                                                              ZoneDivisionId = t1.ZoneDivisionId,
-                                                              ZoneDivisionName = t3.Name,
-                                                              Name = t1.Name,
-                                                              Code = t1.Code,
-                                                              RegionIncharge = t1.RegionIncharge,
-                                                              SalesOfficerName = t1.SalesOfficerName,
-                                                              Designation = t1.Designation,
-                                                              Email = t1.Email,
-                                                              MobileOffice = t1.MobileOffice,
-                                                              MobilePersonal = t1.MobilePersonal,
-                                                              CompanyFK = t1.CompanyId,
-                                                              EmployeeId = t1.EmployeeId
-                                                          }).OrderByDescending(x => x.ID).AsEnumerable());
-            return vmCommonRegion;
-        }
-
-        public async Task<int> RegionAdd(VMCommonRegion vmCommonRegion)
-        {
-            var result = -1;
-
-            #region check Region Duplicate
-            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.ZoneDivisionId == vmCommonRegion.ZoneDivisionId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
-            if (isExist?.ZoneId > 0)
-            {
-                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
-
-
-            }
-            #endregion
-
-
-
-            Region area = new Region
-            {
-                Name = vmCommonRegion.Name,
-                // Code = vmCommonZoneDivision.Code, // Don't use zoneDivision it will add form Head5
-                RegionIncharge = vmCommonRegion.RegionIncharge,
-                SalesOfficerName = vmCommonRegion.SalesOfficerName,
-                Designation = vmCommonRegion.Designation,
-                Email = vmCommonRegion.Email,
-                MobileOffice = vmCommonRegion.MobileOffice,
-                MobilePersonal = vmCommonRegion.MobilePersonal,
-                ZoneId = vmCommonRegion.ZoneId,
-                ZoneDivisionId = vmCommonRegion.ZoneDivisionId,
-                EmployeeId = vmCommonRegion.EmployeeId,
-                CompanyId = vmCommonRegion.CompanyFK.Value,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
-                IsActive = true
-
-            };
-            _db.Regions.Add(area);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = area.RegionId;
-            }
-
-            return result;
-        }
-
-        public async Task<int> RegionEdit(VMCommonRegion vmCommonRegion)
-        {
-            var result = -1;
-            Region area = await _db.Regions.FindAsync(vmCommonRegion.ID);
-            area.ZoneId = vmCommonRegion.ZoneId;
-            area.ZoneDivisionId = vmCommonRegion.ZoneDivisionId;
-            area.Name = vmCommonRegion.Name;
-            // zoneDivision.Code = vmCommonZoneDivision.Code; // Don't use zoneDivision it will add form Head5
-            //area.RegionIncharge = vmCommonRegion.RegionIncharge;
-            //area.SalesOfficerName = vmCommonRegion.SalesOfficerName;
-            //area.Designation = vmCommonRegion.Designation;
-            //area.Email = vmCommonRegion.Email;
-            //area.MobilePersonal = vmCommonRegion.MobilePersonal;
-            //area.MobileOffice = vmCommonRegion.MobileOffice;
-            area.EmployeeId = vmCommonRegion.EmployeeId;
-            area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            area.ModifiedDate = DateTime.Now;
-
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = area.RegionId;
-            }
-            return result;
-        }
-
-        public async Task<int> RegionDelete(int id)
-        {
-            int result = -1;
-            if (id != 0)
-            {
-                Region area = await _db.Regions.FindAsync(id);
-                area.IsActive = false;
-                area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                area.ModifiedDate = DateTime.Now;
-                if (await _db.SaveChangesAsync() > 0)
-                {
-                    result = area.ZoneDivisionId;
-                }
-            }
-            return result;
-        }
-        public async Task<bool> CheckDuplicateRegionName(int zoneId, int zoneDivisionId, string regionName, int id)
-        {
-            bool isExist = false;
-            if (string.IsNullOrEmpty(regionName))
-            {
-                return isExist;
-            }
-            if (id > 0)
-            {
-                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId!= id && u.IsActive == true);
-
-            }
-            else
-            {
-                isExist = await _db.Regions.AnyAsync(u => u.Name.ToLower() == regionName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.IsActive == true);
-            }
-
-            return isExist;
-        }
         #endregion
 
         #region Product Category 
@@ -2768,7 +2975,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var result = -1;
             #region IsExist
-            var isExist =  _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.CategoryId && c.IsActive == true);
+            var isExist = _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.CategoryId && c.IsActive == true);
             if (isExist?.ProductSubCategoryId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exist!");
@@ -2883,16 +3090,16 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
         [HttpPost]
-        public async Task<bool> IsSubCategoryExits(string name ,int categoryId,int id)
+        public async Task<bool> IsSubCategoryExits(string name, int categoryId, int id)
         {
             var isExits = false;
 
             if (id > 0)
             {
-                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId&& c.ProductSubCategoryId != id && c.IsActive == true );
+                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.ProductSubCategoryId != id && c.IsActive == true);
 
             }
-            else if(categoryId > 0)
+            else if (categoryId > 0)
             {
                 isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.IsActive == true);
 
@@ -3216,9 +3423,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                   Name = t1.ProductName,
                                                   ShortName = t1.ShortName,
                                                   //MRPPrice = t1.UnitPrice ?? 0,
-                                                  DeportSalePrice=t1.DeportPrice,
-                                                  DealerSalePrice=t1.DealerPrice,
-                                                  CustomerSalePrice=t1.CustomerPrice,
+                                                  DeportSalePrice = t1.DeportPrice,
+                                                  DealerSalePrice = t1.DealerPrice,
+                                                  CustomerSalePrice = t1.CustomerPrice,
                                                   TPPrice = t1.TPPrice,
                                                   Qty = t1.Qty,
                                                   Consumption = t1.Consumption,
@@ -3417,12 +3624,12 @@ namespace KGERP.Service.Implementation.Configuration
 
 
             #region check Duplicate
-           
-          
-               var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() &&
-                          u.ProductCategoryId == vmCommonProduct.Common_ProductCategoryFk && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
 
-            
+
+            var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() &&
+                       u.ProductCategoryId == vmCommonProduct.Common_ProductCategoryFk && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
+
+
             if (isExist?.ProductCategoryId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonProduct.Name} already Exist!");
@@ -3452,9 +3659,9 @@ namespace KGERP.Service.Implementation.Configuration
                 ShortName = vmCommonProduct.ShortName,
                 ProductName = vmCommonProduct.Name,
                 //UnitPrice = vmCommonProduct.MRPPrice,
-                DeportPrice=vmCommonProduct.DeportSalePrice,
-                DealerPrice=vmCommonProduct.DealerSalePrice,
-                CustomerPrice=vmCommonProduct.CustomerSalePrice,
+                DeportPrice = vmCommonProduct.DeportSalePrice,
+                DealerPrice = vmCommonProduct.DealerSalePrice,
+                CustomerPrice = vmCommonProduct.CustomerSalePrice,
 
                 TPPrice = vmCommonProduct.TPPrice,
                 Qty = vmCommonProduct.Qty,
@@ -3568,7 +3775,7 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        public async Task<bool> CheckDuplicateProductName(int categoryId, int subCategoryId, string productName,int id)
+        public async Task<bool> CheckDuplicateProductName(int categoryId, int subCategoryId, string productName, int id)
         {
             bool isExist = false;
             if (string.IsNullOrEmpty(productName) || categoryId == null || subCategoryId == null)
@@ -3578,15 +3785,15 @@ namespace KGERP.Service.Implementation.Configuration
             if (id > 0)
             {
                 isExist = await _db.Products.AnyAsync(u => u.ProductName.ToLower() == productName.ToLower() &&
-                          u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId && u.ProductId !=  id && u.IsActive == true);
+                          u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId && u.ProductId != id && u.IsActive == true);
 
             }
             else if (categoryId > 0 && subCategoryId > 0)
             {
                 isExist = await _db.Products.AnyAsync(u => u.ProductName.Equals(productName) &&
-                          u.ProductCategoryId == categoryId && u.ProductSubCategoryId == subCategoryId &&  u.IsActive == true);
+                          u.ProductCategoryId == categoryId && u.ProductSubCategoryId == subCategoryId && u.IsActive == true);
             }
-           
+
             return isExist;
 
         }
@@ -3646,9 +3853,9 @@ namespace KGERP.Service.Implementation.Configuration
                          CategoryId = t2.ProductCategoryId ?? 0,
                          UnitName = t4.Name,
                          //UnitPrice = t1.UnitPrice,
-                         DeportSalePrice=t1.DeportPrice,
-                         DealerSalePrice=t1.DealerPrice,
-                         CustomerSalePrice=t1.CustomerPrice,
+                         DeportSalePrice = t1.DeportPrice,
+                         DealerSalePrice = t1.DealerPrice,
+                         CustomerSalePrice = t1.CustomerPrice,
                          Common_ProductSubCategoryFk = t1.ProductSubCategoryId,
                          Common_UnitFk = t1.UnitId,
                          Common_ProductCategoryFk = t2.ProductCategoryId,
@@ -3988,7 +4195,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                               from t7 in t7_def.DefaultIfEmpty()
                                                               join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                               from t8 in t8_def.DefaultIfEmpty()
-                                                              join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def 
+                                                              join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
                                                               from t9 in t9_def.DefaultIfEmpty()
 
                                                               where ((zoneId > 0) && (subZoneId == 0) ? t6.ZoneId == zoneId :
@@ -4018,7 +4225,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
                                                                   ZoneName = t6.Name,
-                                                                  RegionName=t9.Name,
+                                                                  RegionName = t9.Name,
                                                                   ZoneIncharge = t6.ZoneIncharge,
                                                                   CreditLimit = t1.CreditLimit,
                                                                   NID = t1.NID,
@@ -4690,9 +4897,9 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.VendorId == deportId)
-                                                   //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
-                                                   //join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
-                                                   //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
+                                                       //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
+                                                       //join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
+                                                       //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
                                                    join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
                                                    join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
                                                    select new VMCommonSupplier
@@ -5100,11 +5307,11 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ZoneId = t1.ZoneId ?? 0,
                                                                 ZoneDivisionId = t1.ZoneDivisionId,
                                                                 ZoneDivisionName = t7.Name,
-                                                                RegionId=t1.RegionId,
-                                                                RegionName=t9.Name,
+                                                                RegionId = t1.RegionId,
+                                                                RegionName = t9.Name,
                                                                 SubZoneId = t1.SubZoneId ?? 0,
                                                                 SubZoneName = t5.Name,
-                                                                ZoneName = t6.Name ,
+                                                                ZoneName = t6.Name,
                                                                 ZoneIncharge = t6.ZoneIncharge,
                                                                 CreditLimit = t1.CreditLimit,
                                                                 NID = t1.NID,

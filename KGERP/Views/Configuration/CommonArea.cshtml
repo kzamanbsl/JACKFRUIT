@@ -1,0 +1,436 @@
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonArea
+@{
+
+    ViewData["Title"] = "Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Area
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Area</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("CommonArea", "Configuration", FormMethod.Post, new { id = "commonAreaFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="box-danger">
+                    @*<div class="box-header">
+                        <h4>Add Area</h4>
+                    </div>*@
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @Html.HiddenFor(model => model.ID, new { id = "areaId" })
+                        @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                        @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                        @Html.HiddenFor(model => model.Code, new { id = "Code" })
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Zone:</label>
+                                    @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Division:</label>
+                                    @Html.DropDownListFor(model => model.ZoneDivisionId, new SelectList(Model.ZoneDivisionList, "Value", "Text"), new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Region:</label>
+                                    @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Area:</label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "textAreaId", @class = "form-control input-sm", @placeholder = "Area", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "AreaNameValidation",@class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Employee:</label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
+                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
+                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Sales Officer:</label>
+                                    @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtSalesOfficerName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-4">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Designation:</label>
+                                    @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Email:</label>
+                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Mobile Office:</label>
+                                    @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Mobile Personal:</label>
+                                    @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>*@
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                </div>
+                                <div class="col-md-7">
+                                    <button style="width:100%;" type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-danger">
+                        @*<div class="box-header">
+                            <h4>Area List</h4>
+                        </div>*@
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive col-md-12">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%;">SL</th>
+                                            <th hidden="hidden"></th>
+                                            <th style="width:10%;">Zone</th>
+                                            <th style="width:10%;">Division</th>
+                                            <th style="width:10%;">Area</th>
+                                            <th style="width:15%;">Area</th>
+                                            <th style="width:10%;">Sales Officer</th>
+                                            <th style="width:10%;">Designation</th>
+                                            <th style="width:10%;">Email</th>
+                                            <th style="width:10%;">Mobile Office</th>
+                                            <th style="width:10%;">Mobile Personal</th>
+                                            <th style="width:15%;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    @{int sl = 0;
+                                    }
+                                    <tbody>
+                                        @foreach (var item in Model.DataList)
+                                        {
+
+                                            <tr>
+                                                <td>@(++sl)</td>
+                                                <td hidden id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
+                                                <td>
+                                                    <input type="hidden" id="commonZoneId_@item.ID" value="@item.ZoneId" />
+                                                    @item.ZoneName
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" id="tdZoneDivisionId_@item.ID" value="@item.ZoneDivisionId" />
+                                                    @item.ZoneDivisionName
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
+                                                    @item.RegionName
+                                                </td>
+                                                <td id="tdAreaName_@item.ID">@item.Name</td>
+                                                <td id="tdSalesOfficerName_@item.ID">@item.SalesOfficerName</td>
+                                                <td id="tdDesignation_@item.ID">@item.Designation</td>
+                                                <td id="tdEmail_@item.ID">@item.Email</td>
+                                                <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
+                                                <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>
+                                                <td>
+                                                    <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                       data-placement="top">
+                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                    @*<a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&areaId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+
+@using (Html.BeginForm("CommonArea", "Configuration", FormMethod.Post, new { id = "commonAreaDeleteFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.ID, new { id = "areaIdDelete" })
+    @Html.HiddenFor(model => model.ActionId, new { id = "ActionIdDelete" })
+    @Html.HiddenFor(model => model.ZoneId, new { id = "zoneIdDelete" })
+
+    @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
+
+    <div class="modal fade" id="deleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Area  Delete</b></h5>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <h3>Are you sure to delete this Area?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+            //Bind employee info based on employee Selection
+            $('#employeeId').change(function () {
+                var selectedEmployeeId = $('#employeeId').val();
+                $.ajax({
+                    type: "get",
+                    url: "/Employee/GetEmployeeInformationById",
+                    data: { id: selectedEmployeeId },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (result) {
+                        $('#txtSalesOfficerName').val(result.Name);
+                        $('#txtDesignation').val(result.DesignationName);
+                        $('#txtMobileOffice').val(result.MobileNo);
+                        $('#txtMobilePersonal').val(result.MobileNo);
+                        $('#txtEmail').val(result.OfficeEmail);
+                    }
+                });
+            });
+
+
+                //Bind ZoneDivision base on Zone Selection
+
+
+            $('#ddlZoneId').on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
+
+                changeZoneDivision(0, zoneId);
+            });
+
+            $('#ddlZoneDivisionId').on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
+                var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
+                changeArea(0, zoneId, zoneDivisionId);
+            });
+        });
+
+        function changeZoneDivision(regionValue,zoneValue) {
+            $.ajax({
+                type: "get",
+                url: "/Configuration/GetZoneDivisionList",
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue  },
+
+                datatype: "json",
+
+                success: function (data) {
+                    if (data) {
+                        $("#ddlZoneDivisionId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (regionValue > 0) {
+                            $("#ddlZoneDivisionId").val(regionValue);
+                        }
+
+                    }
+                }
+            });
+        }
+
+
+        function changeArea(areaValue,zoneValue,regionValue) {
+            $.ajax({
+                type: "get",
+                url: "/Configuration/GetAreaList",
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: regionValue },
+
+                datatype: "json",
+                success: function (data) {
+                    if (data) {
+                        $("#ddlRegionId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (areaValue > 0) {
+                            $("#ddlRegionId").val(areaValue);
+                        }
+
+                    }
+                }
+            });
+        };
+
+
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#areaId').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+
+                $('#textAreaId').val($('#tdAreaName_' + rowId).text().trim());
+
+                $('#txtSalesOfficerName').val($('#tdSalesOfficerName_' + rowId).text().trim());
+                $('#txtDesignation').val($('#tdDesignation_' + rowId).text().trim());
+                $('#txtEmail').val($('#tdEmail_' + rowId).text().trim());
+                $('#txtMobileOffice').val($('#tdMobileOffice_' + rowId).text().trim());
+                $('#txtMobilePersonal').val($('#tdMobilePersonal_' + rowId).text().trim());
+                $('#employeeId').val($('#tdEmployeeId_' + rowId).text().trim());
+
+
+                $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger("change");
+                var zoneId = $("#ddlZoneId :selected").val();
+                changeZoneDivision($('#tdZoneDivisionId_' + rowId).val().trim(), zoneId);
+
+                var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
+
+               /* $('#ddlZoneDivisionId').val($('#tdZoneDivisionId_' + rowId).val().trim()).trigger("change");*/
+        /*        $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");*/
+                changeArea($('#tdRegionId_' + rowId).val().trim(), zoneId, zoneDivisionId);
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#areaIdDelete').val(id);
+                $('#ActionIdDelete').val(3);
+            }
+        }
+
+        function resetForm() {
+            $('#commonAreaFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+    }
+
+
+    $('#textAreaId').change(function () {
+
+        var Name = $('#textAreaId').val();
+        var zoneId = $('#ddlZoneId').val();
+        var zoneDivisionId = $('#ddlZoneDivisionId').val();
+        var regionId = $('#ddlRegionId').val();
+        var areaId = $('#areaId').val();
+        if (zoneId == null) {
+            zoneId = 0;
+        }
+        if (zoneDivisionId == null) {
+            zoneDivisionId = 0;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("IsAreaNameExist", "Configuration")",
+            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaName: Name, id: areaId },
+            success: function (data) {
+                if (data == true) {
+                    $('#AreaNameValidation').show();
+                    $('#AreaNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                }
+                else {
+                    $('#AreaNameValidation').hide();
+                }
+            }
+
+        });
+
+    });
+
+</script>
+
+
+}
+

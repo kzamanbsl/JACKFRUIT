@@ -20,9 +20,12 @@ Date: 14-11-2023
 	*AreaId to RegionId
 	*AreaIncharge to RegionIncharge
 
++Erp.Area
+
 *Erp.SubZone
 	*ZoneDivisionId
 	*RegionId
+	*AreaId
 
 *Erp.Vendor
 	*ZoneDivisionId
@@ -33,6 +36,10 @@ Date: 14-11-2023
 select * from CompanySubMenu where [Name] Like('%Region%')
 update CompanySubMenu set Name='Division', ShortName='Division', Action='CommonZoneDivision'
 where [Name] Like('%Region%')
+
+select * from CompanySubMenu where [Name] Like('Area%')
+update CompanySubMenu set Name='Region', ShortName='Region', Action='CommonRegion'
+where [Name] Like('Area%')
 
 select * from Erp.SubZone Where AreaId NOT IN (Select RegionId From Erp.Region)
 Delete From Erp.SubZone Where SubZoneId IN (select SubZoneId from Erp.SubZone Where AreaId NOT IN (Select RegionId From Erp.Region))

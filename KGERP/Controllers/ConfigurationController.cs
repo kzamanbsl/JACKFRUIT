@@ -580,7 +580,74 @@ namespace KGERP.Controllers
         }
         #endregion
 
-        #region Common SubZone
+        #region Common Area
+
+        [HttpGet]
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId=0)
+        {
+            var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId, regionId));
+            var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId=0)
+        {
+
+            VMCommonArea vmCommonArea = new VMCommonArea();
+
+            vmCommonArea = await Task.Run(() => _service.GetAreas(companyId, zoneId, zoneDivisionId, regionId));
+            vmCommonArea.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
+            vmCommonArea.ZoneDivisionList = _service.GetZoneDivisionSelectList(companyId, zoneId);
+            vmCommonArea.RegionList = _service.GetRegionSelectList(companyId, zoneId, zoneDivisionId);
+            vmCommonArea.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+
+            return View(vmCommonArea);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonArea(VMCommonArea vmCommonArea)
+        {
+
+            if (vmCommonArea.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+
+                await _service.AreaAdd(vmCommonArea);
+            }
+            else if (vmCommonArea.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.AreaEdit(vmCommonArea);
+            }
+            else if (vmCommonArea.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.AreaDelete(vmCommonArea.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, zoneDivisionId = vmCommonArea.ZoneDivisionId, regionId=vmCommonArea.RegionId });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> IsAreaNameExist(int zoneId, int zoneDivisionId, int regionId, string areaName, int id)
+        {
+            if (string.IsNullOrEmpty(areaName))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            var isDuplicate = await _service.CheckDuplicateAreaName(zoneId, zoneDivisionId,regionId, areaName, id);
+
+            return Json(isDuplicate, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
+
+        #region Common SubZone/Territory
 
         [HttpGet]
         public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int zoneDivisionId = 0)

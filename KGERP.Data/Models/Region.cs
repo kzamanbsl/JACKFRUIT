@@ -17,8 +17,9 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Region()
         {
-            this.SubZones = new HashSet<SubZone>();
             this.Vendors = new HashSet<Vendor>();
+            this.Areas = new HashSet<Area>();
+            this.SubZones = new HashSet<SubZone>();
         }
     
         public int RegionId { get; set; }
@@ -45,8 +46,10 @@ namespace KGERP.Data.Models
         public virtual Zone Zone { get; set; }
         public virtual ZoneDivision ZoneDivision { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubZone> SubZones { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Area> Areas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubZone> SubZones { get; set; }
     }
 }

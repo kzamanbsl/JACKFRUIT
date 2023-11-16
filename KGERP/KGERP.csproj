@@ -5628,6 +5628,7 @@
     <Content Include="Views\Configuration\CommonDamageType.cshtml" />
     <Content Include="Views\Damage\DealerToFacDamageReceivedList.cshtml" />
     <Content Include="Views\Damage\DealerToFacDamageReceivedSlave.cshtml" />
+    <Content Include="Views\Configuration\CommonArea.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
