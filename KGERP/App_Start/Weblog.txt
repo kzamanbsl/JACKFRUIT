@@ -29,3 +29,6 @@ ERROR 2023-11-15 10:03:08,403 25637ms HomeController         MenuPartial        
    at KGERP.Controllers.HomeController.MenuPartial() in D:\Jackfruit\JACKFRUIT\KGERP\Controllers\HomeController.cs:line 628
 ClientConnectionId:cc77be1c-629d-4230-926a-309751ce4d25
 Error Number:-1,State:0,Class:20
+ERROR 2023-11-16 15:11:51,416 29415ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\RunningWork\JACKFRUIT\KGERP\Controllers\UserController.cs:line 307

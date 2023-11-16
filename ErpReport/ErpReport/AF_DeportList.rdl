@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.6.33815.320</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-05T06:30:33.5836868Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-16T05:07:01.5583745Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -99,6 +99,10 @@
           <DataField>CurrentDeposit</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="CurrentDue">
+          <DataField>CurrentDue</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="SecurityAmount">
           <DataField>SecurityAmount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -106,10 +110,6 @@
         <Field Name="ZoneId">
           <DataField>ZoneId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="CurrentDue">
-          <DataField>CurrentDue</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="CreditLimit">
           <DataField>CreditLimit</DataField>
@@ -1422,6 +1422,10 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Region Id</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ZoneDivisionId">
+      <DataType>Integer</DataType>
+      <Prompt>Zone Division Id</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1442,6 +1446,11 @@ order By OrderBy Desc</CommandText>
           <ColumnIndex>2</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>RegionId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>ZoneDivisionId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
