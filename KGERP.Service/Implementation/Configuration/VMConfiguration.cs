@@ -268,6 +268,7 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> ZoneDivisionList { get; set; } = new List<SelectModel>();
         public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
+        public List<SelectModel> AreaList { get; set; } = new List<SelectModel>();
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
         public IEnumerable<VMCommonSubZone> DataList { get; set; }
 

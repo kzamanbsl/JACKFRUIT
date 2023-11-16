@@ -31,8 +31,8 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     @*<div class="box-header">
-                        <h4>Add Territory</h4>
-                    </div>*@
+                            <h4>Add Territory</h4>
+                        </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "subZoneId" })
@@ -57,10 +57,9 @@
                                     @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Area:</label>
+                                    <label for="message-text" class="col-form-label">Region:</label>
                                     @Html.DropDownListFor(model => model.RegionId, new SelectList(Model.RegionList, "Value", "Text"), new { id = "ddlRegionId", @class = "form-control searchingDropdown", required = "true" })
                                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                                 </div>
@@ -68,71 +67,84 @@
 
                             <div class="col-md-3">
                                 <div class="form-group" style="padding:0px">
+                                    <label for="message-text" class="col-form-label">Area:</label>
+                                    @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), new { id = "ddlAreaId", @class = "form-control searchingDropdown", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Territory:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtSubZoneName", @class = "form-control input-sm", @placeholder = "Territory", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "SubZoneNameValidation",@class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "SubZoneNameValidation", @class = "text-danger" })
 
                                 </div>
                             </div>
                         </div>
 
                         @*<div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-control-label">Employee:</label>
-                                    <div class="">
-                                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
-                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-control-label">Employee:</label>
+                                        <div class="">
+                                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
+                                                new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Sales Officer:</label>
+                                        @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtSalesOfficerName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Designation:</label>
+                                        @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Sales Officer:</label>
-                                    @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtSalesOfficerName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
 
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Email:</label>
+                                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Designation:</label>
-                                    @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
-
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Mobile Office:</label>
+                                        @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Email:</label>
-                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Mobile Personal:</label>
+                                        @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Mobile Office:</label>
-                                    @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Mobile Personal:</label>
-                                    @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>*@
+                            </div>*@
 
                         <div class="row">
                             <div class="form-group">
@@ -156,8 +168,8 @@
                 <div class="box">
                     <div class="box-danger">
                         @*<div class="box-header">
-                            <h4>Territory List</h4>
-                        </div>*@
+                                <h4>Territory List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">
@@ -168,14 +180,15 @@
                                             <th hidden="hidden"></th>
                                             <th style="width:10%;">Zone</th>
                                             <th style="width:10%;">Division</th>
+                                            <th style="width:10%;">Region</th>
                                             <th style="width:10%;">Area</th>
                                             <th style="width:15%;">Territory</th>
-                                            <th style="width:10%;">Sales Officer</th>
-                                            <th style="width:10%;">Designation</th>
-                                            <th style="width:10%;">Email</th>
-                                            <th style="width:10%;">Mobile Office</th>
-                                            <th style="width:10%;">Mobile Personal</th>
-                                            <th style="width:15%;">Action</th>
+                                            @*<th style="width:10%;">Sales Officer</th>
+                                                <th style="width:10%;">Designation</th>
+                                                <th style="width:10%;">Email</th>
+                                                <th style="width:10%;">Mobile Office</th>
+                                                <th style="width:10%;">Mobile Personal</th>*@
+                                            <th style="width:15%;" class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     @{int sl = 0;
@@ -199,13 +212,17 @@
                                                     <input type="hidden" id="tdRegionId_@item.ID" value="@item.RegionId" />
                                                     @item.RegionName
                                                 </td>
-                                                <td id="tdSubZoneName_@item.ID">@item.Name</td>
-                                                <td id="tdSalesOfficerName_@item.ID">@item.SalesOfficerName</td>
-                                                <td id="tdDesignation_@item.ID">@item.Designation</td>
-                                                <td id="tdEmail_@item.ID">@item.Email</td>
-                                                <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
-                                                <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>
                                                 <td>
+                                                    <input type="hidden" id="tdAreaId_@item.ID" value="@item.AreaId" />
+                                                    @item.AreaName
+                                                </td>
+                                                <td id="tdSubZoneName_@item.ID">@item.Name</td>
+                                                @*<td id="tdSalesOfficerName_@item.ID">@item.SalesOfficerName</td>
+                                                    <td id="tdDesignation_@item.ID">@item.Designation</td>
+                                                    <td id="tdEmail_@item.ID">@item.Email</td>
+                                                    <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
+                                                    <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>*@
+                                                <td class="text-center">
                                                     <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                     <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
                                                        data-placement="top">
@@ -265,7 +282,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
@@ -371,6 +388,7 @@
 
 
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger("change");
+                $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");
                 var zoneId = $("#ddlZoneId :selected").val();
                 changeZoneDivision($('#tdZoneDivisionId_' + rowId).val().trim(), zoneId);
 
@@ -429,7 +447,7 @@
 
     });
 
-</script>
+    </script>
 
 
 }

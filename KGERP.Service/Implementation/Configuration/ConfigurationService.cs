@@ -2478,7 +2478,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                              join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId into t3_Join
                                                              from t3 in t3_Join.DefaultIfEmpty()
                                                              join t4 in _db.Regions on t1.RegionId equals t4.RegionId into t4_Join
-                                                             from t4 in t4_Join.DefaultIfEmpty()
+                                                             from t4 in t4_Join.DefaultIfEmpty() 
+                                                             join t5 in _db.Areas on t1.AreaId equals t5.AreaId into t5_Join
+                                                             from t5 in t5_Join.DefaultIfEmpty()
                                                              where t1.IsActive == true && t1.CompanyId == companyId
                                                              && (zoneId > 0 && zoneDivisionId > 0 && areaId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId && t1.RegionId == areaId : t1.SubZoneId > 0)
                                                              select new VMCommonSubZone
@@ -2490,6 +2492,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                  ZoneDivisionName = t3.Name,
                                                                  RegionId = t1.RegionId,
                                                                  RegionName = t4.Name,
+                                                                 AreaId=t5.AreaId,
+                                                                 AreaName=t5.Name,
                                                                  Name = t1.Name,
                                                                  Code = t1.Code,
                                                                  SalesOfficerName = t1.SalesOfficerName,
@@ -2530,6 +2534,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ZoneId = vmCommonSubZone.ZoneId,
                 ZoneDivisionId = vmCommonSubZone.ZoneDivisionId,
                 RegionId = vmCommonSubZone.RegionId,
+                AreaId = vmCommonSubZone.AreaId,
                 EmployeeId = vmCommonSubZone.EmployeeId,
                 CompanyId = vmCommonSubZone.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -2644,6 +2649,7 @@ namespace KGERP.Service.Implementation.Configuration
             subZone.ZoneId = vmCommonSubZone.ZoneId;
             subZone.ZoneDivisionId = vmCommonSubZone.ZoneDivisionId;
             subZone.RegionId = vmCommonSubZone.RegionId;
+            subZone.AreaId = vmCommonSubZone.AreaId;
             subZone.Name = vmCommonSubZone.Name;
             //subZone.Code = vmCommonSubZone.Code; // Don't use code, it will add form Head5
             //subZone.SalesOfficerName = vmCommonSubZone.SalesOfficerName;
