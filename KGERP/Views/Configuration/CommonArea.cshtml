@@ -31,8 +31,8 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     @*<div class="box-header">
-                        <h4>Add Area</h4>
-                    </div>*@
+                            <h4>Add Area</h4>
+                        </div>*@
                     <!-- /.box-header -->
                     <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { id = "areaId" })
@@ -70,69 +70,69 @@
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Area:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "textAreaId", @class = "form-control input-sm", @placeholder = "Area", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "AreaNameValidation",@class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "AreaNameValidation", @class = "text-danger" })
 
                                 </div>
                             </div>
                         </div>
 
                         @*<div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-control-label">Employee:</label>
-                                    <div class="">
-                                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                            new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
-                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-control-label">Employee:</label>
+                                        <div class="">
+                                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
+                                                new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Sales Officer:</label>
+                                        @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtAreaInchargeName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Designation:</label>
+                                        @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Sales Officer:</label>
-                                    @Html.TextBoxFor(model => model.SalesOfficerName, new { id = "txtAreaInchargeName", @class = "form-control input-sm", @placeholder = "Sales Officer", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.SalesOfficerName, "", new { @class = "text-danger" })
 
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Email:</label>
+                                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Designation:</label>
-                                    @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
-
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Mobile Office:</label>
+                                        @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Email:</label>
-                                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                <div class="col-md-4">
+                                    <div class="form-group" style="padding:0px">
+                                        <label for="message-text" class="col-form-label">Mobile Personal:</label>
+                                        @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Mobile Office:</label>
-                                    @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Mobile Personal:</label>
-                                    @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>*@
+                            </div>*@
 
                         <div class="row">
                             <div class="form-group">
@@ -156,8 +156,8 @@
                 <div class="box">
                     <div class="box-danger">
                         @*<div class="box-header">
-                            <h4>Area List</h4>
-                        </div>*@
+                                <h4>Area List</h4>
+                            </div>*@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive col-md-12">
@@ -265,7 +265,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
@@ -296,17 +296,19 @@
             $('#ddlZoneId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
 
-                changeZoneDivision(0, zoneId);
+                changeZoneDivision(zoneId, 0);
             });
 
             $('#ddlZoneDivisionId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
-                changeArea(0, zoneId, zoneDivisionId);
+                changeRegion(zoneId, zoneDivisionId,0);
             });
+
+
         });
 
-        function changeZoneDivision(regionValue,zoneValue) {
+        function changeZoneDivision(zoneValue, zoneDivisionValue) {
             $.ajax({
                 type: "get",
                 url: "/Configuration/GetZoneDivisionList",
@@ -320,8 +322,8 @@
                         $(data).each(function (index, item) {
                             $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-                        if (regionValue > 0) {
-                            $("#ddlZoneDivisionId").val(regionValue);
+                        if (zoneDivisionValue > 0) {
+                            $("#ddlZoneDivisionId").val(zoneDivisionValue);
                         }
 
                     }
@@ -329,29 +331,28 @@
             });
         }
 
+    function changeRegion(zoneValue, zoneDivisionValue,regionValue) {
+        $.ajax({
+            type: "get",
+            url: "/Configuration/GetRegionList",
+            data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: zoneDivisionValue },
 
-        function changeArea(areaValue,zoneValue,regionValue) {
-            $.ajax({
-                type: "get",
-                url: "/Configuration/GetAreaList",
-                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: regionValue },
+            datatype: "json",
+            success: function (data) {
+                if (data) {
+                    $("#ddlRegionId").empty();
+                    $(data).each(function (index, item) {
+                        $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
 
-                datatype: "json",
-                success: function (data) {
-                    if (data) {
-                        $("#ddlRegionId").empty();
-                        $(data).each(function (index, item) {
-                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        });
-                        if (areaValue > 0) {
-                            $("#ddlRegionId").val(areaValue);
-                        }
-
+                    if (regionValue > 0) {
+                        $("#ddlRegionId").val(regionValue);
                     }
                 }
-            });
-        };
-
+            }
+        });
+    };
+     
 
         function makeEditble(elem) {
             if (elem !== null) {
@@ -371,13 +372,13 @@
 
                 $('#ddlZoneId').val($('#commonZoneId_' + rowId).val().trim()).trigger("change");
                 var zoneId = $("#ddlZoneId :selected").val();
-                changeZoneDivision($('#tdZoneDivisionId_' + rowId).val().trim(), zoneId);
+                changeZoneDivision(zoneId, $('#tdZoneDivisionId_' + rowId).val().trim());
 
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
 
                /* $('#ddlZoneDivisionId').val($('#tdZoneDivisionId_' + rowId).val().trim()).trigger("change");*/
         /*        $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");*/
-                changeArea($('#tdRegionId_' + rowId).val().trim(), zoneId, zoneDivisionId);
+                changeRegion(zoneId, zoneDivisionId, $('#tdRegionId_' + rowId).val().trim());
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -428,7 +429,7 @@
 
     });
 
-</script>
+    </script>
 
 
 }

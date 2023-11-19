@@ -319,7 +319,13 @@
             $('#ddlZoneDivisionId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
-                changeArea(0, zoneId, zoneDivisionId);
+                changeRegion( zoneId, zoneDivisionId,0);
+            });
+            $('#ddlRegionId').on('change', function () {
+                var zoneId = $("#ddlZoneId :selected").val();
+                var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
+                var regionId = $("#ddlRegionId :selected").val();
+                changeArea(zoneId, zoneDivisionId, regionId,0);
             });
         });
 
@@ -346,12 +352,11 @@
             });
         }
 
-
-        function changeArea(areaValue,zoneValue,regionValue) {
+        function changeRegion(zoneValue, zoneDivisionValue,regionValue) {
             $.ajax({
                 type: "get",
-                url: "/Configuration/GetAreaList",
-                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: regionValue },
+                url: "/Configuration/GetRegionList",
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: zoneDivisionValue },
 
                 datatype: "json",
                 success: function (data) {
@@ -360,10 +365,34 @@
                         $(data).each(function (index, item) {
                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-                        if (areaValue > 0) {
-                            $("#ddlRegionId").val(areaValue);
-                        }
+                       
+                        if (regionValue > 0) {
+                            $("#ddlRegionId").val(regionValue);
 
+                        }
+                    }
+                }
+            });
+        };
+
+        function changeArea(zoneValue, zoneDivisionValue,regionValue,areaValue) {
+            $.ajax({
+                type: "get",
+                url: "/Configuration/GetAreaList",
+                data: { companyId: $('#CompanyFK').val(), zoneId: zoneValue, zoneDivisionId: zoneDivisionValue, regionId: regionValue },
+
+                datatype: "json",
+                success: function (data) {
+                    if (data) {
+                        $("#ddlAreaId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                       
+                        if (areaValue > 0) {
+                            $("#ddlAreaId").val(areaValue);
+
+                        }
                     }
                 }
             });
@@ -391,12 +420,13 @@
                 $('#ddlAreaId').val($('#tdAreaId_' + rowId).val().trim()).trigger("change");
                 var zoneId = $("#ddlZoneId :selected").val();
                 changeZoneDivision($('#tdZoneDivisionId_' + rowId).val().trim(), zoneId);
-
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
+                changeRegion(zoneId, zoneDivisionId, $('#tdRegionId_' + rowId).val().trim());
+                var regionId = $("#ddlRegionId :selected").val();
 
                /* $('#ddlZoneDivisionId').val($('#tdZoneDivisionId_' + rowId).val().trim()).trigger("change");*/
         /*        $('#ddlRegionId').val($('#tdRegionId_' + rowId).val().trim()).trigger("change");*/
-                changeArea($('#tdRegionId_' + rowId).val().trim(), zoneId, zoneDivisionId);
+                changeArea(zoneId, zoneDivisionId, regionId, $('#tdAreaId_' + rowId).val().trim());
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }

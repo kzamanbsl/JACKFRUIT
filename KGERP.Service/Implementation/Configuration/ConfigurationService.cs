@@ -1825,6 +1825,7 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<bool> CheckDuplicateZoneName(string zoneName, int id)
         {
             bool isExist = false;
+            zoneName = zoneName.Trim();
             if (string.IsNullOrEmpty(zoneName))
             {
                 return isExist;
@@ -2244,41 +2245,41 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0 && regionId > 0)
             {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId && x.IsActive == true).ToList()
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.RegionId
+                        Value = x.AreaId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
             else if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0)
             {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.RegionId
+                        Value = x.AreaId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
             else if (zoneId.HasValue && zoneId > 0)
             {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.RegionId
+                        Value = x.AreaId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
             else
             {
-                var v = _db.Regions.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
+                var v = _db.Areas.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
-                        Value = x.RegionId
+                        Value = x.AreaId
                     }).ToList();
                 selectModelList.AddRange(v);
             }
@@ -2512,7 +2513,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check SubZone Duplicate
-            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.IsActive == true);
+            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.AreaId == vmCommonSubZone.AreaId && u.IsActive == true);
             if (isExist?.ZoneId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
@@ -2543,7 +2544,10 @@ namespace KGERP.Service.Implementation.Configuration
 
             };
             _db.SubZones.Add(subZone);
+            try
+            {
 
+         
             if (await _db.SaveChangesAsync() > 0)
             {
                 result = subZone.SubZoneId;
@@ -2571,6 +2575,11 @@ namespace KGERP.Service.Implementation.Configuration
                         await SubZoneCodeAndHead5IdEdit(subZone.SubZoneId, head5);
                     }
                 }
+                }
+            }
+            catch
+            {
+
             }
 
             return result;

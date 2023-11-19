@@ -659,7 +659,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int zoneDivisionId = 0,  int areaId = 0)
+        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0,  int areaId = 0)
         {
 
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
@@ -667,7 +667,7 @@ namespace KGERP.Controllers
             vmCommonSubZone.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonSubZone.ZoneDivisionList = _service.GetZoneDivisionSelectList(companyId, zoneId);
             vmCommonSubZone.RegionList = _service.GetRegionSelectList(companyId, zoneId, zoneDivisionId);
-            //vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId,  regionId);
+            vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId, regionId);
             vmCommonSubZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
             return View(vmCommonSubZone);
         }
