@@ -1177,7 +1177,7 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<List<VMCommonDistricts>> CommonSubZonesGet(int id)
         {
-            List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.RegionId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
+            List<VMCommonDistricts> vmCommonDistricts = await Task.Run(() => (_db.SubZones.Where(x => x.IsActive == true && x.AreaId == id)).Select(x => new VMCommonDistricts() { ID = x.SubZoneId, Name = x.Name }).ToListAsync());
             return vmCommonDistricts;
         }
 
@@ -2238,7 +2238,7 @@ namespace KGERP.Service.Implementation.Configuration
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel
             {
-                Text = "==Select Region==",
+                Text = "==Select Area==",
                 Value = 0,
             };
             selectModelList.Add(selectModel);

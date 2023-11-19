@@ -26,7 +26,7 @@ namespace KGERP.Service.Implementation
 
         public List<SelectModel> GetDesignationSelectModels()
         {
-            return designationRepository.Designations.OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
+            return designationRepository.Designations.Where(x=>x.IsActive&&x.CompanyId==CompanyInfo.CompanyId).OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
             {
                 Text = x.Name.ToString(),
                 Value = x.DesignationId.ToString()
