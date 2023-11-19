@@ -32,3 +32,26 @@ Error Number:-1,State:0,Class:20
 ERROR 2023-11-16 15:11:51,416 29415ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\RunningWork\JACKFRUIT\KGERP\Controllers\UserController.cs:line 307
+ERROR 2023-11-19 22:52:53,900 181854ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_4.<SaveEmployee>b__26(EmployeeServicePointMap c)
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model)
+ERROR 2023-11-19 22:54:09,070 257024ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_2.<SaveEmployee>b__18(EmployeeServicePointMap c)
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model)
+ERROR 2023-11-19 23:18:49,364 421779ms EmployeeService        SaveEmployee       - System.InvalidOperationException: The entity type List`1 is not part of the model for the current context.
+   at System.Data.Entity.Internal.InternalContext.UpdateEntitySetMappingsForType(Type entityType)
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.InternalEntityEntry..ctor(InternalContext internalContext, Object entity)
+   at System.Data.Entity.DbContext.Entry[TEntity](TEntity entity)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in F:\KG Project\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 946

@@ -6,14 +6,9 @@ using KGERP.Utility.Util;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
-using System.Drawing;
 using System.Linq;
-using System.Linq.Dynamic;
-using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls.WebParts;
 
 namespace KGERP.Service.Implementation
 {
@@ -173,10 +168,10 @@ namespace KGERP.Service.Implementation
 
         public EmployeeModel GetEmployee(long id)
         {
+
             if (id <= 0)
             {
                 //Employee lastEmployee = context.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
-
                 Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
                 if (lastEmployee == null)
@@ -188,6 +183,7 @@ namespace KGERP.Service.Implementation
                     EmployeeId = GetEmployeeId(lastEmployee.EmployeeId)
                 };
             }
+
             this._context.Database.CommandTimeout = 180;
             Employee employee = _context.Employees
                 //.Include(x => x.FileAttachments).Include("Employee3").Include("Company").Include("Department")
@@ -198,6 +194,7 @@ namespace KGERP.Service.Implementation
                 .FirstOrDefault(x => x.Id == id);
             this._context.Database.CommandTimeout = 180;
             //var result= ObjectConverter<Employee, EmployeeModel>.Convert(employee);
+
 
             var result = new EmployeeModel()
             {
@@ -284,29 +281,39 @@ namespace KGERP.Service.Implementation
 
             };
 
-            if (id > 0)
+            if (result != null && result.Id > 0)
             {
-                var territorys = employee.SubZones;
-                var areas = employee.Areas;
-                var regions = employee.Regions;
-                var zoneDivisions = employee.ZoneDivisions;
-                var zones = employee.Zones;
+                //var territories = employee.SubZones;
+                //var areas = employee.Areas;
+                //var regions = employee.Regions;
+                //var zoneDivisions = employee.ZoneDivisions;
+                //var zones = employee.Zones;
 
-                if (territorys?.Count() > 0)
+
+                var employeeServicePointMaps = _context.EmployeeServicePointMaps.Where(c => c.EmployeeId == result.Id && c.IsActive)
+                    .Include(c => c.SubZone).Include(c => c.Area).Include(c => c.Region).Include(c => c.ZoneDivision).Include(c => c.Zone).AsNoTracking().ToList();
+
+                var territories = employeeServicePointMaps.Where(c => c.TerritoryId > 0).Select(s => s.SubZone).ToList();
+                var areas = employeeServicePointMaps.Where(c => c.AreaId > 0).Select(s => s.Area).ToList();
+                var regions = employeeServicePointMaps.Where(c => c.RegionId > 0).Select(s => s.Region).ToList();
+                var zoneDivisions = employeeServicePointMaps.Where(c => c.ZoneDivisionId > 0).Select(s => s.ZoneDivision).ToList();
+                var zones = employeeServicePointMaps.Where(c => c.ZoneId > 0).Select(s => s.Zone).ToList();
+
+                if (territories?.Count() > 0)
                 {
-                    var subZoneIds = territorys.Select(c => c.SubZoneId).ToArray();
+                    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
                     result.SubZoneIds = subZoneIds;
 
-                    var areaId = territorys.FirstOrDefault().AreaId ?? 0;
+                    var areaId = territories.FirstOrDefault().AreaId ?? 0;
                     result.AreaIds = new int[] { areaId };
 
-                    var regionId = territorys.FirstOrDefault().RegionId ?? 0;
+                    var regionId = territories.FirstOrDefault().RegionId ?? 0;
                     result.RegionIds = new int[] { regionId };
 
-                    var zoneDivisionId = territorys.FirstOrDefault().ZoneDivisionId ?? 0;
+                    var zoneDivisionId = territories.FirstOrDefault().ZoneDivisionId ?? 0;
                     result.ZoneDivisionIds = new int[] { zoneDivisionId };
 
-                    var zoneId = territorys.FirstOrDefault().ZoneId;
+                    var zoneId = territories.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { zoneId };
                 }
                 else if (areas?.Count() > 0)
@@ -328,10 +335,10 @@ namespace KGERP.Service.Implementation
                     var regionIds = regions.Select(c => c.RegionId).ToArray();
                     result.RegionIds = regionIds;
 
-                    var zoneDivisionId = areas.FirstOrDefault().ZoneDivisionId;
+                    var zoneDivisionId = regions.FirstOrDefault().ZoneDivisionId;
                     result.ZoneDivisionIds = new int[] { (int)zoneDivisionId };
 
-                    var zoneId = areas.FirstOrDefault().ZoneId;
+                    var zoneId = regions.FirstOrDefault().ZoneId;
                     result.ZoneIds = new int[] { (int)zoneId };
                 }
                 else if (zoneDivisions?.Count() > 0)
@@ -540,7 +547,7 @@ namespace KGERP.Service.Implementation
                     //long employeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == model.EmployeeId).Id;
                     //model.Id = employee.Id;
                     //context.LeaveApplications.Where(w => w.Id == employeeId && w.ManagerStatus == "Pending").ToList().ForEach(i => i.ManagerId = model.ManagerId);
-                    //context.AttendenceApproveApplications.Where(w => w.EmployeeId == employeeId && w.ManagerStatus == 0).ToList().ForEach(i => i.ManagerId = model.ManagerId);
+                    //context.AttendanceApproveApplications.Where(w => w.EmployeeId == employeeId && w.ManagerStatus == 0).ToList().ForEach(i => i.ManagerId = model.ManagerId);
 
                     #region Manager update start
                     if (managerId != model.ManagerId && model.ManagerId != 0)
@@ -760,18 +767,18 @@ namespace KGERP.Service.Implementation
                     var addableMaps = new List<EmployeeServicePointMap>();
                     var updateableMaps = new List<EmployeeServicePointMap>();
 
-                    var empExistMapped = _context.EmployeeServicePointMaps.Where(c => c.EmployeeId == model.Id).ToList();
-                    var empExistUpdateableList= new List<EmployeeServicePointMap>();
-                    var empExistDeleteableList= new List<EmployeeServicePointMap>();
+                    var empExistMapped = _context.EmployeeServicePointMaps.Where(c => c.EmployeeId == model.Id).AsNoTracking().ToList();
+                    var empExistUpdateableList = new List<EmployeeServicePointMap>();
+                    var empExistDeletableList = new List<EmployeeServicePointMap>();
 
                     if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
-                        var subZoneIds = model.SubZoneIds.Distinct();
+                        var subZoneIds = model.SubZoneIds.Distinct().ToList();
                         var existSubZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.TerritoryId).Distinct().ToList() : null;
 
-                        var addableSubZoneIds = empExistMapped?.Count() > 0 && existSubZoneIds?.Count() > 0 ? subZoneIds.Where(c => !existSubZoneIds.Contains(c)) : subZoneIds;
-                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
-                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
+                        var addableSubZoneIds = empExistMapped?.Count() > 0 && existSubZoneIds?.Count() > 0 ? subZoneIds.Where(c => !existSubZoneIds.Contains(c)).ToList() : subZoneIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.TerritoryId != null && subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.TerritoryId != null && !subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
 
                         if (addableSubZoneIds?.Count() > 0)
                         {
@@ -794,12 +801,12 @@ namespace KGERP.Service.Implementation
                     }
                     else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
-                        var areaIds = model.AreaIds.Distinct();
+                        var areaIds = model.AreaIds.Distinct().ToList();
                         var existAreaIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.AreaId).Distinct().ToList() : null;
 
-                        var addableAreaIds = empExistMapped?.Count() > 0 && existAreaIds?.Count() > 0 ? areaIds.Where(c => !existAreaIds.Contains(c)) : areaIds;
-                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => areaIds.Contains((int)c.AreaId)).ToList() : null;
-                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !areaIds.Contains((int)c.AreaId)).ToList() : null;
+                        var addableAreaIds = empExistMapped?.Count() > 0 && existAreaIds?.Count() > 0 ? areaIds.Where(c => !existAreaIds.Contains(c)).ToList() : areaIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.AreaId != null && areaIds.Contains((int)c.AreaId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !areaIds.Contains((int)c.AreaId)).ToList() : null;
 
                         if (addableAreaIds?.Count() > 0)
                         {
@@ -822,12 +829,12 @@ namespace KGERP.Service.Implementation
                     }
                     else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
-                        var regionIds = model.RegionIds.Distinct();
+                        var regionIds = model.RegionIds.Distinct().ToList();
                         var existRegionIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.RegionId).Distinct().ToList() : null;
 
-                        var addableRegionIds = empExistMapped?.Count() > 0 && existRegionIds?.Count() > 0 ? regionIds.Where(c => !existRegionIds.Contains(c)) : regionIds;
-                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => regionIds.Contains((int)c.RegionId)).ToList() : null;
-                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !regionIds.Contains((int)c.RegionId)).ToList() : null;
+                        var addableRegionIds = empExistMapped?.Count() > 0 && existRegionIds?.Count() > 0 ? regionIds.Where(c => !existRegionIds.Contains(c)).ToList() : regionIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.RegionId != null && regionIds.Contains((int)c.RegionId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !regionIds.Contains((int)c.RegionId)).ToList() : null;
 
                         if (addableRegionIds?.Count() > 0)
                         {
@@ -850,12 +857,12 @@ namespace KGERP.Service.Implementation
                     }
                     else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
-                        var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
+                        var zoneDivisionIds = model.ZoneDivisionIds.Distinct().ToList();
                         var existZoneDivisionIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.ZoneDivisionId).Distinct().ToList() : null;
 
-                        var addableZoneDivisionIds = empExistMapped?.Count() > 0 && existZoneDivisionIds?.Count() > 0 ? zoneDivisionIds.Where(c => !existZoneDivisionIds.Contains(c)) : zoneDivisionIds;
-                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
-                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
+                        var addableZoneDivisionIds = empExistMapped?.Count() > 0 && existZoneDivisionIds?.Count() > 0 ? zoneDivisionIds.Where(c => !existZoneDivisionIds.Contains(c)).ToList() : zoneDivisionIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneDivisionId != null && zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
 
                         if (addableZoneDivisionIds?.Count() > 0)
                         {
@@ -878,12 +885,12 @@ namespace KGERP.Service.Implementation
                     }
                     else if (model.ZoneIds?.Length > 0)
                     {
-                        var zoneIds = model.ZoneIds.Distinct();
+                        var zoneIds = model.ZoneIds.Distinct().ToList();
                         var existZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.ZoneId).Distinct().ToList() : null;
 
-                        var addableZoneIds = empExistMapped?.Count() > 0 && existZoneIds?.Count() > 0 ? zoneIds.Where(c => !existZoneIds.Contains(c)) : zoneIds;
-                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => zoneIds.Contains((int)c.ZoneId)).ToList() : null;
-                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
+                        var addableZoneIds = empExistMapped?.Count() > 0 && existZoneIds?.Count() > 0 ? zoneIds.Where(c => !existZoneIds.Contains(c)).ToList() : zoneIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneId != null && zoneIds.Contains((int)c.ZoneId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
 
                         if (addableZoneIds?.Count() > 0)
                         {
@@ -916,29 +923,36 @@ namespace KGERP.Service.Implementation
                             updateableMaps.Add(updateable);
                         }
                     }
-                    if (empExistDeleteableList?.Count() > 0)
+                    if (empExistDeletableList?.Count() > 0)
                     {
 
-                        foreach (var delateable in empExistDeleteableList)
+                        foreach (var deletable in empExistDeletableList)
                         {
-                            delateable.IsActive = false;
-                            delateable.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                            delateable.ModifiedDate = DateTime.Now;
-                            updateableMaps.Add(delateable);
+                            deletable.IsActive = false;
+                            deletable.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                            deletable.ModifiedDate = DateTime.Now;
+                            updateableMaps.Add(deletable);
                         }
                     }
 
-                    if (addableMaps.Count() > 0)
+                    if (addableMaps?.Count() > 0)
                     {
                         _context.EmployeeServicePointMaps.AddRange(addableMaps);
+                        result = _context.SaveChanges() > 0;
                     }
 
-                    if(updateableMaps.Count() > 0)
+                    if (updateableMaps?.Count() > 0)
                     {
-                        _context.Entry(updateableMaps).State = EntityState.Modified;
+                        // _context.Entry(updateableMaps).State = EntityState.Modified; //work for single only
+
+                        foreach (var entity in updateableMaps)
+                        {
+                            _context.Entry(entity).State = EntityState.Modified;
+                        }
+                        result = _context.SaveChanges() > 0;
                     }
 
-                    return _context.SaveChanges() > 0;
+                    return result;
 
 
                     #endregion
