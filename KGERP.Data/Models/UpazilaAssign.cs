@@ -23,7 +23,5 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
-    
-        public virtual Employee Employee { get; set; }
     }
 }

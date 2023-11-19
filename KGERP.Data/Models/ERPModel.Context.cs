@@ -91,7 +91,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<LandReceiver> LandReceivers { get; set; }
         public virtual DbSet<LandUser> LandUsers { get; set; }
         public virtual DbSet<Leave> Leaves { get; set; }
-        public virtual DbSet<LeaveApplication> LeaveApplications { get; set; }
         public virtual DbSet<LeaveApplicationDetail> LeaveApplicationDetails { get; set; }
         public virtual DbSet<LeaveCategory> LeaveCategories { get; set; }
         public virtual DbSet<LoanCollection> LoanCollections { get; set; }
@@ -114,7 +113,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<UrlInfo> UrlInfoes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Work> Works { get; set; }
-        public virtual DbSet<WorkAssign> WorkAssigns { get; set; }
         public virtual DbSet<WorkAssignFile> WorkAssignFiles { get; set; }
         public virtual DbSet<WorkMember> WorkMembers { get; set; }
         public virtual DbSet<WorkQA> WorkQAs { get; set; }
@@ -236,7 +234,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<VendorDeed> VendorDeeds { get; set; }
         public virtual DbSet<ConvertedProduct> ConvertedProducts { get; set; }
         public virtual DbSet<StockAdjustDetail> StockAdjustDetails { get; set; }
-        public virtual DbSet<TeamInfo> TeamInfoes { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
         public virtual DbSet<ProductSubCategory> ProductSubCategories { get; set; }
         public virtual DbSet<RequisitionItemDetail> RequisitionItemDetails { get; set; }
@@ -248,8 +245,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ReportApprovalDetail> ReportApprovalDetails { get; set; }
         public virtual DbSet<ReportCategory> ReportCategories { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
-        public virtual DbSet<OfficerAssign> OfficerAssigns { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
@@ -299,10 +294,15 @@ namespace KGERP.Data.Models
         public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         public virtual DbSet<ZoneDivision> ZoneDivisions { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
-        public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<SubZone> SubZones { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
+        public virtual DbSet<Area> Areas { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<WorkAssign> WorkAssigns { get; set; }
+        public virtual DbSet<LeaveApplication> LeaveApplications { get; set; }
+        public virtual DbSet<OfficerAssign> OfficerAssigns { get; set; }
+        public virtual DbSet<TeamInfo> TeamInfoes { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

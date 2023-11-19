@@ -25,7 +25,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual Employee Employee { get; set; }
         public virtual Product Product { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

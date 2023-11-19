@@ -28,11 +28,11 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     
-        public virtual Employee Employee { get; set; }
-        public virtual Area Area { get; set; }
         public virtual Region Region { get; set; }
         public virtual SubZone SubZone { get; set; }
         public virtual Zone Zone { get; set; }
         public virtual ZoneDivision ZoneDivision { get; set; }
+        public virtual Area Area { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

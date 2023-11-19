@@ -203,7 +203,7 @@ namespace KGERP.Service.Implementation
                 Id = employee.Id,
                 EmployeeId = employee.EmployeeId,
                 ManagerId = employee.ManagerId,
-                ManagerName = employee.Employee3?.Name,
+                ManagerName = employee.Employee2?.Name,
                 HrAdminId = employee.HrAdminId ?? 0,
                 CompanyId = employee.CompanyId,
                 CardId = employee.CardId,
@@ -285,7 +285,8 @@ namespace KGERP.Service.Implementation
             if (id > 0)
             {
                 var territorys = employee.SubZones;
-                var areas = employee.Regions;
+                var areas = employee.Areas;
+                var regions = employee.Regions;
                 var zoneDivisions = employee.ZoneDivisions;
                 var zones = employee.Zones;
 
@@ -294,8 +295,11 @@ namespace KGERP.Service.Implementation
                     var subZoneIds = territorys.Select(c => c.SubZoneId).ToArray();
                     result.SubZoneIds = subZoneIds;
 
-                    var areaId = territorys.FirstOrDefault().RegionId ?? 0;
-                    result.RegionIds = new int[] { areaId };
+                    var areaId = territorys.FirstOrDefault().AreaId ?? 0;
+                    result.AreaIds = new int[] { areaId };
+
+                    var regionId = territorys.FirstOrDefault().RegionId ?? 0;
+                    result.RegionIds = new int[] { regionId };
 
                     var zoneDivisionId = territorys.FirstOrDefault().ZoneDivisionId ?? 0;
                     result.ZoneDivisionIds = new int[] { zoneDivisionId };
@@ -305,14 +309,28 @@ namespace KGERP.Service.Implementation
                 }
                 else if (areas?.Count() > 0)
                 {
-                    var areaids = areas.Select(c => c.RegionId).ToArray();
-                    result.RegionIds = areaids;
+                    var areaIds = areas.Select(c => c.AreaId).ToArray();
+                    result.AreaIds = areaIds;
+
+                    var regionId = areas.FirstOrDefault().RegionId ?? 0;
+                    result.RegionIds = new int[] { regionId };
 
                     var zoneDivisionId = areas.FirstOrDefault().ZoneDivisionId;
-                    result.ZoneDivisionIds = new int[] { zoneDivisionId };
+                    result.ZoneDivisionIds = new int[] { (int)zoneDivisionId };
 
                     var zoneId = areas.FirstOrDefault().ZoneId;
-                    result.ZoneIds = new int[] { zoneId };
+                    result.ZoneIds = new int[] { (int)zoneId };
+                }
+                else if (regions?.Count() > 0)
+                {
+                    var regionIds = regions.Select(c => c.RegionId).ToArray();
+                    result.RegionIds = regionIds;
+
+                    var zoneDivisionId = areas.FirstOrDefault().ZoneDivisionId;
+                    result.ZoneDivisionIds = new int[] { (int)zoneDivisionId };
+
+                    var zoneId = areas.FirstOrDefault().ZoneId;
+                    result.ZoneIds = new int[] { (int)zoneId };
                 }
                 else if (zoneDivisions?.Count() > 0)
                 {
@@ -552,10 +570,12 @@ namespace KGERP.Service.Implementation
                     }
                     #endregion
 
-                    #region Zone ZoneDivision Region and Territory Maps
+                    #region Zone, ZoneDivision, Region, Area and Territory Maps
 
-                    #region Remove previous maps
+                    #region Remove previous maps from SubZone, Area, Region, ZoneDivision and Zone
+
                     var empZones = _context.Zones.Where(c => c.EmployeeId == model.Id);
+                    var empAreas = _context.Areas.Where(c => c.EmployeeId == model.Id);
                     var empZoneDivisions = _context.ZoneDivisions.Where(c => c.EmployeeId == model.Id);
                     var empRegions = _context.Regions.Where(c => c.EmployeeId == model.Id);
                     var empTerritories = _context.SubZones.Where(c => c.EmployeeId == model.Id);
@@ -583,6 +603,19 @@ namespace KGERP.Service.Implementation
                             empZoneDivision.Email = string.Empty;
                             empZoneDivision.MobileOffice = string.Empty;
                             empZoneDivision.MobilePersonal = string.Empty;
+                        }
+                    }
+
+                    if (empAreas?.Count() > 0)
+                    {
+                        foreach (var empArea in empAreas)
+                        {
+                            empArea.EmployeeId = null;
+                            empArea.AreaIncharge = string.Empty;
+                            empArea.Designation = string.Empty;
+                            empArea.Email = string.Empty;
+                            empArea.MobileOffice = string.Empty;
+                            empArea.MobilePersonal = string.Empty;
                         }
                     }
 
@@ -615,89 +648,219 @@ namespace KGERP.Service.Implementation
 
                     #endregion
 
-                    #region Add new maps
-                    if (model.SubZoneIds?.Length > 0 && model.RegionIds?.Length>0 && model.ZoneDivisionIds?.Length>0 && model.ZoneIds?.Length>0)
-                    {
-                        var subZoneIds = model.SubZoneIds.Distinct();
-                        var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
-                        foreach (var subZone in subZones)
-                        {
-                            var name = model.Name ?? subZone.SalesOfficerName;
-                            var designation = model.Designation?.Name ?? subZone.Designation;
-                            var email = model.Email ?? subZone.Email;
-                            var mobileOffice = model.MobileNo ?? subZone.MobileOffice;
-                            var mobilePersonal = model.Telephone ?? subZone.MobilePersonal;
+                    #region Add new maps in SubZone, Area, Region, ZoneDivision and Zone
+                    //if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length>0 && model.RegionIds?.Length>0 && model.ZoneDivisionIds?.Length>0 && model.ZoneIds?.Length>0)
+                    //{
+                    //    var subZoneIds = model.SubZoneIds.Distinct();
+                    //    var subZones = _context.SubZones.Where(c => subZoneIds.Contains(c.SubZoneId));
+                    //    foreach (var subZone in subZones)
+                    //    {
+                    //        var name = model.Name ?? subZone.SalesOfficerName;
+                    //        var designation = model.Designation?.Name ?? subZone.Designation;
+                    //        var email = model.Email ?? subZone.Email;
+                    //        var mobileOffice = model.MobileNo ?? subZone.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? subZone.MobilePersonal;
 
-                            subZone.EmployeeId = model.Id;
-                            subZone.SalesOfficerName = name;
-                            subZone.Designation = designation;
-                            subZone.Email = email;
-                            subZone.MobileOffice = mobileOffice;
-                            subZone.MobilePersonal = mobilePersonal;
-                        }
+                    //        subZone.EmployeeId = model.Id;
+                    //        subZone.SalesOfficerName = name;
+                    //        subZone.Designation = designation;
+                    //        subZone.Email = email;
+                    //        subZone.MobileOffice = mobileOffice;
+                    //        subZone.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var areaIds = model.AreaIds.Distinct();
+                    //    var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
+                    //    foreach (var area in areas)
+                    //    {
+                    //        var name = model.Name ?? area.AreaIncharge;
+                    //        var designation = model.Designation?.Name ?? area.Designation;
+                    //        var email = model.Email ?? area.Email;
+                    //        var mobileOffice = model.MobileNo ?? area.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? area.MobilePersonal;
 
-                    }
-                    else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
-                    {
-                        var areaIds = model.RegionIds.Distinct();
-                        var areas = _context.Regions.Where(c => areaIds.Contains(c.RegionId));
-                        foreach (var area in areas)
-                        {
-                            var areaIncharge = model.Name ?? area.RegionIncharge;
-                            var designation = model.Designation?.Name ?? area.Designation;
-                            var email = model.Email ?? area.Email;
-                            var mobileOffice = model.MobileNo ?? area.MobileOffice;
-                            var mobilePersonal = model.Telephone ?? area.MobilePersonal;
+                    //        area.EmployeeId = model.Id;
+                    //        area.AreaIncharge = name;
+                    //        area.Designation = designation;
+                    //        area.Email = email;
+                    //        area.MobileOffice = mobileOffice;
+                    //        area.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var regionIds = model.RegionIds.Distinct();
+                    //    var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
+                    //    foreach (var region in regions)
+                    //    {
+                    //        var areaIncharge = model.Name ?? region.RegionIncharge;
+                    //        var designation = model.Designation?.Name ?? region.Designation;
+                    //        var email = model.Email ?? region.Email;
+                    //        var mobileOffice = model.MobileNo ?? region.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? region.MobilePersonal;
 
-                            area.EmployeeId = model.Id;
-                            area.RegionIncharge = areaIncharge;
-                            area.Designation = designation;
-                            area.Email = email;
-                            area.MobileOffice = mobileOffice;
-                            area.MobilePersonal = mobilePersonal;
-                        }
-                    }
-                    else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
-                    {
-                        var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
-                        var regions = _context.ZoneDivisions.Where(c => zoneDivisionIds.Contains(c.ZoneDivisionId));
-                        foreach (var region in regions)
-                        {
-                            var regionIncharge = model.Name ?? region.ZoneDivisionIncharge;
-                            var designation = model.Designation?.Name ?? region.Designation;
-                            var email = model.Email ?? region.Email;
-                            var mobileOffice = model.MobileNo ?? region.MobileOffice;
-                            var mobilePersonal = model.Telephone ?? region.MobilePersonal;
+                    //        region.EmployeeId = model.Id;
+                    //        region.RegionIncharge = areaIncharge;
+                    //        region.Designation = designation;
+                    //        region.Email = email;
+                    //        region.MobileOffice = mobileOffice;
+                    //        region.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
+                    //    var regions = _context.ZoneDivisions.Where(c => zoneDivisionIds.Contains(c.ZoneDivisionId));
+                    //    foreach (var region in regions)
+                    //    {
+                    //        var regionIncharge = model.Name ?? region.ZoneDivisionIncharge;
+                    //        var designation = model.Designation?.Name ?? region.Designation;
+                    //        var email = model.Email ?? region.Email;
+                    //        var mobileOffice = model.MobileNo ?? region.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? region.MobilePersonal;
 
-                            region.EmployeeId = model.Id;
-                            region.ZoneDivisionIncharge = regionIncharge;
-                            region.Designation = designation;
-                            region.Email = email;
-                            region.MobileOffice = mobileOffice;
-                            region.MobilePersonal = mobilePersonal;
-                        }
-                    }
-                    else if (model.ZoneIds?.Length > 0)
-                    {
-                        var zoneIds = model.ZoneIds.Distinct();
-                        var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
-                        foreach (var zone in zones)
-                        {
-                            var zoneIncharge = model.Name ?? zone.ZoneIncharge;
-                            var designation = model.Designation?.Name ?? zone.Designation;
-                            var email = model.Email ?? zone.Email;
-                            var mobileOffice = model.MobileNo ?? zone.MobileOffice;
-                            var mobilePersonal = model.Telephone ?? zone.MobilePersonal;
+                    //        region.EmployeeId = model.Id;
+                    //        region.ZoneDivisionIncharge = regionIncharge;
+                    //        region.Designation = designation;
+                    //        region.Email = email;
+                    //        region.MobileOffice = mobileOffice;
+                    //        region.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.ZoneIds?.Length > 0)
+                    //{
+                    //    var zoneIds = model.ZoneIds.Distinct();
+                    //    var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
+                    //    foreach (var zone in zones)
+                    //    {
+                    //        var zoneIncharge = model.Name ?? zone.ZoneIncharge;
+                    //        var designation = model.Designation?.Name ?? zone.Designation;
+                    //        var email = model.Email ?? zone.Email;
+                    //        var mobileOffice = model.MobileNo ?? zone.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? zone.MobilePersonal;
 
-                            zone.EmployeeId = model.Id;
-                            zone.ZoneIncharge = zoneIncharge;
-                            zone.Designation = designation;
-                            zone.Email = email;
-                            zone.MobileOffice = mobileOffice;
-                            zone.MobilePersonal = mobilePersonal;
-                        }
-                    }
-                    return _context.SaveChanges() > 0;
+                    //        zone.EmployeeId = model.Id;
+                    //        zone.ZoneIncharge = zoneIncharge;
+                    //        zone.Designation = designation;
+                    //        zone.Email = email;
+                    //        zone.MobileOffice = mobileOffice;
+                    //        zone.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //return _context.SaveChanges() > 0;
+
+
+                    #endregion
+
+                    #region Add new maps in EmployeeServicePointMap Table
+                    var addableMaps= new List <EmployeeServicePointMap>();
+                    var updateableMaps= new List <EmployeeServicePointMap>();
+
+                    var empExistMapped= _context.EmployeeServicePointMaps.Where(c => c.EmployeeId == model.Id).ToList();
+
+                    //if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var subZoneIds = model.SubZoneIds.Distinct();
+                    //    var subZones = _context.EmployeeServicePointMaps.Where(c => subZoneIds.Contains((int)c.TerritoryId) && c.EmployeeId==model.Id);
+                    //    foreach (var subZone in subZones)
+                    //    {
+                    //        var name = model.Name ?? subZone.SalesOfficerName;
+                    //        var designation = model.Designation?.Name ?? subZone.Designation;
+                    //        var email = model.Email ?? subZone.Email;
+                    //        var mobileOffice = model.MobileNo ?? subZone.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? subZone.MobilePersonal;
+
+                    //        subZone.EmployeeId = model.Id;
+                    //        subZone.SalesOfficerName = name;
+                    //        subZone.Designation = designation;
+                    //        subZone.Email = email;
+                    //        subZone.MobileOffice = mobileOffice;
+                    //        subZone.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var areaIds = model.AreaIds.Distinct();
+                    //    var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
+                    //    foreach (var area in areas)
+                    //    {
+                    //        var name = model.Name ?? area.AreaIncharge;
+                    //        var designation = model.Designation?.Name ?? area.Designation;
+                    //        var email = model.Email ?? area.Email;
+                    //        var mobileOffice = model.MobileNo ?? area.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? area.MobilePersonal;
+
+                    //        area.EmployeeId = model.Id;
+                    //        area.AreaIncharge = name;
+                    //        area.Designation = designation;
+                    //        area.Email = email;
+                    //        area.MobileOffice = mobileOffice;
+                    //        area.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var regionIds = model.RegionIds.Distinct();
+                    //    var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
+                    //    foreach (var region in regions)
+                    //    {
+                    //        var areaIncharge = model.Name ?? region.RegionIncharge;
+                    //        var designation = model.Designation?.Name ?? region.Designation;
+                    //        var email = model.Email ?? region.Email;
+                    //        var mobileOffice = model.MobileNo ?? region.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? region.MobilePersonal;
+
+                    //        region.EmployeeId = model.Id;
+                    //        region.RegionIncharge = areaIncharge;
+                    //        region.Designation = designation;
+                    //        region.Email = email;
+                    //        region.MobileOffice = mobileOffice;
+                    //        region.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    //{
+                    //    var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
+                    //    var regions = _context.ZoneDivisions.Where(c => zoneDivisionIds.Contains(c.ZoneDivisionId));
+                    //    foreach (var region in regions)
+                    //    {
+                    //        var regionIncharge = model.Name ?? region.ZoneDivisionIncharge;
+                    //        var designation = model.Designation?.Name ?? region.Designation;
+                    //        var email = model.Email ?? region.Email;
+                    //        var mobileOffice = model.MobileNo ?? region.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? region.MobilePersonal;
+
+                    //        region.EmployeeId = model.Id;
+                    //        region.ZoneDivisionIncharge = regionIncharge;
+                    //        region.Designation = designation;
+                    //        region.Email = email;
+                    //        region.MobileOffice = mobileOffice;
+                    //        region.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //else if (model.ZoneIds?.Length > 0)
+                    //{
+                    //    var zoneIds = model.ZoneIds.Distinct();
+                    //    var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
+                    //    foreach (var zone in zones)
+                    //    {
+                    //        var zoneIncharge = model.Name ?? zone.ZoneIncharge;
+                    //        var designation = model.Designation?.Name ?? zone.Designation;
+                    //        var email = model.Email ?? zone.Email;
+                    //        var mobileOffice = model.MobileNo ?? zone.MobileOffice;
+                    //        var mobilePersonal = model.Telephone ?? zone.MobilePersonal;
+
+                    //        zone.EmployeeId = model.Id;
+                    //        zone.ZoneIncharge = zoneIncharge;
+                    //        zone.Designation = designation;
+                    //        zone.Email = email;
+                    //        zone.MobileOffice = mobileOffice;
+                    //        zone.MobilePersonal = mobilePersonal;
+                    //    }
+                    //}
+                    //return _context.SaveChanges() > 0;
 
 
                     #endregion

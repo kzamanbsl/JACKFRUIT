@@ -44,11 +44,10 @@ namespace KGERP.Data.Models
         public Nullable<int> Active { get; set; }
         public Nullable<int> OperationId { get; set; }
     
+        public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
         public virtual LeaveCategory LeaveCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveApplicationDetail> LeaveApplicationDetails { get; set; }
-        public virtual Employee Employee { get; set; }
-        public virtual Employee Employee1 { get; set; }
-        public virtual Employee Employee2 { get; set; }
     }
 }

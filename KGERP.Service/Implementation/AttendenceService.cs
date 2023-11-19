@@ -149,7 +149,7 @@ namespace KGERP.Service.Implementation
                 attendanceRepository.Entry(attendenceApproveApplication).State = attendenceApproveApplication.Id == 0 ? EntityState.Added : EntityState.Modified;
                 var result = attendanceRepository.SaveChanges() > 0;
 
-                Employee employee = attendanceRepository.Employees.Include(x => x.Employee3).Include(x => x.Employee2).FirstOrDefault(x => x.Id == attendenceApproveApplication.EmployeeId);
+                Employee employee = attendanceRepository.Employees.Include(x => x.Employee2).FirstOrDefault(x => x.Id == attendenceApproveApplication.EmployeeId);
                 if (attendenceApproveApplication.ApproveFor == "On Field Duty" || attendenceApproveApplication.ApproveFor == "Tour")
                 {
                     body = EmailBody(attendenceApproveApplication, employee, "", ""); //Ashraf 15-10-2019
@@ -194,7 +194,7 @@ namespace KGERP.Service.Implementation
 
 
             AttendenceApproveApplication oldrqt = attendanceRepository.AttendenceApproveApplications.FirstOrDefault(x => x.Id == id);
-            Employee employee = attendanceRepository.Employees.Include(x => x.Employee3).Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
+            Employee employee = attendanceRepository.Employees.Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
             if (oldrqt == null)
             {
                 throw new Exception("Employee not found!");
@@ -395,7 +395,7 @@ namespace KGERP.Service.Implementation
             bool isMailSentToEmployee = false;
 
             AttendenceApproveApplication oldrqt = attendanceRepository.AttendenceApproveApplications.FirstOrDefault(x => x.Id == id);
-            Employee employee = attendanceRepository.Employees.Include(x => x.Employee3).Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
+            Employee employee = attendanceRepository.Employees.Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
             if (oldrqt == null)
             {
                 throw new Exception("Attedence Request not found!");
@@ -447,7 +447,7 @@ namespace KGERP.Service.Implementation
             string subject = string.Empty;
             bool isMailSentToEmployee = false;
             AttendenceApproveApplication oldrqt = attendanceRepository.AttendenceApproveApplications.FirstOrDefault(x => x.Id == id);
-            Employee employee = attendanceRepository.Employees.Include(x => x.Employee3).Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
+            Employee employee = attendanceRepository.Employees.Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
 
             if (oldrqt == null)
             {
@@ -489,7 +489,7 @@ namespace KGERP.Service.Implementation
             bool isMailSentToEmployee = false;
 
             AttendenceApproveApplication oldrqt = attendanceRepository.AttendenceApproveApplications.FirstOrDefault(x => x.Id == id);
-            Employee employee = attendanceRepository.Employees.Include(x => x.Employee3).Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
+            Employee employee = attendanceRepository.Employees.Include(x => x.Employee2).FirstOrDefault(x => x.Id == oldrqt.EmployeeId);
 
             if (oldrqt == null)
             {

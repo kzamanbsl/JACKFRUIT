@@ -21,13 +21,11 @@ using System.Linq.Dynamic;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
-using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -211,10 +209,12 @@ namespace KGERP.Controllers
             vm.JobTypes = _dropDownItemService.GetDropDownItemSelectModels(10);
             vm.Banks = _bankService.GetBankSelectModels();
             vm.BankBranches = new List<SelectModel>();
+
             if (vm.Employee.BankId > 0)
             {
                 vm.BankBranches = _bankBranchService.GetBankBranchByBank(vm.Employee.BankId ?? 0);
             }
+
             if (vm.Employee.Id <= 0)
             {
                 vm.Employee.Active = true;
@@ -244,6 +244,7 @@ namespace KGERP.Controllers
             vm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId), "Value", "Text");
             vm.TerritoryList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             vm.Employee.CompanyId = companyId;
+           
             return View(vm);
         }
 
@@ -417,6 +418,7 @@ namespace KGERP.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public JsonResult GetEmployeeInformationById(long id)
         {
@@ -430,6 +432,7 @@ namespace KGERP.Controllers
 
             return Json(selectedData, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public JsonResult EmployeeDesignationAutoComplete(string prefix)
         {

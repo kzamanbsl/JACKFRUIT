@@ -34,6 +34,5 @@ namespace KGERP.Data.Models
         public virtual DropDownItem DropDownItem { get; set; }
         public virtual DropDownItem DropDownItem1 { get; set; }
         public virtual DropDownItem DropDownItem2 { get; set; }
-        public virtual Employee Employee { get; set; }
     }
 }

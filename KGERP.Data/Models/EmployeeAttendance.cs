@@ -29,7 +29,5 @@ namespace KGERP.Data.Models
         public int ShiftFlag { get; set; }
         public int NodeId { get; set; }
         public System.DateTime CreatedDate { get; set; }
-    
-        public virtual Employee Employee { get; set; }
     }
 }

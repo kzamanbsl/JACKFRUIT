@@ -27,6 +27,8 @@ namespace KGERP.Data.Models
         public string Name { get; set; }
         public Nullable<long> ManagerId { get; set; }
     
+        public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
     }
 }

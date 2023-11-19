@@ -67,7 +67,7 @@ namespace KGERP.Service.Implementation
         {
             if (id <= 0)
             {
-                Employee employee = context.Employees.Include(m => m.Employee3).Include(x => x.Department).Include(x => x.Designation).Where(x => x.Id == empId).FirstOrDefault();
+                Employee employee = context.Employees.Include(m => m.Employee2).Include(x => x.Department).Include(x => x.Designation).Where(x => x.Id == empId).FirstOrDefault();
                 return new LeaveApplicationModel()
                 {
                     Id = employee.Id,
@@ -75,7 +75,7 @@ namespace KGERP.Service.Implementation
                     EmployeeName = employee.Name,
                     DepartmentName = employee.Department.Name,
                     DesignationName = employee.Designation.Name,
-                    ManagerInfo = string.Format("[{0}] {1}", employee.Employee3.EmployeeId, employee.Employee3.Name),
+                    ManagerInfo = string.Format("[{0}] {1}", employee.Employee2.EmployeeId, employee.Employee2.Name),
                 };
             }
             return ObjectConverter<LeaveApplication, LeaveApplicationModel>.Convert(context.LeaveApplications.Include(x => x.LeaveCategory).FirstOrDefault(x => x.LeaveApplicationId == id));
@@ -169,7 +169,7 @@ namespace KGERP.Service.Implementation
 
             bool result = context.SaveChanges() > 0;
 
-            Employee employee = context.Employees.Include(x => x.Employee3).Include(x => x.Employee2).FirstOrDefault(x => x.Id == leaveApplication.Id);
+            Employee employee = context.Employees.Include(x => x.Employee2).FirstOrDefault(x => x.Id == leaveApplication.Id);
 
             if (employee == null)
             {
@@ -301,13 +301,13 @@ namespace KGERP.Service.Implementation
             string body = string.Empty;
             string subject = string.Empty;
 
-            LeaveEmailCustomModel mailModel = context.LeaveApplications.Include(x => x.Employee.Employee3).Include(x => x.Employee.Employee2).Include(x => x.LeaveCategory).Where(x => x.LeaveApplicationId == leaveApplicationId).Select(x => new
+            LeaveEmailCustomModel mailModel = context.LeaveApplications.Include(x => x.Employee.Employee2).Include(x => x.LeaveCategory).Where(x => x.LeaveApplicationId == leaveApplicationId).Select(x => new
             LeaveEmailCustomModel
             {
                 EmployeeId = x.Employee.EmployeeId,
                 EmployeeName = x.Employee.Name,
                 EmployeeEmail = x.Employee.OfficeEmail ?? defaultMail,
-                ManagerEmail = x.Employee.Employee3.OfficeEmail ?? defaultMail,
+                ManagerEmail = x.Employee.Employee2.OfficeEmail ?? defaultMail,
                 HRAdminEmail = x.Employee.Employee2.OfficeEmail ?? defaultMail,
                 LeaveCategory = x.LeaveCategory.Name,
                 StartDate = x.StartDate,
@@ -315,7 +315,7 @@ namespace KGERP.Service.Implementation
                 ApplyDate = x.ApplicationDate,
                 HrName = x.Employee.Employee2.Name,
                 HrStatus = x.HrAdminStatus,
-                ManagerName = x.Employee.Employee3.Name,
+                ManagerName = x.Employee.Employee2.Name,
                 ManagerStatus = x.ManagerStatus,
                 LeaveDays = x.LeaveDays
             }).FirstOrDefault();
@@ -408,13 +408,13 @@ namespace KGERP.Service.Implementation
             string body = string.Empty;
             string subject = string.Empty;
 
-            LeaveEmailCustomModel mailModel = context.LeaveApplications.Include(x => x.Employee.Employee3).Include(x => x.Employee.Employee2).Include(x => x.LeaveCategory).Where(x => x.LeaveApplicationId == leaveApplicationId).Select(x => new
+            LeaveEmailCustomModel mailModel = context.LeaveApplications.Include(x => x.Employee.Employee2).Include(x => x.LeaveCategory).Where(x => x.LeaveApplicationId == leaveApplicationId).Select(x => new
            LeaveEmailCustomModel
             {
                 EmployeeId = x.Employee.EmployeeId,
                 EmployeeName = x.Employee.Name,
                 EmployeeEmail = x.Employee.OfficeEmail ?? defaultMail,
-                ManagerEmail = x.Employee.Employee3.OfficeEmail ?? defaultMail,
+                ManagerEmail = x.Employee.Employee2.OfficeEmail ?? defaultMail,
                 HRAdminEmail = x.Employee.Employee2.OfficeEmail ?? defaultMail,
                 LeaveCategory = x.LeaveCategory.Name,
                 StartDate = x.StartDate,
@@ -422,7 +422,7 @@ namespace KGERP.Service.Implementation
                 ApplyDate = x.ApplicationDate,
                 HrName = x.Employee.Employee2.Name,
                 HrStatus = x.HrAdminStatus,
-                ManagerName = x.Employee.Employee3.Name,
+                ManagerName = x.Employee.Employee2.Name,
                 ManagerStatus = x.ManagerStatus,
                 LeaveDays = x.LeaveDays
             }).FirstOrDefault();

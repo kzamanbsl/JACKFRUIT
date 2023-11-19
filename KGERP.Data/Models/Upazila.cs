@@ -36,6 +36,5 @@ namespace KGERP.Data.Models
         public virtual District District { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
-        public virtual Employee Employee { get; set; }
     }
 }

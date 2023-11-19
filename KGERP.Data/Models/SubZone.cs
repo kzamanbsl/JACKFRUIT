@@ -20,6 +20,7 @@ namespace KGERP.Data.Models
             this.ExpenseMasters = new HashSet<ExpenseMaster>();
             this.Vendors = new HashSet<Vendor>();
             this.EmployeeServicePointMaps = new HashSet<EmployeeServicePointMap>();
+            this.OfficerAssigns = new HashSet<OfficerAssign>();
         }
     
         public int SubZoneId { get; set; }
@@ -44,8 +45,6 @@ namespace KGERP.Data.Models
         public Nullable<int> AreaId { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual Employee Employee { get; set; }
-        public virtual Area Area { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
         public virtual Region Region { get; set; }
@@ -55,5 +54,9 @@ namespace KGERP.Data.Models
         public virtual ICollection<Vendor> Vendors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
+        public virtual Area Area { get; set; }
+        public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OfficerAssign> OfficerAssigns { get; set; }
     }
 }

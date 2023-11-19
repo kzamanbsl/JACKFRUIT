@@ -17,7 +17,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StockInfo()
         {
-            this.Employees = new HashSet<Employee>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
             this.PurchaseReturns = new HashSet<PurchaseReturn>();
             this.StockTransfers = new HashSet<StockTransfer>();
@@ -26,6 +25,7 @@ namespace KGERP.Data.Models
             this.OrderDelivers = new HashSet<OrderDeliver>();
             this.SaleReturns = new HashSet<SaleReturn>();
             this.DamageMasters = new HashSet<DamageMaster>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public int StockInfoId { get; set; }
@@ -43,8 +43,6 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
@@ -60,5 +58,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DamageMaster> DamageMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

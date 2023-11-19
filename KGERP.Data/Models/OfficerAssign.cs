@@ -28,7 +28,8 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public int SubZoneId { get; set; }
     
-        public virtual Zone Zone { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual SubZone SubZone { get; set; }
+        public virtual Zone Zone { get; set; }
     }
 }

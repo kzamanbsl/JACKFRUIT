@@ -37,6 +37,5 @@ namespace KGERP.Data.Models
         public virtual AssetType AssetType { get; set; }
         public virtual AssetTrackingFinal AssetTrackingFinal { get; set; }
         public virtual Company Company { get; set; }
-        public virtual Employee Employee { get; set; }
     }
 }

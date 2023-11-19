@@ -17,31 +17,24 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
-            this.AssetAssigns = new HashSet<AssetAssign>();
-            this.Educations = new HashSet<Education>();
+            this.Regions = new HashSet<Region>();
+            this.Areas = new HashSet<Area>();
             this.Employee1 = new HashSet<Employee>();
-            this.Employee11 = new HashSet<Employee>();
-            this.EmployeeAttendances = new HashSet<EmployeeAttendance>();
-            this.FileAttachments = new HashSet<FileAttachment>();
-            this.LeaveApplications = new HashSet<LeaveApplication>();
-            this.LeaveApplications1 = new HashSet<LeaveApplication>();
-            this.LeaveApplications2 = new HashSet<LeaveApplication>();
-            this.OfficerAssigns = new HashSet<OfficerAssign>();
-            this.TeamInfoes = new HashSet<TeamInfo>();
-            this.Upazilas = new HashSet<Upazila>();
-            this.UpazilaAssigns = new HashSet<UpazilaAssign>();
-            this.Works = new HashSet<Work>();
-            this.WorkAssigns = new HashSet<WorkAssign>();
-            this.ManagerProductMaps = new HashSet<ManagerProductMap>();
+            this.EmployeeServicePointMaps = new HashSet<EmployeeServicePointMap>();
             this.ExpenseMasters = new HashSet<ExpenseMaster>();
-            this.Zones = new HashSet<Zone>();
-            this.SalaryInformatrions = new HashSet<SalaryInformatrion>();
-            this.SaleReturns = new HashSet<SaleReturn>();
+            this.ManagerProductMaps = new HashSet<ManagerProductMap>();
             this.OrderMasters = new HashSet<OrderMaster>();
             this.ZoneDivisions = new HashSet<ZoneDivision>();
-            this.Regions = new HashSet<Region>();
+            this.SalaryInformatrions = new HashSet<SalaryInformatrion>();
+            this.SaleReturns = new HashSet<SaleReturn>();
             this.SubZones = new HashSet<SubZone>();
-            this.EmployeeServicePointMaps = new HashSet<EmployeeServicePointMap>();
+            this.Zones = new HashSet<Zone>();
+            this.WorkAssigns = new HashSet<WorkAssign>();
+            this.LeaveApplications = new HashSet<LeaveApplication>();
+            this.LeaveApplications1 = new HashSet<LeaveApplication>();
+            this.OfficerAssigns = new HashSet<OfficerAssign>();
+            this.TeamInfoes = new HashSet<TeamInfo>();
+            this.TeamInfoes1 = new HashSet<TeamInfo>();
         }
     
         public long Id { get; set; }
@@ -109,11 +102,11 @@ namespace KGERP.Data.Models
         public Nullable<decimal> SalaryAmount { get; set; }
         public Nullable<int> StockInfoId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AssetAssign> AssetAssigns { get; set; }
         public virtual Bank Bank { get; set; }
         public virtual BankBranch BankBranch { get; set; }
         public virtual Company Company { get; set; }
+        public virtual Department Department { get; set; }
+        public virtual Designation Designation { get; set; }
         public virtual District District { get; set; }
         public virtual Division Division { get; set; }
         public virtual DropDownItem DropDownItem { get; set; }
@@ -127,60 +120,45 @@ namespace KGERP.Data.Models
         public virtual DropDownItem DropDownItem8 { get; set; }
         public virtual DropDownItem DropDownItem9 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Education> Educations { get; set; }
+        public virtual ICollection<Region> Regions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Area> Areas { get; set; }
         public virtual Grade Grade { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employee1 { get; set; }
         public virtual Employee Employee2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee11 { get; set; }
-        public virtual Employee Employee3 { get; set; }
         public virtual Shift Shift { get; set; }
+        public virtual StockInfo StockInfo { get; set; }
         public virtual Upazila Upazila { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeAttendance> EmployeeAttendances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FileAttachment> FileAttachments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LeaveApplication> LeaveApplications { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LeaveApplication> LeaveApplications1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LeaveApplication> LeaveApplications2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OfficerAssign> OfficerAssigns { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamInfo> TeamInfoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Upazila> Upazilas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UpazilaAssign> UpazilaAssigns { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Work> Works { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkAssign> WorkAssigns { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ManagerProductMap> ManagerProductMaps { get; set; }
+        public virtual ICollection<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zone> Zones { get; set; }
-        public virtual Department Department { get; set; }
-        public virtual Designation Designation { get; set; }
-        public virtual StockInfo StockInfo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalaryInformatrion> SalaryInformatrions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
+        public virtual ICollection<ManagerProductMap> ManagerProductMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaster> OrderMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ZoneDivision> ZoneDivisions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Region> Regions { get; set; }
+        public virtual ICollection<SalaryInformatrion> SalaryInformatrions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleReturn> SaleReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubZone> SubZones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
+        public virtual ICollection<Zone> Zones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkAssign> WorkAssigns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaveApplication> LeaveApplications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaveApplication> LeaveApplications1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OfficerAssign> OfficerAssigns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TeamInfo> TeamInfoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TeamInfo> TeamInfoes1 { get; set; }
     }
 }

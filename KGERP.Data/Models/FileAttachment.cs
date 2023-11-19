@@ -35,6 +35,5 @@ namespace KGERP.Data.Models
         public virtual KttlCustomer KttlCustomer { get; set; }
         public virtual LandNLegal LandNLegal { get; set; }
         public virtual Company Company { get; set; }
-        public virtual Employee Employee { get; set; }
     }
 }

@@ -20,6 +20,8 @@ namespace KGERP.Data.Models
             this.Educations = new HashSet<Education>();
             this.Educations1 = new HashSet<Education>();
             this.Educations2 = new HashSet<Education>();
+            this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.PurchaseOrders1 = new HashSet<PurchaseOrder>();
             this.Employees = new HashSet<Employee>();
             this.Employees1 = new HashSet<Employee>();
             this.Employees2 = new HashSet<Employee>();
@@ -30,8 +32,6 @@ namespace KGERP.Data.Models
             this.Employees7 = new HashSet<Employee>();
             this.Employees8 = new HashSet<Employee>();
             this.Employees9 = new HashSet<Employee>();
-            this.PurchaseOrders = new HashSet<PurchaseOrder>();
-            this.PurchaseOrders1 = new HashSet<PurchaseOrder>();
         }
     
         public int DropDownItemId { get; set; }
@@ -55,6 +55,10 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Education> Educations2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees1 { get; set; }
@@ -74,9 +78,5 @@ namespace KGERP.Data.Models
         public virtual ICollection<Employee> Employees8 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees9 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders1 { get; set; }
     }
 }

@@ -69,7 +69,6 @@
         <EntityTypeShape EntityType="ERPModel.LandReceiver" Width="1.5" PointX="3.75" PointY="23" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.LandUser" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Leave" Width="1.5" PointX="11.25" PointY="79" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.LeaveApplication" Width="1.5" PointX="11.25" PointY="40" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.LeaveApplicationDetail" Width="1.5" PointX="13.5" PointY="46.125" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.LeaveCategory" Width="1.5" PointX="9" PointY="19.625" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.LoanCollection" Width="1.5" PointX="24.75" PointY="36.75" IsExpanded="false" />
@@ -92,7 +91,6 @@
         <EntityTypeShape EntityType="ERPModel.UrlInfo" Width="1.5" PointX="39.75" PointY="19.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.User" Width="1.5" PointX="39.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ERPModel.Work" Width="1.5" PointX="14.25" PointY="33.875" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.WorkAssign" Width="1.5" PointX="16.5" PointY="34.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkAssignFile" Width="1.5" PointX="18.75" PointY="35.125" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkMember" Width="1.5" PointX="39.75" PointY="26.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkQA" Width="1.5" PointX="18.75" PointY="11" IsExpanded="false" />
@@ -155,12 +153,7 @@
         <AssociationConnector Association="ERPModel.FK_Education_Subject" />
         <AssociationConnector Association="ERPModel.FK_EmployeeTerritories_EmployeeTerritories" />
         <AssociationConnector Association="ERPModel.FK_Leave_LeaveCategory" />
-        <AssociationConnector Association="ERPModel.FK_LeaveApplication_LeaveCategory" />
-        <AssociationConnector Association="ERPModel.FK_LeaveApplicationDetail_LeaveApplication" />
         <AssociationConnector Association="ERPModel.FK_Work_WorkState" />
-        <AssociationConnector Association="ERPModel.FK_WorkAssign_Work1" />
-        <AssociationConnector Association="ERPModel.FK_WorkAssign_WorkState" />
-        <AssociationConnector Association="ERPModel.FK_WorkAssignFile_WorkAssign" />
         <AssociationConnector Association="ERPModel.FK_WorkQAFile_WorkQA" />
         <AssociationConnector Association="ERPModel.FK_EmiDetail_EMI1" />
         <AssociationConnector Association="ERPModel.FK_IncentiveDetail_Incentive" />
@@ -295,7 +288,6 @@
         <AssociationConnector Association="ERPModel.FK_ConvertedProductDetail_ConvertedProduct" />
         <EntityTypeShape EntityType="ERPModel.StockAdjustDetail" Width="1.5" PointX="15.375" PointY="41.75" />
         <AssociationConnector Association="ERPModel.FK_StockAdjustDetail_StockAdjust" />
-        <EntityTypeShape EntityType="ERPModel.TeamInfo" Width="1.5" PointX="5.25" PointY="40.625" />
         <EntityTypeShape EntityType="ERPModel.ProductCategory" Width="1.5" PointX="23" PointY="22.25" />
         <EntityTypeShape EntityType="ERPModel.ProductSubCategory" Width="1.5" PointX="20.25" PointY="22.25" />
         <AssociationConnector Association="ERPModel.FK_IngredientStandard_Product" />
@@ -327,42 +319,6 @@
         <AssociationConnector Association="ERPModel.FK_MonthyTarget_Company" />
         <AssociationConnector Association="ERPModel.FK_Store_Company1" />
         <AssociationConnector Association="ERPModel.FK_Unit_Company" />
-        <EntityTypeShape EntityType="ERPModel.OfficerAssign" Width="1.5" PointX="45.625" PointY="12.875" />
-        <AssociationConnector Association="ERPModel.FK_OfficerAssign_Zone" />
-        <EntityTypeShape EntityType="ERPModel.Employee" Width="1.5" PointX="48.875" PointY="30.125" />
-        <AssociationConnector Association="ERPModel.FK_AssetAssign_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Company" />
-        <AssociationConnector Association="ERPModel.FK_Employee_District" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Division" />
-        <AssociationConnector Association="ERPModel.FK_Employee_BloodGroup" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Country" />
-        <AssociationConnector Association="ERPModel.FK_Employee_DisverseMethod" />
-        <AssociationConnector Association="ERPModel.FK_Employee_EmployeeCategory" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Gender" />
-        <AssociationConnector Association="ERPModel.FK_Employee_JobCategory" />
-        <AssociationConnector Association="ERPModel.FK_Employee_JobType" />
-        <AssociationConnector Association="ERPModel.FK_Employee_MaritalType" />
-        <AssociationConnector Association="ERPModel.FK_Employee_OfficeType" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Religion" />
-        <AssociationConnector Association="ERPModel.FK_Education_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Grade" />
-        <AssociationConnector Association="ERPModel.FK_Employee_HrAdmin" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Manager" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Shift" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Upazila" />
-        <AssociationConnector Association="ERPModel.FK_EmployeeAttendance_Employee" />
-        <AssociationConnector Association="ERPModel.FK_FileAttachment_Employee" />
-        <AssociationConnector Association="ERPModel.FK_LeaveApplication_Employee" />
-        <AssociationConnector Association="ERPModel.FK_LeaveApplication_HrAdmin" />
-        <AssociationConnector Association="ERPModel.FK_LeaveApplication_Manager" />
-        <AssociationConnector Association="ERPModel.FK_OfficerAssign_Employee" />
-        <AssociationConnector Association="ERPModel.FK_TeamInfo_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Upazila_Upazila" />
-        <AssociationConnector Association="ERPModel.FK_UpazilaAssign_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Work_Manager" />
-        <AssociationConnector Association="ERPModel.FK_WorkAssign_Employee" />
         <EntityTypeShape EntityType="ERPModel.AspNetRoleClaim" Width="1.5" PointX="53" PointY="9.5" />
         <EntityTypeShape EntityType="ERPModel.AspNetRole" Width="1.5" PointX="50.75" PointY="5.375" />
         <EntityTypeShape EntityType="ERPModel.AspNetUserClaim" Width="1.5" PointX="55.25" PointY="1.375" />
@@ -385,7 +341,6 @@
         <AssociationConnector Association="ERPModel.FK_StockTransferDetail_StockTransfer" />
         <EntityTypeShape EntityType="ERPModel.ManagerProductMap" Width="1.5" PointX="51.125" PointY="36.25" />
         <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Company" />
-        <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Employee" />
         <EntityTypeShape EntityType="ERPModel.PurchaseOrder" Width="1.5" PointX="22.5" PointY="57.5" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ProductOrigin" />
@@ -394,8 +349,6 @@
         <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" />
         <EntityTypeShape EntityType="ERPModel.ExpenseMaster" Width="1.5" PointX="51.125" PointY="25.125" />
         <AssociationConnector Association="ERPModel.FK_ExpenseMaster_Company" />
-        <AssociationConnector Association="ERPModel.FK_ExpenseMaster_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Zone_Employee" />
         <EntityTypeShape EntityType="ERPModel.SaleSetting" Width="1.5" PointX="3" PointY="44.25" />
         <AssociationConnector Association="ERPModel.FK_SaleSetting_Company" />
         <EntityTypeShape EntityType="ERPModel.PurchaseReturn" Width="1.5" PointX="58.625" PointY="36" />
@@ -420,12 +373,9 @@
         <AssociationConnector Association="ERPModel.FK__Productio__Produ__60A1FE78" />
         <EntityTypeShape EntityType="ERPModel.Department" Width="1.5" PointX="3" PointY="35" />
         <AssociationConnector Association="ERPModel.FK_Department_Company" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Department" />
         <EntityTypeShape EntityType="ERPModel.Designation" Width="1.5" PointX="18.375" PointY="13" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Designation" />
         <EntityTypeShape EntityType="ERPModel.StockInfo" Width="1.5" PointX="3" PointY="29.125" />
         <AssociationConnector Association="ERPModel.FK_StockInfo_Company" />
-        <AssociationConnector Association="ERPModel.FK_Employee_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_StockTransfer_StockInfo" />
@@ -441,18 +391,15 @@
         <EntityTypeShape EntityType="ERPModel.OrderDeliver" Width="1.5" PointX="66.125" PointY="38" />
         <EntityTypeShape EntityType="ERPModel.OrderDeliverDetail" Width="1.5" PointX="68.375" PointY="29.75" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliver_Company" />
-        <AssociationConnector Association="ERPModel.FK_SalaryInformatrion_Employee" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliver_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliverDetail_OrderDeliver" />
         <EntityTypeShape EntityType="ERPModel.SaleReturn" Width="1.5" PointX="71.375" PointY="27.625" />
         <EntityTypeShape EntityType="ERPModel.SaleReturnDetail" Width="1.5" PointX="73.625" PointY="26.25" />
-        <AssociationConnector Association="ERPModel.FK_SaleReturn_Employee" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_OrderDeliver" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_StockInfo" />
         <AssociationConnector Association="ERPModel.FK_SaleReturnDetail_SaleReturn" />
         <EntityTypeShape EntityType="ERPModel.OrderMaster" Width="1.5" PointX="63.875" PointY="26.375" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Company" />
-        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
         <AssociationConnector Association="ERPModel.FK_EMI_OrderMaster" />
         <AssociationConnector Association="ERPModel.FK_OrderDeliver_OrderMaster" />
         <EntityTypeShape EntityType="ERPModel.OrderDetail" Width="1.5" PointX="66.125" PointY="26.125" />
@@ -504,29 +451,19 @@
         <AssociationConnector Association="ERPModel.FK_PurchaseReturnDetail_MaterialReceiveDetail" />
         <EntityTypeShape EntityType="ERPModel.ZoneDivision" Width="1.5" PointX="54.125" PointY="25.75" />
         <AssociationConnector Association="ERPModel.FK_Region_Company" />
-        <AssociationConnector Association="ERPModel.FK_Region_Employee" />
         <AssociationConnector Association="ERPModel.FK_Region_Zone" />
         <EntityTypeShape EntityType="ERPModel.Region" Width="1.5" PointX="56.375" PointY="25.625" />
         <AssociationConnector Association="ERPModel.FK_Area_Company" />
-        <AssociationConnector Association="ERPModel.FK_Area_Employee" />
         <AssociationConnector Association="ERPModel.FK_Area_Zone" />
         <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision" />
-        <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="61.625" PointY="26.875" />
-        <AssociationConnector Association="ERPModel.FK_Area_Company1" />
-        <AssociationConnector Association="ERPModel.FK_Area_Region" />
-        <AssociationConnector Association="ERPModel.FK_Area_Zone1" />
-        <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision1" />
         <EntityTypeShape EntityType="ERPModel.SubZone" Width="1.5" PointX="63.875" PointY="18.375" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Company" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Employee" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Area" />
         <AssociationConnector Association="ERPModel.FK_ExpenseMaster_SubZone" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Zone" />
         <AssociationConnector Association="ERPModel.FK_SubZone_ZoneDivision" />
         <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="66.125" PointY="4.875" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
-        <AssociationConnector Association="ERPModel.FK_Vendor_Area" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_Customer" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_ToDealerVendor" />
         <AssociationConnector Association="ERPModel.FK_DemageMaster_ToDeportVendor" />
@@ -552,12 +489,70 @@
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
         <EntityTypeShape EntityType="ERPModel.EmployeeServicePointMap" Width="1.5" PointX="71.125" PointY="21.625" />
-        <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Employee" />
-        <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Area" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Region" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_SubZone" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Zone" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_ZoneDivision" />
+        <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="58.625" PointY="25.5" />
+        <AssociationConnector Association="ERPModel.FK_Area_Company1" />
+        <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Area" />
+        <AssociationConnector Association="ERPModel.FK_Area_Region" />
+        <AssociationConnector Association="ERPModel.FK_Area_Zone1" />
+        <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision1" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Area" />
+        <AssociationConnector Association="ERPModel.FK_Vendor_Area" />
+        <EntityTypeShape EntityType="ERPModel.Employee" Width="1.5" PointX="48.875" PointY="25.625" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Employee" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Company" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Department" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Designation" />
+        <AssociationConnector Association="ERPModel.FK_Employee_District" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Division" />
+        <AssociationConnector Association="ERPModel.FK_Employee_BloodGroup" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Country" />
+        <AssociationConnector Association="ERPModel.FK_Employee_DisverseMethod" />
+        <AssociationConnector Association="ERPModel.FK_Employee_EmployeeCategory" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Gender" />
+        <AssociationConnector Association="ERPModel.FK_Employee_JobCategory" />
+        <AssociationConnector Association="ERPModel.FK_Employee_JobType" />
+        <AssociationConnector Association="ERPModel.FK_Employee_MaritalType" />
+        <AssociationConnector Association="ERPModel.FK_Employee_OfficeType" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Religion" />
+        <AssociationConnector Association="ERPModel.FK_Area_Employee" />
+        <AssociationConnector Association="ERPModel.FK_Area_Employee1" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Grade" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Manager" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Shift" />
+        <AssociationConnector Association="ERPModel.FK_Employee_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Upazila" />
+        <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Employee" />
+        <AssociationConnector Association="ERPModel.FK_ExpenseMaster_Employee" />
+        <AssociationConnector Association="ERPModel.FK_ManagerProductMap_Employee" />
+        <AssociationConnector Association="ERPModel.FK_OrderMaster_Employee" />
+        <AssociationConnector Association="ERPModel.FK_Region_Employee" />
+        <AssociationConnector Association="ERPModel.FK_SalaryInformatrion_Employee" />
+        <AssociationConnector Association="ERPModel.FK_SaleReturn_Employee" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Employee" />
+        <AssociationConnector Association="ERPModel.FK_Zone_Employee" />
+        <EntityTypeShape EntityType="ERPModel.WorkAssign" Width="1.5" PointX="54.125" PointY="33.125" />
+        <AssociationConnector Association="ERPModel.FK_WorkAssign_Employee" />
+        <AssociationConnector Association="ERPModel.FK_WorkAssign_Work1" />
+        <AssociationConnector Association="ERPModel.FK_WorkAssign_WorkState" />
+        <AssociationConnector Association="ERPModel.FK_WorkAssignFile_WorkAssign" />
+        <EntityTypeShape EntityType="ERPModel.LeaveApplication" Width="1.5" PointX="56.125" PointY="37.75" />
+        <AssociationConnector Association="ERPModel.FK_LeaveApplication_Employee" />
+        <AssociationConnector Association="ERPModel.FK_LeaveApplication_Employee1" />
+        <AssociationConnector Association="ERPModel.FK_LeaveApplication_LeaveCategory" />
+        <AssociationConnector Association="ERPModel.FK_LeaveApplicationDetail_LeaveApplication" />
+        <EntityTypeShape EntityType="ERPModel.OfficerAssign" Width="1.5" PointX="71.125" PointY="16.625" />
+        <AssociationConnector Association="ERPModel.FK_OfficerAssign_Employee" />
+        <AssociationConnector Association="ERPModel.FK_OfficerAssign_SubZone" />
+        <AssociationConnector Association="ERPModel.FK_OfficerAssign_Zone" />
+        <EntityTypeShape EntityType="ERPModel.TeamInfo" Width="1.5" PointX="51.125" PointY="45" />
+        <AssociationConnector Association="ERPModel.FK_TeamInfo_Company" />
+        <AssociationConnector Association="ERPModel.FK_TeamInfo_Employee" />
+        <AssociationConnector Association="ERPModel.FK_TeamInfo_Employee1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

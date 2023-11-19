@@ -32,7 +32,6 @@ namespace KGERP.Data.Models
             this.MonthlyTargets = new HashSet<MonthlyTarget>();
             this.Stores = new HashSet<Store>();
             this.Units = new HashSet<Unit>();
-            this.Employees = new HashSet<Employee>();
             this.ManagerProductMaps = new HashSet<ManagerProductMap>();
             this.ExpenseMasters = new HashSet<ExpenseMaster>();
             this.SaleSettings = new HashSet<SaleSetting>();
@@ -48,8 +47,10 @@ namespace KGERP.Data.Models
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
             this.ZoneDivisions = new HashSet<ZoneDivision>();
             this.Regions = new HashSet<Region>();
-            this.Areas = new HashSet<Area>();
             this.SubZones = new HashSet<SubZone>();
+            this.Areas = new HashSet<Area>();
+            this.Employees = new HashSet<Employee>();
+            this.TeamInfoes = new HashSet<TeamInfo>();
         }
     
         public int CompanyId { get; set; }
@@ -108,8 +109,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Unit> Units { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ManagerProductMap> ManagerProductMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExpenseMaster> ExpenseMasters { get; set; }
@@ -140,8 +139,12 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Region> Regions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubZone> SubZones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Area> Areas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubZone> SubZones { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TeamInfo> TeamInfoes { get; set; }
     }
 }

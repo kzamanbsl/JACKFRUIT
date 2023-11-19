@@ -18,10 +18,10 @@ namespace KGERP.Data.Models
         public ZoneDivision()
         {
             this.Regions = new HashSet<Region>();
-            this.Areas = new HashSet<Area>();
             this.SubZones = new HashSet<SubZone>();
             this.Vendors = new HashSet<Vendor>();
             this.EmployeeServicePointMaps = new HashSet<EmployeeServicePointMap>();
+            this.Areas = new HashSet<Area>();
         }
     
         public int ZoneDivisionId { get; set; }
@@ -43,17 +43,17 @@ namespace KGERP.Data.Models
         public Nullable<long> EmployeeId { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual Employee Employee { get; set; }
         public virtual Zone Zone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Region> Regions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Area> Areas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubZone> SubZones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Area> Areas { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

@@ -27,10 +27,10 @@ namespace KGERP.Data.Models
         public string FileName { get; set; }
         public int WorkStateId { get; set; }
     
+        public virtual Employee Employee { get; set; }
         public virtual Work Work { get; set; }
         public virtual WorkState WorkState { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkAssignFile> WorkAssignFiles { get; set; }
-        public virtual Employee Employee { get; set; }
     }
 }
