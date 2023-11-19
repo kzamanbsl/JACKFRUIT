@@ -2184,13 +2184,13 @@ namespace KGERP.Service.Implementation.Configuration
             int result = -1;
             if (id != 0)
             {
-                Region area = await _db.Regions.FindAsync(id);
-                area.IsActive = false;
-                area.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                area.ModifiedDate = DateTime.Now;
+                Region region = await _db.Regions.FindAsync(id);
+                region.IsActive = false;
+                region.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                region.ModifiedDate = DateTime.Now;
                 if (await _db.SaveChangesAsync() > 0)
                 {
-                    result = area.ZoneDivisionId;
+                    result = region.RegionId;
                 }
             }
             return result;

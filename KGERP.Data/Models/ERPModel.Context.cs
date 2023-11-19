@@ -293,7 +293,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         public virtual DbSet<ZoneDivision> ZoneDivisions { get; set; }
-        public virtual DbSet<Region> Regions { get; set; }
         public virtual DbSet<SubZone> SubZones { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
@@ -303,6 +302,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<LeaveApplication> LeaveApplications { get; set; }
         public virtual DbSet<OfficerAssign> OfficerAssigns { get; set; }
         public virtual DbSet<TeamInfo> TeamInfoes { get; set; }
+        public virtual DbSet<Region> Regions { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

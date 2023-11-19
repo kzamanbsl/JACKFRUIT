@@ -393,7 +393,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -437,7 +437,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Attendance_Shadow' does not ha
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -509,7 +509,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendanceType' does not have 
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1298,7 +1298,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendenceApproveApplication_S
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1369,7 +1369,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Audit' does not have 
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1463,7 +1463,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Shadow' does not have
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -1520,7 +1520,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not 
           <Key>
             <PropertyRef Name="EmployeeServicePoinMapId" />
           </Key>
-          <Property Name="EmployeeServicePoinMapId" Type="int" Nullable="false" />
+          <Property Name="EmployeeServicePoinMapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmployeeId" Type="bigint" Nullable="false" />
           <Property Name="ZoneId" Type="int" />
           <Property Name="ZoneDivisionId" Type="int" />
@@ -2420,7 +2420,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not 
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2721,7 +2721,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.LeaveApplication_Shadow' does 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2746,7 +2746,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessAttenendance' does not 
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2873,7 +2873,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessLeave' does not have a 
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2939,7 +2939,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.PS' does not have a primary ke
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3070,7 +3070,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ServerConfig' does not have a 
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3365,17 +3365,17 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does no
             <PropertyRef Name="AreaId" />
           </Key>
           <Property Name="AreaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZoneId" Type="int" />
+          <Property Name="ZoneDivisionId" Type="int" />
+          <Property Name="RegionId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="10" />
-          <Property Name="AreaIncharge" Type="varchar" MaxLength="100" />
+          <Property Name="AreaIncharge" Type="nvarchar" MaxLength="100" />
           <Property Name="Designation" Type="varchar" MaxLength="80" />
           <Property Name="Email" Type="varchar" MaxLength="30" />
           <Property Name="MobileOffice" Type="varchar" MaxLength="30" />
           <Property Name="MobilePersonal" Type="varchar" MaxLength="30" />
           <Property Name="EmployeeId" Type="bigint" />
-          <Property Name="ZoneId" Type="int" />
-          <Property Name="ZoneDivisionId" Type="int" />
-          <Property Name="RegionId" Type="int" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" />
@@ -3489,7 +3489,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does no
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3822,7 +3822,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4743,7 +4743,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have 
           </Key>
           <Property Name="RegionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ZoneId" Type="int" Nullable="false" />
-          <Property Name="ZoneDivisionId" Type="int" Nullable="false" />
+          <Property Name="ZoneDivisionId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="10" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -4837,7 +4837,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have 
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5382,7 +5382,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does no
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5413,7 +5413,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vw_Attendence' does not have a
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5432,7 +5432,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwAllHeads' does not have a pr
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5455,7 +5455,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwDemandForSaleInvoice' does n
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5478,7 +5478,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwFTPFileInfo' does not have a
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5515,7 +5515,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwKGRECustomer' does not have 
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5529,7 +5529,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwProductPrice' does not have 
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5561,7 +5561,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSeedMaterialRcvList' does no
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5589,7 +5589,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSMSList' does not have a pri
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5619,7 +5619,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamInfoList' does not have 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5690,18 +5690,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
         </Association>
         <Association Name="FK_Area_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="Region" Type="Self.Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Company1">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Area" Type="Self.Area" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
@@ -5713,18 +5701,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Area_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Region" Type="Self.Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Employee1">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Area" Type="Self.Area" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5748,7 +5724,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Area_Zone1">
+        <Association Name="FK_Area_Zone">
           <End Role="Zone" Type="Self.Zone" Multiplicity="0..1" />
           <End Role="Area" Type="Self.Area" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5761,18 +5737,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Area_ZoneDivision">
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="1" />
-          <End Role="Region" Type="Self.Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_ZoneDivision1">
           <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
           <End Role="Area" Type="Self.Area" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6852,18 +6816,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employee_Manager">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee1">
-              <PropertyRef Name="ManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Employee_MaritalType">
           <End Role="DropDownItem" Type="Self.DropDownItem" Multiplicity="0..1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -7346,30 +7298,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LeaveApplication_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LeaveApplication">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LeaveApplication_Employee1">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LeaveApplication">
-              <PropertyRef Name="ManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_LeaveApplication_LeaveCategory">
           <End Role="LeaveCategory" Type="Self.LeaveCategory" Multiplicity="1" />
           <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
@@ -7523,30 +7451,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="NomineePercentageMapping">
               <PropertyRef Name="NomineeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OfficerAssign_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="OfficerAssign" Type="Self.OfficerAssign" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OfficerAssign">
-              <PropertyRef Name="EmpId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OfficerAssign_SubZone">
-          <End Role="SubZone" Type="Self.SubZone" Multiplicity="1" />
-          <End Role="OfficerAssign" Type="Self.OfficerAssign" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubZone">
-              <PropertyRef Name="SubZoneId" />
-            </Principal>
-            <Dependent Role="OfficerAssign">
-              <PropertyRef Name="SubZoneId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8104,37 +8008,49 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
         </Association>
         <Association Name="FK_Region_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="*" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
               <PropertyRef Name="CompanyId" />
             </Principal>
-            <Dependent Role="ZoneDivision">
+            <Dependent Role="Region">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Region_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="*" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ZoneDivision">
+            <Dependent Role="Region">
               <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Region_Zone">
           <End Role="Zone" Type="Self.Zone" Multiplicity="1" />
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="*" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Zone">
               <PropertyRef Name="ZoneId" />
             </Principal>
-            <Dependent Role="ZoneDivision">
+            <Dependent Role="Region">
               <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_ZoneDivision">
+          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZoneDivision">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="ZoneDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8402,18 +8318,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SubZone_Area">
-          <End Role="Area" Type="Self.Area" Multiplicity="0..1" />
-          <End Role="SubZone" Type="Self.SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Area">
-              <PropertyRef Name="AreaId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="AreaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SubZone_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="SubZone" Type="Self.SubZone" Multiplicity="*" />
@@ -8471,42 +8375,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="SubZone">
               <PropertyRef Name="ZoneDivisionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TeamInfo_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="TeamInfo" Type="Self.TeamInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="TeamInfo">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TeamInfo_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="TeamInfo" Type="Self.TeamInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TeamInfo">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TeamInfo_Employee1">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="TeamInfo" Type="Self.TeamInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TeamInfo">
-              <PropertyRef Name="ManagerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8798,18 +8666,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WorkAssign_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="WorkAssign" Type="Self.WorkAssign" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WorkAssign">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WorkAssign_Work1">
           <End Role="Work" Type="Self.Work" Multiplicity="1" />
           <End Role="WorkAssign" Type="Self.WorkAssign" Multiplicity="*" />
@@ -8870,14 +8726,38 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Zone_Region">
+        <Association Name="FK_ZoneDivision_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ZoneDivision">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZoneDivision_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ZoneDivision">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZoneDivision_Zone">
           <End Role="Zone" Type="Self.Zone" Multiplicity="1" />
-          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Zone">
               <PropertyRef Name="ZoneId" />
             </Principal>
-            <Dependent Role="Region">
+            <Dependent Role="ZoneDivision">
               <PropertyRef Name="ZoneId" />
             </Dependent>
           </ReferentialConstraint>
@@ -9687,17 +9567,9 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           </AssociationSet>
           <AssociationSet Name="FK_Area_Company" Association="Self.FK_Area_Company">
             <End Role="Company" EntitySet="Company" />
-            <End Role="Region" EntitySet="Region" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Company1" Association="Self.FK_Area_Company1">
-            <End Role="Company" EntitySet="Company" />
             <End Role="Area" EntitySet="Area" />
           </AssociationSet>
           <AssociationSet Name="FK_Area_Employee" Association="Self.FK_Area_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="Region" EntitySet="Region" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Employee1" Association="Self.FK_Area_Employee1">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Area" EntitySet="Area" />
           </AssociationSet>
@@ -9705,15 +9577,11 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Region" EntitySet="Region" />
             <End Role="Area" EntitySet="Area" />
           </AssociationSet>
-          <AssociationSet Name="FK_Area_Zone1" Association="Self.FK_Area_Zone1">
+          <AssociationSet Name="FK_Area_Zone" Association="Self.FK_Area_Zone">
             <End Role="Zone" EntitySet="Zone" />
             <End Role="Area" EntitySet="Area" />
           </AssociationSet>
           <AssociationSet Name="FK_Area_ZoneDivision" Association="Self.FK_Area_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
-            <End Role="Region" EntitySet="Region" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_ZoneDivision1" Association="Self.FK_Area_ZoneDivision1">
             <End Role="ZoneDivision" EntitySet="ZoneDivision" />
             <End Role="Area" EntitySet="Area" />
           </AssociationSet>
@@ -10069,10 +9937,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="DropDownItem" EntitySet="DropDownItem" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employee_Manager" Association="Self.FK_Employee_Manager">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="Employee1" EntitySet="Employee" />
-          </AssociationSet>
           <AssociationSet Name="FK_Employee_MaritalType" Association="Self.FK_Employee_MaritalType">
             <End Role="DropDownItem" EntitySet="DropDownItem" />
             <End Role="Employee" EntitySet="Employee" />
@@ -10233,14 +10097,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="LeaveCategory" EntitySet="LeaveCategory" />
             <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
-          <AssociationSet Name="FK_LeaveApplication_Employee" Association="Self.FK_LeaveApplication_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LeaveApplication_Employee1" Association="Self.FK_LeaveApplication_Employee1">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
-          </AssociationSet>
           <AssociationSet Name="FK_LeaveApplication_LeaveCategory" Association="Self.FK_LeaveApplication_LeaveCategory">
             <End Role="LeaveCategory" EntitySet="LeaveCategory" />
             <End Role="LeaveApplication" EntitySet="LeaveApplication" />
@@ -10292,14 +10148,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_NomineePercentageMapping_CustomerNomineeInfo" Association="Self.FK_NomineePercentageMapping_CustomerNomineeInfo">
             <End Role="CustomerNomineeInfo" EntitySet="CustomerNomineeInfo" />
             <End Role="NomineePercentageMapping" EntitySet="NomineePercentageMapping" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OfficerAssign_Employee" Association="Self.FK_OfficerAssign_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="OfficerAssign" EntitySet="OfficerAssign" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OfficerAssign_SubZone" Association="Self.FK_OfficerAssign_SubZone">
-            <End Role="SubZone" EntitySet="SubZone" />
-            <End Role="OfficerAssign" EntitySet="OfficerAssign" />
           </AssociationSet>
           <AssociationSet Name="FK_OfficerAssign_Zone" Association="Self.FK_OfficerAssign_Zone">
             <End Role="Zone" EntitySet="Zone" />
@@ -10487,15 +10335,19 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           </AssociationSet>
           <AssociationSet Name="FK_Region_Company" Association="Self.FK_Region_Company">
             <End Role="Company" EntitySet="Company" />
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
+            <End Role="Region" EntitySet="Region" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Employee" Association="Self.FK_Region_Employee">
             <End Role="Employee" EntitySet="Employee" />
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
+            <End Role="Region" EntitySet="Region" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Zone" Association="Self.FK_Region_Zone">
             <End Role="Zone" EntitySet="Zone" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_ZoneDivision" Association="Self.FK_Region_ZoneDivision">
             <End Role="ZoneDivision" EntitySet="ZoneDivision" />
+            <End Role="Region" EntitySet="Region" />
           </AssociationSet>
           <AssociationSet Name="FK_RentProductionDetail_RentProduction" Association="Self.FK_RentProductionDetail_RentProduction">
             <End Role="RentProduction" EntitySet="RentProduction" />
@@ -10585,10 +10437,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreDetail" EntitySet="StoreDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_SubZone_Area" Association="Self.FK_SubZone_Area">
-            <End Role="Area" EntitySet="Area" />
-            <End Role="SubZone" EntitySet="SubZone" />
-          </AssociationSet>
           <AssociationSet Name="FK_SubZone_Company" Association="Self.FK_SubZone_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="SubZone" EntitySet="SubZone" />
@@ -10608,18 +10456,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_SubZone_ZoneDivision" Association="Self.FK_SubZone_ZoneDivision">
             <End Role="ZoneDivision" EntitySet="ZoneDivision" />
             <End Role="SubZone" EntitySet="SubZone" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeamInfo_Company" Association="Self.FK_TeamInfo_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="TeamInfo" EntitySet="TeamInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeamInfo_Employee" Association="Self.FK_TeamInfo_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="TeamInfo" EntitySet="TeamInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeamInfo_Employee1" Association="Self.FK_TeamInfo_Employee1">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="TeamInfo" EntitySet="TeamInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_Thana_District" Association="Self.FK_Thana_District">
             <End Role="District" EntitySet="District" />
@@ -10717,10 +10553,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="WorkState" EntitySet="WorkState" />
             <End Role="Work" EntitySet="Work" />
           </AssociationSet>
-          <AssociationSet Name="FK_WorkAssign_Employee" Association="Self.FK_WorkAssign_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="WorkAssign" EntitySet="WorkAssign" />
-          </AssociationSet>
           <AssociationSet Name="FK_WorkAssign_Work1" Association="Self.FK_WorkAssign_Work1">
             <End Role="Work" EntitySet="Work" />
             <End Role="WorkAssign" EntitySet="WorkAssign" />
@@ -10741,9 +10573,17 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Zone" EntitySet="Zone" />
           </AssociationSet>
-          <AssociationSet Name="FK_Zone_Region" Association="Self.FK_Zone_Region">
+          <AssociationSet Name="FK_ZoneDivision_Company" Association="Self.FK_ZoneDivision_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZoneDivision_Employee" Association="Self.FK_ZoneDivision_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZoneDivision_Zone" Association="Self.FK_ZoneDivision_Zone">
             <End Role="Zone" EntitySet="Zone" />
-            <End Role="Region" EntitySet="Region" />
+            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -11736,19 +11576,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Zone" EntitySet="Zones" />
             <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
           </AssociationSet>
-          <EntitySet Name="Regions" EntityType="ERPModel.Region" />
-          <AssociationSet Name="FK_Area_Company" Association="ERPModel.FK_Area_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Region" EntitySet="Regions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Zone" Association="ERPModel.FK_Area_Zone">
-            <End Role="Zone" EntitySet="Zones" />
-            <End Role="Region" EntitySet="Regions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_ZoneDivision" Association="ERPModel.FK_Area_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
-            <End Role="Region" EntitySet="Regions" />
-          </AssociationSet>
           <EntitySet Name="SubZones" EntityType="ERPModel.SubZone" />
           <AssociationSet Name="FK_SubZone_Company" Association="ERPModel.FK_SubZone_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -11757,10 +11584,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_ExpenseMaster_SubZone" Association="ERPModel.FK_ExpenseMaster_SubZone">
             <End Role="SubZone" EntitySet="SubZones" />
             <End Role="ExpenseMaster" EntitySet="ExpenseMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubZone_Region" Association="ERPModel.FK_SubZone_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="SubZone" EntitySet="SubZones" />
           </AssociationSet>
           <AssociationSet Name="FK_SubZone_Zone" Association="ERPModel.FK_SubZone_Zone">
             <End Role="Zone" EntitySet="Zones" />
@@ -11827,10 +11650,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
           </AssociationSet>
-          <AssociationSet Name="FK_Vendor_Region" Association="ERPModel.FK_Vendor_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="Vendor" EntitySet="Vendors" />
-          </AssociationSet>
           <AssociationSet Name="FK_SaleReturn_Vendor" Association="ERPModel.FK_SaleReturn_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="SaleReturn" EntitySet="SaleReturns" />
@@ -11872,10 +11691,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
           <EntitySet Name="EmployeeServicePointMaps" EntityType="ERPModel.EmployeeServicePointMap" />
-          <AssociationSet Name="FK_EmployeeServicePointMap_Region" Association="ERPModel.FK_EmployeeServicePointMap_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
-          </AssociationSet>
           <AssociationSet Name="FK_EmployeeServicePointMap_SubZone" Association="ERPModel.FK_EmployeeServicePointMap_SubZone">
             <End Role="SubZone" EntitySet="SubZones" />
             <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
@@ -11896,10 +11711,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_EmployeeServicePointMap_Area" Association="ERPModel.FK_EmployeeServicePointMap_Area">
             <End Role="Area" EntitySet="Areas" />
             <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Region" Association="ERPModel.FK_Area_Region">
-            <End Role="Region" EntitySet="Regions" />
-            <End Role="Area" EntitySet="Areas" />
           </AssociationSet>
           <AssociationSet Name="FK_Area_Zone1" Association="ERPModel.FK_Area_Zone1">
             <End Role="Zone" EntitySet="Zones" />
@@ -11985,10 +11796,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_Employee_Religion" Association="ERPModel.FK_Employee_Religion">
             <End Role="DropDownItem" EntitySet="DropDownItems" />
             <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Area_Employee" Association="ERPModel.FK_Area_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="Region" EntitySet="Regions" />
           </AssociationSet>
           <AssociationSet Name="FK_Area_Employee1" Association="ERPModel.FK_Area_Employee1">
             <End Role="Employee" EntitySet="Employees" />
@@ -12109,6 +11916,39 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_TeamInfo_Employee1" Association="ERPModel.FK_TeamInfo_Employee1">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="TeamInfo" EntitySet="TeamInfoes" />
+          </AssociationSet>
+          <EntitySet Name="Regions" EntityType="ERPModel.Region" />
+          <AssociationSet Name="FK_Region_Company1" Association="ERPModel.FK_Region_Company1">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Employee1" Association="ERPModel.FK_Region_Employee1">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Region" Association="ERPModel.FK_EmployeeServicePointMap_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Area_Region" Association="ERPModel.FK_Area_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Area" EntitySet="Areas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Zone1" Association="ERPModel.FK_Region_Zone1">
+            <End Role="Zone" EntitySet="Zones" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_ZoneDivision" Association="ERPModel.FK_Region_ZoneDivision">
+            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubZone_Region" Association="ERPModel.FK_SubZone_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="SubZone" EntitySet="SubZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendor_Region" Association="ERPModel.FK_Vendor_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Vendor" EntitySet="Vendors" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -14797,13 +14637,13 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="HeadGLId" Type="Int32" Nullable="false" />
           <Property Name="EmployeeId" Type="Int64" />
           <NavigationProperty Name="ZoneDivisions" Relationship="ERPModel.FK_Region_Zone" FromRole="Zone" ToRole="ZoneDivision" />
-          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_Zone" FromRole="Zone" ToRole="Region" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Zone" FromRole="Zone" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Zone" ToRole="Vendor" />
           <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Zone" FromRole="Zone" ToRole="EmployeeServicePointMap" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Zone1" FromRole="Zone" ToRole="Area" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Zone_Employee" FromRole="Zone" ToRole="Employee" />
           <NavigationProperty Name="OfficerAssigns" Relationship="ERPModel.FK_OfficerAssign_Zone" FromRole="Zone" ToRole="OfficerAssign" />
+          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Zone1" FromRole="Zone" ToRole="Region" />
         </EntityType>
         <EntityType Name="Prod_ReferenceSlave">
           <Key>
@@ -17470,11 +17310,11 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_Company" FromRole="Company" ToRole="VendorDeposit" />
           <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_Company" FromRole="Company" ToRole="VendorDepositHistory" />
           <NavigationProperty Name="ZoneDivisions" Relationship="ERPModel.FK_Region_Company" FromRole="Company" ToRole="ZoneDivision" />
-          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_Company" FromRole="Company" ToRole="Region" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Company" FromRole="Company" ToRole="SubZone" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Company1" FromRole="Company" ToRole="Area" />
           <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Company" FromRole="Company" ToRole="Employee" />
           <NavigationProperty Name="TeamInfoes" Relationship="ERPModel.FK_TeamInfo_Company" FromRole="Company" ToRole="TeamInfo" />
+          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Company1" FromRole="Company" ToRole="Region" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19932,12 +19772,12 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="EmployeeId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_Region_Company" FromRole="ZoneDivision" ToRole="Company" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Region_Zone" FromRole="ZoneDivision" ToRole="Zone" />
-          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_ZoneDivision" FromRole="ZoneDivision" ToRole="Region" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="ZoneDivision" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_ZoneDivision" FromRole="ZoneDivision" ToRole="Vendor" />
           <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_ZoneDivision" FromRole="ZoneDivision" ToRole="EmployeeServicePointMap" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="ZoneDivision" ToRole="Area" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Region_Employee" FromRole="ZoneDivision" ToRole="Employee" />
+          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_ZoneDivision" FromRole="ZoneDivision" ToRole="Region" />
         </EntityType>
         <Association Name="FK_Region_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19960,73 +19800,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="ZoneDivision">
               <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Region">
-          <Key>
-            <PropertyRef Name="RegionId" />
-          </Key>
-          <Property Name="RegionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ZoneId" Type="Int32" Nullable="false" />
-          <Property Name="ZoneDivisionId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="RegionIncharge" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SalesOfficerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="MobilePersonal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="EmployeeId" Type="Int64" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Area_Company" FromRole="Region" ToRole="Company" />
-          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Area_Zone" FromRole="Region" ToRole="Zone" />
-          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Area_ZoneDivision" FromRole="Region" ToRole="ZoneDivision" />
-          <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Region" FromRole="Region" ToRole="SubZone" />
-          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
-          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Region" FromRole="Region" ToRole="EmployeeServicePointMap" />
-          <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Region" FromRole="Region" ToRole="Area" />
-          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Area_Employee" FromRole="Region" ToRole="Employee" />
-        </EntityType>
-        <Association Name="FK_Area_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Zone">
-          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="1" />
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Zone">
-              <PropertyRef Name="ZoneId" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_ZoneDivision">
-          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="1" />
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="ZoneDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20056,7 +19829,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="AreaId" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_SubZone_Company" FromRole="SubZone" ToRole="Company" />
           <NavigationProperty Name="ExpenseMasters" Relationship="ERPModel.FK_ExpenseMaster_SubZone" FromRole="SubZone" ToRole="ExpenseMaster" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_SubZone_Region" FromRole="SubZone" ToRole="Region" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_SubZone_Zone" FromRole="SubZone" ToRole="Zone" />
           <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="SubZone" ToRole="ZoneDivision" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="SubZone" ToRole="Vendor" />
@@ -20064,6 +19836,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Area" Relationship="ERPModel.FK_SubZone_Area" FromRole="SubZone" ToRole="Area" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_SubZone_Employee" FromRole="SubZone" ToRole="Employee" />
           <NavigationProperty Name="OfficerAssigns" Relationship="ERPModel.FK_OfficerAssign_SubZone" FromRole="SubZone" ToRole="OfficerAssign" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_SubZone_Region" FromRole="SubZone" ToRole="Region" />
         </EntityType>
         <Association Name="FK_SubZone_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20086,18 +19859,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="ExpenseMaster">
               <PropertyRef Name="TerritoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SubZone_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="RegionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20214,7 +19975,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Payments" Relationship="ERPModel.FK_Payment_Vendor" FromRole="Vendor" ToRole="Payment" />
           <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="Vendor" ToRole="PurchaseOrder" />
           <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_Vendor" FromRole="Vendor" ToRole="PurchaseReturn" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Vendor_Region" FromRole="Vendor" ToRole="Region" />
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Vendor" FromRole="Vendor" ToRole="SaleReturn" />
           <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Vendor" FromRole="Vendor" ToRole="Store" />
           <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="Vendor" ToRole="SubZone" />
@@ -20227,6 +19987,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="VendorOffers" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="Vendor" ToRole="VendorOffer" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
           <NavigationProperty Name="Area" Relationship="ERPModel.FK_Vendor_Area" FromRole="Vendor" ToRole="Area" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Vendor_Region" FromRole="Vendor" ToRole="Region" />
         </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
@@ -20396,18 +20157,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Vendor_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SaleReturn_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
           <End Type="ERPModel.SaleReturn" Role="SaleReturn" Multiplicity="*" />
@@ -20545,25 +20294,13 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_EmployeeServicePointMap_Region" FromRole="EmployeeServicePointMap" ToRole="Region" />
           <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_EmployeeServicePointMap_SubZone" FromRole="EmployeeServicePointMap" ToRole="SubZone" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_EmployeeServicePointMap_Zone" FromRole="EmployeeServicePointMap" ToRole="Zone" />
           <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_EmployeeServicePointMap_ZoneDivision" FromRole="EmployeeServicePointMap" ToRole="ZoneDivision" />
           <NavigationProperty Name="Area" Relationship="ERPModel.FK_EmployeeServicePointMap_Area" FromRole="EmployeeServicePointMap" ToRole="Area" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_EmployeeServicePointMap_Employee" FromRole="EmployeeServicePointMap" ToRole="Employee" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_EmployeeServicePointMap_Region" FromRole="EmployeeServicePointMap" ToRole="Region" />
         </EntityType>
-        <Association Name="FK_EmployeeServicePointMap_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="EmployeeServicePointMap">
-              <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_EmployeeServicePointMap_SubZone">
           <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
           <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
@@ -20607,7 +20344,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="AreaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="AreaIncharge" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AreaIncharge" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -20624,12 +20361,12 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_Area_Company1" FromRole="Area" ToRole="Company" />
           <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Area" FromRole="Area" ToRole="EmployeeServicePointMap" />
-          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Area_Region" FromRole="Area" ToRole="Region" />
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Area_Zone1" FromRole="Area" ToRole="Zone" />
           <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="Area" ToRole="ZoneDivision" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Area" FromRole="Area" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Area" FromRole="Area" ToRole="Vendor" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Area_Employee1" FromRole="Area" ToRole="Employee" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_Area_Region" FromRole="Area" ToRole="Region" />
         </EntityType>
         <Association Name="FK_Area_Company1">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20652,18 +20389,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="EmployeeServicePointMap">
               <PropertyRef Name="AreaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Region">
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
-          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Region">
-              <PropertyRef Name="RegionId" />
-            </Principal>
-            <Dependent Role="Area">
-              <PropertyRef Name="RegionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20800,7 +20525,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="DropDownItem7" Relationship="ERPModel.FK_Employee_MaritalType" FromRole="Employee" ToRole="DropDownItem" />
           <NavigationProperty Name="DropDownItem8" Relationship="ERPModel.FK_Employee_OfficeType" FromRole="Employee" ToRole="DropDownItem" />
           <NavigationProperty Name="DropDownItem9" Relationship="ERPModel.FK_Employee_Religion" FromRole="Employee" ToRole="DropDownItem" />
-          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_Employee" FromRole="Employee" ToRole="Region" />
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Employee1" FromRole="Employee" ToRole="Area" />
           <NavigationProperty Name="Grade" Relationship="ERPModel.FK_Employee_Grade" FromRole="Employee" ToRole="Grade" />
           <NavigationProperty Name="Employee1" Relationship="ERPModel.FK_Employee_Manager" FromRole="Employee" ToRole="Employee1" />
@@ -20823,6 +20547,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="OfficerAssigns" Relationship="ERPModel.FK_OfficerAssign_Employee" FromRole="Employee" ToRole="OfficerAssign" />
           <NavigationProperty Name="TeamInfoes" Relationship="ERPModel.FK_TeamInfo_Employee" FromRole="Employee" ToRole="TeamInfo" />
           <NavigationProperty Name="TeamInfoes1" Relationship="ERPModel.FK_TeamInfo_Employee1" FromRole="Employee" ToRole="TeamInfo" />
+          <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Employee1" FromRole="Employee" ToRole="Region" />
         </EntityType>
         <Association Name="FK_Employee_Bank">
           <End Type="ERPModel.Bank" Role="Bank" Multiplicity="0..1" />
@@ -21025,18 +20750,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="ReligionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_Employee">
-          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
-          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21473,6 +21186,133 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="TeamInfo">
               <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZoneId" Type="Int32" Nullable="false" />
+          <Property Name="ZoneDivisionId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="RegionIncharge" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SalesOfficerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Designation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobileOffice" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobilePersonal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Region_Company1" FromRole="Region" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_Region_Employee1" FromRole="Region" ToRole="Employee" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Region" FromRole="Region" ToRole="EmployeeServicePointMap" />
+          <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Region" FromRole="Region" ToRole="Area" />
+          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_Region_Zone1" FromRole="Region" ToRole="Zone" />
+          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Region_ZoneDivision" FromRole="Region" ToRole="ZoneDivision" />
+          <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Region" FromRole="Region" ToRole="SubZone" />
+          <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
+        </EntityType>
+        <Association Name="FK_Region_Company1">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Employee1">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Area_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Zone1">
+          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="1" />
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_ZoneDivision">
+          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="0..1" />
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZoneDivision">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubZone_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="SubZone">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendor_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="RegionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26928,30 +26768,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Regions">
-            <EntityTypeMapping TypeName="ERPModel.Region">
-              <MappingFragment StoreEntitySet="Region">
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="MobilePersonal" ColumnName="MobilePersonal" />
-                <ScalarProperty Name="MobileOffice" ColumnName="MobileOffice" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="SalesOfficerName" ColumnName="SalesOfficerName" />
-                <ScalarProperty Name="RegionIncharge" ColumnName="RegionIncharge" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
-                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SubZones">
             <EntityTypeMapping TypeName="ERPModel.SubZone">
               <MappingFragment StoreEntitySet="SubZone">
@@ -27243,6 +27059,30 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="LeadId" ColumnName="LeadId" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="ERPModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="MobilePersonal" ColumnName="MobilePersonal" />
+                <ScalarProperty Name="MobileOffice" ColumnName="MobileOffice" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="SalesOfficerName" ColumnName="SalesOfficerName" />
+                <ScalarProperty Name="RegionIncharge" ColumnName="RegionIncharge" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

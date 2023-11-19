@@ -17,7 +17,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
-            this.Regions = new HashSet<Region>();
             this.Areas = new HashSet<Area>();
             this.Employee1 = new HashSet<Employee>();
             this.EmployeeServicePointMaps = new HashSet<EmployeeServicePointMap>();
@@ -35,6 +34,7 @@ namespace KGERP.Data.Models
             this.OfficerAssigns = new HashSet<OfficerAssign>();
             this.TeamInfoes = new HashSet<TeamInfo>();
             this.TeamInfoes1 = new HashSet<TeamInfo>();
+            this.Regions = new HashSet<Region>();
         }
     
         public long Id { get; set; }
@@ -120,8 +120,6 @@ namespace KGERP.Data.Models
         public virtual DropDownItem DropDownItem8 { get; set; }
         public virtual DropDownItem DropDownItem9 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Region> Regions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Area> Areas { get; set; }
         public virtual Grade Grade { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -160,5 +158,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<TeamInfo> TeamInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TeamInfo> TeamInfoes1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Region> Regions { get; set; }
     }
 }
