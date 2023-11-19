@@ -179,10 +179,10 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group" id="zoneDivisionDiv">
-                                        @Html.LabelFor(model => model.Employee.DivisionId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        @Html.LabelFor(model => model.Employee.ZoneDivisionIds, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.DivisionId, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
-                                            @Html.ValidationMessageFor(model => model.Employee.DivisionId, "", new { @class = "text-danger" })
+                                            @Html.ListBoxFor(model => model.Employee.ZoneDivisionIds, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.Employee.ZoneDivisionIds, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>

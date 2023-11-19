@@ -5,11 +5,11 @@
     ViewBag.Title = "DropDown Item List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <section class="content-header">
     <h1>
         Dropdown Item List
     </h1>
-
 
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -20,6 +20,7 @@
         </li>
     </ol>
 </section>
+
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -30,14 +31,14 @@
                             <table id="KgErpDataTable" style="width:100%; background-color: #ddd;" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width:10%;">SL</th>
-                                        <th style="width:10%;">Type</th>
-                                        <th style="width:10%;">ID/th>
-                                        <th style="width:10%;">Item Name</th>
-                                        <th style="width:10%;">Item Value</th>
+                                        <th>SL</th>
+                                        <th>Type</th>
+                                        @*<th>ID</th>*@
+                                        <th>Item Name</th>
+                                        <th>Item Value</th>
                                         <th>Remarks</th>
-                                        <th style="width:10%;">Order No</th>
-                                        <th style="width:10%;">Action</th>
+                                        <th>Order No</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 @{int sl = 0;
@@ -50,7 +51,7 @@
                                                 @(++sl)
                                             </td>
                                             <td>@item.TypeName</td>
-                                            <td>@item.DropDownTypeId</td>
+                                            @*<td>@item.DropDownTypeId</td>*@
                                             <td>@item.Name</td>
                                             <td>@item.ItemValue</td>
                                             <td>@item.Remarks</td>
@@ -78,6 +79,7 @@
 
 
 @section Scripts {
+
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
