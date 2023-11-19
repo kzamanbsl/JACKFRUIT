@@ -6,10 +6,12 @@ using KGERP.Utility.Util;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls.WebParts;
 
@@ -342,7 +344,7 @@ namespace KGERP.Service.Implementation
                 }
                 else if (zones?.Count() > 0)
                 {
-                    var zoneIds= zones.Select(c => c.ZoneId).ToArray();
+                    var zoneIds = zones.Select(c => c.ZoneId).ToArray();
                     result.ZoneIds = zoneIds;
                 }
             }
@@ -755,112 +757,188 @@ namespace KGERP.Service.Implementation
                     #endregion
 
                     #region Add new maps in EmployeeServicePointMap Table
-                    var addableMaps= new List <EmployeeServicePointMap>();
-                    var updateableMaps= new List <EmployeeServicePointMap>();
+                    var addableMaps = new List<EmployeeServicePointMap>();
+                    var updateableMaps = new List<EmployeeServicePointMap>();
 
-                    var empExistMapped= _context.EmployeeServicePointMaps.Where(c => c.EmployeeId == model.Id).ToList();
+                    var empExistMapped = _context.EmployeeServicePointMaps.Where(c => c.EmployeeId == model.Id).ToList();
+                    var empExistUpdateableList= new List<EmployeeServicePointMap>();
+                    var empExistDeleteableList= new List<EmployeeServicePointMap>();
 
-                    //if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
-                    //{
-                    //    var subZoneIds = model.SubZoneIds.Distinct();
-                    //    var subZones = _context.EmployeeServicePointMaps.Where(c => subZoneIds.Contains((int)c.TerritoryId) && c.EmployeeId==model.Id);
-                    //    foreach (var subZone in subZones)
-                    //    {
-                    //        var name = model.Name ?? subZone.SalesOfficerName;
-                    //        var designation = model.Designation?.Name ?? subZone.Designation;
-                    //        var email = model.Email ?? subZone.Email;
-                    //        var mobileOffice = model.MobileNo ?? subZone.MobileOffice;
-                    //        var mobilePersonal = model.Telephone ?? subZone.MobilePersonal;
+                    if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    {
+                        var subZoneIds = model.SubZoneIds.Distinct();
+                        var existSubZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.TerritoryId).Distinct().ToList() : null;
 
-                    //        subZone.EmployeeId = model.Id;
-                    //        subZone.SalesOfficerName = name;
-                    //        subZone.Designation = designation;
-                    //        subZone.Email = email;
-                    //        subZone.MobileOffice = mobileOffice;
-                    //        subZone.MobilePersonal = mobilePersonal;
-                    //    }
-                    //}
-                    //else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
-                    //{
-                    //    var areaIds = model.AreaIds.Distinct();
-                    //    var areas = _context.Areas.Where(c => areaIds.Contains(c.AreaId));
-                    //    foreach (var area in areas)
-                    //    {
-                    //        var name = model.Name ?? area.AreaIncharge;
-                    //        var designation = model.Designation?.Name ?? area.Designation;
-                    //        var email = model.Email ?? area.Email;
-                    //        var mobileOffice = model.MobileNo ?? area.MobileOffice;
-                    //        var mobilePersonal = model.Telephone ?? area.MobilePersonal;
+                        var addableSubZoneIds = empExistMapped?.Count() > 0 && existSubZoneIds?.Count() > 0 ? subZoneIds.Where(c => !existSubZoneIds.Contains(c)) : subZoneIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
+                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
 
-                    //        area.EmployeeId = model.Id;
-                    //        area.AreaIncharge = name;
-                    //        area.Designation = designation;
-                    //        area.Email = email;
-                    //        area.MobileOffice = mobileOffice;
-                    //        area.MobilePersonal = mobilePersonal;
-                    //    }
-                    //}
-                    //else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
-                    //{
-                    //    var regionIds = model.RegionIds.Distinct();
-                    //    var regions = _context.Regions.Where(c => regionIds.Contains(c.RegionId));
-                    //    foreach (var region in regions)
-                    //    {
-                    //        var areaIncharge = model.Name ?? region.RegionIncharge;
-                    //        var designation = model.Designation?.Name ?? region.Designation;
-                    //        var email = model.Email ?? region.Email;
-                    //        var mobileOffice = model.MobileNo ?? region.MobileOffice;
-                    //        var mobilePersonal = model.Telephone ?? region.MobilePersonal;
+                        if (addableSubZoneIds?.Count() > 0)
+                        {
 
-                    //        region.EmployeeId = model.Id;
-                    //        region.RegionIncharge = areaIncharge;
-                    //        region.Designation = designation;
-                    //        region.Email = email;
-                    //        region.MobileOffice = mobileOffice;
-                    //        region.MobilePersonal = mobilePersonal;
-                    //    }
-                    //}
-                    //else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
-                    //{
-                    //    var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
-                    //    var regions = _context.ZoneDivisions.Where(c => zoneDivisionIds.Contains(c.ZoneDivisionId));
-                    //    foreach (var region in regions)
-                    //    {
-                    //        var regionIncharge = model.Name ?? region.ZoneDivisionIncharge;
-                    //        var designation = model.Designation?.Name ?? region.Designation;
-                    //        var email = model.Email ?? region.Email;
-                    //        var mobileOffice = model.MobileNo ?? region.MobileOffice;
-                    //        var mobilePersonal = model.Telephone ?? region.MobilePersonal;
+                            foreach (var subZoneId in addableSubZoneIds)
+                            {
+                                var obj = new EmployeeServicePointMap()
+                                {
+                                    EmployeeServicePoinMapId = 0,
+                                    EmployeeId = model.Id,
+                                    TerritoryId = subZoneId,
+                                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    IsActive = true,
+                                    CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
+                                };
+                                addableMaps.Add(obj);
+                            }
+                        }
+                    }
+                    else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    {
+                        var areaIds = model.AreaIds.Distinct();
+                        var existAreaIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.AreaId).Distinct().ToList() : null;
 
-                    //        region.EmployeeId = model.Id;
-                    //        region.ZoneDivisionIncharge = regionIncharge;
-                    //        region.Designation = designation;
-                    //        region.Email = email;
-                    //        region.MobileOffice = mobileOffice;
-                    //        region.MobilePersonal = mobilePersonal;
-                    //    }
-                    //}
-                    //else if (model.ZoneIds?.Length > 0)
-                    //{
-                    //    var zoneIds = model.ZoneIds.Distinct();
-                    //    var zones = _context.Zones.Where(c => zoneIds.Contains(c.ZoneId));
-                    //    foreach (var zone in zones)
-                    //    {
-                    //        var zoneIncharge = model.Name ?? zone.ZoneIncharge;
-                    //        var designation = model.Designation?.Name ?? zone.Designation;
-                    //        var email = model.Email ?? zone.Email;
-                    //        var mobileOffice = model.MobileNo ?? zone.MobileOffice;
-                    //        var mobilePersonal = model.Telephone ?? zone.MobilePersonal;
+                        var addableAreaIds = empExistMapped?.Count() > 0 && existAreaIds?.Count() > 0 ? areaIds.Where(c => !existAreaIds.Contains(c)) : areaIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => areaIds.Contains((int)c.AreaId)).ToList() : null;
+                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !areaIds.Contains((int)c.AreaId)).ToList() : null;
 
-                    //        zone.EmployeeId = model.Id;
-                    //        zone.ZoneIncharge = zoneIncharge;
-                    //        zone.Designation = designation;
-                    //        zone.Email = email;
-                    //        zone.MobileOffice = mobileOffice;
-                    //        zone.MobilePersonal = mobilePersonal;
-                    //    }
-                    //}
-                    //return _context.SaveChanges() > 0;
+                        if (addableAreaIds?.Count() > 0)
+                        {
+
+                            foreach (var areaId in addableAreaIds)
+                            {
+                                var obj = new EmployeeServicePointMap()
+                                {
+                                    EmployeeServicePoinMapId = 0,
+                                    EmployeeId = model.Id,
+                                    AreaId = areaId,
+                                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    IsActive = true,
+                                    CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
+                                };
+                                addableMaps.Add(obj);
+                            }
+                        }
+                    }
+                    else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    {
+                        var regionIds = model.RegionIds.Distinct();
+                        var existRegionIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.RegionId).Distinct().ToList() : null;
+
+                        var addableRegionIds = empExistMapped?.Count() > 0 && existRegionIds?.Count() > 0 ? regionIds.Where(c => !existRegionIds.Contains(c)) : regionIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => regionIds.Contains((int)c.RegionId)).ToList() : null;
+                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !regionIds.Contains((int)c.RegionId)).ToList() : null;
+
+                        if (addableRegionIds?.Count() > 0)
+                        {
+
+                            foreach (var regionId in addableRegionIds)
+                            {
+                                var obj = new EmployeeServicePointMap()
+                                {
+                                    EmployeeServicePoinMapId = 0,
+                                    EmployeeId = model.Id,
+                                    RegionId = regionId,
+                                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    IsActive = true,
+                                    CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
+                                };
+                                addableMaps.Add(obj);
+                            }
+                        }
+                    }
+                    else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
+                    {
+                        var zoneDivisionIds = model.ZoneDivisionIds.Distinct();
+                        var existZoneDivisionIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.ZoneDivisionId).Distinct().ToList() : null;
+
+                        var addableZoneDivisionIds = empExistMapped?.Count() > 0 && existZoneDivisionIds?.Count() > 0 ? zoneDivisionIds.Where(c => !existZoneDivisionIds.Contains(c)) : zoneDivisionIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
+                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
+
+                        if (addableZoneDivisionIds?.Count() > 0)
+                        {
+
+                            foreach (var zoneDivisionId in addableZoneDivisionIds)
+                            {
+                                var obj = new EmployeeServicePointMap()
+                                {
+                                    EmployeeServicePoinMapId = 0,
+                                    EmployeeId = model.Id,
+                                    ZoneDivisionId = zoneDivisionId,
+                                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    IsActive = true,
+                                    CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
+                                };
+                                addableMaps.Add(obj);
+                            }
+                        }
+                    }
+                    else if (model.ZoneIds?.Length > 0)
+                    {
+                        var zoneIds = model.ZoneIds.Distinct();
+                        var existZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.ZoneId).Distinct().ToList() : null;
+
+                        var addableZoneIds = empExistMapped?.Count() > 0 && existZoneIds?.Count() > 0 ? zoneIds.Where(c => !existZoneIds.Contains(c)) : zoneIds;
+                        empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => zoneIds.Contains((int)c.ZoneId)).ToList() : null;
+                        empExistDeleteableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
+
+                        if (addableZoneIds?.Count() > 0)
+                        {
+
+                            foreach (var zoneId in addableZoneIds)
+                            {
+                                var obj = new EmployeeServicePointMap()
+                                {
+                                    EmployeeServicePoinMapId = 0,
+                                    EmployeeId = model.Id,
+                                    ZoneId = zoneId,
+                                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    IsActive = true,
+                                    CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
+                                };
+                                addableMaps.Add(obj);
+                            }
+                        }
+                    }
+
+                    if (empExistUpdateableList?.Count() > 0)
+                    {
+
+                        foreach (var updateable in empExistUpdateableList)
+                        {
+                            updateable.IsActive = true;
+                            updateable.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                            updateable.ModifiedDate = DateTime.Now;
+                            updateableMaps.Add(updateable);
+                        }
+                    }
+                    if (empExistDeleteableList?.Count() > 0)
+                    {
+
+                        foreach (var delateable in empExistDeleteableList)
+                        {
+                            delateable.IsActive = false;
+                            delateable.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                            delateable.ModifiedDate = DateTime.Now;
+                            updateableMaps.Add(delateable);
+                        }
+                    }
+
+                    if (addableMaps.Count() > 0)
+                    {
+                        _context.EmployeeServicePointMaps.AddRange(addableMaps);
+                    }
+
+                    if(updateableMaps.Count() > 0)
+                    {
+                        _context.Entry(updateableMaps).State = EntityState.Modified;
+                    }
+
+                    return _context.SaveChanges() > 0;
 
 
                     #endregion
