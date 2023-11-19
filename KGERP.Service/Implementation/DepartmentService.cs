@@ -119,7 +119,7 @@ namespace KGERP.Service.Implementation
 
         public List<SelectModel> GetDepartmentSelectModels()
         {
-            return _db.Departments.OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
+            return _db.Departments.Where(x=>x.IsActive == true && x.CompanyId == CompanyInfo.CompanyId).OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
             {
                 Text = x.Name.ToString(),
                 Value = x.DepartmentId.ToString()
