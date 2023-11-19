@@ -1516,6 +1516,24 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not 
           <Property Name="ModifiedDate" Type="smalldatetime" />
           <Property Name="Name" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="EmployeeServicePointMap">
+          <Key>
+            <PropertyRef Name="EmployeeServicePoinMapId" />
+          </Key>
+          <Property Name="EmployeeServicePoinMapId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="ZoneId" Type="int" />
+          <Property Name="ZoneDivisionId" Type="int" />
+          <Property Name="RegionId" Type="int" />
+          <Property Name="AreaId" Type="int" />
+          <Property Name="TerritoryId" Type="int" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="EmployeeTerritories">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -6894,6 +6912,78 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeServicePointMap_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="0..1" />
+          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_SubZone">
+          <End Role="SubZone" Type="Self.SubZone" Multiplicity="0..1" />
+          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubZone">
+              <PropertyRef Name="SubZoneId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Zone">
+          <End Role="Zone" Type="Self.Zone" Multiplicity="0..1" />
+          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_ZoneDivision">
+          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
+          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZoneDivision">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeTerritories_EmployeeTerritories">
           <End Role="EmployeeTerritories" Type="Self.EmployeeTerritories" Multiplicity="1" />
           <End Role="EmployeeTerritories1" Type="Self.EmployeeTerritories" Multiplicity="0..1" />
@@ -8746,6 +8836,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySet Name="EmployeeHierarkey" EntityType="Self.EmployeeHierarkey" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLoan" EntityType="Self.EmployeeLoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeOperation" EntityType="Self.EmployeeOperation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeServicePointMap" EntityType="Self.EmployeeServicePointMap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeTerritories" EntityType="Self.EmployeeTerritories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErpLogInfo" EntityType="Self.ErpLogInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErpSMS" EntityType="Self.ErpSMS" Schema="dbo" store:Type="Tables" />
@@ -9877,6 +9968,30 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_Employee_Upazila" Association="Self.FK_Employee_Upazila">
             <End Role="Upazila" EntitySet="Upazila" />
             <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Area" Association="Self.FK_EmployeeServicePointMap_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Employee" Association="Self.FK_EmployeeServicePointMap_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Region" Association="Self.FK_EmployeeServicePointMap_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_SubZone" Association="Self.FK_EmployeeServicePointMap_SubZone">
+            <End Role="SubZone" EntitySet="SubZone" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Zone" Association="Self.FK_EmployeeServicePointMap_Zone">
+            <End Role="Zone" EntitySet="Zone" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_ZoneDivision" Association="Self.FK_EmployeeServicePointMap_ZoneDivision">
+            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeTerritories_EmployeeTerritories" Association="Self.FK_EmployeeTerritories_EmployeeTerritories">
             <End Role="EmployeeTerritories" EntitySet="EmployeeTerritories" />
@@ -11829,6 +11944,31 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_VendorOpening_Vendor" Association="ERPModel.FK_VendorOpening_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
+          </AssociationSet>
+          <EntitySet Name="EmployeeServicePointMaps" EntityType="ERPModel.EmployeeServicePointMap" />
+          <AssociationSet Name="FK_EmployeeServicePointMap_Employee" Association="ERPModel.FK_EmployeeServicePointMap_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Area" Association="ERPModel.FK_EmployeeServicePointMap_Area">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Region" Association="ERPModel.FK_EmployeeServicePointMap_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_SubZone" Association="ERPModel.FK_EmployeeServicePointMap_SubZone">
+            <End Role="SubZone" EntitySet="SubZones" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_Zone" Association="ERPModel.FK_EmployeeServicePointMap_Zone">
+            <End Role="Zone" EntitySet="Zones" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeServicePointMap_ZoneDivision" Association="ERPModel.FK_EmployeeServicePointMap_ZoneDivision">
+            <End Role="ZoneDivision" EntitySet="ZoneDivisions" />
+            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -14637,6 +14777,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Zone1" FromRole="Zone" ToRole="Area" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Zone" FromRole="Zone" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Zone" FromRole="Zone" ToRole="Vendor" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Zone" FromRole="Zone" ToRole="EmployeeServicePointMap" />
         </EntityType>
         <EntityType Name="Prod_ReferenceSlave">
           <Key>
@@ -17654,6 +17795,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="ZoneDivisions" Relationship="ERPModel.FK_Region_Employee" FromRole="Employee" ToRole="ZoneDivision" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Area_Employee" FromRole="Employee" ToRole="Region" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Employee" FromRole="Employee" ToRole="SubZone" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Employee" FromRole="Employee" ToRole="EmployeeServicePointMap" />
         </EntityType>
         <Association Name="FK_AssetAssign_Employee">
           <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
@@ -20440,6 +20582,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="ZoneDivision" ToRole="Area" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="ZoneDivision" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_ZoneDivision" FromRole="ZoneDivision" ToRole="Vendor" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_ZoneDivision" FromRole="ZoneDivision" ToRole="EmployeeServicePointMap" />
         </EntityType>
         <Association Name="FK_Region_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20506,6 +20649,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Areas" Relationship="ERPModel.FK_Area_Region" FromRole="Region" ToRole="Area" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Region" FromRole="Region" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Region" FromRole="Region" ToRole="Vendor" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Region" FromRole="Region" ToRole="EmployeeServicePointMap" />
         </EntityType>
         <Association Name="FK_Area_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20583,6 +20727,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_Area_ZoneDivision1" FromRole="Area" ToRole="ZoneDivision" />
           <NavigationProperty Name="SubZones" Relationship="ERPModel.FK_SubZone_Area" FromRole="Area" ToRole="SubZone" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_Area" FromRole="Area" ToRole="Vendor" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_Area" FromRole="Area" ToRole="EmployeeServicePointMap" />
         </EntityType>
         <Association Name="FK_Area_Company1">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20664,6 +20809,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Zone" Relationship="ERPModel.FK_SubZone_Zone" FromRole="SubZone" ToRole="Zone" />
           <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_SubZone_ZoneDivision" FromRole="SubZone" ToRole="ZoneDivision" />
           <NavigationProperty Name="Vendors" Relationship="ERPModel.FK_Vendor_SubZone" FromRole="SubZone" ToRole="Vendor" />
+          <NavigationProperty Name="EmployeeServicePointMaps" Relationship="ERPModel.FK_EmployeeServicePointMap_SubZone" FromRole="SubZone" ToRole="EmployeeServicePointMap" />
         </EntityType>
         <Association Name="FK_SubZone_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -21161,6 +21307,102 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="VendorOpening">
               <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmployeeServicePointMap">
+          <Key>
+            <PropertyRef Name="EmployeeServicePoinMapId" />
+          </Key>
+          <Property Name="EmployeeServicePoinMapId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int64" Nullable="false" />
+          <Property Name="ZoneId" Type="Int32" />
+          <Property Name="ZoneDivisionId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="AreaId" Type="Int32" />
+          <Property Name="TerritoryId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_EmployeeServicePointMap_Employee" FromRole="EmployeeServicePointMap" ToRole="Employee" />
+          <NavigationProperty Name="Area" Relationship="ERPModel.FK_EmployeeServicePointMap_Area" FromRole="EmployeeServicePointMap" ToRole="Area" />
+          <NavigationProperty Name="Region" Relationship="ERPModel.FK_EmployeeServicePointMap_Region" FromRole="EmployeeServicePointMap" ToRole="Region" />
+          <NavigationProperty Name="SubZone" Relationship="ERPModel.FK_EmployeeServicePointMap_SubZone" FromRole="EmployeeServicePointMap" ToRole="SubZone" />
+          <NavigationProperty Name="Zone" Relationship="ERPModel.FK_EmployeeServicePointMap_Zone" FromRole="EmployeeServicePointMap" ToRole="Zone" />
+          <NavigationProperty Name="ZoneDivision" Relationship="ERPModel.FK_EmployeeServicePointMap_ZoneDivision" FromRole="EmployeeServicePointMap" ToRole="ZoneDivision" />
+        </EntityType>
+        <Association Name="FK_EmployeeServicePointMap_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Area">
+          <End Type="ERPModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="AreaId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Region">
+          <End Type="ERPModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_SubZone">
+          <End Type="ERPModel.SubZone" Role="SubZone" Multiplicity="0..1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubZone">
+              <PropertyRef Name="SubZoneId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_Zone">
+          <End Type="ERPModel.Zone" Role="Zone" Multiplicity="0..1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ZoneId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="ZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeServicePointMap_ZoneDivision">
+          <End Type="ERPModel.ZoneDivision" Role="ZoneDivision" Multiplicity="0..1" />
+          <End Type="ERPModel.EmployeeServicePointMap" Role="EmployeeServicePointMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZoneDivision">
+              <PropertyRef Name="ZoneDivisionId" />
+            </Principal>
+            <Dependent Role="EmployeeServicePointMap">
+              <PropertyRef Name="ZoneDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26912,6 +27154,25 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeServicePointMaps">
+            <EntityTypeMapping TypeName="ERPModel.EmployeeServicePointMap">
+              <MappingFragment StoreEntitySet="EmployeeServicePointMap">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeServicePoinMapId" ColumnName="EmployeeServicePoinMapId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

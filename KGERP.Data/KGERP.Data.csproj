@@ -381,6 +381,9 @@
     <Compile Include="Models\EmployeeOperation.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeServicePointMap.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EmployeeTerritory.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>

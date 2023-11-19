@@ -166,47 +166,55 @@
 
                             @*@if (Model.Employee.Id == 0)
                                 {*@
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Employee.ZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                        <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.ZoneIds, Model.ZoneList as MultiSelectList, new { id = "ddlZoneId", @class = "form-control searchingDropdown" })
-                                            @Html.ValidationMessageFor(model => model.Employee.ZoneIds, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group" id="zoneDivisionDiv">
-                                        @Html.LabelFor(model => model.Employee.ZoneDivisionIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                        <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.ZoneDivisionIds, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown" })
-                                            @Html.ValidationMessageFor(model => model.Employee.ZoneDivisionIds, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group" id="regionDiv">
-                                        @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                        <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
-                                            @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group" id="subzoneDiv">
-                                        @Html.LabelFor(model => model.Employee.SubZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
-                                        <div class="col-md-8">
-                                            @Html.ListBoxFor(model => model.Employee.SubZoneIds, Model.TerritoryList as MultiSelectList, new { id = "ddlSubZoneId", @class = "form-control searchingDropdown" })
-                                            @Html.ValidationMessageFor(model => model.Employee.SubZoneIds, "", new { @class = "text-danger" })
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Employee.ZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.ListBoxFor(model => model.Employee.ZoneIds, Model.ZoneList as MultiSelectList, new { id = "ddlZoneId", @class = "form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.Employee.ZoneIds, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" id="zoneDivisionDiv">
+                                    @Html.LabelFor(model => model.Employee.ZoneDivisionIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.ListBoxFor(model => model.Employee.ZoneDivisionIds, Model.ZoneDivisionList as MultiSelectList, new { id = "ddlZoneDivisionId", @class = "form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.Employee.ZoneDivisionIds, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" id="areaDiv">
+                                    @Html.LabelFor(model => model.Employee.AreaIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.ListBoxFor(model => model.Employee.AreaIds, Model.AreaList as MultiSelectList, new { id = "ddlAreaId", @class = "form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.Employee.AreaIds, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" id="regionDiv">
+                                    @Html.LabelFor(model => model.Employee.RegionIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.ListBoxFor(model => model.Employee.RegionIds, Model.RegionList as MultiSelectList, new { id = "ddlRegionId", @class = "form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.Employee.RegionIds, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" id="subzoneDiv">
+                                    @Html.LabelFor(model => model.Employee.SubZoneIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.ListBoxFor(model => model.Employee.SubZoneIds, Model.TerritoryList as MultiSelectList, new { id = "ddlSubZoneId", @class = "form-control searchingDropdown" })
+                                        @Html.ValidationMessageFor(model => model.Employee.SubZoneIds, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             @*}*@
                         </div>
                     </div>

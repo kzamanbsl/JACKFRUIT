@@ -302,6 +302,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<SubZone> SubZones { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

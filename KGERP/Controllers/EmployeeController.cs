@@ -240,6 +240,7 @@ namespace KGERP.Controllers
 
             vm.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text");
             vm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId), "Value", "Text");
+            vm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId), "Value", "Text");
             vm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId), "Value", "Text");
             vm.TerritoryList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             vm.Employee.CompanyId = companyId;

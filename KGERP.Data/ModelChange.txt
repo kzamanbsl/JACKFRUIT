@@ -31,6 +31,22 @@ Date: 14-11-2023
 	*ZoneDivisionId
 	*RegionId
 	*AreaId
+
++Erp.EmpServicePoinMap
+	+EmpServicePoinMapId
+	+EmployeeId
+	+ZoneId
+	+ZoneDivisionId
+	+RegionId
+	+AreaId
+	+SubZoneId
+	+IsActive
+	+CompanyId
+	+CreateBy
+	+CreateOn
+	+UpdatedBy
+	+UpdatedOn
+	
 	
 *Erp.MaterialReceiveDetail product foreign key added
 

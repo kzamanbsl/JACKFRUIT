@@ -41,6 +41,7 @@ namespace KGERP.Data.Models
             this.ZoneDivisions = new HashSet<ZoneDivision>();
             this.Regions = new HashSet<Region>();
             this.SubZones = new HashSet<SubZone>();
+            this.EmployeeServicePointMaps = new HashSet<EmployeeServicePointMap>();
         }
     
         public long Id { get; set; }
@@ -179,5 +180,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<Region> Regions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubZone> SubZones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeServicePointMap> EmployeeServicePointMaps { get; set; }
     }
 }

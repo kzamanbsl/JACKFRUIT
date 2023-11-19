@@ -36,6 +36,7 @@ namespace KGERP.ViewModel
 
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
     }
