@@ -1,0 +1,18 @@
+﻿@using KGERP.Utility
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <hgroup style="color:red">
+        <h1>Error!</h1>
+        <h3>An error occurred while processing your request!</h3>
+        <p class="text-danger"> <strong>Error Message: </strong> @ViewBag.ErrorMessage</p>
+        <a href="@Url.Action("Index","Seed", new { companyId = CompanyInfo.CompanyId })">
+            <h6> Go Back To Home Page</h6>
+        </a>
+    </hgroup>
+</body>
+</html>

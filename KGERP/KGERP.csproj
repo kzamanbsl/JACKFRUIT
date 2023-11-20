@@ -469,6 +469,7 @@
     <Compile Include="Controllers\CostHeadsController.cs" />
     <Compile Include="Controllers\Crm\CrmsController.cs" />
     <Compile Include="Controllers\DamageController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ProductionMasterController.cs" />
     <Compile Include="Controllers\KGRECustomerMapHeadGlController.cs" />
     <Compile Include="Controllers\MoneyReceiptProcess\RealStateMoneyReceiptController.cs" />
@@ -5629,6 +5630,8 @@
     <Content Include="Views\Damage\DealerToFacDamageReceivedList.cshtml" />
     <Content Include="Views\Damage\DealerToFacDamageReceivedSlave.cshtml" />
     <Content Include="Views\Configuration\CommonArea.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

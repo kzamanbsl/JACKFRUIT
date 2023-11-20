@@ -2,9 +2,11 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using KGERP.Controllers;
 
 
 namespace KGERP
@@ -37,6 +39,7 @@ namespace KGERP
             SetUpTimer();
 
         }
+
         private static System.Threading.Timer _timer;
 
         private void SetUpTimer()
@@ -53,5 +56,35 @@ namespace KGERP
         }
 
         public bool IsReleased = true;
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            Response.Clear();
+
+            var httpException = exception as HttpException;
+            RouteData routeData = new RouteData();
+
+            routeData.Values["controller"] = "Error"; // Your error controller
+            routeData.Values["action"] = "Index";     // Your error action
+
+            if (httpException != null)
+            {
+                switch (httpException.GetHttpCode())
+                {
+                    case 404:
+                        routeData.Values["action"] = "NotFound"; // Custom action for 404 errors
+                        break;
+                    // Handle other HTTP errors if needed
+                }
+            }
+
+            Server.ClearError();
+            Response.TrySkipIisCustomErrors = true;
+            IController errorController = new ErrorController(exception.Message.ToString()); // Your error controller
+            errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
+        }
+
+
     }
 }
