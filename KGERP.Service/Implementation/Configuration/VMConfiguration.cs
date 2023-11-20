@@ -203,7 +203,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
-        public int ZoneDivisionId { get; set; }
+        public Nullable<int> ZoneDivisionId { get; set; }
         public string ZoneDivisionName { get; set; }
        
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());

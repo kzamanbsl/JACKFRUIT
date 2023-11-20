@@ -452,14 +452,9 @@
         <EntityTypeShape EntityType="ERPModel.ZoneDivision" Width="1.5" PointX="54.125" PointY="25.75" />
         <AssociationConnector Association="ERPModel.FK_Region_Company" />
         <AssociationConnector Association="ERPModel.FK_Region_Zone" />
-        <EntityTypeShape EntityType="ERPModel.Region" Width="1.5" PointX="56.375" PointY="25.625" />
-        <AssociationConnector Association="ERPModel.FK_Area_Company" />
-        <AssociationConnector Association="ERPModel.FK_Area_Zone" />
-        <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision" />
         <EntityTypeShape EntityType="ERPModel.SubZone" Width="1.5" PointX="63.875" PointY="18.375" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Company" />
         <AssociationConnector Association="ERPModel.FK_ExpenseMaster_SubZone" />
-        <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Zone" />
         <AssociationConnector Association="ERPModel.FK_SubZone_ZoneDivision" />
         <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="66.125" PointY="4.875" />
@@ -477,7 +472,6 @@
         <AssociationConnector Association="ERPModel.FK_Payment_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_Vendor" />
-        <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Store_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Vendor_SubZone" />
@@ -489,14 +483,12 @@
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
         <EntityTypeShape EntityType="ERPModel.EmployeeServicePointMap" Width="1.5" PointX="71.125" PointY="21.625" />
-        <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Region" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_SubZone" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Zone" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_ZoneDivision" />
         <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="58.625" PointY="25.5" />
         <AssociationConnector Association="ERPModel.FK_Area_Company1" />
         <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Area" />
-        <AssociationConnector Association="ERPModel.FK_Area_Region" />
         <AssociationConnector Association="ERPModel.FK_Area_Zone1" />
         <AssociationConnector Association="ERPModel.FK_Area_ZoneDivision1" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Area" />
@@ -519,7 +511,6 @@
         <AssociationConnector Association="ERPModel.FK_Employee_MaritalType" />
         <AssociationConnector Association="ERPModel.FK_Employee_OfficeType" />
         <AssociationConnector Association="ERPModel.FK_Employee_Religion" />
-        <AssociationConnector Association="ERPModel.FK_Area_Employee" />
         <AssociationConnector Association="ERPModel.FK_Area_Employee1" />
         <AssociationConnector Association="ERPModel.FK_Employee_Grade" />
         <AssociationConnector Association="ERPModel.FK_Employee_Manager" />
@@ -553,6 +544,15 @@
         <AssociationConnector Association="ERPModel.FK_TeamInfo_Company" />
         <AssociationConnector Association="ERPModel.FK_TeamInfo_Employee" />
         <AssociationConnector Association="ERPModel.FK_TeamInfo_Employee1" />
+        <EntityTypeShape EntityType="ERPModel.Region" Width="1.5" PointX="56.375" PointY="25.625" />
+        <AssociationConnector Association="ERPModel.FK_Region_Company1" />
+        <AssociationConnector Association="ERPModel.FK_Region_Employee1" />
+        <AssociationConnector Association="ERPModel.FK_EmployeeServicePointMap_Region" />
+        <AssociationConnector Association="ERPModel.FK_Area_Region" />
+        <AssociationConnector Association="ERPModel.FK_Region_Zone1" />
+        <AssociationConnector Association="ERPModel.FK_Region_ZoneDivision" />
+        <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
+        <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -7,48 +7,6 @@
 
 Date: 14-11-2023
 ================
-*Erp.Product
-	+DeportPrice
-	+DealerPrice
-	+CustomerPrice
-
-*Erp.Region to Erp.ZoneDivision
-	*RegionId to ZoneDivisionId
-	*RegionIncharge to ZoneDivisionIncharge
-
-*Erp.Area to Erp.Region
-	*AreaId to RegionId
-	*AreaIncharge to RegionIncharge
-
-+Erp.Area
-
-*Erp.SubZone
-	*ZoneDivisionId
-	*RegionId
-	*AreaId
-
-*Erp.Vendor
-	*ZoneDivisionId
-	*RegionId
-	*AreaId
-
-+Erp.EmpServicePoinMap
-	+EmpServicePoinMapId
-	+EmployeeId
-	+ZoneId
-	+ZoneDivisionId
-	+RegionId
-	+AreaId
-	+SubZoneId
-	+IsActive
-	+CompanyId
-	+CreateBy
-	+CreateOn
-	+UpdatedBy
-	+UpdatedOn
-	
-	
-*Erp.MaterialReceiveDetail product foreign key added
 
 select * from CompanySubMenu where [Name] Like('%Region%')
 update CompanySubMenu set Name='Division', ShortName='Division', Action='CommonZoneDivision'
