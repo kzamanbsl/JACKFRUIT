@@ -75,6 +75,7 @@
     <Report Include="AF_CustomerDamageReceiptInvoice.rdl" />
     <Report Include="AF_CustomerList.rdl" />
     <Report Include="AF_CustomerSalesInvoiceReport.rdl" />
+    <Report Include="AF_DealerDamageReceiptInvoice.rdl" />
     <Report Include="AF_DealerList.rdl" />
     <Report Include="AF_DealerProductStockReport.rdl" />
     <Report Include="AF_DealerSalesInvoiceReport.rdl" />
