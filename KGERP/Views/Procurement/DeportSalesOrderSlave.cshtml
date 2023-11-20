@@ -155,7 +155,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Deport:</label>
-                                            @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, "==Select Deport==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -638,7 +638,7 @@
             //    }
             //});
 
-            //$('#ddlCustomerId').change(function (event) {
+            //$('#ddlDeportId').change(function (event) {
 
             //    $('#txtDeliveryDate').focus();
             //});
@@ -744,10 +744,10 @@
                     success: function (data) {
 
                         if (data) {
-                            $("#ddlCustomerId").empty();
-                            $("#ddlCustomerId").append("<option value=''>==Select Deport==</option>");
+                            $("#ddlDeportId").empty();
+                            $("#ddlDeportId").append("<option value=''>==Select Deport==</option>");
                             $(data).each(function (index, item) {
-                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                $("#ddlDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
 
                         }
@@ -834,6 +834,7 @@
                       $("#txtPackQuantity").val(data.PackQuantity);
                       $("#txtConsumption").val(data.Consumption);
                       $("#txtOfferQuantity").val(data.OfferQty);
+                      $("#txtDeportPrice").val(data.DeportPrice);
 
                       $("#txtOrderQuantity").val(data.Qty);
                       $('#txtUnitPrice').val(data.UnitPrice);
@@ -885,6 +886,7 @@
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);
                         $('#ProductConsumption').val(data.Consumption);
+                        $('#txtDeportPrice').val(data.DeportPrice);
                         $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
                         if (unitPrice == 0) {

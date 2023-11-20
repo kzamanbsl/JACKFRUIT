@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using KGERP.Data.Models;
@@ -1895,7 +1896,8 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonZoneDivision vmCommonZoneDivision = new VMCommonZoneDivision();
             vmCommonZoneDivision.CompanyFK = companyId;
             vmCommonZoneDivision.DataList = await Task.Run(() => (from t1 in _db.ZoneDivisions
-                                                                  join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                                  join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId into t2_Zones
+                                                                  from t2 in t2_Zones.DefaultIfEmpty() 
                                                                   where t1.IsActive == true && t1.CompanyId == companyId
                                                                   && (zoneId > 0 ? t1.ZoneId == zoneId : t1.ZoneDivisionId > 0)
                                                                   select new VMCommonZoneDivision
@@ -2084,8 +2086,10 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonRegion vmCommonRegion = new VMCommonRegion();
             vmCommonRegion.CompanyFK = companyId;
             vmCommonRegion.DataList = await Task.Run(() => (from t1 in _db.Regions
-                                                            join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
-                                                            join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId
+                                                            join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId into t2_Zones
+                                                            from t2 in t2_Zones.DefaultIfEmpty()
+                                                            join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId into t3_ZoneDivision
+                                                            from t3 in t3_ZoneDivision.DefaultIfEmpty()
                                                             where t1.IsActive == true && t1.CompanyId == companyId
                                                             && (zoneId > 0 && zoneDivisionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId : t1.RegionId > 0)
                                                             select new VMCommonRegion
@@ -2291,9 +2295,12 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonArea vmCommonArea = new VMCommonArea();
             vmCommonArea.CompanyFK = companyId;
             vmCommonArea.DataList = await Task.Run(() => (from t1 in _db.Areas
-                                                          join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
-                                                          join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId
-                                                          join t4 in _db.Regions on t1.RegionId equals t4.RegionId
+                                                          join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId into t2_Zones
+                                                          from t2 in t2_Zones.DefaultIfEmpty()
+                                                          join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId into t3_ZoneDivision
+                                                          from t3 in t3_ZoneDivision.DefaultIfEmpty()
+                                                          join t4 in _db.Regions on t1.RegionId equals t4.RegionId into t4_Region
+                                                          from t4 in t4_Region.DefaultIfEmpty()
                                                           where t1.IsActive == true && t1.CompanyId == companyId
                                                           && (zoneId > 0 && zoneDivisionId > 0 && regionId > 0 ? t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId && t1.RegionId == regionId : t1.AreaId > 0)
                                                           select new VMCommonArea
@@ -2474,7 +2481,8 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
             vmCommonSubZone.CompanyFK = companyId;
             vmCommonSubZone.DataList = await Task.Run(() => (from t1 in _db.SubZones
-                                                             join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                             join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId into t2_Join
+                                                             from t2 in t2_Join.DefaultIfEmpty()
                                                              join t3 in _db.ZoneDivisions on t1.ZoneDivisionId equals t3.ZoneDivisionId into t3_Join
                                                              from t3 in t3_Join.DefaultIfEmpty()
                                                              join t4 in _db.Regions on t1.RegionId equals t4.RegionId into t4_Join

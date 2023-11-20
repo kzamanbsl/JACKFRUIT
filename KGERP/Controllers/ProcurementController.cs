@@ -1679,7 +1679,7 @@ namespace KGERP.Controllers
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
             //vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetZoneDivisionSelectList(companyId, 0), "Value", "Text");
+            vmSalesOrderSlave.CustomerList= new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
 
             return View(vmSalesOrderSlave);
         }
@@ -1687,7 +1687,6 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DeportSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-
             if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
             {
                 if (vmSalesOrderSlave.OrderMasterId == 0)

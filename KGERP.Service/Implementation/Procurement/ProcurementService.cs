@@ -2640,6 +2640,7 @@ namespace KGERP.Service.Implementation.Procurement
                                               OfferQty = t1.OfferQty,
                                               UnitPrice = t1.UnitPrice,
                                               TotalAmount = t1.Amount,
+                                              DeportPrice= t2.DeportPrice,
                                               UnitName = t5.ShortName,
                                               FProductId = t1.ProductId,
                                               PackQuantity = t1.PackQuantity,
@@ -5294,7 +5295,7 @@ namespace KGERP.Service.Implementation.Procurement
             var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
 
             VMProductStock vmProductStock = new VMProductStock();
-
+            
             vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
                 companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
 
