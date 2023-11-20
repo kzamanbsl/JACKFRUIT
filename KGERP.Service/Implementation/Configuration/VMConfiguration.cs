@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using KGERP.Data.Models;
-using KGERP.Service.ServiceModel;
 using KGERP.Service.ServiceModel.RealState;
 using KGERP.Utility;
 using Newtonsoft.Json;
@@ -133,6 +132,32 @@ namespace KGERP.Service.Implementation.Configuration
 
         public IEnumerable<VMUserSubMenu> DataList { get; set; }
 
+    }
+
+    /// <summary>
+    /// This Model work for User wise data filter and button permission in UI
+    /// Method GetUserDataAccessModelByEmployeeId(long id)
+    /// </summary>
+    public class UserDataAccessModel
+    {
+        public long EmployeeId { get; set; }
+        public string UserId { get; set; }
+        public string EmployeeName { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool CanEdit { get; set; }
+        public bool CanDelete { get; set; }
+
+        public int[] ZoneIds { get; set; }
+        public int[] ZoneDivisionIds { get; set; }
+        public int[] AreaIds { get; set; }
+        public int[] RegionIds { get; set; }
+        public int[] SubZoneIds { get; set; }
+
+        public int[] SupplierIds { get; set; }
+        public int[] DeportIds { get; set; }
+        public int[] DealerIds { get; set; }
+        public int[] CustomerIds { get; set; }
+       
     }
 
     public class VMPOTremsAndConditions : BaseVM
@@ -275,7 +300,6 @@ namespace KGERP.Service.Implementation.Configuration
 
     }
 
-
     public class VMCommonSize : BaseVM
     {
         public string Name { get; set; }
@@ -294,6 +318,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         public IEnumerable<VMCommonUnit> DataList { get; set; }
     }
+
     public class VMCommonDamageType : BaseVM
     {
         public string Name { get; set; }
@@ -308,7 +333,6 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonSupplier : BaseVM
     {
-
         public string Name { get; set; }
         public int VendorReferenceId { get; set; }
         public int ZoneId { get; set; }
@@ -767,17 +791,11 @@ namespace KGERP.Service.Implementation.Configuration
     public class VMCommonShop : BaseVM
     {
         public string Name { get; set; }
-
-
-
         public int Common_ThanaFk { get; set; }
-
         public int Common_CountriesFk { get; set; }
         public int Common_DistrictsFk { get; set; }
         public int Common_DivisionFk { get; set; }
         public int ShopTypeEnumFk { get; set; }
-
-
 
         public string Thana { get; set; }
         public string Division { get; set; }
@@ -801,7 +819,6 @@ namespace KGERP.Service.Implementation.Configuration
         //public ShopTypeEnum STypeEnum { get { return (ShopTypeEnum)this.ShopTypeEnumFk; } }
         //public string ShopTypeEnumName { get { return BaseFunctionalities.GetEnumDescription(STypeEnum); } }
         //public SelectList ShopTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<ShopTypeEnum>(), "Value", "Text"); } }
-
 
         public string TradeLicenceNumber { get; set; }
         public DateTime TradeLicenceExpireDate { get; set; }
@@ -853,7 +870,6 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonBinSlave : VMCommonBin
     {
-
         public int Common_BinFk { get; set; }
         public string CID { get; set; }
         public string Dimension { get; set; }
@@ -921,7 +937,6 @@ namespace KGERP.Service.Implementation.Configuration
 
     public partial class VMAccountingSignatory : BaseVM
     {
-
         public int SignatoryId { get; set; }
         public string SignatoryName { get; set; }
         public string SignatoryType { get; set; }
