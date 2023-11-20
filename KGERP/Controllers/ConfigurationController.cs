@@ -651,9 +651,9 @@ namespace KGERP.Controllers
         #region Common SubZone/Territory
 
         [HttpGet]
-        public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int zoneDivisionId = 0)
+        public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0)
         {
-            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, zoneDivisionId));
+            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, zoneDivisionId,regionId,areaId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -1751,7 +1751,7 @@ namespace KGERP.Controllers
         #region Common Dealer
 
         [HttpGet]
-        public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int areaId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
             vmCommonDealer = await Task.Run(() => _service.GetDealer(companyId, zoneId, subZoneId));
@@ -1763,6 +1763,7 @@ namespace KGERP.Controllers
             vmCommonDealer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonDealer.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
             vmCommonDealer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
+            vmCommonDealer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId, regionId), "Value", "Text");
             vmCommonDealer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonDealer);
         }

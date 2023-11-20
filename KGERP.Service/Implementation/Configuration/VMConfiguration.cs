@@ -338,6 +338,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int ZoneId { get; set; }
         public int? ZoneDivisionId { get; set; }
         public int? RegionId { get; set; }
+        public int? AreaId { get; set; }
         public int? SubZoneId { get; set; }
 
         public HttpPostedFileBase file { get; set; }
@@ -372,6 +373,7 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
 
         public SelectList DeportList { get; set; } = new SelectList(new List<object>());
@@ -422,6 +424,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string ProductName { get; set; }
         public string ZoneDivisionName { get; set; }
         public string RegionName { get; set; }
+        public string AreaName { get; set; }
         public string SubZoneName { get; set; }
     }
 
