@@ -369,6 +369,8 @@ namespace KGERP.Service.Implementation
             long? managerId = null;
             bool result = false;
 
+
+
             if (id > 0)
             {
                 var updateEmployee = _context.Employees.FirstOrDefault(x => x.Id == id);
@@ -892,7 +894,7 @@ namespace KGERP.Service.Implementation
                             {
                                 var obj = new EmployeeServicePointMap()
                                 {
-                                    EmployeeServicePoinMapId = 0,
+                                    //EmployeeServicePoinMapId = 0,
                                     EmployeeId = model.Id,
                                     ZoneId = zoneId,
                                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
