@@ -26,7 +26,7 @@ namespace KGERP.Service.Implementation.Configuration
             _db = db;
         }
 
-        #region User role Menu item
+        #region User Role Menu Item
 
         #region ClientUserMenuAssignment
 
@@ -145,7 +145,12 @@ namespace KGERP.Service.Implementation.Configuration
         }
         #endregion
 
+        public async Task<UserDataAccessModel> GetUserDataAccessModelByEmployeeId(long id)
+        {
+            var model = new UserDataAccessModel();
 
+            return model;
+        }
 
         public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)
         {
@@ -3112,7 +3117,6 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
-        [HttpPost]
         public async Task<bool> IsSubCategoryExits(string name, int categoryId, int id)
         {
             var isExits = false;
