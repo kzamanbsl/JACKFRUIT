@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -567,6 +566,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonRegion), new { companyId = vmCommonRegion.CompanyFK, zoneId = vmCommonRegion.ZoneId, zoneDivisionId = vmCommonRegion.ZoneDivisionId });
         }
+
         [HttpPost]
         public async Task<JsonResult> IsRegionNameExist(int zoneId,int zoneDivisionId,string regionName,int id)
         {
