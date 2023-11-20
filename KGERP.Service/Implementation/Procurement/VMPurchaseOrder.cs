@@ -469,6 +469,7 @@ namespace KGERP.Service.Implementation.Procurement
         public double Consumption { get; set; }
 
         public decimal UnitPrice { get; set; }
+        public decimal? DeportPrice { get; set; }
         public decimal TPPrice { get; set; }
        
         public decimal CostingPrice { get; set; }
