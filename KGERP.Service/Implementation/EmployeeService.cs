@@ -776,7 +776,7 @@ namespace KGERP.Service.Implementation
                     if (model.SubZoneIds?.Length > 0 && model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var subZoneIds = model.SubZoneIds.Distinct().ToList();
-                        var existSubZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.TerritoryId).Distinct().ToList() : null;
+                        var existSubZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c => c.TerritoryId > 0).Select(s => s.TerritoryId).Distinct().ToList() : null;
 
                         var addableSubZoneIds = empExistMapped?.Count() > 0 && existSubZoneIds?.Count() > 0 ? subZoneIds.Where(c => !existSubZoneIds.Contains(c)).ToList() : subZoneIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.TerritoryId != null && subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
@@ -804,7 +804,7 @@ namespace KGERP.Service.Implementation
                     else if (model.AreaIds?.Length > 0 && model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var areaIds = model.AreaIds.Distinct().ToList();
-                        var existAreaIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.AreaId).Distinct().ToList() : null;
+                        var existAreaIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c => c.AreaId > 0).Select(s => s.AreaId).Distinct().ToList() : null;
 
                         var addableAreaIds = empExistMapped?.Count() > 0 && existAreaIds?.Count() > 0 ? areaIds.Where(c => !existAreaIds.Contains(c)).ToList() : areaIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.AreaId != null && areaIds.Contains((int)c.AreaId)).ToList() : null;
@@ -832,11 +832,11 @@ namespace KGERP.Service.Implementation
                     else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var regionIds = model.RegionIds.Distinct().ToList();
-                        var existRegionIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.RegionId).Distinct().ToList() : null;
+                        var existRegionIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c=>c.RegionId>0).Select(s => s.RegionId).Distinct().ToList() : null;
 
                         var addableRegionIds = empExistMapped?.Count() > 0 && existRegionIds?.Count() > 0 ? regionIds.Where(c => !existRegionIds.Contains(c)).ToList() : regionIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.RegionId != null && regionIds.Contains((int)c.RegionId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !regionIds.Contains((int)c.RegionId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c=> c.RegionId != null && !regionIds.Contains((int)c.RegionId)).ToList() : null;
 
                         if (addableRegionIds?.Count() > 0)
                         {
@@ -860,11 +860,11 @@ namespace KGERP.Service.Implementation
                     else if (model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var zoneDivisionIds = model.ZoneDivisionIds.Distinct().ToList();
-                        var existZoneDivisionIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.ZoneDivisionId).Distinct().ToList() : null;
+                        var existZoneDivisionIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c => c.ZoneDivisionId > 0).Select(s => s.ZoneDivisionId).Distinct().ToList() : null;
 
                         var addableZoneDivisionIds = empExistMapped?.Count() > 0 && existZoneDivisionIds?.Count() > 0 ? zoneDivisionIds.Where(c => !existZoneDivisionIds.Contains(c)).ToList() : zoneDivisionIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneDivisionId != null && zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneDivisionId != null && !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
 
                         if (addableZoneDivisionIds?.Count() > 0)
                         {
@@ -888,11 +888,11 @@ namespace KGERP.Service.Implementation
                     else if (model.ZoneIds?.Length > 0)
                     {
                         var zoneIds = model.ZoneIds.Distinct().ToList();
-                        var existZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Select(s => s.ZoneId).Distinct().ToList() : null;
+                        var existZoneIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c => c.ZoneId > 0).Select(s => s.ZoneId).Distinct().ToList() : null;
 
                         var addableZoneIds = empExistMapped?.Count() > 0 && existZoneIds?.Count() > 0 ? zoneIds.Where(c => !existZoneIds.Contains(c)).ToList() : zoneIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneId != null && zoneIds.Contains((int)c.ZoneId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
+                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneId != null && !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
 
                         if (addableZoneIds?.Count() > 0)
                         {

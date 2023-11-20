@@ -56,3 +56,51 @@ ERROR 2023-11-19 23:18:49,364 421779ms EmployeeService        SaveEmployee      
    at System.Data.Entity.DbContext.Entry[TEntity](TEntity entity)
    at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in F:\KG Project\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 946
 >>>>>>> 79a038ed3b640dce2e3d8dc7afc271a83b52243e
+ERROR 2023-11-20 11:45:27,774 2014597ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_4.<SaveEmployee>b__26(EmployeeServicePointMap c) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 867
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 867
+ERROR 2023-11-20 11:48:35,700 2202523ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_4.<SaveEmployee>b__26(EmployeeServicePointMap c) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 867
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 867
+ERROR 2023-11-20 11:54:07,407 2534230ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_4.<SaveEmployee>b__26(EmployeeServicePointMap c)
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model)
+ERROR 2023-11-20 12:00:59,103 303969ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_3.<SaveEmployee>b__22(EmployeeServicePointMap c) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 839
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 839
+ERROR 2023-11-20 12:14:21,263 178121ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_3.<SaveEmployee>b__25(EmployeeServicePointMap c) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 839
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 839
+ERROR 2023-11-20 12:28:16,108 98993ms EmployeeService        SaveEmployee       - System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at KGERP.Service.Implementation.EmployeeService.<>c__DisplayClass13_3.<SaveEmployee>b__25(EmployeeServicePointMap c) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 839
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 839
