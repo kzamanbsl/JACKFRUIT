@@ -29,7 +29,6 @@ namespace KGERP.Service.Implementation.Configuration
 
         #region ClientUserMenuAssignment
 
-
         public ClientMenu ClientUserMenuAssignment(ClientMenu model)
         {
 
