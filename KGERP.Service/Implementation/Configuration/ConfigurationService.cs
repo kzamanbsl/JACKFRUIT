@@ -2432,7 +2432,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         #region SubZone/Territory
 
-        public List<SelectModel> GetSubZoneSelectList(int companyId, int? zoneId, int? zoneDivisionId)
+        public List<SelectModel> GetSubZoneSelectList(int companyId, int? zoneId, int? zoneDivisionId,int? regionId=0,int?areaId=0)
         {
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel
@@ -2455,6 +2455,25 @@ namespace KGERP.Service.Implementation.Configuration
             else if (zoneId > 0 && zoneDivisionId > 0)
             {
                 var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.SubZoneId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }else if (zoneId > 0 && zoneDivisionId > 0 && regionId>0)
+            {
+                var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId== regionId && x.IsActive == true).ToList()
+                    .Select(x => new SelectModel()
+                    {
+                        Text = x.Name,
+                        Value = x.SubZoneId
+                    }).ToList();
+                selectModelList.AddRange(v);
+            }
+            else if (zoneId > 0 && zoneDivisionId > 0 && regionId>0 && areaId>0)
+            {
+                var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId== regionId && x.AreaId==areaId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
@@ -5303,7 +5322,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                             join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                             from t8 in t8_def.DefaultIfEmpty()
                                                             join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
-                                                            from t9 in t9_def.DefaultIfEmpty()
+                                                            from t9 in t9_def.DefaultIfEmpty()  
+                                                            join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
+                                                            from t10 in t10_def.DefaultIfEmpty()
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
@@ -5331,7 +5352,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 ZoneDivisionId = t1.ZoneDivisionId,
                                                                 ZoneDivisionName = t7.Name,
                                                                 RegionId = t1.RegionId,
-                                                                RegionName = t9.Name,
+                                                                RegionName = t9.Name,   
+                                                                AreaId = t1.AreaId,
+                                                                AreaName=t10.Name,
                                                                 SubZoneId = t1.SubZoneId ?? 0,
                                                                 SubZoneName = t5.Name,
                                                                 ZoneName = t6.Name,
@@ -5379,6 +5402,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ZoneId = vmCommonDealer.ZoneId,
                 ZoneDivisionId = vmCommonDealer.ZoneDivisionId,
                 RegionId = vmCommonDealer.RegionId,
+                AreaId=vmCommonDealer.AreaId,
                 SubZoneId = vmCommonDealer.SubZoneId,
                 Address = vmCommonDealer.Address,
 
@@ -5437,6 +5461,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonDealer.ZoneId = vmCommonDealer.ZoneId;
             commonDealer.ZoneDivisionId = vmCommonDealer.ZoneDivisionId;
             commonDealer.RegionId = vmCommonDealer.RegionId;
+            commonDealer.AreaId = vmCommonDealer.AreaId;
             commonDealer.SubZoneId = vmCommonDealer.SubZoneId;
             commonDealer.Address = vmCommonDealer.Address;
 
