@@ -780,7 +780,7 @@ namespace KGERP.Service.Implementation
 
                         var addableSubZoneIds = empExistMapped?.Count() > 0 && existSubZoneIds?.Count() > 0 ? subZoneIds.Where(c => !existSubZoneIds.Contains(c)).ToList() : subZoneIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.TerritoryId != null && subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.TerritoryId != null && !subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
+                        //empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.TerritoryId != null && !subZoneIds.Contains((int)c.TerritoryId)).ToList() : null;
 
                         if (addableSubZoneIds?.Count() > 0)
                         {
@@ -808,7 +808,7 @@ namespace KGERP.Service.Implementation
 
                         var addableAreaIds = empExistMapped?.Count() > 0 && existAreaIds?.Count() > 0 ? areaIds.Where(c => !existAreaIds.Contains(c)).ToList() : areaIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.AreaId != null && areaIds.Contains((int)c.AreaId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !areaIds.Contains((int)c.AreaId)).ToList() : null;
+                        //empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => !areaIds.Contains((int)c.AreaId)).ToList() : null;
 
                         if (addableAreaIds?.Count() > 0)
                         {
@@ -832,11 +832,11 @@ namespace KGERP.Service.Implementation
                     else if (model.RegionIds?.Length > 0 && model.ZoneDivisionIds?.Length > 0 && model.ZoneIds?.Length > 0)
                     {
                         var regionIds = model.RegionIds.Distinct().ToList();
-                        var existRegionIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c=>c.RegionId>0).Select(s => s.RegionId).Distinct().ToList() : null;
+                        var existRegionIds = empExistMapped?.Count() > 0 ? empExistMapped.Where(c => c.RegionId > 0).Select(s => s.RegionId).Distinct().ToList() : null;
 
                         var addableRegionIds = empExistMapped?.Count() > 0 && existRegionIds?.Count() > 0 ? regionIds.Where(c => !existRegionIds.Contains(c)).ToList() : regionIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.RegionId != null && regionIds.Contains((int)c.RegionId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c=> c.RegionId != null && !regionIds.Contains((int)c.RegionId)).ToList() : null;
+                        //empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c=> c.RegionId != null && !regionIds.Contains((int)c.RegionId)).ToList() : null;
 
                         if (addableRegionIds?.Count() > 0)
                         {
@@ -864,7 +864,7 @@ namespace KGERP.Service.Implementation
 
                         var addableZoneDivisionIds = empExistMapped?.Count() > 0 && existZoneDivisionIds?.Count() > 0 ? zoneDivisionIds.Where(c => !existZoneDivisionIds.Contains(c)).ToList() : zoneDivisionIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneDivisionId != null && zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneDivisionId != null && !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
+                        //empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneDivisionId != null && !zoneDivisionIds.Contains((int)c.ZoneDivisionId)).ToList() : null;
 
                         if (addableZoneDivisionIds?.Count() > 0)
                         {
@@ -892,7 +892,7 @@ namespace KGERP.Service.Implementation
 
                         var addableZoneIds = empExistMapped?.Count() > 0 && existZoneIds?.Count() > 0 ? zoneIds.Where(c => !existZoneIds.Contains(c)).ToList() : zoneIds;
                         empExistUpdateableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneId != null && zoneIds.Contains((int)c.ZoneId)).ToList() : null;
-                        empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneId != null && !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
+                        //empExistDeletableList = empExistMapped?.Count() > 0 ? empExistMapped?.Where(c => c.ZoneId != null && !zoneIds.Contains((int)c.ZoneId)).ToList() : null;
 
                         if (addableZoneIds?.Count() > 0)
                         {
@@ -924,7 +924,12 @@ namespace KGERP.Service.Implementation
                             updateable.ModifiedDate = DateTime.Now;
                             updateableMaps.Add(updateable);
                         }
+
                     }
+
+                    var existIds = empExistUpdateableList?.Count() > 0 ? empExistUpdateableList.Select(s => s.EmployeeServicePoinMapId).Distinct().ToList() : null;
+                    empExistDeletableList = empExistMapped?.Count() > 0 && existIds?.Count() > 0 ? empExistMapped?.Where(c => !existIds.Contains(c.EmployeeServicePoinMapId)).ToList() : empExistMapped;
+
                     if (empExistDeletableList?.Count() > 0)
                     {
 
