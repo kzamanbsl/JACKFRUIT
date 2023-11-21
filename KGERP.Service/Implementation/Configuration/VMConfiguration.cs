@@ -140,9 +140,18 @@ namespace KGERP.Service.Implementation.Configuration
     /// </summary>
     public class UserDataAccessModel
     {
+        /// <summary>
+        /// EmployeeId is Id
+        /// </summary>
         public long EmployeeId { get; set; }
-        public string UserId { get; set; }
         public string EmployeeName { get; set; }
+
+        /// <summary>
+        /// UserId is UserName or EmployeeId
+        /// </summary>
+        public string UserId { get; set; }
+        public int UserTypeId { get; set; }
+        public string UserTypeName { get { return BaseFunctionalities.GetEnumDescription((EnumUserType)UserTypeId); } }
         public bool IsAdmin { get; set; }
         public bool CanEdit { get; set; }
         public bool CanDelete { get; set; }

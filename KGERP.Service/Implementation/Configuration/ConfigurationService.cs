@@ -149,6 +149,92 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var model = new UserDataAccessModel();
 
+            if (id <= 0) { return model; }
+
+            Employee employee = await _db.Employees.FirstOrDefaultAsync(c => c.Id == id);
+            User user =await _db.Users.FirstOrDefaultAsync(c => c.UserName == employee.EmployeeId);
+            model.EmployeeId = id;
+            model.EmployeeName = employee.Name;
+            model.UserId = user.UserName;
+            model.UserTypeId = user.UserTypeId ?? 0;
+
+            List<EmployeeServicePointMap> employeeServicePointMaps = _db.EmployeeServicePointMaps.Where(c => c.EmployeeId == id && c.IsActive)
+                    .Include(c => c.SubZone).Include(c => c.Area).Include(c => c.Region).Include(c => c.ZoneDivision).Include(c => c.Zone).AsNoTracking().ToList();
+
+            var territories = employeeServicePointMaps.Where(c => c.TerritoryId > 0).Select(s => s.SubZone).ToList();
+            var areas = employeeServicePointMaps.Where(c => c.AreaId > 0).Select(s => s.Area).ToList();
+            var regions = employeeServicePointMaps.Where(c => c.RegionId > 0).Select(s => s.Region).ToList();
+            var zoneDivisions = employeeServicePointMaps.Where(c => c.ZoneDivisionId > 0).Select(s => s.ZoneDivision).ToList();
+            var zones = employeeServicePointMaps.Where(c => c.ZoneId > 0).Select(s => s.Zone).ToList();
+
+            if (territories?.Count() > 0)
+            {
+                var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
+                model.SubZoneIds = subZoneIds;
+
+                var areaId = territories.FirstOrDefault().AreaId ?? 0;
+                model.AreaIds = new int[] { areaId };
+
+                var regionId = territories.FirstOrDefault().RegionId ?? 0;
+                model.RegionIds = new int[] { regionId };
+
+                var zoneDivisionId = territories.FirstOrDefault().ZoneDivisionId ?? 0;
+                model.ZoneDivisionIds = new int[] { zoneDivisionId };
+
+                var zoneId = territories.FirstOrDefault().ZoneId;
+                model.ZoneIds = new int[] { zoneId };
+            }
+            else if (areas?.Count() > 0)
+            {
+                var areaIds = areas.Select(c => c.AreaId).ToArray();
+                model.AreaIds = areaIds;
+
+                var regionId = areas.FirstOrDefault().RegionId ?? 0;
+                model.RegionIds = new int[] { regionId };
+
+                var zoneDivisionId = areas.FirstOrDefault().ZoneDivisionId;
+                model.ZoneDivisionIds = new int[] { (int)zoneDivisionId };
+
+                var zoneId = areas.FirstOrDefault().ZoneId;
+                model.ZoneIds = new int[] { (int)zoneId };
+            }
+            else if (regions?.Count() > 0)
+            {
+                var regionIds = regions.Select(c => c.RegionId).ToArray();
+                model.RegionIds = regionIds;
+
+                var zoneDivisionId = regions.FirstOrDefault().ZoneDivisionId;
+                model.ZoneDivisionIds = new int[] { (int)zoneDivisionId };
+
+                var zoneId = regions.FirstOrDefault().ZoneId;
+                model.ZoneIds = new int[] { (int)zoneId };
+            }
+            else if (zoneDivisions?.Count() > 0)
+            {
+                var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
+                model.ZoneDivisionIds = zoneDivisionIds;
+
+                var zoneId = zoneDivisions.FirstOrDefault().ZoneId;
+                model.ZoneIds = new int[] { zoneId };
+            }
+            else if (zones?.Count() > 0)
+            {
+                var zoneIds = zones.Select(c => c.ZoneId).ToArray();
+                model.ZoneIds = zoneIds;
+            }
+
+            if (model.UserTypeId == (int)EnumUserType.Deport)
+            {
+                var deports = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
+                model.DeportIds = deports;
+            }
+
+            if (model.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                var dealers = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
+                model.DealerIds = dealers;
+            }
+
             return model;
         }
 
@@ -4202,7 +4288,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId.Value,
-                         AreaId=t1.AreaId.Value,
+                         AreaId = t1.AreaId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -4276,7 +4362,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                               join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                               from t8 in t8_def.DefaultIfEmpty()
                                                               join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
-                                                              from t9 in t9_def.DefaultIfEmpty()  
+                                                              from t9 in t9_def.DefaultIfEmpty()
                                                               join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
                                                               from t10 in t10_def.DefaultIfEmpty()
 
@@ -4307,8 +4393,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   ZoneDivisionName = t7.Name,
                                                                   RegionId = t1.RegionId,
                                                                   RegionName = t9.Name,
-                                                                  AreaId=t1.AreaId,
-                                                                  AreaName=t10.Name,
+                                                                  AreaId = t1.AreaId,
+                                                                  AreaName = t10.Name,
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
 
@@ -4660,7 +4746,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ZoneId = vmCommonCustomer.ZoneId,
                 ZoneDivisionId = vmCommonCustomer.ZoneDivisionId,
                 RegionId = vmCommonCustomer.RegionId,
-                AreaId=vmCommonCustomer.AreaId,
+                AreaId = vmCommonCustomer.AreaId,
                 SubZoneId = vmCommonCustomer.SubZoneId,
                 NomineeRelation = vmCommonCustomer.NomineeRelation,
                 NomineeNID = vmCommonCustomer.NomineeNID,
@@ -5323,12 +5409,12 @@ namespace KGERP.Service.Implementation.Configuration
                          Email = t1.Email,
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
-   
+
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          RegionId = t1.RegionId,
-                         AreaId=t1.AreaId,
+                         AreaId = t1.AreaId,
                          SubZoneId = t1.SubZoneId.Value,
                          //Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          //Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
