@@ -2827,7 +2827,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region IsExist
-            var isExist = productCategoryModel.ID > 0 ? _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.ProductCategoryId != productCategoryModel.ID && c.IsActive == true) : _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.IsActive == true);
+            var isExist = _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.IsActive == true);
             if (isExist?.ProductCategoryId > 0)
             {
                 throw new Exception($"Sorry! This Name {productCategoryModel.Name} already Exists!");
@@ -2933,7 +2933,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region IsExist
-            var isExist = vmCommonProductCategory.ID > 0 ? _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.ProductCategoryId != vmCommonProductCategory.ID && c.IsActive == true) : _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.IsActive == true);
+            var isExist = _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.ProductCategoryId != vmCommonProductCategory.ID && c.IsActive == true);
             if (isExist?.ProductCategoryId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonProductCategory.Name} already Exists!");
@@ -3056,6 +3056,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
             #region IsExist
             var isExist = _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.CategoryId && c.IsActive == true);
+
             if (isExist?.ProductSubCategoryId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exists!");
@@ -3138,6 +3139,14 @@ namespace KGERP.Service.Implementation.Configuration
         {
 
             var result = -1;
+
+            var isExist = await _db.ProductSubCategories.FirstOrDefaultAsync(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.Common_ProductCategoryFk && c.ProductSubCategoryId != vmCommonProductSubCategory.CategoryId && c.IsActive == true);
+
+            if (isExist?.ProductSubCategoryId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exists!");
+            }
+
             ProductSubCategory commonProductSubCategory = await _db.ProductSubCategories.FindAsync(vmCommonProductSubCategory.ID);
             commonProductSubCategory.Name = vmCommonProductSubCategory.Name;
             commonProductSubCategory.Code = vmCommonProductSubCategory.Code;
@@ -3175,12 +3184,12 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (id > 0)
             {
-                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.ProductSubCategoryId != id && c.IsActive == true);
+                isExits = await _db.ProductSubCategories.AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.ProductSubCategoryId != id && c.IsActive == true);
 
             }
             else if (categoryId > 0)
             {
-                isExits = await _db.ProductSubCategories.AsNoTracking().AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.IsActive == true);
+                isExits = await _db.ProductSubCategories.AnyAsync(c => c.Name.Equals(name) && c.ProductCategoryId == categoryId && c.IsActive == true);
 
             }
 
@@ -3704,10 +3713,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             #region check Duplicate
 
-
-            var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() &&
-                       u.ProductCategoryId == vmCommonProduct.Common_ProductCategoryFk && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
-
+            var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() && u.ProductCategoryId == vmCommonProduct.Common_ProductCategoryFk && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.IsActive == true);
 
             if (isExist?.ProductCategoryId > 0)
             {
@@ -3737,7 +3743,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ProductCode = productId,
                 ShortName = vmCommonProduct.ShortName,
                 ProductName = vmCommonProduct.Name,
-                //UnitPrice = vmCommonProduct.MRPPrice,
+                UnitPrice = vmCommonProduct.MRPPrice,
                 DeportPrice = vmCommonProduct.DeportSalePrice,
                 DealerPrice = vmCommonProduct.DealerSalePrice,
                 CustomerPrice = vmCommonProduct.CustomerSalePrice,
@@ -3806,10 +3812,22 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ProductEdit(VMCommonProduct vmCommonProduct)
         {
             var result = -1;
+
+            #region check Duplicate
+
+            var isExist = await _db.Products.FirstOrDefaultAsync(u => u.ProductName.ToLower() == vmCommonProduct.Name.ToLower() && u.ProductCategoryId == vmCommonProduct.Common_ProductCategoryFk && u.ProductSubCategoryId == vmCommonProduct.Common_ProductSubCategoryFk && u.ProductId != vmCommonProduct.ID && u.IsActive == true);
+
+            if (isExist?.ProductCategoryId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonProduct.Name} already Exists!");
+            }
+
+            #endregion
+
             Product commonProduct = await _db.Products.FindAsync(vmCommonProduct.ID);
 
             commonProduct.ProductName = vmCommonProduct.Name;
-            //commonProduct.UnitPrice = vmCommonProduct.MRPPrice;
+            commonProduct.UnitPrice = vmCommonProduct.MRPPrice;
             commonProduct.DeportPrice = vmCommonProduct.DeportSalePrice;
             commonProduct.DealerPrice = vmCommonProduct.DealerSalePrice;
             commonProduct.CustomerPrice = vmCommonProduct.CustomerSalePrice;
@@ -3819,6 +3837,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonProduct.Consumption = vmCommonProduct.Consumption;
             commonProduct.ShortName = vmCommonProduct.ShortName;
             commonProduct.CreditSalePrice = vmCommonProduct.CreditSalePrice;
+            commonProduct.ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk;
             commonProduct.ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk;
             commonProduct.UnitId = vmCommonProduct.Common_UnitFk;
             commonProduct.CompanyId = vmCommonProduct.CompanyFK.Value;
@@ -3857,20 +3876,18 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<bool> CheckDuplicateProductName(int categoryId, int subCategoryId, string productName, int id)
         {
             bool isExist = false;
-            if (string.IsNullOrEmpty(productName) || categoryId == null || subCategoryId == null)
+
+            if (string.IsNullOrEmpty(productName))
             {
                 return isExist;
             }
             if (id > 0)
             {
-                isExist = await _db.Products.AnyAsync(u => u.ProductName.ToLower() == productName.ToLower() &&
-                          u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId && u.ProductId != id && u.IsActive == true);
-
+                isExist = await _db.Products.AnyAsync(u => u.ProductName.ToLower() == productName.ToLower() && u.ProductCategoryId != categoryId && u.ProductSubCategoryId == subCategoryId && u.ProductId != id && u.IsActive == true);
             }
-            else if (categoryId > 0 && subCategoryId > 0)
+            else
             {
-                isExist = await _db.Products.AnyAsync(u => u.ProductName.Equals(productName) &&
-                          u.ProductCategoryId == categoryId && u.ProductSubCategoryId == subCategoryId && u.IsActive == true);
+                isExist = await _db.Products.AnyAsync(u => u.ProductName.Equals(productName) && u.ProductCategoryId == categoryId && u.ProductSubCategoryId == subCategoryId && u.IsActive == true);
             }
 
             return isExist;
@@ -3912,26 +3929,27 @@ namespace KGERP.Service.Implementation.Configuration
         public VMRealStateProduct GetCommonProductByID(int id)
         {
             var v = (from t1 in _db.Products.Where(x => x.ProductId == id)
-                     join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId
-                     //join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId
-                     join t4 in _db.Units on t1.UnitId equals t4.UnitId
+                     join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId into t2_Join
+                     from t2 in t2_Join.DefaultIfEmpty()
+                     join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId into t3_Join
+                     from t3 in t3_Join.DefaultIfEmpty()
+                     join t4 in _db.Units on t1.UnitId equals t4.UnitId into t4_Join
+                     from t4 in t4_Join.DefaultIfEmpty()
                      join t5 in _db.Products on t1.PackId equals t5.ProductId into t5_Join
                      from t5 in t5_Join.DefaultIfEmpty()
-                     join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId into t6_Join
-                     from t6 in t6_Join.DefaultIfEmpty()
 
                      select new VMRealStateProduct
                      {
                          ID = t1.ProductId,
                          Name = t1.ProductName,
-                         MRPPrice = t1.UnitPrice.Value,
+                         MRPPrice = t1.UnitPrice ?? 0,
                          TPPrice = t1.TPPrice,
                          Qty = t1.Qty,
                          ShortName = t1.ShortName,
                          SubCategoryName = t2.Name,
                          CategoryId = t2.ProductCategoryId ?? 0,
                          UnitName = t4.Name,
-                         //UnitPrice = t1.UnitPrice,
+                         UnitPrice = t1.UnitPrice,
                          DeportSalePrice = t1.DeportPrice,
                          DealerSalePrice = t1.DealerPrice,
                          CustomerSalePrice = t1.CustomerPrice,
@@ -3941,7 +3959,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CompanyFK = t1.CompanyId,
                          CostingPrice = t1.CostingPrice,
                          PackId = t1.PackId,
-                         PackName = t5 != null ? t6.Name + " " + t5.ProductName : "",
+                         PackName = t3 != null ? t3.Name + " " + t5.ProductName : "",
                          DieSize = t1.DieSize,
                          PackSize = t1.PackSize,
                          ProcessLoss = t1.ProcessLoss,
@@ -4202,7 +4220,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId.Value,
-                         AreaId=t1.AreaId.Value,
+                         AreaId = t1.AreaId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -4276,7 +4294,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                               join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                               from t8 in t8_def.DefaultIfEmpty()
                                                               join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
-                                                              from t9 in t9_def.DefaultIfEmpty()  
+                                                              from t9 in t9_def.DefaultIfEmpty()
                                                               join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
                                                               from t10 in t10_def.DefaultIfEmpty()
 
@@ -4307,8 +4325,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   ZoneDivisionName = t7.Name,
                                                                   RegionId = t1.RegionId,
                                                                   RegionName = t9.Name,
-                                                                  AreaId=t1.AreaId,
-                                                                  AreaName=t10.Name,
+                                                                  AreaId = t1.AreaId,
+                                                                  AreaName = t10.Name,
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
 
@@ -4660,7 +4678,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ZoneId = vmCommonCustomer.ZoneId,
                 ZoneDivisionId = vmCommonCustomer.ZoneDivisionId,
                 RegionId = vmCommonCustomer.RegionId,
-                AreaId=vmCommonCustomer.AreaId,
+                AreaId = vmCommonCustomer.AreaId,
                 SubZoneId = vmCommonCustomer.SubZoneId,
                 NomineeRelation = vmCommonCustomer.NomineeRelation,
                 NomineeNID = vmCommonCustomer.NomineeNID,
@@ -5323,12 +5341,12 @@ namespace KGERP.Service.Implementation.Configuration
                          Email = t1.Email,
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
-   
+
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          RegionId = t1.RegionId,
-                         AreaId=t1.AreaId,
+                         AreaId = t1.AreaId,
                          SubZoneId = t1.SubZoneId.Value,
                          //Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          //Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -5850,6 +5868,16 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> BankAdd(VMCommonBank vMCommonBank)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = await _db.Banks.FirstOrDefaultAsync(u => u.Name.ToLower() == vMCommonBank.Name.ToLower() && u.IsActive == true);
+
+            if (isExist?.BankId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vMCommonBank.Name} already Exists!");
+            }
+            #endregion
+
             Bank bank = new Bank
             {
                 Name = vMCommonBank.Name,
@@ -5870,6 +5898,17 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> BankEdit(VMCommonBank vMCommonBank)
         {
             var result = -1;
+
+
+            #region IsExist
+            var isExist = await _db.Banks.FirstOrDefaultAsync(u => u.Name.ToLower() == vMCommonBank.Name.ToLower() && u.BankId == vMCommonBank.ID && u.IsActive == true);
+
+            if (isExist?.BankId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vMCommonBank.Name} already Exists!");
+            }
+            #endregion
+
             Bank bank = _db.Banks.Find(vMCommonBank.ID);
             bank.Name = vMCommonBank.Name;
 
@@ -5951,6 +5990,16 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> BankBranchAdd(VMCommonBankBranch vMCommonBankBranch)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = await _db.BankBranches.FirstOrDefaultAsync(u => u.Name.ToLower() == vMCommonBankBranch.BankName.ToLower() && u.BankId == vMCommonBankBranch.BankId && u.IsActive == true);
+
+            if (isExist?.BankId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vMCommonBankBranch.BankName} already Exists!");
+            }
+            #endregion
+
             BankBranch bankBranch = new BankBranch
             {
                 Name = vMCommonBankBranch.Name,
@@ -5971,6 +6020,16 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> BankBranchEdit(VMCommonBankBranch vMCommonBankBranch)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = await _db.BankBranches.FirstOrDefaultAsync(u => u.Name.ToLower() == vMCommonBankBranch.BankName.ToLower() && u.BankId == vMCommonBankBranch.BankId && u.BankBranchId != vMCommonBankBranch.ID && u.IsActive == true);
+
+            if (isExist?.BankId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vMCommonBankBranch.BankName} already Exists!");
+            }
+            #endregion
+
             BankBranch bankBranch = _db.BankBranches.Find(vMCommonBankBranch.ID);
             bankBranch.BankId = vMCommonBankBranch.BankId;
             bankBranch.Name = vMCommonBankBranch.Name;
