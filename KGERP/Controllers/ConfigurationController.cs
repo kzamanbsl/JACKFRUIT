@@ -699,13 +699,13 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> IsSubZoneNameExist(int zoneId, int zoneDivisionId, int regionId, string subZoneName, int id)
+        public async Task<JsonResult> IsSubZoneNameExist(int zoneId, int zoneDivisionId, int regionId, int areaId, string subZoneName, int id)
         {
             if (string.IsNullOrEmpty(subZoneName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateSubZoneName(zoneId, zoneDivisionId, regionId, subZoneName, id);
+            var isDuplicate = await _service.CheckDuplicateSubZoneName(zoneId, zoneDivisionId, regionId, areaId, subZoneName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
