@@ -657,10 +657,10 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region IsExist
-            var isExist = vmCommonUnit.ID > 0 ? _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.UnitId != vmCommonUnit.ID && c.IsActive == true) : _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.IsActive == true);
+            var isExist = await _db.Units.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonUnit.Name.ToLower() && u.IsActive == true);
             if (isExist?.UnitId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exists!");
             }
             #endregion
 
@@ -686,10 +686,10 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region IsExist
-            var isExist = vmCommonUnit.ID > 0 ? _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.UnitId != vmCommonUnit.ID && c.IsActive == true) : _db.Units.FirstOrDefault(c => c.Name.ToLower() == vmCommonUnit.Name.ToLower() && c.IsActive == true);
+            var isExist = await _db.Units.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonUnit.Name.ToLower() && u.UnitId != vmCommonUnit.ID && u.IsActive == true);
             if (isExist?.UnitId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonUnit.Name} already Exists!");
             }
             #endregion
 
@@ -809,7 +809,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = vmCommonDamageType.ID > 0 ? _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.DamageTypeForId == vmCommonDamageType.DamageTypeForId && c.DamageTypeId != vmCommonDamageType.ID && c.IsActive == true) : _db.DamageTypes.FirstOrDefault(c => c.Name.ToLower() == vmCommonDamageType.Name.ToLower() && c.DamageTypeForId == vmCommonDamageType.DamageTypeForId && c.IsActive == true);
             if (isExist?.DamageTypeId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonDamageType.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonDamageType.Name} already Exists!");
             }
             #endregion
 
@@ -1637,10 +1637,10 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var result = -1;
             #region check Zone Duplicate
-            var isExist = await _db.Zones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZone.Name.ToLower() && u.ZoneId != vmCommonZone.ID && u.IsActive == true);
+            var isExist = await _db.Zones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZone.Name.ToLower() && u.IsActive == true);
             if (isExist?.ZoneId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonZone.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonZone.Name} already Exists!");
             }
             #endregion
 
@@ -1768,7 +1768,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = await _db.Zones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZone.Name.ToLower() && u.ZoneId != vmCommonZone.ID && u.IsActive == true);
             if (isExist?.ZoneId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonZone.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonZone.Name} already Exists!");
             }
             #endregion
 
@@ -1936,10 +1936,10 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check ZoneDivision Duplicate
-            var isExist = await _db.ZoneDivisions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZoneDivision.Name.ToLower() && u.ZoneId == vmCommonZoneDivision.ZoneId && u.ZoneDivisionId != vmCommonZoneDivision.ID && u.IsActive == true);
+            var isExist = await _db.ZoneDivisions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZoneDivision.Name.ToLower() && u.ZoneId == vmCommonZoneDivision.ZoneId && u.IsActive == true);
             if (isExist?.ZoneDivisionId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonZoneDivision.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonZoneDivision.Name} already Exists!");
             }
             #endregion
 
@@ -1978,7 +1978,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = await _db.ZoneDivisions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonZoneDivision.Name.ToLower() && u.ZoneId == vmCommonZoneDivision.ZoneId && u.ZoneDivisionId != vmCommonZoneDivision.ID && u.IsActive == true);
             if (isExist?.ZoneDivisionId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonZoneDivision.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonZoneDivision.Name} already Exists!");
             }
             #endregion
 
@@ -2137,10 +2137,10 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check Region Duplicate
-            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.ZoneDivisionId == vmCommonRegion.ZoneDivisionId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
+            var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.ZoneDivisionId == vmCommonRegion.ZoneDivisionId && u.IsActive == true);
             if (isExist?.RegionId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exists!");
             }
             #endregion
 
@@ -2182,7 +2182,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = await _db.Regions.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonRegion.Name.ToLower() && u.ZoneId == vmCommonRegion.ZoneId && u.ZoneDivisionId == vmCommonRegion.ZoneDivisionId && u.RegionId != vmCommonRegion.ID && u.IsActive == true);
             if (isExist?.RegionId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonRegion.Name} already Exists!");
             }
             #endregion
 
@@ -2356,10 +2356,10 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check Area Duplicate
-            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.IsActive == true);
             if (isExist?.AreaId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exists!");
             }
             #endregion
 
@@ -2399,7 +2399,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
             if (isExist?.AreaId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exists!");
             }
             #endregion
 
@@ -2456,7 +2456,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
             else
             {
-                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.IsActive == true);
+                isExist = await _db.Areas.AnyAsync(u => u.Name.ToLower() == areaName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.IsActive == true);
             }
 
             return isExist;
@@ -2573,10 +2573,10 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check SubZone Duplicate
-            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.AreaId == vmCommonSubZone.AreaId && u.SubZoneId != vmCommonSubZone.ID && u.IsActive == true);
+            var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.AreaId == vmCommonSubZone.AreaId && u.IsActive == true);
             if (isExist?.SubZoneId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exists!");
             }
             #endregion
 
@@ -2715,7 +2715,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.AreaId == vmCommonSubZone.AreaId && u.SubZoneId != vmCommonSubZone.ID && u.IsActive == true);
             if (isExist?.SubZoneId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exists!");
             }
             #endregion
 
@@ -2791,7 +2791,6 @@ namespace KGERP.Service.Implementation.Configuration
             if (id > 0)
             {
                 isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.AreaId == areaId && u.SubZoneId != id && u.IsActive == true);
-
             }
             else
             {
@@ -2831,7 +2830,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = productCategoryModel.ID > 0 ? _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.ProductCategoryId != productCategoryModel.ID && c.IsActive == true) : _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == productCategoryModel.Name.ToLower() && c.IsActive == true);
             if (isExist?.ProductCategoryId > 0)
             {
-                throw new Exception($"Sorry! This Name {productCategoryModel.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {productCategoryModel.Name} already Exists!");
             }
             #endregion
 
@@ -2937,7 +2936,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = vmCommonProductCategory.ID > 0 ? _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.ProductCategoryId != vmCommonProductCategory.ID && c.IsActive == true) : _db.ProductCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductCategory.Name.ToLower() && c.IsActive == true);
             if (isExist?.ProductCategoryId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonProductCategory.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonProductCategory.Name} already Exists!");
             }
             #endregion
 
@@ -3059,7 +3058,7 @@ namespace KGERP.Service.Implementation.Configuration
             var isExist = _db.ProductSubCategories.FirstOrDefault(c => c.Name.ToLower() == vmCommonProductSubCategory.Name.ToLower() && c.ProductCategoryId == vmCommonProductSubCategory.CategoryId && c.IsActive == true);
             if (isExist?.ProductSubCategoryId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonProductSubCategory.Name} already Exists!");
             }
             #endregion
 
@@ -3712,7 +3711,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (isExist?.ProductCategoryId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonProduct.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonProduct.Name} already Exists!");
             }
 
             #endregion

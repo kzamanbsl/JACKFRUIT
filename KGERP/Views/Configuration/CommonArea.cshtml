@@ -264,15 +264,18 @@
 }
 
 @section scripts {
+
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
     <script type="text/javascript">
 
         $(document).ready(function () {
+
             $('.formValidator').bootstrapValidator();
 
             //Bind employee info based on employee Selection
+
             $('#employeeId').change(function () {
                 var selectedEmployeeId = $('#employeeId').val();
                 $.ajax({
@@ -291,9 +294,7 @@
                 });
             });
 
-
-                //Bind ZoneDivision base on Zone Selection
-
+            //Bind ZoneDivision base on Zone Selection
 
             $('#ddlZoneId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
@@ -306,7 +307,6 @@
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 changeRegion(zoneId, zoneDivisionId,0);
             });
-
 
         });
 
@@ -333,7 +333,7 @@
             });
         }
 
-    function changeRegion(zoneValue, zoneDivisionValue,regionValue) {
+        function changeRegion(zoneValue, zoneDivisionValue,regionValue) {
         $.ajax({
             type: "get",
             url: "/Configuration/GetRegionList",
@@ -353,8 +353,7 @@
                 }
             }
         });
-    };
-     
+       }
 
         function makeEditble(elem) {
             if (elem !== null) {
@@ -396,7 +395,7 @@
         function resetForm() {
             $('#commonAreaFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
-    }
+        }
 
 
     $('#textAreaId').change(function () {
@@ -420,7 +419,7 @@
             success: function (data) {
                 if (data == true) {
                     $('#AreaNameValidation').show();
-                    $('#AreaNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                    $('#AreaNameValidation').text(`Sorry! This ${Name} name already exists!`);
                 }
                 else {
                     $('#AreaNameValidation').hide();
