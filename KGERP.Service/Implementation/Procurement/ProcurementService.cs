@@ -3994,8 +3994,10 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId
-                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
+                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId into t4_zoneDivision
+                                                      from t4 in t4_zoneDivision.DefaultIfEmpty()
+                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId into t5_zone 
+                                                      from t5 in t5_zone.DefaultIfEmpty()
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
 
