@@ -1,5 +1,4 @@
 ﻿using KGERP.Data.Models;
-using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -25,7 +24,7 @@ namespace KGERP.Service.Implementation
         public async Task<StockInfoModel> GetStockInfos(int companyId)
         {
             StockInfoModel model = new StockInfoModel();
-            model.CompanyId=companyId;
+            model.CompanyId = companyId;
             model.DataList = await Task.Run(() => (from t1 in _context.StockInfoes
                                                    where t1.IsActive && t1.CompanyId == companyId
                                                    select new StockInfoModel
@@ -38,7 +37,7 @@ namespace KGERP.Service.Implementation
                                                        Code = t1.Code,
                                                        IsDefault = t1.IsDefault,
                                                    }
-                                                 ).OrderBy(o => o.StockInfoId).ThenBy(o=>o.Name)
+                                                 ).OrderBy(o => o.StockInfoId).ThenBy(o => o.Name)
                                                  .AsEnumerable());
 
             return model;
@@ -116,7 +115,7 @@ namespace KGERP.Service.Implementation
             var result = -1;
 
             #region check StockInfo Duplicate
-            var isExist = await _context.StockInfoes.FirstOrDefaultAsync(u => u.Name.ToLower() == model.Name.ToLower() && u.StockInfoId != model.StockInfoId && u.IsActive == true);
+            var isExist = await _context.StockInfoes.FirstOrDefaultAsync(u => u.Name.Equals(model.Name) && u.IsActive == true);
             if (isExist?.StockInfoId > 0)
             {
                 throw new Exception($"Sorry! This Name {model.Name} already Exist!");
@@ -130,7 +129,7 @@ namespace KGERP.Service.Implementation
                 ShortName = model.ShortName,
                 CompanyId = model.CompanyId,
                 Code = model.Code,
-                IsDefault= model.IsDefault,
+                IsDefault = model.IsDefault,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 IsActive = true
@@ -147,6 +146,15 @@ namespace KGERP.Service.Implementation
         public async Task<int> StockInfoEdit(StockInfoModel model)
         {
             var result = -1;
+
+            #region check StockInfo Duplicate
+            var isExist = await _context.StockInfoes.FirstOrDefaultAsync(u => u.Name.Equals(model.Name) && u.StockInfoId != model.StockInfoId && u.IsActive == true);
+            if (isExist?.StockInfoId > 0)
+            {
+                throw new Exception($"Sorry! This Name {model.Name} already Exist!");
+            }
+            #endregion
+
             StockInfo obj = await _context.StockInfoes.FindAsync(model.StockInfoId);
             obj.Name = model.Name;
             obj.Code = model.Code;
@@ -199,26 +207,23 @@ namespace KGERP.Service.Implementation
             disposed = true;
         }
 
-        public async Task<bool> CheckDuplicateStockName(string Name, int id)
+        public async Task<bool> CheckDuplicateStockName(string name, int id)
         {
             bool isExist = false;
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(name))
             {
-                return  isExist;
+                return false;
             }
             if (id > 0)
             {
-                isExist = await _context.StockInfoes.AnyAsync(u => u.Name.ToLower() == Name.ToLower() &&  u.StockInfoId != id && u.IsActive == true);
-
+                isExist = await _context.StockInfoes.AnyAsync(u => u.Name.Equals(name) && u.StockInfoId != id && u.IsActive == true);
             }
             else
             {
-                isExist = await _context.StockInfoes.AnyAsync(u => u.Name.ToLower() == Name.ToLower() && u.IsActive == true);
+                isExist = await _context.StockInfoes.AnyAsync(u => u.Name.Equals(name) && u.IsActive == true);
             }
 
             return isExist;
-
-
         }
     }
 }
