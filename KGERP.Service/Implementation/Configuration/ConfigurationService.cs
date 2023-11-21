@@ -2256,7 +2256,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             foreach (var x in v)
             {
-                list.Add(new { Text = x.Name, Value = x.RegionId });
+                list.Add(new { Text = x.Name, Value = x.AreaId });
             }
 
             return list;
@@ -2272,7 +2272,7 @@ namespace KGERP.Service.Implementation.Configuration
             };
             selectModelList.Add(selectModel);
 
-            if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0 && regionId > 0)
+            if (zoneId.HasValue && zoneId > 0 && zoneDivisionId > 0 && regionId >0)
             {
                 var v = _db.Areas.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()

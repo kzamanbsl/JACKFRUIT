@@ -683,7 +683,7 @@
             //// Enable multiple select.
             //$('#CountryList').attr('multiple', true);
             //$('#CountryList').attr('data-selected-text-format', 'count');
-
+            
             $('.select').selectpicker(
                 {
                     width: '100%',
@@ -709,7 +709,7 @@
             var employeeId = $("#hidEmployeeId").val();
             var zoneIds = $("#ddlZoneId").val();
             var zoneDivisionIds= $("#ddlZoneDivisionId").val();
-            var zoneDivisionIds= $("#ddlZoneDivisionId").val();
+            var regionIds = $("#ddlRegionId").val();
             var areaIds = $("#ddlAreaId").val();
             var territoryIds = $("#ddlSubZoneId").val();
 
@@ -717,7 +717,12 @@
             var regionDiv = $("#regionDiv");
             var areaDiv = $("#areaDiv");
             var subzoneDiv = $("#subzoneDiv");
+            zoneDivisionDiv.show();
+            regionDiv.show();
+            areaDiv.show();
+            subzoneDiv.show();
 
+          
             if (employeeId > 0 && territoryIds.length<=0) {
                 subzoneDiv.hide();
                 //zoneDivisionChange(0, zoneIds[0]);
@@ -725,11 +730,17 @@
             }
             if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length<=0 ) {
                 subzoneDiv.hide();
-                regionDiv.hide();
+                areaDiv.hide();
                 //zoneDivisionChange(0, zoneIds[0]);
             }
-            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && zoneDivisionIds.length<=0) {
+            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && regionIds.length<=0) {
                 subzoneDiv.hide();
+                areaDiv.hide();
+                regionDiv.hide();
+            }
+            if (employeeId > 0 && territoryIds.length <= 0 && areaIds.length <= 0 && regionIds.length <= 0 && zoneDivisionIds.length <= 0) {
+                subzoneDiv.hide();
+                areaDiv.hide();
                 regionDiv.hide();
                 zoneDivisionDiv.hide();
             }
@@ -879,11 +890,23 @@
 
             if (zoneIds.length == 1)
             {
-                zoneDivisionChange(0, zoneIds[0]);
                 zoneDivisionDiv.show();
                 regionDiv.show();
                 areaDiv.show();
                 subzoneDiv.show();
+
+                $("#ddlZoneDivisionId").next().find('.select2-selection__choice').remove();
+                $("#ddlRegionId").next().find('.select2-selection__choice').remove();
+                $("#ddlAreaId").next().find('.select2-selection__choice').remove();
+                $("#ddlSubZoneId").next().find('.select2-selection__choice').remove();
+
+                $("#ddlZoneDivisionId").val(null);
+                $("#ddlRegionId").val(null);
+                $("#ddlAreaId").val(null);
+                $("#ddlSubZoneId").val(null);
+                zoneDivisionChange(0, zoneIds[0]);
+
+
             }
 
             if (zoneIds.length > 1) {
@@ -923,10 +946,20 @@
             var subzoneDiv = $("#subzoneDiv");
 
             if (zoneDivisionIds.length == 1) {
-                regionChange(0, zoneIds[0], zoneDivisionIds[0]);
                 regionDiv.show();
                 areaDiv.show();
                 subzoneDiv.show();
+
+                $("#ddlRegionId").next().find('.select2-selection__choice').remove();
+                $("#ddlAreaId").next().find('.select2-selection__choice').remove();
+                $("#ddlSubZoneId").next().find('.select2-selection__choice').remove();
+
+                $("#ddlRegionId").val(null);
+                $("#ddlAreaId").val(null);
+                $("#ddlSubZoneId").val(null);
+
+                regionChange(0, zoneIds[0], zoneDivisionIds[0]);
+
             }
 
             if (zoneDivisionIds.length > 1) {
@@ -955,16 +988,24 @@
             var zoneDivisionIds = $("#ddlZoneDivisionId").val();
             var regionIds = $("#ddlRegionId").val();
 
-
             var areaDiv = $("#areaDiv");
             var subzoneDiv = $("#subzoneDiv");
 
 
             if (regionIds.length == 1) {
 
-                areaChange(zoneIds[0], zoneDivisionIds[0], regionIds[0],0);
+                areaChange(zoneIds[0], zoneDivisionIds[0], regionIds[0], 0);
+
                 areaDiv.show();
                 subzoneDiv.show();
+
+                $("#ddlAreaId").next().find('.select2-selection__choice').remove();
+                $("#ddlSubZoneId").next().find('.select2-selection__choice').remove();
+
+                $("#ddlAreaId").val(null);
+                $("#ddlSubZoneId").val(null);
+                areaChange(zoneIds[0], zoneDivisionIds[0], regionIds[0], 0);
+
             }
 
             if (regionIds.length > 1) {
@@ -993,8 +1034,13 @@
             var subzoneDiv = $("#subzoneDiv");
             if (areaIds.length == 1) {
 
-                territoryChange(0,areaIds[0]);
                 subzoneDiv.show();
+
+                $("#ddlSubZoneId").next().find('.select2-selection__choice').remove();
+
+                $("#ddlSubZoneId").val(null);
+                territoryChange(0, areaIds[0]);
+
             }
 
             if (areaIds.length > 1) {
@@ -1073,7 +1119,7 @@
                 type: "GET",
                 url: "@Url.Action("GetAreaList", "Configuration")",
                 datatype: "Json",
-                data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisionId },
+                data: { companyId:@Model.Employee.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionValue },
 
                 success: function (data) {
 

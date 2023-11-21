@@ -14,9 +14,9 @@ namespace KGERP.ViewModel
         public List<SelectModel> Religions { get; set; }
         public List<SelectModel> BloodGroups { get; set; }
         public List<SelectModel> Countries { get; set; }
-        public List<SelectModel> Districts { get; set; }
-        public List<SelectModel> Divisions { get; set; }
-        public List<SelectModel> Upazilas { get; set; }
+        public List<SelectModel> Districts { get; set; } = new List<SelectModel>();
+        public List<SelectModel> Divisions { get; set; } = new List<SelectModel>();
+        public List<SelectModel> Upazilas { get; set; }= new List<SelectModel>();
         public List<SelectModel> MaritalTypes { get; set; }
         public List<SelectModel> Genders { get; set; }
 

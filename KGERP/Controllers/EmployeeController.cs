@@ -238,13 +238,30 @@ namespace KGERP.Controllers
             vm.SalaryGrades = _gradeService.GetGradeSelectModels();
             vm.StoreInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
 
+
+
+            if (vm.Employee.ZoneIds!=null)
+            {
+                vm.TerritoryList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId, vm.Employee.ZoneIds[0]), "Value", "Text");
+                vm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, vm.Employee.ZoneIds[0]), "Value", "Text");
+
+            }
+            if (vm.Employee.ZoneIds != null && vm.Employee.ZoneDivisionIds != null && vm.Employee.RegionIds != null)
+            {
+                vm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId, vm.Employee.ZoneIds[0], vm.Employee.ZoneDivisionIds[0], vm.Employee.RegionIds[0]), "Value", "Text");
+
+            }
+            if (vm.Employee.ZoneIds != null && vm.Employee.ZoneDivisionIds != null)
+            {
+                vm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, vm.Employee.ZoneIds[0], vm.Employee.ZoneDivisionIds[0]), "Value", "Text");
+
+            }
+
+
+
             vm.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text");
-            vm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId), "Value", "Text");
-            vm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId), "Value", "Text");
-            vm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId), "Value", "Text");
-            vm.TerritoryList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             vm.Employee.CompanyId = companyId;
-           
+
             return View(vm);
         }
 
