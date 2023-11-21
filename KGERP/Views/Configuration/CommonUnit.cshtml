@@ -162,7 +162,7 @@
             $.post(url, param, function (rData) {
                 $('#nameExist').text("");
                 if (rData === true) {
-                    var msg = "Sorry, This " + value + " name already exist!";
+                    var msg = "Sorry! This " + value + " name already exists!";
                     $('#nameExist').text(msg);
                     return;
                 }
