@@ -4169,6 +4169,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId.Value,
+                         AreaId=t1.AreaId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -4242,7 +4243,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                               join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
                                                               from t8 in t8_def.DefaultIfEmpty()
                                                               join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
-                                                              from t9 in t9_def.DefaultIfEmpty()
+                                                              from t9 in t9_def.DefaultIfEmpty()  
+                                                              join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
+                                                              from t10 in t10_def.DefaultIfEmpty()
 
                                                               where ((zoneId > 0) && (subZoneId == 0) ? t6.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t5.SubZoneId == subZoneId :
@@ -4266,12 +4269,16 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   CompanyFK = t1.CompanyId,
                                                                   Phone = t1.Phone,
                                                                   ZoneId = t1.ZoneId ?? 0,
+                                                                  ZoneName = t6.Name,
                                                                   ZoneDivisionId = t1.ZoneDivisionId,
                                                                   ZoneDivisionName = t7.Name,
+                                                                  RegionId = t1.RegionId,
+                                                                  RegionName = t9.Name,
+                                                                  AreaId=t1.AreaId,
+                                                                  AreaName=t10.Name,
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
-                                                                  ZoneName = t6.Name,
-                                                                  RegionName = t9.Name,
+
                                                                   ZoneIncharge = t6.ZoneIncharge,
                                                                   CreditLimit = t1.CreditLimit,
                                                                   NID = t1.NID,
@@ -4600,9 +4607,7 @@ namespace KGERP.Service.Implementation.Configuration
                 //UpazilaId = vmCommonCustomer.Common_UpazilasFk,
                 ContactName = vmCommonCustomer.ContactPerson,
                 VendorTypeId = (int)Provider.Customer,
-                RegionId = vmCommonCustomer.RegionId,
                 Address = vmCommonCustomer.Address,
-                SubZoneId = vmCommonCustomer.SubZoneId,
                 NID = vmCommonCustomer.NID,
                 CreditLimit = vmCommonCustomer.CreditLimit,
                 CustomerTypeFK = vmCommonCustomer.CustomerTypeFk,
@@ -4621,6 +4626,9 @@ namespace KGERP.Service.Implementation.Configuration
                 NomineePhone = vmCommonCustomer.NomineePhone,
                 ZoneId = vmCommonCustomer.ZoneId,
                 ZoneDivisionId = vmCommonCustomer.ZoneDivisionId,
+                RegionId = vmCommonCustomer.RegionId,
+                AreaId=vmCommonCustomer.AreaId,
+                SubZoneId = vmCommonCustomer.SubZoneId,
                 NomineeRelation = vmCommonCustomer.NomineeRelation,
                 NomineeNID = vmCommonCustomer.NomineeNID,
                 BusinessAddress = vmCommonCustomer.BusinessAddress,
@@ -4905,6 +4913,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.ZoneId = vmCommonCustomer.ZoneId;
             commonCustomer.ZoneDivisionId = vmCommonCustomer.ZoneDivisionId;
             commonCustomer.RegionId = vmCommonCustomer.RegionId;
+            commonCustomer.AreaId = vmCommonCustomer.AreaId;
             commonCustomer.SubZoneId = vmCommonCustomer.SubZoneId;
             commonCustomer.BusinessAddress = vmCommonCustomer.BusinessAddress;
             commonCustomer.NomineeNID = vmCommonCustomer.NomineeNID;
@@ -5281,11 +5290,13 @@ namespace KGERP.Service.Implementation.Configuration
                          Email = t1.Email,
                          Phone = t1.Phone,
                          CompanyFK = t1.CompanyId,
-                         SubZoneId = t1.SubZoneId.Value,
-                         RegionId = t1.RegionId,
+   
                          CustomerTypeFk = t1.CustomerTypeFK,
                          ZoneId = t2.ZoneId,
                          ZoneDivisionId = t1.ZoneDivisionId,
+                         RegionId = t1.RegionId,
+                         AreaId=t1.AreaId,
+                         SubZoneId = t1.SubZoneId.Value,
                          //Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          //Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
                          //Common_UpazilasFk = t3.UpazilaId > 0 ? t3.UpazilaId : 0,

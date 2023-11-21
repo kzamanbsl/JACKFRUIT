@@ -485,13 +485,13 @@
                 success: function (data) {
 
                     if (data) {
-                        $("#ddlregionId").empty();
-                        $("#ddlregionId").append("<option value=''>==Select Region==</option>");
+                        $("#ddlRegionId").empty();
+                        //$("#ddlRegionId").append("<option value=''>==Select Region==</option>");
                         $(data).each(function (index, item) {
-                            $("#ddlregionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
                         if (regionValue > 0) {
-                            $("#ddlregionId").val(regionValue);
+                            $("#ddlRegionId").val(regionValue);
 
                         }
                     }
@@ -534,7 +534,7 @@
                 success: function (data) {
                     if (data) {
                         $("#ddlSubZoneId").empty();
-                        $("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+                        //$("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             console.log(item.Text);
@@ -619,10 +619,10 @@
 
 
                         $('#txtEmail').val(data.Email);
-                        zoneValue = data.ZoneId;
-                        zoneDivision = data.ZoneDivisionId;
-                        area = data.RegionId;
-                        subzone = data.SubZoneId;
+                        //zoneValue = data.ZoneId;
+                        //zoneDivision = data.ZoneDivisionId;
+                        //area = data.RegionId;
+                        //subzone = data.SubZoneId;
 
 
                         //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
@@ -631,9 +631,10 @@
                         //});
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
                         zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
-                        areaChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
+                        regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId)
+                        areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
 
-                        territoryChange(data.SubZoneId, data.RegionId);
+                        territoryChange(data.SubZoneId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
 
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
