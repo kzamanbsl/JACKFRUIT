@@ -2356,11 +2356,11 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check Area Duplicate
-            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
-            if (isExist?.AreaId > 0)
-            {
-                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
-            }
+            //var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            //if (isExist?.AreaId > 0)
+            //{
+            //    throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+            //}
             #endregion
 
             Area area = new Area
@@ -2396,11 +2396,11 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check Area Duplicate
-            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
-            if (isExist?.AreaId > 0)
-            {
-                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
-            }
+            //var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            //if (isExist?.AreaId > 0)
+            //{
+            //    throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+            //}
             #endregion
 
             Area area = await _db.Areas.FindAsync(vmCommonArea.ID);
