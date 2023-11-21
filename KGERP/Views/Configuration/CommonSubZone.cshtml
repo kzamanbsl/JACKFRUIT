@@ -321,6 +321,7 @@
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 changeRegion( zoneId, zoneDivisionId,0);
             });
+
             $('#ddlRegionId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
@@ -451,6 +452,7 @@
         var zoneId = $('#ddlZoneId').val();
         var zoneDivisionId = $('#ddlZoneDivisionId').val();
         var regionId = $('#ddlRegionId').val();
+        var areaId = $('#ddlAreaId').val();
         var subZoneId = $('#subZoneId').val();
         if (zoneId == null) {
             zoneId = 0;
@@ -462,7 +464,7 @@
         $.ajax({
             type: "post",
             url: "@Url.Action("IsSubZoneNameExist", "Configuration")",
-            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, subZoneName: Name, id: subZoneId },
+            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId, subZoneName: Name, id: subZoneId },
             success: function (data) {
                 if (data == true) {
                     $('#SubZoneNameValidation').show();

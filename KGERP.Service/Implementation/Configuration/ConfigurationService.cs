@@ -2356,11 +2356,11 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check Area Duplicate
-            //var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
-            //if (isExist?.AreaId > 0)
-            //{
-            //    throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
-            //}
+            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            if (isExist?.AreaId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+            }
             #endregion
 
             Area area = new Area
@@ -2396,11 +2396,11 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region check Area Duplicate
-            //var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
-            //if (isExist?.AreaId > 0)
-            //{
-            //    throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
-            //}
+            var isExist = await _db.Areas.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonArea.Name.ToLower() && u.ZoneId == vmCommonArea.ZoneId && u.ZoneDivisionId == vmCommonArea.ZoneDivisionId && u.RegionId == vmCommonArea.RegionId && u.AreaId != vmCommonArea.ID && u.IsActive == true);
+            if (isExist?.AreaId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonArea.Name} already Exist!");
+            }
             #endregion
 
             Area area = await _db.Areas.FindAsync(vmCommonArea.ID);
@@ -2710,6 +2710,7 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> SubZonesEdit(VMCommonSubZone vmCommonSubZone)
         {
             var result = -1;
+
             #region check SubZone Duplicate
             var isExist = await _db.SubZones.FirstOrDefaultAsync(u => u.Name.ToLower() == vmCommonSubZone.Name.ToLower() && u.ZoneId == vmCommonSubZone.ZoneId && u.ZoneDivisionId == vmCommonSubZone.ZoneDivisionId && u.RegionId == vmCommonSubZone.RegionId && u.AreaId == vmCommonSubZone.AreaId && u.SubZoneId != vmCommonSubZone.ID && u.IsActive == true);
             if (isExist?.SubZoneId > 0)
@@ -2717,6 +2718,7 @@ namespace KGERP.Service.Implementation.Configuration
                 throw new Exception($"Sorry! This Name {vmCommonSubZone.Name} already Exist!");
             }
             #endregion
+
             SubZone subZone = await _db.SubZones.FindAsync(vmCommonSubZone.ID);
             subZone.ZoneId = vmCommonSubZone.ZoneId;
             subZone.ZoneDivisionId = vmCommonSubZone.ZoneDivisionId;
@@ -2779,7 +2781,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
-        public async Task<bool> CheckDuplicateSubZoneName(int zoneId, int zoneDivisionId, int regionId, string subZoneName, int id)
+        public async Task<bool> CheckDuplicateSubZoneName(int zoneId, int zoneDivisionId, int regionId, int areaId, string subZoneName, int id)
         {
             bool isExist = false;
             if (string.IsNullOrEmpty(subZoneName))
@@ -2788,12 +2790,12 @@ namespace KGERP.Service.Implementation.Configuration
             }
             if (id > 0)
             {
-                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.SubZoneId != id && u.IsActive == true);
+                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.AreaId == areaId && u.SubZoneId != id && u.IsActive == true);
 
             }
             else
             {
-                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.IsActive == true);
+                isExist = await _db.SubZones.AnyAsync(u => u.Name.ToLower() == subZoneName.ToLower() && u.ZoneId == zoneId && u.ZoneDivisionId == zoneDivisionId && u.RegionId == regionId && u.AreaId == areaId && u.IsActive == true);
             }
 
             return isExist;
