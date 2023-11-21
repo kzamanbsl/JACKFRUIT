@@ -1,6 +1,5 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonSubZone
 @{
-
     ViewData["Title"] = "Territory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -279,6 +278,7 @@
 }
 
 @section scripts {
+
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
@@ -366,7 +366,7 @@
                         $(data).each(function (index, item) {
                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-                       
+
                         if (regionValue > 0) {
                             $("#ddlRegionId").val(regionValue);
 
@@ -389,7 +389,7 @@
                         $(data).each(function (index, item) {
                             $("#ddlAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-                       
+
                         if (areaValue > 0) {
                             $("#ddlAreaId").val(areaValue);
 
@@ -398,7 +398,6 @@
                 }
             });
         };
-
 
         function makeEditble(elem) {
             if (elem !== null) {
@@ -454,9 +453,11 @@
         var regionId = $('#ddlRegionId').val();
         var areaId = $('#ddlAreaId').val();
         var subZoneId = $('#subZoneId').val();
+
         if (zoneId == null) {
             zoneId = 0;
         }
+
         if (zoneDivisionId == null) {
             zoneDivisionId = 0;
         }
@@ -468,19 +469,16 @@
             success: function (data) {
                 if (data == true) {
                     $('#SubZoneNameValidation').show();
-                    $('#SubZoneNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                    $('#SubZoneNameValidation').text(`Sorry! This ${Name} name already exists!`);
                 }
                 else {
                     $('#SubZoneNameValidation').hide();
                 }
             }
-
         });
 
     });
 
     </script>
-
-
 }
 
