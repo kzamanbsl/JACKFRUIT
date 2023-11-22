@@ -1300,9 +1300,9 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier.CompanyFK = companyId;
-            vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Supplier && x.CompanyId == companyId)
+            vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Supplier && x.CompanyId == companyId && x.IsActive == true)
                                                               join t2 in _db.Countries on t1.CountryId equals t2.CountryId
-                                                              where t1.IsActive == true
+                                                              where t1.VendorId > 0
                                                               select new VMCommonSupplier
                                                               {
                                                                   ID = t1.VendorId,
@@ -4371,28 +4371,31 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer.CompanyFK = companyId;
             vmCommonCustomer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.CompanyId == companyId)
+
                                                               join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
                                                               from t2 in t2_def.DefaultIfEmpty()
                                                               join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                               from t3 in t3_def.DefaultIfEmpty()
                                                               join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
                                                               from t4 in t4_def.DefaultIfEmpty()
-                                                              join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
-                                                              from t5 in t5_def.DefaultIfEmpty()
+                                                              join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
+                                                              from t8 in t8_def.DefaultIfEmpty()
+
+
                                                               join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                               from t6 in t6_def.DefaultIfEmpty()
                                                               join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
                                                               from t7 in t7_def.DefaultIfEmpty()
-                                                              join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
-                                                              from t8 in t8_def.DefaultIfEmpty()
                                                               join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
                                                               from t9 in t9_def.DefaultIfEmpty()
                                                               join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
                                                               from t10 in t10_def.DefaultIfEmpty()
+                                                              join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                              from t5 in t5_def.DefaultIfEmpty()
 
-                                                              where ((zoneId > 0) && (subZoneId == 0) ? t6.ZoneId == zoneId :
-                                                                     (zoneId > 0) && (subZoneId > 0) ? t5.SubZoneId == subZoneId :
-                                                              t6.ZoneId > 0)
+                                                              where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
+                                                                     (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
+                                                              t1.VendorId > 0)
                                                               select new VMCommonSupplier
                                                               {
                                                                   ID = t1.VendorId,
@@ -5178,26 +5181,31 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport.CompanyFK = companyId;
             vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
+
                                                             join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
                                                             from t2 in t2_def.DefaultIfEmpty()
                                                             join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                             from t3 in t3_def.DefaultIfEmpty()
                                                             join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
                                                             from t4 in t4_def.DefaultIfEmpty()
-                                                            join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
-                                                            from t5 in t5_def.DefaultIfEmpty()
+
                                                             join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                             from t6 in t6_def.DefaultIfEmpty()
                                                             join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
                                                             from t7 in t7_def.DefaultIfEmpty()
-                                                            join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
-                                                            from t8 in t8_def.DefaultIfEmpty()
                                                             join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
                                                             from t9 in t9_def.DefaultIfEmpty()
+                                                            join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
+                                                            from t10 in t10_def.DefaultIfEmpty()
+                                                            join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                            from t5 in t5_def.DefaultIfEmpty()
+
+                                                            join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
+                                                            from t8 in t8_def.DefaultIfEmpty()
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
-                                                              t1.ZoneId > 0)
+                                                              t1.VendorId > 0)
                                                             select new VMCommonSupplier
                                                             {
                                                                 ID = t1.VendorId,
@@ -5486,7 +5494,7 @@ namespace KGERP.Service.Implementation.Configuration
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
-                                                              t1.ZoneId > 0)
+                                                              t1.VendorId > 0)
                                                             select new VMCommonSupplier
                                                             {
                                                                 ID = t1.VendorId,
