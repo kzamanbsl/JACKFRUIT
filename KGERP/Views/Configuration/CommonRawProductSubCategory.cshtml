@@ -238,35 +238,21 @@
             var categoryId = $('#txtCategoryName').val();
             var subcategoryId = $('#subcategoryId').val();
             console.log(categoryId);
-            if (categoryId == null)
-            {
+            if (categoryId == null) {
 
             } else {
                 $.ajax({
-                type:"post",
-                url: "@Url.Action("IsSubCategoryExits","Configuration")",
+                    type: "post",
+                    url: "@Url.Action("IsSubCategoryExits","Configuration")",
                     data: { name: name, categoryId: categoryId, id: subcategoryId },
-                success: function (data)
-                {
-                    if (data == true) {
-                        $('#SubcategoryValidation').show();
-                        $('#SubcategoryValidation').text(`Sorry .. This  ${name} name already exist!`);
+                    success: function (data) {
+                        $('#SubcategoryValidation').text("");
+                        if (data == true) {
+                            $('#SubcategoryValidation').text(`Sorry! This ${name} name already exists!`);
+                        }
                     }
-                    else
-                    {
-                        $('#SubcategoryValidation').hide();
-                    }
-                }
-
-
-
-
-
-
-            });
+                });
             }
-
-
         });
 
     </script>

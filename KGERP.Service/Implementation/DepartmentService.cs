@@ -22,13 +22,13 @@ namespace KGERP.Service.Implementation
             vmCommonDepartment.CompanyFK = companyId;
 
             vmCommonDepartment.DataList = await Task.Run(() => (from t1 in _db.Departments
-                                                          where t1.IsActive == true && t1.CompanyId == companyId
-                                                          select new VMCommonDepartment
-                                                          {
-                                                              ID = t1.DepartmentId,
-                                                              Name = t1.Name,
-                                                              CompanyFK = t1.CompanyId
-                                                          }).OrderByDescending(x => x.ID).AsEnumerable());
+                                                                where t1.IsActive == true && t1.CompanyId == companyId
+                                                                select new VMCommonDepartment
+                                                                {
+                                                                    ID = t1.DepartmentId,
+                                                                    Name = t1.Name,
+                                                                    CompanyFK = t1.CompanyId
+                                                                }).OrderByDescending(x => x.ID).AsEnumerable());
 
             return vmCommonDepartment;
         }
@@ -39,10 +39,10 @@ namespace KGERP.Service.Implementation
             var result = -1;
 
             #region IsExist
-            var isExist = vmCommonDepartment.ID > 0 ? _db.Departments.FirstOrDefault(c => c.Name.ToLower() == vmCommonDepartment.Name.ToLower() && c.DepartmentId != vmCommonDepartment.ID && c.IsActive == true) : _db.Departments.FirstOrDefault(c => c.Name.ToLower() == vmCommonDepartment.Name.ToLower() && c.IsActive == true);
+            var isExist = await _db.Departments.FirstOrDefaultAsync(c => c.Name.Equals(vmCommonDepartment.Name) && c.IsActive == true);
             if (isExist?.DepartmentId > 0)
             {
-                throw new Exception($"Sorry! This Name {vmCommonDepartment.Name} already Exist!");
+                throw new Exception($"Sorry! This Name {vmCommonDepartment.Name} already Exists!");
             }
             #endregion
 
@@ -66,6 +66,13 @@ namespace KGERP.Service.Implementation
         public async Task<int> DepartmentEdit(VMCommonDepartment vmCommonDepartment)
         {
             var result = -1;
+            #region IsExist
+            var isExist = await _db.Departments.FirstOrDefaultAsync(c => c.Name.Equals(vmCommonDepartment.Name) && c.DepartmentId != vmCommonDepartment.ID && c.IsActive == true);
+            if (isExist?.DepartmentId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonDepartment.Name} already Exists!");
+            }
+            #endregion
             Department department = _db.Departments.Find(vmCommonDepartment.ID);
             department.Name = vmCommonDepartment.Name;
 
@@ -106,11 +113,11 @@ namespace KGERP.Service.Implementation
             bool isExist = false;
             if (id > 0)
             {
-                isExist = await _db.Departments.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DepartmentId != id && u.IsActive == true);
+                isExist = await _db.Departments.AnyAsync(u => u.Name.Equals(name) && u.DepartmentId != id && u.IsActive == true);
             }
             else
             {
-                isExist = await _db.Departments.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+                isExist = await _db.Departments.AnyAsync(u => u.Name.Equals(name) && u.IsActive == true);
             }
             return isExist;
         }
@@ -119,7 +126,7 @@ namespace KGERP.Service.Implementation
 
         public List<SelectModel> GetDepartmentSelectModels()
         {
-            return _db.Departments.Where(x=>x.IsActive == true && x.CompanyId == CompanyInfo.CompanyId).OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
+            return _db.Departments.Where(x => x.IsActive == true && x.CompanyId == CompanyInfo.CompanyId).OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
             {
                 Text = x.Name.ToString(),
                 Value = x.DepartmentId.ToString()

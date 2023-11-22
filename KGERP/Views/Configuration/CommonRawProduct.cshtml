@@ -424,35 +424,21 @@
             var categoryId = $('#CategoryId').val();
             var subCategoryId = $('#ddlCommonProductSubCategoryFk').val();
             console.log(categoryId);
-            if (categoryId == null)
-            {
+            if (categoryId == null) {
 
             } else {
                 $.ajax({
-                type:"post",
-                url: "@Url.Action("IsProductExist", "Configuration")",
+                    type: "post",
+                    url: "@Url.Action("IsProductExist", "Configuration")",
                     data: { categoryId: categoryId, subCategoryId: subCategoryId, productName: productName, id: productId },
-                success: function (data)
-                {
-                    if (data == true) {
-                        $('#txtProductValidation').show();
-                        $('#txtProductValidation').text(`Sorry .. This  ${productName} name already exist!`);
+                    success: function (data) {
+                        $('#txtProductValidation').text("");
+                        if (data == true) {
+                            $('#txtProductValidation').text(`Sorry! This ${productName} name already exists!`);
+                        }
                     }
-                    else
-                    {
-                        $('#txtProductValidation').hide();
-                    }
-                }
-
-
-
-
-
-
-            });
+                });
             }
-
-
         });
 
     </script>

@@ -19,13 +19,13 @@ namespace KGERP.Service.Implementation
             vmCommonDesignation.CompanyFK = companyId;
 
             vmCommonDesignation.DataList = await Task.Run(() => (from t1 in _context.Designations
-                                                                where t1.IsActive == true && t1.CompanyId == companyId
-                                                                select new VMCommonHrDesignation
-                                                                {
-                                                                    ID = t1.DesignationId,
-                                                                    Name = t1.Name,
-                                                                    CompanyFK = t1.CompanyId
-                                                                }).OrderByDescending(x => x.ID).AsEnumerable());
+                                                                 where t1.IsActive == true && t1.CompanyId == companyId
+                                                                 select new VMCommonHrDesignation
+                                                                 {
+                                                                     ID = t1.DesignationId,
+                                                                     Name = t1.Name,
+                                                                     CompanyFK = t1.CompanyId
+                                                                 }).OrderByDescending(x => x.ID).AsEnumerable());
 
             return vmCommonDesignation;
         }
@@ -36,7 +36,7 @@ namespace KGERP.Service.Implementation
             var result = -1;
 
             #region IsExist
-            var isExist = vmCommonDesignation.ID > 0 ? _context.Designations.FirstOrDefault(c => c.Name.ToLower() == vmCommonDesignation.Name.ToLower() && c.DesignationId != vmCommonDesignation.ID && c.IsActive == true) : _context.Designations.FirstOrDefault(c => c.Name.ToLower() == vmCommonDesignation.Name.ToLower() && c.IsActive == true);
+            var isExist = _context.Designations.FirstOrDefault(c => c.Name.Equals(vmCommonDesignation.Name) && c.IsActive == true);
             if (isExist?.DesignationId > 0)
             {
                 throw new Exception($"Sorry! This Name {vmCommonDesignation.Name} already Exist!");
@@ -63,6 +63,15 @@ namespace KGERP.Service.Implementation
         public async Task<int> HrDesignationEdit(VMCommonHrDesignation vmCommonDesignation)
         {
             var result = -1;
+
+            #region IsExist
+            var isExist = _context.Designations.FirstOrDefault(c => c.Name.Equals(vmCommonDesignation.Name) && c.DesignationId != vmCommonDesignation.ID && c.IsActive == true);
+            if (isExist?.DesignationId > 0)
+            {
+                throw new Exception($"Sorry! This Name {vmCommonDesignation.Name} already Exist!");
+            }
+            #endregion
+
             Designation department = _context.Designations.Find(vmCommonDesignation.ID);
             department.Name = vmCommonDesignation.Name;
 
@@ -94,16 +103,6 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public bool CheckName(VMCommonHrDesignation designation)
-        {
-            var exit = _context.Designations.FirstOrDefault(f => f.Name.Trim() == designation.Name.Trim());
-            if (exit == null)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public async Task<bool> CheckDesignationName(string name, int id)
         {
             if (string.IsNullOrEmpty(name))
@@ -113,11 +112,11 @@ namespace KGERP.Service.Implementation
             bool isExist = false;
             if (id > 0)
             {
-                isExist = await _context.Designations.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.DesignationId != id && u.IsActive == true);
+                isExist = await _context.Designations.AnyAsync(u => u.Name.Equals(name) && u.DesignationId != id && u.IsActive == true);
             }
             else
             {
-                isExist = await _context.Designations.AnyAsync(u => u.Name.ToLower() == name.ToLower() && u.IsActive == true);
+                isExist = await _context.Designations.AnyAsync(u => u.Name.Equals(name) && u.IsActive == true);
             }
             return isExist;
         }

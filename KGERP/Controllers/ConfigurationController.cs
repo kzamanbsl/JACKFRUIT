@@ -1070,7 +1070,7 @@ namespace KGERP.Controllers
 
         public async Task<JsonResult> IsProductExist(int categoryId,int subCategoryId,string productName,int id)
         {
-            if (string.IsNullOrEmpty(productName)|| categoryId==null|| subCategoryId==null)
+            if (string.IsNullOrEmpty(productName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }

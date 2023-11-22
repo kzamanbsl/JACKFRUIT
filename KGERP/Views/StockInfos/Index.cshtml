@@ -205,40 +205,27 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
         }
+
         $('#txtName').change(function () {
 
-            var Name = $('#txtName').val();
+            var name = $('#txtName').val();
             var stockInfoId = $('#stockInfoId').val();
             if (stockInfoId == null) {
                 zoneId = 0;
             }
-           
 
-                $.ajax({
-                type:"post",
+            $.ajax({
+                type: "post",
                 url: "@Url.Action("IsStockNameExist", "StockInfos")",
-                    data: { Name: Name, id: stockInfoId },
-                success: function (data)
-                {
+                data: { name: name, id: stockInfoId },
+                success: function (data) {
+                    $('#stockNameValidation').text("");
                     if (data == true) {
-                        $('#stockNameValidation').show();
-                        $('#stockNameValidation').text(`Sorry .. This  ${Name} name already exist!`);
+                        $('#stockNameValidation').text(`Sorry! This ${Name} name already exists!`);
                     }
-                    else
-                    {
-                        $('#stockNameValidation').hide();
-                    }
+
                 }
-
-
-
-
-
-
             });
-
-
-
         });
 
     </script>
