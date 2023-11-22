@@ -22,13 +22,13 @@ namespace KGERP.Service.Implementation
             DropDownTypeModel dropDownTypeModel = new DropDownTypeModel();
             dropDownTypeModel.CompanyId = companyId;
             dropDownTypeModel.DataList = await Task.Run(() => (from t1 in context.DropDownTypes
-                                                      where t1.CompanyId == companyId
-                                                      select new DropDownTypeModel
-                                                      {
-                                                          DropDownTypeId = t1.DropDownTypeId,
-                                                          Name = t1.Name,
-                                                          Remarks = t1.Remarks
-                                                      }).OrderBy(o => o.Name).AsEnumerable());
+                                                               where t1.CompanyId == companyId
+                                                               select new DropDownTypeModel
+                                                               {
+                                                                   DropDownTypeId = t1.DropDownTypeId,
+                                                                   Name = t1.Name,
+                                                                   Remarks = t1.Remarks
+                                                               }).OrderBy(o => o.Name).AsEnumerable());
             return dropDownTypeModel;
         }
         public List<DropDownTypeModel> GetDropDownTypes(string searchText)
@@ -36,7 +36,7 @@ namespace KGERP.Service.Implementation
             IQueryable<DropDownType> queryable = context.DropDownTypes.Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || string.IsNullOrEmpty(searchText)).OrderBy(x => x.Name);
             return ObjectConverter<DropDownType, DropDownTypeModel>.ConvertList(queryable.ToList()).ToList();
         }
-        public  DropDownTypeModel GetDropDownType(int id)
+        public DropDownTypeModel GetDropDownType(int id)
         {
             if (id == 0)
             {
@@ -51,7 +51,6 @@ namespace KGERP.Service.Implementation
         }
 
 
-
         public bool SaveDropDownType(int id, DropDownTypeModel model, out string message)
         {
             message = string.Empty;
@@ -60,13 +59,32 @@ namespace KGERP.Service.Implementation
                 throw new Exception("DropDownType data missing!");
             }
 
-            bool exist = context.DropDownTypes.Where(x => x.Name.ToLower().Equals(model.Name.ToLower()) && x.DropDownTypeId != id).Any();
+            #region IsExists
 
-            if (exist)
+            bool isExist = false;
+            if (id > 0)
             {
-                message = "Dropdown Type data already exist";
-                return false;
+                isExist = context.DropDownTypes.Any(u => u.Name.Equals(model.Name) && u.DropDownTypeId != id && u.IsActive == true);
             }
+            else
+            {
+                isExist = context.DropDownTypes.Any(u => u.Name.Equals(model.Name) && u.IsActive == true);
+            }
+
+            if (isExist)
+            {
+                throw new Exception($"Sorry! This Name {model.Name} already Exists!");
+            }
+
+            #endregion
+
+            //bool exist = context.DropDownTypes.Where(x => x.Name.ToLower().Equals(model.Name.ToLower()) && x.DropDownTypeId != id).Any();
+            //if (exist)
+            //{
+            //    message = "Dropdown Type data already exist";
+            //    return false;
+            //}
+
             DropDownType dropDownType = ObjectConverter<DropDownTypeModel, DropDownType>.Convert(model);
             if (id > 0)
             {
@@ -78,7 +96,6 @@ namespace KGERP.Service.Implementation
                 dropDownType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 dropDownType.ModifiedDate = DateTime.Now;
             }
-
             else
             {
                 dropDownType.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;

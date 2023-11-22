@@ -46,7 +46,7 @@ namespace KGERP.Service.Implementation
         {
             if (id == 16)
             {
-                return context.DropDownItems.ToList().Where(x => x.DropDownTypeId == id && x.IsActive && x.CompanyId==CompanyInfo.CompanyId).OrderBy(x => x.OrderNo).Select(x => new SelectModel()
+                return context.DropDownItems.ToList().Where(x => x.DropDownTypeId == id && x.IsActive && x.CompanyId == CompanyInfo.CompanyId).OrderBy(x => x.OrderNo).Select(x => new SelectModel()
                 {
                     Text = x.Name,
                     Value = x.DropDownItemId
@@ -71,13 +71,33 @@ namespace KGERP.Service.Implementation
                 throw new Exception("Dropdown data missing!");
             }
 
-            bool exist = context.DropDownItems.Where(x => x.DropDownTypeId == model.DropDownTypeId && x.Name.ToLower().Equals(model.Name.ToLower()) && x.DropDownItemId != id).Any();
+            #region IsExists
 
-            if (exist)
+            bool isExist = false;
+            if (id > 0)
             {
-                message = "Dropdown Item data already exist";
-                return false;
+                isExist = context.DropDownItems.Any(u => u.Name.Equals(model.Name) && u.DropDownTypeId == model.DropDownTypeId && u.DropDownItemId != id && u.IsActive == true);
             }
+            else
+            {
+                isExist = context.DropDownItems.Any(u => u.Name.Equals(model.Name) && u.DropDownTypeId == model.DropDownTypeId && u.IsActive == true);
+            }
+
+            if (isExist)
+            {
+                throw new Exception($"Sorry! This Name {model.Name} already Exists!");
+            }
+
+            #endregion
+
+            //bool exist = context.DropDownItems.Where(x => x.DropDownTypeId == model.DropDownTypeId && x.Name.ToLower().Equals(model.Name.ToLower()) && x.DropDownItemId != id).Any();
+
+            //if (exist)
+            //{
+            //    message = "Dropdown Item data already exist";
+            //    return false;
+            //}
+
             DropDownItem dropDownItem = ObjectConverter<DropDownItemModel, DropDownItem>.Convert(model);
             if (id > 0)
             {
@@ -136,18 +156,18 @@ namespace KGERP.Service.Implementation
         {
             DropDownItemModel dropDownItemModel = new DropDownItemModel();
             dropDownItemModel.CompanyId = companyId;
-            dropDownItemModel.DataList = await Task.Run(() =>(from t1 in context.DropDownItems
-                                                              join t2 in context.DropDownTypes on t1.DropDownTypeId equals t2.DropDownTypeId
-                                                              where t1.CompanyId == companyId
-                                                              select new DropDownItemModel
-                                                              {
-                                                                  DropDownItemId = t1.DropDownItemId,
-                                                                  TypeName = t2.Name,
-                                                                  Name= t1.Name,
-                                                                  ItemValue= t1.ItemValue ??0,
-                                                                  Remarks= t1.Remarks,
-                                                                  OrderNo= t1.OrderNo
-                                                              }).AsEnumerable());
+            dropDownItemModel.DataList = await Task.Run(() => (from t1 in context.DropDownItems
+                                                               join t2 in context.DropDownTypes on t1.DropDownTypeId equals t2.DropDownTypeId
+                                                               where t1.CompanyId == companyId
+                                                               select new DropDownItemModel
+                                                               {
+                                                                   DropDownItemId = t1.DropDownItemId,
+                                                                   TypeName = t2.Name,
+                                                                   Name = t1.Name,
+                                                                   ItemValue = t1.ItemValue ?? 0,
+                                                                   Remarks = t1.Remarks,
+                                                                   OrderNo = t1.OrderNo
+                                                               }).AsEnumerable());
 
             return dropDownItemModel;
         }
