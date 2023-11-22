@@ -2640,7 +2640,6 @@ namespace KGERP.Service.Implementation.Procurement
                                               OfferQty = t1.OfferQty,
                                               UnitPrice = t1.UnitPrice,
                                               TotalAmount = t1.Amount,
-                                              DeportPrice= t2.DeportPrice,
                                               UnitName = t5.ShortName,
                                               FProductId = t1.ProductId,
                                               PackQuantity = t1.PackQuantity,
@@ -3936,7 +3935,7 @@ namespace KGERP.Service.Implementation.Procurement
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty =(double) (vmSalesOrderSlave.QtyCtn*vmSalesOrderSlave.Consumption)+vmSalesOrderSlave.QtyPcs,
                 OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs,
-                UnitPrice = vmSalesOrderSlave.UnitPrice,
+                UnitPrice = (double)vmSalesOrderSlave.DeportPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
                 PackQuantity = vmSalesOrderSlave.PackQuantity,
@@ -3972,7 +3971,7 @@ namespace KGERP.Service.Implementation.Procurement
             model.Qty = (double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs;
             model.OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) +vmSalesOrderSlave.OfferPcs;
                
-            model.UnitPrice = vmSalesOrderSlave.UnitPrice;
+            model.UnitPrice = (double)vmSalesOrderSlave.DeportPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;

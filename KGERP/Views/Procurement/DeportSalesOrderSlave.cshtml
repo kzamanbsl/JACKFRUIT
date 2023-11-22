@@ -215,7 +215,7 @@
                                         <div class="form-group">
                                             <label>Order Pcs:</label>
 
-                                            @Html.TextBoxFor(model => model.QtyPcs, new { id = "txtOrderPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Pcs", required = "Required" })
+                                            @Html.TextBoxFor(model => model.QtyPcs, new { id = "txtOrderPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Pcs" })
                                             @Html.ValidationMessageFor(model => model.QtyPcs, "", new { @class = "text-danger" })
                                             @*<div class="input-group-addon">
                                                     <span class="txtUnitName"></span>
@@ -227,7 +227,7 @@
                                         <div class="form-group">
                                             <label>Free Ctn:</label>
                                             @*<div class="input-group">*@
-                                            @Html.TextBoxFor(model => model.OfferCtn, new { id = "txtOfferCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Free Ctn", required = "Required" })
+                                            @Html.TextBoxFor(model => model.OfferCtn, new { id = "txtOfferCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Free Ctn"})
                                             @Html.ValidationMessageFor(model => model.OfferCtn, "", new { @class = "text-danger" })
                                             @*<div class="input-group-addon">
                                                     <span class="txtUnitName"></span>
@@ -239,7 +239,7 @@
                                         <div class="form-group">
                                             <label>Free Pcs:</label>
                                             @*<div class="input-group">*@
-                                            @Html.TextBoxFor(model => model.OfferPcs, new { id = "txtOfferPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Free pcs", required = "Required" })
+                                            @Html.TextBoxFor(model => model.OfferPcs, new { id = "txtOfferPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Free pcs" })
                                             @Html.ValidationMessageFor(model => model.OfferPcs, "", new { @class = "text-danger" })
                                             @*<div class="input-group-addon">
                                                     <span class="txtUnitName"></span>
@@ -305,7 +305,7 @@
                                             <th style="padding: 5px; text-align: center;">Product</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
                                             <th style="padding:5px;text-align:center;">Offer Qty:</th>
-                                            <th style="padding:5px;text-align:center;">Unit Price</th>
+                                            <th style="padding:5px;text-align:center;">Deport Price</th>
                                             <th style="padding:5px;text-align:right;">Total Price</th>
                                             @if (Model.Status == (int)EnumSOStatus.Draft)
                                             {
@@ -508,7 +508,8 @@
 @section scripts {
 
     <script type="text/javascript">
-        let unitPrice = 0;
+        let unitPrice = null;
+        let consumption = 1;
         var normal= 0;
         $(document).ready(function () {
 
@@ -696,10 +697,10 @@
             //});
             $("#txtDeportPrice").keyup(function () {
 
-                var qtyCtn = $("#txtOrderCtn").val();
-                var qtyPcs = $("#txtOrderPcs").val();
-                var consumption = $("#ProductConsumption").val();
-                var deportPrice = $("#txtDeportPrice").val();
+                var qtyCtn = parseFloat($("#txtOrderCtn").val());
+                var qtyPcs = parseFloat($("#txtOrderPcs").val());
+                var consumption = parseFloat($("#ProductConsumption").val());
+                var deportPrice = parseFloat($("#txtDeportPrice").val());
                 var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
 
                 $("#totalAmount").val(tAmount);
@@ -709,22 +710,26 @@
 
             $("#txtOrderCtn").keyup(function () {
 
-                var qtyCtn = $("#txtOrderCtn").val();
-                var qtyPcs = $("#txtOrderPcs").val();
-                var consumption = $("#ProductConsumption").val();
-                var deportPrice = $("#txtDeportPrice").val();
-                var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
+
+                var qtyCtn = parseFloat($("#txtOrderCtn").val());
+                var qtyPcs = parseFloat($("#txtOrderPcs").val());
+                var consumption = parseFloat($("#ProductConsumption").val());
+                var deportPrice = parseFloat($("#txtDeportPrice").val());
+                var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
+
                 $("#totalAmount").val(tAmount);
 
             });
 
             $("#txtOrderPcs").keyup(function () {
 
-                   var qtyCtn = $("#txtOrderCtn").val();
-                var qtyPcs = $("#txtOrderPcs").val();
-                var consumption = $("#ProductConsumption").val();
-                var deportPrice = $("#txtDeportPrice").val();
-                var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
+
+                var qtyCtn = parseFloat($("#txtOrderCtn").val());
+                var qtyPcs = parseFloat($("#txtOrderPcs").val());
+                var consumption = parseFloat($("#ProductConsumption").val());
+                var deportPrice = parseFloat($("#txtDeportPrice").val());
+                var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
+
                 $("#totalAmount").val(tAmount);
 
             });
@@ -825,6 +830,7 @@
                   data: { id: rowId },
                   success: function (data) {
                       unitPrice = data.UnitPrice;
+                      consumption = data.Consumption;
                       $('#soCreateBtn').val("Update");
                       $("#hidOrderMasterId").val(data.OrderMasterId);
                       $('#ActionId').val(2);
@@ -832,16 +838,17 @@
                       $("#txtProductName").val(data.ProductId).trigger('change');
                       $("#ddlRProductFK").val(data.FProductId);
                       $("#txtPackQuantity").val(data.PackQuantity);
-                      $("#txtConsumption").val(data.Consumption);
-                      $("#txtOfferQuantity").val(data.OfferQty);
-                      $("#txtDeportPrice").val(data.DeportPrice);
-
+                      $("#txtOrderCtn").val(data.StockInCtn); 
+                      $("#txtOrderPcs").val(data.StockInPcs);
+                      $("#txtOfferCtn").val(data.OfferInCtn);
+                      $("#txtOfferPcs").val(data.OfferInPcs); 
                       $("#txtOrderQuantity").val(data.Qty);
-                      $('#txtUnitPrice').val(data.UnitPrice);
+                      $('#txtDeportPrice').val(data.UnitPrice);
                       $('#totalAmount').val(data.Qty*data.UnitPrice);
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
+                      $("#txtConsumption").val(data.Consumption);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                   }
                  });
@@ -885,18 +892,30 @@
                     if (data) {
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);
-                        $('#ProductConsumption').val(data.Consumption);
-                        $('#txtDeportPrice').val(data.DeportPrice);
+                        //$('#ProductConsumption').val(data.Consumption);
+                        //$('#txtDeportPrice').val(data.DeportPrice);
                         $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
-                        if (unitPrice == 0) {
-                            $("#txtUnitPrice").val(data.UnitPrice);
+                        if (unitPrice == null) {
+                            $("#txtDeportPrice").val(data.UnitPrice);
 
                         } else {
-                            $("#txtUnitPrice").val(unitPrice);
-                            unitPrice = 0;
+                            $("#txtDeportPrice").val(unitPrice);
+                            unitPrice = null;
+                        }
+                        if (consumption == 1) {
+        
+                            $("#ProductConsumption").val(data.Consumption);
+
+                        } else {
+                            $("#ProductConsumption").val(consumption);
+                            consumption = 1;
                         }
                         var unitQty = $("#txtOrderQuantity").val();
+
+                       // $("#txtOrderCtn").val(0);
+                       //$("#txtOrderPcs").val(0);
+                       // $("#totalAmount").val(0);
                     }
                 }
             });
