@@ -379,7 +379,7 @@ namespace KGERP.Controllers
             vmPOReceivingSlave.MaterialReceiveId = await _materialReceiveService.FoodStockApprove(vmPOReceivingSlave);
 
           
-            return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId, materialReceiveId = vmPOReceivingSlave.MaterialReceiveId });
+            return RedirectToAction(nameof(FoodStockCreateOrEdit), new { companyId = vmPOReceivingSlave.CompanyId});
         }
 
         [HttpPost]

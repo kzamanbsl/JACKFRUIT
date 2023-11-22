@@ -133,8 +133,10 @@ namespace KGERP.Service.Implementation.Warehouse
         public decimal PriviousReturnQuantity { get; set; } = 0;
         public decimal StockInQty { get; set; } = 0;
         public double Consumption { get; set; } = 1;
-        public decimal StockInCtn => Math.Floor(StockInQty / (decimal)Consumption);
-        public decimal StockInPcs => (StockInQty-(StockInCtn * (decimal)Consumption));
+        public decimal StockAddCtn { get; set; }
+        public decimal StockAddPcs { get; set; }
+        public decimal StockInCtn  =>Math.Floor(StockInQty / (decimal)Consumption);
+        public decimal StockInPcs  => (StockInQty-(StockInCtn * (decimal)Consumption));
 
         public decimal StockInRate { get; set; } = 0;
         public decimal UnitPrice { get; set; } = 0;
