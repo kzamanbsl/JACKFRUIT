@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.6.33815.320</am:Version>
+      <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-05T06:52:19.2577553Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-23T05:47:42.4725296Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -30,6 +30,9 @@
           </QueryParameter>
           <QueryParameter Name="@ZoneId">
             <Value>=Parameters!ZoneId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ZoneDivisionId">
+            <Value>=Parameters!ZoneDivisionId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@RegionId">
             <Value>=Parameters!RegionId.Value</Value>
@@ -125,8 +128,16 @@
           <DataField>RegionId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="ZoneDivisionId">
+          <DataField>ZoneDivisionId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="RegionName">
           <DataField>RegionName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ZoneDivisionName">
+          <DataField>ZoneDivisionName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="AreaId">
@@ -177,6 +188,45 @@ order By OrderBy Desc</CommandText>
         </Field>
         <Field Name="SignatoryType">
           <DataField>SignatoryType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="CompanyDataSet">
+      <Query>
+        <DataSourceName>DealerListDS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@CompanyId">
+            <Value>=Parameters!CompanyId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>select 
+Name as Company,
+(select Url from UrlInfo where UrlType=1)+'Images/Logo/'+CompanyLogo as CompanyLogo, 
+[Address] as CompanyAddress,
+Phone CompanyPhone,
+Email CompanyEmail
+from Company Where CompanyId=@CompanyId</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Company">
+          <DataField>Company</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogo">
+          <DataField>CompanyLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyPhone">
+          <DataField>CompanyPhone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyEmail">
+          <DataField>CompanyEmail</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -960,9 +1010,21 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>,</Value>
+                                  <Value>, </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!ZoneDivisionName.Value</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>, </Value>
+                                  <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -973,7 +1035,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>,</Value>
+                                  <Value>, </Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -985,7 +1047,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>,</Value>
+                                  <Value>, </Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1278,6 +1340,178 @@ order By OrderBy Desc</CommandText>
       </Body>
       <Width>11.48501in</Width>
       <Page>
+        <PageHeader>
+          <Height>1.14167in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox27">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontSize>18pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Label>CompanyName</Label>
+                      <Value>=First(Fields!Company.Value, "CompanyDataSet")</Value>
+                      <Style>
+                        <FontFamily>times New Roman</FontFamily>
+                        <FontSize>14pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Label>CompanyAddress</Label>
+                      <Value>=First(Fields!CompanyAddress.Value, "CompanyDataSet")</Value>
+                      <Style>
+                        <FontFamily>times New Roman</FontFamily>
+                        <FontSize>12pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value />
+                      <Style>
+                        <FontFamily>times New Roman</FontFamily>
+                        <FontSize>4pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Deport List</Value>
+                      <Style>
+                        <FontFamily>times New Roman</FontFamily>
+                        <FontSize>14pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>Underline</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox26</rd:DefaultName>
+              <Top>0.01722in</Top>
+              <Left>2.13252in</Left>
+              <Height>1.0689in</Height>
+              <Width>7.8007in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox83">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Print Date : </Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Label>PrintDate</Label>
+                      <Value>=Format(Now(), "dd-MMM-yyyy")</Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox83</rd:DefaultName>
+              <Top>0.01389in</Top>
+              <Left>9.96377in</Left>
+              <Height>0.22917in</Height>
+              <Width>1.47292in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Image Name="CompanyLogo">
+              <Source>External</Source>
+              <Value>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.01722in</Top>
+              <Left>0.99751in</Left>
+              <Height>1.0689in</Height>
+              <Width>1.12112in</Width>
+              <ZIndex>2</ZIndex>
+              <ToolTip>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</ToolTip>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>0.29167in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
         <Style />
@@ -1304,6 +1538,10 @@ order By OrderBy Desc</CommandText>
     <ReportParameter Name="SubZoneId">
       <DataType>Integer</DataType>
       <Prompt>Sub Zone Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ZoneDivisionId">
+      <DataType>Integer</DataType>
+      <Prompt>Zone Division Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -1335,6 +1573,11 @@ order By OrderBy Desc</CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>SubZoneId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>ZoneDivisionId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

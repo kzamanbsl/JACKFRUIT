@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.6.33815.320</am:Version>
+      <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-05T06:54:18.1417585Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-23T07:16:39.6205967Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -30,6 +30,9 @@
           </QueryParameter>
           <QueryParameter Name="@ZoneId">
             <Value>=Parameters!ZoneId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ZoneDivisionId">
+            <Value>=Parameters!ZoneDivisionId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@RegionId">
             <Value>=Parameters!RegionId.Value</Value>
@@ -125,8 +128,16 @@
           <DataField>RegionId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="ZoneDivisionId">
+          <DataField>ZoneDivisionId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="RegionName">
           <DataField>RegionName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ZoneDivisionName">
+          <DataField>ZoneDivisionName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="AreaId">
@@ -177,6 +188,45 @@ order By OrderBy Desc</CommandText>
         </Field>
         <Field Name="SignatoryType">
           <DataField>SignatoryType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="CompanyDataSet">
+      <Query>
+        <DataSourceName>CustomerListDS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@CompanyId">
+            <Value>=Parameters!CompanyId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>select 
+Name as Company,
+(select Url from UrlInfo where UrlType=1)+'Images/Logo/'+CompanyLogo as CompanyLogo, 
+[Address] as CompanyAddress,
+Phone CompanyPhone,
+Email CompanyEmail
+from Company Where CompanyId=@CompanyId</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Company">
+          <DataField>Company</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogo">
+          <DataField>CompanyLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyPhone">
+          <DataField>CompanyPhone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyEmail">
+          <DataField>CompanyEmail</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -955,14 +1005,24 @@ order By OrderBy Desc</CommandText>
                                 <TextRun>
                                   <Value>=Fields!ZoneName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>,</Value>
+                                  <Value>, </Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!ZoneDivisionName.Value</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>, </Value>
+                                  <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -973,7 +1033,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>,</Value>
+                                  <Value>, </Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -985,7 +1045,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>,</Value>
+                                  <Value>, </Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1285,12 +1345,13 @@ order By OrderBy Desc</CommandText>
           <ReportItems>
             <Image Name="CompanyLogo">
               <Source>External</Source>
-              <Value>=First(Fields!CompanyLogo.Value, "CustomerListDataSet")</Value>
+              <Value>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</Value>
               <Sizing>FitProportional</Sizing>
-              <Top>0.05208in</Top>
+              <Top>0.04291in</Top>
               <Left>0.99751in</Left>
-              <Height>0.97292in</Height>
+              <Height>0.98209in</Height>
               <Width>1.15in</Width>
+              <ToolTip>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</ToolTip>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1313,7 +1374,7 @@ order By OrderBy Desc</CommandText>
                     </TextRun>
                     <TextRun>
                       <Label>CompanyName</Label>
-                      <Value>=First(Fields!CompanyName.Value, "CustomerListDataSet")</Value>
+                      <Value>=First(Fields!Company.Value, "CompanyDataSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1329,7 +1390,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>CompanyAddress</Label>
-                      <Value>=First(Fields!CompanyAddress.Value, "CustomerListDataSet")</Value>
+                      <Value>=First(Fields!CompanyAddress.Value, "CompanyDataSet")</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -1476,6 +1537,10 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Sub Zone Id</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ZoneDivisionId">
+      <DataType>Integer</DataType>
+      <Prompt>Zone Division Id</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1506,6 +1571,11 @@ order By OrderBy Desc</CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>SubZoneId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>ZoneDivisionId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

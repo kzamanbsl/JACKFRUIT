@@ -1868,6 +1868,7 @@ namespace KGERP.Controllers
             var list = dts.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public async Task<ActionResult> AllZoneDivisionGet(int companyId)
         {
