@@ -335,6 +335,10 @@
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }
             });
+
+            $('.quantityValue').trigger('keyup');
+
+
         });
 
         $(document).on('change', '.offerQuantityValue input', function () {
