@@ -2194,7 +2194,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> SubmitFoodCustomerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
             vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
-            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK});
         }
 
         [HttpPost]

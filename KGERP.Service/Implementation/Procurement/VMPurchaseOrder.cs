@@ -302,7 +302,6 @@ namespace KGERP.Service.Implementation.Procurement
         public double QtyCtn { get; set; } = 0;
         public double QtyPcs { get; set; } = 0;
         public double UnitPrice { get; set; }
-        public decimal? DeportPrice { get; set; } = 0;
         public double? Consumption { get; set; } 
         public double? PackQuantity { get; set; }
         public decimal StockInCtn => (decimal)Math.Floor(Qty / (Consumption == 0 ? 1 : Consumption ?? 1));

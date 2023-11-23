@@ -52,6 +52,7 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.CustomerTypeFk, new { id = "hidCustomerTypeFk" })
+                @Html.HiddenFor(model => model.Consumption, new { id = "ProductConsumption" })
                 <span id="hiddenUnitPrice" hidden="hidden"></span>
                 <div class="box-danger">
 
@@ -183,7 +184,7 @@
                             @if (Model.Status == (int)EnumSOStatus.Draft)
                             {
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
 
@@ -199,32 +200,55 @@
 
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Order Qty:</label>
+                                            <label>Order Ctn:</label>
 
-                                            @Html.TextBoxFor(model => model.Qty, new { id = "txtOrderQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(model => model.QtyCtn, new { id = "txtOrderCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Ctn", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.QtyCtn, "", new { @class = "text-danger" })
 
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Offer Qty:</label>
+                                            <label>Order Pcs:</label>
 
-                                            @Html.TextBoxFor(model => model.OfferQty, new { id = "txtOfferQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity" })
-                                            @Html.ValidationMessageFor(model => model.OfferQty, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(model => model.QtyPcs, new { id = "txtOrderPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Pcs" })
+                                            @Html.ValidationMessageFor(model => model.QtyPcs, "", new { @class = "text-danger" })
 
                                         </div>
                                     </div>
 
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Unit Price:</label>
-                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price", required = "Required" })
+                                            <label>Free Ctn:</label>
+
+                                            @Html.TextBoxFor(model => model.OfferCtn, new { id = "txtOfferCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Offer Ctn", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.OfferCtn, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Free Pcs:</label>
+
+                                            @Html.TextBoxFor(model => model.OfferPcs, new { id = "txtOfferPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Offer pcs" })
+                                            @Html.ValidationMessageFor(model => model.OfferPcs, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Customer Price:</label>
+                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtCustomerPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Customer Price", required = "Required" })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group ">
                                             <label>Total Amount:</label>
                                             @Html.TextBoxFor(model => model.TotalAmount, new { id = "totalAmount", @readonly = "readonly", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Total Amount", required = "Required" })
@@ -270,7 +294,7 @@
                                             <th style="padding:5px;text-align:left;">Product</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
                                             <th style="padding:5px;text-align:center;">Offer Qty</th>
-                                            <th style="padding:5px;text-align:center;">Unit Price</th>
+                                            <th style="padding:5px;text-align:center;">Customer Price</th>
                                             <th style="padding:5px;text-align:right;">Total Price</th>
                                             @if (Model.Status == (int)EnumSOStatus.Draft)
                                             {
@@ -290,8 +314,8 @@
                                                 <td style="padding:5px">@(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                 @*<td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.Qty) @item.UnitName</td>*@
-                                            <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
-                                            <td style="padding:5px;text-align:center;">@item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs </td>
+                                                <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
+                                                <td style="padding:5px;text-align:center;">@item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs </td>
                                                 @*<td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.OfferQty) </td>*@
                                                 <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
@@ -476,7 +500,8 @@
 @section scripts {
 
     <script type="text/javascript">
-        let unitPrice = 0;
+        let customerPrice = null;
+        let consumption = 1;
         var normal= 0;
         $(document).ready(function () {
             let unitPrice = 0;
@@ -584,69 +609,83 @@
                 }
             });
         });
+        $("#txtCustomerPrice ,#txtOrderCtn , #txtOrderPcs ").on('keyup change', function () {
 
-        $("#txtUnitPrice").on('change', function () {
+            var qtyCtn = parseFloat($("#txtOrderCtn").val());
+            var qtyPcs = parseFloat($("#txtOrderPcs").val());
+            var consumption = parseFloat($("#ProductConsumption").val());
+            var customerPrice = parseFloat($("#txtCustomerPrice").val());
+            var tAmount = (((qtyCtn * consumption) + qtyPcs) * customerPrice).toFixed(2);
 
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
-            $("#totalAmount").val(tAmount);
-
-        });
-
-        $("#txtOrderQuantity").on('change', function () {
-
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
-            $("#totalAmount").val(tAmount);
-
-        });
-
-        $("#txtUnitPrice").keyup(function () {
-
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
             $("#totalAmount").val(tAmount);
             $("#SpcDis").val(0);
             $("#disPercentage").val(0);
         });
 
-        $("#txtOrderQuantity").keyup(function () {
 
-            var qty = $("#txtOrderQuantity").val();
-            var unitPrice = $("#txtUnitPrice").val();
-            var tAmount = qty * unitPrice;
-            $("#totalAmount").val(tAmount);
+      
+        //$("#txtUnitPrice").on('change', function () {
 
-        });
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var unitPrice = $("#txtUnitPrice").val();
+        //    var tAmount = qty * unitPrice;
+        //    $("#totalAmount").val(tAmount);
 
-        $("#disPercentage").keyup(function () {
+        //});
 
-            var qty = $("#txtOrderQuantity").val();
-            var Unit = $("#txtUnitPrice").val();
-            var PerCentage = $("#disPercentage").val();
-            var ammount = qty * Unit;
-            var discountprice = ammount * (PerCentage / 100);
-            var totalPriceAfterTotalDisPercen = ammount - discountprice;
-            $("#SpcDis").val(discountprice);
-            $("#totalAmount").val(totalPriceAfterTotalDisPercen);
+        //$("#txtOrderQuantity").on('change', function () {
 
-        });
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var unitPrice = $("#txtUnitPrice").val();
+        //    var tAmount = qty * unitPrice;
+        //    $("#totalAmount").val(tAmount);
 
-        $("#SpcDis").keyup(function () {
+        //});
 
-            var qty = $("#txtOrderQuantity").val();
-            var Unit = $("#txtUnitPrice").val();
-            var specialDis = $("#SpcDis").val();
-            var ammount = qty * Unit;
-            var percentage = ((specialDis / ammount) * 100);
-            var totalPriceAfterTotalspecial = ammount - specialDis;
-            $("#disPercentage").val(percentage);
-            $("#totalAmount").val(totalPriceAfterTotalspecial);
+        //$("#txtUnitPrice").keyup(function () {
 
-        });
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var unitPrice = $("#txtUnitPrice").val();
+        //    var tAmount = qty * unitPrice;
+        //    $("#totalAmount").val(tAmount);
+        //    $("#SpcDis").val(0);
+        //    $("#disPercentage").val(0);
+        //});
+
+        //$("#txtOrderQuantity").keyup(function () {
+
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var unitPrice = $("#txtUnitPrice").val();
+        //    var tAmount = qty * unitPrice;
+        //    $("#totalAmount").val(tAmount);
+
+        //});
+
+        //$("#disPercentage").keyup(function () {
+
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var Unit = $("#txtUnitPrice").val();
+        //    var PerCentage = $("#disPercentage").val();
+        //    var ammount = qty * Unit;
+        //    var discountprice = ammount * (PerCentage / 100);
+        //    var totalPriceAfterTotalDisPercen = ammount - discountprice;
+        //    $("#SpcDis").val(discountprice);
+        //    $("#totalAmount").val(totalPriceAfterTotalDisPercen);
+
+        //});
+
+        //$("#SpcDis").keyup(function () {
+
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var Unit = $("#txtUnitPrice").val();
+        //    var specialDis = $("#SpcDis").val();
+        //    var ammount = qty * Unit;
+        //    var percentage = ((specialDis / ammount) * 100);
+        //    var totalPriceAfterTotalspecial = ammount - specialDis;
+        //    $("#disPercentage").val(percentage);
+        //    $("#totalAmount").val(totalPriceAfterTotalspecial);
+
+        //});
 
         function makeEditble(rowId) {
 
@@ -657,7 +696,8 @@
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
-                      unitPrice = data.UnitPrice;
+                      customerPrice = data.UnitPrice;
+                      consumption = data.Consumption;
 
                       $('#soCreateBtn').val("Update");
                       $("#hidOrderMasterId").val(data.OrderMasterId);
@@ -668,11 +708,12 @@
                       $("#ddlRProductFK").val(data.FProductId);
                       $("#txtPackQuantity").val(data.PackQuantity);
                       $("#txtConsumption").val(data.Consumption);
-                      $("#txtOfferQuantity").val(data.OfferQty);
-
-                      $("#txtOrderQuantity").val(data.Qty);
+                      $("#txtOfferCtn").val(data.OfferInCtn);
+                      $("#txtOfferPcs").val(data.OfferInPcs);
+                      $("#txtOrderCtn").val(data.StockInCtn);
+                      $("#txtOrderPcs").val(data.StockInPcs);
+                      $('#txtCustomerPrice').val(data.UnitPrice);
                       $('#totalAmount').val(data.Qty*data.UnitPrice);
-
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -726,18 +767,27 @@
                         $('.txtUnitName').text(data.UnitName);
                         $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
-                        if (unitPrice == 0) {
-                            $("#txtUnitPrice").val(data.UnitPrice);
+                        if (customerPrice == null) {
+                            $("#txtCustomerPrice").val(data.CustomerPrice);
 
+                        } else {
+                            $("#txtCustomerPrice").val(customerPrice);
+                            customerPrice = null;
                         }
-                        else {
-                            $("#txtUnitPrice").val(unitPrice);
-                            unitPrice = 0;
+                        if (consumption == 1) {
+
+                            $("#ProductConsumption").val(data.Consumption);
+                        } else {
+                            $("#ProductConsumption").val(consumption);
+                            consumption = 1;
                         }
                         var unitQty = $("#txtOrderQuantity").val();
                     }
                 }
             });
+            $("#txtOrderCtn").val(0);
+            $("#txtOrderPcs").val(0);
+            $("#totalAmount").val(0);
 
         });
 
