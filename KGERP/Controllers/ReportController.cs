@@ -65,7 +65,7 @@ namespace KGERP.Controllers
 
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/" + CompanyInfo.ReportPrefix + "Employee" + "&rs:Command=Render&rs:Format=PDF&EmployeeId=" + employeeId + "&CompanyId=" +CompanyInfo.CompanyId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/" + CompanyInfo.ReportPrefix + "Employee" + "&rs:Command=Render&rs:Format=PDF&EmployeeId=" + employeeId + "&CompanyId=" + CompanyInfo.CompanyId);
             return File(client.DownloadData(reportUrl), "application/pdf");
         }
 
@@ -5174,7 +5174,7 @@ namespace KGERP.Controllers
         {
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
-            var zone = _configurationService.CommonZonesDropDownList(companyId);
+            //var zone = _configurationService.CommonZonesDropDownList(companyId);
             cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
             cm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text");
 
@@ -5231,6 +5231,7 @@ namespace KGERP.Controllers
             cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
             cm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text");
             cm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0, 0), "Value", "Text");
+            cm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId, 0, 0), "Value", "Text");
             cm.SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(cm);
         }
@@ -5248,7 +5249,7 @@ namespace KGERP.Controllers
             {
                 model.ZoneId = 0;
             }
-           
+
             if (model.ZoneDivisionId == null)
             {
                 model.ZoneDivisionId = 0;
@@ -5257,15 +5258,19 @@ namespace KGERP.Controllers
             {
                 model.RegionId = 0;
             }
+            if (model.AreaId == null)
+            {
+                model.AreaId = 0;
+            }
             if (model.SubZoneFk == null)
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={3}&RegionId={5}&SubZoneId={6}", reportName, model.ReportType,  model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.RegionId,model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={3}&RegionId={5}&AreaId={6}&SubZoneId={7}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.RegionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel",  reportName+".xls");
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", reportName + ".xls");
             }
             if (model.ReportType.Equals(ReportType.PDF))
             {
@@ -5275,7 +5280,7 @@ namespace KGERP.Controllers
             {
                 return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
             }
-           
+
             Session["CompanyId"] = model.CompanyId;
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = model.CompanyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
 
@@ -5288,34 +5293,29 @@ namespace KGERP.Controllers
         public ActionResult CustomerListReport(int companyId)
         {
             Session["CompanyId"] = companyId;
-            ReportCustomerModel rcl = new ReportCustomerModel()
-            {
-                CompanyId = companyId,
-                ZoneFk = 0,
-                ZoneList = _configurationService.GetZoneSelectList(companyId),
-                ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text"),
-                 RegionList= new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0, 0), "Value", "Text"),
-                SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text"),
-              
-                SubZoneFk = 0
-            };
-
-            return View(rcl);
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = companyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+            cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            cm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, 0), "Value", "Text");
+            cm.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(companyId, 0, 0), "Value", "Text");
+            cm.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(companyId, 0, 0), "Value", "Text");
+            cm.SubZoneList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            return View(cm);
         }
 
         [HttpPost]
         [SessionExpire]
-        public ActionResult CustomerListReport(ReportCustomerModel model)
+        public ActionResult CustomerListReport(ReportCustomModel model)
         {
             string reportName = CompanyInfo.ReportPrefix + "CustomerList";
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
 
-            if (model.ZoneFk == null)
+            if (model.ZoneId == null)
             {
-                model.ZoneFk = 0;
+                model.ZoneId = 0;
             }
+
             if (model.ZoneDivisionId == null)
             {
                 model.ZoneDivisionId = 0;
@@ -5324,15 +5324,19 @@ namespace KGERP.Controllers
             {
                 model.RegionId = 0;
             }
+            if (model.AreaId == null)
+            {
+                model.AreaId = 0;
+            }
             if (model.SubZoneFk == null)
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={4}&RegionId={5}&SubZoneId={6}", reportName, model.ReportType, model.CompanyId, model.ZoneFk, model.ZoneDivisionId, model.RegionId, model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={3}&RegionId={5}&AreaId={6}&SubZoneId={7}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.RegionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
-                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", model.ReportName + ".xls");
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", reportName + ".xls");
             }
             if (model.ReportType.Equals(ReportType.PDF))
             {
@@ -5340,10 +5344,13 @@ namespace KGERP.Controllers
             }
             if (model.ReportType.Equals(ReportType.WORD))
             {
-                return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
+                return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
             }
-           
-            return View();
+
+            Session["CompanyId"] = model.CompanyId;
+            ReportCustomModel cm = new ReportCustomModel() { CompanyId = model.CompanyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
+
+            return View(cm);
         }
 
         // Company Product Stock Report
@@ -5395,7 +5402,7 @@ namespace KGERP.Controllers
             }
             if (string.IsNullOrEmpty(model.StrToDate))
             {
-                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); 
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
 
@@ -5545,7 +5552,7 @@ namespace KGERP.Controllers
             {
                 model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoTypeId={8}&DealerId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId,model.StockInfoTypeId, model.CustomerId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoTypeId={8}&DealerId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockInfoTypeId, model.CustomerId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5570,18 +5577,18 @@ namespace KGERP.Controllers
         // Customer Damage Receipt Report
         [HttpGet]
         [SessionExpire]
-        public async Task<ActionResult> CustomerDamageReceiptInvoiceReport(int companyId,int damageMasterId )
+        public async Task<ActionResult> CustomerDamageReceiptInvoiceReport(int companyId, int damageMasterId)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
             var reportName = CompanyInfo.ReportPrefix + "CustomerDamageReceiptInvoice";
 
-            string reportUrl =  string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
             return File(client.DownloadData(reportUrl), "application/pdf");
-            
+
         }
-        
+
         // Deport Damage Receipt Report
         [HttpGet]
         [SessionExpire]
@@ -5594,8 +5601,8 @@ namespace KGERP.Controllers
 
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
             return File(client.DownloadData(reportUrl), "application/pdf");
-            
-        } 
+
+        }
         // Dealer Damage Receipt Report
         [HttpGet]
         [SessionExpire]
@@ -5605,10 +5612,10 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             client.Credentials = nwc;
             var reportName = CompanyInfo.ReportPrefix + "DealerDamageReceiptInvoice";
-            
+
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&DamageMasterId={2}", reportName, companyId, damageMasterId);
             return File(client.DownloadData(reportUrl), "application/pdf");
-            
+
         }
         #endregion
     }

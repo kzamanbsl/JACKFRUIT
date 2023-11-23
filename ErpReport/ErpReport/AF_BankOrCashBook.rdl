@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.5.33516.290</am:Version>
+      <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-17T14:15:32.4995516Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-23T05:18:05.2935650Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -1283,7 +1283,7 @@ Sum(IIf(Fields!AccName.Value = "Openning Balance", 0,Fields!CreditAmount.Value))
             <Top>0.80708in</Top>
             <Left>0.97936in</Left>
             <Height>1.02604in</Height>
-            <Width>9.85518in</Width>
+            <Width>9.85522in</Width>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1693,7 +1693,7 @@ Sum(IIf(Fields!AccName.Value = "Openning Balance", 0,Fields!CreditAmount.Value))
             <Top>0.01958in</Top>
             <Left>0.97936in</Left>
             <Height>0.61251in</Height>
-            <Width>9.00969in</Width>
+            <Width>9.00968in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1928,7 +1928,7 @@ Sum(IIf(Fields!AccName.Value = "Openning Balance", 0,Fields!CreditAmount.Value))
               <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
               <Sizing>FitProportional</Sizing>
               <Top>0.0211in</Top>
-              <Left>0.97936in</Left>
+              <Left>0.96547in</Left>
               <Height>0.75473in</Height>
               <Width>0.95972in</Width>
               <ZIndex>1</ZIndex>
