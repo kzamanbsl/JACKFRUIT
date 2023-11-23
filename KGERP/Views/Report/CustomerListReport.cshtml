@@ -1,4 +1,4 @@
-﻿@model KGERP.Data.CustomModel.ReportCustomerModel
+﻿@model KGERP.Data.CustomModel.ReportCustomModel
 <div class="row">
     <div class="col-md-12" style="background-color: lightblue;">
         <span style="font-size:20px;color:#000000">Customer List Report</span>
@@ -22,32 +22,44 @@
 
                             <div class="row">
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Zone:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.ZoneFk, new SelectList(Model.ZoneList, "Value", "Text"), "--Select Zone--", new { id = "ddlCommon_ZoneFk", @class = "searchingDropdown form-control" })
-                                        @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.ZoneId, new SelectList(Model.SelectZoneList, "Value", "Text"), "--Select Zone--", new { id = "ddlCommon_ZoneFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">ZoneDivision:</label>
+                                        <label for="message-text" class="col-form-label">Division:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList, "--Select ZoneDivision--", new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
+                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList, "--Select Division--", new { id = "ddlCommon_ZoneDivisoinFk", @class = "searchingDropdown form-control" })
                                         @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Region:</label>
+                                        <br />
+                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList, "--Select Region--", new { id = "ddlCommon_RegionFk", @class = "searchingDropdown form-control" })
+                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Area:</label>
                                         <br />
-                                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), "--Select Area--", new { id = "ddlCommon_AreFk", @class = "searchingDropdown form-control" })
+                                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Value", "Text"), "--Select Area--", new { id = "ddlCommon_AreaFk", @class = "searchingDropdown form-control" })
 
                                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Territory:</label>
                                         <br />
@@ -55,17 +67,25 @@
                                         @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-9"></div>
-                                <div class="col-md-3" style="float:right;display:flex">
+
+                            <div class="box-footer">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 float-end" style="margin-top:24px;">
                                     <div class="form-group">
-                                        <select class="pull-left" style="color:#ffffff; background-color:#dd4b39;height:34px;font-size:15px" name="ReportType" id="ReportType">
-                                            <option value="PDF">PDF</option>
-                                            <option value="EXCEL">EXCEL</option>
-                                            <option value="WORD">WORD</option>
-                                        </select>
-                                        <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-left" formtarget="_blank" />
+                                        <div class="col-md-7">
+                                            <select asp-for="ReportType" class="pull-right" style="color:#ffffff; background-color:#dd4b39;height:34px;font-size:15px;width:100%" name="ReportType" id="ddlReportType">
+                                                <option value="PDF">PDF</option>
+                                                <option value="EXCEL">EXCEL</option>
+                                                <option value="WORD">WORD</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input style="width:100%" type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-right" formtarget="_blank" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -81,11 +101,6 @@
 
     $(document).ready(function () {
 
-
-
-
-
-
     });
 
     $('#ddlCommon_ZoneFk').change(function () {
@@ -99,6 +114,30 @@
             success: function (data) {
                 var items = "";
                 if (data) {
+                    $("#ddlCommon_ZoneDivisoinFk").empty();
+                    $(data).each(function (index, item) {
+                        $("#ddlCommon_ZoneDivisoinFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+
+                }
+            }
+        });
+    });
+
+
+    $('#ddlCommon_ZoneDivisoinFk').change(function () {
+
+        var zoneId = $("#ddlCommon_ZoneFk").val();
+        var zoneDivisonId = $("#ddlCommon_ZoneDivisoinFk").val();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetRegionList", "Configuration")",
+            datatype: "Json",
+            data: { companyId: @Model.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisonId },
+            success: function (data) {
+                var items = "";
+                if (data) {
                     $("#ddlCommon_RegionFk").empty();
                     $(data).each(function (index, item) {
                         $("#ddlCommon_RegionFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
@@ -108,43 +147,45 @@
             }
         });
     });
+
     $('#ddlCommon_RegionFk').change(function () {
         var zoneValue = $("#ddlCommon_ZoneFk").val();
+        var zoneDivisonId = $("#ddlCommon_ZoneDivisoinFk").val();
         var regionValue = $("#ddlCommon_RegionFk").val();
         $.ajax({
             type: "GET",
             url: "@Url.Action("GetAreaList", "Configuration")",
             datatype: "Json",
-            data: { companyId:@Model.CompanyId, zoneId: zoneValue, zoneDivisionId: regionValue },
+            data: { companyId:@Model.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue },
             success: function (data) {
                 if (data) {
-                    $("#ddlCommon_AreFk").empty();
+                    $("#ddlCommon_AreaFk").empty();
                     $(data).each(function (index, item) {
-                        $("#ddlCommon_AreFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        $("#ddlCommon_AreaFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                     });
-
-
                 }
             }
         });
 
     });
 
-    $('#ddlCommon_AreFk').change(function () {
+    $('#ddlCommon_AreaFk').change(function () {
+        var zoneValue = $("#ddlCommon_ZoneFk").val();
+        var zoneDivisonId = $("#ddlCommon_ZoneDivisoinFk").val();
+        var regionValue = $("#ddlCommon_RegionFk").val();
+        var areaValue = $("#ddlCommon_AreaFk").val();
 
-        var areaValue = $("#ddlCommon_AreFk :selected").val();
         $.ajax({
             type: "GET",
-            url: "@Url.Action("CommonSubZonesGet", "Configuration")",
+            url: "@Url.Action("GetSubZoneList", "Configuration")",
             datatype: "Json",
-            data: { id: areaValue },
+            data: { companyId:@Model.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue, areaId: areaValue },
             success: function (data) {
                 if (data) {
                     $("#ddlCommon_TerritoryFk").empty();
                     $("#ddlCommon_TerritoryFk").append("<option value=''>==Select Territory==</option>");
                     $(data).each(function (index, item) {
                         $("#ddlCommon_TerritoryFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-
                     });
 
                 }

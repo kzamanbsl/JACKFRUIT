@@ -65,6 +65,37 @@ namespace KGERP.Data.CustomModel
         public Nullable<int> RegionId { get; set; }
         public Nullable<int> AreaId { get; set; }
         public int? SubZoneFk { get; set; }
+        public int ProjectId { get; set; }
+        public int? VoucherTypeId { get; set; }
+        public string Customer { get; set; }
+        public string Supplier { get; set; }
+        public string EmployeeKGId { get; set; }
+        public int? VendorId { get; set; }
+        public int Accounting_BankOrCashParantId { get; set; }
+        public string AsOnDate { get; set; }
+        public long EmployeeId { get; set; }
+        public string StrFromDate { get; set; }
+        public string StrToDate { get; set; }
+
+        [DisplayName("Product Category")]
+        public int? ProductCategoryId { get; set; }
+
+        [DisplayName("Product SubCategory")]
+        public int? ProductSubCategoryId { get; set; }
+
+        [DisplayName("Product")]
+        public int? ProductId { get; set; }
+        public int? CustomerId { get; set; }
+        public int? StockInfoTypeId { get; set; }
+        public int SalaryTag { get; set; } = 0;
+        public string AttendanceStatusvalue { get; set; } = "";
+        public string SupplierName { get; set; }
+        public string CustomerName { get; set; }
+        public string CompanyName { get; set; }
+        public int? DepartmentId { get; set; } = 0;
+        public int? DesignationId { get; set; } = 0;
+
+
 
         public List<SelectModel> Years { get; set; }
         public List<SelectModel> Employees { get; set; }
@@ -93,32 +124,9 @@ namespace KGERP.Data.CustomModel
             set { }
         }
 
-
-
         public List<SelectModel> Stocks { get; set; }
         public List<SelectModel> Companies { get; set; }
-        public int ProjectId { get; set; }
-        public int? VoucherTypeId { get; set; }
         public List<SelectModel> VoucherTypes { get; set; }
-
-        public string Customer { get; set; }
-        public string Supplier { get; set; }
-        public string EmployeeKGId { get; set; }
-        public int? VendorId { get; set; }
-        public int Accounting_BankOrCashParantId { get; set; }
-        public string AsOnDate { get; set; }
-        public long EmployeeId { get; set; }
-        public string StrFromDate { get; set; }
-        public string StrToDate { get; set; }
-
-        [DisplayName("Product Category")]
-        public int? ProductCategoryId { get; set; }
-
-        [DisplayName("Product SubCategory")]
-        public int? ProductSubCategoryId { get; set; }
-
-        [DisplayName("Product")]
-        public int? ProductId { get; set; }
         public List<SelectModel> CostCenters { get; set; }
 
         public SelectList Head3List { get; set; } = new SelectList(new List<object>());
@@ -146,11 +154,6 @@ namespace KGERP.Data.CustomModel
         public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
-        public int? CustomerId { get; set; }
-        public int? StockInfoTypeId { get; set; }
-        public int SalaryTag { get; set; } = 0;
-        public string AttendanceStatusvalue { get; set; } = "";
-
         public List<SelectModel> AttendanceStatus
         {
             get
@@ -172,35 +175,9 @@ namespace KGERP.Data.CustomModel
             }
             set { }
         }
-        public string SupplierName { get; set; }
-        public string CustomerName { get; set; }
-        public string CompanyName { get; set; }
-
-
         public List<SelectModel> Departments { get; set; }
         public List<SelectModel> Designations { get; set; }
-        public int? DepartmentId { get; set; } = 0;
-        public int? DesignationId { get; set; } = 0;
+     
     }
 
-    public class ReportCustomerModel
-    {
-        public int CustomerId { get; set; }
-        public int CompanyId { get; set; }
-       
-        public int? ZoneFk { get; set; }
-        public int? ZoneDivisionId { get; set; }
-        public int? RegionId { get; set; }
-        public int? AreaId { get; set; }
-        public int? SubZoneFk { get; set; }
-        public string ReportName { get; set; }
-        public string ReportType { get; set; }
-        public List<SelectModel> ZoneList { get; set; } = new List<SelectModel> { };
-        public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
-        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
-        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
-        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
-
-    }
 }
