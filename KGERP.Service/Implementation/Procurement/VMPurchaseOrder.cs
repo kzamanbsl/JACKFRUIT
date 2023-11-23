@@ -199,6 +199,7 @@ namespace KGERP.Service.Implementation.Procurement
         public DateTime PaymentDate { get; set; }
         public int? PromotionalOfferId { get; set; }
         public DateTime? ExpectedDeliveryDate { get; set; }
+        [Display (Name ="Payment Method")]
         public int CustomerPaymentMethodEnumFK { get; set; }
         public string OrderNo { get; set; }
         public double TotalAmount { get; set; }
@@ -470,6 +471,8 @@ namespace KGERP.Service.Implementation.Procurement
 
         public decimal UnitPrice { get; set; }
         public decimal? DeportPrice { get; set; }
+        public decimal? DealerPrice { get; set; }
+        public decimal? CustomerPrice { get; set; }
         public decimal TPPrice { get; set; }
        
         public decimal CostingPrice { get; set; }
