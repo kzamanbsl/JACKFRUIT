@@ -5423,7 +5423,7 @@ namespace KGERP.Service.Implementation.Configuration
             return vmCommonDealer;
         }
         public VMCommonSupplier GetCommonDealerById(int id)
-        {
+        { 
             var v = (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Dealer && x.VendorId == id)
                      join t2 in _db.SubZones on t1.SubZoneId equals t2.SubZoneId into t2_def
                      from t2 in t2_def.DefaultIfEmpty()

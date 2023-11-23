@@ -695,44 +695,58 @@
 
             //    }
             //});
-            $("#txtDeportPrice").keyup(function () {
+            $("#txtDeportPrice ,#txtOrderCtn , #txtOrderPcs ").on('keyup change',function () {
 
                 var qtyCtn = parseFloat($("#txtOrderCtn").val());
                 var qtyPcs = parseFloat($("#txtOrderPcs").val());
                 var consumption = parseFloat($("#ProductConsumption").val());
                 var deportPrice = parseFloat($("#txtDeportPrice").val());
-                var tAmount = ((qtyCtn*consumption)+qtyPcs)*deportPrice;
+                var tAmount = (((qtyCtn * consumption) + qtyPcs) * deportPrice).toFixed(2);
 
                 $("#totalAmount").val(tAmount);
                 $("#SpcDis").val(0);
                 $("#disPercentage").val(0);
             });
 
-            $("#txtOrderCtn").keyup(function () {
+            //$("#txtDeportPrice").on('input',function () {
+
+            //    var qtyCtn = parseFloat($("#txtOrderCtn").val());
+            //    var qtyPcs = parseFloat($("#txtOrderPcs").val());
+            //    var consumption = parseFloat($("#ProductConsumption").val());
+            //    var deportPrice = parseFloat($("#txtDeportPrice").val());
+            //    var tAmount = (((qtyCtn * consumption) + qtyPcs) * deportPrice).toFixed(2);
+
+            //    $("#totalAmount").val(tAmount);
+            //    $("#SpcDis").val(0);
+            //    $("#disPercentage").val(0);
+            //});
+            
+
+            //$("").keyup(function () {
 
 
-                var qtyCtn = parseFloat($("#txtOrderCtn").val());
-                var qtyPcs = parseFloat($("#txtOrderPcs").val());
-                var consumption = parseFloat($("#ProductConsumption").val());
-                var deportPrice = parseFloat($("#txtDeportPrice").val());
-                var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
+            //    var qtyCtn = parseFloat($("#txtOrderCtn").val());
+            //    var qtyPcs = parseFloat($("#txtOrderPcs").val());
+            //    var consumption = parseFloat($("#ProductConsumption").val());
+            //    var deportPrice = parseFloat($("#txtDeportPrice").val());
+            //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
 
-                $("#totalAmount").val(tAmount);
+            //    $("#totalAmount").val(tAmount);
 
-            });
+            //});
 
-            $("#txtOrderPcs").keyup(function () {
+            //$("").keyup(function () {
 
 
-                var qtyCtn = parseFloat($("#txtOrderCtn").val());
-                var qtyPcs = parseFloat($("#txtOrderPcs").val());
-                var consumption = parseFloat($("#ProductConsumption").val());
-                var deportPrice = parseFloat($("#txtDeportPrice").val());
-                var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
+            //    var qtyCtn = parseFloat($("#txtOrderCtn").val());
+            //    var qtyPcs = parseFloat($("#txtOrderPcs").val());
+            //    var consumption = parseFloat($("#ProductConsumption").val());
+            //    var deportPrice = parseFloat($("#txtDeportPrice").val());
+            //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
 
-                $("#totalAmount").val(tAmount);
+            //    $("#totalAmount").val(tAmount);
 
-            });
+            //});
 
 
 
@@ -772,54 +786,54 @@
             });
         });
 
-        $("#txtUnitPrice").keyup(function () {
+        //$("#txtUnitPrice").keyup(function () {
 
-            var qtyCtn = $("#txtOrderCtn").val();
-            var qtyPcs = $("#txtOrderPcs").val();
-            var deportPrice = $("#txtDeportPrice").val();
-            var consumption = $("#ProductConsumption").val();
-            var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
-            $("#totalAmount").val(tAmount);
-            $("#SpcDis").val(0);
-            $("#disPercentage").val(0);
-        });
+        //    var qtyCtn = $("#txtOrderCtn").val();
+        //    var qtyPcs = $("#txtOrderPcs").val();
+        //    var deportPrice = $("#txtDeportPrice").val();
+        //    var consumption = $("#ProductConsumption").val();
+        //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
+        //    $("#totalAmount").val(tAmount);
+        //    $("#SpcDis").val(0);
+        //    $("#disPercentage").val(0);
+        //});
 
-        $("#txtOrderQuantity").keyup(function () {
+        //$("#txtOrderQuantity").keyup(function () {
 
-            var qtyCtn = $("#txtOrderCtn").val();
-            var qtyPcs = $("#txtOrderPcs").val();
-            var deportPrice = $("#txtDeportPrice").val();
-            var consumption = $("#ProductConsumption").val();
-            var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
-            $("#totalAmount").val(tAmount);
-        });
+        //    var qtyCtn = $("#txtOrderCtn").val();
+        //    var qtyPcs = $("#txtOrderPcs").val();
+        //    var deportPrice = $("#txtDeportPrice").val();
+        //    var consumption = $("#ProductConsumption").val();
+        //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
+        //    $("#totalAmount").val(tAmount);
+        //});
 
-        $("#disPercentage").keyup(function () {
+        //$("#disPercentage").keyup(function () {
 
-            var qty = $("#txtOrderQuantity").val();
-            var Unit = $("#txtUnitPrice").val();
-            var PerCentage = $("#disPercentage").val();
-            var ammount = qty * Unit;
-            var discountprice = ammount * (PerCentage / 100);
-            var totalPriceAfterTotalDisPercen = ammount - discountprice;
-            $("#SpcDis").val(discountprice);
-            $("#totalAmount").val(totalPriceAfterTotalDisPercen);
+        //    var qty = $("#txtOrderQuantity").val();
+        //    var Unit = $("#txtUnitPrice").val();
+        //    var PerCentage = $("#disPercentage").val();
+        //    var ammount = qty * Unit;
+        //    var discountprice = ammount * (PerCentage / 100);
+        //    var totalPriceAfterTotalDisPercen = ammount - discountprice;
+        //    $("#SpcDis").val(discountprice);
+        //    $("#totalAmount").val(totalPriceAfterTotalDisPercen);
 
-        });
+        //});
 
-        $("#SpcDis").keyup(function () {
+        //$("#SpcDis").keyup(function () {
 
-            var qty = $("#txtOrderQuantity").val();
+        //    var qty = $("#txtOrderQuantity").val();
 
-            var Unit = $("#txtUnitPrice").val();
-            var specialDis = $("#SpcDis").val();
-            var ammount = qty * Unit;
-            var percentage = ((specialDis / ammount) * 100);
-            var totalPriceAfterTotalspecial = ammount - specialDis;
-            $("#disPercentage").val(percentage);
-            $("#totalAmount").val(totalPriceAfterTotalspecial);
+        //    var Unit = $("#txtUnitPrice").val();
+        //    var specialDis = $("#SpcDis").val();
+        //    var ammount = qty * Unit;
+        //    var percentage = ((specialDis / ammount) * 100);
+        //    var totalPriceAfterTotalspecial = ammount - specialDis;
+        //    $("#disPercentage").val(percentage);
+        //    $("#totalAmount").val(totalPriceAfterTotalspecial);
 
-        });
+        //});
 
         function makeEditble(rowId) {
 
@@ -897,7 +911,7 @@
                         $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
 
                         if (unitPrice == null) {
-                            $("#txtDeportPrice").val(data.UnitPrice);
+                            $("#txtDeportPrice").val(data.DeportPrice);
 
                         } else {
                             $("#txtDeportPrice").val(unitPrice);
@@ -906,20 +920,25 @@
                         if (consumption == 1) {
         
                             $("#ProductConsumption").val(data.Consumption);
-
                         } else {
                             $("#ProductConsumption").val(consumption);
                             consumption = 1;
                         }
                         var unitQty = $("#txtOrderQuantity").val();
 
-                       // $("#txtOrderCtn").val(0);
-                       //$("#txtOrderPcs").val(0);
-                       // $("#totalAmount").val(0);
+                     
+
+                        
+
+
                     }
                 }
             });
 
+            $("#txtOrderCtn").val(0);
+            $("#txtOrderPcs").val(0);
+           $("#totalAmount").val(0);
+           
         });
 
     </script>
