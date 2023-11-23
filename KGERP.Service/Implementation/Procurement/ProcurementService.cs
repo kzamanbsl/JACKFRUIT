@@ -3935,7 +3935,7 @@ namespace KGERP.Service.Implementation.Procurement
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty =(double) (vmSalesOrderSlave.QtyCtn*vmSalesOrderSlave.Consumption)+vmSalesOrderSlave.QtyPcs,
                 OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs,
-                UnitPrice = (double)vmSalesOrderSlave.DeportPrice,
+                UnitPrice =vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
                 PackQuantity = vmSalesOrderSlave.PackQuantity,
@@ -3971,7 +3971,7 @@ namespace KGERP.Service.Implementation.Procurement
             model.Qty = (double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs;
             model.OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) +vmSalesOrderSlave.OfferPcs;
                
-            model.UnitPrice = (double)vmSalesOrderSlave.DeportPrice;
+            model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
@@ -5040,10 +5040,10 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
-                Qty = vmSalesOrderSlave.Qty,
-                OfferQty = vmSalesOrderSlave.OfferQty,
+                Qty = ((vmSalesOrderSlave.QtyCtn*(double) vmSalesOrderSlave.Consumption)+ vmSalesOrderSlave.QtyPcs),
+                OfferQty = ((vmSalesOrderSlave.OfferCtn *(double) vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs),
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
-                Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
+                Amount = vmSalesOrderSlave.TotalAmount ,
                 Comsumption = vmSalesOrderSlave.Consumption,
                 PackQuantity = vmSalesOrderSlave.PackQuantity,
                 DiscountUnit = vmSalesOrderSlave.ProductDiscountUnit,
@@ -5075,10 +5075,10 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail model = await _db.OrderDetails.FindAsync(vmSalesOrderSlave.OrderDetailId);
 
             model.ProductId = vmSalesOrderSlave.FProductId;
-            model.Qty = vmSalesOrderSlave.Qty;
-            model.OfferQty = vmSalesOrderSlave.OfferQty;
+            model.Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs);
+            model.OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs);
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
-            model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
+            model.Amount =vmSalesOrderSlave.TotalAmount;
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
 
@@ -5099,8 +5099,10 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId
-                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
+                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId into t4_Join
+                                                      from t4 in t4_Join.DefaultIfEmpty()
+                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId into t5_Join
+                                                      from t5 in t5_Join.DefaultIfEmpty()
                                                       join t6 in _db.Vendors on t1.StockInfoId equals t6.VendorId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
 
