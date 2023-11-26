@@ -427,12 +427,14 @@
 
 
             });
+
             $("#ddlRegionId").on("change", function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 var regionId = $("#ddlRegionId :selected").val();
                 areaChange(0, zoneId, zoneDivisionId, regionId);
             });
+
             $("#ddlAreaId").on("change", function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
@@ -440,6 +442,7 @@
                 var areaId = $("#ddlRegionId :selected").val();
                 territoryChange(0, zoneId, zoneDivisionId, regionId, areaId);
             });
+
             $("#ddlCommon_DivisionFk").on('change', function () {
                 var divisionValue = $("#ddlCommon_DivisionFk :selected").val();
                 changeDistrict(0, divisionValue);
@@ -452,7 +455,7 @@
             });
         });
 
-         function zoneDivisionChange( zoneDivisionValue,zoneValue) {
+        function zoneDivisionChange( zoneDivisionValue,zoneValue) {
 
             $.ajax({
                 type: "GET",
@@ -475,7 +478,8 @@
                 }
             });
         }
-         function regionChange( regionValue,zoneValue,zoneDivisionValue) {
+
+        function regionChange( regionValue,zoneValue,zoneDivisionValue) {
 
             $.ajax({
                 type: "GET",

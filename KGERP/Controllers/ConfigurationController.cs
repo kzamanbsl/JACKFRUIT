@@ -1689,7 +1689,7 @@ namespace KGERP.Controllers
         #region Common Deport
 
         [HttpGet]
-        public async Task<ActionResult> CommonDeport(int companyId, int zoneId = 0, int zoneDivisionId = 0, int areaId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonDeport(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport = await Task.Run(() => _service.GetDeport(companyId, zoneId, subZoneId));
@@ -1700,6 +1700,7 @@ namespace KGERP.Controllers
             vmCommonDeport.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonDeport.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
             vmCommonDeport.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
+            vmCommonDeport.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId, regionId), "Value", "Text");
             vmCommonDeport.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonDeport);
         }

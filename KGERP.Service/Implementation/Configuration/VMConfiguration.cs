@@ -344,7 +344,7 @@ namespace KGERP.Service.Implementation.Configuration
     {
         public string Name { get; set; }
         public int VendorReferenceId { get; set; }
-        public int ZoneId { get; set; }
+        public int? ZoneId { get; set; }
         public int? ZoneDivisionId { get; set; }
         public int? RegionId { get; set; }
         public int? AreaId { get; set; }

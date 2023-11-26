@@ -5144,7 +5144,8 @@ namespace KGERP.Service.Implementation.Configuration
                      from t4 in t4_def.DefaultIfEmpty()
                      join t5 in _db.ZoneDivisions on t1.ZoneDivisionId equals t5.ZoneDivisionId into t5_def
                      from t5 in t5_def.DefaultIfEmpty()
-
+                     join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
+                     from t6 in t6_def.DefaultIfEmpty()
                      select new VMCommonSupplier
                      {
                          ID = t1.VendorId,
@@ -5154,8 +5155,10 @@ namespace KGERP.Service.Implementation.Configuration
                          CompanyFK = t1.CompanyId,
                          ZoneId = t1.ZoneId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId.Value,
-                         SubZoneId = t1.SubZoneId.Value,
                          RegionId = t1.RegionId.Value,
+                         AreaId=t1.AreaId.Value,
+                         SubZoneId = t1.SubZoneId.Value,
+                        
                          CustomerTypeFk = t1.CustomerTypeFK,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -5226,11 +5229,15 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 CompanyFK = t1.CompanyId,
                                                                 Phone = t1.Phone,
                                                                 ZoneId = t1.ZoneId ?? 0,
+                                                                ZoneName = t6.Name,
                                                                 ZoneDivisionId = t1.ZoneDivisionId,
                                                                 ZoneDivisionName = t7.Name,
+                                                                RegionId = t1.RegionId ?? 0,
+                                                                RegionName = t9.Name,
+                                                                AreaId = t1.AreaId ?? 0,
+                                                                AreaName = t10.Name,
                                                                 SubZoneId = t1.SubZoneId ?? 0,
                                                                 SubZoneName = t5.Name,
-                                                                ZoneName = t6.Name + " " + t5.Name,
                                                                 ZoneIncharge = t6.ZoneIncharge,
                                                                 CreditLimit = t1.CreditLimit,
                                                                 NID = t1.NID,
@@ -5274,6 +5281,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ZoneId = vmCommonDeport.ZoneId,
                 ZoneDivisionId = vmCommonDeport.ZoneDivisionId,
                 RegionId = vmCommonDeport.RegionId,
+                AreaId = vmCommonDeport.AreaId,
                 SubZoneId = vmCommonDeport.SubZoneId,
                 Address = vmCommonDeport.Address,
 
@@ -5332,6 +5340,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonDeport.ZoneId = vmCommonDeport.ZoneId;
             commonDeport.ZoneDivisionId = vmCommonDeport.ZoneDivisionId;
             commonDeport.RegionId = vmCommonDeport.RegionId;
+            commonDeport.AreaId = vmCommonDeport.AreaId;
             commonDeport.SubZoneId = vmCommonDeport.SubZoneId;
             commonDeport.Address = vmCommonDeport.Address;
 
