@@ -3990,7 +3990,7 @@ namespace KGERP.Service.Implementation.Procurement
         public async Task<VMSalesOrderSlave> GetDeportSalesOrderDetails(int companyId, int orderMasterId)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-            vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
+            vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive==true && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
                                                       join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId into t4_zoneDivision

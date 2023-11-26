@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.6.33815.320</am:Version>
+      <am:Version>17.8.34316.72</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-06T09:08:03.7167868Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-26T06:18:35.8987079Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -353,20 +353,44 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>ZoneIncharge</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ZoneDivisionName">
+          <DataField>ZoneDivisionName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="SubZoneName">
           <DataField>SubZoneName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ZoneDivisionCode">
+          <DataField>ZoneDivisionCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SubZoneSalesOfficerName">
           <DataField>SubZoneSalesOfficerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="RegionName">
+          <DataField>RegionName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="SubZoneMobileOffice">
           <DataField>SubZoneMobileOffice</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="regionCode">
+          <DataField>regionCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="SubZoneMobilePersonal">
           <DataField>SubZoneMobilePersonal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AreaName">
+          <DataField>AreaName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AreaCode">
+          <DataField>AreaCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
