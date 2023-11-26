@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
+using KGERP.Utility;
 using System;
 using System.Data.Entity;
 using System.Linq;

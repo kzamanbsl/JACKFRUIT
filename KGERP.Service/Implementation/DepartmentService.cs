@@ -50,6 +50,7 @@ namespace KGERP.Service.Implementation
             {
                 Name = vmCommonDepartment.Name,
                 CompanyId = vmCommonDepartment.CompanyFK,
+
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 IsActive = true
@@ -75,6 +76,7 @@ namespace KGERP.Service.Implementation
             #endregion
             Department department = _db.Departments.Find(vmCommonDepartment.ID);
             department.Name = vmCommonDepartment.Name;
+
 
 
             department.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -126,7 +128,7 @@ namespace KGERP.Service.Implementation
 
         public List<SelectModel> GetDepartmentSelectModels()
         {
-            return _db.Departments.Where(x => x.IsActive == true && x.CompanyId == CompanyInfo.CompanyId).OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
+            return _db.Departments.Where(x => x.IsActive == true /*&& x.CompanyId == CompanyInfo.CompanyId*/).OrderBy(x => x.Name).ToList().Select(x => new SelectModel()
             {
                 Text = x.Name.ToString(),
                 Value = x.DepartmentId.ToString()
