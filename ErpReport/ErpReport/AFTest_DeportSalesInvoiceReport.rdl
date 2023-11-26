@@ -9,14 +9,14 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34316.72</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-26T06:22:32.0946834Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-26T05:33:54.1572785Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="GeneralLedgerDS">
+    <DataSource Name="DeportSalesInvoiceDataSource">
       <Transaction>true</Transaction>
-      <DataSourceReference>AFDataSource</DataSourceReference>
+      <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>cdcb2f2c-7ca3-4782-8265-294164a2cd50</rd:DataSourceID>
     </DataSource>
@@ -24,7 +24,7 @@
   <DataSets>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>GeneralLedgerDS</DataSourceName>
+        <DataSourceName>DeportSalesInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -61,9 +61,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="SODataSet">
+    <DataSet Name="DeportSalesInvoiceDataSet">
       <Query>
-        <DataSourceName>GeneralLedgerDS</DataSourceName>
+        <DataSourceName>DeportSalesInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -73,7 +73,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>DealerSalesInvoice</CommandText>
+        <CommandText>DeportSalesInvoice</CommandText>
       </Query>
       <Fields>
         <Field Name="OrderMasterId">
@@ -96,13 +96,13 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>UnitPrice</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="ProductName">
-          <DataField>ProductName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Amount">
           <DataField>Amount</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CashDiscountAmount">
           <DataField>CashDiscountAmount</DataField>
@@ -120,21 +120,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>SubCategoryName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PromoCode">
-          <DataField>PromoCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NetUnitPrice">
-          <DataField>NetUnitPrice</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="OfferQty">
-          <DataField>OfferQty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="TotalQty">
-          <DataField>TotalQty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+        <Field Name="DiscountRate">
+          <DataField>DiscountRate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="QtyInCtn">
           <DataField>QtyInCtn</DataField>
@@ -144,41 +132,33 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>QtyInPcs</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="DiscountRate">
-          <DataField>DiscountRate</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="PromotionalOfferId">
           <DataField>PromotionalOfferId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="OfferInCtn">
-          <DataField>OfferInCtn</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="OfferInPcs">
-          <DataField>OfferInPcs</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ProductSubCategoryId">
           <DataField>ProductSubCategoryId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="FromDate">
-          <DataField>FromDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="NetUnitPrice">
+          <DataField>NetUnitPrice</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="CategoryName">
           <DataField>CategoryName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OfferQty">
+          <DataField>OfferQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="TotalQty">
+          <DataField>TotalQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
         <Field Name="ProductCode">
           <DataField>ProductCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ToDate">
-          <DataField>ToDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="UnitName">
           <DataField>UnitName</DataField>
@@ -188,13 +168,33 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>TotalPrice</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="TotalDebitAmount">
-          <DataField>TotalDebitAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+        <Field Name="OfferInCtn">
+          <DataField>OfferInCtn</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="TotalAsWord">
           <DataField>TotalAsWord</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OfferInPcs">
+          <DataField>OfferInPcs</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PromoCode">
+          <DataField>PromoCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="TotalDebitAmount">
+          <DataField>TotalDebitAmount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="TotalCreditAmount">
           <DataField>TotalCreditAmount</DataField>
@@ -204,7 +204,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
     </DataSet>
     <DataSet Name="HederData">
       <Query>
-        <DataSourceName>GeneralLedgerDS</DataSourceName>
+        <DataSourceName>DeportSalesInvoiceDataSource</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -214,7 +214,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>DealerSalesInvoiceHeader</CommandText>
+        <CommandText>DeportSalesInvoiceHeader</CommandText>
       </Query>
       <Fields>
         <Field Name="OrderMasterId">
@@ -1434,7 +1434,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ZoneIncharge">
+                        <Textbox Name="Textbox27">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1453,7 +1453,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ZoneIncharge</rd:DefaultName>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1541,7 +1541,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ContactPersion">
+                        <Textbox Name="VendorCode1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1560,7 +1560,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ContactPersion</rd:DefaultName>
+                          <rd:DefaultName>VendorCode1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -2142,19 +2142,19 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   <Width>0.3489in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.51543in</Width>
+                  <Width>1.68759in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.16619in</Width>
+                  <Width>1.44732in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94738in</Width>
+                  <Width>1.02225in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.10318in</Width>
+                  <Width>1.32188in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.8835in</Width>
+                  <Width>0.97596in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2211,14 +2211,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox84">
+                        <Textbox Name="Textbox6">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Constant">Description of Product/Items</Value>
+                                  <Value>Description of Product/Items</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2231,7 +2231,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox84</rd:DefaultName>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2355,14 +2355,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox30">
+                        <Textbox Name="Textbox19">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value> Offer Qty</Value>
+                                  <Value>  Offer Qty</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2375,7 +2375,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2493,7 +2493,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ProductName">
+                        <Textbox Name="ProductName1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2512,7 +2512,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ProductName</rd:DefaultName>
+                          <rd:DefaultName>ProductName1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2536,7 +2536,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value xml:space="preserve"> </Value>
+                                  <Value xml:space="preserve">  </Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2603,7 +2603,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!UnitPrice.Value,"#,##0.00")</Value>
+                                  <Value>=Fields!UnitPrice.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2632,20 +2632,21 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="OfferQty">
+                        <Textbox Name="Textbox21">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value xml:space="preserve"> </Value>
+                                  <Value xml:space="preserve">  </Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
+                                  <Label>OfferQty</Label>
                                   <Value>=Fields!OfferInCtn.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
@@ -2653,7 +2654,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>  Ctn and </Value>
+                                  <Value> Ctn and </Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2679,7 +2680,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>OfferQty</rd:DefaultName>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2703,7 +2704,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!Amount.Value,"#,##0.00")</Value>
+                                  <Value>=format(Fields!TotalPrice.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2768,13 +2769,47 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>5</ColSpan>
+                        <ColSpan>4</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
-                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox25">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox25</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="TotalPrice1">
@@ -2841,11 +2876,11 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>SODataSet</DataSetName>
+            <DataSetName>DeportSalesInvoiceDataSet</DataSetName>
             <Top>2.83959in</Top>
             <Left>0.98542in</Left>
             <Height>0.73958in</Height>
-            <Width>6.96458in</Width>
+            <Width>6.8039in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -2885,10 +2920,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
-            <Top>5.3396in</Top>
+            <Top>4.9021in</Top>
             <Left>6.41877in</Left>
             <Height>0.25in</Height>
-            <Width>1.53123in</Width>
+            <Width>1.45946in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2912,7 +2947,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!TotalAsWord.Value, "SODataSet")</Value>
+                    <Value>=First(Fields!TotalAsWord.Value, "DeportSalesInvoiceDataSet")</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                     </Style>
@@ -2922,8 +2957,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox23</rd:DefaultName>
-            <Top>4.14375in</Top>
-            <Left>2.1461in</Left>
+            <Top>3.69584in</Top>
+            <Left>1.98542in</Left>
             <Height>0.25347in</Height>
             <Width>5.8039in</Width>
             <ZIndex>4</ZIndex>
@@ -2957,10 +2992,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
-            <Top>5.3396in</Top>
+            <Top>4.9021in</Top>
             <Left>0.90767in</Left>
             <Height>0.25in</Height>
-            <Width>1.48843in</Width>
+            <Width>1.41666in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2997,10 +3032,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
-            <Top>5.3396in</Top>
+            <Top>4.9021in</Top>
             <Left>2.66772in</Left>
             <Height>0.25in</Height>
-            <Width>1.42361in</Width>
+            <Width>1.35184in</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -3037,10 +3072,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
-            <Top>5.3396in</Top>
+            <Top>4.9021in</Top>
             <Left>4.57098in</Left>
             <Height>0.25in</Height>
-            <Width>1.39234in</Width>
+            <Width>1.32057in</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -3127,10 +3162,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox26</rd:DefaultName>
-            <Top>4.41806in</Top>
-            <Left>0.97944in</Left>
+            <Top>4.01181in</Top>
+            <Left>0.90767in</Left>
             <Height>0.25in</Height>
-            <Width>1.16666in</Width>
+            <Width>1.07775in</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -3160,8 +3195,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Remarks</rd:DefaultName>
-            <Top>4.41806in</Top>
-            <Left>2.1461in</Left>
+            <Top>4.01181in</Top>
+            <Left>1.98542in</Left>
             <Height>0.25in</Height>
             <Width>5.8039in</Width>
             <ZIndex>10</ZIndex>
@@ -3197,8 +3232,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox26</rd:DefaultName>
-            <Top>4.14375in</Top>
-            <Left>0.97944in</Left>
+            <Top>3.69584in</Top>
+            <Left>0.90767in</Left>
             <Height>0.26042in</Height>
             <Width>1.16666in</Width>
             <ZIndex>11</ZIndex>
@@ -3270,7 +3305,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Height>6.04167in</Height>
         <Style />
       </Body>
-      <Width>8.24656in</Width>
+      <Width>8.78932in</Width>
       <Page>
         <PageHeader>
           <Height>1.08966in</Height>
@@ -3316,7 +3351,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Dealer Sales Invoice</Value>
+                      <Value>Deport Sales Invoice</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
