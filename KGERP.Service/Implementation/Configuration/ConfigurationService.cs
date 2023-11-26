@@ -4689,16 +4689,22 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.VendorId == customerId)
-                                                      join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_Join
+                                                     join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_Join
                                                      from t2 in t2_Join.DefaultIfEmpty()
-                                                     join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_Join
+                                                     join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_Join
                                                      from t3 in t3_Join.DefaultIfEmpty()
-                                                     join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_Join
-                                                     from t4 in t4_Join.DefaultIfEmpty()
+                                                         //join t4 in _db.Divisions on t1.DivisionId equals t4.DivisionId into t4_Join
+                                                         //from t4 in t4_Join.DefaultIfEmpty()
                                                      join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
                                                      from t5 in t5_Join.DefaultIfEmpty()
-                                                     join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_Join
+                                                     join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_Join
                                                      from t6 in t6_Join.DefaultIfEmpty()
+                                                     join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneId into t7_Join
+                                                     from t7 in t7_Join.DefaultIfEmpty()
+                                                     join t8 in _db.Regions on t1.RegionId equals t8.RegionId into t8_Join
+                                                     from t8 in t8_Join.DefaultIfEmpty()
+                                                     join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_Join
+                                                     from t9 in t9_Join.DefaultIfEmpty()
 
                                                      select new VMCommonSupplier
                                                      {
@@ -4708,13 +4714,13 @@ namespace KGERP.Service.Implementation.Configuration
                                                          ContactPerson = t1.ContactName,
                                                          Address = t1.Address,
                                                          Code = t1.Code,
-                                                         Common_DistrictsFk = t2.DistrictId,
-                                                         Common_UpazilasFk = t1.UpazilaId??0,
+                                                         Common_DistrictsFk = t1.DistrictId ?? 0,
+                                                         Common_UpazilasFk = t1.UpazilaId ?? 0,
                                                          District = t3.Name,
                                                          Upazila = t2.Name,
-                                                         Country = t4.Name,
+                                                         //Country = t4.Name,
                                                          CreatedBy = t1.CreatedBy,
-                                                         Division = t4.Name,
+                                                         //Division = t4.Name,
                                                          Remarks = t1.Remarks,
                                                          CompanyFK = t1.CompanyId,
                                                          Phone = t1.Phone,
@@ -5164,9 +5170,9 @@ namespace KGERP.Service.Implementation.Configuration
                          ZoneId = t1.ZoneId.Value,
                          ZoneDivisionId = t1.ZoneDivisionId.Value,
                          RegionId = t1.RegionId.Value,
-                         AreaId=t1.AreaId.Value,
+                         AreaId = t1.AreaId.Value,
                          SubZoneId = t1.SubZoneId.Value,
-                        
+
                          CustomerTypeFk = t1.CustomerTypeFK,
                          Common_DivisionFk = t4.DivisionId > 0 ? t4.DivisionId : 0,
                          Common_DistrictsFk = t3.DistrictId > 0 ? t3.DistrictId : 0,
@@ -5402,16 +5408,23 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<VMCommonSupplier> GetDealerById(int deportId)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+
             vmCommonDealer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.VendorId == deportId)
-                                                   join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
-                                                   from t2 in t2_def.DefaultIfEmpty()
-                                                   join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
-                                                   from t3 in t3_def.DefaultIfEmpty()
+                                                       //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
+                                                       //from t2 in t2_def.DefaultIfEmpty()
+                                                       //join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
+                                                       //from t3 in t3_def.DefaultIfEmpty()
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
                                                    join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
                                                    from t5 in t5_def.DefaultIfEmpty()
-                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                   join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                    from t6 in t6_def.DefaultIfEmpty()
+                                                   join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
+                                                   from t7 in t7_def.DefaultIfEmpty()
+                                                   join t8 in _db.Regions on t1.RegionId equals t8.ZoneDivisionId into t8_def
+                                                   from t8 in t8_def.DefaultIfEmpty()
+                                                   join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
+                                                   from t9 in t9_def.DefaultIfEmpty()
 
                                                    select new VMCommonSupplier
                                                    {
@@ -5421,16 +5434,17 @@ namespace KGERP.Service.Implementation.Configuration
                                                        ContactPerson = t1.ContactName,
                                                        Address = t1.Address,
                                                        Code = t1.Code,
-                                                       Common_DistrictsFk = t2.DistrictId,
-                                                       Common_UpazilasFk = t1.UpazilaId.Value,
-                                                       District = t3.Name,
-                                                       Upazila = t2.Name,
+                                                       //Common_DistrictsFk = t1.DistrictId??0,
+                                                       //Common_UpazilasFk = t1.UpazilaId ?? 0,
+                                                       //District = t3.Name,
+                                                       //Upazila = t2.Name,
                                                        //Country = t4.Name,
                                                        CreatedBy = t1.CreatedBy,
                                                        // Division = t4.Name,
                                                        Remarks = t1.Remarks,
                                                        CompanyFK = t1.CompanyId,
                                                        Phone = t1.Phone,
+                                                       ZoneId = t1.ZoneId,
                                                        ZoneName = t5.Name,
                                                        ZoneIncharge = t6.ZoneIncharge,
                                                        CreditLimit = t1.CreditLimit,
@@ -5440,12 +5454,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                        ParentId = t1.ParentId
                                                    }).FirstOrDefault());
 
-
-
             return vmCommonDealer;
         }
         public VMCommonSupplier GetCommonDealerById(int id)
-        { 
+        {
             var v = (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)Provider.Dealer && x.VendorId == id)
                      join t2 in _db.SubZones on t1.SubZoneId equals t2.SubZoneId into t2_def
                      from t2 in t2_def.DefaultIfEmpty()
