@@ -459,14 +459,14 @@
 
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("CommonZoneDivisionGet", "Configuration")",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
                 datatype: "Json",
                 data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
                 success: function (data) {
 
                     if (data) {
                         $("#ddlZoneDivisionId").empty();
-                        $("#ddlZoneDivisionId").append("<option value=''>==Select ZoneDivision==</option>");
+                        //$("#ddlZoneDivisionId").append("<option value=''>==Select ZoneDivision==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });

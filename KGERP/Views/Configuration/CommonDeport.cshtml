@@ -421,52 +421,57 @@
 
         });
 
-         function zoneDivisionChange( zoneDivisionValue,zoneValue) {
+        function zoneDivisionChange(zoneDivisionValue, zoneValue) {
+
+            if (zoneDivisionValue == (null || "")) zoneDivisionValue = 0;
+            if (zoneValue == (null || "")) zoneValue = 0;
+
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlZoneDivisionId").empty();
+                        //$("#ddlZoneDivisionId").append("<option value=''>==Select ZoneDivision==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        if (zoneDivisionValue > 0) {
+                            $("#ddlZoneDivisionId").val(zoneDivisionValue);
+
+                        }
+                    }
+                }
+            });
+        }
+
+         function regionChange( regionValue,zoneValue,zoneDivisionValue) {
 
              $.ajax({
                  type: "GET",
-                 url: "@Url.Action("CommonZoneDivisionGet", "Configuration")",
+                 url: "@Url.Action("GetRegionList", "Configuration")",
                  datatype: "Json",
-                 data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
+                 data: { companyId:@Model.CompanyFK, zoneId: zoneValue, zoneDivisionId: zoneDivisionValue },
                  success: function (data) {
 
                      if (data) {
-                         $("#ddlZoneDivisionId").empty();
-                         $("#ddlZoneDivisionId").append("<option value=''>==Select ZoneDivision==</option>");
+                         $("#ddlRegionId").empty();
+                         //$("#ddlRegionId").append("<option value=''>==Select Region==</option>");
                          $(data).each(function (index, item) {
-                             $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                             $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                          });
-                         if (zoneDivisionValue > 0) {
-                             $("#ddlZoneDivisionId").val(zoneDivisionValue);
+                         if (regionValue > 0) {
+                             $("#ddlRegionId").val(regionValue);
 
                          }
                      }
                  }
              });
- }
-
-         function regionChange( regionValue,zoneValue,zoneDivisionValue) {
-
-     $.ajax({
-         type: "GET",
-         url: "@Url.Action("GetRegionList", "Configuration")",
-         datatype: "Json",
-         data: { companyId:@Model.CompanyFK, zoneId: zoneValue, zoneDivisionId: zoneDivisionValue },
-         success: function (data) {
-
-             if (data) {
-                 $("#ddlRegionId").empty();
-                 //$("#ddlRegionId").append("<option value=''>==Select Region==</option>");
-                 $(data).each(function (index, item) {
-                     $("#ddlRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                 });
-                 if (regionValue > 0) {
-                     $("#ddlRegionId").val(regionValue);
-
-                 }
-             }
-         }
-     });
  }
 
          @*function areaChange(areaValue, zoneValue, zoneDivisionValue, regionValue)
@@ -601,8 +606,8 @@
 
 
                         $('#ddlZoneId').val(data.ZoneId).trigger('change');
-                        zoneDivisionChange(data.ZoneDivisionId);
-
+                        zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
+                        regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
                         $('#txtCreditLimit').val(data.CreditLimit);

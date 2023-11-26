@@ -4689,11 +4689,17 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.VendorId == customerId)
-                                                     join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
-                                                     join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
-                                                     join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                     join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
-                                                     join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
+                                                      join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_Join
+                                                     from t2 in t2_Join.DefaultIfEmpty()
+                                                     join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_Join
+                                                     from t3 in t3_Join.DefaultIfEmpty()
+                                                     join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_Join
+                                                     from t4 in t4_Join.DefaultIfEmpty()
+                                                     join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
+                                                     from t5 in t5_Join.DefaultIfEmpty()
+                                                     join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_Join
+                                                     from t6 in t6_Join.DefaultIfEmpty()
+
                                                      select new VMCommonSupplier
                                                      {
                                                          ID = t1.VendorId,
@@ -4703,7 +4709,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                          Address = t1.Address,
                                                          Code = t1.Code,
                                                          Common_DistrictsFk = t2.DistrictId,
-                                                         Common_UpazilasFk = t1.UpazilaId.Value,
+                                                         Common_UpazilasFk = t1.UpazilaId??0,
                                                          District = t3.Name,
                                                          Upazila = t2.Name,
                                                          Country = t4.Name,
@@ -5101,8 +5107,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                        //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
                                                        //join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
-                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
+                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
+                                                   from t5 in t5_Join.DefaultIfEmpty()
+                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_join
+                                                   from t6 in t6_join.DefaultIfEmpty()
                                                    select new VMCommonSupplier
                                                    {
                                                        ID = t1.VendorId,
@@ -5395,11 +5403,16 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
             vmCommonDealer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.VendorId == deportId)
-                                                   join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
-                                                   join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
-                                                   //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId
-                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId
+                                                   join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
+                                                   from t2 in t2_def.DefaultIfEmpty()
+                                                   join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId into t3_def
+                                                   from t3 in t3_def.DefaultIfEmpty()
+                                                       //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
+                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                   from t5 in t5_def.DefaultIfEmpty()
+                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_def
+                                                   from t6 in t6_def.DefaultIfEmpty()
+
                                                    select new VMCommonSupplier
                                                    {
                                                        ID = t1.VendorId,

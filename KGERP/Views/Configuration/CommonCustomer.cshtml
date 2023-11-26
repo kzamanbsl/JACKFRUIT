@@ -470,14 +470,14 @@
         function zoneDivisionChange(zoneDivisionValue,zoneValue) {
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("CommonZoneDivisionGet", "Configuration")",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
                 datatype: "Json",
                 data: { companyId:@Model.CompanyFK, zoneId: zoneValue },
                 success: function (data) {
 
                     if (data) {
                         $("#ddlZoneDivisionId").empty();
-                        $("#ddlZoneDivisionId").append("<option value=''>==Select Division==</option>");
+                        //$("#ddlZoneDivisionId").append("<option value=''>==Select Division==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
