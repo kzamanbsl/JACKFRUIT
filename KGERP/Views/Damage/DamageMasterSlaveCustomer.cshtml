@@ -23,14 +23,14 @@
         @if (Model.DamageMasterId > 0)
         {
             <span>
-               Customer Damage Entry
+                Customer Damage Entry
             </span>
         }
         else
         {
-    <span>
-        Customer Damage Entry
-    </span>
+            <span>
+                Customer Damage Entry
+            </span>
         }
     </h1>
     <ol class="breadcrumb">
@@ -119,106 +119,106 @@
                             <div class="col-md-1"> </div>
                         }
 
-                    <div class="box-body">
+                        <div class="box-body">
 
-                        @if (Model.DamageMasterId == 0)
-                        {
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label for="message-text" class="col-form-label">Date :</label>
-                                    <div class="form-group">
-                                        <input name="OperationDate" asp-for="OperationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
-                                        @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
+                            @if (Model.DamageMasterId == 0)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="message-text" class="col-form-label">Date :</label>
+                                        <div class="form-group">
+                                            <input name="OperationDate" asp-for="OperationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
+                                            @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Zone:</label>
-                                        @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Zone:</label>
+                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>To Dealer:</label>
-                                        @Html.DropDownListFor(model => model.ToDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>From Customer:</label>
+                                            @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlFromCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.FromCustomerId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>From Customer:</label>
-                                        @Html.DropDownListFor(model => model.FromCustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlFromCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.FromCustomerId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="txtDescription" class="col-form-label">Remarks:</label>
-                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
-                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-                        @if (Model.StatusId == EnumDamageStatus.Draft)
-                        {
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group" style="padding:0px">
-                                        <label for="message-text" class="col-form-label">Product:</label>
-
-                                        @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
-
-                                        @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-
-                                        @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
-                                        @Html.HiddenFor(model => model.DetailModel.ProductId, new { id = "ddlRProductFK", @required = "required" })
-                                        @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Damage Type:</label>
-                                        @Html.DropDownListFor(model => model.DetailModel.DealerDamageTypeId, Model.DamageTypeList as SelectList, "==Select Type==", new { id = "ddlDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.DetailModel.DealerDamageTypeId, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>To Dealer:</label>
+                                            @Html.DropDownListFor(model => model.ToDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Damage Qty:</label>
-
-                                        @Html.TextBoxFor(model => model.DetailModel.DamageQty, new { id = "txtDamageQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
-                                        @Html.ValidationMessageFor(model => model.DetailModel.DamageQty, "", new { @class = "text-danger" })
-
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label">Remarks:</label>
+                                            @Html.TextAreaFor(model => model.Remarks, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
+                            }
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Unit Price:</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price" })
-                                        @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            @if (Model.StatusId == EnumDamageStatus.Draft)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Product:</label>
+
+                                            @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @required = "required", @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
+
+                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+
+                                            @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.DetailModel.ProductId, new { id = "ddlRProductFK", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Damage Type:</label>
+                                            @Html.DropDownListFor(model => model.DetailModel.DealerDamageTypeId, Model.DamageTypeList as SelectList, "==Select Type==", new { id = "ddlDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DealerDamageTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Damage Qty:</label>
+
+                                            @Html.TextBoxFor(model => model.DetailModel.DamageQty, new { id = "txtDamageQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Quantity", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DamageQty, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Customer Price:</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label">Remarks:</label>
+                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtremarks", placeholder = "Description", @class = "form-control", rows = 1 })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="txtDescription" class="col-form-label">Remarks:</label>
-                                        @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtremarks", placeholder = "Description", @class = "form-control", rows = 1 })
-                                        @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
+                            }
+                        </div>
                         @if (Model.StatusId == EnumDamageStatus.Draft)
                         {
                             <div class="box-footer">
@@ -465,10 +465,10 @@
 
                 var zoneFk = $("#ddlZoneFk").val();
                 $.ajax({
-                type: "GET",
-                url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
-                datatype: "Json",
-                    data: { zoneId: zoneFk},
+                    type: "GET",
+                    url: "@Url.Action("CustomerListByZonetGet", "Procurement")",
+                    datatype: "Json",
+                    data: { zoneId: zoneFk },
                     success: function (data) {
 
                         if (data) {
@@ -589,7 +589,7 @@
 
                                /* var customerTypeFK = $("#hidCustomerTypeFk").val();*/
                                 if (unitPrice == 0) {
-                                    $("#txtUnitPrice").val(data.UnitPrice);
+                                    $("#txtUnitPrice").val(data.CustomerPrice);
 
                                 } else {
                                     $("#txtUnitPrice").val(unitPrice);
