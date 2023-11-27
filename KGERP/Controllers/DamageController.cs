@@ -266,7 +266,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> SubmitDamageMaster(DamageMasterModel demageMasterModel)
         {
             demageMasterModel.DamageMasterId = await _service.SubmitDamageMaster(demageMasterModel.DamageMasterId);
-            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+            return RedirectToAction(nameof(DamageMasterSlave), new { companyId = demageMasterModel.CompanyFK});
         }
 
 

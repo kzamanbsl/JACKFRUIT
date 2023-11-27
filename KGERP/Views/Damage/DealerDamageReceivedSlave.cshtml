@@ -174,7 +174,7 @@
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
                                                     </td>
                                                     <td class="totalPrice" style="padding:5px;text-align:right; font-weight:bold">
-                                                        @String.Format("{0:0.00}", totalPrice)
+                                                        @String.Format("{0:0.00}", @item.TotalPrice)
                                                     </td>
                                                 </tr>
                                                 i++;
@@ -185,7 +185,7 @@
 
                                             <tr>
                                                 <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))</th>
+                                                <th id="grandTotalPrice" style="padding:5px;text-align:right;">@*@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))*@</th>
 
                                             </tr>
                                         </tfoot>
@@ -246,7 +246,37 @@
             //    var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
             //    $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
             //}
+
+            var totalPrice = $('.totalPrice').map(function () { return parseFloat($(this).text()) }).get();
+
+            var grandTotalPrice = totalPrice.reduce(function (a, b) {
+                return a + b;
+            });
+
+            $('#grandTotalPrice').text(grandTotalPrice.toFixed(2));
+
         });
+
+        $('.quantityValue').keyup(function () {
+            var tr = $(this).closest('tr');
+            var quentity = parseFloat(tr.find('.quantityValue').val() || 0);
+            var unitPrice = parseFloat(tr.find('.unitPrice').text() || 0);
+            tr.find('.totalPrice').text((quentity * unitPrice).toFixed(2));
+
+
+
+            var totalPrice = $('.totalPrice').map(function () { return parseFloat($(this).text()) }).get();
+
+            var grandTotalPrice = totalPrice.reduce(function (a, b) {
+                return a + b;
+            });
+
+            $('#grandTotalPrice').text(grandTotalPrice.toFixed(2));
+
+           
+        });
+
+
 
     </script>
 }
