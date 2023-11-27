@@ -102,13 +102,13 @@
                                     </div>
 
                                     @*<div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Supplier:</label>
-                                    @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier" } })
-                                    @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
-                                    @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Supplier:</label>
+                                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier" } })
+                                                @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
+                                                @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Supplier:</label>
@@ -117,19 +117,19 @@
                                         </div>
                                     </div>
                                     @*<div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label"> Received By:</label>
-                                    @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
-                                    @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
-                                </div>
-                            </div>*@
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label"> Received By:</label>
+                                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
+                                                @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
+                                            </div>
+                                        </div>*@
                                     @*<div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Received By:</label>
-                                    @Html.DropDownListFor(model => model.ReceivedBy, new SelectList(Model.ReceivedBys, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
-                                    @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Received By:</label>
+                                                @Html.DropDownListFor(model => model.ReceivedBy, new SelectList(Model.ReceivedBys, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                                @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -149,11 +149,8 @@
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
                                             @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
-
-
+                                            
                                             @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-
-
                                             @Html.HiddenFor(model => model.ProductId, new { id = "ddlProductFK" })
                                             @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                         </div>
@@ -167,8 +164,8 @@
                                                 @Html.ValidationMessageFor(model => model.StockAddCtn, "", new { @class = "text-danger" })
 
                                                 @*<div class="input-group-addon">
-                                            <span class="txtUnitName"></span>
-                                        </div>*@
+                                                        <span class="txtUnitName"></span>
+                                                    </div>*@
                                             </div>
                                         </div>
                                     </div>
@@ -181,8 +178,8 @@
                                                 @Html.ValidationMessageFor(model => model.StockAddPcs, "", new { @class = "text-danger" })
 
                                                 @*<div class="input-group-addon">
-                                            <span class="txtUnitName"></span>
-                                        </div>*@
+                                                        <span class="txtUnitName"></span>
+                                                    </div>*@
                                             </div>
                                         </div>
                                     </div>
@@ -419,19 +416,9 @@
     <script type="text/javascript">
 
         var message = '@message';
+
         if(message){
             alert(message);
-        }
-
-        function makeDeletale(rowId) {
-            $('#hidDeleteFoodStockDetailId').val(rowId);
-            $('#deleteActionId').val(3);
-            $('#deleteCompanyFK').val($('#deleteCompanyId').val());
-        }
-
-        function resetFoodStockSlaveForm() {
-            $('#deleteProcurementPurchaseOrderSlaveFormId')[0].reset();
-            $('#ActionId').val(1);
         }
 
         @*$(function () {
@@ -502,28 +489,28 @@
         //});
 
 
-             $.ajax({
-                        url:"@Url.Action("CommonProductGet", "Configuration")",
-                   data: { companyId: "@Model.CompanyFK", productSubCategoryId:0},
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
+        $.ajax({
+            url: "@Url.Action("CommonProductGet", "Configuration")",
+            data: { companyId: "@Model.CompanyFK", productSubCategoryId: 0 },
+            dataType: "json",
+            type: "get",
+            cache: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
 
-                            $(data).each(function (i, item) {
-                                $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            })
-                        },
-                        error: function (response) {
+                $(data).each(function (i, item) {
+                    $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                })
+            },
+            error: function (response) {
 
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
+                //alert(response.responseText);
+            },
+            failure: function (response) {
 
-                            //alert(response.responseText);
-                        }
-                    });
+                //alert(response.responseText);
+            }
+        });
 
 
 
@@ -579,6 +566,57 @@
              });
         });*@
 
+    $('#txtProductName').on('change', function () {
+        var productId = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("CommonProductByID", "Configuration")",
+            datatype: "Json",
+            data: { id: productId },
+            success: function (data) {
+                if (data) {
+                    $('.txtUnitName').text(data.UnitName);
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+            datatype: "Json",
+            data: { companyId: "@Model.CompanyFK", productId: productId },
+            success: function (data) {
+
+                if (data) {
+                    $('#tblStockAvailable').show();
+                    $('.txtUnitName').text(data.UnitName);
+                    $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
+
+                    $("#txtUnitPrice").val(data.DeportPrice);
+                    $("#txtStockInRate").val(data.TPPrice);
+                    //$("#txtStockInCtn").val(data.CurrentStockQtyCtn);
+                    //$("#txtStockInPcs").val(data.CurrentStockQtyPcs);
+                    $("#consumption").val(data.Consumption);
+
+                    var unitQty = $("#txtOrderQuantity").val();
+                }
+            }
+        });
+
+    });
+
+        function makeDeletale(rowId) {
+            $('#hidDeleteFoodStockDetailId').val(rowId);
+            $('#deleteActionId').val(3);
+            $('#deleteCompanyFK').val($('#deleteCompanyId').val());
+        }
+
+        function resetFoodStockSlaveForm() {
+            $('#deleteProcurementPurchaseOrderSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+    }
+
         function makeEditble(rowId) {
             var companyId = $("#CompanyId").val();
             $.ajax({
@@ -615,49 +653,6 @@
             let day = date.getDate().toString().padStart(2, '0');
             return day + '/' + month + '/' + year;
         }
-        $('#txtProductName').on('change', function () {
-            var productId = $(this).val();
 
-            $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("CommonProductByID", "Configuration")",
-                    datatype: "Json",
-                data: { id: productId },
-                    success: function (data) {
-                                if (data) {
-
-                                    $('.txtUnitName').text(data.UnitName);
-
-                                }
-                                }
-                            });
-                $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
-                        datatype: "Json",
-                       data: { companyId: "@Model.CompanyFK", productId: productId },
-                        success: function (data) {
-
-                            if (data) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
-
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
-
-                                $("#txtUnitPrice").val(data.UnitPrice);
-                                $("#txtStockInRate").val(data.TPPrice);
-                                //$("#txtStockInCtn").val(data.CurrentStockQtyCtn);
-                                //$("#txtStockInPcs").val(data.CurrentStockQtyPcs);
-                                $("#consumption").val(data.Consumption);
-
-
-
-                                var unitQty = $("#txtOrderQuantity").val();
-                            }
-                        }
-             });
-
-            });
     </script>
 }

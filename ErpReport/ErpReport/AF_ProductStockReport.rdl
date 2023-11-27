@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-23T10:11:58.1856485Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-11-27T06:24:00.4769205Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -95,8 +95,20 @@
           <DataField>UnitId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="DeportPrice">
+          <DataField>DeportPrice</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="UnitPrice">
           <DataField>UnitPrice</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DealerPrice">
+          <DataField>DealerPrice</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CustomerPrice">
+          <DataField>CustomerPrice</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SalesQty">
@@ -1152,7 +1164,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!UnitPrice.Value,"#,##0.00")</Value>
+                                  <Value>=format(Fields!DeportPrice.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1189,7 +1201,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Fields!UnitPrice.Value *Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value>=format((Fields!DeportPrice.Value *Fields!CurrentStockQty.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1514,7 +1526,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DeportPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1553,7 +1565,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value *Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DeportPrice.Value *Fields!CurrentStockQty.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1870,7 +1882,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DeportPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1909,7 +1921,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value*Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DeportPrice.Value*Fields!CurrentStockQty.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
