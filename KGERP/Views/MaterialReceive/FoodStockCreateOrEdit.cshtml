@@ -149,7 +149,7 @@
                                         <div class="form-group" style="padding:0px">
                                             <label for="message-text" class="col-form-label">Product:</label>
                                             @*@Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })*@
-                                            
+
                                             @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "txtProductName", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.HiddenFor(model => model.ProductId, new { id = "ddlProductFK" })
                                             @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -241,6 +241,7 @@
                                         <tr>
                                             <th>SL</th>
                                             <th style="text-align:left;">Product Name</th>
+                                            <th style="text-align: right;">Cons</th>
                                             <th style="text-align: right;">Stock Qty</th>
                                             <th style="text-align:right;">Stock Rate</th>
                                             <th style="text-align:right;">Sale Price</th>
@@ -268,6 +269,7 @@
                                             <tr>
                                                 <td>@(++sl) </td>
                                                 <td style="text-align:left;">@item.ProductSubCategory @item.ProductName</td>
+                                                <td style="text-align:right;">@item.Consumption</td>
                                                 <td style="text-align: right;"> @item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
                                                 @*<td style="text-align: right;"> @((double)item.StockInQty / item.Consumption + " ctn and "+((double)item.StockInQty % item.Consumption) +" pcs")</td>*@
                                                 <th style="text-align:right;"> @item.StockInRate.ToString("0.00") </th>
@@ -288,7 +290,7 @@
                                         }
                                         <tr>
                                             <td> </td>
-                                            <th colspan="4">Total </th>
+                                            <th colspan="5">Total </th>
                                             <th style="text-align:right;"> @totalStockInAmount.ToString("0.00")  </th>
                                             <th style="text-align:right;"> @totalSaleAmount.ToString("0.00")  </th>
                                             <td> </td>
