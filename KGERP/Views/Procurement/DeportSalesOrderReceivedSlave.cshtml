@@ -156,6 +156,7 @@
                                             <tr class="bg-success">
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
+                                                <th style="padding:5px;text-align:center;">Cons</th>
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
                                                 <th style="padding:5px;text-align:center;">Offer Qty</th>
                                                 <th style="padding:5px;text-align:center;">Sale Price</th>
@@ -188,13 +189,14 @@
                                                         @(++sl)
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                    <td style="padding:5px;text-align:center;">@item.Consumption</td>
                                                     <td style="padding:5px;text-align:center;">
                                                         @*@String.Format("{0:0.00}", item.Qty) @item.UnitName*@
-                                                        @item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs
+                                                        @item.StockInCtn Ctn and @item.StockInPcs.ToString("0") Pcs
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control" })*@
                                                     </td>
                                                     <td style="padding:5px;text-align:center;">
-                                                        @item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs
+                                                        @item.OfferInCtn Ctn and @item.OfferInPcs.ToString("0") Pcs
                                                     </td>
                                                     <td style="padding:5px;text-align:right; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
@@ -224,7 +226,7 @@
                                         <tfoot>
                                                 <tr>
                                                     <th></th>
-                                                    <th colspan="5">Grand Total:</th>
+                                                    <th colspan="6">Grand Total:</th>
                                                     <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge) - Model.TotalDiscountAmount) </th>
                                                     @if (Model.Status == (int)EnumSOStatus.Draft)
                                                     {

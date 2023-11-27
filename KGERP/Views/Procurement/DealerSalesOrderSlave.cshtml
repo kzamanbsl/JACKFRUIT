@@ -59,6 +59,9 @@
                     <div class="box-body">
                         @if (Model.OrderMasterId > 0)
                         {
+                            @Html.HiddenFor(model => model.StockInfoTypeId, new { id = "ddlStockInfoTypeFk" })
+                            @Html.HiddenFor(model => model.StockInfoId, new { id = "ddlStockInfoId" })
+
                             <div class="col-md-1"> </div>
                             <div class="col-md-10">
                                 <table class="table">
@@ -291,14 +294,16 @@
                         {
 
                             @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+
                             <div class="table-responsive col-md-12  text-nowrap">
                                 <table id="KgErpDataTable" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th style="padding:5px;text-align:center;">SL</th>
                                             <th style="padding:5px;text-align:left;">Product</th>
+                                            <th style="padding:5px;text-align:center;">Cons</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
-                                            <th style="padding:5px;text-align:center;">Offer Qty</th>
+                                            <th style="padding:5px;text-align:center;">Free Qty</th>
                                             <th style="padding:5px;text-align:center;">Dealer Price</th>
                                             <th style="padding:5px;text-align:right;">Total Price</th>
                                             @if (Model.Status == (int)EnumSOStatus.Draft)
@@ -318,9 +323,10 @@
 
                                                 <td style="padding:5px">@(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                <td style="padding:5px;text-align:center;">@item.Consumption</td>
                                                 @*<td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.Qty) @item.UnitName</td>*@
-                                                <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
-                                                <td style="padding:5px;text-align:center;">@item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs </td>
+                                                <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn and @item.StockInPcs.ToString("0") Pcs</td>
+                                                <td style="padding:5px;text-align:center;">@item.OfferInCtn Ctn and @item.OfferInPcs.ToString("0") Pcs </td>
                                                 <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
 
@@ -339,48 +345,48 @@
 
                                     <tfoot>
                                         @*<tr>
-                                                <th></th>
-                                                <th colspan="2">Total:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>
+                            <th></th>
+                            <th colspan="2">Total:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Total Discount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Total Discount:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Total After Discount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Total After Discount:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Courier Charge:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>*@
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Courier Charge:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>*@
 
                                         <tr>
                                             <th></th>
-                                            <th colspan="4">Grand Total:</th>
+                                            <th colspan="5">Grand Total:</th>
                                             <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge) - Model.TotalDiscountAmount) </th>
                                             @if (Model.Status == (int)EnumSOStatus.Draft)
                                             {
@@ -607,17 +613,10 @@
             var consumption = parseFloat($("#ProductConsumption").val());
             var dealerPrice = parseFloat($("#txtDealerPrice").val());
             var tAmount = (((qtyCtn * consumption) + qtyPcs) * dealerPrice).toFixed(2);
-            console.log(qtyCtn);
-            console.log(qtyPcs);
-            console.log(consumption);
-            console.log(dealerPrice);
             $("#totalAmount").val(tAmount);
             $("#SpcDis").val(0);
             $("#disPercentage").val(0);
         });
-
-
-
 
         //$("#txtDealerPrice").on('change',function () {
         //    var qty = $("#txtOrderQuantity").val();
@@ -740,7 +739,7 @@
 
             var packQuantity = $('#txtPackQuantity').val();
             var consumption = $("#txtConsumption").val();
-            var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
+            var quantityInKg = ((Number(packQuantity) * Number(consumption)) / 1000);
             $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
         }
 
