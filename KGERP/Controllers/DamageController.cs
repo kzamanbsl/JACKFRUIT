@@ -368,7 +368,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DealerDamageReceivedSlave(DamageMasterModel damageMasterModel)
         {
-            var resutl = await _service.DealerDamageReceived(damageMasterModel);
+            var result = await _service.DealerDamageReceived(damageMasterModel);
             return RedirectToAction(nameof(DealerDamageReceivedList), new { companyId = damageMasterModel.CompanyFK });
         }
 
@@ -462,7 +462,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> SubmitDamageMasterDepo(DamageMasterModel demageMasterModel)
         {
             demageMasterModel.DamageMasterId = await _service.SubmitDamageMasterDepo(demageMasterModel.DamageMasterId);
-            return RedirectToAction(nameof(DamageMasterSlaveDepo), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+            return RedirectToAction(nameof(DamageMasterSlaveDepo), new { companyId = demageMasterModel.CompanyFK });
         }
 
 
