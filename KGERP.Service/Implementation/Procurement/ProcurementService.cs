@@ -4075,7 +4075,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OfferQty = t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
-                                                                        TotalAmount = t1.Amount,
+                                                                        TotalAmount = t1.Qty* t1.UnitPrice,
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
                                                                         PromotionalOfferId = t1.PromotionalOfferId,

@@ -4,11 +4,6 @@
 @{
     ViewData["Title"] = "Deport Sales Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    int sl = 0;
-    double totalPrice = 0;
-    double discountPrice = 0;
-    decimal dis = 0;
 }
 
 <style type="text/css">
@@ -295,6 +290,10 @@
                         <!--Body Will by Start Here-->
                         @if (Model.OrderMasterId > 0)
                         {
+                            int sl = 0;
+                            double totalPrice = 0;
+                            double discountPrice = 0;
+                            decimal dis = 0;
 
                             @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
                             <div class="table-responsive col-md-12  text-nowrap">
@@ -326,8 +325,8 @@
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                 <td style="padding: 5px; text-align: center;">@item.Consumption</td>
                                                 @*<td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.Qty) @item.UnitName</td>*@
-                                                <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn And @item.StockInPcs.ToString("0") Pcs</td>
-                                                <td style="padding:5px;text-align:center;"> @item.OfferInCtn Ctn And @item.OfferInPcs.ToString("0") Pcs</td>
+                                                <td style="padding:5px;text-align:center;">@item.StockInCtn Ctn and @item.StockInPcs.ToString("0") Pcs</td>
+                                                <td style="padding:5px;text-align:center;"> @item.OfferInCtn Ctn and @item.OfferInPcs.ToString("0") Pcs</td>
                                                 <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
 
@@ -388,7 +387,7 @@
                                         <tr>
                                             <th></th>
                                             <th colspan="5">Grand Total:</th>
-                                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge) - Model.TotalDiscountAmount) </th>
+                                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", ((Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge)) - Model.TotalDiscountAmount) </th>
                                             @if (Model.Status == (int)EnumSOStatus.Draft)
                                             {
                                                 <th></th>
