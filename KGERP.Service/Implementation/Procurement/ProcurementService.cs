@@ -4762,9 +4762,9 @@ namespace KGERP.Service.Implementation.Procurement
             foreach (var dt in details)
             {
                 var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
-                dt.Qty = obj.Qty;
-                dt.Amount = (obj.Qty * dt.UnitPrice);
-                dt.OfferQty = obj.OfferQty;
+                dt.Qty = ((double)(obj.QtyCtn*obj.Consumption)+obj.QtyPcs);
+                dt.Amount = (((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs) * dt.UnitPrice);
+                dt.OfferQty = ((double)(obj.OfferCtn * obj.Consumption) + obj.OfferPcs);
                 dt.ModifiedBy = userName;
                 dt.ModifedDate = DateTime.Now;
             }
