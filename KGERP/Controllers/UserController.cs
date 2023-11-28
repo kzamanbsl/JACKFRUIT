@@ -244,11 +244,10 @@ namespace KGERP.Controllers
 
             if (model.UserId <= 0)
             {
-                return View("Error");
+                throw new Exception("Sorry! No User Found!");
             }
 
             var user = await _context.Users.FindAsync(model.UserId);
-            var userId = Session["UserName"];
             if (user == null)
             {
                 throw new Exception("Sorry! No User Found!");
@@ -260,6 +259,29 @@ namespace KGERP.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Registration));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeEmployeeUserPassword(EmployeeVm model)
+        {
+
+            if (model?.UserModel?.UserId <= 0)
+            {
+                throw new Exception("Sorry! No User Found!");
+            }
+
+            var user = await _context.Users.FindAsync(model.UserModel.UserId);
+            if (user == null)
+            {
+                throw new Exception("Sorry! No User Found!");
+            }
+
+            #region  Password Hashing 
+            user.Password = Crypto.Hash(model.UserModel.Password);
+            #endregion
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index","Employee");
         }
 
         //Verify Account  

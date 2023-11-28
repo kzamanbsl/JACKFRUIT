@@ -31,8 +31,8 @@ namespace KGERP.Service.Implementation
                                                    from t2 in t2_Join.DefaultIfEmpty()
                                                    join t3 in _context.Designations on t1.DesignationId equals t3.DesignationId into t3_Join
                                                    from t3 in t3_Join.DefaultIfEmpty()
-                                                       //join t4 in _context.Zones on t1.Id equals t4.EmployeeId into t4_Join
-                                                       //from t4 in t4_Join.DefaultIfEmpty()
+                                                   join t4 in _context.Users on t1.EmployeeId equals t4.UserName into t4_Join
+                                                   from t4 in t4_Join.DefaultIfEmpty()
                                                        //join t5 in _context.ZoneDivisions on t1.Id equals t5.EmployeeId into t5_Join
                                                        //from t5 in t5_Join.DefaultIfEmpty()
                                                        //join t6 in _context.Regions on t1.Id equals t6.EmployeeId into t6_Join
@@ -46,6 +46,7 @@ namespace KGERP.Service.Implementation
                                                    {
                                                        Id = t1.Id,
                                                        EmployeeId = t1.EmployeeId,
+                                                       UserId=t4.UserId,
                                                        EmployeeName = t1.Name,
                                                        DepartmentName = t2.Name,
                                                        DesignationName = t3.Name,

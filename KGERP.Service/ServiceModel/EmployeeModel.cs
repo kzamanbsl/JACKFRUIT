@@ -278,6 +278,7 @@ namespace KGERP.Service.ServiceModel
     {
         public long Id { get; set; }
         public string EmployeeId { get; set; }
+        public int UserId { get; set; }
         public string EmployeeName { get; set; }
         public DateTime? JoiningDate { get; set; }
         public string DepartmentName { get; set; }
@@ -287,6 +288,7 @@ namespace KGERP.Service.ServiceModel
         public string Email { get; set; }
         public decimal Samount { get; set; }
         public IEnumerable<EmployeeVm> DataList { get; set; }
+        public UserModel UserModel { get; set; }
     }
 
     public class EmployeeVmSalary

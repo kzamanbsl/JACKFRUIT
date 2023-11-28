@@ -158,7 +158,7 @@ namespace KGERP.Service.Implementation.Configuration
             model.UserId = user.UserName;
             model.UserTypeId = user.UserTypeId ?? 0;
 
-            List<EmployeeServicePointMap> employeeServicePointMaps = _db.EmployeeServicePointMaps.Where(c => c.EmployeeId == id && c.IsActive)
+            List<EmployeeServicePointMap> employeeServicePointMaps = _db.EmployeeServicePointMaps.Where(c => c.EmployeeId == id && c.IsActive==true)
                     .Include(c => c.SubZone).Include(c => c.Area).Include(c => c.Region).Include(c => c.ZoneDivision).Include(c => c.Zone).AsNoTracking().ToList();
 
             var territories = employeeServicePointMaps.Where(c => c.TerritoryId > 0).Select(s => s.SubZone).ToList();
@@ -225,14 +225,14 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (model.UserTypeId == (int)EnumUserType.Deport)
             {
-                var deports = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
-                model.DeportIds = deports;
+                var deportIds = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
+                model.DeportIds = deportIds;
             }
 
             if (model.UserTypeId == (int)EnumUserType.Dealer)
             {
-                var dealers = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
-                model.DealerIds = dealers;
+                var dealerIds = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
+                model.DealerIds = dealerIds;
             }
 
             return model;
