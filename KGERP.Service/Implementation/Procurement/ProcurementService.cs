@@ -3936,7 +3936,7 @@ namespace KGERP.Service.Implementation.Procurement
                 Qty =(double) (vmSalesOrderSlave.QtyCtn*vmSalesOrderSlave.Consumption)+vmSalesOrderSlave.QtyPcs,
                 OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs,
                 UnitPrice =vmSalesOrderSlave.UnitPrice,
-                Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
+                Amount = (((double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs) * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
                 PackQuantity = vmSalesOrderSlave.PackQuantity,
                 DiscountUnit = vmSalesOrderSlave.ProductDiscountUnit,
@@ -3972,7 +3972,7 @@ namespace KGERP.Service.Implementation.Procurement
             model.OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) +vmSalesOrderSlave.OfferPcs;
                
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
-            model.Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice);
+            model.Amount = (((double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs) * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
 
@@ -4082,7 +4082,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         DiscountRate = t1.DiscountRate,
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
-                                                                        Remarks = t1.Remarks,
+                                                                        Remarks = t1.Remarks
+                                                                       
                                                                     }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
@@ -4193,9 +4194,9 @@ namespace KGERP.Service.Implementation.Procurement
             foreach (var dt in details)
             {
                 var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
-                dt.Qty = obj.Qty;
-                dt.Amount = (obj.Qty * dt.UnitPrice);
-                dt.OfferQty = obj.OfferQty;
+                dt.Qty = ((obj.QtyCtn*(double)obj.Consumption)+obj.QtyPcs);
+                dt.Amount = (dt.Qty * dt.UnitPrice);//obj.qty
+                dt.OfferQty = ((obj.OfferCtn * (double)obj.Consumption) + obj.OfferPcs);
                 dt.ModifiedBy = userName;
                 dt.ModifedDate = DateTime.Now;
             }

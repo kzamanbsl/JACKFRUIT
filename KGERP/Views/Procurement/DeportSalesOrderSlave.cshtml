@@ -314,8 +314,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @{
+                                            int i = 0;
+                                        }
                                         @foreach (var item in Model.DataListSlave)
                                         {
+                                           
                                             totalPrice += item.TotalAmount;
                                             discountPrice = totalPrice - Convert.ToDouble(item.ProductDiscountTotal);
                                             dis += item.ProductDiscountTotal;
@@ -340,7 +344,8 @@
                                                     }
                                                 }
                                             </tr>
-                                        }
+                                                        i++;
+                                                    }
                                     </tbody>
 
                                     <tfoot>
