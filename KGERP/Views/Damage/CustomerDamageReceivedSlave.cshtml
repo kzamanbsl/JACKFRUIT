@@ -16,16 +16,17 @@
     input, select, textarea {
         max-width: 100%;
     }
-    .table-responsive{
-        padding:20px; 
+
+    .table-responsive {
+        padding: 20px;
     }
 </style>
 
 <section class="content-header">
     <h1>
-            <span>
-               Customer to Dealer Damage Receive
-            </span>
+        <span>
+            Customer to Dealer Damage Receive
+        </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -126,7 +127,9 @@
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:center;">Damage Type</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
-                                                <th style="padding:5px;text-align:center;">Quantity</th>
+                                                <th style="padding:5px;text-align:center;">Cons</th>
+                                                <th style="padding:5px;text-align:center;">Qty Ctn</th>
+                                                <th style="padding:5px;text-align:center;">Qty Pcs</th>
                                                 @*<th style="padding:5px;text-align:center;">Unit</th>*@
                                                 <th style="padding:5px;text-align:center;">Unit Price</th>
                                                 <th style="padding:5px;text-align:right;">Total Price</th>
@@ -138,7 +141,7 @@
                                             }
                                             @foreach (var item in Model.DetailDataList)
                                             {
-                                               
+
                                                 <tr>
                                                     <td style="padding: 10px; text-align: left;">
 
@@ -147,23 +150,36 @@
                                                         @Html.HiddenFor(model => model.DetailDataList[i].ProductId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].DealerDamageTypeId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].Consumption)
                                                         @(++sl)
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.DepoDamageTypeName</td>
                                                     <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                    <td style="padding:5px;text-align:center;">@item.Consumption</td>
+
                                                     <td style="padding:5px;text-align:center;">
                                                         @if (Model.StatusId == EnumDamageStatus.Submitted)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamageQty, new { id = i + "_Qty", @class = "form-control quantityValue" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamageCtn, item.DamageInCtn.ToString(), new { id = i + "_Qty", @class = "form-control quantityCtn" });
                                                         }
                                                         else
                                                         {
-                                                            @(String.Format("{0:0.00}", item.DamageInCtn) + " Ctn and " +String.Format("{0:0.00}", item.DamageInPcs)+ " Pcs")
+                                                            @item.DamageInCtn
+                                                        }
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.StatusId == EnumDamageStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamagePcs, item.DamageInPcs.ToString(), new { id = i + "_Qty", @class = "form-control quantityPcs" });
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.DamageInPcs
                                                         }
                                                     </td>
                                                     @*<td style="padding:5px;text-align:center;">
-           @item.UnitName
-        </td>*@
+                                                           @item.UnitName
+                                                        </td>*@
 
                                                     <td class="unitPrice" style="padding:5px;text-align:center; font-weight:bold">
                                                         @String.Format("{0:0.00}", item.UnitPrice)
@@ -181,12 +197,12 @@
 
 
                                             <tr>
-                                                <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
+                                                <th style="padding:5px;text-align:right;" colspan="7">Grand Total:</th>
                                                 <th id="grandTotalPrice" style="padding:5px;text-align:right;">@*@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))*@</th>
 
                                             </tr>
                                         </tfoot>
-                                    
+
                                     </table>
 
                                 </div>

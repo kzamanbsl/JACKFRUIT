@@ -94,6 +94,8 @@ namespace KGERP.Service.ServiceModel
         //public string FactoryDamageTypeName { get { return BaseFunctionalities.GetEnumDescription(this.FactoryDamageTypeId); } }
 
         public double DamageQty { get; set; }
+        public double DamageCtn { get; set; }
+        public double DamagePcs { get; set; }
         public double? Consumption { get; set; } = 1;
         public double DamageInCtn => Math.Floor(DamageQty /(double)(Consumption??1));
         public double DamageInPcs=> DamageQty-(DamageInCtn*(double)(Consumption ?? 1));

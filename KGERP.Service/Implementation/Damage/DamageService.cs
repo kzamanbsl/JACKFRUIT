@@ -302,7 +302,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ProductId = model.DetailModel.ProductId,
                 DamageQty = model.DetailModel.DamageQty,
                 UnitPrice = model.DetailModel.UnitPrice,
-                TotalPrice = model.DetailModel.TotalPrice,
+                TotalPrice = (double)((decimal)model.DetailModel.DamageQty*model.DetailModel.UnitPrice),
                 Remarks = model.DetailModel.Remarks,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreateDate = DateTime.Now,
@@ -330,7 +330,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
-            demageDetail.TotalPrice = model.DetailModel.TotalPrice;
+            demageDetail.TotalPrice = (double)((decimal)model.DetailModel.DamageQty* model.DetailModel.UnitPrice);
             demageDetail.Remarks = model.DetailModel.Remarks;
             demageDetail.IsActive = true;
             if (await _db.SaveChangesAsync() > 0)
@@ -577,8 +577,9 @@ namespace KGERP.Service.Implementation.ProdMaster
             foreach (var dt in details)
             {
                 var obj = damageMasterModel.DetailDataList.FirstOrDefault(c => c.DamageDetailId == dt.DamageDetailId);
-                dt.DamageQty = obj.DamageQty;
+                dt.DamageQty = ((obj.DamageCtn* (double)obj.Consumption)+obj.DamagePcs);
                 dt.UnitPrice = obj.UnitPrice;
+                dt.TotalPrice = (((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs) *(double) obj.UnitPrice);
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -752,6 +753,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
+                                                                     TotalPrice=t1.TotalPrice,
                                                                      UnitName = t6.Name,
                                                                      Remarks = t1.Remarks
                                                                  }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
@@ -813,7 +815,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ProductId = model.DetailModel.ProductId,
                 DamageQty = model.DetailModel.DamageQty,
                 UnitPrice = model.DetailModel.UnitPrice,
-                TotalPrice = model.DetailModel.TotalPrice,
+                TotalPrice = (double)((decimal)model.DetailModel.DamageQty* model.DetailModel.UnitPrice),
                 Remarks = model.DetailModel.Remarks,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreateDate = DateTime.Now,
@@ -841,7 +843,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
-            demageDetail.TotalPrice = model.DetailModel.TotalPrice;
+            demageDetail.TotalPrice =(double) ((decimal)model.DetailModel.DamageQty* model.DetailModel.UnitPrice);
             demageDetail.Remarks = model.DetailModel.Remarks;
             demageDetail.IsActive = true;
             if (await _db.SaveChangesAsync() > 0)

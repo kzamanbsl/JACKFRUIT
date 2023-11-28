@@ -254,6 +254,7 @@
                                             <th style="padding:5px;text-align:left;">Damage Type</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
                                             <th style="padding:5px;text-align:right;">Unit Price</th>
+                                            <th style="padding:5px;text-align:right;">Total</th>
 
                                             @if (Model.StatusId == (int)EnumDamageStatus.Draft)
                                             {
@@ -264,13 +265,18 @@
                                     <tbody>
                                         @foreach (var item in Model.DetailList)
                                         {
-
+                                            
                                             <tr>
-                                                <td style="padding:5px">@(++sl)</td>
+                                              
+                                                <td style="padding:5px">
+                                                    @(++sl)
+                                                </td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                 <td style="padding:5px;text-align:left;">@item.DepoDamageTypeName</td>
-                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.DamageQty) @item.UnitName</td>
+                                                <td style="padding:5px;text-align:center;">@(item.DamageInCtn+" Ctn and "+item.DamageInPcs+" Pcs")</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
+                                                @(totalPrice += item.TotalPrice)
+                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 @{ if (Model.StatusId == (int)EnumDamageStatus.Draft)
                                                     {
                                                         <td style="padding:5px;text-align:center;">
@@ -283,6 +289,15 @@
                                             </tr>
                                         }
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
+                                            <th id="grandTotalPrice" style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))</th>
+                                            <th></th>
+                                        </tr>
+
+
+                                    </tfoot>
                                 </table>
                             </div>
                         }
