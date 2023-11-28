@@ -5112,6 +5112,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                       select new VMSalesOrderSlave
                                                       {
                                                           OrderMasterId = t1.OrderMasterId,
+                                                          StockInfoTypeId = t1.StockInfoTypeId??0,
+                                                          StockInfoId = t1.StockInfoId,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
