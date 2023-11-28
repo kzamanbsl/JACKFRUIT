@@ -213,8 +213,10 @@
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
                                                 <th style="padding:5px;text-align:center;">Cons</th>
-                                                <th style="padding:5px;text-align:center;">Quantity</th>
-                                                <th style="padding:5px;text-align:center;">Free Qty</th>
+                                                <th style="padding:5px;text-align:center;">Qty Ctn</th>
+                                                <th style="padding:5px;text-align:center;">Qty Pcs</th>
+                                                <th style="padding:5px;text-align:center;">Free Ctn</th>
+                                                <th style="padding:5px;text-align:center;">Free Pcs</th>
                                                 <th style="padding:5px;text-align:center;">Sale Price</th>
                                                 <th style="padding:5px;text-align:center;">Total Qty</th>
                                                 <th style="padding:5px;text-align:center;">Total Price</th>
@@ -238,6 +240,8 @@
                                                         @Html.HiddenFor(model => model.DetailDataList[i].FProductId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].TotalPrice)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].Consumption)
+                                                        
 
                                                         @(++sl)
                                                     </td>
@@ -246,22 +250,49 @@
                                                     <td style="padding:5px;text-align:center;">
                                                         @if (Model.Status == (int)EnumSOStatus.Submitted)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].Qty, new { id = i + "_Qty", @class = "form-control quantityValue" })
-                                                        }
+                                                            
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].QtyCtn,item.StockInCtn.ToString(), new { id = i + "_QtyCtn", @class = "form-control quantityCtn" })
+                                                            
+                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.Qty) @item.UnitName
+                                                          @String.Format("{0:0.00}", item.StockInCtn)
                                                         }
 
                                                     </td>
                                                     <td style="padding:5px;text-align:center;">
                                                         @if (Model.Status == (int)EnumSOStatus.Submitted)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferQty, new { id = i + "_OfferQty", @class = "form-control offerQuantityValue" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].QtyPcs,item.StockInPcs.ToString(), new { id = i + "_QtyPcs", @class = "form-control quantityPcs" })
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.OfferQty)
+                                                            @String.Format("{0:0.00}", item.StockInPcs)
+                                                        }
+
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferCtn,item.OfferInCtn.ToString(), new { id = i + "_OfferCtn", @class = "form-control offerQuantityCtn" })
+                                                        
+                                                        
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.OfferInCtn)
+                                                        }
+
+                                                    </td> 
+                                                    
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferPcs,item.OfferInPcs.ToString(), new { id = i + "_OfferPcs", @class = "form-control offerQuantityPcs" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @(String.Format("{0:0.00}", item.OfferInPcs)+ " Pcs")
                                                         }
 
                                                     </td>
@@ -274,24 +305,24 @@
                                                         @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
                                                     </td>
                                                     <td class="totalPrice" style="padding:5px;text-align:right; font-weight:bold">
-                                                            @String.Format("{0:0.00}", item.TotalPrice)
-                                                        </td>
+                                                        @String.Format("{0:0.00}", item.TotalPrice)
+                                                    </td>
                                                 </tr>
                                                 i++;
                                             }
                                         </tbody>
 
                                         <tfoot>
-                                                <tr>
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="8">Grand Total:</th>
+                                                <th id="grandTotal" style="padding:5px;text-align:right;">@String.Format("{0:0.00}", ((Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge)) - Model.TotalDiscountAmount) </th>
+                                                @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                {
                                                     <th></th>
-                                                    <th colspan="6">Grand Total:</th>
-                                                    <th id="grandTotal" style="padding:5px;text-align:right;">@String.Format("{0:0.00}", ((Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge)) - Model.TotalDiscountAmount) </th>
-                                                    @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                    {
-                                                        <th></th>
-                                                    }
-                                                </tr>
-                                            </tfoot>
+                                                }
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -346,29 +377,29 @@
         $(document).on('change', '.offerQuantityValue input', function () {
             alert('okk');
             var $row = $(this).closest('tr');
-            var quantity = parseFloat($row.find('.quantityValue input').val()) || 0; 
+            var quantity = parseFloat($row.find('.quantityValue input').val()) || 0;
             var offerQty = parseFloat($row.find('.offerQuantityValue input').val()) || 0;
             var totalPrice = $row.find('.totalPrice');
             totalPrice.text(quantity * offerQty);
         });
-         $('.offerQuantityValue').keyup(function () {
+        $('.offerQuantityValue').keyup(function () {
 
-             var $row = $(this).closest('tr');
-             var quantity = parseFloat($row.find('.quantityValue').val()) || 0;
-             var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
-             var totalQty = $row.find('.totalQty');
-
-             totalQty.text(quantity + offerQty);
-
-        }); 
-        $('.quantityValue').keyup(function () {
-            
             var $row = $(this).closest('tr');
-            var quantity = parseFloat($row.find('.quantityValue').val()) || 0; 
+            var quantity = parseFloat($row.find('.quantityValue').val()) || 0;
             var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
-             var unitPrice = parseFloat($row.find('.unitPrice').text());
             var totalQty = $row.find('.totalQty');
-             var totalPrice = $row.find('.totalPrice');
+
+            totalQty.text(quantity + offerQty);
+
+        });
+        $('.quantityValue').keyup(function () {
+
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue').val()) || 0;
+            var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
+            var unitPrice = parseFloat($row.find('.unitPrice').text());
+            var totalQty = $row.find('.totalQty');
+            var totalPrice = $row.find('.totalPrice');
             var totalValue = (quantity * unitPrice).toFixed(2);
 
             totalPrice.text(totalValue);

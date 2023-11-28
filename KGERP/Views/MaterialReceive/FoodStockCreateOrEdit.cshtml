@@ -1,4 +1,6 @@
-﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
+﻿
+
+@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
 @using KGERP.Utility;
 
 @{
@@ -236,7 +238,7 @@
 
                             @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
                             <div class="table-responsive col-md-12 text-nowrap">
-                                <table id="KgErpDataTable" class="table table-striped">
+                                <table id="" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>SL</th>
@@ -423,6 +425,35 @@
             alert(message);
         }
 
+    $(document).ready(function () {
+        $.ajax({
+            url: "@Url.Action("CommonProductGet", "Configuration")",
+            data: { companyId: "@Model.CompanyFK", productSubCategoryId: 0 },
+            dataType: "json",
+            type: "get",
+            cache: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $(data).each(function (i, item) {
+                    $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                })
+            },
+            error: function (response) {
+
+                //alert(response.responseText);
+            },
+            failure: function (response) {
+
+                //alert(response.responseText);
+            }
+        });
+
+
+    });
+
+
+
         @*$(function () {
         $("#supplier").autocomplete({
                 source: function (request, response) {
@@ -491,29 +522,6 @@
         //});
 
 
-        $.ajax({
-            url: "@Url.Action("CommonProductGet", "Configuration")",
-            data: { companyId: "@Model.CompanyFK", productSubCategoryId: 0 },
-            dataType: "json",
-            type: "get",
-            cache: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-
-                $(data).each(function (i, item) {
-                    $('#txtProductName').append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                })
-            },
-            error: function (response) {
-
-                //alert(response.responseText);
-            },
-            failure: function (response) {
-
-                //alert(response.responseText);
-            }
-        });
-
 
 
         @*$(function () {
@@ -567,6 +575,8 @@
                 $(this).autocomplete("search");
              });
         });*@
+
+
 
     $('#txtProductName').on('change', function () {
         var productId = $(this).val();
