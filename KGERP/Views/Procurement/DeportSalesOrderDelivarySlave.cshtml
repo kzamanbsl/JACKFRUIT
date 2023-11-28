@@ -256,7 +256,7 @@
                                                          }
                                                         else
                                                         {
-                                                          @String.Format("{0:0.00}", item.StockInCtn)
+                                                          @item.StockInCtn 
                                                         }
 
                                                     </td>
@@ -267,7 +267,7 @@
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.StockInPcs)
+                                                            @item.StockInPcs
                                                         }
 
                                                     </td>
@@ -280,7 +280,7 @@
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.OfferInCtn)
+                                                            @item.OfferInCtn 
                                                         }
 
                                                     </td> 
@@ -292,7 +292,7 @@
                                                         }
                                                         else
                                                         {
-                                                            @(String.Format("{0:0.00}", item.OfferInPcs)+ " Pcs")
+                                                            @item.OfferInPcs 
                                                         }
 
                                                     </td>
