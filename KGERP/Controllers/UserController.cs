@@ -156,8 +156,9 @@ namespace KGERP.Controllers
             }
 
             #endregion
-            var dto = GetUsers();
-            return View(dto);
+            //var dto = GetUsers();
+            //return View(dto);
+            return RedirectToAction("Registration","User");
         }
 
         private UserModel GetUsers()
@@ -176,6 +177,7 @@ namespace KGERP.Controllers
                                       UserName = t1.UserName,
                                       Email = t1.Email,
                                       Active = t1.Active,
+                                      IsAdmin = t1.IsAdmin,
                                       UserTypeId = t1.UserTypeId ?? 0
 
                                   }).OrderByDescending(x => x.UserId).AsEnumerable();
