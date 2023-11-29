@@ -1,4 +1,5 @@
-﻿using KGERP.Utility;
+﻿using KGERP.Service.Implementation.Configuration;
+using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,5 +27,6 @@ namespace KGERP.Service.ServiceModel
         public int ActionId { get; set; } = 1;
         public virtual CompanyModel Company { get; set; }
         public IEnumerable<StockInfoModel> DataList { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
 }

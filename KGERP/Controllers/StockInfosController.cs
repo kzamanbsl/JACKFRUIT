@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using DocumentFormat.OpenXml.Wordprocessing;
+using KGERP.Service.Implementation.Configuration;
 
 namespace KGERP.Controllers
 {
@@ -13,9 +14,12 @@ namespace KGERP.Controllers
     public class StockInfosController : Controller
     {
         private readonly IStockInfoService _stockInfoService;
-        public StockInfosController(IStockInfoService stockInfoService)
+        private readonly ConfigurationService _configurationService;
+
+        public StockInfosController(IStockInfoService stockInfoService, ConfigurationService configurationService)
         {
             _stockInfoService = stockInfoService;
+            _configurationService = configurationService;
         }
 
         [SessionExpire]
@@ -29,7 +33,8 @@ namespace KGERP.Controllers
             StockInfoModel model = new StockInfoModel();
 
             model = await _stockInfoService.GetStockInfos(companyId);
-           
+            model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
             return View(model);
         }
 

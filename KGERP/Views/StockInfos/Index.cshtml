@@ -107,13 +107,17 @@
                                                     <td id="tdShortName_@item.StockInfoId">@item.ShortName</td>
                                                     <td id="tdCode_@item.StockInfoId">@item.Code</td>
                                                     <td>
-
-                                                        <a id="@item.StockInfoId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.StockInfoId" onclick="makeDeletable(@item.StockInfoId);" class="linkPointer" data-toggle="modal" data-target="#warehouseDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
+                                                        @if (Model.UserDataAccessModel.CanEdit)
+                                                        {
+                                                            <a id="@item.StockInfoId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        }
+                                                        @if (Model.UserDataAccessModel.CanDelete)
+                                                        {
+                                                            <a id="@item.StockInfoId" onclick="makeDeletable(@item.StockInfoId);" class="linkPointer" data-toggle="modal" data-target="#warehouseDeleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
 
                                                     </td>
                                                 </tr>
