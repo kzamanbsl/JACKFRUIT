@@ -113,9 +113,11 @@
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:center;">Damage Type</th>
                                                 <th style="padding:5px;text-align:center;">Product</th>
-                                                <th style="padding:5px;text-align:center;">Quantity</th>
+                                                <th style="padding:5px;text-align:center;">Cons</th>
+                                                <th style="padding:5px;text-align:center;">Qty Ctn</th>
+                                                <th style="padding:5px;text-align:center;">Qty Pcs</th>
                                                 @*<th style="padding:5px;text-align:center;">Unit</th>*@
-                                                <th style="padding:5px;text-align:center;">Unit Price</th>
+                                                <th style="padding:5px;text-align:center;">Dealer Price</th>
                                                 <th style="padding:5px;text-align:right;">Total Price</th>
                                             </tr>
                                         </thead>
@@ -134,20 +136,33 @@
                                                         @Html.HiddenFor(model => model.DetailDataList[i].ProductId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].DealerDamageTypeId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].Consumption)
                                                         @*<input type="hidden" @(totalPrice = item.TotalPrice + totalPrice) />*@
                                                         @(++sl)
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.DamageTypeName</td>
                                                     <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                    <td style="padding:5px;text-align:left;">@item.Consumption</td>
                                                     <td style="padding:5px;text-align:center;">
                                                         @if (Model.StatusId == EnumDamageStatus.Submitted)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamageQty, new { id = i + "_Qty", @class = "form-control quantityValue" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamageCtn,item.DamageInCtn.ToString(), new { id = i + "_Qty", @class = "form-control quantityCtn" })
                                                         }
                                                         else
                                                         {
                                                             @*@String.Format("{0:0.00}", item.DamageQty)*@
-                                                            @(String.Format("{0:0.00}", item.DamageInCtn) + " Ctn and " +String.Format("{0:0.00}", item.DamageInPcs)+ " Pcs")
+                                                            @item.DamageInCtn
+                                                        }
+                                                    </td> 
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.StatusId == EnumDamageStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DamagePcs,item.DamageInPcs.ToString(),  new { id = i + "_Qty", @class = "form-control quantityPcs" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @*@String.Format("{0:0.00}", item.DamageQty)*@
+                                                            @item.DamageInPcs
                                                         }
                                                     </td>
                                                     @*<td style="padding:5px;text-align:center;">
@@ -169,7 +184,7 @@
 
 
                                             <tr>
-                                                <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
+                                                <th style="padding:5px;text-align:right;" colspan="7">Grand Total:</th>
                                                 <th id="grandTotalPrice" style="padding:5px;text-align:right;">@*@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))*@</th>
 
                                             </tr>

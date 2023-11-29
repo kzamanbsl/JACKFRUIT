@@ -37,7 +37,7 @@ namespace KGERP.Controllers
         #region 0. Customer Damage
 
         #region 0.1  Customer Entry Circle
-
+        
         [HttpGet]
         public async Task<ActionResult> DamageMasterSlaveCustomer(int companyId = 0, int damageMasterId = 0)
         {

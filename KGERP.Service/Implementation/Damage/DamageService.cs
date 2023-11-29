@@ -1085,8 +1085,9 @@ namespace KGERP.Service.Implementation.ProdMaster
             foreach (var dt in details)
             {
                 var obj = damageMasterModel.DetailDataList.FirstOrDefault(c => c.DamageDetailId == dt.DamageDetailId);
-                dt.DamageQty = obj.DamageQty;
+                dt.DamageQty = ((obj.DamageCtn* (double)obj.Consumption)+obj.DamagePcs);
                 dt.UnitPrice = obj.UnitPrice;
+                dt.TotalPrice= (dt.DamageQty * (double)obj.UnitPrice);
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
