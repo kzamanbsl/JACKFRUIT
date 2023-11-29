@@ -137,6 +137,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("Admin User", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.CheckBoxFor(model => model.Employee.IsAdmin, true)
+                                    </div>
+                                </div>
+                            </div>
                             @*<div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Employee.SalaryTag, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -683,7 +691,7 @@
             //// Enable multiple select.
             //$('#CountryList').attr('multiple', true);
             //$('#CountryList').attr('data-selected-text-format', 'count');
-            
+
             $('.select').selectpicker(
                 {
                     width: '100%',
@@ -722,7 +730,7 @@
             areaDiv.show();
             subzoneDiv.show();
 
-          
+
             if (employeeId > 0 && territoryIds.length<=0) {
                 subzoneDiv.hide();
                 //zoneDivisionChange(0, zoneIds[0]);

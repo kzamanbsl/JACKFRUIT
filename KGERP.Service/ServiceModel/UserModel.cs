@@ -48,6 +48,7 @@ namespace KGERP.Service.ServiceModel
         public string OldPassword { get; set; }
 
         public bool Active { get; set; }
+        public bool IsAdmin { get; set; }
         public int UserTypeId { get; set; }
         public string UserTypeName { get { return BaseFunctionalities.GetEnumDescription((EnumUserType)UserTypeId); } }
 

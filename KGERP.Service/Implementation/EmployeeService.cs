@@ -46,7 +46,7 @@ namespace KGERP.Service.Implementation
                                                    {
                                                        Id = t1.Id,
                                                        EmployeeId = t1.EmployeeId,
-                                                       UserId=t4.UserId,
+                                                       UserId = t4.UserId,
                                                        EmployeeName = t1.Name,
                                                        DepartmentName = t2.Name,
                                                        DesignationName = t3.Name,
@@ -196,6 +196,7 @@ namespace KGERP.Service.Implementation
             this._context.Database.CommandTimeout = 180;
             //var result= ObjectConverter<Employee, EmployeeModel>.Convert(employee);
 
+            User user = _context.Users.FirstOrDefault(c => c.UserName == employee.EmployeeId);
 
             var result = new EmployeeModel()
             {
@@ -266,6 +267,7 @@ namespace KGERP.Service.Implementation
                 Remarks = employee.Remarks,
                 EmployeeOrder = employee.EmployeeOrder,
                 Active = employee.Active,
+                IsAdmin = user?.IsAdmin ?? false,
                 SalaryTag = employee.SalaryTag ?? 0,
                 SalaryAmount = employee.SalaryAmount,
                 StockInfoId = employee.StockInfoId,
@@ -465,6 +467,7 @@ namespace KGERP.Service.Implementation
                     if (user != null)
                     {
                         user.Active = false;
+                        user.IsAdmin = model.IsAdmin;
                         user.IsEmailVerified = false;
                         user.UserTypeId = (int)EnumUserType.Employee;
                         user.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : user.Password;
@@ -479,6 +482,7 @@ namespace KGERP.Service.Implementation
                     if (user != null)
                     {
                         user.Active = true;
+                        user.IsAdmin = model.IsAdmin;
                         user.IsEmailVerified = true;
                         user.UserTypeId = (int)EnumUserType.Employee;
                         user.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : user.Password;
@@ -498,6 +502,7 @@ namespace KGERP.Service.Implementation
                 userModel.UserName = model.EmployeeId;
                 userModel.Email = CompanyInfo.CompanyShortName + model.EmployeeId + "@gmail.com";
                 userModel.Active = true;
+                userModel.IsAdmin = model.IsAdmin;
                 userModel.IsEmailVerified = true;
                 userModel.Password = (!string.IsNullOrEmpty(model.Password)) == true ? Crypto.Hash(model.Password) : Crypto.Hash(userModel.UserName.ToLower());
                 userModel.ConfirmPassword = userModel.Password;

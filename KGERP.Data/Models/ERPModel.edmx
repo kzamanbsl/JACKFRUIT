@@ -393,7 +393,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -437,7 +437,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.Attendance_Shadow' does not have a
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -509,7 +509,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.AttendanceType' does not have a pr
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1298,7 +1298,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.AttendenceApproveApplication_Shado
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1369,7 +1369,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Audit' does not have a pr
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1463,7 +1463,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.Employee_Shadow' does not have a p
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2420,7 +2420,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.EmployeeLeaveDetail' does not have
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2721,7 +2721,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.LeaveApplication_Shadow' does not 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2746,7 +2746,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessAttenendance' does not have
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2873,7 +2873,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.ProcessLeave' does not have a prim
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2939,7 +2939,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.PS' does not have a primary key de
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3070,7 +3070,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.ServerConfig' does not have a prim
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3137,6 +3137,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not ha
           <Property Name="ActivationCode" Type="uniqueidentifier" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="UserTypeId" Type="int" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserPermission">
           <Key>
@@ -3489,7 +3490,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.TempFeedVoucherDetail' does not ha
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3822,7 +3823,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.ConvertedProductDetail' does not h
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4837,7 +4838,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.FormulaHistory' does not have a pr
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5382,7 +5383,7 @@ warning 6002: The table/view 'AzlanFoodDb.Erp.RequisitionItemDetail' does not ha
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5413,7 +5414,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vw_Attendence' does not have a pri
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5432,7 +5433,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwAllHeads' does not have a primar
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5455,7 +5456,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwDemandForSaleInvoice' does not h
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5478,7 +5479,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwFTPFileInfo' does not have a pri
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5515,7 +5516,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwKGRECustomer' does not have a pr
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5529,7 +5530,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwProductPrice' does not have a pr
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5561,7 +5562,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwSeedMaterialRcvList' does not ha
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5589,7 +5590,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwSMSList' does not have a primary
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5619,7 +5620,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamInfoList' does not have a pr
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5733,18 +5734,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Area">
               <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Area_ZoneDivision">
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
-          <End Role="Area" Type="Self.Area" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="Area">
-              <PropertyRef Name="ZoneDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6756,6 +6745,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Employee_Employee1">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employee_EmployeeCategory">
           <End Role="DropDownItem" Type="Self.DropDownItem" Multiplicity="0..1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -6945,18 +6946,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="EmployeeServicePointMap">
               <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeServicePointMap_ZoneDivision">
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
-          <End Role="EmployeeServicePointMap" Type="Self.EmployeeServicePointMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="EmployeeServicePointMap">
-              <PropertyRef Name="ZoneDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7298,6 +7287,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveApplication_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LeaveApplication_LeaveCategory">
           <End Role="LeaveCategory" Type="Self.LeaveCategory" Multiplicity="1" />
           <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
@@ -7451,6 +7452,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="NomineePercentageMapping">
               <PropertyRef Name="NomineeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficerAssign_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="OfficerAssign" Type="Self.OfficerAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficerAssign">
+              <PropertyRef Name="EmpId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8042,18 +8055,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Region_ZoneDivision">
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
-          <End Role="Region" Type="Self.Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RentProductionDetail_RentProduction">
           <End Role="RentProduction" Type="Self.RentProduction" Multiplicity="0..1" />
           <End Role="RentProductionDetail" Type="Self.RentProductionDetail" Multiplicity="*" />
@@ -8366,15 +8367,27 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SubZone_ZoneDivision">
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
-          <End Role="SubZone" Type="Self.SubZone" Multiplicity="*" />
+        <Association Name="FK_TeamInfo_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="TeamInfo" Type="Self.TeamInfo" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="SubZone">
-              <PropertyRef Name="ZoneDivisionId" />
+            <Dependent Role="TeamInfo">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamInfo_Manager">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="TeamInfo" Type="Self.TeamInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TeamInfo">
+              <PropertyRef Name="ManagerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8459,18 +8472,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Vendor">
               <PropertyRef Name="ZoneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Vendor_ZoneDivision">
-          <End Role="ZoneDivision" Type="Self.ZoneDivision" Multiplicity="0..1" />
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ZoneDivision">
-              <PropertyRef Name="ZoneDivisionId" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="ZoneDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8663,6 +8664,18 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Principal>
             <Dependent Role="Work">
               <PropertyRef Name="WorkStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkAssign_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="WorkAssign" Type="Self.WorkAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkAssign">
+              <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9581,10 +9594,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Zone" EntitySet="Zone" />
             <End Role="Area" EntitySet="Area" />
           </AssociationSet>
-          <AssociationSet Name="FK_Area_ZoneDivision" Association="Self.FK_Area_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
-            <End Role="Area" EntitySet="Area" />
-          </AssociationSet>
           <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="Self.FK_AspNetRoleClaims_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
@@ -9917,6 +9926,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="BankBranch" EntitySet="BankBranch" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
+          <AssociationSet Name="FK_Employee_Employee1" Association="Self.FK_Employee_Employee1">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
           <AssociationSet Name="FK_Employee_EmployeeCategory" Association="Self.FK_Employee_EmployeeCategory">
             <End Role="DropDownItem" EntitySet="DropDownItem" />
             <End Role="Employee" EntitySet="Employee" />
@@ -9979,10 +9992,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeServicePointMap_Zone" Association="Self.FK_EmployeeServicePointMap_Zone">
             <End Role="Zone" EntitySet="Zone" />
-            <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeServicePointMap_ZoneDivision" Association="Self.FK_EmployeeServicePointMap_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
             <End Role="EmployeeServicePointMap" EntitySet="EmployeeServicePointMap" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeTerritories_EmployeeTerritories" Association="Self.FK_EmployeeTerritories_EmployeeTerritories">
@@ -10097,6 +10106,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="LeaveCategory" EntitySet="LeaveCategory" />
             <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_Employee" Association="Self.FK_LeaveApplication_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
+          </AssociationSet>
           <AssociationSet Name="FK_LeaveApplication_LeaveCategory" Association="Self.FK_LeaveApplication_LeaveCategory">
             <End Role="LeaveCategory" EntitySet="LeaveCategory" />
             <End Role="LeaveApplication" EntitySet="LeaveApplication" />
@@ -10148,6 +10161,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_NomineePercentageMapping_CustomerNomineeInfo" Association="Self.FK_NomineePercentageMapping_CustomerNomineeInfo">
             <End Role="CustomerNomineeInfo" EntitySet="CustomerNomineeInfo" />
             <End Role="NomineePercentageMapping" EntitySet="NomineePercentageMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficerAssign_Employee" Association="Self.FK_OfficerAssign_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="OfficerAssign" EntitySet="OfficerAssign" />
           </AssociationSet>
           <AssociationSet Name="FK_OfficerAssign_Zone" Association="Self.FK_OfficerAssign_Zone">
             <End Role="Zone" EntitySet="Zone" />
@@ -10345,10 +10362,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Zone" EntitySet="Zone" />
             <End Role="Region" EntitySet="Region" />
           </AssociationSet>
-          <AssociationSet Name="FK_Region_ZoneDivision" Association="Self.FK_Region_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
-            <End Role="Region" EntitySet="Region" />
-          </AssociationSet>
           <AssociationSet Name="FK_RentProductionDetail_RentProduction" Association="Self.FK_RentProductionDetail_RentProduction">
             <End Role="RentProduction" EntitySet="RentProduction" />
             <End Role="RentProductionDetail" EntitySet="RentProductionDetail" />
@@ -10453,9 +10466,13 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Zone" EntitySet="Zone" />
             <End Role="SubZone" EntitySet="SubZone" />
           </AssociationSet>
-          <AssociationSet Name="FK_SubZone_ZoneDivision" Association="Self.FK_SubZone_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
-            <End Role="SubZone" EntitySet="SubZone" />
+          <AssociationSet Name="FK_TeamInfo_Employee" Association="Self.FK_TeamInfo_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TeamInfo" EntitySet="TeamInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamInfo_Manager" Association="Self.FK_TeamInfo_Manager">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TeamInfo" EntitySet="TeamInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_Thana_District" Association="Self.FK_Thana_District">
             <End Role="District" EntitySet="District" />
@@ -10483,10 +10500,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           </AssociationSet>
           <AssociationSet Name="FK_Vendor_Zone" Association="Self.FK_Vendor_Zone">
             <End Role="Zone" EntitySet="Zone" />
-            <End Role="Vendor" EntitySet="Vendor" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Vendor_ZoneDivision" Association="Self.FK_Vendor_ZoneDivision">
-            <End Role="ZoneDivision" EntitySet="ZoneDivision" />
             <End Role="Vendor" EntitySet="Vendor" />
           </AssociationSet>
           <AssociationSet Name="FK_VendorDeposit_Company" Association="Self.FK_VendorDeposit_Company">
@@ -10552,6 +10565,10 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <AssociationSet Name="FK_Work_WorkState" Association="Self.FK_Work_WorkState">
             <End Role="WorkState" EntitySet="WorkState" />
             <End Role="Work" EntitySet="Work" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkAssign_Employee" Association="Self.FK_WorkAssign_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="WorkAssign" EntitySet="WorkAssign" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkAssign_Work1" Association="Self.FK_WorkAssign_Work1">
             <End Role="Work" EntitySet="Work" />
@@ -10675,7 +10692,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <EntitySet Name="sysdiagrams" EntityType="ERPModel.sysdiagram" />
           <EntitySet Name="Upazilas" EntityType="ERPModel.Upazila" />
           <EntitySet Name="UrlInfoes" EntityType="ERPModel.UrlInfo" />
-          <EntitySet Name="Users" EntityType="ERPModel.User" />
           <EntitySet Name="Works" EntityType="ERPModel.Work" />
           <EntitySet Name="WorkAssignFiles" EntityType="ERPModel.WorkAssignFile" />
           <EntitySet Name="WorkMembers" EntityType="ERPModel.WorkMember" />
@@ -11950,6 +11966,7 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             <End Role="Region" EntitySet="Regions" />
             <End Role="Vendor" EntitySet="Vendors" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="ERPModel.User" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -13574,21 +13591,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
           <Property Name="UrlId" Type="Int32" Nullable="false" />
           <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="UrlType" Type="Int32" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Hash" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LoginTime" Type="DateTime" Precision="3" />
-          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
-          <Property Name="ActivationCode" Type="Guid" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="UserTypeId" Type="Int32" />
         </EntityType>
         <EntityType Name="Work">
           <Key>
@@ -21316,6 +21318,22 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Hash" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LoginTime" Type="DateTime" Precision="3" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="UserTypeId" Type="Int32" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -22934,22 +22952,6 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="UrlType" ColumnName="UrlType" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="UrlId" ColumnName="UrlId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ERPModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
-                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
-                <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
-                <ScalarProperty Name="Hash" ColumnName="Hash" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -27083,6 +27085,23 @@ warning 6002: The table/view 'AzlanFoodDb.dbo.vwTeamLeaderList' does not have a 
                 <ScalarProperty Name="ZoneDivisionId" ColumnName="ZoneDivisionId" />
                 <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ERPModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -96,6 +97,7 @@ namespace KGERP.Service.ServiceModel
         public Nullable<System.DateTime> PermanentDate { get; set; }
 
         public bool Active { get; set; }
+        public bool IsAdmin { get; set; }
 
         [DisplayName("Shift")]
         public Nullable<int> ShiftId { get; set; }
@@ -289,6 +291,7 @@ namespace KGERP.Service.ServiceModel
         public decimal Samount { get; set; }
         public IEnumerable<EmployeeVm> DataList { get; set; }
         public UserModel UserModel { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
 
     public class EmployeeVmSalary

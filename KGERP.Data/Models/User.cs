@@ -24,5 +24,6 @@ namespace KGERP.Data.Models
         public Nullable<System.Guid> ActivationCode { get; set; }
         public bool Active { get; set; }
         public Nullable<int> UserTypeId { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

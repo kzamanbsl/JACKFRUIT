@@ -111,7 +111,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Upazila> Upazilas { get; set; }
         public virtual DbSet<UrlInfo> UrlInfoes { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<WorkAssignFile> WorkAssignFiles { get; set; }
         public virtual DbSet<WorkMember> WorkMembers { get; set; }
@@ -303,6 +302,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<OfficerAssign> OfficerAssigns { get; set; }
         public virtual DbSet<TeamInfo> TeamInfoes { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

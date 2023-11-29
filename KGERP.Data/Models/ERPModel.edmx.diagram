@@ -89,7 +89,6 @@
         <EntityTypeShape EntityType="ERPModel.sysdiagram" Width="1.5" PointX="38.75" PointY="36.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Upazila" Width="1.5" PointX="8.25" PointY="29.375" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.UrlInfo" Width="1.5" PointX="39.75" PointY="19.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.User" Width="1.5" PointX="39.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ERPModel.Work" Width="1.5" PointX="14.25" PointY="33.875" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkAssignFile" Width="1.5" PointX="18.75" PointY="35.125" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.WorkMember" Width="1.5" PointX="39.75" PointY="26.75" IsExpanded="false" />
@@ -553,6 +552,7 @@
         <AssociationConnector Association="ERPModel.FK_Region_ZoneDivision" />
         <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
+        <EntityTypeShape EntityType="ERPModel.User" Width="1.5" PointX="5.375" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -147,9 +147,9 @@ namespace KGERP.Service.Implementation.Configuration
         public string EmployeeName { get; set; }
 
         /// <summary>
-        /// UserId is UserName or EmployeeId
+        /// UserName is UserName or EmployeeId
         /// </summary>
-        public string UserId { get; set; }
+        public string UserName { get; set; }
         public int UserTypeId { get; set; }
         public string UserTypeName { get { return BaseFunctionalities.GetEnumDescription((EnumUserType)UserTypeId); } }
         public bool IsAdmin { get; set; }

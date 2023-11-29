@@ -64,16 +64,20 @@
                                             </td>
                                             <td>@item.Email</td>
                                             <td>
-                                                <a href="@Url.Action("CreateOrEdit", new { id = item.Id })" title="Edit" class="btn btn-info btn-xs">
-                                                    <i class="fa fa-pencil" style="font-size:15px;" aria-hidden="true"></i>
-                                                </a>
+                                                @if (@Model.UserDataAccessModel.CanEdit)
+                                                {
+                                                    <a href="@Url.Action("CreateOrEdit", new { id = item.Id })" title="Edit" class="btn btn-info btn-xs">
+                                                        <i class="fa fa-pencil" style="font-size:15px;" aria-hidden="true"></i>
+                                                    </a>
+                                                }
+
                                                 <a href='@Url.Action("Index","Education")?id=@item.Id' class="btn btn-danger btn-xs" title="Education">
                                                     <i class="fa fa-book" style="font-size:15px;" aria-hidden="true"></i>
                                                 </a>
                                                 <a href="@Url.Action("GetEmployeeReport","Report", new { employeeId = item.EmployeeId })" title="Export Bio-Data" target="_blank" class="btn btn-warning btn-xs">
                                                     <i class="fa fa-download" style="font-size:15px;" aria-hidden="true"></i>
                                                 </a>
-                                                @if (@item.UserId > 0)
+                                                @if (@Model.UserDataAccessModel.CanEdit && @item.UserId > 0)
                                                 {
                                                     <a id="@item.UserId" onclick="makeChangePassword(@item.UserId);" class="linkPointer btn btn-info btn-xs" data-toggle="modal" data-target="#userChangePasswordModal" title="Change Password"
                                                        data-placement="top">

@@ -128,6 +128,7 @@ namespace KGERP.Service.Implementation.Configuration
             return new { indexNo = index, isSuccess = false };
 
         }
+        
         public object GetUserClientMenuAssign(string prefix)
         {
             var v = (from t1 in _db.Users.Where(q => q.Active)
@@ -145,8 +146,9 @@ namespace KGERP.Service.Implementation.Configuration
         }
         #endregion
 
-        public async Task<UserDataAccessModel> GetUserDataAccessModelByEmployeeId(long id)
+        public async Task<UserDataAccessModel> GetUserDataAccessModelByEmployeeId()
         {
+            long id = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
             var model = new UserDataAccessModel();
 
             if (id <= 0) { return model; }
@@ -155,8 +157,11 @@ namespace KGERP.Service.Implementation.Configuration
             User user = await _db.Users.FirstOrDefaultAsync(c => c.UserName == employee.EmployeeId);
             model.EmployeeId = id;
             model.EmployeeName = employee.Name;
-            model.UserId = user.UserName;
+            model.UserName = user.UserName;
             model.UserTypeId = user.UserTypeId ?? 0;
+            model.IsAdmin = user.IsAdmin;
+            model.CanEdit = user.IsAdmin;
+            model.CanDelete = user.IsAdmin;
 
             List<EmployeeServicePointMap> employeeServicePointMaps = _db.EmployeeServicePointMaps.Where(c => c.EmployeeId == id && c.IsActive==true)
                     .Include(c => c.SubZone).Include(c => c.Area).Include(c => c.Region).Include(c => c.ZoneDivision).Include(c => c.Zone).AsNoTracking().ToList();
@@ -225,13 +230,13 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (model.UserTypeId == (int)EnumUserType.Deport)
             {
-                var deportIds = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
+                var deportIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
                 model.DeportIds = deportIds;
             }
 
             if (model.UserTypeId == (int)EnumUserType.Dealer)
             {
-                var dealerIds = _db.Vendors.Where(c => c.EmployeeId == model.UserId).Select(s => s.VendorId).ToArray();
+                var dealerIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
                 model.DealerIds = dealerIds;
             }
 
@@ -684,6 +689,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return result;
         }
+
         public CompanyModel UserAssignedMenuGet()
         {
             string userId = System.Web.HttpContext.Current.User.Identity.Name;

@@ -60,8 +60,10 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
+           
             EmployeeVm model = new EmployeeVm();
             model = await _employeeService.GetEmployees();
+            model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             return View(model);
         }
 
@@ -240,7 +242,7 @@ namespace KGERP.Controllers
 
 
 
-            if (vm.Employee.ZoneIds!=null)
+            if (vm.Employee.ZoneIds != null)
             {
                 vm.TerritoryList = new SelectList(_configurationService.CommonSubZonesDropDownList(companyId, vm.Employee.ZoneIds[0]), "Value", "Text");
                 vm.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(companyId, vm.Employee.ZoneIds[0]), "Value", "Text");
