@@ -14,10 +14,11 @@ namespace KGERP.Service.Implementation.Procurement
     public class ProcurementService
     {
         private readonly ERPEntities _db;
-
-        public ProcurementService(ERPEntities db)
+        private readonly ConfigurationService _configurationService;
+        public ProcurementService(ERPEntities db, ConfigurationService configurationService)
         {
             _db = db;
+            _configurationService = configurationService;
         }
 
         #region Common
@@ -4936,10 +4937,24 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CreatedBy = t1.CreatedBy,
 
                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
-            if (vStatus != -1 && vStatus != null)
+            if (vStatus != null && vStatus != -1)
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            if(up.UserTypeId==(int)EnumUserType.Dealer && up.DealerIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+            }
+            #endregion
+
             return vmSalesOrder;
         }
 
