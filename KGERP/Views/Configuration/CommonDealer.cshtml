@@ -75,35 +75,35 @@
                             </div>
 
                             @*<div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Deport:</label>
-                                        @Html.DropDownListFor(model => model.ParentId, Model.DeportList as SelectList, "--Deport--", new { id = "ddlParentId", @class = "form-control searchingDropdown", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Deport:</label>
+                                            @Html.DropDownListFor(model => model.ParentId, Model.DeportList as SelectList, "--Deport--", new { id = "ddlParentId", @class = "form-control searchingDropdown", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Division:</label>
-                                        @Html.DropDownListFor(model => model.Common_DivisionFk, Model.DivisionList as SelectList, "--Division--", new { id = "ddlCommon_DivisionFk", @class = "form-control searchingDropdown", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.Common_DivisionFk, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Division:</label>
+                                            @Html.DropDownListFor(model => model.Common_DivisionFk, Model.DivisionList as SelectList, "--Division--", new { id = "ddlCommon_DivisionFk", @class = "form-control searchingDropdown", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Common_DivisionFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">District:</label>
-                                        @Html.DropDownListFor(model => model.Common_DistrictsFk, Model.DistrictList as SelectList, "--District--", new { id = "ddlCommon_DistrictsFk", @class = "form-control searchingDropdown", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.Common_DistrictsFk, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">District:</label>
+                                            @Html.DropDownListFor(model => model.Common_DistrictsFk, Model.DistrictList as SelectList, "--District--", new { id = "ddlCommon_DistrictsFk", @class = "form-control searchingDropdown", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Common_DistrictsFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Upazila:</label>
-                                        @Html.DropDownListFor(model => model.Common_UpazilasFk, Model.UpazilasList as SelectList, "--Upazila--", new { id = "ddlCommon_UpazilasFk", @class = "form-control searchingDropdown", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.Common_UpazilasFk, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Upazila:</label>
+                                            @Html.DropDownListFor(model => model.Common_UpazilasFk, Model.UpazilasList as SelectList, "--Upazila--", new { id = "ddlCommon_UpazilasFk", @class = "form-control searchingDropdown", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Common_UpazilasFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
 
                             <div class="row">
                                 <div class="col-md-3">
@@ -170,7 +170,7 @@
                                         @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                
+
 
                             </div>
 
@@ -283,8 +283,8 @@
                                                 Address
                                             </th>
                                             @*<th>
-                                                Zone
-                                            </th>*@
+                                                    Zone
+                                                </th>*@
 
                                             <th>Action</th>
                                         </tr>
@@ -305,19 +305,19 @@
                                                 </td>
                                                 <td>
                                                     @item.ZoneName
-                                                </td> 
+                                                </td>
                                                 <td>
                                                     @item.ZoneDivisionName
-                                                </td> 
+                                                </td>
                                                 <td>
                                                     @item.RegionName
-                                                </td> 
+                                                </td>
                                                 <td>
                                                     @item.AreaName
-                                                </td> 
+                                                </td>
                                                 <td>
                                                     @item.SubZoneName
-                                                </td> 
+                                                </td>
                                                 <td>
                                                     @item.ZoneIncharge
                                                 </td>
@@ -343,15 +343,21 @@
                                                     @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
                                                 </td>
                                                 @*<td>
-                                                    @item.ZoneName (Incharge: @item.ZoneIncharge)
-                                                </td>*@
+                                                        @item.ZoneName (Incharge: @item.ZoneIncharge)
+                                                    </td>*@
 
                                                 <td>
-                                                    <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
+                                                    @if (Model.UserDataAccessModel.CanEdit)
+                                                    {
+                                                        <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    }
+                                                    @if (Model.UserDataAccessModel.CanDelete)
+                                                    {
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
 
                                                 </td>
                                             </tr>

@@ -171,10 +171,10 @@
                                             <th style="width:10%;">Region</th>
                                             <th style="width:15%;">Area</th>
                                             @*<th style="width:10%;">Incharge</th>
-                                            <th style="width:10%;">Designation</th>
-                                            <th style="width:10%;">Email</th>
-                                            <th style="width:10%;">Mobile Office</th>
-                                            <th style="width:10%;">Mobile Personal</th>*@
+                                                <th style="width:10%;">Designation</th>
+                                                <th style="width:10%;">Email</th>
+                                                <th style="width:10%;">Mobile Office</th>
+                                                <th style="width:10%;">Mobile Personal</th>*@
                                             <th style="width:15%;">Action</th>
                                         </tr>
                                     </thead>
@@ -201,16 +201,22 @@
                                                 </td>
                                                 <td id="tdAreaName_@item.ID">@item.Name</td>
                                                 @*<td id="tdAreaIncharge_@item.ID">@item.AreaIncharge</td>
-                                                <td id="tdDesignation_@item.ID">@item.Designation</td>
-                                                <td id="tdEmail_@item.ID">@item.Email</td>
-                                                <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
-                                                <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>*@
+                                                    <td id="tdDesignation_@item.ID">@item.Designation</td>
+                                                    <td id="tdEmail_@item.ID">@item.Email</td>
+                                                    <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
+                                                    <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>*@
                                                 <td>
-                                                    <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
+                                                    @if (Model.UserDataAccessModel.CanEdit)
+                                                    {
+                                                        <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    }
+                                                    @if (Model.UserDataAccessModel.CanDelete)
+                                                    {
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
                                                     @*<a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&areaId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
                                                     <a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ZoneId&zoneDivisionId=@item.ZoneDivisionId&regionId=@item.RegionId&areaId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Territory</a>
 

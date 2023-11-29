@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KGERP.Service.Implementation.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -37,5 +38,6 @@ namespace KGERP.Service.ServiceModel
         public virtual DropDownTypeModel DropDownType { get; set; }
         public string TypeName { get; set; }
         public IEnumerable<DropDownItemModel> DataList { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
 }

@@ -34,8 +34,8 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             @*<div class="box-header">
-                                <h4>Add Category</h4>
-                            </div>*@
+                                    <h4>Add Category</h4>
+                                </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "productCategoryId" })
@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Category Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control  input-sm", @placeholder = "Category Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { id= "nameExist", @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-5">
@@ -91,14 +91,17 @@
                                                     <td id="tdProductCategoryName_@item.ID">@item.Name</td>
 
                                                     <td>
-
-                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#productCategoryDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-
+                                                        @if (Model.UserDataAccessModel.CanEdit)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        }
+                                                        @if (Model.UserDataAccessModel.CanDelete)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#productCategoryDeleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
                                                         @*<a href="~/Configuration/CommonRawProductSubCategory?companyId=@item.CompanyFK&categoryId=@item.ID" class="btn btn-success btn-sm">Raw Subcategory</a>*@
                                                         @*<a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&categoryId=@item.ID" class="btn btn-warning btn-sm">Raw Materials</a>*@
 

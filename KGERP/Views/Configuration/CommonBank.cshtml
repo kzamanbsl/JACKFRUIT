@@ -34,8 +34,8 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             @*<div class="box-header">
-                                <h4>Add Bank</h4>
-                            </div>*@
+                                    <h4>Add Bank</h4>
+                                </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
 
@@ -96,14 +96,18 @@
                                                     <td id="tdBankName_@item.ID">@item.Name</td>
 
                                                     <td>
+                                                        @if (Model.UserDataAccessModel.CanEdit)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        }
 
-                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#bankDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-
+                                                        @if (Model.UserDataAccessModel.CanDelete)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#bankDeleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
                                                         @*<a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Bank</a>
                                                             <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
 

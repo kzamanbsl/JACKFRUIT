@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KGERP.Service.Implementation.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -18,5 +19,6 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Active")]
         public bool IsActive { get; set; }
         public IEnumerable<DropDownTypeModel> DataList { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
 }

@@ -32,8 +32,8 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             @*<div class="box-header">
-                                <h4>Add Subcategory</h4>
-                            </div>*@
+                                    <h4>Add Subcategory</h4>
+                                </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "subcategoryId" })
@@ -42,7 +42,7 @@
 
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Category:</label>
-                                    @Html.DropDownListFor(model => model.CategoryId, Model.ProductCategory as SelectList,"--Select Product Category--", new {  @class = "form-control searchingDropdown", @name = "Brand", @id = "txtCategoryName", required = "true" } )
+                                    @Html.DropDownListFor(model => model.CategoryId, Model.ProductCategory as SelectList, "--Select Product Category--", new { @class = "form-control searchingDropdown", @name = "Brand", @id = "txtCategoryName", required = "true" })
                                     @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
                                     @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                 </div>
@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Sbucategory:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Subcategory", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new {@id= "SubcategoryValidation", @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @id = "SubcategoryValidation", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
@@ -106,13 +106,17 @@
                                                     <td id="tdSubCategoryName_@item.ID">@item.Name</td>
 
                                                     <td>
-
-                                                        <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-
+                                                        @if (Model.UserDataAccessModel.CanEdit)
+                                                        {
+                                                            <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        }
+                                                        @if (Model.UserDataAccessModel.CanDelete)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
                                                         @*<a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&subCategoryId=@item.ID" class="btn btn-success btn-sm">Raw Materials</a>*@
 
                                                     </td>

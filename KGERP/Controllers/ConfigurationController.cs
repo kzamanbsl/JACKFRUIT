@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.EMMA;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
@@ -227,6 +228,8 @@ namespace KGERP.Controllers
         {
             VMCommonUnit vmCommonUnit = new VMCommonUnit();
             vmCommonUnit = await Task.Run(() => _service.GetUnit(companyId));
+            vmCommonUnit.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonUnit);
         }
 
@@ -332,6 +335,8 @@ namespace KGERP.Controllers
 
             VMCommonDamageType vmCommonDamageType = new VMCommonDamageType();
             vmCommonDamageType = await Task.Run(() => _service.GetDamageType(companyId));
+            vmCommonDamageType.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonDamageType);
         }
 
@@ -399,6 +404,8 @@ namespace KGERP.Controllers
             VMCommonZone vmCommonZone = new VMCommonZone();
             vmCommonZone = await Task.Run(() => _service.GetZones(companyId));
             vmCommonZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+            vmCommonZone.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonZone);
         }
 
@@ -472,6 +479,7 @@ namespace KGERP.Controllers
             vmCommonZoneDivision = await Task.Run(() => _service.GetZoneDivisions(companyId, zoneId));
             vmCommonZoneDivision.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonZoneDivision.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+            vmCommonZoneDivision.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
             return View(vmCommonZoneDivision);
         }
@@ -536,6 +544,7 @@ namespace KGERP.Controllers
             vmCommonRegion.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonRegion.ZoneDivisionList = _service.GetZoneDivisionSelectList(companyId, zoneId);
             vmCommonRegion.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+            vmCommonRegion.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
             return View(vmCommonRegion);
         }
@@ -602,6 +611,7 @@ namespace KGERP.Controllers
             vmCommonArea.ZoneDivisionList = _service.GetZoneDivisionSelectList(companyId, zoneId);
             vmCommonArea.RegionList = _service.GetRegionSelectList(companyId, zoneId, zoneDivisionId);
             vmCommonArea.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+            vmCommonArea.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
             return View(vmCommonArea);
         }
@@ -669,6 +679,8 @@ namespace KGERP.Controllers
             vmCommonSubZone.RegionList = _service.GetRegionSelectList(companyId, zoneId, zoneDivisionId);
             vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId, regionId);
             vmCommonSubZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
+            vmCommonSubZone.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonSubZone);
         }
 
@@ -920,6 +932,8 @@ namespace KGERP.Controllers
 
             VMCommonProductCategory vmCommonProductCategory = new VMCommonProductCategory();
             vmCommonProductCategory = await Task.Run(() => _service.GetFinishProductCategory(companyId, "R"));
+            vmCommonProductCategory.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonProductCategory);
         }
 
@@ -974,7 +988,7 @@ namespace KGERP.Controllers
             VMCommonProductSubCategory vmCommonProductSubCategory = new VMCommonProductSubCategory();
             vmCommonProductSubCategory = await Task.Run(() => _service.GetProductSubCategory(companyId, categoryId, "R"));
             vmCommonProductSubCategory.ProductCategory = new SelectList(await _service.GetProductCategory(companyId, "R"), "Value", "Text");
-
+            vmCommonProductSubCategory.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
 
             return View(vmCommonProductSubCategory);
@@ -1032,6 +1046,8 @@ namespace KGERP.Controllers
 
             vmCommonProduct.UnitList = new SelectList(_service.UnitDropDownList(companyId), "Value", "Text");
             vmCommonProduct.ProductCategoryList = new SelectList(await _service.GetProductCategory(companyId, "R"), "Value", "Text");
+            vmCommonProduct.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonProduct);
         }
 
@@ -1391,6 +1407,7 @@ namespace KGERP.Controllers
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
+            vmCommonSupplier.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
             return View(vmCommonSupplier);
         }
@@ -1614,6 +1631,8 @@ namespace KGERP.Controllers
             vmCommonCustomer.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
             vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            vmCommonCustomer.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonCustomer);
         }
 
@@ -1702,6 +1721,8 @@ namespace KGERP.Controllers
             vmCommonDeport.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonDeport.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId, regionId), "Value", "Text");
             vmCommonDeport.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            vmCommonDeport.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonDeport);
         }
 
@@ -1766,6 +1787,8 @@ namespace KGERP.Controllers
             vmCommonDealer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonDealer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId, regionId), "Value", "Text");
             vmCommonDealer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            vmCommonDealer.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonDealer);
         }
 
@@ -1971,6 +1994,8 @@ namespace KGERP.Controllers
         {
             VMCommonBank vmCommonBank = new VMCommonBank();
             vmCommonBank = await Task.Run(() => _service.GetBanks(companyId));
+            vmCommonBank.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonBank);
         }
 
@@ -2020,6 +2045,7 @@ namespace KGERP.Controllers
             VMCommonBankBranch vMCommonBankBranch = new VMCommonBankBranch();
             vMCommonBankBranch = await Task.Run(() => _service.GetBankBranches(companyId, bankId));
             vMCommonBankBranch.BankList = new SelectList(_service.CommonBanksDropDownList(companyId), "Value", "Text");
+            vMCommonBankBranch.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
             return View(vMCommonBankBranch);
         }
@@ -2060,6 +2086,8 @@ namespace KGERP.Controllers
         {
             VMCommonDepartment vmCommonDepartment = new VMCommonDepartment();
             vmCommonDepartment = await _departmentService.GetDepartments(companyId);
+            vmCommonDepartment.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonDepartment);
         }
 
@@ -2110,6 +2138,8 @@ namespace KGERP.Controllers
         {
             VMCommonHrDesignation vmCommonDesignation = new VMCommonHrDesignation();
             vmCommonDesignation = await _hrDesignationService.GetHrDesignations(companyId);
+            vmCommonDesignation.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
+
             return View(vmCommonDesignation);
         }
 

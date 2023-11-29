@@ -265,11 +265,17 @@
                                                         @item.CustomerSalePrice
                                                     </td>
                                                     <td>
-                                                        <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete" data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </td>
+                                                        @if (Model.UserDataAccessModel.CanEdit)
+                                                        {
+                                                            <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        }
+                                                        @if (Model.UserDataAccessModel.CanDelete)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete" data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                        </td>
                                                 </tr>
                                             }
                                         }

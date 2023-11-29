@@ -50,63 +50,63 @@
                             </div>
 
                             @*<div class="col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-control-label">Employee:</label>
-                        <div class="">
-                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
-                                new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
-                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-control-label">Employee:</label>
+                                            <div class="">
+                                                @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "Value", "Text"), "---Select---",
+                                                    new { @class = "dropdownsize form-control searchingDropdown", @id = "employeeId" })
+                                                @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="col-md-4">
-                    <div class="form-group" style="padding:0px">
-                        <label for="message-text" class="col-form-label">Zone Incharge:</label>
-                        @Html.TextBoxFor(model => model.ZoneIncharge, new { id = "txtZoneIncharge", @class = "form-control input-sm", @placeholder = "Zone Incharge", required = "true", })
-                        @Html.ValidationMessageFor(model => model.ZoneIncharge, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Zone Incharge:</label>
+                                            @Html.TextBoxFor(model => model.ZoneIncharge, new { id = "txtZoneIncharge", @class = "form-control input-sm", @placeholder = "Zone Incharge", required = "true", })
+                                            @Html.ValidationMessageFor(model => model.ZoneIncharge, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
 
-             <div class="row">
+                                 <div class="row">
 
-                <div class="col-md-3">
-                    <div class="form-group" style="padding:0px">
-                        <label for="message-text" class="col-form-label">Designation:</label>
-                        @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
-                        @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Designation:</label>
+                                            @Html.TextBoxFor(model => model.Designation, new { id = "txtDesignation", @class = "form-control input-sm", @placeholder = "Designation", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
 
-                    </div>
-                </div>
+                                        </div>
+                                    </div>
 
-                <div class="col-md-3">
-                    <div class="form-group" style="padding:0px">
-                        <label for="message-text" class="col-form-label">Email:</label>
-                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
-                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Email:</label>
+                                            @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control input-sm", @placeholder = "Email", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                <div class="col-md-3">
-                    <div class="form-group" style="padding:0px">
-                        <label for="message-text" class="col-form-label">Mobile Office:</label>
-                        @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
-                        @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Mobile Office:</label>
+                                            @Html.TextBoxFor(model => model.MobileOffice, new { id = "txtMobileOffice", @class = "form-control input-sm", @placeholder = "Mobile Office", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.MobileOffice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                <div class="col-md-3">
-                    <div class="form-group" style="padding:0px">
-                        <label for="message-text" class="col-form-label">Mobile Personal:</label>
-                        @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
-                        @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Mobile Personal:</label>
+                                            @Html.TextBoxFor(model => model.MobilePersonal, new { id = "txtMobilePersonal", @class = "form-control input-sm", @placeholder = "Mobile Personal", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.MobilePersonal, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
 
-            <div class="row">*@
-                         
+                                <div class="row">*@
+
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="col-md-4 text-right" style="margin-top:20px">
@@ -148,10 +148,10 @@
                                             <th style="width:20%;">Name</th>
                                             <th hidden="hidden"></th>
                                             @*<th style="width:15%;">Zone Incharge</th>
-                                            <th style="width:10%;">Designation</th>
-                                            <th style="width:10%;">Email</th>
-                                            <th style="width:10%;">Mobile Office</th>
-                                            <th style="width:15%;">Mobile Personal</th>*@
+                                                <th style="width:10%;">Designation</th>
+                                                <th style="width:10%;">Email</th>
+                                                <th style="width:10%;">Mobile Office</th>
+                                                <th style="width:15%;">Mobile Personal</th>*@
                                             <th style="width:15%;">Action</th>
                                         </tr>
                                     </thead>
@@ -166,18 +166,23 @@
                                                 <td id="tdZoneName_@item.ID">@item.Name</td>
                                                 <td hidden="hidden" id="tdEmployeeId_@item.ID">@item.EmployeeId</td>
                                                 @*<td id="tdZoneIncharge_@item.ID">@item.ZoneIncharge</td>
-                                                <td id="tdDesignation_@item.ID">@item.Designation</td>
-                                                <td id="tdEmail_@item.ID">@item.Email</td>
-                                                <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
-                                                <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>*@
+                                                    <td id="tdDesignation_@item.ID">@item.Designation</td>
+                                                    <td id="tdEmail_@item.ID">@item.Email</td>
+                                                    <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
+                                                    <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>*@
                                                 <td>
+                                                    @if (Model.UserDataAccessModel.CanEdit)
+                                                    {
+                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    }
+                                                    @if (Model.UserDataAccessModel.CanDelete)
+                                                    {
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#productCategoryDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
 
-                                                    <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#productCategoryDeleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
                                                     @if (Model.CompanyFK.Value == 8)
                                                     {
                                                         <a href="~/Configuration/CommonFeedCustomer?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>

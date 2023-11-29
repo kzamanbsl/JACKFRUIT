@@ -31,6 +31,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string CompanyName { get; set; }
         //public string Message { get; set; }
         //public bool HasError { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
 
     }
     public class VMCompany : BaseVM
@@ -326,6 +327,7 @@ namespace KGERP.Service.Implementation.Configuration
         public bool IsLock { get; set; }
 
         public IEnumerable<VMCommonUnit> DataList { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
 
     public class VMCommonDamageType : BaseVM
@@ -485,6 +487,7 @@ namespace KGERP.Service.Implementation.Configuration
         public bool IsCrm { get; set; }
 
         public IEnumerable<VMCommonProductCategory> DataList { get; set; }
+
     }
 
     public class VMIncentive : BaseVM
@@ -1042,6 +1045,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         public string Name { get; set; }
         public IEnumerable<VMCommonDepartment> DataList { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
     #endregion
 
@@ -1052,6 +1056,8 @@ namespace KGERP.Service.Implementation.Configuration
 
         public string Name { get; set; }
         public IEnumerable<VMCommonHrDesignation> DataList { get; set; }
+        public UserDataAccessModel UserDataAccessModel { get; set; }
+
     }
     #endregion
 }

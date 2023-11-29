@@ -96,18 +96,21 @@
                                                     <td id="tdDepartmentName_@item.ID">@item.Name</td>
 
                                                     <td>
+                                                        @if (Model.UserDataAccessModel.CanEdit)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        }
+                                                        @if (Model.UserDataAccessModel.CanDelete)
+                                                        {
+                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#departmentDeleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                            @*<a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Department</a>
+            <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
 
-                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#departmentDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-
-                                                        @*<a href="~/Configuration/CommonSubZone?companyId=@item.CompanyFK&zoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Department</a>
-                                                            <a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ID&subZoneId=0" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
-
-                                                    </td>
+                                                        </td>
                                                 </tr>
                                             }
                                         </tbody>

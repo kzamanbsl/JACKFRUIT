@@ -222,11 +222,17 @@
                                                     <td id="tdMobileOffice_@item.ID">@item.MobileOffice</td>
                                                     <td id="tdMobilePersonal_@item.ID">@item.MobilePersonal</td>*@
                                                 <td class="text-center">
-                                                    <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
+                                                    @if (Model.UserDataAccessModel.CanEdit)
+                                                    {
+                                                        <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    }
+                                                    @if (Model.UserDataAccessModel.CanDelete)
+                                                    {
+                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
                                                     @*<a href="~/Configuration/CommonCustomer?companyId=@item.CompanyFK&zoneId=@item.ZoneId&subZoneId=@item.ID" style="padding:0px 0px 0px 0px" class="btn btn-success btn-sm">Customer</a>*@
                                                 </td>
                                             </tr>

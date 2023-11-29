@@ -175,58 +175,64 @@
                                             <tbody>
                                                 @foreach (var item in Model.DataList)
                                                 {
-                                                <tr>
-                                                    <td>@(++sl)</td>
-                                                    @*<td>
-                                                        @item.Code
-                                                    </td>*@
-                                                    <td>
-                                                        @item.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.Phone
-                                                    </td>
-                                                    <td>
-                                                        @item.Email
-                                                    </td>
-                                                    <td>
-                                                        @item.ContactPerson
-                                                    </td>
-                                                    <td>
-                                                        @item.Address, @item.Country
-                                                    </td>
-                                                    <td>
-                                                        @if (item.IsForeign == true)
-                                                        {
-                                                            <span class="label label-success">Exporter</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="label label-primary">Local Supplier</span>
-                                                        }
-                                                    </td>
+                                                    <tr>
+                                                        <td>@(++sl)</td>
+                                                        @*<td>
+                                                                @item.Code
+                                                            </td>*@
+                                                        <td>
+                                                            @item.Name
+                                                        </td>
+                                                        <td>
+                                                            @item.Phone
+                                                        </td>
+                                                        <td>
+                                                            @item.Email
+                                                        </td>
+                                                        <td>
+                                                            @item.ContactPerson
+                                                        </td>
+                                                        <td>
+                                                            @item.Address, @item.Country
+                                                        </td>
+                                                        <td>
+                                                            @if (item.IsForeign == true)
+                                                            {
+                                                                <span class="label label-success">Exporter</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="label label-primary">Local Supplier</span>
+                                                            }
+                                                        </td>
 
-                                                    <td>
-                                                        @item.ACName
-                                                    </td>
-                                                    <td>
-                                                        @item.ACNo
-                                                    </td>
-                                                    <td>
-                                                        @item.BankName
-                                                    </td>
-                                                    <td>
-                                                        @item.BranchName
-                                                    </td>
-                                                    <td>
-                                                        <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
-                                                    </td>
-                                                </tr>
+                                                        <td>
+                                                            @item.ACName
+                                                        </td>
+                                                        <td>
+                                                            @item.ACNo
+                                                        </td>
+                                                        <td>
+                                                            @item.BankName
+                                                        </td>
+                                                        <td>
+                                                            @item.BranchName
+                                                        </td>
+                                                        <td>
+                                                            @if (Model.UserDataAccessModel.CanEdit)
+                                                            {
+                                                                <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                            }
+                                                            @if (Model.UserDataAccessModel.CanDelete)
+                                                            {
+                                                                <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                                   data-placement="top">
+                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                </a>
+                                                            }
+                                                            @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>

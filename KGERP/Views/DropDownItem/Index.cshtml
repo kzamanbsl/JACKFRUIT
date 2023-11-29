@@ -1,4 +1,5 @@
 ﻿@model KGERP.Service.ServiceModel.DropDownItemModel
+@model KGERP.Service.ServiceModel.DropDownItemModel
 
 @{
     var message = TempData["successMessage"];
@@ -57,12 +58,19 @@
                                             <td>@item.Remarks</td>
                                             <td>@item.OrderNo</td>
                                             <td>
-                                                <a href="@Url.Action("CreateOrEdit", new {id = item.DropDownItemId})" title="Edit" class="btn btn-info btn-xs">
-                                                    <i class="fa fa-edit" style="font-size:15px;" aria-hidden="true"></i>
-                                                </a>
-                                                <a href="@Url.Action("DeleteDropDownItem", new { id = item.DropDownItemId })" onclick="return confirm('Are you sure to delete Dropdown Item ?');" class="btn btn-danger btn-xs">
-                                                    <i class="fa fa-trash" style="font-size:15px;" aria-hidden="true"></i>
-                                                </a>
+                                                @if (Model.UserDataAccessModel.CanEdit)
+                                                {
+                                                    <a href="@Url.Action("CreateOrEdit", new { id = item.DropDownItemId })" title="Edit" class="btn btn-info btn-xs">
+                                                        <i class="fa fa-edit" style="font-size:15px;" aria-hidden="true"></i>
+                                                    </a>
+                                                }
+                                                @if (Model.UserDataAccessModel.CanDelete)
+                                                {
+
+                                                    <a href="@Url.Action("DeleteDropDownItem", new { id = item.DropDownItemId })" onclick="return confirm('Are you sure to delete Dropdown Item ?');" class="btn btn-danger btn-xs">
+                                                        <i class="fa fa-trash" style="font-size:15px;" aria-hidden="true"></i>
+                                                    </a>
+                                                }
                                             </td>
                                         </tr>
                                     }

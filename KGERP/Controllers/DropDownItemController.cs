@@ -1,4 +1,6 @@
-﻿using KGERP.Service.Interface;
+﻿using DocumentFormat.OpenXml.EMMA;
+using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using KGERP.ViewModel;
@@ -14,10 +16,13 @@ namespace KGERP.Controllers
     {
         private readonly IDropDownItemService dropDownItemService;
         private readonly IDropDownTypeService dropDownTypeService;
-        public DropDownItemController(IDropDownItemService dropDownItemService, IDropDownTypeService dropDownTypeService)
+        private readonly ConfigurationService _configurationService;
+
+        public DropDownItemController(IDropDownItemService dropDownItemService, IDropDownTypeService dropDownTypeService, ConfigurationService configurationService)
         {
             this.dropDownItemService = dropDownItemService;
             this.dropDownTypeService = dropDownTypeService;
+            _configurationService = configurationService;
         }
         [SessionExpire]
         [HttpGet]
@@ -30,6 +35,8 @@ namespace KGERP.Controllers
 
             DropDownItemModel dropDownItemModel = new DropDownItemModel();
             dropDownItemModel = await dropDownItemService.GetDropDownItems(companyId);
+            dropDownItemModel.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
             return View(dropDownItemModel);
         }
         

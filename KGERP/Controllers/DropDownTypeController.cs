@@ -1,4 +1,6 @@
-﻿using KGERP.Service.Interface;
+﻿using DocumentFormat.OpenXml.EMMA;
+using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using PagedList;
@@ -11,9 +13,11 @@ namespace KGERP.Controllers
     public class DropDownTypeController : BaseController
     {
         private readonly IDropDownTypeService dropDownTypeService;
-        public DropDownTypeController(IDropDownTypeService dropDownTypeService)
+        private readonly ConfigurationService _configurationService;
+        public DropDownTypeController(IDropDownTypeService dropDownTypeService, ConfigurationService configurationService)
         {
             this.dropDownTypeService = dropDownTypeService;
+            _configurationService = configurationService;
         }
 
         [SessionExpire]
@@ -27,6 +31,8 @@ namespace KGERP.Controllers
 
             DropDownTypeModel dropDownTypeModel = new DropDownTypeModel();
             dropDownTypeModel = await dropDownTypeService.GetDropDownTypes(companyId);
+            dropDownTypeModel.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
             return View(dropDownTypeModel);
         }
        
