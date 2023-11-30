@@ -5298,6 +5298,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           OrderMasterId = t1.OrderMasterId,
                                                           StockInfoTypeId = t1.StockInfoTypeId ?? 0,
                                                           StockInfoId = t1.StockInfoId,
+                                                          StockInfoName = t6 != null ? t6.Name : "",
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
@@ -5335,8 +5336,6 @@ namespace KGERP.Service.Implementation.Procurement
                                                           ComLogo = t3.CompanyLogo,
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
-
-                                                          Warehouse = t6 != null ? t6.Name : "",
 
                                                           CreatedDate = t1.CreateDate,
                                                           CreatedBy = t1.CreatedBy,

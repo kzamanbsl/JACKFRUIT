@@ -260,9 +260,9 @@
                                             <th>
                                                 Territory
                                             </th>
-                                            <th>
-                                                Incharge
-                                            </th>
+                                            @*<th>
+                                                    Incharge
+                                                </th>*@
                                             <th>User Name</th>
                                             <th>
                                                 Phone
@@ -318,9 +318,9 @@
                                                 <td>
                                                     @item.SubZoneName
                                                 </td>
-                                                <td>
-                                                    @item.ZoneIncharge
-                                                </td>
+                                                @*<td>
+                                                        @item.ZoneIncharge
+                                                    </td>*@
                                                 <td>
                                                     @item.EmployeeId
                                                 </td>
@@ -415,23 +415,18 @@
 
         $(document).ready(function () {
 
-
-
             $('.formValidator').bootstrapValidator();
 
             $('#ddlZoneId').on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
 
                 zoneDivisionChange(0, zoneId);
-
             });
 
             $("#ddlZoneDivisionId").on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 regionChange(0, zoneId, zoneDivisionId);
-
-
             });
 
             $("#ddlRegionId").on("change", function () {
@@ -455,7 +450,6 @@
             });
 
             $("#ddlCommon_DistrictsFk").on('change', function () {
-
                 var districtValue = $("#ddlCommon_DistrictsFk :selected").val();
                 changeUpazila(0, districtValue);
             });
@@ -478,7 +472,6 @@
                         });
                         if (zoneDivisionValue > 0) {
                             $("#ddlZoneDivisionId").val(zoneDivisionValue);
-
                         }
                     }
                 }
@@ -511,7 +504,6 @@
 
         function areaChange(areaValue, zoneValue, zoneDivisionValue, regionValue)
         {
-
                 $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetAreaList", "Configuration")",
@@ -530,7 +522,6 @@
                         }
                     }
                 });
-
         }
 
         function territoryChange(territoryValue, zoneValue, zoneDivisionValue, regionValue, areaValue) {
@@ -540,14 +531,13 @@
                 type: "GET",
                 url: "@Url.Action("GetSubZoneList", "Configuration")",
                 datatype: "Json",
-                 data: { companyId:@Model.CompanyFK, zoneId: zoneValue, zoneDivisionId: zoneDivisionValue, regionId: regionValue,areaId:areaValue },
+                data: { companyId:@Model.CompanyFK, zoneId: zoneValue, zoneDivisionId: zoneDivisionValue, regionId: regionValue,areaId:areaValue },
                 success: function (data) {
                     if (data) {
                         $("#ddlSubZoneId").empty();
                         //$("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            console.log(item.Text);
                         });
                         if (territoryValue > 0) {
                             $("#ddlSubZoneId").val(territoryValue);
@@ -557,12 +547,12 @@
             });
         }
 
-        var editButton = false;
+
         function changeDistrict(distrcitValue,divisionValue) {
 
                 $.ajax({
                     type: "GET",
-                    url: "@Url.Action("CommonDistrictsGet","Configuration")",
+                    url: "@Url.Action("CommonDistrictsGet", "Configuration")",
                     datatype: "Json",
                     data: { id: divisionValue },
                     success: function (data) {
@@ -591,11 +581,10 @@
                 data: { id: districtValue },
                 success: function (data) {
                     if (data) {
-                         $("#ddlCommon_UpazilasFk").empty();
+                        $("#ddlCommon_UpazilasFk").empty();
                         $("#ddlCommon_UpazilasFk").append("<option value=''>==Select Police Station==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCommon_UpazilasFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            console.log(item.Text);
                         });
 
                         if (upazilaValue > 0) {
@@ -606,59 +595,63 @@
             });
         }
 
+
+        var editButton = false;
+
         function makeEditble(id) {
+            if (id != null) {
 
-            if (id !== null) {
+          $.ajax({
+              type: "get",
+              url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
+              data: { id: id },
+              datatype: "json",
+              traditional: true,
+              success: function (data) {
 
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                $.ajax({
-                    type: "get",
-                    url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
-                    data: { id: id },
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-
-                        $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                        $('#deportId').val(data.ID);
-                        $('#ActionId').val(2);
-                        $('#CompanyFK').val(data.CompanyFK);
-                        $('#txtDealerName').val(data.Name);
-                        $('#txtContactPerson').val(data.ContactPerson);
-                        $('#txtPhone').val(data.Phone);
+                  $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                  $('#deportId').val(data.ID);
+                  $('#ActionId').val(2);
+                  $('#CompanyFK').val(data.CompanyFK);
+                  $('#txtDealerName').val(data.Name);
+                  $('#txtContactPerson').val(data.ContactPerson);
+                  $('#txtPhone').val(data.Phone);
 
 
-                        $('#txtEmail').val(data.Email);
-                        //zoneValue = data.ZoneId;
-                        //zoneDivision = data.ZoneDivisionId;
-                        //area = data.RegionId;
-                        //subzone = data.SubZoneId;
+                  $('#txtEmail').val(data.Email);
+                  //zoneValue = data.ZoneId;
+                  //zoneDivision = data.ZoneDivisionId;
+                  //area = data.RegionId;
+                  //subzone = data.SubZoneId;
 
 
-                        //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
-                        //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
-                        //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
-                        //});
-                        $('#ddlZoneId').val(data.ZoneId).trigger('change');
-                        zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
-                        regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId)
-                        areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+                  //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
+                  //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
+                  //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
 
-                        territoryChange(data.SubZoneId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+                  $('#ddlZoneId').val(data.ZoneId).trigger('change');
 
-                        $('#txtAddress').val(data.Address);
-                        $('#txtNID').val(data.NID);
-                        $('#txtCreditLimit').val(data.CreditLimit);
-                        $('#ddCustomerTypeFk').val(data.CustomerTypeFk);
-                        $('#txtSecurityAmount').val(data.SecurityAmount);
-                        $('#ddlCustomerStatus').val(data.CustomerStatus);
-                        $('#txtProprietor').val(data.Propietor);
-                        $('#txtPaymentType').val(data.PaymentType);
-                        $('#ddlParentId').val(data.ParentId).trigger('change');
-                    }
-                });
+                  zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
+                  regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
+                  areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+
+                  territoryChange(data.SubZoneId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+
+                  $('#txtAddress').val(data.Address);
+                  $('#txtNID').val(data.NID);
+                  $('#txtCreditLimit').val(data.CreditLimit);
+                  $('#ddCustomerTypeFk').val(data.CustomerTypeFk);
+                  $('#txtSecurityAmount').val(data.SecurityAmount);
+                  $('#ddlCustomerStatus').val(data.CustomerStatus);
+                  $('#txtProprietor').val(data.Propietor);
+                  $('#txtPaymentType').val(data.PaymentType);
+                  $('#ddlParentId').val(data.ParentId).trigger('change');
+
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+          });
             }
-        }
+            }
 
         function resetForm() {
             $('#commonDealerFormId')[0].reset();
@@ -674,5 +667,6 @@
 
     </script>
 }
+
 
 

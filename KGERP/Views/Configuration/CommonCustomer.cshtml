@@ -262,9 +262,9 @@
                                             <th>
                                                 Territory
                                             </th>
-                                            <th>
-                                                Incharge
-                                            </th>
+                                            @*<th>
+                                                    Incharge
+                                                </th>*@
 
                                             <th>
                                                 Phone
@@ -288,9 +288,9 @@
                                                     Zone
                                                 </th>*@
 
-                                            <th>
-                                                Status
-                                            </th>
+                                            @*<th>
+                                                    Status
+                                                </th>*@
 
                                             <th>Action</th>
                                         </tr>
@@ -326,11 +326,9 @@
                                                 <td>
                                                     @item.SubZoneName
                                                 </td>
-                                                <td>
-                                                    @item.ZoneIncharge
-                                                </td>
-
-
+                                                @*<td>
+                                                        @item.ZoneIncharge
+                                                    </td>*@
                                                 @*<td>
                                                         @item.PaymentType
                                                     </td>
@@ -361,9 +359,9 @@
                                                 @*<td>
                                                         @item.ZoneName (Incharge: @item.ZoneIncharge)
                                                     </td>*@
-                                                <td>
-                                                    @item.CustomerStatus
-                                                </td>
+                                                @*<td>
+                                                        @item.CustomerStatus
+                                                    </td>*@
 
                                                 <td>
                                                     @if (Model.UserDataAccessModel.CanEdit)
