@@ -3934,9 +3934,9 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
-                Qty =(double) (vmSalesOrderSlave.QtyCtn*vmSalesOrderSlave.Consumption)+vmSalesOrderSlave.QtyPcs,
+                Qty = (double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs,
                 OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs,
-                UnitPrice =vmSalesOrderSlave.UnitPrice,
+                UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (((double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs) * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
                 PackQuantity = vmSalesOrderSlave.PackQuantity,
@@ -3970,8 +3970,8 @@ namespace KGERP.Service.Implementation.Procurement
 
             model.ProductId = vmSalesOrderSlave.ProductId ?? 0;
             model.Qty = (double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs;
-            model.OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) +vmSalesOrderSlave.OfferPcs;
-               
+            model.OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs;
+
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.Amount = (((double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs) * vmSalesOrderSlave.UnitPrice);
             model.Comsumption = vmSalesOrderSlave.Consumption;
@@ -3991,12 +3991,12 @@ namespace KGERP.Service.Implementation.Procurement
         public async Task<VMSalesOrderSlave> GetDeportSalesOrderDetails(int companyId, int orderMasterId)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-            vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive==true && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
+            vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive == true && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
                                                       join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId into t4_zoneDivision
                                                       from t4 in t4_zoneDivision.DefaultIfEmpty()
-                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId into t5_zone 
+                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId into t5_zone
                                                       from t5 in t5_zone.DefaultIfEmpty()
                                                       join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       from t6 in t6_Join.DefaultIfEmpty()
@@ -4076,7 +4076,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OfferQty = t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
-                                                                        TotalAmount = t1.Qty* t1.UnitPrice,
+                                                                        TotalAmount = t1.Qty * t1.UnitPrice,
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
                                                                         PromotionalOfferId = t1.PromotionalOfferId,
@@ -4084,7 +4084,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                         Remarks = t1.Remarks
-                                                                       
+
                                                                     }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
@@ -4195,7 +4195,7 @@ namespace KGERP.Service.Implementation.Procurement
             foreach (var dt in details)
             {
                 var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
-                dt.Qty = ((obj.QtyCtn*(double)obj.Consumption)+obj.QtyPcs);
+                dt.Qty = ((obj.QtyCtn * (double)obj.Consumption) + obj.QtyPcs);
                 dt.Amount = (dt.Qty * dt.UnitPrice);//obj.qty
                 dt.OfferQty = ((obj.OfferCtn * (double)obj.Consumption) + obj.OfferPcs);
                 dt.ModifiedBy = userName;
@@ -4498,7 +4498,7 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
-                Qty = ((vmSalesOrderSlave.QtyCtn* (double)vmSalesOrderSlave.Consumption)+ vmSalesOrderSlave.QtyPcs),
+                Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs),
                 OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs),
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = vmSalesOrderSlave.TotalAmount,
@@ -4536,7 +4536,7 @@ namespace KGERP.Service.Implementation.Procurement
             model.Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs);
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
             model.OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs);
-            model.Amount =vmSalesOrderSlave.TotalAmount;
+            model.Amount = vmSalesOrderSlave.TotalAmount;
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
 
@@ -4571,7 +4571,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                       select new VMSalesOrderSlave
                                                       {
                                                           OrderMasterId = t1.OrderMasterId,
-                                                          StockInfoTypeId = t1.StockInfoTypeId??0,
+                                                          StockInfoTypeId = t1.StockInfoTypeId ?? 0,
                                                           StockInfoId = t1.StockInfoId,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
@@ -4763,7 +4763,7 @@ namespace KGERP.Service.Implementation.Procurement
             foreach (var dt in details)
             {
                 var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
-                dt.Qty = ((double)(obj.QtyCtn*obj.Consumption)+obj.QtyPcs);
+                dt.Qty = ((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs);
                 dt.Amount = (((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs) * dt.UnitPrice);
                 dt.OfferQty = ((double)(obj.OfferCtn * obj.Consumption) + obj.OfferPcs);
                 dt.ModifiedBy = userName;
@@ -4943,15 +4943,26 @@ namespace KGERP.Service.Implementation.Procurement
             }
 
             #region UserDataFilter
+
             if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
             UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
-            if(up.UserTypeId==(int)EnumUserType.Dealer && up.DealerIds?.Length > 0)
+
+            if (up.UserTypeId == (int)EnumUserType.Dealer)
             {
-                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = up.DealerIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
             {
-                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) &&  q.SalePersonId==up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
             }
             #endregion
 
@@ -4970,7 +4981,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonCustomerList;
         }
-       
+
         #endregion
 
         #region Food Customer Sales
@@ -5058,10 +5069,10 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
-                Qty = ((vmSalesOrderSlave.QtyCtn*(double) vmSalesOrderSlave.Consumption)+ vmSalesOrderSlave.QtyPcs),
-                OfferQty = ((vmSalesOrderSlave.OfferCtn *(double) vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs),
+                Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs),
+                OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs),
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
-                Amount = vmSalesOrderSlave.TotalAmount ,
+                Amount = vmSalesOrderSlave.TotalAmount,
                 Comsumption = vmSalesOrderSlave.Consumption,
                 PackQuantity = vmSalesOrderSlave.PackQuantity,
                 DiscountUnit = vmSalesOrderSlave.ProductDiscountUnit,
@@ -5096,7 +5107,7 @@ namespace KGERP.Service.Implementation.Procurement
             model.Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs);
             model.OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs);
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
-            model.Amount =vmSalesOrderSlave.TotalAmount;
+            model.Amount = vmSalesOrderSlave.TotalAmount;
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
 
@@ -5127,7 +5138,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                       select new VMSalesOrderSlave
                                                       {
                                                           OrderMasterId = t1.OrderMasterId,
-                                                          StockInfoTypeId = t1.StockInfoTypeId??0,
+                                                          StockInfoTypeId = t1.StockInfoTypeId ?? 0,
                                                           StockInfoId = t1.StockInfoId,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
@@ -5281,6 +5292,31 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                vmSalesOrder.DataList = up.DealerIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            #endregion
+
             return vmSalesOrder;
         }
         public async Task<List<VMSalesOrder>> GetSalesOrderListByCustomerId(int customerId)
@@ -5318,7 +5354,7 @@ namespace KGERP.Service.Implementation.Procurement
             var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
 
             VMProductStock vmProductStock = new VMProductStock();
-            
+
             vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_ProductStockList {0},{1},{2},{3},{4},{5},{6}",
                 companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
 
@@ -5350,7 +5386,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmProductStock;
         }
-        public VMProductStock GetDealerProductStockByProductId(int companyId, int productId,int stockInfoTypeId, int stockInfoId)
+        public VMProductStock GetDealerProductStockByProductId(int companyId, int productId, int stockInfoTypeId, int stockInfoId)
         {
             var stockInfo = _db.StockInfoes.FirstOrDefault(c => c.IsDefault);
             if (stockInfoId <= 0 && stockInfo?.StockInfoId > 0)
@@ -5390,16 +5426,20 @@ namespace KGERP.Service.Implementation.Procurement
             VendorDepositModel vendorDeposit = new VendorDepositModel();
             vendorDeposit.DataList = await (
 
-                from t1 in _db.VendorDeposits.Where(c => c.IsActive& c.VendorTypeId==(int)vendor)
+                from t1 in _db.VendorDeposits.Where(c => c.IsActive & c.VendorTypeId == (int)vendor)
                 join t2 in _db.Vendors on t1.VendorId equals t2.VendorId
-                into t2_Join from  t2 in t2_Join.DefaultIfEmpty()
+                into t2_Join
+                from t2 in t2_Join.DefaultIfEmpty()
                 join t3 in _db.Companies on t2.CompanyId equals t3.CompanyId
-                into t3_Join from t3 in t3_Join.DefaultIfEmpty()
+                into t3_Join
+                from t3 in t3_Join.DefaultIfEmpty()
                 join t4 in _db.HeadGLs on t1.PaymentToHeadGlId equals t4.Id
-                into t4_Join from t4 in t4_Join.DefaultIfEmpty()
+                into t4_Join
+                from t4 in t4_Join.DefaultIfEmpty()
                 join t5 in _db.HeadGLs on t1.BankChargeHeadGlId equals t5.Id
-                into t5_Join from t5 in t5_Join.DefaultIfEmpty()
-                
+                into t5_Join
+                from t5 in t5_Join.DefaultIfEmpty()
+
                 select new VendorDepositModel
                 {
                     DepositDate = t1.DepositDate,
@@ -5416,7 +5456,7 @@ namespace KGERP.Service.Implementation.Procurement
                     CreatedDate = t1.CreateDate,
                     Description = t1.Description,
                     IsSubmit = t1.IsSubmit
-                }).OrderByDescending(c=>c.VendorDepositId).ToListAsync();
+                }).OrderByDescending(c => c.VendorDepositId).ToListAsync();
 
 
             return vendorDeposit;
@@ -5618,7 +5658,7 @@ namespace KGERP.Service.Implementation.Procurement
                     //}
                     _db.SaveChanges();
                     vendor.CurrentDeposit = vendorDeposit.DepositAmount + vendor.CurrentDeposit;
-                 
+
                     _db.SaveChanges();
                     scope.Commit();
                     return vendorDeposit.VendorDepositId;
