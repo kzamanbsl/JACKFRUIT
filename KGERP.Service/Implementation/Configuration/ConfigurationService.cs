@@ -128,7 +128,7 @@ namespace KGERP.Service.Implementation.Configuration
             return new { indexNo = index, isSuccess = false };
 
         }
-        
+
         public object GetUserClientMenuAssign(string prefix)
         {
             var v = (from t1 in _db.Users.Where(q => q.Active)
@@ -150,8 +150,23 @@ namespace KGERP.Service.Implementation.Configuration
         {
             long id = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
             var model = new UserDataAccessModel();
-
             if (id <= 0) { return model; }
+
+            string sessionKey = "UserData" + id.ToString();
+
+            #region Session Data Get and return
+
+            // Set Session Data
+            UserDataAccessModel sessionEmployee = (UserDataAccessModel)System.Web.HttpContext.Current.Session[sessionKey];
+
+            if (sessionEmployee != null && sessionEmployee.EmployeeId > 0)
+            {
+                return sessionEmployee;
+            }
+
+            #endregion
+
+            #region Session Data Set and return
 
             Employee employee = await _db.Employees.FirstOrDefaultAsync(c => c.Id == id);
             User user = await _db.Users.FirstOrDefaultAsync(c => c.UserName == employee.EmployeeId);
@@ -163,7 +178,7 @@ namespace KGERP.Service.Implementation.Configuration
             model.CanEdit = user.IsAdmin;
             model.CanDelete = user.IsAdmin;
 
-            List<EmployeeServicePointMap> employeeServicePointMaps = _db.EmployeeServicePointMaps.Where(c => c.EmployeeId == id && c.IsActive==true)
+            List<EmployeeServicePointMap> employeeServicePointMaps = _db.EmployeeServicePointMaps.Where(c => c.EmployeeId == id && c.IsActive == true)
                     .Include(c => c.SubZone).Include(c => c.Area).Include(c => c.Region).Include(c => c.ZoneDivision).Include(c => c.Zone).AsNoTracking().ToList();
 
             var territories = employeeServicePointMaps.Where(c => c.TerritoryId > 0).Select(s => s.SubZone).ToList();
@@ -233,14 +248,61 @@ namespace KGERP.Service.Implementation.Configuration
                 var deportIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
                 model.DeportIds = deportIds;
             }
-
-            if (model.UserTypeId == (int)EnumUserType.Dealer)
+            else if (model.UserTypeId == (int)EnumUserType.Dealer)
             {
                 var dealerIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
                 model.DealerIds = dealerIds;
             }
+            else if (model.UserTypeId == (int)EnumUserType.Customer)
+            {
+                if (territories?.Count() > 0)
+                {
+                    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
+                    var vendors = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
+                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
+                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                }
+                else if (areas?.Count() > 0)
+                {
+                    var areaIds = areas.Select(c => c.AreaId).ToArray();
+                    var vendors = _db.Vendors.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
+                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                }
+                else if (regions?.Count() > 0)
+                {
+                    var regionIds = regions.Select(c => c.RegionId).ToArray();
+                    var vendors = _db.Vendors.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
+                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
+                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                }
+                else if (zoneDivisions?.Count() > 0)
+                {
+                    var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
+                    var vendors = _db.Vendors.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
+                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
+                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                }
+                else if (zones?.Count() > 0)
+                {
+                    var zoneIds = zones.Select(c => c.ZoneId).ToArray();
+                    var vendors = _db.Vendors.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
+                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
+                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                }
+            }
+
+            // Set Session Data
+            System.Web.HttpContext.Current.Session[sessionKey] = model;
 
             return model;
+
+            #endregion
         }
 
         public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)
