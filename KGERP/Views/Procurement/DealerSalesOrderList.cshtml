@@ -88,7 +88,8 @@
                                         <th>SL</th>
                                         <th>Sales No</th>
                                         <th>Order Date</th>
-                                        <th>Dealer</th>
+                                        <th>Sales From</th>
+                                        <th>To Dealer</th>
                                         <th>Delivery Date</th>
                                         <th>Payment Method</th>
                                         <th>Status</th>
@@ -116,6 +117,7 @@
                                             <th>@(++sl)</th>
                                             <td>@item.OrderNo</td>
                                             <td>@item.OrderDate.ToString("dd-MM-yyyy")</td>
+                                            <td>@item.StockInfoName</td>
                                             <td>@item.CommonCustomerName</td>
                                             <td>
                                                 @if (item.ExpectedDeliveryDate != null)

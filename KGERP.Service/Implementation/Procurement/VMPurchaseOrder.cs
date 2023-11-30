@@ -222,11 +222,12 @@ namespace KGERP.Service.Implementation.Procurement
 
         public int StockInfoTypeId { get; set; } // Come from StockFromTypeEnum
         public int? StockInfoId { get; set; } //CompanyWarehouse/ Depot/ Dealer/ Customer
-
+        public string StockInfoName { get; set; }
         public int SalePersonId { get; set; }
         public string CompanyAddress { get; set; }
         public string CompanyEmail { get; set; }
         public string CompanyPhone { get; set; }
+        
         public string CommonCustomerName { get; set; }
         public string CommonCustomerCode { get; set; }
 

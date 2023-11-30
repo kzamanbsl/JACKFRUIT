@@ -130,3 +130,6 @@ The statement has been terminated.
    --- End of inner exception stack trace ---
    at System.Data.Entity.Internal.InternalContext.SaveChanges()
    at KGERP.Service.Implementation.EmployeeService.SaveEmployee(Int64 id, EmployeeModel model) in D:\RunningWork\JACKFRUIT\KGERP.Service\Implementation\EmployeeService.cs:line 948
+ERROR 2023-11-30 15:07:54,085 512090ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\JACKFRUIT\KGERP\Controllers\UserController.cs:line 331

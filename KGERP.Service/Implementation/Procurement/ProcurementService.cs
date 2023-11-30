@@ -4049,7 +4049,9 @@ namespace KGERP.Service.Implementation.Procurement
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
 
-                                                          Warehouse = t6 != null ? t6.Name : "",
+                                                          StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                          StockInfoId = t1.StockInfoId ?? 0,
+                                                          StockInfoName = t6.Name,
 
                                                           CreatedDate = t1.CreateDate,
                                                           CreatedBy = t1.CreatedBy,
@@ -4262,10 +4264,14 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+                                                          join t3 in _db.StockInfoes on t1.StockInfoId equals t3.StockInfoId
 
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = t3.Name,
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -4286,6 +4292,31 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                vmSalesOrder.DataList = up.DeportIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = (up.RegionIds?.Length > 0 && up.AreaIds?.Length <= 0) ?
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            #endregion
+
             return vmSalesOrder;
         }
 
@@ -4304,10 +4335,14 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.Status < (int)EnumSOStatus.Received)
 
                                                           join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+                                                          join t3 in _db.StockInfoes on t1.StockInfoId equals t3.StockInfoId
 
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = t3.Name,
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -4330,6 +4365,31 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                vmSalesOrder.DataList = up.DeportIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = (up.RegionIds?.Length > 0 && up.AreaIds?.Length <= 0) ?
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            #endregion
+
             return vmSalesOrder;
         }
 
@@ -4348,10 +4408,14 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
+                                                          join t3 in _db.StockInfoes on t1.StockInfoId equals t3.StockInfoId
 
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = t3.Name,
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -4372,6 +4436,31 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                vmSalesOrder.DataList = up.DeportIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            #endregion
+
             return vmSalesOrder;
         }
 
@@ -4573,6 +4662,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           OrderMasterId = t1.OrderMasterId,
                                                           StockInfoTypeId = t1.StockInfoTypeId ?? 0,
                                                           StockInfoId = t1.StockInfoId,
+                                                          StockInfoName = t6.Name ?? t7.Name,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
                                                           Status = t1.Status,
@@ -4834,6 +4924,12 @@ namespace KGERP.Service.Implementation.Procurement
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = (t1.StockInfoTypeId ?? 0) == (int)StockInfoTypeEnum.Company ? (_db.StockInfoes.FirstOrDefault(c => c.StockInfoId == t1.StockInfoId).Name ?? "") :
+                                                              (t1.StockInfoTypeId ?? 0) == (int)StockInfoTypeEnum.Deport ? (_db.Vendors.FirstOrDefault(c => c.VendorId == t1.StockInfoId).Name ?? "") : "",
+
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -4854,6 +4950,31 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                vmSalesOrder.DataList = up.DealerIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            #endregion
+
             return vmSalesOrder;
         }
 
@@ -4876,6 +4997,12 @@ namespace KGERP.Service.Implementation.Procurement
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = (t1.StockInfoTypeId ?? 0) == (int)StockInfoTypeEnum.Company ? (_db.StockInfoes.FirstOrDefault(c => c.StockInfoId == t1.StockInfoId).Name ?? "") :
+                                                              (t1.StockInfoTypeId ?? 0) == (int)StockInfoTypeEnum.Deport ? (_db.Vendors.FirstOrDefault(c => c.VendorId == t1.StockInfoId).Name ?? "") : "",
+
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -4898,6 +5025,31 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.Status == vStatus);
             }
+
+            #region UserDataFilter
+
+            if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                vmSalesOrder.DataList = up.DealerIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
+            }
+            #endregion
+
             return vmSalesOrder;
         }
 
@@ -4921,6 +5073,12 @@ namespace KGERP.Service.Implementation.Procurement
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = (t1.StockInfoTypeId ?? 0) == (int)StockInfoTypeEnum.Company ? (_db.StockInfoes.FirstOrDefault(c => c.StockInfoId == t1.StockInfoId).Name ?? "") :
+                                                              (t1.StockInfoTypeId ?? 0) == (int)StockInfoTypeEnum.Deport ? (_db.Vendors.FirstOrDefault(c => c.VendorId == t1.StockInfoId).Name ?? "") : "",
+
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -4957,7 +5115,7 @@ namespace KGERP.Service.Implementation.Procurement
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
             {
                 vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) &&  q.SalePersonId==up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
                     vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
@@ -5267,10 +5425,14 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
+                                                          join t3 in _db.Vendors on t1.StockInfoId equals t3.VendorId
 
                                                           select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
+                                                              StockInfoTypeId = t1.StockInfoTypeId ?? 0,
+                                                              StockInfoId = t1.StockInfoId ?? 0,
+                                                              StockInfoName = t3.Name,
                                                               CustomerId = t2.VendorId,
                                                               CommonCustomerName = t2.Name,
                                                               CustomerPaymentMethodEnumFK = t1.PaymentMethod,
@@ -5302,14 +5464,14 @@ namespace KGERP.Service.Implementation.Procurement
             if (up.UserTypeId == (int)EnumUserType.Dealer)
             {
                 vmSalesOrder.DataList = up.DealerIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId)) :
+                    vmSalesOrder.DataList.Where(q => up.CustomerIds.Contains(q.CustomerId)) :
                     vmSalesOrder.DataList.Where(q => q.OrderMasterId <= 0);
             }
-            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.CustomerIds?.Length > 0)
             {
                 vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                    vmSalesOrder.DataList.Where(q => up.CustomerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
+                    vmSalesOrder.DataList.Where(q => up.CustomerIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {

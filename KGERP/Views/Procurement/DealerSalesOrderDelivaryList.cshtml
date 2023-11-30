@@ -88,6 +88,7 @@
                                         <th>SL</th>
                                         <th>Sales No</th>
                                         <th>Order Date</th>
+                                        <th>Sales From</th>
                                         <th>Dealer</th>
                                         <th>Delivery Date</th>
                                         <th>Challan No</th>
@@ -116,6 +117,7 @@
                                             <th>@(++sl)</th>
                                             <td>@item.OrderNo</td>
                                             <td>@item.OrderDate.ToString("dd-MM-yyyy")</td>
+                                            <td>@item.StockInfoName</td>
                                             <td>@item.CommonCustomerName</td>
                                             <td>
                                                 @if (item.ExpectedDeliveryDate != null)
@@ -130,8 +132,8 @@
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {
-                                                    <a target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                    <a target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDealerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteDealerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                 }
                                                 <a target="_blank" href="~/Procurement/DealerSalesOrderDelivarySlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
