@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -1900,6 +1901,21 @@ namespace KGERP.Controllers
 
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult> SRSalesOrderSlave(int companyId, int orderMasterId = 0)
+        {
+
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
+            }
+            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+
+            return View(vmSalesOrderSlave);
+        }
 
         #endregion
 

@@ -2641,6 +2641,7 @@ namespace KGERP.Service.Implementation.Procurement
                                               OfferQty = t1.OfferQty,
                                               UnitPrice = t1.UnitPrice,
                                               TotalAmount = t1.Amount,
+                                              DiscountAmount = t1.DiscountAmount,
                                               UnitName = t5.ShortName,
                                               FProductId = t1.ProductId,
                                               PackQuantity = t1.PackQuantity,
@@ -2678,7 +2679,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.FProductId,
+                ProductId = vmSalesOrderSlave.FProductId,    
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
@@ -5265,7 +5266,8 @@ namespace KGERP.Service.Implementation.Procurement
             model.Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs);
             model.OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs);
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
-            model.Amount = vmSalesOrderSlave.TotalAmount;
+            model.DiscountAmount = vmSalesOrderSlave.DiscountAmount;
+            model.Amount =vmSalesOrderSlave.TotalAmount;
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
 
@@ -5357,7 +5359,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OfferQty = t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
-                                                                        TotalAmount = t1.Amount,
+                                                                        TotalAmount = (t1.Amount-(double)t1.DiscountAmount),
+                                                                        DiscountAmount=t1.DiscountAmount,
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
                                                                         PromotionalOfferId = t1.PromotionalOfferId,

@@ -29,13 +29,13 @@
         else
         {
             <span>
-                Customer Sales Invoice
+                SR Sales Invoice
             </span>
         }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Customer Sales Invoice</li>
+        <li class="active">SR Sales Invoice</li>
     </ol>
 </section>
 
@@ -151,8 +151,8 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Zone:</label>
-                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            <label>Deport:</label>
+                                            @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
