@@ -335,7 +335,6 @@ namespace KGERP.Service.Implementation.Procurement
         }
         public int ProductSubCategoryId { get; set; }
         public int ProductCategoryId { get; set; }
-        public int DeportId { get; set; }
         public int SubZoneFk { get; set; }
         public int ZoneFk { get; set; }
         public int RegionFk { get; set; }
@@ -361,7 +360,6 @@ namespace KGERP.Service.Implementation.Procurement
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());
-        public SelectList DeportList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }

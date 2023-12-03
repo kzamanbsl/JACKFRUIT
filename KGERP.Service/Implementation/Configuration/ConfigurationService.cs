@@ -4891,6 +4891,22 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmCommonCustomer;
         }
+        public SelectList GetCustomerListByCustomerIds(int[] customerIds)
+        {
+            var list = new List<object>();
+
+            _db.Vendors
+         .Where(x => x.IsActive && x.CompanyId == CompanyInfo.CompanyId && x.VendorTypeId == (int)Provider.Customer && customerIds.Contains(x.VendorId)).Select(x => x).ToList()
+        .ForEach(x => list.Add(new
+        {
+            Value = x.VendorId,
+            Text = x.Name
+        }));
+
+            var customerList = new SelectList(list, "Value", "Text");
+            return customerList;
+
+        }
         public async Task<int> CustomerAdd(VMCommonSupplier vmCommonCustomer)
         {
             var result = -1;
@@ -5559,7 +5575,22 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Common Dealer
+        public async Task<SelectList> GetDealerListByDealerIds(int[] dealerIds)
+        {
+            List<object> dealerList = new List<object>();
 
+
+            await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.VendorTypeId == (int)Provider.Dealer && dealerIds.Contains(x.VendorId)))
+            .ToList()
+            .ForEach(x => dealerList.Add(new
+            {
+                Value = x.VendorId,
+                Text = x.Name
+            })));
+
+            var dealerSelectList = new SelectList(dealerList, "Value", "Text");
+            return dealerSelectList;
+        }
         public async Task<VMCommonSupplier> GetDealerById(int deportId)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();

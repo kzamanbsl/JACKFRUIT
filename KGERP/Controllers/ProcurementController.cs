@@ -6,12 +6,14 @@ using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
@@ -102,7 +104,7 @@ namespace KGERP.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
- 
+
         #region Supplier Opening
 
         [HttpGet]
@@ -191,6 +193,8 @@ namespace KGERP.Controllers
             var products = _service.ProcurementCustomerOpeningSubmit(vendorOpeningId);
             return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
         }
+
+
 
         #endregion
 
@@ -1680,7 +1684,7 @@ namespace KGERP.Controllers
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
             //vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.CustomerList= new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
+            vmSalesOrderSlave.CustomerList = new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
 
             return View(vmSalesOrderSlave);
         }
@@ -1868,7 +1872,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> DeportSalesOrderReceivedSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
             var resutl = await _service.DeportSalesOrderReceived(vmSalesOrderSlave);
-            return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyFK});
+            return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
         [HttpGet]
@@ -1902,20 +1906,7 @@ namespace KGERP.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<ActionResult> SRSalesOrderSlave(int companyId, int orderMasterId = 0)
-        {
 
-            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-            if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
-                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
-            }
-            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
-
-            return View(vmSalesOrderSlave);
-        }
 
         #endregion
 
@@ -1966,7 +1957,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> SubmitDealerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
             vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
-            return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK});
+            return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
         [HttpPost]
@@ -2160,7 +2151,7 @@ namespace KGERP.Controllers
 
         }
 
-       
+
         #endregion
 
         #region Food Customer Sales
@@ -2209,8 +2200,8 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitFoodCustomerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
-            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK});
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.TotalDiscountAmount);
+            return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
         [HttpPost]
@@ -2287,6 +2278,51 @@ namespace KGERP.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> SRSalesOrderSlave(int companyId, int orderMasterId = 0)
+        {
+
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetFoodCustomerSalesOrderDetails(companyId, orderMasterId));
+
+            }
+            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();  
+            vmSalesOrderSlave.CustomerList = _Configurationservice.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
+            vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
+
+            
+
+            return View(vmSalesOrderSlave);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> SRSalesOrderSlave(VMSalesOrderSlave vMSalesOrder)
+        {
+
+            if (vMSalesOrder.ActionEum == ActionEnum.Add)
+            {
+                if (vMSalesOrder.OrderMasterId == 0)
+                {
+                    vMSalesOrder.OrderMasterId = await _service.FoodCustomerOrderMasterAdd(vMSalesOrder);
+
+                }
+                await _service.FoodCustomerOrderDetailAdd(vMSalesOrder);
+            }
+            else if (vMSalesOrder.ActionEum == ActionEnum.Edit)
+            {
+                await _service.FoodCustomerOrderDetailEdit(vMSalesOrder);
+            }
+            return RedirectToAction(nameof(SRSalesOrderSlave), new { companyId = vMSalesOrder.CompanyFK, orderMasterId = vMSalesOrder.OrderMasterId });
+
+        }
+
         #endregion
 
         #region Get Stocks
@@ -2310,7 +2346,7 @@ namespace KGERP.Controllers
         public JsonResult GetDealerProductStockByProductId(int companyId, int productId, int? stockInfoTypeId, int? stockInfoId)
         {
             var stockInfoIdVal = stockInfoId > 0 ? stockInfoId : Convert.ToInt32(Session["StockInfoId"]);
-            var model = _service.GetDealerProductStockByProductId(companyId, productId, stockInfoTypeId??0, stockInfoIdVal ?? 0);
+            var model = _service.GetDealerProductStockByProductId(companyId, productId, stockInfoTypeId ?? 0, stockInfoIdVal ?? 0);
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
@@ -2324,14 +2360,14 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> DeportDeposit(int companyId)
         {
-            var  vendorDepositModel = await _service.GetVendorList(Provider.Deport);
+            var vendorDepositModel = await _service.GetVendorList(Provider.Deport);
 
 
             vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Deport);
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-            
+
             vendorDepositModel.CompanyFK = companyId;
-            vendorDepositModel.DeportList= new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
+            vendorDepositModel.DeportList = new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
             return View(vendorDepositModel);
         }
 
@@ -2362,7 +2398,7 @@ namespace KGERP.Controllers
             vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Dealer);
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vendorDepositModel.CompanyFK = companyId;
-            vendorDepositModel.DealerList= new SelectList(_Configurationservice.CommonDealerDropDownList(), "Value", "Text");
+            vendorDepositModel.DealerList = new SelectList(_Configurationservice.CommonDealerDropDownList(), "Value", "Text");
             return View(vendorDepositModel);
         }
 
@@ -2424,7 +2460,7 @@ namespace KGERP.Controllers
             var model = await _service.GetSingleVendorDeposit(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        
+
         [HttpPost]
         public JsonResult SubmitVendorDeposit(int vendorDepositId, int companyId = 0)
         {

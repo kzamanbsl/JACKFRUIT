@@ -491,6 +491,8 @@ namespace KGERP.Service.Implementation
                         result = _context.SaveChanges() > 0;
                     }
                 }
+                string sessionKey = "UserData" + id.ToString();
+                System.Web.HttpContext.Current.Session.Remove(sessionKey);
                 #endregion
 
                 model.Id = updateEmployee.Id;

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace KGERP.Service.Implementation.Procurement
 {
@@ -405,6 +406,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonList;
         }
+    
         public object GetAutoCompleteCustomer(string prefix, int companyId)
         {
             var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Customer)
@@ -2679,7 +2681,7 @@ namespace KGERP.Service.Implementation.Procurement
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
-                ProductId = vmSalesOrderSlave.FProductId,    
+                ProductId = vmSalesOrderSlave.FProductId,
                 Qty = vmSalesOrderSlave.Qty,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice),
@@ -3771,7 +3773,7 @@ namespace KGERP.Service.Implementation.Procurement
         #region Food Sales
 
         #region Common Method
-        public async Task<long> FoodOrderMasterSubmit(long? id = 0)
+        public async Task<long> FoodOrderMasterSubmit(long? id = 0, decimal? discountAmount = 0)
         {
             long result = -1;
 
@@ -3785,6 +3787,12 @@ namespace KGERP.Service.Implementation.Procurement
             if (orderMasters.Status == (int)EnumSOStatus.Draft)
             {
                 orderMasters.Status = (int)EnumSOStatus.Submitted;
+
+                if (discountAmount > 0)
+                {
+                    orderMasters.DiscountAmount = discountAmount;
+
+                }
             }
             else
             {
@@ -5238,7 +5246,7 @@ namespace KGERP.Service.Implementation.Procurement
                 //DiscountAmount = (Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit),
                 //DiscountRate = ((Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit) * 100) / Convert.ToDecimal((vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice)),
                 DiscountRate = vmSalesOrderSlave.DiscountRate,
-                DiscountAmount = vmSalesOrderSlave.DiscountAmount,
+                //DiscountAmount = vmSalesOrderSlave.DiscountAmount,
                 StyleNo = Convert.ToString(dateTime),
                 IsActive = true,
 
@@ -5266,8 +5274,8 @@ namespace KGERP.Service.Implementation.Procurement
             model.Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs);
             model.OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs);
             model.UnitPrice = vmSalesOrderSlave.UnitPrice;
-            model.DiscountAmount = vmSalesOrderSlave.DiscountAmount;
-            model.Amount =vmSalesOrderSlave.TotalAmount;
+            //model.DiscountAmount = vmSalesOrderSlave.DiscountAmount;
+            model.Amount = vmSalesOrderSlave.TotalAmount;
             model.Comsumption = vmSalesOrderSlave.Consumption;
             model.PackQuantity = vmSalesOrderSlave.PackQuantity;
 
@@ -5310,7 +5318,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           CourierCharge = t1.CourierCharge,
                                                           FinalDestination = t1.FinalDestination,
                                                           CourierNo = t1.CourierNo,
-                                                          DiscountAmount = t1.DiscountAmount ?? 0,
+                                                          TotalDiscountAmount = t1.DiscountAmount ?? 0,
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
                                                           Remarks = t1.Remarks,
@@ -5359,8 +5367,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         OfferQty = t1.OfferQty,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         UnitName = t6.Name,
-                                                                        TotalAmount = (t1.Amount-(double)t1.DiscountAmount),
-                                                                        DiscountAmount=t1.DiscountAmount,
+                                                                        TotalAmount = t1.Amount,
+                                                                        DiscountAmount = t1.DiscountAmount,
                                                                         PackQuantity = t1.PackQuantity,
                                                                         Consumption = t1.Comsumption,
                                                                         PromotionalOfferId = t1.PromotionalOfferId,
@@ -5372,7 +5380,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                     }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
 
-            vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
+            //vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
 
             return vmSalesOrderSlave;
         }
