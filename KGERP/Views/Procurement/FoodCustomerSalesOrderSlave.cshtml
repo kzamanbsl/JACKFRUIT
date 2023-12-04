@@ -389,6 +389,15 @@
 
                                         <tr>
                                             <th></th>
+                                            <th colspan="5">Total Amount:</th>
+                                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice))) </th>
+                                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                                            {
+                                                <th></th>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th></th>
                                             <th colspan="5">Discount Amount:</th>
                                             <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(Model.DiscountAmount))) </th>
                                             @if (Model.Status == (int)EnumSOStatus.Draft)

@@ -3953,7 +3953,7 @@ namespace KGERP.Service.Implementation.Procurement
                 //DiscountAmount = (Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit),
                 //DiscountRate = ((Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit) * 100) / Convert.ToDecimal((vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice)),
                 DiscountRate = vmSalesOrderSlave.DiscountRate,
-                DiscountAmount = vmSalesOrderSlave.DiscountAmount,
+                //DiscountAmount = vmSalesOrderSlave.DiscountAmount,
                 StyleNo = Convert.ToString(dateTime),
                 IsActive = true,
 
@@ -4609,7 +4609,7 @@ namespace KGERP.Service.Implementation.Procurement
                 //DiscountAmount = (Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit),
                 //DiscountRate = ((Convert.ToDecimal(vmSalesOrderSlave.Qty) * vmSalesOrderSlave.ProductDiscountUnit) * 100) / Convert.ToDecimal((vmSalesOrderSlave.Qty * vmSalesOrderSlave.UnitPrice)),
                 DiscountRate = vmSalesOrderSlave.DiscountRate,
-                DiscountAmount = vmSalesOrderSlave.DiscountAmount,
+                //DiscountAmount = vmSalesOrderSlave.DiscountAmount,
                 StyleNo = Convert.ToString(dateTime),
                 IsActive = true,
 

@@ -150,12 +150,20 @@
                                 <div class="row">
 
                                     @*<div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Deport:</label>
+                                                @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Deport:</label>
-                                            @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
+                                            <label>Sales From (Dealer): </label>
+                                            @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Sales From==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>*@
+                                    </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Customer:</label>
@@ -164,13 +172,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Sales (Dealer) From:</label>
-                                            @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Sales From==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -348,45 +350,54 @@
 
                                     <tfoot>
                                         @*<tr>
-            <th></th>
-            <th colspan="2">Total:</th>
-            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
-            @if (Model.Status == (int)EnumSOStatus.Draft)
-            {
-                <th></th>
-            }
-        </tr>
+                                                <th></th>
+                                                <th colspan="2">Total:</th>
+                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
+                                                @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                {
+                                                    <th></th>
+                                                }
+                                            </tr>
 
-        <tr>
-            <th></th>
-            <th colspan="2">Total Discount:</th>
-            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
-            @if (Model.Status == (int)EnumSOStatus.Draft)
-            {
-                <th></th>
-            }
-        </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="2">Total Discount:</th>
+                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
+                                                @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                {
+                                                    <th></th>
+                                                }
+                                            </tr>
 
-        <tr>
-            <th></th>
-            <th colspan="2">Total After Discount:</th>
-            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
-            @if (Model.Status == (int)EnumSOStatus.Draft)
-            {
-                <th></th>
-            }
-        </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="2">Total After Discount:</th>
+                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
+                                                @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                {
+                                                    <th></th>
+                                                }
+                                            </tr>
 
-        <tr>
-            <th></th>
-            <th colspan="2">Courier Charge:</th>
-            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
-            @if (Model.Status == (int)EnumSOStatus.Draft)
-            {
-                <th></th>
-            }
-        </tr>*@
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="2">Courier Charge:</th>
+                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
+                                                @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                {
+                                                    <th></th>
+                                                }
+                                            </tr>*@
 
+                                        <tr>
+                                            <th></th>
+                                            <th colspan="5">Total Amount:</th>
+                                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice))) </th>
+                                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                                            {
+                                                <th></th>
+                                            }
+                                        </tr>
                                         <tr>
                                             <th></th>
                                             <th colspan="5">Discount Amount:</th>

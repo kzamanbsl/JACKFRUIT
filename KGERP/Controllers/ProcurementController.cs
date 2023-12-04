@@ -1711,7 +1711,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitDeportOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
             return RedirectToAction(nameof(DeportSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
@@ -1956,7 +1956,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitDealerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId);
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
             return RedirectToAction(nameof(DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
