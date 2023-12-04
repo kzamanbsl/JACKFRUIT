@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
@@ -18,13 +19,20 @@ namespace KGERP.Controllers
     {
         readonly ERPEntities _context = new ERPEntities();
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ConfigurationService _configurationService;
 
+        public UserController(ConfigurationService configurationService)
+        {
+            _configurationService = configurationService;
+        }
 
         //Registration Action
         [HttpGet]
-        public ActionResult Registration()
+        public async Task<ActionResult> Registration()
         {
             var model = GetUsers();
+            var userDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            model.UserDataAccessModel = userDataAccessModel;
             model.UserName = GenaratEemployeeId();
             return View(model);
         }

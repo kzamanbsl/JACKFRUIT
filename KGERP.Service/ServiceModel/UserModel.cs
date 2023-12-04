@@ -1,4 +1,5 @@
-﻿using KGERP.Utility;
+﻿using KGERP.Service.Implementation.Configuration;
+using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -57,6 +58,7 @@ namespace KGERP.Service.ServiceModel
 
         public IEnumerable<UserModel> DataList { get; set; }
 
+        public UserDataAccessModel UserDataAccessModel { get; set; }
         public SelectList EnumUserTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumUserTypeDD>(), "Value", "Text"); } }
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
     }
