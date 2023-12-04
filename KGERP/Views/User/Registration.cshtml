@@ -183,10 +183,10 @@
                                                 <td id="tdUserType_@item.UserTypeId">@item.UserTypeName</td>
                                                 <td id="tdActive_@item.UserId"> @item.Active</td>
                                                 <td>
-                                                    @if(item.IsAdmin)
+                                                    @if(Model.UserDataAccessModel.IsAdmin)
                                                     {
                                                         @*<a onclick="makeEditble(@item);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>*@
-                                                        if (@item.Active)
+                                                        if (item.Active)
                                                         {
                                                             <a id="@item.UserId" onclick="makeDisabled(@item.UserId);" class="linkPointer" data-toggle="modal" data-target="#userDisableModal" title="Make Inactive"
                                                                data-placement="top">
