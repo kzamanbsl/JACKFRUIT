@@ -232,8 +232,17 @@
                                         <tfoot>
                                                 <tr>
                                                     <th></th>
+                                                    <th colspan="6">Discount Amount:</th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}",Model.DiscountAmount) </th>
+                                                    @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                    {
+                                                        <th></th>
+                                                    }
+                                                </tr> 
+                                            <tr>
+                                                    <th></th>
                                                     <th colspan="6">Grand Total:</th>
-                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", ((Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge)) - Model.TotalDiscountAmount) </th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", ((Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge)) - Model.DiscountAmount) </th>
                                                     @if (Model.Status == (int)EnumSOStatus.Draft)
                                                     {
                                                         <th></th>

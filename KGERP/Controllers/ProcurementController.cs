@@ -2200,7 +2200,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitFoodCustomerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.TotalDiscountAmount);
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
             return RedirectToAction(nameof(FoodCustomerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
@@ -2293,15 +2293,22 @@ namespace KGERP.Controllers
                 vmSalesOrderSlave = await Task.Run(() => _service.GetFoodCustomerSalesOrderDetails(companyId, orderMasterId));
 
             }
-            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();  
-            vmSalesOrderSlave.CustomerList = _Configurationservice.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
-            vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
+            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
 
-            
+            if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length>0)
+            {
+                vmSalesOrderSlave.CustomerList = _Configurationservice.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
+
+            }
+            if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length > 0)
+            {
+                vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
+            }
+
 
             return View(vmSalesOrderSlave);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> SRSalesOrderSlave(VMSalesOrderSlave vMSalesOrder)
         {
@@ -2323,6 +2330,12 @@ namespace KGERP.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SubmitSrOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
+            return RedirectToAction(nameof(SRSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
+        }
         #endregion
 
         #region Get Stocks

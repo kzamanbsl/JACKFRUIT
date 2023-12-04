@@ -4894,7 +4894,10 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList GetCustomerListByCustomerIds(int[] customerIds)
         {
             var list = new List<object>();
-
+            if (customerIds?.Length <= 0 || customerIds == null)
+            {
+                return new SelectList(list, "Value", "Text"); 
+            }
             _db.Vendors
          .Where(x => x.IsActive && x.CompanyId == CompanyInfo.CompanyId && x.VendorTypeId == (int)Provider.Customer && customerIds.Contains(x.VendorId)).Select(x => x).ToList()
         .ForEach(x => list.Add(new
@@ -5578,7 +5581,11 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<SelectList> GetDealerListByDealerIds(int[] dealerIds)
         {
             List<object> dealerList = new List<object>();
-
+            
+            if (dealerIds?.Length <= 0 || dealerIds == null)
+            {
+                return new SelectList(dealerList, "Value", "Text");
+            }
 
             await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.VendorTypeId == (int)Provider.Dealer && dealerIds.Contains(x.VendorId)))
             .ToList()

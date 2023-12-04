@@ -4291,6 +4291,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
+                                                              SalePersonId = t1.SalePersonId??0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -4364,6 +4365,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
+                                                              SalePersonId = t1.SalePersonId??0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -4435,6 +4437,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
+                                                              SalePersonId = t1.SalePersonId??0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -4949,6 +4952,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
+                                                              SalePersonId = t1.SalePersonId??0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -5024,6 +5028,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
+                                                              SalePersonId = t1.SalePersonId??0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -5098,7 +5103,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-
+                                                              SalePersonId = t1.SalePersonId??0,
+                                                             
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5318,7 +5324,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           CourierCharge = t1.CourierCharge,
                                                           FinalDestination = t1.FinalDestination,
                                                           CourierNo = t1.CourierNo,
-                                                          TotalDiscountAmount = t1.DiscountAmount ?? 0,
+                                                          DiscountAmount = t1.DiscountAmount ?? 0,
                                                           DiscountRate = t1.DiscountRate ?? 0,
                                                           TotalAmountAfterDiscount = t1.TotalAmount ?? 0,
                                                           Remarks = t1.Remarks,
@@ -5453,7 +5459,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-
+                                                              SalePersonId = t1.SalePersonId??0,
+                                                              
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5469,7 +5476,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
 
-            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+             UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
 
             if (up.UserTypeId == (int)EnumUserType.Dealer)
             {
