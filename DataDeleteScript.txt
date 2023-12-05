@@ -1,8 +1,11 @@
 
 USE AzlanFoodDb
 GO
---Delete Table Data and Reset Identity
+-- Git Branch Delete
+--git push -d <remote_name> <branchname>
+--git branch -d <branchname>
 
+--Delete Table Data and Reset Identity
 --DELETE FROM 'TableName'
 --DBCC CHECKIDENT ([TableName], RESEED, 0);
 
