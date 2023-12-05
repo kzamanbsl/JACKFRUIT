@@ -2,9 +2,6 @@
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace KGERP.Service.ServiceModel
@@ -52,6 +49,8 @@ namespace KGERP.Service.ServiceModel
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
         public int DamageToId { get; set; }
+        public long? CollectedById { get; set; }
+
         public IEnumerable<DamageMasterModel> DataList { get; set; } = new List<DamageMasterModel>();
         public DamageDetailModel DetailModel { get; set; } = new DamageDetailModel();
         public IEnumerable<DamageDetailModel> DetailList { get; set; } = new List<DamageDetailModel>();
@@ -71,6 +70,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList EnumDealerDamageToList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDealerDamageTo>(), "Value", "Text"); } }
 
     }
+
     public class DamageDetailModel
     {
         public int DamageDetailId { get; set; }
@@ -114,4 +114,5 @@ namespace KGERP.Service.ServiceModel
         public int? CompanyFK { get; set; }
         public int? CompanyId { get; set; }
     }
+
 }

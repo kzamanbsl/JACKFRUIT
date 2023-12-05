@@ -553,6 +553,7 @@
         <AssociationConnector Association="ERPModel.FK_SubZone_Region" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
         <EntityTypeShape EntityType="ERPModel.User" Width="1.5" PointX="5.375" PointY="5.75" />
+        <AssociationConnector Association="ERPModel.FK_DamageMaster_Employee" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
