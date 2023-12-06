@@ -180,7 +180,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (up.UserTypeId == (int)EnumUserType.Dealer)
             {
-                damageMasterModel.DataList = up.DealerIds?.Length > 0 ?
+                damageMasterModel.DataList = up.DealerIds?.Length > 0 && up.CustomerIds?.Length > 0 ?
                     damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0)) :
                     damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
             }
@@ -707,7 +707,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (up.UserTypeId == (int)EnumUserType.Deport)
             {
-                damageMasterModel.DataList = up.DeportIds?.Length > 0 ?
+                damageMasterModel.DataList = up.DeportIds?.Length > 0  && up.DealerIds?.Length > 0 ?
                     damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0)) :
                     damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
             }
@@ -783,7 +783,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (up.UserTypeId == (int)EnumUserType.Dealer)
             {
-                damageMasterModel.DataList = up.DealerIds?.Length > 0 ?
+                damageMasterModel.DataList = up.DealerIds?.Length > 0 && up.CustomerIds?.Length > 0 ?
                     damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0)) :
                     damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
             }
