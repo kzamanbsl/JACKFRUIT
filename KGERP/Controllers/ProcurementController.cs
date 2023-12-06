@@ -2173,6 +2173,13 @@ namespace KGERP.Controllers
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            //vmSalesOrderSlave.ZoneDivisionList = new SelectList(_Configurationservice.CommonZoneDivisionDropDownList(companyId), "Value", "Text");
+            //vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.CommonRegionDropDownList(companyId), "Value", "Text");
+            //vmSalesOrderSlave.SubZoneList = new SelectList(_Configurationservice.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
+            //vmSalesOrderSlave.CommonSupplier.AreaList = new SelectList(_Configurationservice.CommonAreaDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
+           
 
             return View(vmSalesOrderSlave);
         }
