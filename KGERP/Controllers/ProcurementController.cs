@@ -2160,10 +2160,9 @@ namespace KGERP.Controllers
         public async Task<ActionResult> FoodCustomerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-
+            vmSalesOrderSlave.CompanyFK = companyId;
             if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
+            { 
                 vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
             }
             else

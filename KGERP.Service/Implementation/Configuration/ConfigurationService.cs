@@ -2732,9 +2732,9 @@ namespace KGERP.Service.Implementation.Configuration
                     }).ToList();
                 selectModelList.AddRange(v);
             }
-            else if (zoneId > 0 && zoneDivisionId > 0)
+            else if (zoneId > 0 && zoneDivisionId > 0 && regionId > 0 && areaId > 0)
             {
-                var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
+                var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId && x.AreaId == areaId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
@@ -2752,9 +2752,9 @@ namespace KGERP.Service.Implementation.Configuration
                     }).ToList();
                 selectModelList.AddRange(v);
             }
-            else if (zoneId > 0 && zoneDivisionId > 0 && regionId > 0 && areaId > 0)
+            else if (zoneId > 0 && zoneDivisionId > 0)
             {
-                var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.RegionId == regionId && x.AreaId == areaId && x.IsActive == true).ToList()
+                var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.ZoneId == zoneId && x.ZoneDivisionId == zoneDivisionId && x.IsActive == true).ToList()
                     .Select(x => new SelectModel()
                     {
                         Text = x.Name,
@@ -2762,6 +2762,8 @@ namespace KGERP.Service.Implementation.Configuration
                     }).ToList();
                 selectModelList.AddRange(v);
             }
+
+            
             else
             {
                 var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
