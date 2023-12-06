@@ -36,6 +36,8 @@
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">SR Sales Invoice</li>
+        <li><a class="active btn btn-primary" data-toggle="modal" data-target="#addCustomerModal" style="color:white!important"> Add Customer</a></li>
+
     </ol>
 </section>
 
@@ -527,6 +529,198 @@
     </div>
 }
 
+@using (Html.BeginForm("SRAddCustomer", "Configuration", FormMethod.Post, new { id = "addCustomerId", @class = "formValidator" }))
+{
+    <div class="modal fade" id="addCustomerModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close pull-right" data-dismiss="modal" aria-label="close"> &times;</button>
+                    <h3 class="modal-title"><b>Add New Customer</b></h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="box">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="box-danger">
+                            @*<div class="box-header">
+                                    <h4>Add Deport</h4>
+                                </div>*@
+                            <!-- /.box-header -->
+                            <div class="box-body">
+
+                                @Html.HiddenFor(model => model.ID, new { id = "customerId" })
+                                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Customer Name:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.Name, new { id = "txtCustomerName", @class = "form-control", @placeholder = "Customer Name", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Phone:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.Phone, new { id = "txtPhone", @class = "form-control", @placeholder = "Contact No", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Phone, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Email:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.Email, new { id = "txtEmail", @class = "form-control", @placeholder = "Email" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Payment Type:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.PaymentType, Model.CommonSupplier.PaymentTypeList as SelectList, "--Payment Type--", new { id = "txtPaymentType", @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.PaymentType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Zone:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Division:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "--Select ZoneDivision--", new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneDivisionId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Region:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlModalRegionId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.RegionId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Area:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.CommonSupplier.AreaList as SelectList, "--Select Area--", new { id = "ddlModalAreaId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.AreaId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Territory:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.SubZoneId, Model.SubZoneList as SelectList, "-- Select Territory--", new { id = "ddlModalSubZoneId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.SubZoneId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Proprietor:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Contact Person:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ContactPerson, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">NID No:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID No" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.NID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Customer Type:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.CustomerTypeFk, Model.CommonSupplier.CustomerTypeList as SelectList, "--Customer Type--", new { id = "ddCustomerTypeFk", @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CustomerTypeFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Customer Status:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.CustomerStatus, Model.CommonSupplier.CustomerStatusEnumList as SelectList, "--Select Customer Status--", new { id = "ddlCustomerStatus", @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CustomerStatus, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Security Amount:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.SecurityAmount, new { id = "txtSecurityAmount", @class = "form-control", @placeholder = "Security Amount" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.SecurityAmount, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Credit Limit:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.CreditLimit, new { id = "txtCreditLimit", @class = "form-control", @placeholder = "Credit Limit" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CreditLimit, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Address:</label>
+                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i>Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+}
+
 
 @Scripts.Render("~/bundles/jqueryui")
 @Styles.Render("~/Content/cssjqryUi")
@@ -671,68 +865,6 @@
 
 
 
-        //$("#txtUnitPrice").on('change', function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var unitPrice = $("#txtUnitPrice").val();
-        //    var tAmount = qty * unitPrice;
-        //    $("#totalAmount").val(tAmount);
-
-        //});
-
-        //$("#txtOrderQuantity").on('change', function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var unitPrice = $("#txtUnitPrice").val();
-        //    var tAmount = qty * unitPrice;
-        //    $("#totalAmount").val(tAmount);
-
-        //});
-
-        //$("#txtUnitPrice").keyup(function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var unitPrice = $("#txtUnitPrice").val();
-        //    var tAmount = qty * unitPrice;
-        //    $("#totalAmount").val(tAmount);
-        //    $("#SpcDis").val(0);
-        //    $("#disPercentage").val(0);
-        //});
-
-        //$("#txtOrderQuantity").keyup(function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var unitPrice = $("#txtUnitPrice").val();
-        //    var tAmount = qty * unitPrice;
-        //    $("#totalAmount").val(tAmount);
-
-        //});
-
-        //$("#disPercentage").keyup(function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var Unit = $("#txtUnitPrice").val();
-        //    var PerCentage = $("#disPercentage").val();
-        //    var ammount = qty * Unit;
-        //    var discountprice = ammount * (PerCentage / 100);
-        //    var totalPriceAfterTotalDisPercen = ammount - discountprice;
-        //    $("#SpcDis").val(discountprice);
-        //    $("#totalAmount").val(totalPriceAfterTotalDisPercen);
-
-        //});
-
-        //$("#SpcDis").keyup(function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var Unit = $("#txtUnitPrice").val();
-        //    var specialDis = $("#SpcDis").val();
-        //    var ammount = qty * Unit;
-        //    var percentage = ((specialDis / ammount) * 100);
-        //    var totalPriceAfterTotalspecial = ammount - specialDis;
-        //    $("#disPercentage").val(percentage);
-        //    $("#totalAmount").val(totalPriceAfterTotalspecial);
-
-        //});
 
         function makeEditble(rowId) {
 
@@ -837,6 +969,99 @@
             $("#txtOrderCtn").val(0);
             $("#txtOrderPcs").val(0);
             $("#totalAmount").val(0);
+
+        });
+        $('#ddlModalZoneId').on('change', function () {
+            var zoneId = $("#ddlModalZoneId :selected").val();
+
+            /*zoneDivisionChange(0, zoneId);*/
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlModalZoneDivisionId").empty();
+                        //$("#ddlModalZoneDivisionId").append("<option value=''>==Select Division==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlModalZoneDivisionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                }
+            });
+        });
+
+        $("#ddlModalZoneDivisionId").on('change', function () {
+            var zoneId = $("#ddlModalZoneId :selected").val();
+            var zoneDivisionId = $("#ddlModalZoneDivisionId :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetRegionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId, zoneDivisionId: zoneDivisionId },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlModalRegionId").empty();
+                        //$("#ddlModalRegionId").append("<option value=''>==Select Region==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlModalRegionId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                }
+            });
+
+
+        });
+        $("#ddlModalRegionId").on("change", function () {
+            var zoneId = $("#ddlModalZoneId :selected").val();
+            var zoneDivisionId = $("#ddlModalZoneDivisionId :selected").val();
+            var regionId = $("#ddlModalRegionId :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAreaList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlModalAreaId").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlModalAreaId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+
+                    }
+                }
+            });
+        });
+        $("#ddlModalAreaId").on("change", function () {
+            var zoneId = $("#ddlModalZoneId :selected").val();
+            var zoneDivisionId = $("#ddlModalZoneDivisionId :selected").val();
+            var regionId = $("#ddlModalRegionId :selected").val();
+            var areaId = $("#ddlModalAreaId :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetSubZoneList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlModalSubZoneId").empty();
+                        //$("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlModalSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            console.log(item.Text);
+                        });
+                        if (territoryValue > 0) {
+                            $("#ddlModalSubZoneId").val(territoryValue);
+                        }
+                    }
+                }
+            });
+
 
         });
 

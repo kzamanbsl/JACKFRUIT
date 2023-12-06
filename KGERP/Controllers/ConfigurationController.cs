@@ -1717,6 +1717,20 @@ namespace KGERP.Controllers
             }
 
             return RedirectToAction("FoodCustomerSalesOrderSlave", "Procurement");
+        } 
+        [HttpPost]
+        public async Task<ActionResult> SRAddCustomer(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+
+            if (vmSalesOrderSlave.CommonSupplier.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                vmSalesOrderSlave.CommonSupplier.CompanyFK = CompanyInfo.CompanyId;
+                await _service.CustomerAdd(vmSalesOrderSlave.CommonSupplier);
+            }
+
+            return RedirectToAction("SRSalesOrderSlave", "Procurement");
         }
 
         #endregion

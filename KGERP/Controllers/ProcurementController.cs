@@ -2310,6 +2310,9 @@ namespace KGERP.Controllers
             {
                 vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
             }
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
+            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
 
 
             return View(vmSalesOrderSlave);
