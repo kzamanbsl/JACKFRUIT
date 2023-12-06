@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="71">
+      <Diagram DiagramId="435a5378cb32432e9e49b2c53e21da5b" Name="Diagram1" ZoomLevel="46">
         <EntityTypeShape EntityType="ERPModel.AdminPolicy" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdminSetUp" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AdvanceSalary" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="false" />

@@ -95,15 +95,15 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Quantity:</label>
-                                    @Html.TextBoxFor(model => model.Qty, new { id = "productQuantity", @class = "form-control", @value = "", @placeholder = "Product Quantity" })
-                                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "Text-danger" })
+                                    @Html.TextBoxFor(model => model.Qty, new { id = "productQuantity", @class = "form-control", @type = "number", required = "required", @placeholder = "Product Quantity" })
+                                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Consumption:</label>
-                                    @Html.TextBoxFor(model => model.Consumption, new { id = "productConsumption", @class = "form-control", @value = "", @placeholder = "Product Consumption" })
-                                    @Html.ValidationMessageFor(model => model.Consumption, "", new { @class = "Text-danger" })
+                                    @Html.TextBoxFor(model => model.Consumption, new { id = "productConsumption", @class = "form-control", @type = "number", @min = "1", @placeholder = "Product Consumption", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Consumption, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                            
@@ -115,32 +115,32 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">TP Price:</label>
-                                    @Html.TextBoxFor(model => model.TPPrice, new { id = "tpPrice", @class = "form-control", @value = "", @placeholder = "Product TP Price," })
-                                    @Html.ValidationMessageFor(model => model.TPPrice, "", new { @class = "Text-danger" })
+                                    @Html.TextBoxFor(model => model.TPPrice, new { id = "tpPrice", @class = "form-control", @type = "number", @placeholder = "Product TP Price," })
+                                    @Html.ValidationMessageFor(model => model.TPPrice, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">Deport Sale Price:</label>
-                                    @Html.TextBoxFor(model => model.DeportSalePrice, new { id = "deportPrice", @class = "form-control", @value = "", @placeholder = "Deport Sale Price" })
-                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
+                                    @Html.TextBoxFor(model => model.DeportSalePrice, new { id = "deportPrice", @class = "form-control", @type = "number", @placeholder = "Deport Sale Price" })
+                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "text-danger" })
                                 </div>
 
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">Dealer Sale Price:</label>
-                                    @Html.TextBoxFor(model => model.DealerSalePrice, new { id = "dealerPrice", @class = "form-control", @value = "", @placeholder = "Dealer Sale Price" })
-                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
+                                    @Html.TextBoxFor(model => model.DealerSalePrice, new { id = "dealerPrice", @class = "form-control", @type = "number", @placeholder = "Dealer Sale Price" })
+                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "text-danger" })
                                 </div>
 
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">Customer Sale Price:</label>
-                                    @Html.TextBoxFor(model => model.CustomerSalePrice, new { id = "customerPrice", @class = "form-control", @value = "", @placeholder = "Customer Sale Price" })
-                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "Text-danger" })
+                                    @Html.TextBoxFor(model => model.CustomerSalePrice, new { id = "customerPrice", @class = "form-control", @type = "number", @placeholder = "Customer Sale Price" })
+                                    @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "text-danger" })
                                 </div>
 
                             </div>

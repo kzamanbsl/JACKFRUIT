@@ -42,18 +42,18 @@ namespace KGERP.Data.Models
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
         public string ShortName { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
-        public Nullable<decimal> DeportPrice { get; set; }
-        public Nullable<decimal> DealerPrice { get; set; }
-        public Nullable<decimal> CustomerPrice { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal DeportPrice { get; set; }
+        public decimal DealerPrice { get; set; }
+        public decimal CustomerPrice { get; set; }
         public Nullable<decimal> CreditSalePrice { get; set; }
         public Nullable<decimal> SaleCommissionRate { get; set; }
         public Nullable<decimal> PurchaseRate { get; set; }
         public Nullable<decimal> PurchaseCommissionRate { get; set; }
         public decimal TPPrice { get; set; }
         public Nullable<int> UnitId { get; set; }
-        public Nullable<double> Qty { get; set; }
-        public Nullable<double> Consumption { get; set; }
+        public double Qty { get; set; }
+        public double Consumption { get; set; }
         public Nullable<double> PackSize { get; set; }
         public Nullable<decimal> FormulaQty { get; set; }
         public Nullable<int> FacingId { get; set; }

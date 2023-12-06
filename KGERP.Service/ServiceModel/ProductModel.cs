@@ -37,7 +37,7 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Pack Size")]
         public Nullable<double> PackSize { get; set; }
         [DisplayName("Unit Price")]
-        public Nullable<decimal> UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
         [DisplayName("TP Price")]
         public Nullable<decimal> TPPrice { get; set; }
         public Nullable<decimal> CreditSalePrice { get; set; }

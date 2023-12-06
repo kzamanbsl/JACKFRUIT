@@ -22,7 +22,7 @@ namespace KGERP.Service.ServiceModel
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<System.DateTime> PriceUpdatedDate { get; set; }
         [DisplayName("Unit Price")]
-        public Nullable<decimal> UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
         [DisplayName("Sale Commission")]
         public Nullable<decimal> SaleCommissionRate { get; set; }
 

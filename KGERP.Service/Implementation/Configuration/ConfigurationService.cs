@@ -1233,9 +1233,9 @@ namespace KGERP.Service.Implementation.Configuration
                          label = t3.Name + " " + t2.Name + " " + t1.ProductName,
                          val = t1.ProductId,
                          unit = t4.Name,
-                         price = t1.UnitPrice ?? 0,
+                         price = t1.UnitPrice,
                          tpPrice = t1.TPPrice,
-                         qty = t1.Qty ?? 0
+                         qty = t1.Qty
                      }).OrderBy(x => x.label).Take(20).ToList();
 
             return v;
@@ -3792,7 +3792,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                              {
                                                                  ID = t1.ProductId,
                                                                  Name = t1.ProductName,
-                                                                 MRPPrice = t1.UnitPrice.Value,
+                                                                 MRPPrice = t1.UnitPrice,
                                                                  SubCategoryName = t2.Name,
                                                                  CategoryName = t3.Name,
                                                                  UnitName = t4.Name
@@ -3927,7 +3927,7 @@ namespace KGERP.Service.Implementation.Configuration
                         Value = o.ProductSubCategoryId
                     }).ToList(), "Value", "Text", product.ProductSubCategoryId);
                 model.Name = product.ProductName;
-                model.MRPPrice = product.UnitPrice.HasValue ? product.UnitPrice.Value : 0;
+                model.MRPPrice = product.UnitPrice;
                 model.TPPrice = product.TPPrice;
                 model.ShortName = product.ShortName;
                 model.CreditSalePrice = product.CreditSalePrice;
@@ -3969,8 +3969,6 @@ namespace KGERP.Service.Implementation.Configuration
 
             #endregion
 
-
-
             #region Genarate Product No
             int lsatProduct = _db.Products.Select(x => x.ProductId).OrderByDescending(ID => ID).FirstOrDefault();
             if (lsatProduct == 0)
@@ -3997,7 +3995,7 @@ namespace KGERP.Service.Implementation.Configuration
 
                 TPPrice = vmCommonProduct.TPPrice,
                 Qty = vmCommonProduct.Qty,
-                Consumption = vmCommonProduct.Consumption,
+                Consumption = vmCommonProduct.Consumption > 0 ? vmCommonProduct.Consumption : 1,
                 CreditSalePrice = vmCommonProduct.CreditSalePrice,
 
                 ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk,
@@ -4081,7 +4079,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             commonProduct.TPPrice = vmCommonProduct.TPPrice;
             commonProduct.Qty = vmCommonProduct.Qty;
-            commonProduct.Consumption = vmCommonProduct.Consumption;
+            commonProduct.Consumption = vmCommonProduct.Consumption > 0 ? vmCommonProduct.Consumption : 1;
             commonProduct.ShortName = vmCommonProduct.ShortName;
             commonProduct.CreditSalePrice = vmCommonProduct.CreditSalePrice;
             commonProduct.ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk;
@@ -4189,13 +4187,14 @@ namespace KGERP.Service.Implementation.Configuration
                      {
                          ID = t1.ProductId,
                          Name = t1.ProductName,
-                         MRPPrice = t1.UnitPrice ?? 0,
+                         MRPPrice = t1.UnitPrice,
                          TPPrice = t1.TPPrice,
                          Qty = t1.Qty,
                          ShortName = t1.ShortName,
                          SubCategoryName = t2.Name,
                          CategoryId = t2.ProductCategoryId ?? 0,
                          UnitName = t4.Name,
+                         Consumption = t1.Consumption,
                          UnitPrice = t1.UnitPrice,
                          DeportSalePrice = t1.DeportPrice,
                          DealerSalePrice = t1.DealerPrice,
@@ -4247,7 +4246,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                        {
                                                            FProductFK = t1.ProductId,
                                                            Name = t1.ProductName,
-                                                           MRPPrice = t1.UnitPrice.Value,
+                                                           MRPPrice = t1.UnitPrice,
                                                            SubCategoryName = t2.Name,
                                                            CategoryName = t3.Name,
                                                            UnitName = t4.Name,
@@ -4896,7 +4895,7 @@ namespace KGERP.Service.Implementation.Configuration
             var list = new List<object>();
             if (customerIds?.Length <= 0 || customerIds == null)
             {
-                return new SelectList(list, "Value", "Text"); 
+                return new SelectList(list, "Value", "Text");
             }
             _db.Vendors
          .Where(x => x.IsActive && x.CompanyId == CompanyInfo.CompanyId && x.VendorTypeId == (int)Provider.Customer && customerIds.Contains(x.VendorId)).Select(x => x).ToList()
@@ -5581,7 +5580,7 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<SelectList> GetDealerListByDealerIds(int[] dealerIds)
         {
             List<object> dealerList = new List<object>();
-            
+
             if (dealerIds?.Length <= 0 || dealerIds == null)
             {
                 return new SelectList(dealerList, "Value", "Text");
@@ -7287,7 +7286,7 @@ namespace KGERP.Service.Implementation.Configuration
                                         ID = t1.ProductId,
                                         Name = t1.ProductName,
                                         ShortName = t1.ShortName,
-                                        MRPPrice = t1.UnitPrice == null ? 0 : t1.UnitPrice.Value,
+                                        MRPPrice = t1.UnitPrice,
                                         TPPrice = t1.TPPrice,
                                         SubCategoryName = t2.Name,
                                         CategoryName = t3.Name,
@@ -7335,7 +7334,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                  ID = t1.ProductId,
                                                  Name = t1.ProductName,
                                                  ShortName = t1.ShortName,
-                                                 MRPPrice = t1.UnitPrice == null ? 0 : t1.UnitPrice.Value,
+                                                 MRPPrice = t1.UnitPrice,
                                                  TPPrice = t1.TPPrice,
                                                  SubCategoryName = t2.Name,
                                                  CategoryName = t3.Name,

@@ -242,7 +242,7 @@ namespace KGERP.Service.Implementation
             Product custInfo = context.Products.FirstOrDefault(x => x.ProductId == pId);
             if (vendor.CustomerType == "Credit")
             {
-                custInfo.UnitPrice = custInfo.CreditSalePrice;
+                custInfo.UnitPrice = custInfo.CreditSalePrice??0;
             }
             return ObjectConverter<Product, ProductModel>.Convert(custInfo);
         }

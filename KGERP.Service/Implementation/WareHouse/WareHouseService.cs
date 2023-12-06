@@ -1403,7 +1403,7 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                                   POQuantity = t3.PurchaseQty,
                                                                                   ReturnQuantity = (_db.MaterialReceiveDetails.Where(x => x.PurchaseOrderDetailFk == t3.PurchaseOrderDetailId && x.IsActive && x.IsReturn).Select(x => x.ReceiveQty).DefaultIfEmpty(0).Sum()),
 
-                                                                                  MRPPrice = t5.UnitPrice ?? 0
+                                                                                  MRPPrice = t5.UnitPrice
 
                                                                               }).OrderByDescending(x => x.MaterialReceiveDetailId).AsEnumerable());
 
@@ -1574,7 +1574,7 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                                   Common_ProductFk = t5.ProductId,
                                                                                   ProductSubCategory = t6.Name,
                                                                                   PurchasingPrice = t1.UnitPrice,
-                                                                                  MRPPrice = t5.UnitPrice.Value
+                                                                                  MRPPrice = t5.UnitPrice
                                                                               }).OrderByDescending(x => x.MaterialReceiveDetailId).ToList());
 
             return vmWarehousePoReceivingSlave;
@@ -3205,7 +3205,7 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                  ReceivedQuantity = Group.Sum(x => x.t1.ReceiveQty),
                                                                  RawConsumeQuantity = _db.Prod_ReferenceSlaveConsumption.Where(x => x.IsActive && x.RProductId == Group.Key.ProductId).Select(x => x.TotalConsumeQuantity).DefaultIfEmpty(0).Sum(),
 
-                                                                 PurchasePrice = Group.FirstOrDefault().t5.UnitPrice.Value,
+                                                                 PurchasePrice = Group.FirstOrDefault().t5.UnitPrice,
                                                              }).OrderBy(x => x.CategoryName).ThenBy(x => x.SubCategoryName).ThenBy(x => x.Name).AsEnumerable());
 
 
@@ -3280,7 +3280,7 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                  SubCategoryName = Group.FirstOrDefault().t6.Name,
                                                                  UnitName = Group.FirstOrDefault().t8.Name,
                                                                  ReceivedQuantity = Group.Sum(x => x.t1.Quantity),
-                                                                 MRPPrice = Group.FirstOrDefault().t5.UnitPrice.Value,
+                                                                 MRPPrice = Group.FirstOrDefault().t5.UnitPrice,
                                                                  DeliveredQty = _db.OrderDeliverDetails
                                                                                     .Where(x => x.ProductId == Group.Key.FProductId && x.IsActive)
                                                                                     .Select(x => x.DeliveredQty)

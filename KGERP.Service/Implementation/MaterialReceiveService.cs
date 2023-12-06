@@ -616,9 +616,9 @@ namespace KGERP.Service.Implementation
                                     }).FirstOrDefault();
 
             materialReceiveModel.DataListSlave = (from t1 in _context.MaterialReceiveDetails
-                                                  join t2 in _context.Products on t1.ProductId equals t2.ProductId 
-                                                  join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId 
-                                                  join t4 in _context.ProductCategories on t3.ProductCategoryId equals t4.ProductCategoryId 
+                                                  join t2 in _context.Products on t1.ProductId equals t2.ProductId
+                                                  join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId
+                                                  join t4 in _context.ProductCategories on t3.ProductCategoryId equals t4.ProductCategoryId
                                                   join t5 in _context.Units on t2.UnitId equals t5.UnitId
                                                   join t6 in _context.Bags on t1.BagId equals t6.BagId into t6Join
                                                   from t6 in t6Join.DefaultIfEmpty()
@@ -641,10 +641,10 @@ namespace KGERP.Service.Implementation
                                                       Common_ProductFk = t1.ProductId,
                                                       ReceivedQuantity = t1.ReceiveQty,
                                                       PurchasingPrice = t1.UnitPrice,
-                                                      Consumption = t2.Consumption??0,
+                                                      Consumption = t2.Consumption,
                                                       StockInQty = t1.StockInQty.Value,
                                                       StockInRate = t1.StockInRate.Value
-                                                     
+
 
 
                                                   }).OrderByDescending(x => x.MaterialReceiveId).AsEnumerable();
@@ -760,7 +760,7 @@ namespace KGERP.Service.Implementation
                 IsActive = true,
                 ProductId = vmPOReceivingSlave.ProductId,
                 //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
-                ReceiveQty = ((vmPOReceivingSlave.StockAddCtn*(decimal) vmPOReceivingSlave.Consumption)+vmPOReceivingSlave.StockAddPcs),
+                ReceiveQty = ((vmPOReceivingSlave.StockAddCtn * (decimal)vmPOReceivingSlave.Consumption) + vmPOReceivingSlave.StockAddPcs),
                 StockInQty = ((vmPOReceivingSlave.StockAddCtn * (decimal)vmPOReceivingSlave.Consumption) + vmPOReceivingSlave.StockAddPcs),
                 StockInRate = vmPOReceivingSlave.StockInRate,
                 UnitPrice = vmPOReceivingSlave.UnitPrice,
@@ -800,12 +800,12 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        
+
 
 
         public async Task<long> FoodStockApprove(VMWarehousePOReceivingSlave vmPOReceivingSlave)
         {
-            
+
             long result = -1;
             MaterialReceive materialReceive = await _context.MaterialReceives.FindAsync(vmPOReceivingSlave.MaterialReceiveId);
 
@@ -832,7 +832,7 @@ namespace KGERP.Service.Implementation
                 {
                     var detail = materialDetailsList.FirstOrDefault(c => c.ProductId == product.ProductId);
                     product.UnitPrice = detail != null && detail.UnitPrice > 0 ? detail.UnitPrice : product.UnitPrice;
-                    product.TPPrice = (decimal)(detail != null && detail.StockInRate > 0? detail.StockInRate : product.TPPrice);
+                    product.TPPrice = (decimal)(detail != null && detail.StockInRate > 0 ? detail.StockInRate : product.TPPrice);
                 }
 
                 using (var scope = _context.Database.BeginTransaction())
@@ -888,7 +888,7 @@ namespace KGERP.Service.Implementation
                                                              //PurchaseOrderDetailFk = (int)vmPOReceivingSlave.PurchaseOrderDetailId,
                                                              ReceivedQuantity = t1.ReceiveQty,
                                                              StockInQty = t1.StockInQty ?? 0,
-                                                             Consumption = t2.Consumption ?? 1,
+                                                             Consumption = t2.Consumption > 0 ? t2.Consumption : 1,
                                                              StockInRate = t1.StockInRate ?? 0,
                                                              UnitPrice = t1.UnitPrice,
                                                              UnitName = t3.Name,

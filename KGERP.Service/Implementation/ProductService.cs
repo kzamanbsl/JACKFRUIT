@@ -83,7 +83,7 @@ namespace KGERP.Service.Implementation
                                                        ProductId = t1.ProductId,
                                                        PriceType = t1.PriceType,
                                                        TPPrice = t1.UnitPrice ?? 0,
-                                                       UnitPrice = t1.UnitPrice,
+                                                       UnitPrice = t1.UnitPrice??0,
                                                        PriceUpdatedDate = t1.PriceUpdatedDate
                                                    }
                                                    ).OrderByDescending(o => o.PriceUpdatedDate).AsEnumerable()); ;
@@ -422,7 +422,7 @@ namespace KGERP.Service.Implementation
                                                               ProductName = t3.Name + " " + t2.Name + " " + t1.ProductName,
                                                               ProductId = t1.ProductId,
                                                               CompanyId = t1.CompanyId,
-                                                              UnitPrice = t1.UnitPrice ?? 0,
+                                                              UnitPrice = t1.UnitPrice,
                                                               ProductCode = t1.ProductCode,
                                                               PriceUpdatedDate = (_context.ProductPrices.Where(x => x.ProductId == t1.ProductId && x.PriceType == priceType).OrderByDescending(x => x.Id).FirstOrDefault().PriceUpdatedDate),
                                                               PriceType = priceType,
@@ -666,7 +666,7 @@ namespace KGERP.Service.Implementation
             {
                 return 0;
             }
-            return product.UnitPrice ?? 0;
+            return product.UnitPrice;
         }
 
         public async Task<int> SaveProductTpPrice(ProductPriceModel model)

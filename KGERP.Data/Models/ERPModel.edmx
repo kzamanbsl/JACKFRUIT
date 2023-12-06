@@ -4369,18 +4369,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.FormulaHistory' does not have 
           <Property Name="ProductCode" Type="nvarchar" MaxLength="50" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
-          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="DeportPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="DealerPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="CustomerPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DeportPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DealerPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CustomerPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="CreditSalePrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="SaleCommissionRate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PurchaseRate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PurchaseCommissionRate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="UnitId" Type="int" />
-          <Property Name="Qty" Type="float" />
-          <Property Name="Consumption" Type="float" />
+          <Property Name="Qty" Type="float" Nullable="false" />
+          <Property Name="Consumption" Type="float" Nullable="false" />
           <Property Name="PackSize" Type="float" />
           <Property Name="FormulaQty" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FacingId" Type="int" />
@@ -19442,18 +19442,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProductName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DeportPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DealerPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CustomerPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DeportPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DealerPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CustomerPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="CreditSalePrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="SaleCommissionRate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PurchaseRate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PurchaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="UnitId" Type="Int32" />
-          <Property Name="Qty" Type="Double" />
-          <Property Name="Consumption" Type="Double" />
+          <Property Name="Qty" Type="Double" Nullable="false" />
+          <Property Name="Consumption" Type="Double" Nullable="false" />
           <Property Name="PackSize" Type="Double" />
           <Property Name="FormulaQty" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="FacingId" Type="Int32" />
