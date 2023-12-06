@@ -35,6 +35,7 @@ namespace KGERP.Data.Models
             this.TeamInfoes = new HashSet<TeamInfo>();
             this.TeamInfoes1 = new HashSet<TeamInfo>();
             this.Regions = new HashSet<Region>();
+            this.DamageMasters = new HashSet<DamageMaster>();
         }
     
         public long Id { get; set; }
@@ -160,5 +161,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<TeamInfo> TeamInfoes1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Region> Regions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DamageMaster> DamageMasters { get; set; }
     }
 }

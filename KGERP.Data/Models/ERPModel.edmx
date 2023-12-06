@@ -3601,6 +3601,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
           <Property Name="ToDealerId" Type="int" />
           <Property Name="ToStockInfoId" Type="int" />
           <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="CollectedById" Type="bigint" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -6406,6 +6407,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="DamageDetailHistory">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DamageMaster_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DamageMaster">
+              <PropertyRef Name="CollectedById" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9814,6 +9827,10 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Product" EntitySet="Product" />
             <End Role="DamageDetailHistory" EntitySet="DamageDetailHistory" />
           </AssociationSet>
+          <AssociationSet Name="FK_DamageMaster_Employee" Association="Self.FK_DamageMaster_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DamageMaster" EntitySet="DamageMaster" />
+          </AssociationSet>
           <AssociationSet Name="FK_DemageDetail_DemageMaster" Association="Self.FK_DemageDetail_DemageMaster">
             <End Role="DamageMaster" EntitySet="DamageMaster" />
             <End Role="DamageDetail" EntitySet="DamageDetail" />
@@ -11967,6 +11984,10 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Vendor" EntitySet="Vendors" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="ERPModel.User" />
+          <AssociationSet Name="FK_DamageMaster_Employee" Association="ERPModel.FK_DamageMaster_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DamageMaster" EntitySet="DamageMasters" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -19158,6 +19179,8 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Vendor2" Relationship="ERPModel.FK_DemageMaster_ToDeportVendor" FromRole="DamageMaster" ToRole="Vendor" />
           <NavigationProperty Name="Vendor3" Relationship="ERPModel.FK_DemageMaster_VendorDealer" FromRole="DamageMaster" ToRole="Vendor" />
           <NavigationProperty Name="Vendor4" Relationship="ERPModel.FK_DemageMaster_VendorDeport" FromRole="DamageMaster" ToRole="Vendor" />
+          <Property Name="CollectedById" Type="Int64" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_DamageMaster_Employee" FromRole="DamageMaster" ToRole="Employee" />
           </EntityType>
         <Association Name="FK_DemageMaster_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20550,6 +20573,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="TeamInfoes" Relationship="ERPModel.FK_TeamInfo_Employee" FromRole="Employee" ToRole="TeamInfo" />
           <NavigationProperty Name="TeamInfoes1" Relationship="ERPModel.FK_TeamInfo_Employee1" FromRole="Employee" ToRole="TeamInfo" />
           <NavigationProperty Name="Regions" Relationship="ERPModel.FK_Region_Employee1" FromRole="Employee" ToRole="Region" />
+          <NavigationProperty Name="DamageMasters" Relationship="ERPModel.FK_DamageMaster_Employee" FromRole="Employee" ToRole="DamageMaster" />
         </EntityType>
         <Association Name="FK_Employee_Bank">
           <End Type="ERPModel.Bank" Role="Bank" Multiplicity="0..1" />
@@ -21334,6 +21358,18 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <Property Name="UserTypeId" Type="Int32" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
+        <Association Name="FK_DamageMaster_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.DamageMaster" Role="DamageMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DamageMaster">
+              <PropertyRef Name="CollectedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -26573,6 +26609,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySetMapping Name="DamageMasters">
             <EntityTypeMapping TypeName="ERPModel.DamageMaster">
               <MappingFragment StoreEntitySet="DamageMaster">
+                <ScalarProperty Name="CollectedById" ColumnName="CollectedById" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

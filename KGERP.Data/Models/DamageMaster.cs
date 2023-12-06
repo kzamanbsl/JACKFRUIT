@@ -38,6 +38,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<long> CollectedById { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -50,5 +51,6 @@ namespace KGERP.Data.Models
         public virtual Vendor Vendor2 { get; set; }
         public virtual Vendor Vendor3 { get; set; }
         public virtual Vendor Vendor4 { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

@@ -1,19 +1,12 @@
 ﻿using KGERP.Data.Models;
-using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
-using KGERP.Service.Implementation.Procurement;
-using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.CommandTrees;
-using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace KGERP.Service.Implementation.ProdMaster
 {
@@ -21,11 +14,11 @@ namespace KGERP.Service.Implementation.ProdMaster
     {
 
         private readonly ERPEntities _db;
-        private readonly ConfigurationService configurationService;
+        private readonly ConfigurationService _configurationService;
         public DamageService(ERPEntities db, ConfigurationService configurationService)
         {
             _db = db;
-            this.configurationService = configurationService;
+            _configurationService = configurationService;
         }
 
         #region 1. Dealer Damage
@@ -64,6 +57,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                           ToDeportId = t1.ToDeportId,
                                                           ToStockInfoId = t1.ToStockInfoId,
                                                           StatusId = (EnumDamageStatus)t1.StatusId,
+                                                          CollectedById = t1.CollectedById,
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
                                                           CreatedDate = t1.CreateDate,
@@ -127,6 +121,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ToDealerId = model.ToDealerId,
                 Remarks = model.Remarks,
                 StatusId = (int)model.StatusId,
+                CollectedById = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"].ToString()),
                 CompanyId = (int)model.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreateDate = DateTime.Now,
@@ -162,19 +157,46 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    CustomerName = t2.Name,
                                                                    ToDealerId = t1.ToDealerId,
                                                                    DealerName = t3.Name,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedBy = t1.CreatedBy,
                                                                    IsActive = t1.IsActive,
 
                                                                }).OrderByDescending(x => x.DamageMasterId).AsEnumerable());
-          
 
-            
+
+
             if (statusId != -1 && statusId != null)
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)statusId);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                damageMasterModel.DataList = up.DealerIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.CustomerIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+
+            #endregion
+
             return damageMasterModel;
         }
 
@@ -216,6 +238,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                           ToStockInfoId = t1.ToStockInfoId,
                                                           StockInfoName = t4.Name,
                                                           StatusId = (EnumDamageStatus)t1.StatusId,
+                                                          CollectedById = t1.CollectedById,
                                                           CompanyFK = t1.CompanyId,
                                                           CompanyId = t1.CompanyId,
                                                           CreatedDate = t1.CreateDate,
@@ -278,6 +301,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ToDeportId = model.ToDeportId,
                 ToDealerId = model.ToDealerId,
                 Remarks = model.Remarks,
+                CollectedById = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"].ToString()),
                 StatusId = (int)model.StatusId,
                 CompanyId = (int)model.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
@@ -302,7 +326,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ProductId = model.DetailModel.ProductId,
                 DamageQty = model.DetailModel.DamageQty,
                 UnitPrice = model.DetailModel.UnitPrice,
-                TotalPrice = (double)((decimal)model.DetailModel.DamageQty*model.DetailModel.UnitPrice),
+                TotalPrice = (double)((decimal)model.DetailModel.DamageQty * model.DetailModel.UnitPrice),
                 Remarks = model.DetailModel.Remarks,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreateDate = DateTime.Now,
@@ -330,7 +354,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
-            demageDetail.TotalPrice = (double)((decimal)model.DetailModel.DamageQty* model.DetailModel.UnitPrice);
+            demageDetail.TotalPrice = (double)((decimal)model.DetailModel.DamageQty * model.DetailModel.UnitPrice);
             demageDetail.Remarks = model.DetailModel.Remarks;
             demageDetail.IsActive = true;
             if (await _db.SaveChangesAsync() > 0)
@@ -381,6 +405,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageMaster.ToStockInfoId = model.ToStockInfoId;
             demageMaster.ToDeportId = model.ToDeportId;
             demageMaster.ToDealerId = model.ToDealerId;
+            demageMaster.CollectedById = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"].ToString());
             demageMaster.Remarks = model.Remarks;
             demageMaster.StatusId = (int)model.StatusId;
             demageMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -496,7 +521,7 @@ namespace KGERP.Service.Implementation.ProdMaster
         {
             DamageMasterModel damageMasterModel = new DamageMasterModel();
             damageMasterModel.CompanyFK = companyId;
-            damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
+            damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive == true
                                                           && x.CompanyId == companyId
                                                           && x.DamageFromId == (int)EnumDamageFrom.Dealer
                                                           && x.OperationDate >= fromDate && x.OperationDate <= toDate)
@@ -518,6 +543,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    DeportName = t3.Name,
                                                                    ToStockInfoId = t1.ToStockInfoId,
                                                                    StockInfoName = t4.Name,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedBy = t1.CreatedBy,
@@ -529,6 +555,31 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)statusId);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                damageMasterModel.DataList = up.DealerIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            #endregion
+
             return damageMasterModel;
         }
 
@@ -577,9 +628,9 @@ namespace KGERP.Service.Implementation.ProdMaster
             foreach (var dt in details)
             {
                 var obj = damageMasterModel.DetailDataList.FirstOrDefault(c => c.DamageDetailId == dt.DamageDetailId);
-                dt.DamageQty = ((obj.DamageCtn* (double)obj.Consumption)+obj.DamagePcs);
+                dt.DamageQty = ((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs);
                 dt.UnitPrice = obj.UnitPrice;
-                dt.TotalPrice = (((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs) *(double) obj.UnitPrice);
+                dt.TotalPrice = (((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs) * (double)obj.UnitPrice);
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -636,6 +687,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    ToDeportId = t1.ToDeportId,
                                                                    ToStockInfoId = t1.ToStockInfoId,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
@@ -646,6 +698,31 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)vStatus);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                damageMasterModel.DataList = up.DeportIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            #endregion
+
             return damageMasterModel;
         }
 
@@ -686,6 +763,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    ToDeportId = t1.ToDeportId,
                                                                    ToStockInfoId = t1.ToStockInfoId,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
@@ -696,6 +774,31 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)vStatus);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                damageMasterModel.DataList = up.DealerIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.CustomerIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.CustomerIds.Contains(q.FromCustomerId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            #endregion
+
             return damageMasterModel;
         }
         #endregion
@@ -753,7 +856,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                      ProductId = t1.ProductId,
                                                                      ProductName = t3.ProductName,
                                                                      UnitPrice = t1.UnitPrice,
-                                                                     TotalPrice=t1.TotalPrice,
+                                                                     TotalPrice = t1.TotalPrice,
                                                                      UnitName = t6.Name,
                                                                      Remarks = t1.Remarks
                                                                  }).OrderByDescending(x => x.DamageDetailId).AsEnumerable());
@@ -815,7 +918,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ProductId = model.DetailModel.ProductId,
                 DamageQty = model.DetailModel.DamageQty,
                 UnitPrice = model.DetailModel.UnitPrice,
-                TotalPrice = (double)((decimal)model.DetailModel.DamageQty* model.DetailModel.UnitPrice),
+                TotalPrice = (double)((decimal)model.DetailModel.DamageQty * model.DetailModel.UnitPrice),
                 Remarks = model.DetailModel.Remarks,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreateDate = DateTime.Now,
@@ -843,7 +946,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.DamageQty = model.DetailModel.DamageQty;
             demageDetail.UnitPrice = model.DetailModel.UnitPrice;
-            demageDetail.TotalPrice =(double) ((decimal)model.DetailModel.DamageQty* model.DetailModel.UnitPrice);
+            demageDetail.TotalPrice = (double)((decimal)model.DetailModel.DamageQty * model.DetailModel.UnitPrice);
             demageDetail.Remarks = model.DetailModel.Remarks;
             demageDetail.IsActive = true;
             if (await _db.SaveChangesAsync() > 0)
@@ -1024,6 +1127,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    DeportName = t3.Name,
                                                                    ToStockInfoId = t1.ToStockInfoId,
                                                                    StockInfoName = t4.Name,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedBy = t1.CreatedBy,
@@ -1035,6 +1139,31 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)statusId);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                damageMasterModel.DataList = up.DeportIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.RegionIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            #endregion
+
             return damageMasterModel;
         }
         #endregion
@@ -1085,9 +1214,9 @@ namespace KGERP.Service.Implementation.ProdMaster
             foreach (var dt in details)
             {
                 var obj = damageMasterModel.DetailDataList.FirstOrDefault(c => c.DamageDetailId == dt.DamageDetailId);
-                dt.DamageQty = ((obj.DamageCtn* (double)obj.Consumption)+obj.DamagePcs);
+                dt.DamageQty = ((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs);
                 dt.UnitPrice = obj.UnitPrice;
-                dt.TotalPrice= (dt.DamageQty * (double)obj.UnitPrice);
+                dt.TotalPrice = (dt.DamageQty * (double)obj.UnitPrice);
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1139,6 +1268,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                    ToStockInfoId = t1.ToStockInfoId,
                                                                    StockInfoName = t4.Name,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
@@ -1149,6 +1279,31 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)vStatus);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                damageMasterModel.DataList = up.DealerIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            #endregion
+
             return damageMasterModel;
         }
 
@@ -1256,9 +1411,9 @@ namespace KGERP.Service.Implementation.ProdMaster
             foreach (var dt in details)
             {
                 var obj = damageMasterModel.DetailDataList.FirstOrDefault(c => c.DamageDetailId == dt.DamageDetailId);
-                dt.DamageQty = ((obj.DamageCtn* (double)obj.Consumption)+obj.DamagePcs);
+                dt.DamageQty = ((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs);
                 dt.UnitPrice = obj.UnitPrice;
-                dt.TotalPrice = (((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs) * (double) obj.UnitPrice);
+                dt.TotalPrice = (((obj.DamageCtn * (double)obj.Consumption) + obj.DamagePcs) * (double)obj.UnitPrice);
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1314,6 +1469,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
                                                                    DamageFromId = (EnumDamageFrom)t1.DamageFromId,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
+                                                                   CollectedById = t1.CollectedById,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CompanyId = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
@@ -1324,6 +1480,30 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.StatusId == (EnumDamageStatus)vStatus);
             }
+
+            #region UserDataFilter
+
+            if (damageMasterModel.DataList.Count() <= 0) { return damageMasterModel; }
+
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (up.UserTypeId == (int)EnumUserType.Deport)
+            {
+                damageMasterModel.DataList = up.DeportIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0)) :
+                    damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
+            {
+                damageMasterModel.DataList = up.RegionIds?.Length > 0 ?
+                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0) && q.CollectedById == up.EmployeeId) :
+                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0));
+            }
+            else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
+            {
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
+            }
+            #endregion
             return damageMasterModel;
         }
         #endregion
