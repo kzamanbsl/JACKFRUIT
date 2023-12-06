@@ -893,6 +893,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                 ToStockInfoId = model.ToStockInfoId,
                 ToDeportId = model.ToDeportId,
                 ToDealerId = model.ToDealerId,
+                CollectedById = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"].ToString()),
                 Remarks = model.Remarks,
                 StatusId = (int)model.StatusId,
                 CompanyId = (int)model.CompanyFK,
@@ -997,6 +998,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             demageMaster.ToStockInfoId = model.ToStockInfoId;
             demageMaster.ToDeportId = model.ToDeportId;
             demageMaster.ToDealerId = model.ToDealerId;
+            demageMaster.CollectedById = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"].ToString());
             demageMaster.Remarks = model.Remarks;
             demageMaster.StatusId = (int)model.StatusId;
             demageMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
