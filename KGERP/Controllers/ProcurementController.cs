@@ -2160,10 +2160,9 @@ namespace KGERP.Controllers
         public async Task<ActionResult> FoodCustomerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
-
+            vmSalesOrderSlave.CompanyFK = companyId;
             if (orderMasterId == 0)
-            {
-                vmSalesOrderSlave.CompanyFK = companyId;
+            { 
                 vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
             }
             else
@@ -2311,6 +2310,9 @@ namespace KGERP.Controllers
             {
                 vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
             }
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
+            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
 
 
             return View(vmSalesOrderSlave);

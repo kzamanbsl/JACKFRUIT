@@ -10,6 +10,7 @@ using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.FTP;
+using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel.FTP_Models;
 using KGERP.Utility;
@@ -1701,6 +1702,35 @@ namespace KGERP.Controllers
         {
             var result = await _ftpService.DeletePermanentlyVendor(docId);
             return Json(result);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> AddCustomer(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+
+            if (vmSalesOrderSlave.CommonSupplier.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                vmSalesOrderSlave.CommonSupplier.CompanyFK = CompanyInfo.CompanyId;
+                await _service.CustomerAdd(vmSalesOrderSlave.CommonSupplier);
+            }
+
+            return RedirectToAction("FoodCustomerSalesOrderSlave", "Procurement");
+        } 
+        [HttpPost]
+        public async Task<ActionResult> SRAddCustomer(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+
+            if (vmSalesOrderSlave.CommonSupplier.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                vmSalesOrderSlave.CommonSupplier.CompanyFK = CompanyInfo.CompanyId;
+                await _service.CustomerAdd(vmSalesOrderSlave.CommonSupplier);
+            }
+
+            return RedirectToAction("SRSalesOrderSlave", "Procurement");
         }
 
         #endregion
