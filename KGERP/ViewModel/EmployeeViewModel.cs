@@ -1,4 +1,5 @@
-﻿using KGERP.Service.ServiceModel;
+﻿using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -39,5 +40,7 @@ namespace KGERP.ViewModel
         public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
+        public UserDataAccessModel UserDataAccessModel { get; set; }
+
     }
 }

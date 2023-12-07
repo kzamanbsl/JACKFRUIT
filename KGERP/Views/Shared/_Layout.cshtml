@@ -431,8 +431,6 @@
         }
         $(document).ready(function () {
 
-
-
             $('.datePicker').datepicker({
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
@@ -541,6 +539,36 @@
                 }
             });
         })
+    </script>
+
+    <script>
+        // Function to close the tree
+        function treeClosed() {
+            $('#jstree').jstree('close_all');
+        }
+        function treeOpend() {
+            $('#jstree').jstree('open_all');
+        }
+
+        // Check if the screen width is less than 768 pixels (adjust as needed)
+        function isMobile() {
+            return window.innerWidth <= 767;
+        }
+
+        // Execute the function when the window is resized
+        function handleResize() {
+            if (isMobile()) {
+                treeClosed();
+            } else {
+                treeOpend();
+            }
+        }
+
+        // Attach the resize event listener
+        $(window).on('resize', handleResize);
+
+        // Execute on initial load
+        handleResize();
     </script>
     @RenderSection("Scripts", false)
 </body>

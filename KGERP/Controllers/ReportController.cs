@@ -5620,6 +5620,204 @@ namespace KGERP.Controllers
             return File(client.DownloadData(reportUrl), "application/pdf");
 
         }
+
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult AzlanDamageStockReport(int companyId)
+        {
+            ReportCustomModel cm = new ReportCustomModel()
+            {
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
+                ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
+                ReportName = "Product Stock Report"
+            };
+            return View(cm);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult AzlanDamageStockReport(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+            if (model.StockId == null)
+            {
+                model.StockId = 0;
+            }
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductStockReport.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductStockReport.doc");
+            }
+            return View();
+        }
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult DeportDamageStockReport(int companyId)
+        {
+            ReportCustomModel cm = new ReportCustomModel()
+            {
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
+                ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
+                ReportName = "Product Stock Report"
+            };
+            return View(cm);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult DeportDamageStockReport(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+            if (model.StockId == null)
+            {
+                model.StockId = 0;
+            }
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductStockReport.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductStockReport.doc");
+            }
+            return View();
+        } [HttpGet]
+        [SessionExpire]
+        public ActionResult DealerDamageStockReport(int companyId)
+        {
+            ReportCustomModel cm = new ReportCustomModel()
+            {
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
+                ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
+                ReportName = "Product Stock Report"
+            };
+            return View(cm);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult DealerDamageStockReport(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+            if (model.StockId == null)
+            {
+                model.StockId = 0;
+            }
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProductStockReport.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProductStockReport.doc");
+            }
+            return View();
+        }
         #endregion
     }
 
