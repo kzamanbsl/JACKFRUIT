@@ -499,6 +499,19 @@ namespace KGERP.Service.Implementation
             }
             else
             {
+
+
+                Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+
+                if (lastEmployee == null)
+                {
+                    model.EmployeeId = CompanyInfo.CompanyAdminUserId;
+                }
+                else
+                {
+                    model.EmployeeId = GetEmployeeId(lastEmployee.EmployeeId);
+                };
+
                 #region User Create
                 UserModel userModel = new UserModel();
                 userModel.UserName = model.EmployeeId;
