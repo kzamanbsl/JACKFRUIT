@@ -388,6 +388,7 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
 
         public SelectList DeportList { get; set; } = new SelectList(new List<object>());
+        public SelectList DealerList { get; set; } = new SelectList(new List<object>());
         public SelectList CountryList { get; set; } = new SelectList(new List<object>());
         public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList DistrictList { get; set; } = new SelectList(new List<object>());
@@ -415,6 +416,8 @@ namespace KGERP.Service.Implementation.Configuration
         public string Email { get; set; }
         public string Address { get; set; }
         public bool IsForeign { get; set; }
+        public string DeportName { get; set; }
+        public string DealerName { get; set; }
         public string ZoneName { get; set; }
         public string ZoneIncharge { get; set; }
         public string NID { get; set; }

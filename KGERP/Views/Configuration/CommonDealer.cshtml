@@ -244,6 +244,9 @@
                                             </th>
                                             <th>
                                                 Proprietor
+                                            </th> 
+                                            <th>
+                                                Deport
                                             </th>
                                             <th>
                                                 Zone
@@ -302,6 +305,9 @@
                                                 </td>
                                                 <td>
                                                     @item.Propietor
+                                                </td> 
+                                                <td>
+                                                    @item.DeportName
                                                 </td>
                                                 <td>
                                                     @item.ZoneName
@@ -421,12 +427,14 @@
                 var zoneId = $("#ddlZoneId :selected").val();
 
                 zoneDivisionChange(0, zoneId);
+                commonDeportList(zoneId, 0, 0, 0);
             });
 
             $("#ddlZoneDivisionId").on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 regionChange(0, zoneId, zoneDivisionId);
+                commonDeportList(zoneId, zoneDivisionId, 0, 0);
             });
 
             $("#ddlRegionId").on("change", function () {
@@ -434,6 +442,7 @@
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 var regionId = $("#ddlRegionId :selected").val();
                 areaChange(0, zoneId, zoneDivisionId, regionId);
+                commonDeportList(zoneId, zoneDivisionId, regionId,0);
             });
 
             $("#ddlAreaId").on("change", function () {
@@ -594,7 +603,30 @@
                 }
             });
         }
+        function commonDeportList(zoneId, zoneDivision, regionId,deportId)
+        {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetDeportByRegion", "Configuration")",
+                datatype: "JSON",
+                data:
+                {
+                    zoneId: zoneId, zoneDivision: zoneDivision, regionId: regionId
+                },
+                success: function (data) {
+                    $("#ddlParentId").empty();
+                    $("#ddlParentId").append("<option value=''>==Select Deport==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlParentId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                    if (deportId > 0) {
+                        $("#ddlParentId").val(deportId);
+                    }
+                }
+               
 
+            });
+        }
 
         var editButton = false;
 
@@ -628,7 +660,7 @@
                   //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
                   //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
                   //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
-
+                  commonDeportList(0, 0, 0, data.ParentId);
                   $('#ddlZoneId').val(data.ZoneId).trigger('change');
 
                   zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
@@ -645,7 +677,7 @@
                   $('#ddlCustomerStatus').val(data.CustomerStatus);
                   $('#txtProprietor').val(data.Propietor);
                   $('#txtPaymentType').val(data.PaymentType);
-                  $('#ddlParentId').val(data.ParentId).trigger('change');
+                  //$('#ddlParentId').val(data.ParentId).trigger('change');
 
                   window.scrollTo({ top: 0, behavior: 'smooth' });
               }

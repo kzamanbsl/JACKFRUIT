@@ -2763,7 +2763,7 @@ namespace KGERP.Service.Implementation.Configuration
                 selectModelList.AddRange(v);
             }
 
-            
+
             else
             {
                 var v = _db.SubZones.Where(x => x.CompanyId == companyId && x.IsActive == true).ToList()
@@ -3509,6 +3509,48 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return list;
         }
+        public List<object> CommonDeportListByRegion(int zoneId=0, int zoneDivision=0, int regionId=0)
+        {
+            var list = new List<object>();
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
+                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+            else if (zoneId > 0 && zoneDivision > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
+                                 && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+
+            }
+            else if (zoneId>0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
+                                          && c.ZoneId==zoneId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+            else
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+
+            }
+            return list;
+        }
         public List<object> CommonDealerDropDownList()
         {
             var list = new List<object>();
@@ -3516,6 +3558,57 @@ namespace KGERP.Service.Implementation.Configuration
             foreach (var x in v)
             {
                 list.Add(new { Text = x.Name, Value = x.VendorId });
+            }
+            return list;
+        }
+        public List<object> CommonDealerListByArea(int zoneId = 0, int zoneDivision = 0, int regionId = 0,int areaId=0)
+        {
+            var list = new List<object>();
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && areaId>0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
+                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId==areaId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+            else if (zoneId > 0 && zoneDivision > 0 && regionId > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
+                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+            else if (zoneId > 0 && zoneDivision > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
+                                 && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+
+            }
+            else if (zoneId > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
+                                          && c.ZoneId == zoneId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+            else
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+
             }
             return list;
         }
@@ -4466,6 +4559,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CompanyFK = t1.CompanyId,
                          SubZoneId = t1.SubZoneId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
+                         ParentId=t1.ParentId,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId.Value,
                          AreaId = t1.AreaId.Value,
@@ -4548,6 +4642,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                               from t10 in t10_def.DefaultIfEmpty()
                                                               join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
                                                               from t5 in t5_def.DefaultIfEmpty()
+                                                              join t11 in _db.Vendors on t1.ParentId equals t11.VendorId into t11_def
+                                                              from t11 in t11_def.DefaultIfEmpty()
 
                                                               where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
@@ -4580,6 +4676,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   AreaName = t10.Name,
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
+                                                                  DealerName=t11.Name,
 
                                                                   ZoneIncharge = t6.ZoneIncharge,
                                                                   CreditLimit = t1.CreditLimit,
@@ -5719,6 +5816,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                             from t9 in t9_def.DefaultIfEmpty()
                                                             join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
                                                             from t10 in t10_def.DefaultIfEmpty()
+                                                            join t11 in _db.Vendors on t1.ParentId equals t11.VendorId into t11_def
+                                                            from  t11 in t11_def.DefaultIfEmpty()
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
@@ -5752,6 +5851,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 SubZoneId = t1.SubZoneId ?? 0,
                                                                 SubZoneName = t5.Name,
                                                                 ZoneName = t6.Name,
+                                                                DeportName=t11.Name,
                                                                 ZoneIncharge = t6.ZoneIncharge,
                                                                 CreditLimit = t1.CreditLimit,
                                                                 NID = t1.NID,

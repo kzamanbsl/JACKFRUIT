@@ -143,6 +143,13 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Dealer:</label>
+                                        @Html.DropDownListFor(model => model.ParentId, Model.DealerList as SelectList, "-- Select Dealer --", new { id = "ddlParentId", @class = "form-control searchingDropdown", required = "true" })
+                                        @Html.ValidationMessageFor(model => model.Propietor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label for="message-text" class="col-form-label">Proprietor:</label>
                                         @Html.TextBoxFor(model => model.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
                                         @Html.ValidationMessageFor(model => model.Propietor, "", new { @class = "text-danger" })
@@ -155,6 +162,13 @@
                                         @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
+
+
+
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">NID No:</label>
@@ -162,13 +176,6 @@
                                         @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-
-
-                            </div>
-
-                            <div class="row">
-
 
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -191,6 +198,10 @@
                                         @Html.ValidationMessageFor(model => model.SecurityAmount, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
+
+                            </div>
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Credit Limit:</label>
@@ -198,9 +209,6 @@
                                         @Html.ValidationMessageFor(model => model.CreditLimit, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Address:</label>
@@ -248,6 +256,9 @@
                                                 Proprietor
                                             </th>
                                             <th>
+                                                Dealer
+                                            </th>
+                                            <th>
                                                 Zone
                                             </th>
                                             <th>
@@ -269,21 +280,21 @@
                                             <th>
                                                 Phone
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Email
                                             </th>
                                             <th>
                                                 NID
-                                            </th>
+                                            </th>*@
                                             <th>
                                                 Security Amount
                                             </th>
                                             <th>
                                                 Credit Limit
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Address
-                                            </th>
+                                            </th>*@
                                             @*<th>
                                                     Zone
                                                 </th>*@
@@ -310,6 +321,9 @@
                                                 </td>
                                                 <td>
                                                     @item.Propietor
+                                                </td>
+                                                <td>
+                                                    @item.DealerName
                                                 </td>
                                                 <td>
                                                     @item.ZoneName
@@ -340,12 +354,12 @@
                                                 <td>
                                                     @item.Phone
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.Email
                                                 </td>
                                                 <td>
                                                     @item.NID
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     @item.SecurityAmount
                                                 </td>
@@ -353,9 +367,9 @@
                                                 <td>
                                                     @item.CreditLimit
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
-                                                </td>
+                                                </td>*@
                                                 @*<td>
                                                         @item.ZoneName (Incharge: @item.ZoneIncharge)
                                                     </td>*@
@@ -461,6 +475,7 @@
             var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
             var regionId = $("#ddlRegionId :selected").val();
             areaChange(0, zoneId, zoneDivisionId, regionId);
+            commonDealerList(zoneId, zoneDivisionId, regionId, 0, 0);
         });
         $("#ddlAreaId").on("change", function () {
             var zoneId = $("#ddlZoneId :selected").val();
@@ -468,6 +483,7 @@
             var regionId = $("#ddlRegionId :selected").val();
             var areaId = $("#ddlRegionId :selected").val();
             territoryChange(0, zoneId, zoneDivisionId, regionId, areaId);
+            commonDealerList(zoneId, zoneDivisionId, regionId, areaId, 0);
         });
 
 
@@ -614,7 +630,29 @@
         }
 
 
+        function commonDealerList(zoneId, zoneDivisionId, regionId, areaId, dealerId) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("DealerListByArea", "Configuration")",
+                datatype: "JSON",
+                data:
+                {
+                    zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId
+                },
+                success: function (data) {
+                    $("#ddlParentId").empty();
+                    $("#ddlParentId").append("<option value=''>==Select Deport==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlParentId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                    if (dealerId > 0) {
+                        $("#ddlParentId").val(deportId);
+                    }
+                }
 
+
+            });
+        }
         function makeEditble(id) {
             if (id !== null) {
                 $.ajax({
@@ -649,7 +687,8 @@
                         regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
                         areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
 
-                        territoryChange(data.SubZoneId,data.ZoneId, data.ZoneDivisionId, data.RegionId, data.AreaId);
+                        territoryChange(data.SubZoneId, data.ZoneId, data.ZoneDivisionId, data.RegionId, data.AreaId);
+                        commonDealerList(data.ZoneId, data.ZoneDivisionId, data.RegionId, data.AreaId, data.ParentId);
                         //$('#ddlSubZoneId').val(data.SubZoneId).trigger('change');
                         $('#txtAddress').val(data.Address);
                         $('#txtNID').val(data.NID);
@@ -664,7 +703,7 @@
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                         //$('#ddlRegionId').val(data.RegionId).trigger('change');
 
-                        console.log(data.SubZoneId);
+                        
                     }
                 });
 

@@ -1797,6 +1797,14 @@ namespace KGERP.Controllers
         {
             var model = _service.GetCommonDeportById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
+        }    
+        
+        [HttpGet]
+        public JsonResult GetDeportByRegion(int zoneId,int zoneDivision, int regionId)
+        {
+            var Deport = new SelectList(_service.CommonDeportListByRegion(zoneId,zoneDivision,regionId), "Value", "Text");
+
+            return Json(Deport, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -1807,7 +1815,7 @@ namespace KGERP.Controllers
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
             vmCommonDealer = await Task.Run(() => _service.GetDealer(companyId, zoneId, subZoneId));
-            vmCommonDealer.DeportList = new SelectList(_service.CommonDeportDropDownList(), "Value", "Text");
+            //vmCommonDealer.DeportList = new SelectList(_service.CommonDeportDropDownList(), "Value", "Text");
             vmCommonDealer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
             vmCommonDealer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
             vmCommonDealer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
@@ -1863,7 +1871,15 @@ namespace KGERP.Controllers
         {
             var model = _service.GetCommonDealerById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
-        }
+        }  
+
+        [HttpGet]
+        public JsonResult DealerListByArea(int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0)
+        {
+            var model  = new SelectList( _service.CommonDealerListByArea(zoneId, zoneDivisionId, regionId,areaId), "Value", "Text"); 
+          
+            return Json(model, JsonRequestBehavior.AllowGet);
+        } 
         #endregion
 
         #region Geolocation
