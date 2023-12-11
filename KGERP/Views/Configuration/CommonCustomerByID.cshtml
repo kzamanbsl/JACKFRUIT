@@ -144,8 +144,8 @@
                             <td style="width:70%">
 
                                 <p style="text-align: left; font-size: 25px; font-weight: bold;margin-bottom: 0;">@Model.CompanyName</p>
-                                <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">315, 4 Rd No.14, Dhaka 1212</p>
-                                <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.01000000000, Email :  info@simgroup-bd.com</p>
+                                <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">@Model.CompanyAddress</p>
+                                <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.CompanyPhone,  Email : @Model.CompanyEmail</p>
 
                             </td>
                             <td style="width:20%"></td>
@@ -157,7 +157,7 @@
             <div class="text-center">
                 <table style="width:100%">
                     <tr style="text-align:center">
-                        <td style="border-bottom:double;font-size:22px"><b>@Model.Name Information</b></td>
+                        <td style="border-bottom:double;font-size:22px"><b>Customer: @Model.Name </b></td>
                     </tr>
                 </table>
             </div>
@@ -166,13 +166,22 @@
 
                 <tbody>
                     <tr>
+                        <th style="width:18%">Name</th>
+                        <th style="width:2%">:</th>
+                        <td style="width:30%"><label class="col-form-label">@Model.Name</label></td>
+
+                        <th style="width:18%"> Contact Person</th>
+                        <th style="width:2%">:</th>
+                        <td style="width:30%">@Model.ContactPerson</td>
+                    </tr> 
+                    <tr>
                         <th style="width:18%">Supplier</th>
                         <th style="width:2%">:</th>
-                        <td style="width:30%"><label class="col-form-label"></label></td>
+                        <td style="width:30%">@Model.DealerName</td>
 
-                        <th style="width:18%"> Code</th>
+                        <th style="width:18%"> Payment Type</th>
                         <th style="width:2%">:</th>
-                        <td style="width:30%"></td>
+                        <td style="width:30%">@Model.PaymentType</td>
                     </tr>
 
                     <tr>
@@ -192,15 +201,41 @@
                         <th>:</th>
                         <td>@Model.CreditLimit</td>
                     </tr>
+                    <tr>
+                        <th>Customer Type</th>
+                        <th>:</th>
+                        <td>@Model.CustomerTypeName</td>
+                        <th>Customer Status</th>
+                        <th>:</th>
+                        <td>@Model.CustomerStatusName</td>
+                    </tr>
 
                     <tr>
-                        <th>Address</th>
+                        <th>Security Amount</th>
                         <th>:</th>
-                        <td>@Model.Address</td>
+                        <td>@Model.SecurityAmount</td>
 
                         <th>zone</th>
                         <th>:</th>
                         <td>@Model.ZoneName</td>
+                    </tr>
+                    <tr>
+                        <th>Division</th>
+                        <th>:</th>
+                        <td>@Model.ZoneDivisionName</td>
+
+                        <th>Region</th>
+                        <th>:</th>
+                        <td>@Model.RegionName</td>
+                    </tr> 
+                    <tr>
+                        <th>Are</th>
+                        <th>:</th>
+                        <td>@Model.AreaName</td>
+
+                        <th>Territory</th>
+                        <th>:</th>
+                        <td>@Model.SubZoneName</td>
                     </tr>
 
                     <tr>
@@ -255,7 +290,7 @@
           
         </div>
 
-        <div id="divfooter" class="divfooter text-center footer">
+        @*<div id="divfooter" class="divfooter text-center footer">
             <table style="width:100%">
                 <thead>
                     <tr>
@@ -295,7 +330,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>*@
 
 
 

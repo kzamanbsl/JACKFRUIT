@@ -3572,7 +3572,7 @@ namespace KGERP.Service.Implementation.Configuration
         public List<object> CommonDealerListByArea(int zoneId = 0, int zoneDivision = 0, int regionId = 0,int areaId=0)
         {
             var list = new List<object>();
-            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && areaId>0)
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && areaId> 0 )
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
                                   && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId==areaId).ToList();
@@ -3581,7 +3581,8 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            else if (zoneId > 0 && zoneDivision > 0 && regionId > 0)
+           
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
                                   && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId).ToList();
@@ -3590,7 +3591,7 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            else if (zoneId > 0 && zoneDivision > 0)
+            if (zoneId > 0 && zoneDivision > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision).ToList();
@@ -3600,7 +3601,7 @@ namespace KGERP.Service.Implementation.Configuration
                 }
 
             }
-            else if (zoneId > 0)
+            if (zoneId > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
                                           && c.ZoneId == zoneId).ToList();
@@ -3609,7 +3610,7 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            else
+            if (zoneId == 0 && zoneDivision == 0 && regionId == 0 && areaId ==0 && list.Count==0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
                 foreach (var x in v)
@@ -4966,7 +4967,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                      from t8 in t8_Join.DefaultIfEmpty()
                                                      join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_Join
                                                      from t9 in t9_Join.DefaultIfEmpty()
-
+                                                     join t10 in _db.Vendors on t1.ParentId equals t10.VendorId into t10_Join
+                                                     from t10 in t10_Join.DefaultIfEmpty()
+                                                     join t11 in _db.Companies on t1.CompanyId equals t11.CompanyId into t11_Join
+                                                     from t11 in t11_Join.DefaultIfEmpty()
                                                      select new VMCommonSupplier
                                                      {
                                                          ID = t1.VendorId,
@@ -4990,8 +4994,14 @@ namespace KGERP.Service.Implementation.Configuration
                                                          CreditLimit = t1.CreditLimit,
                                                          NID = t1.NID,
                                                          CustomerTypeFk = t1.CustomerTypeFK,
-                                                         VendorTypeId = t1.VendorTypeId
-                                                     }).FirstOrDefault());
+                                                         VendorTypeId = t1.VendorTypeId,
+                                                         DealerName = t10.Name,
+                                                         CompanyName=t11.Name,
+                                                         CompanyEmail=t11.Email,
+                                                         CompanyPhone=t11.Phone,
+                                                         CompanyAddress=t11.Address
+                                                         
+                                                     }).FirstOrDefault()) ;
 
 
 
@@ -5070,6 +5080,7 @@ namespace KGERP.Service.Implementation.Configuration
                 NomineeRelation = vmCommonCustomer.NomineeRelation,
                 NomineeNID = vmCommonCustomer.NomineeNID,
                 BusinessAddress = vmCommonCustomer.BusinessAddress,
+                ParentId=vmCommonCustomer.ParentId
 
             };
             _db.Vendors.Add(commonCustomer);
@@ -5343,6 +5354,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.ModifiedDate = DateTime.Now;
             commonCustomer.ContactName = vmCommonCustomer.ContactPerson;
             commonCustomer.CustomerTypeFK = vmCommonCustomer.CustomerTypeFk;
+            //commonCustomer.CustomerType = vmCommonCustomer.CustomerType;
             commonCustomer.SecurityAmount = vmCommonCustomer.SecurityAmount;
             commonCustomer.CustomerStatus = vmCommonCustomer.CustomerStatus;
             commonCustomer.Propietor = vmCommonCustomer.Propietor;
@@ -5354,6 +5366,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.AreaId = vmCommonCustomer.AreaId;
             commonCustomer.SubZoneId = vmCommonCustomer.SubZoneId;
             commonCustomer.BusinessAddress = vmCommonCustomer.BusinessAddress;
+            commonCustomer.ParentId = vmCommonCustomer.ParentId;
             commonCustomer.NomineeNID = vmCommonCustomer.NomineeNID;
             commonCustomer.NomineeRelation = vmCommonCustomer.NomineeRelation;
 
