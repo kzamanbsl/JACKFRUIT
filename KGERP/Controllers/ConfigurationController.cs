@@ -1824,7 +1824,7 @@ namespace KGERP.Controllers
             vmCommonDealer.ZoneDivisionList = new SelectList(_service.CommonZoneDivisionDropDownList(companyId, zoneId), "Value", "Text");
             vmCommonDealer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId, zoneDivisionId), "Value", "Text");
             vmCommonDealer.AreaList = new SelectList(_service.CommonAreaDropDownList(companyId, zoneId, zoneDivisionId, regionId), "Value", "Text");
-            vmCommonDealer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
+            //vmCommonDealer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             vmCommonDealer.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
             return View(vmCommonDealer);
