@@ -145,7 +145,7 @@
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Dealer:</label>
                                         @Html.DropDownListFor(model => model.ParentId, Model.DealerList as SelectList, "-- Select Dealer --", new { id = "ddlParentId", @class = "form-control searchingDropdown", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.Propietor, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">

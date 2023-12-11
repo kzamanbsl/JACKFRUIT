@@ -26,6 +26,9 @@ namespace KGERP.Service.Implementation.Configuration
         public int JournalType { get; set; } = (int)JournalEnum.JournalVoucher;
         public bool IsActive { get; set; } = true;
         public int? CompanyFK { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyPhone { get; set; }
+        public string CompanyEmail { get; set; }
         public string Remarks { get; set; }
         public string Code { get; set; }
         public string CompanyName { get; set; }
