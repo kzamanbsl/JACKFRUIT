@@ -14,9 +14,12 @@
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li>
-            <a href="@Url.Action("CreateOrEdit",new { id=0 })" class="btn btn-primary pull-right">
-                <span class="fa fa-plus"></span> Add
+            <a href="@Url.Action("Index",new { companyId=Model.CompanyId })">
+                Dropdown Type
             </a>
+            @*<a href="@Url.Action("CreateOrEdit",new { id=0 })" class="btn btn-primary pull-right">
+            <span class="fa fa-plus"></span> Add
+        </a>*@
         </li>
     </ol>
 </section>
