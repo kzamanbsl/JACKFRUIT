@@ -133,7 +133,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Area:</label>
-                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control searchingDropdown", required = "true" })
+                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "--Select Area--", new { id = "ddlAreaId", @class = "form-control searchingDropdown" })
                                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -142,13 +142,13 @@
 
                             <div class="row">
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Territory:</label>
-                                        @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"})
-                                        @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                                @*<div class="col-md-3">
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Territory:</label>
+                @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"})
+                @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Deport:</label>
@@ -170,11 +170,6 @@
                                         @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-
-                            </div>
-
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">NID No:</label>
@@ -182,6 +177,9 @@
                                         @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Security Amount:</label>
@@ -198,7 +196,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Address:</label>
                                         @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" })
@@ -260,9 +258,9 @@
                                             <th>
                                                 Area
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Territory
-                                            </th>
+                                            </th>*@
                                             @*<th>
                                                     Incharge
                                                 </th>*@
@@ -270,12 +268,12 @@
                                             <th>
                                                 Phone
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 Email
                                             </th>
                                             <th>
                                                 NID
-                                            </th>
+                                            </th>*@
                                             <th>
                                                 Sec Amount
                                             </th>
@@ -321,9 +319,9 @@
                                                 <td>
                                                     @item.AreaName
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.SubZoneName
-                                                </td>
+                                                </td>*@
                                                 @*<td>
                                                         @item.ZoneIncharge
                                                     </td>*@
@@ -333,12 +331,12 @@
                                                 <td>
                                                     @item.Phone
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.Email
                                                 </td>
                                                 <td>
                                                     @item.NID
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     @item.SecurityAmount
                                                 </td>
@@ -346,7 +344,7 @@
                                                     @item.CreditLimit
                                                 </td>
                                                 <td>
-                                                    @item.Address, @item.Upazila, @item.Division @item.District, @item.Country
+                                                    @item.Address @*, @item.Upazila, @item.Division @item.District, @item.Country*@
                                                 </td>
                                                 @*<td>
                                                         @item.ZoneName (Incharge: @item.ZoneIncharge)
@@ -419,6 +417,7 @@
     <script type="text/javascript">
 
         let zoneTrigger = false;
+
         $(document).ready(function () {
 
             $('.formValidator').bootstrapValidator();
@@ -451,7 +450,7 @@
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 var regionId = $("#ddlRegionId :selected").val();
                 var areaId = $("#ddlAreaId :selected").val();
-                territoryChange(0, zoneId, zoneDivisionId, regionId, areaId);
+                //territoryChange(0, zoneId, zoneDivisionId, regionId, areaId);
             });
 
             $("#ddlCommon_DivisionFk").on('change', function () {
@@ -557,7 +556,6 @@
             });
         }
 
-
         function changeDistrict(distrcitValue,divisionValue) {
 
                 $.ajax({
@@ -604,6 +602,7 @@
                 }
             });
         }
+
         function commonDeportList(zoneId, zoneDivision, regionId, deportId, zoneTrigger)
         {
             if (zoneTrigger == true) {
@@ -650,65 +649,65 @@
         function makeEditble(id) {
             if (id != null) {
 
-          $.ajax({
-              type: "get",
-              url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
-              data: { id: id },
-              datatype: "json",
-              traditional: true,
-              success: function (data) {
+                $.ajax({
+                    type: "get",
+                    url: "@Url.Action("CommonDealerByIdGet", "Configuration")",
+                    data: { id: id },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
 
-                  $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                  $('#deportId').val(data.ID);
-                  $('#ActionId').val(2);
-                  $('#CompanyFK').val(data.CompanyFK);
-                  $('#txtDealerName').val(data.Name);
-                  $('#txtContactPerson').val(data.ContactPerson);
-                  $('#txtPhone').val(data.Phone);
-
-
-                  $('#txtEmail').val(data.Email);
-                  //zoneValue = data.ZoneId;
-                  //zoneDivision = data.ZoneDivisionId;
-                  //area = data.RegionId;
-                  //subzone = data.SubZoneId;
+                        $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                        $('#deportId').val(data.ID);
+                        $('#ActionId').val(2);
+                        $('#CompanyFK').val(data.CompanyFK);
+                        $('#txtDealerName').val(data.Name);
+                        $('#txtContactPerson').val(data.ContactPerson);
+                        $('#txtPhone').val(data.Phone);
 
 
-                  //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
-                  //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
-                  //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
-                  if (data.ZoneId == null) {
-                      data.ZoneId = 0;
-                  }
-                  if (data.ZoneDivisionId == null) {
-                      data.ZoneDivisionId = 0;
-                  }
-                  
-                  zoneTrigger = true;
-                  commonDeportList(data.ZoneId, data.ZoneDivisionId, 0, data.ParentId);
-                  $('#ddlZoneId').val(data.ZoneId).trigger('change');
+                        $('#txtEmail').val(data.Email);
+                        //zoneValue = data.ZoneId;
+                        //zoneDivision = data.ZoneDivisionId;
+                        //area = data.RegionId;
+                        //subzone = data.SubZoneId;
 
-                  zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
-                  regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
-                  areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
 
-                  territoryChange(data.SubZoneId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+                        //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
+                        //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
+                        //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
+                        if (data.ZoneId == null) {
+                            data.ZoneId = 0;
+                        }
+                        if (data.ZoneDivisionId == null) {
+                            data.ZoneDivisionId = 0;
+                        }
 
-                  $('#txtAddress').val(data.Address);
-                  $('#txtNID').val(data.NID);
-                  $('#txtCreditLimit').val(data.CreditLimit);
-                  $('#ddCustomerTypeFk').val(data.CustomerTypeFk);
-                  $('#txtSecurityAmount').val(data.SecurityAmount);
-                  $('#ddlCustomerStatus').val(data.CustomerStatus);
-                  $('#txtProprietor').val(data.Propietor);
-                  $('#txtPaymentType').val(data.PaymentType);
-                  //$('#ddlParentId').val(data.ParentId).trigger('change');
+                        zoneTrigger = true;
+                        commonDeportList(data.ZoneId, data.ZoneDivisionId, 0, data.ParentId);
+                        $('#ddlZoneId').val(data.ZoneId).trigger('change');
 
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-          });
+                        zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);
+                        regionChange(data.RegionId, data.ZoneId, data.ZoneDivisionId);
+                        areaChange(data.AreaId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+
+                        //territoryChange(data.SubZoneId, data.ZoneId, data.ZoneDivisionId, data.RegionId);
+
+                        $('#txtAddress').val(data.Address);
+                        $('#txtNID').val(data.NID);
+                        $('#txtCreditLimit').val(data.CreditLimit);
+                        $('#ddCustomerTypeFk').val(data.CustomerTypeFk);
+                        $('#txtSecurityAmount').val(data.SecurityAmount);
+                        $('#ddlCustomerStatus').val(data.CustomerStatus);
+                        $('#txtProprietor').val(data.Propietor);
+                        $('#txtPaymentType').val(data.PaymentType);
+                        //$('#ddlParentId').val(data.ParentId).trigger('change');
+
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
             }
-            }
+        }
 
         function resetForm() {
             $('#commonDealerFormId')[0].reset();
