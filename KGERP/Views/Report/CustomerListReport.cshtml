@@ -183,7 +183,7 @@
             success: function (data) {
                 if (data) {
                     $("#ddlCommon_TerritoryFk").empty();
-                    $("#ddlCommon_TerritoryFk").append("<option value=''>==Select Territory==</option>");
+                    //$("#ddlCommon_TerritoryFk").append("<option value=''>==Select Territory==</option>");
                     $(data).each(function (index, item) {
                         $("#ddlCommon_TerritoryFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                     });

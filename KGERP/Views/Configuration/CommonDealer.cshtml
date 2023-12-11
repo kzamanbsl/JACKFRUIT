@@ -145,7 +145,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Territory:</label>
-                                        @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown", required = "true" })
+                                        @Html.DropDownListFor(model => model.SubZoneId, Model.TerritoryList as SelectList, "--Select Territory--", new { id = "ddlSubZoneId", @class = "form-control searchingDropdown"})
                                         @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -418,7 +418,7 @@
 
     <script type="text/javascript">
 
-
+        let zoneTrigger = false;
         $(document).ready(function () {
 
             $('.formValidator').bootstrapValidator();
@@ -427,14 +427,15 @@
                 var zoneId = $("#ddlZoneId :selected").val();
 
                 zoneDivisionChange(0, zoneId);
-                commonDeportList(zoneId, 0, 0, 0);
+                commonDeportList(zoneId, 0, 0, 0, zoneTrigger);
             });
 
             $("#ddlZoneDivisionId").on('change', function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 regionChange(0, zoneId, zoneDivisionId);
-                commonDeportList(zoneId, zoneDivisionId, 0, 0);
+                commonDeportList(zoneId, zoneDivisionId, 0, 0, zoneTrigger);
+
             });
 
             $("#ddlRegionId").on("change", function () {
@@ -442,14 +443,14 @@
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 var regionId = $("#ddlRegionId :selected").val();
                 areaChange(0, zoneId, zoneDivisionId, regionId);
-                commonDeportList(zoneId, zoneDivisionId, regionId,0);
+                commonDeportList(zoneId, zoneDivisionId, regionId, 0, zoneTrigger);
             });
 
             $("#ddlAreaId").on("change", function () {
                 var zoneId = $("#ddlZoneId :selected").val();
                 var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
                 var regionId = $("#ddlRegionId :selected").val();
-                var areaId = $("#ddlRegionId :selected").val();
+                var areaId = $("#ddlAreaId :selected").val();
                 territoryChange(0, zoneId, zoneDivisionId, regionId, areaId);
             });
 
@@ -603,8 +604,24 @@
                 }
             });
         }
-        function commonDeportList(zoneId, zoneDivision, regionId,deportId)
+        function commonDeportList(zoneId, zoneDivision, regionId, deportId, zoneTrigger)
         {
+            if (zoneTrigger == true) {
+                zoneTrigger == false;
+                return;
+            }
+
+            if (zoneId == null) {
+                zoneId == 0;
+            }
+            if (zoneDivision == null) {
+                zoneDivision == 0;
+            }
+            if (regionId == null) {
+                regionId == 0;
+            }
+
+
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetDeportByRegion", "Configuration")",
@@ -660,7 +677,15 @@
                   //$("#ddlCommon_DivisionFk").val(data.Common_DivisionFk).trigger('change');
                   //changeDistrict(data.Common_DistrictsFk, data.Common_DivisionFk);
                   //changeUpazila(data.Common_UpazilasFk, data.Common_DistrictsFk);
-                  commonDeportList(0, 0, 0, data.ParentId);
+                  if (data.ZoneId == null) {
+                      data.ZoneId = 0;
+                  }
+                  if (data.ZoneDivisionId == null) {
+                      data.ZoneDivisionId = 0;
+                  }
+                  
+                  zoneTrigger = true;
+                  commonDeportList(data.ZoneId, data.ZoneDivisionId, 0, data.ParentId);
                   $('#ddlZoneId').val(data.ZoneId).trigger('change');
 
                   zoneDivisionChange(data.ZoneDivisionId, data.ZoneId);

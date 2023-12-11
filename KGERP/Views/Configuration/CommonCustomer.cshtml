@@ -481,7 +481,7 @@
             var zoneId = $("#ddlZoneId :selected").val();
             var zoneDivisionId = $("#ddlZoneDivisionId :selected").val();
             var regionId = $("#ddlRegionId :selected").val();
-            var areaId = $("#ddlRegionId :selected").val();
+            var areaId = $("#ddlAreaId :selected").val();
             territoryChange(0, zoneId, zoneDivisionId, regionId, areaId);
             commonDealerList(zoneId, zoneDivisionId, regionId, areaId, 0);
         });
@@ -573,7 +573,7 @@
                         //$("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            console.log(item.Text);
+                           
                         });
                         if (territoryValue > 0) {
                             $("#ddlSubZoneId").val(territoryValue);

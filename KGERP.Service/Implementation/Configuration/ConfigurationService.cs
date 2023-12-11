@@ -3512,7 +3512,7 @@ namespace KGERP.Service.Implementation.Configuration
         public List<object> CommonDeportListByRegion(int zoneId=0, int zoneDivision=0, int regionId=0)
         {
             var list = new List<object>();
-            if (zoneId > 0 && zoneDivision > 0 && regionId > 0)
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 )
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
                                   && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId).ToList();
@@ -3521,7 +3521,8 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            else if (zoneId > 0 && zoneDivision > 0)
+           
+            if (zoneId > 0 && zoneDivision > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision).ToList();
@@ -3531,7 +3532,8 @@ namespace KGERP.Service.Implementation.Configuration
                 }
 
             }
-            else if (zoneId>0)
+           
+            if (zoneId>0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
                                           && c.ZoneId==zoneId).ToList();
@@ -3540,7 +3542,7 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            else
+            if(zoneId == 0 && zoneDivision == 0 && regionId == 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList();
                 foreach (var x in v)
@@ -3549,8 +3551,14 @@ namespace KGERP.Service.Implementation.Configuration
                 }
 
             }
+
             return list;
         }
+
+
+
+
+
         public List<object> CommonDealerDropDownList()
         {
             var list = new List<object>();
@@ -5768,7 +5776,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CompanyFK = t1.CompanyId,
 
                          CustomerTypeFk = t1.CustomerTypeFK,
-                         ZoneId = t2.ZoneId,
+                         ZoneId = t1.ZoneId,
                          ZoneDivisionId = t1.ZoneDivisionId,
                          RegionId = t1.RegionId,
                          AreaId = t1.AreaId,
@@ -5897,7 +5905,7 @@ namespace KGERP.Service.Implementation.Configuration
                 ZoneDivisionId = vmCommonDealer.ZoneDivisionId,
                 RegionId = vmCommonDealer.RegionId,
                 AreaId = vmCommonDealer.AreaId,
-                SubZoneId = vmCommonDealer.SubZoneId,
+                //SubZoneId = vmCommonDealer.SubZoneId,
                 Address = vmCommonDealer.Address,
 
                 ContactName = vmCommonDealer.ContactPerson,
@@ -5956,7 +5964,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonDealer.ZoneDivisionId = vmCommonDealer.ZoneDivisionId;
             commonDealer.RegionId = vmCommonDealer.RegionId;
             commonDealer.AreaId = vmCommonDealer.AreaId;
-            commonDealer.SubZoneId = vmCommonDealer.SubZoneId;
+            //commonDealer.SubZoneId = vmCommonDealer.SubZoneId;
             commonDealer.Address = vmCommonDealer.Address;
 
             commonDealer.SecurityAmount = vmCommonDealer.SecurityAmount;
