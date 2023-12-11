@@ -4989,7 +4989,11 @@ namespace KGERP.Service.Implementation.Configuration
                                                          Remarks = t1.Remarks,
                                                          CompanyFK = t1.CompanyId,
                                                          Phone = t1.Phone,
-                                                         ZoneName = t5.Name,
+                                                         ZoneName = t6.Name,
+                                                         ZoneDivisionName=t7.Name,
+                                                         RegionName=t8.Name,
+                                                         AreaName=t9.Name,
+                                                         SubZoneName=t5.Name,
                                                          ZoneIncharge = t6.ZoneIncharge,
                                                          CreditLimit = t1.CreditLimit,
                                                          NID = t1.NID,
@@ -4999,7 +5003,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                          CompanyName=t11.Name,
                                                          CompanyEmail=t11.Email,
                                                          CompanyPhone=t11.Phone,
-                                                         CompanyAddress=t11.Address
+                                                         CompanyAddress=t11.Address,
+                                                         PaymentType=t1.CustomerType
                                                          
                                                      }).FirstOrDefault()) ;
 
@@ -5354,7 +5359,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonCustomer.ModifiedDate = DateTime.Now;
             commonCustomer.ContactName = vmCommonCustomer.ContactPerson;
             commonCustomer.CustomerTypeFK = vmCommonCustomer.CustomerTypeFk;
-            //commonCustomer.CustomerType = vmCommonCustomer.CustomerType;
+            commonCustomer.CustomerType = vmCommonCustomer.PaymentType;
             commonCustomer.SecurityAmount = vmCommonCustomer.SecurityAmount;
             commonCustomer.CustomerStatus = vmCommonCustomer.CustomerStatus;
             commonCustomer.Propietor = vmCommonCustomer.Propietor;
