@@ -4,6 +4,7 @@
 @{
     Layout = null;
     decimal totalPrice = 0m;
+    int sl = 0;
 }
 
 @using KGERP.Utility
@@ -257,8 +258,42 @@
                 </tbody>
 
             </table>
+         @*   <div style="margin-top:40px"><span style="text-align:center; font-size:25px;font-weight:bold">Dealer List</span> </div>*@
+           <h3>Dealer List:</h3>
+            <table id="childList" border="1" style="width:100%;margin-top:10px; font-size:16px">
+                <thead style="background-color: #c0c0c0">
 
+                    <tr>
+                        <th style="text-align:left;padding-left:5px">
+                            SL
+                        </th>
+                        <th style="text-align:left;padding-left:10px">
+                            Name
+                        </th>
+                        <th style="text-align:left;padding-left:10px">
+                            Phone
+                        </th>
+                        <th style="text-align:left;padding-left:10px">
+                            Address
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
 
+                    @foreach (var dealer in Model.ChildList)
+                    {
+
+                        <tr>
+                            <td style="padding-left:10px">@( ++sl)</td>
+                            <td style="padding-left:10px">@dealer.Name</td>
+                            <td style="padding-left:10px">@dealer.Phone</td>
+                            <td style="padding-left:10px">@dealer.Address</td>
+
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
 
 
 
@@ -283,7 +318,8 @@
 
     <script>
         $(function () {
-            SummerizeTable('#tbl1', 1);
+            //SummerizeTable('#tbl1', 1);
+            SummerizeTable('#childList', 1);
             //SummerizeTable('#tbl1', 2);
             //SummerizeTable('#tbl1', 5);
         });
