@@ -4996,6 +4996,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                          SubZoneName=t5.Name,
                                                          ZoneIncharge = t6.ZoneIncharge,
                                                          CreditLimit = t1.CreditLimit,
+                                                         SecurityAmount=t1.SecurityAmount,
                                                          NID = t1.NID,
                                                          CustomerTypeFk = t1.CustomerTypeFK,
                                                          VendorTypeId = t1.VendorTypeId,
