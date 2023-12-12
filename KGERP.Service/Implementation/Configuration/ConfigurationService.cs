@@ -3509,10 +3509,10 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return list;
         }
-        public List<object> CommonDeportListByRegion(int zoneId=0, int zoneDivision=0, int regionId=0)
+        public List<object> CommonDeportListByRegion(int zoneId = 0, int zoneDivision = 0, int regionId = 0)
         {
             var list = new List<object>();
-            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 )
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
                                   && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId).ToList();
@@ -3521,7 +3521,7 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-           
+
             if (zoneId > 0 && zoneDivision > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
@@ -3532,17 +3532,17 @@ namespace KGERP.Service.Implementation.Configuration
                 }
 
             }
-           
-            if (zoneId>0 && list.Count == 0)
+
+            if (zoneId > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true
-                                          && c.ZoneId==zoneId).ToList();
+                                          && c.ZoneId == zoneId).ToList();
                 foreach (var x in v)
                 {
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            if(zoneId == 0 && zoneDivision == 0 && regionId == 0 && list.Count == 0)
+            if (zoneId == 0 && zoneDivision == 0 && regionId == 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList();
                 foreach (var x in v)
@@ -3569,19 +3569,19 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return list;
         }
-        public List<object> CommonDealerListByArea(int zoneId = 0, int zoneDivision = 0, int regionId = 0,int areaId=0)
+        public List<object> CommonDealerListByArea(int zoneId = 0, int zoneDivision = 0, int regionId = 0, int areaId = 0)
         {
             var list = new List<object>();
-            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && areaId> 0 )
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && areaId > 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
-                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId==areaId).ToList();
+                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId == areaId).ToList();
                 foreach (var x in v)
                 {
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-           
+
             if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
@@ -3610,7 +3610,7 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            if (zoneId == 0 && zoneDivision == 0 && regionId == 0 && areaId ==0 && list.Count==0)
+            if (zoneId == 0 && zoneDivision == 0 && regionId == 0 && areaId == 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
                 foreach (var x in v)
@@ -4568,7 +4568,7 @@ namespace KGERP.Service.Implementation.Configuration
                          CompanyFK = t1.CompanyId,
                          SubZoneId = t1.SubZoneId.Value,
                          CustomerTypeFk = t1.CustomerTypeFK,
-                         ParentId=t1.ParentId,
+                         ParentId = t1.ParentId,
                          ZoneId = t2.ZoneId,
                          RegionId = t1.RegionId.Value,
                          AreaId = t1.AreaId.Value,
@@ -4685,7 +4685,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   AreaName = t10.Name,
                                                                   SubZoneId = t1.SubZoneId ?? 0,
                                                                   SubZoneName = t5.Name,
-                                                                  DealerName=t11.Name,
+                                                                  DealerName = t11.Name,
 
                                                                   ZoneIncharge = t6.ZoneIncharge,
                                                                   CreditLimit = t1.CreditLimit,
@@ -4990,24 +4990,24 @@ namespace KGERP.Service.Implementation.Configuration
                                                          CompanyFK = t1.CompanyId,
                                                          Phone = t1.Phone,
                                                          ZoneName = t6.Name,
-                                                         ZoneDivisionName=t7.Name,
-                                                         RegionName=t8.Name,
-                                                         AreaName=t9.Name,
-                                                         SubZoneName=t5.Name,
+                                                         ZoneDivisionName = t7.Name,
+                                                         RegionName = t8.Name,
+                                                         AreaName = t9.Name,
+                                                         SubZoneName = t5.Name,
                                                          ZoneIncharge = t6.ZoneIncharge,
                                                          CreditLimit = t1.CreditLimit,
-                                                         SecurityAmount=t1.SecurityAmount,
+                                                         SecurityAmount = t1.SecurityAmount,
                                                          NID = t1.NID,
                                                          CustomerTypeFk = t1.CustomerTypeFK,
                                                          VendorTypeId = t1.VendorTypeId,
                                                          DealerName = t10.Name,
-                                                         CompanyName=t11.Name,
-                                                         CompanyEmail=t11.Email,
-                                                         CompanyPhone=t11.Phone,
-                                                         CompanyAddress=t11.Address,
-                                                         PaymentType=t1.CustomerType
-                                                         
-                                                     }).FirstOrDefault()) ;
+                                                         CompanyName = t11.Name,
+                                                         CompanyEmail = t11.Email,
+                                                         CompanyPhone = t11.Phone,
+                                                         CompanyAddress = t11.Address,
+                                                         PaymentType = t1.CustomerType
+
+                                                     }).FirstOrDefault());
 
 
 
@@ -5086,7 +5086,7 @@ namespace KGERP.Service.Implementation.Configuration
                 NomineeRelation = vmCommonCustomer.NomineeRelation,
                 NomineeNID = vmCommonCustomer.NomineeNID,
                 BusinessAddress = vmCommonCustomer.BusinessAddress,
-                ParentId=vmCommonCustomer.ParentId
+                ParentId = vmCommonCustomer.ParentId
 
             };
             _db.Vendors.Add(commonCustomer);
@@ -5415,9 +5415,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                    join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
                                                    from t5 in t5_Join.DefaultIfEmpty()
                                                    join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_join
-                                                   from t6 in t6_join.DefaultIfEmpty()    
+                                                   from t6 in t6_join.DefaultIfEmpty()
                                                    join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_join
-                                                   from t7 in t7_join.DefaultIfEmpty()      
+                                                   from t7 in t7_join.DefaultIfEmpty()
                                                    join t8 in _db.Regions on t1.ZoneId equals t8.RegionId into t8_join
                                                    from t8 in t8_join.DefaultIfEmpty()
                                                    join t9 in _db.Companies on t1.CompanyId equals t9.CompanyId into t9_join
@@ -5428,7 +5428,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                        ID = t1.VendorId,
                                                        Name = t1.Name,
                                                        Email = t1.Email,
-                                                       Propietor=t1.Propietor,
+                                                       Propietor = t1.Propietor,
                                                        ContactPerson = t1.ContactName,
                                                        Address = t1.Address,
                                                        Code = t1.Code,
@@ -5443,21 +5443,30 @@ namespace KGERP.Service.Implementation.Configuration
                                                        CompanyFK = t1.CompanyId,
                                                        Phone = t1.Phone,
                                                        ZoneName = t6.Name,
-                                                       ZoneDivisionName=t7.Name,
-                                                       RegionName=t8.Name,
+                                                       ZoneDivisionName = t7.Name,
+                                                       RegionName = t8.Name,
                                                        ZoneIncharge = t6.ZoneIncharge,
                                                        CreditLimit = t1.CreditLimit,
-                                                       SecurityAmount=t1.SecurityAmount,
-                                                       PaymentType=t1.CustomerType,
+                                                       SecurityAmount = t1.SecurityAmount,
+                                                       PaymentType = t1.CustomerType,
                                                        NID = t1.NID,
                                                        CustomerTypeFk = t1.CustomerTypeFK,
                                                        VendorTypeId = t1.VendorTypeId,
-                                                       CompanyName=t9.Name,
-                                                       CompanyPhone=t9.Phone,
-                                                       CompanyAddress=t9.Address,
-                                                       CompanyEmail=t9.Email
+                                                       CompanyName = t9.Name,
+                                                       CompanyPhone = t9.Phone,
+                                                       CompanyAddress = t9.Address,
+                                                       CompanyEmail = t9.Email
                                                    }).FirstOrDefault());
 
+            vmCommonDeport.ChildList = from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.ParentId == deportId)
+                                      
+                                       select new  VMCommonSupplier
+                                       {
+                                           Name=t1.Name,
+                                           Phone=t1.Phone,
+                                           Address=t1.Address
+
+                                       };
 
 
             return vmCommonDeport;
@@ -5739,11 +5748,11 @@ namespace KGERP.Service.Implementation.Configuration
             var dealerSelectList = new SelectList(dealerList, "Value", "Text");
             return dealerSelectList;
         }
-        public async Task<VMCommonSupplier> GetDealerById(int deportId)
+        public async Task<VMCommonSupplier> GetDealerById(int dealerId)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
 
-            vmCommonDealer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.VendorId == deportId)
+            vmCommonDealer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.VendorId == dealerId)
                                                        //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
                                                        //from t2 in t2_def.DefaultIfEmpty()
                                                        //join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
@@ -5760,7 +5769,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                    join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
                                                    from t9 in t9_def.DefaultIfEmpty()
                                                    join t10 in _db.Vendors on t1.ParentId equals t10.VendorId into t10_def
-                                                   from t10 in t10_def.DefaultIfEmpty()  
+                                                   from t10 in t10_def.DefaultIfEmpty()
                                                    join t11 in _db.Companies on t1.CompanyId equals t11.CompanyId into t11_def
                                                    from t11 in t11_def.DefaultIfEmpty()
 
@@ -5785,25 +5794,32 @@ namespace KGERP.Service.Implementation.Configuration
                                                        Phone = t1.Phone,
                                                        ZoneId = t1.ZoneId,
                                                        ZoneName = t6.Name,
-                                                       ZoneDivisionName=t7.Name,
-                                                       RegionName=t8.Name,
-                                                       AreaName=t9.Name,
+                                                       ZoneDivisionName = t7.Name,
+                                                       RegionName = t8.Name,
+                                                       AreaName = t9.Name,
                                                        ZoneIncharge = t6.ZoneIncharge,
-                                                       SecurityAmount=t1.SecurityAmount,
+                                                       SecurityAmount = t1.SecurityAmount,
                                                        CreditLimit = t1.CreditLimit,
                                                        NID = t1.NID,
                                                        CustomerTypeFk = t1.CustomerTypeFK,
                                                        VendorTypeId = t1.VendorTypeId,
                                                        ParentId = t1.ParentId,
-                                                       
-                                                       PaymentType=t1.CustomerType,
-                                                       DeportName=t10.Name,
-                                                       CompanyName=t11.Name,
-                                                       CompanyEmail=t11.Phone,
-                                                       CompanyPhone=t11.Phone,
-                                                       CompanyAddress=t11.Address
+
+                                                       PaymentType = t1.CustomerType,
+                                                       DeportName = t10.Name,
+                                                       CompanyName = t11.Name,
+                                                       CompanyEmail = t11.Phone,
+                                                       CompanyPhone = t11.Phone,
+                                                       CompanyAddress = t11.Address
                                                    }).FirstOrDefault());
 
+            vmCommonDealer.ChildList = from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.ParentId == dealerId)
+                                       select new VMCommonSupplier
+                                       {
+                                           Name=t1.Name,
+                                           Phone=t1.Phone,
+                                           Address=t1.Address
+                                       };
             return vmCommonDealer;
         }
         public VMCommonSupplier GetCommonDealerById(int id)
@@ -5876,7 +5892,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                             join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
                                                             from t10 in t10_def.DefaultIfEmpty()
                                                             join t11 in _db.Vendors on t1.ParentId equals t11.VendorId into t11_def
-                                                            from  t11 in t11_def.DefaultIfEmpty()
+                                                            from t11 in t11_def.DefaultIfEmpty()
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
@@ -5910,7 +5926,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                 SubZoneId = t1.SubZoneId ?? 0,
                                                                 SubZoneName = t5.Name,
                                                                 ZoneName = t6.Name,
-                                                                DeportName=t11.Name,
+                                                                DeportName = t11.Name,
                                                                 ZoneIncharge = t6.ZoneIncharge,
                                                                 CreditLimit = t1.CreditLimit,
                                                                 NID = t1.NID,

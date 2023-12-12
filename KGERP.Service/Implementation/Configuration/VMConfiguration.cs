@@ -384,21 +384,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int? ParentId { get; set; }
         public string EmployeeId { get; set; } // EmployeeId is UserName
 
-        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
-        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
-        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
-        public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
 
-        public SelectList DeportList { get; set; } = new SelectList(new List<object>());
-        public SelectList DealerList { get; set; } = new SelectList(new List<object>());
-        public SelectList CountryList { get; set; } = new SelectList(new List<object>());
-        public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
-        public SelectList DistrictList { get; set; } = new SelectList(new List<object>());
-        public SelectList UpazilasList { get; set; } = new SelectList(new List<object>());
-
-        public SelectList PaymentTypeList { get; set; } = new SelectList(new List<object>());
-        public SelectList NomineeRelationList { get; set; } = new SelectList(new List<object>());
 
 
         public CustomerType CustomerType { get { return (CustomerType)this.CustomerTypeFk; } }// = SupplierPaymentMethodEnum.Cash;
@@ -430,9 +416,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string ACNo { get; set; }
         public string BankName { get; set; }
         public string BranchName { get; set; }
-        public IEnumerable<VMCommonSupplier> DataList { get; set; }
-        public List<SelectModel> CList { get; set; }
-        public List<object> HeadList { get; set; }
+
         public long? HeadGLId { get; set; }
         public int HId { get; set; }
         public long CGId { get; set; }
@@ -443,6 +427,27 @@ namespace KGERP.Service.Implementation.Configuration
         public string RegionName { get; set; }
         public string AreaName { get; set; }
         public string SubZoneName { get; set; }
+
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
+        public SelectList TerritoryList { get; set; } = new SelectList(new List<object>());
+
+        public SelectList DeportList { get; set; } = new SelectList(new List<object>());
+        public SelectList DealerList { get; set; } = new SelectList(new List<object>());
+        public SelectList CountryList { get; set; } = new SelectList(new List<object>());
+        public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
+        public SelectList DistrictList { get; set; } = new SelectList(new List<object>());
+        public SelectList UpazilasList { get; set; } = new SelectList(new List<object>());
+
+        public SelectList PaymentTypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList NomineeRelationList { get; set; } = new SelectList(new List<object>());
+        
+        public IEnumerable<VMCommonSupplier> DataList { get; set; }
+        public IEnumerable<VMCommonSupplier> ChildList { get; set; }
+        public List<SelectModel> CList { get; set; }
+        public List<object> HeadList { get; set; }
     }
 
     public class VMCommonSupplierProduct : VMCommonProduct
