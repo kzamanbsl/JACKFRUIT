@@ -6,6 +6,7 @@ using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -406,7 +407,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonList;
         }
-    
+
         public object GetAutoCompleteCustomer(string prefix, int companyId)
         {
             var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Customer)
@@ -4147,7 +4148,7 @@ namespace KGERP.Service.Implementation.Procurement
             if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Delivary!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
-
+            vmSalesOrderSlave.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrderSlave.CompanyId, vmSalesOrderSlave.ChallanDate ?? DateTime.Now);
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Delivered;
             order.ChallanNo = vmSalesOrderSlave.ChallanNo;
@@ -4291,7 +4292,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
+                                                              SalePersonId = t1.SalePersonId ?? 0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -4365,7 +4366,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
+                                                              SalePersonId = t1.SalePersonId ?? 0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -4437,7 +4438,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
+                                                              SalePersonId = t1.SalePersonId ?? 0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -4486,6 +4487,17 @@ namespace KGERP.Service.Implementation.Procurement
                 .ToListAsync());
 
             return vmCommonDeportList;
+        }
+
+        public async Task<string> GetDeportDelivaryChallanNo(int companyId, DateTime challanDate)
+        {
+            int challanCount = await Task.Run(() => _db.OrderMasters.Count(x => x.StockInfoTypeId == (int)StockInfoTypeEnum.Company && x.CompanyId == companyId
+                && DbFunctions.TruncateTime(x.ChallanDate) == challanDate.Date));
+
+            challanCount++;
+            string challanNo = "AZ-" + challanDate.ToString("ddMMyy") + "-ST-" + challanCount.ToString().PadLeft(3, '0');
+
+            return challanNo;
         }
 
         #endregion
@@ -4952,7 +4964,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
+                                                              SalePersonId = t1.SalePersonId ?? 0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -5028,7 +5040,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
+                                                              SalePersonId = t1.SalePersonId ?? 0,
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
@@ -5103,8 +5115,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
-                                                             
+                                                              SalePersonId = t1.SalePersonId ?? 0,
+
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5459,8 +5471,8 @@ namespace KGERP.Service.Implementation.Procurement
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
-                                                              SalePersonId = t1.SalePersonId??0,
-                                                              
+                                                              SalePersonId = t1.SalePersonId ?? 0,
+
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5476,7 +5488,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             if (vmSalesOrder.DataList.Count() <= 0) { return vmSalesOrder; }
 
-             UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            UserDataAccessModel up = await _configurationService.GetUserDataAccessModelByEmployeeId();
 
             if (up.UserTypeId == (int)EnumUserType.Dealer)
             {

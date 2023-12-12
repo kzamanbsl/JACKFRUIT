@@ -6,15 +6,12 @@ using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -1797,6 +1794,7 @@ namespace KGERP.Controllers
             if (orderMasterId > 0)
             {
                 vmSalesOrderSlave = await Task.Run(() => _service.GetDeportSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.ChallanNo= await _service.GetDeportDelivaryChallanNo(companyId, DateTime.Now);
                 vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
             }
 

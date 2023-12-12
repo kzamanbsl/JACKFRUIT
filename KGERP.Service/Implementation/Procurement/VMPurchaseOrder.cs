@@ -199,6 +199,7 @@ namespace KGERP.Service.Implementation.Procurement
         public DateTime PaymentDate { get; set; }
         public int? PromotionalOfferId { get; set; }
         public DateTime? ExpectedDeliveryDate { get; set; }
+
         [Display (Name ="Payment Method")]
         public int CustomerPaymentMethodEnumFK { get; set; }
         public string OrderNo { get; set; }
