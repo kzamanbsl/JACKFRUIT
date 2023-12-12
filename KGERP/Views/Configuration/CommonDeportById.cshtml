@@ -5,6 +5,8 @@
     Layout = null;
     decimal totalPrice = 0m;
 }
+
+@using KGERP.Utility
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +15,7 @@
     <meta name="viewport" content="width=device-width" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Deport Details</title>
+    <title> Deport Information </title>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -35,79 +37,84 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <style>
-                /* h4 {
+        /* h4 {
                     border-bottom: 2px solid black;
                     display: inline;
                 }
         */
-                /*.footer {
+        /*.footer {
                     position: absolute;
                     bottom: 0;
                     left: 0;
                     text-align: center;
                 }*/
 
-                .trclass {
-                    border: 1px solid #000;
-                    font-size: 12px;
-                    font-weight: 800;
-                    background-color: #C0C0C0;
-                    line-height: 20px;
-                }
+        .trclass {
+            border: 1px solid #000;
+            font-size: 16px;
+            font-weight: 800;
+            background-color: #C0C0C0;
+            line-height: 20px;
+        }
 
-                #page {
-                    background-color: #fff;
-                    width: 900px;
-                    margin: 0px auto;
-                    /* padding: 0 30px;
-                    font-size: 13px;*/
-                }
+        #page {
+            background-color: #fff;
+            width: 900px;
+            margin: 0px auto;
+            position: relative;
+            font-size: 16px;
+        }
 
 
 
-                @@media print {
-                    .trclass {
-                        background-color: #C0C0C0 !important;
-                        -webkit-print-color-adjust: exact;
-                        line-height: 20px;
-                    }
+        #topLogo {
+            float: left;
+        }
 
-                    body {
-                        margin-top: 5px;
-                    }
-                    /*body {
+
+        @@media print {
+            .trclass {
+                background-color: #C0C0C0 !important;
+                -webkit-print-color-adjust: exact;
+                line-height: 20px;
+            }
+
+            body {
+                margin-top: 5px;
+            }
+            /*body {
                         margin: 1.6cm;
                     }*/
-                    #haderTitle {
-                        color: white !important;
-                        background-color: black !important;
-                        font-weight: bold !important;
-                        border-radius: 25px;
-                        padding: 5px;
-                    }
+            #haderTitle {
+                color: white !important;
+                background-color: black !important;
+                font-weight: bold !important;
+                border-radius: 25px;
+                padding: 5px;
+            }
 
-                    #haderTitleh3 {
-                        background-color: black !important;
-                        padding: 4px;
-                    }
+            #haderTitleh3 {
+                background-color: black !important;
+                padding: 4px;
+            }
 
-                    a[href]:after {
-                        content: none !important;
-                    }
+            a[href]:after {
+                content: none !important;
+            }
 
-                    #print, #print * {
-                        display: none !important;
-                    }
-                }
-                /*div.divfooter {
+            #print, #print * {
+                display: none !important;
+            }
+        }
+        /*div.divfooter {
                         margin-top: 15px;
                         bottom: 0;
                         display: inherit;
                     }*/
-                /*#divfooter {
+        /*#divfooter {
                         display: block !important;
                     }*/
-                }
+        }
     </style>
 
     <script>
@@ -123,101 +130,193 @@
         Print
     </span>
     <div id="page">
+        <img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="@CompanyInfo.CompanyLogoUrl" />
         <div style="min-height: 900px;">
+            <div class="text-center">
+                <div class="row">
+                    <table width="100%">
+                        <tr>
+                            <td style="width:20%"></td>
+                            <td style="width:10%">
+                                <img height="80" width="80" id="topLogo" src="@CompanyInfo.CompanyLogoUrl" />
+
+                            </td>
+                            <td style="width:70%">
+
+                                <p style="text-align: left; font-size: 25px; font-weight: bold;margin-bottom: 0;">@Model.CompanyName</p>
+                                <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">@Model.CompanyAddress</p>
+                                <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.CompanyPhone,  Email : @Model.CompanyEmail</p>
+
+                            </td>
+                            <td style="width:20%"></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <div class="text-center">
                 <table style="width:100%">
                     <tr style="text-align:center">
-                        <td style="border-bottom:double;font-size:22px"><b>Info of <span style="color:greenyellow;">@Model.Name</span>(@Model.CustomerType)</b></td>
+                        <td style="border-bottom:double;font-size:22px"><b>Deport: @Model.Name </b></td>
                     </tr>
                 </table>
             </div>
             <br />
-            <table style="width: 100%" border="1">
-                <thead>
-                    <tr>
-                        <td style="width: 18%"></td>
-                        <td style="width: 1%"></td>
-                        <td style="width: 31%"></td>
+            <table style="width: 100%">
 
-                        <td style="width: 18%"></td>
-                        <td style="width: 1%"></td>
-                        <td style="width: 31%"></td>
-                    </tr>
-                </thead>
                 <tbody>
-
-
+                    @*1st row*@
                     <tr>
-                        <td style="font-weight: bold;padding:5px;">Deport</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;"><b>@Model.Name</b></td>
+                        <th style="width:18%">Deport Name</th>
+                        <th style="width:2%">:</th>
+                        <td style="width:30%"><label class="col-form-label">@Model.Name</label></td>
 
-                        <td style="font-weight: bold;padding:5px;">Code</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.Code</td>
+                        <th style="width:18%">Payment Type</th>
+                        <th style="width:2%">:</th>
+                        <td style="width:30%">@Model.PaymentType</td>
+
+
+                    </tr>
+
+                    @*2nd row*@
+                    <tr>
+                        <th>Proprietor</th>
+                        <th>:</th>
+                        <td>@Model.Propietor</td>
+
+                        <th>CreditLimit</th>
+                        <th>:</th>
+                        <td>@Model.CreditLimit</td>
+
+                    </tr>
+
+                    @*3rd row*@
+                    <tr>
+                        <th>Contact Person</th>
+                        <th>:</th>
+                        <td>@Model.ContactPerson</td>
+
+
+                        <th>Security Amount</th>
+                        <th>:</th>
+                        <td>@Model.SecurityAmount</td>
+
+
+                    </tr>
+                    @*4th row*@
+                    <tr>
+                        <th>Email</th>
+                        <th>:</th>
+                        <td>@Model.Email</td>
+
+                        <th>Zone</th>
+                        <th>:</th>
+                        <td>@Model.ZoneName</td>
+
+                    </tr>
+                    @*5th row*@
+                    <tr>
+                        <th>Phone</th>
+                        <th>:</th>
+                        <td>@Model.Phone</td>
+
+
+                        <th>Division</th>
+                        <th>:</th>
+                        <td>@Model.ZoneDivisionName</td>
+
+                    </tr>
+                    @*6th row*@
+                    <tr>
+                        <th>NID</th>
+                        <th>:</th>
+                        <td>@Model.NID</td>
+
+
+                        <th>Region</th>
+                        <th>:</th>
+                        <td>@Model.RegionName</td>
+
+                    </tr>
+                    @*7th row*@
+                    <tr>
+                        <th>Address</th>
+                        <th>:</th>
+                        <td>@Model.Address</td>
+
+
+
+                        @*<th>Remarks</th>
+                            <th>:</th>
+                            <td>@Model.Remarks</td>*@
+
                     </tr>
 
 
-                    <tr>
-                        <td style="font-weight: bold;padding:5px;">Phone</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.Phone</td>
-
-                        <td style="font-weight: bold;padding:5px;">Email</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.Email</td>
-                    </tr>
-
-                    <tr>
-                        <td style="font-weight: bold;padding:5px;">NID</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.NID</td>
-
-                        <td style="font-weight: bold;padding:5px;">CreditLimit</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.CreditLimit</td>
-                    </tr>
-
-                    <tr>
-                        <td style="font-weight: bold;padding:5px;">Address</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.Address</td>
-
-                        <td style="font-weight: bold;padding:5px;">Division</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.Division</td>
-                    </tr>
-
-                    <tr>
-                        <td style="font-weight: bold;padding:5px;">District</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.District</td>
-
-                        <td style="font-weight: bold;padding:5px;">Upazila</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.Upazila</td>
-                    </tr>
-
-                    <tr>
-                        <td style="font-weight: bold;padding:5px;">Zone</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.ZoneName</td>
-
-                        <td style="font-weight: bold;padding:5px;">Incharge</td>
-                        <td style="font-weight: bold;padding:5px;">:</td>
-                        <td style="padding-left: 5px;padding:5px;">@Model.ZoneIncharge</td>
-                    </tr>
 
                 </tbody>
 
             </table>
 
+
+
+
+
         </div>
+
+
+
     </div>
+    <!-- /.content -->
+    <!-- /.content-wrapper -->
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/demo.js"></script>
+
+    <script>
+        $(function () {
+            SummerizeTable('#tbl1', 1);
+            //SummerizeTable('#tbl1', 2);
+            //SummerizeTable('#tbl1', 5);
+        });
+        function SummerizeTable(table, indexno) {
+            $(table).each(function () {
+                $(table).find('td').each(function () {
+                    var $this = $(this);
+                    var col = indexno;
+                    var html = $this.html();
+                    var row = $(this).parent()[0].rowIndex;
+                    var span = 1;
+                    var cell_above = $($this.parent().prev().children()[col]);
+
+                    // look for cells one above another with the same text
+                    while (cell_above.html() === html) { // if the text is the same
+                        span += 1; // increase the span
+                        cell_above_old = cell_above; // store this cell
+                        cell_above = $(cell_above.parent().prev().children()[col]); // and go to the next cell above
+                    }
+
+                    // if there are at least two columns with the same value,
+                    // set a new span to the first and hide the other
+                    if (span > 1) {
+                        // console.log(span);
+                        $(cell_above_old).attr('rowspan', span);
+                        $this.hide();
+                    }
+
+                });
+            });
+        }
+    </script>
 </body>
 
+
 </html>
-
-
-
-
