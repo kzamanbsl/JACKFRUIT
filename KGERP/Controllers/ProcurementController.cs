@@ -1869,7 +1869,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DeportSalesOrderReceivedSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            var resutl = await _service.DeportSalesOrderReceived(vmSalesOrderSlave);
+            var result = await _service.DeportSalesOrderReceived(vmSalesOrderSlave);
             return RedirectToAction(nameof(DeportSalesOrderReceivedList), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
@@ -2040,6 +2040,7 @@ namespace KGERP.Controllers
             if (orderMasterId > 0)
             {
                 vmSalesOrderSlave = await Task.Run(() => _service.GetDealerSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.ChallanNo = await _service.GetDealerDelivaryChallanNo(companyId, DateTime.Now);
                 vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
             }
 
@@ -2049,7 +2050,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DealerSalesOrderDelivarySlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
-            var resutl = await _service.DealerSalesOrderDelivary(vmSalesOrderSlave);
+            var result = await _service.DealerSalesOrderDelivary(vmSalesOrderSlave);
             return RedirectToAction(nameof(DealerSalesOrderDelivaryList), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 

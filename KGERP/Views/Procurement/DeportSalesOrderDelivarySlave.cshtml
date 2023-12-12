@@ -154,7 +154,7 @@
                                     <div class="col-md-4">
                                         <label for="message-text" class="col-form-label">Challan No:</label>
                                         <div class="form-group">
-                                            <input name="ChallanNo" asp-for="ChallanNo" value="@Model.ChallanNo" type="text" required="required" class="form-control" placeholder="Challan No" autocomplete="off" id="txtChallanNo" readonly>
+                                            <input name="ChallanNo" asp-for="ChallanNo" value="@Model.ChallanNo" type="text" required="required" class="form-control" placeholder="Challan No" autocomplete="off" id="txtChallanNo" readonly="readonly">
                                             @Html.ValidationMessageFor(model => model.ChallanNo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

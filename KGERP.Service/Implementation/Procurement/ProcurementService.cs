@@ -4148,7 +4148,8 @@ namespace KGERP.Service.Implementation.Procurement
             if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Delivary!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
-            vmSalesOrderSlave.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrderSlave.CompanyId, vmSalesOrderSlave.ChallanDate ?? DateTime.Now);
+            vmSalesOrderSlave.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrderSlave.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrderSlave.ChallanDate ?? DateTime.Now);
+           
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Delivered;
             order.ChallanNo = vmSalesOrderSlave.ChallanNo;
@@ -4491,7 +4492,7 @@ namespace KGERP.Service.Implementation.Procurement
 
         public async Task<string> GetDeportDelivaryChallanNo(int companyId, DateTime challanDate)
         {
-            int challanCount = await Task.Run(() => _db.OrderMasters.Count(x => x.StockInfoTypeId == (int)StockInfoTypeEnum.Company && x.CompanyId == companyId
+            int challanCount = await Task.Run(() => _db.OrderMasters.Count(x => x.StockInfoTypeId == (int)StockInfoTypeEnum.Company && x.CompanyId == companyId && x.DeportId > 0
                 && DbFunctions.TruncateTime(x.ChallanDate) == challanDate.Date));
 
             challanCount++;
@@ -4818,6 +4819,7 @@ namespace KGERP.Service.Implementation.Procurement
             if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Delivary!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
+            vmSalesOrderSlave.ChallanNo = await GetDealerDelivaryChallanNo(vmSalesOrderSlave.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrderSlave.ChallanDate ?? DateTime.Now);
 
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Delivered;
@@ -5165,6 +5167,17 @@ namespace KGERP.Service.Implementation.Procurement
 
 
             return vmCommonCustomerList;
+        }
+
+        public async Task<string> GetDealerDelivaryChallanNo(int companyId, DateTime challanDate)
+        {
+            int challanCount = await Task.Run(() => _db.OrderMasters.Count(x => (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId== (int)StockInfoTypeEnum.Deport) && x.CompanyId == companyId && x.DealerId > 0
+                && DbFunctions.TruncateTime(x.ChallanDate) == challanDate.Date));
+
+            challanCount++;
+            string challanNo = "AZ-" + challanDate.ToString("ddMMyy") + "-SI-" + challanCount.ToString().PadLeft(3, '0');
+
+            return challanNo;
         }
 
         #endregion
