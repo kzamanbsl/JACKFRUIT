@@ -165,172 +165,130 @@
             <table style="width: 100%">
 
                 <tbody>
+                    @*1st row*@
                     <tr>
-                        <th style="width:18%">Name</th>
+                        <th style="width:18%">Customer Name</th>
                         <th style="width:2%">:</th>
                         <td style="width:30%"><label class="col-form-label">@Model.Name</label></td>
 
-                        <th style="width:18%"> Contact Person</th>
-                        <th style="width:2%">:</th>
-                        <td style="width:30%">@Model.ContactPerson</td>
-                    </tr> 
-                    <tr>
                         <th style="width:18%">Dealer</th>
                         <th style="width:2%">:</th>
                         <td style="width:30%">@Model.DealerName</td>
 
-                        <th style="width:18%"> Payment Type</th>
-                        <th style="width:2%">:</th>
-                        <td style="width:30%">@Model.PaymentType</td>
+
                     </tr>
 
+                    @*2nd row*@
+                    <tr>
+                        <th style="width:18%"> Contact Person</th>
+                        <th style="width:2%">:</th>
+                        <td style="width:30%">@Model.ContactPerson</td>
+
+                        <th>zone</th>
+                        <th>:</th>
+                        <td>@Model.ZoneName</td>
+
+                    </tr>
+
+                    @*3rd row*@
+                    <tr>
+                        <th>Email</th>
+                        <th>:</th>
+                        <td>@Model.Email</td>
+
+
+                        <th>Division</th>
+                        <th>:</th>
+                        <td>@Model.ZoneDivisionName</td>
+
+
+                    </tr>
+                    @*4th row*@
                     <tr>
                         <th>Phone</th>
                         <th>:</th>
                         <td>@Model.Phone</td>
 
-                        <th>Email</th>
+                        <th>Region</th>
                         <th>:</th>
-                        <td>@Model.Email</td>
+                        <td>@Model.RegionName</td>
+
                     </tr>
+                    @*5th row*@
                     <tr>
                         <th>NID</th>
                         <th>:</th>
                         <td>@Model.NID</td>
-                        <th>CreditLimit</th>
+
+                        <th>Area</th>
                         <th>:</th>
-                        <td>@Model.CreditLimit</td>
+                        <td>@Model.AreaName</td>
+
                     </tr>
+                    @*6th row*@
                     <tr>
-                        <th>Customer Type</th>
+                        <th>Address</th>
                         <th>:</th>
-                        <td>@Model.CustomerTypeName</td>
+                        <td>@Model.Address</td>
+
+                        <th>Territory</th>
+                        <th>:</th>
+                        <td>@Model.SubZoneName</td>
+
+                    </tr>
+                    @*7th row*@
+                    <tr>
+
+                        <th style="width:18%"> Payment Type</th>
+                        <th style="width:2%">:</th>
+                        <td style="width:30%">@Model.PaymentType</td>
+
+                       
+
+                    </tr>
+                    @*8th row*@
+                    <tr>
                         <th>Customer Status</th>
                         <th>:</th>
                         <td>@Model.CustomerStatusName</td>
+
+
+
+
+                    </tr>
+                    @*9th row*@
+                    <tr>
+                        <th>CreditLimit</th>
+                        <th>:</th>
+                        <td>@Model.CreditLimit</td>
+
+
+
+
                     </tr>
 
+                    @*10th row*@
                     <tr>
                         <th>Security Amount</th>
                         <th>:</th>
                         <td>@Model.SecurityAmount</td>
 
-                        <th>zone</th>
-                        <th>:</th>
-                        <td>@Model.ZoneName</td>
-                    </tr>
-                    <tr>
-                        <th>Division</th>
-                        <th>:</th>
-                        <td>@Model.ZoneDivisionName</td>
 
-                        <th>Region</th>
-                        <th>:</th>
-                        <td>@Model.RegionName</td>
-                    </tr> 
-                    <tr>
-                        <th>Area</th>
-                        <th>:</th>
-                        <td>@Model.AreaName</td>
 
-                        <th>Territory</th>
-                        <th>:</th>
-                        <td>@Model.SubZoneName</td>
+
+
                     </tr>
 
-                    <tr>
-                        <th>Remarks</th>
-                        <th>:</th>
-                        <td>@Model.Remarks</td>
 
-                        <th>Created By</th>
-                        <th>:</th>
-                        <td>@Model.CreatedBy</td>
-                    </tr>
-
-                    @*@if (Model.Status >= (int)EnumSOStatus.Delivered)
-                    {
-                        <tr>
-                            <th>Challan No</th>
-                            <th>:</th>
-                            <td>@Model.ChallanNo</td>
-
-                            <th>Challan Date</th>
-                            <th>:</th>
-                            <td>
-                                @Model.ChallanDate
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Driver Name</th>
-                            <th>:</th>
-                            <td>@Model.DriverName</td>
-
-                            <th>Driver Mobile No</th>
-                            <th>:</th>
-                            <td>@Model.DriverMobileNo</td>
-                        </tr>
-                        <tr>
-                            <th>Track No</th>
-                            <th>:</th>
-                            <td>@Model.TrackNo</td>
-
-                            <th>Track Fair</th>
-                            <th>:</th>
-                            <td>@String.Format("{0:0.00}", Model.TrackFair)</td>
-                        </tr>
-                    }*@
                 </tbody>
 
             </table>
 
 
-            <br />
 
-          
+
+
         </div>
-
-        @*<div id="divfooter" class="divfooter text-center footer">
-            <table style="width:100%">
-                <thead>
-                    <tr>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b>Prepared by</b>
-
-                            </span>
-                        </td>
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b> Customer's Signature </b>
-                            </span>
-
-                        </td>
-
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b>Checked by</b>
-                            </span>
-
-                        </td>
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;text-align:right;">
-                                <b> Authorized Signature</b>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>*@
 
 
 

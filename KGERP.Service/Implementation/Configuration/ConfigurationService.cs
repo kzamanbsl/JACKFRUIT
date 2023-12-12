@@ -5413,13 +5413,21 @@ namespace KGERP.Service.Implementation.Configuration
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
                                                    join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
                                                    from t5 in t5_Join.DefaultIfEmpty()
-                                                   join t6 in _db.Zones on t5.ZoneId equals t6.ZoneId into t6_join
-                                                   from t6 in t6_join.DefaultIfEmpty()
+                                                   join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_join
+                                                   from t6 in t6_join.DefaultIfEmpty()    
+                                                   join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_join
+                                                   from t7 in t7_join.DefaultIfEmpty()      
+                                                   join t8 in _db.Regions on t1.ZoneId equals t8.RegionId into t8_join
+                                                   from t8 in t8_join.DefaultIfEmpty()
+                                                   join t9 in _db.Companies on t1.CompanyId equals t9.CompanyId into t9_join
+                                                   from t9 in t9_join.DefaultIfEmpty()
+
                                                    select new VMCommonSupplier
                                                    {
                                                        ID = t1.VendorId,
                                                        Name = t1.Name,
                                                        Email = t1.Email,
+                                                       Propietor=t1.Propietor,
                                                        ContactPerson = t1.ContactName,
                                                        Address = t1.Address,
                                                        Code = t1.Code,
@@ -5433,12 +5441,20 @@ namespace KGERP.Service.Implementation.Configuration
                                                        Remarks = t1.Remarks,
                                                        CompanyFK = t1.CompanyId,
                                                        Phone = t1.Phone,
-                                                       ZoneName = t5.Name,
+                                                       ZoneName = t6.Name,
+                                                       ZoneDivisionName=t7.Name,
+                                                       RegionName=t8.Name,
                                                        ZoneIncharge = t6.ZoneIncharge,
                                                        CreditLimit = t1.CreditLimit,
+                                                       SecurityAmount=t1.SecurityAmount,
+                                                       PaymentType=t1.CustomerType,
                                                        NID = t1.NID,
                                                        CustomerTypeFk = t1.CustomerTypeFK,
-                                                       VendorTypeId = t1.VendorTypeId
+                                                       VendorTypeId = t1.VendorTypeId,
+                                                       CompanyName=t9.Name,
+                                                       CompanyPhone=t9.Phone,
+                                                       CompanyAddress=t9.Address,
+                                                       CompanyEmail=t9.Email
                                                    }).FirstOrDefault());
 
 
@@ -5738,16 +5754,21 @@ namespace KGERP.Service.Implementation.Configuration
                                                    from t6 in t6_def.DefaultIfEmpty()
                                                    join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
                                                    from t7 in t7_def.DefaultIfEmpty()
-                                                   join t8 in _db.Regions on t1.RegionId equals t8.ZoneDivisionId into t8_def
+                                                   join t8 in _db.Regions on t1.RegionId equals t8.RegionId into t8_def
                                                    from t8 in t8_def.DefaultIfEmpty()
                                                    join t9 in _db.Areas on t1.AreaId equals t9.AreaId into t9_def
                                                    from t9 in t9_def.DefaultIfEmpty()
+                                                   join t10 in _db.Vendors on t1.ParentId equals t10.VendorId into t10_def
+                                                   from t10 in t10_def.DefaultIfEmpty()  
+                                                   join t11 in _db.Companies on t1.CompanyId equals t11.CompanyId into t11_def
+                                                   from t11 in t11_def.DefaultIfEmpty()
 
                                                    select new VMCommonSupplier
                                                    {
                                                        ID = t1.VendorId,
                                                        Name = t1.Name,
                                                        Email = t1.Email,
+                                                       Propietor = t1.Propietor,
                                                        ContactPerson = t1.ContactName,
                                                        Address = t1.Address,
                                                        Code = t1.Code,
@@ -5762,13 +5783,24 @@ namespace KGERP.Service.Implementation.Configuration
                                                        CompanyFK = t1.CompanyId,
                                                        Phone = t1.Phone,
                                                        ZoneId = t1.ZoneId,
-                                                       ZoneName = t5.Name,
+                                                       ZoneName = t6.Name,
+                                                       ZoneDivisionName=t7.Name,
+                                                       RegionName=t8.Name,
+                                                       AreaName=t9.Name,
                                                        ZoneIncharge = t6.ZoneIncharge,
+                                                       SecurityAmount=t1.SecurityAmount,
                                                        CreditLimit = t1.CreditLimit,
                                                        NID = t1.NID,
                                                        CustomerTypeFk = t1.CustomerTypeFK,
                                                        VendorTypeId = t1.VendorTypeId,
-                                                       ParentId = t1.ParentId
+                                                       ParentId = t1.ParentId,
+                                                       
+                                                       PaymentType=t1.CustomerType,
+                                                       DeportName=t10.Name,
+                                                       CompanyName=t11.Name,
+                                                       CompanyEmail=t11.Phone,
+                                                       CompanyPhone=t11.Phone,
+                                                       CompanyAddress=t11.Address
                                                    }).FirstOrDefault());
 
             return vmCommonDealer;
