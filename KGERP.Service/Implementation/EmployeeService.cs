@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace KGERP.Service.Implementation
@@ -22,7 +24,7 @@ namespace KGERP.Service.Implementation
         }
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public async Task<EmployeeVm> GetEmployees()
+        public async Task<EmployeeVm> GetEmployees(EmployeeVm filterEmployee)
         {
             EmployeeVm model = new EmployeeVm();
 
@@ -33,15 +35,15 @@ namespace KGERP.Service.Implementation
                                                    from t3 in t3_Join.DefaultIfEmpty()
                                                    join t4 in _context.Users on t1.EmployeeId equals t4.UserName into t4_Join
                                                    from t4 in t4_Join.DefaultIfEmpty()
-                                                       //join t5 in _context.ZoneDivisions on t1.Id equals t5.EmployeeId into t5_Join
-                                                       //from t5 in t5_Join.DefaultIfEmpty()
-                                                       //join t6 in _context.Regions on t1.Id equals t6.EmployeeId into t6_Join
-                                                       //from t6 in t6_Join.DefaultIfEmpty()
-                                                       //join t7 in _context.SubZones on t1.Id equals t7.EmployeeId into t7_Join
-                                                       //from t7 in t7_Join.DefaultIfEmpty()
-
-
-                                                   where t1.Active
+                                                   join t5 in _context.EmployeeServicePointMaps on t1.Id equals t5.EmployeeId into t5_Join
+                                                   from t5 in t5_Join.DefaultIfEmpty()
+                                                   
+                                                   where t1.Active ==true
+                                                   && filterEmployee.ZoneId>0?t5.ZoneId== filterEmployee.ZoneId: t1.Active==true 
+                                                   && filterEmployee.ZoneDivisionId>0?t5.ZoneDivisionId== filterEmployee.ZoneDivisionId: t1.Active == true
+                                                   && filterEmployee.RegionId>0?t5.RegionId== filterEmployee.RegionId: t1.Active == true
+                                                   && filterEmployee.AreaId>0?t5.AreaId == filterEmployee.AreaId : t1.Active == true
+                                                   && filterEmployee.SubZoneId>0?t5.TerritoryId == filterEmployee.SubZoneId : t1.Active == true
                                                    select new EmployeeVm
                                                    {
                                                        Id = t1.Id,
@@ -57,9 +59,10 @@ namespace KGERP.Service.Implementation
                                                        Email = t1.Email,
                                                        Samount = (decimal)((decimal)t1.SalaryAmount == null ? 0 : t1.SalaryAmount)
 
-                                                   }).OrderBy(o => o.EmployeeId)
+                                                   }).OrderBy(o => o.EmployeeId).Distinct()
                                                    .AsEnumerable());
 
+            //model.DataList=model.DataList.Distinct(c=>c.Id).ToList();
             return model;
         }
 
@@ -1235,6 +1238,6 @@ namespace KGERP.Service.Implementation
             return 0;
         }
 
-
+        
     }
 }

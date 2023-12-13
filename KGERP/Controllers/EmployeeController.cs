@@ -62,7 +62,17 @@ namespace KGERP.Controllers
         {
            
             EmployeeVm model = new EmployeeVm();
-            model = await _employeeService.GetEmployees();
+            model = await _employeeService.GetEmployees(model);
+            model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            return View(model);
+        } 
+
+        [HttpPost]
+        public async Task<ActionResult> Index(EmployeeVm filterEmployee)
+        {
+           
+            EmployeeVm model = new EmployeeVm();
+            model = await _employeeService.GetEmployees(filterEmployee);
             model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             return View(model);
         }
@@ -793,7 +803,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> EmployeeSalaryAdd()
         {
             EmployeeVm model = new EmployeeVm();
-            model = await _employeeService.GetEmployees();
+            model = await _employeeService.GetEmployees(model);
             return View(model);
         }
 
