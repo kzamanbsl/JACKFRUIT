@@ -265,6 +265,10 @@ namespace KGERP.Service.Implementation.Procurement
         public double CourierCharge { get; set; }
         public string ChallanNo { get; set; }
         public DateTime? ChallanDate { get; set; }
+        public string DriverName { get; set; }
+        public string DriverMobileNo { get; set; }
+        public string TrackNo { get; set; }
+        public decimal TrackFair { get; set; }
 
         public IEnumerable<VMSalesOrder> DataList { get; set; }= new List<VMSalesOrder>();
 

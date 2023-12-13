@@ -1808,6 +1808,13 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DeportSalesOrderDelivaryList), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeportDelivaryChallanEdit(VMSalesOrder vmSalesOrder)
+        {
+            //var result = await _service.DeportSalesOrderDelivary(vmSalesOrder);
+            return RedirectToAction(nameof(DeportSalesOrderDelivaryList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
         [HttpGet]
         public async Task<ActionResult> DeportSalesOrderDelivaryList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
