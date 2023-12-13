@@ -4149,7 +4149,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
             vmSalesOrderSlave.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrderSlave.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrderSlave.ChallanDate ?? DateTime.Now);
-           
+
             OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
             order.Status = (int)EnumSOStatus.Delivered;
             order.ChallanNo = vmSalesOrderSlave.ChallanNo;
@@ -4362,6 +4362,10 @@ namespace KGERP.Service.Implementation.Procurement
                                                               OrderDate = t1.OrderDate,
                                                               ChallanNo = t1.ChallanNo,
                                                               ChallanDate = t1.ChallanDate,
+                                                              DriverName = t1.DriverName,
+                                                              DriverMobileNo = t1.DriverMobileNo,
+                                                              TrackNo = t1.TrackNo,
+                                                              TrackFair = t1.TrackFair ?? 0,
                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
                                                               CourierNo = t1.CourierNo,
                                                               FinalDestination = t1.FinalDestination,
@@ -4372,6 +4376,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
+                                                              
 
                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
             if (vStatus != -1 && vStatus != null)
@@ -5171,7 +5176,7 @@ namespace KGERP.Service.Implementation.Procurement
 
         public async Task<string> GetDealerDelivaryChallanNo(int companyId, DateTime challanDate)
         {
-            int challanCount = await Task.Run(() => _db.OrderMasters.Count(x => (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId== (int)StockInfoTypeEnum.Deport) && x.CompanyId == companyId && x.DealerId > 0
+            int challanCount = await Task.Run(() => _db.OrderMasters.Count(x => (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport) && x.CompanyId == companyId && x.DealerId > 0
                 && DbFunctions.TruncateTime(x.ChallanDate) == challanDate.Date));
 
             challanCount++;
