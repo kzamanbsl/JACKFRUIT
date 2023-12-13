@@ -247,8 +247,8 @@
 
 
                         @*<th>Remarks</th>
-                    <th>:</th>
-                    <td>@Model.Remarks</td>*@
+                            <th>:</th>
+                            <td>@Model.Remarks</td>*@
 
                     </tr>
 
@@ -279,9 +279,9 @@
                 </tbody>
 
             </table>
-           @* <div style="margin-top:40px"><span style="text-align:center; font-size:25px;font-weight:bold">Customer List</span></div>*@
-        <h3>Customer List:</h3>    
-        <table id="childList" border="1" style="width:100%;margin-top:10px; font-size:16px">
+            @* <div style="margin-top:40px"><span style="text-align:center; font-size:25px;font-weight:bold">Customer List</span></div>*@
+            <h3>Customer List:</h3>
+            <table id="childList" border="1" style="width:100%;margin-top:10px; font-size:16px">
                 <thead style="background-color: #c0c0c0">
 
                     <tr>
@@ -289,7 +289,10 @@
                             SL
                         </th>
                         <th style="text-align:left;padding-left:10px">
-                            Name
+                            Customer
+                        </th>
+                        <th style="text-align:left;padding-left:10px">
+                            Proprietor
                         </th>
                         <th style="text-align:left;padding-left:10px">
                             Phone
@@ -307,9 +310,17 @@
                         <tr>
                             <td style="padding-left:10px">@( ++sl)</td>
                             <td style="padding-left:10px">@dealer.Name</td>
+                            <td style="padding-left:10px">@dealer.Propietor</td>
                             <td style="padding-left:10px">@dealer.Phone</td>
                             <td style="padding-left:10px">@dealer.Address</td>
 
+                        </tr>
+
+                    }
+                    @if (Model.ChildList.Count() <= 0)
+                    {
+                        <tr>
+                            <td colspan="5" style="text-align:center">No Data Found</td>
                         </tr>
 
                     }

@@ -5464,7 +5464,8 @@ namespace KGERP.Service.Implementation.Configuration
                                        {
                                            Name=t1.Name,
                                            Phone=t1.Phone,
-                                           Address=t1.Address
+                                           Address=t1.Address,
+                                           Propietor=t1.Propietor
 
                                        };
 
@@ -5818,7 +5819,8 @@ namespace KGERP.Service.Implementation.Configuration
                                        {
                                            Name=t1.Name,
                                            Phone=t1.Phone,
-                                           Address=t1.Address
+                                           Address=t1.Address,
+                                           Propietor=t1.Propietor
                                        };
             return vmCommonDealer;
         }
