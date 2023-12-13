@@ -812,6 +812,10 @@ namespace KGERP.Service.Implementation
                                 {
                                     EmployeeServicePoinMapId = 0,
                                     EmployeeId = model.Id,
+                                    ZoneId = model.ZoneIds[0],
+                                    ZoneDivisionId = model.ZoneDivisionIds[0],
+                                    RegionId = model.RegionIds[0],
+                                    AreaId = model.AreaIds[0],
                                     TerritoryId = subZoneId,
                                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                                     CreatedDate = DateTime.Now,
@@ -819,6 +823,19 @@ namespace KGERP.Service.Implementation
                                     CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
                                 };
                                 addableMaps.Add(obj);
+                            }
+                        }
+
+                        if (empExistUpdateableList?.Count() > 0)
+                        {
+
+                            foreach (var update in empExistUpdateableList)
+                            {
+
+                                update.ZoneId = model.ZoneIds[0];
+                                update.ZoneDivisionId = model.ZoneDivisionIds[0];
+                                update.RegionId = model.RegionIds[0];
+                                update.AreaId = model.AreaIds[0];
                             }
                         }
                     }
@@ -840,6 +857,9 @@ namespace KGERP.Service.Implementation
                                 {
                                     EmployeeServicePoinMapId = 0,
                                     EmployeeId = model.Id,
+                                    ZoneId = model.ZoneIds[0],
+                                    ZoneDivisionId = model.ZoneDivisionIds[0],
+                                    RegionId = model.RegionIds[0],
                                     AreaId = areaId,
                                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                                     CreatedDate = DateTime.Now,
@@ -847,6 +867,18 @@ namespace KGERP.Service.Implementation
                                     CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
                                 };
                                 addableMaps.Add(obj);
+                            }
+                        }
+
+                        if (empExistUpdateableList?.Count() > 0)
+                        {
+
+                            foreach (var update in empExistUpdateableList)
+                            {
+
+                                update.ZoneId = model.ZoneIds[0];
+                                update.ZoneDivisionId = model.ZoneDivisionIds[0];
+                                update.RegionId = model.RegionIds[0];
                             }
                         }
                     }
@@ -868,6 +900,8 @@ namespace KGERP.Service.Implementation
                                 {
                                     EmployeeServicePoinMapId = 0,
                                     EmployeeId = model.Id,
+                                    ZoneId = model.ZoneIds[0],
+                                    ZoneDivisionId = model.ZoneDivisionIds[0],
                                     RegionId = regionId,
                                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                                     CreatedDate = DateTime.Now,
@@ -875,6 +909,16 @@ namespace KGERP.Service.Implementation
                                     CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
                                 };
                                 addableMaps.Add(obj);
+                            }
+                        }
+                        if (empExistUpdateableList?.Count() > 0)
+                        {
+
+                            foreach (var update in empExistUpdateableList)
+                            {
+
+                                update.ZoneId = model.ZoneIds[0];
+                                update.ZoneDivisionId = model.ZoneDivisionIds[0];
                             }
                         }
                     }
@@ -896,6 +940,7 @@ namespace KGERP.Service.Implementation
                                 {
                                     EmployeeServicePoinMapId = 0,
                                     EmployeeId = model.Id,
+                                    ZoneId = model.ZoneIds[0],
                                     ZoneDivisionId = zoneDivisionId,
                                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                                     CreatedDate = DateTime.Now,
@@ -903,6 +948,15 @@ namespace KGERP.Service.Implementation
                                     CompanyId = model?.CompanyId > 0 ? (int)model.CompanyId : CompanyInfo.CompanyId,
                                 };
                                 addableMaps.Add(obj);
+                            }
+                        }
+                        if (empExistUpdateableList?.Count() > 0)
+                        {
+
+                            foreach (var update in empExistUpdateableList)
+                            {
+
+                                update.ZoneId = model.ZoneIds[0];
                             }
                         }
                     }
