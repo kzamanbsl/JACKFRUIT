@@ -59,7 +59,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> Create(long? id)
         {
             EmployeeVm model = new EmployeeVm();
-            model = await _employeeService.GetEmployees();
+            model = await _employeeService.GetEmployees(model);
             return View(model);
         }
 

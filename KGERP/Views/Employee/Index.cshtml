@@ -24,80 +24,148 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        <div class="table-responsive">
-                            <table id="KgErpDataTable" style="width:100%; background-color:#ddd;" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>SL</th>
-                                        <th>@CompanyInfo.CompanyShortName ID</th>
-                                        <th>Name</th>
-                                        <th>Department</th>
-                                        <th>Designation</th>
-                                        <th>Mobile No</th>
-                                        @*<th>Service Area</th>*@
-                                        <th>Joining Date</th>
-                                        <th>Email</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                @{int sl = 0;
-                                }
-                                <tbody>
-                                    @foreach (var item in Model.DataList)
-                                    {
-                                        <tr>
-                                            <td style="width:10px;">
-                                                @(++sl)
-                                            </td>
-                                            <td>@item.EmployeeId</td>
-                                            <td>@item.EmployeeName</td>
-                                            <td>@item.DepartmentName</td>
-                                            <td>@item.DesignationName</td>
-                                            <td>@item.MobileNo</td>
-                                            @*<td>@item.ServiceArea</td>*@
-                                            <td>
-                                                @if (@item.JoiningDate != null)
-                                                {
-                                                    var date = @item.JoiningDate?.ToString("dd/MM/yyyy");
-                                                    <span>@date</span>
-                                                }
-                                            </td>
-                                            <td>@item.Email</td>
-                                            <td>
-                                                @if (@Model.UserDataAccessModel.CanEdit)
-                                                {
-                                                    <a href="@Url.Action("CreateOrEdit", new { id = item.Id })" title="Edit" class="btn btn-info btn-xs">
-                                                        <i class="fa fa-pencil" style="font-size:15px;" aria-hidden="true"></i>
-                                                    </a>
-                                                }
+                        @using (Html.BeginForm("Index", "Employee", FormMethod.Post, new { id = "employeeFormFilter", @class = "formValidator" }))
+                        {
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Zone", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList as SelectList, "-- Select Zone -- ", new { @class = "form-control searchingDropdown", id = "ddlZone" })
+                                        @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
 
-                                                <a href='@Url.Action("Index","Education")?id=@item.Id' class="btn btn-danger btn-xs" title="Education">
-                                                    <i class="fa fa-book" style="font-size:15px;" aria-hidden="true"></i>
-                                                </a>
-                                                <a href="@Url.Action("GetEmployeeReport","Report", new { employeeId = item.EmployeeId })" title="Export Bio-Data" target="_blank" class="btn btn-warning btn-xs">
-                                                    <i class="fa fa-download" style="font-size:15px;" aria-hidden="true"></i>
-                                                </a>
-                                                @if (@Model.UserDataAccessModel.CanEdit && @item.UserId > 0)
-                                                {
-                                                    <a id="@item.UserId" onclick="makeChangePassword(@item.UserId);" class="linkPointer btn btn-info btn-xs" data-toggle="modal" data-target="#userChangePasswordModal" title="Change Password"
-                                                       data-placement="top">
-                                                        <i class="fa fa-edit" aria-hidden="true"></i>
-                                                    </a>
-                                                }
 
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Division", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "-- Select Division -- ", new { @class = "form-control searchingDropdown", id = "ddlZoneDivision" })
+                                        @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
 
-                            </table>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Region", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "-- Select Region -- ", new { @class = "form-control searchingDropdown", id = "ddlRegion" })
+                                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Area", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "-- Select Area -- ", new { @class = "form-control searchingDropdown", id = "ddlArea" })
+                                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Territory", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.SubZoneId, Model.SubZoneList as SelectList, "-- Select Territory -- ", new { @class = "form-control searchingDropdown", id = "ddlSubZone" })
+                                        @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         </div>
+
+                    <hr />
+                    <div class="table-responsive">
+                        <table id="KgErpDataTable" style="width:100%; background-color:#ddd;" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>@CompanyInfo.CompanyShortName ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Mobile No</th>
+                                    @*<th>Service Area</th>*@
+                                    <th>Joining Date</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            @{int sl = 0;
+                            }
+                            <tbody>
+                                @foreach (var item in Model.DataList)
+                                {
+                                    <tr>
+                                        <td style="width:10px;">
+                                            @(++sl)
+                                        </td>
+                                        <td>@item.EmployeeId</td>
+                                        <td>@item.EmployeeName</td>
+                                        <td>@item.DepartmentName</td>
+                                        <td>@item.DesignationName</td>
+                                        <td>@item.MobileNo</td>
+                                        @*<td>@item.ServiceArea</td>*@
+                                        <td>
+                                            @if (@item.JoiningDate != null)
+                                            {
+                                                var date = @item.JoiningDate?.ToString("dd/MM/yyyy");
+                                                <span>@date</span>
+                                            }
+                                        </td>
+                                        <td>@item.Email</td>
+                                        <td>
+                                            @if (@Model.UserDataAccessModel.CanEdit)
+                                            {
+                                                <a href="@Url.Action("CreateOrEdit", new { id = item.Id })" title="Edit" class="btn btn-info btn-xs">
+                                                    <i class="fa fa-pencil" style="font-size:15px;" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                            <a href='@Url.Action("Index","Education")?id=@item.Id' class="btn btn-danger btn-xs" title="Education">
+                                                <i class="fa fa-book" style="font-size:15px;" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="@Url.Action("GetEmployeeReport","Report", new { employeeId = item.EmployeeId })" title="Export Bio-Data" target="_blank" class="btn btn-warning btn-xs">
+                                                <i class="fa fa-download" style="font-size:15px;" aria-hidden="true"></i>
+                                            </a>
+                                            @if (@Model.UserDataAccessModel.CanEdit && @item.UserId > 0)
+                                            {
+                                                <a id="@item.UserId" onclick="makeChangePassword(@item.UserId);" class="linkPointer btn btn-info btn-xs" data-toggle="modal" data-target="#userChangePasswordModal" title="Change Password"
+                                                   data-placement="top">
+                                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
 
 @using (Html.BeginForm("ChangeEmployeeUserPassword", "User", FormMethod.Post, new { id = "commonUserFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
@@ -151,7 +219,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-    <script type="text/javascript">
+<script type="text/javascript">
         function makeChangePassword(id) {
             if (id !== null) {
                 $('#userIdChangePassword').val(id);
@@ -163,9 +231,117 @@
             $('#commonUserFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
-        };
+    };
 
-    </script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("CommonZonesList", "Configuration")",
+            datatype: "Json",
+            data: { companyId: @CompanyInfo.CompanyId},
+            success: function (data) {
+                var items = "";
+                if (data) {
+                    $("#ddlZone").empty();
+                    $("#ddlZone").append("<option >-- Select Zone --</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+
+                }
+            }
+        });
+
+    });
+    $('#ddlZone').change(function () {
+        var zoneId = $("#ddlZone").val();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetZoneDivisionList", "Configuration")",
+            datatype: "Json",
+            data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId },
+            success: function (data) {
+                var items = "";
+                if (data) {
+                    $("#ddlZoneDivision").empty();
+                    $(data).each(function (index, item) {
+                        $("#ddlZoneDivision").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+
+                }
+            }
+        });
+    });
+
+    $('#ddlZoneDivision').change(function () {
+
+        var zoneId = $("#ddlZone").val();
+        var zoneDivisonId = $("#ddlZoneDivision").val();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetRegionList", "Configuration")",
+            datatype: "Json",
+            data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisonId },
+            success: function (data) {
+                var items = "";
+                if (data) {
+                    $("#ddlRegion").empty();
+                    $(data).each(function (index, item) {
+                        $("#ddlRegion").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+
+                }
+            }
+        });
+    });
+
+    $('#ddlRegion').change(function () {
+        var zoneValue = $("#ddlZone").val();
+        var zoneDivisonId = $("#ddlZoneDivision").val();
+        var regionValue = $("#ddlRegion").val();
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetAreaList", "Configuration")",
+            datatype: "Json",
+            data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue },
+            success: function (data) {
+                if (data) {
+                    $("#ddlArea").empty();
+                    $(data).each(function (index, item) {
+                        $("#ddlArea").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                }
+            }
+        });
+
+    });
+
+    $('#ddlArea').change(function () {
+        var zoneValue = $("#ddlZone").val();
+        var zoneDivisonId = $("#ddlZoneDivision").val();
+      var regionValue = $("#ddlRegion").val();
+        var areaValue = $("#ddlArea").val();
+
+      $.ajax({
+          type: "GET",
+          url: "@Url.Action("GetSubZoneList", "Configuration")",
+          datatype: "Json",
+          data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue, areaId: areaValue },
+          success: function (data) {
+              if (data) {
+                  $("#ddlSubZone").empty();
+                  //$("#ddlCommon_TerritoryFk").append("<option value=''>==Select Territory==</option>");
+                  $(data).each(function (index, item) {
+                      $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                  });
+
+              }
+          }
+      });
+  });
+</script>
 
 }
 

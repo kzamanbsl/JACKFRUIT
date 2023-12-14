@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace KGERP.Service.ServiceModel
 {
@@ -289,9 +290,19 @@ namespace KGERP.Service.ServiceModel
         public string ServiceArea { get; set; }
         public string Email { get; set; }
         public decimal Samount { get; set; }
-        public IEnumerable<EmployeeVm> DataList { get; set; }
+        public int? ZoneId { get; set; }
+        public int? ZoneDivisionId { get; set; }
+        public int? AreaId { get; set; }
+        public int? RegionId { get; set; }
+        public int? SubZoneId { get; set; }
         public UserModel UserModel { get; set; }
         public UserDataAccessModel UserDataAccessModel { get; set; }
+        public IEnumerable<EmployeeVm> DataList { get; set; }
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
+        public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
     }
 
     public class EmployeeVmSalary
