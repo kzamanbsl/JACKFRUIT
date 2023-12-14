@@ -3998,6 +3998,31 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
+        public async Task<long> DeportDelivaryChallanEdit(VMSalesOrder vmSalesOrder)
+        {
+            long result = -1;
+            OrderMaster orderMaster = await _db.OrderMasters.FindAsync(vmSalesOrder.OrderMasterId);
+            if (vmSalesOrder.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Change Challan Info!");
+
+            orderMaster.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrder.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrder.ChallanDate ?? DateTime.Now);
+            orderMaster.ChallanDate = vmSalesOrder.ChallanDate;
+            orderMaster.DriverName = vmSalesOrder.DriverName;
+            orderMaster.DriverMobileNo = vmSalesOrder.DriverMobileNo;
+            orderMaster.TrackNo = vmSalesOrder.TrackNo;
+            orderMaster.TrackFair = vmSalesOrder.TrackFair;
+
+            orderMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            orderMaster.ModifiedDate = DateTime.Now;
+
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = vmSalesOrder.OrderMasterId;
+            }
+
+            return result;
+        }
+
         public async Task<VMSalesOrderSlave> GetDeportSalesOrderDetails(int companyId, int orderMasterId)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
@@ -4133,6 +4158,14 @@ namespace KGERP.Service.Implementation.Procurement
                                               CompanyAddress = t3.Address,
                                               CompanyEmail = t3.Email,
                                               CompanyPhone = t3.Phone,
+
+
+                                              ChallanDate = t1.ChallanDate,
+                                              ChallanNo = t1.ChallanNo,
+                                              DriverName = t1.DriverName,
+                                              DriverMobileNo = t1.DriverMobileNo,
+                                              TrackNo = t1.TrackNo,
+                                              TrackFair = t1.TrackFair??0,
 
                                               CreatedBy = t1.CreatedBy,
                                               CreatedDate = t1.CreateDate

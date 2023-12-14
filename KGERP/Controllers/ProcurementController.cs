@@ -1811,7 +1811,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DeportDelivaryChallanEdit(VMSalesOrder vmSalesOrder)
         {
-            //var result = await _service.DeportSalesOrderDelivary(vmSalesOrder);
+            var result = await _service.DeportDelivaryChallanEdit(vmSalesOrder);
             return RedirectToAction(nameof(DeportSalesOrderDelivaryList), new { companyId = vmSalesOrder.CompanyFK });
         }
 

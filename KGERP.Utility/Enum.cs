@@ -141,7 +141,7 @@
     public enum EnumUserType
     {
         Employee = 1,
-        Management = 2,
+        Management,
         Deport,
         Dealer,
         Customer
