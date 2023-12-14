@@ -4961,7 +4961,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                      from t5 in t5_Join.DefaultIfEmpty()
                                                      join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_Join
                                                      from t6 in t6_Join.DefaultIfEmpty()
-                                                     join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneId into t7_Join
+                                                     join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_Join
                                                      from t7 in t7_Join.DefaultIfEmpty()
                                                      join t8 in _db.Regions on t1.RegionId equals t8.RegionId into t8_Join
                                                      from t8 in t8_Join.DefaultIfEmpty()
