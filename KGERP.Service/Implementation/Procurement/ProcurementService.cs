@@ -4005,7 +4005,7 @@ namespace KGERP.Service.Implementation.Procurement
             if (vmSalesOrder.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Change Challan Info!");
 
             orderMaster.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrder.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrder.ChallanDate ?? DateTime.Now);
-            orderMaster.ChallanDate = vmSalesOrder.ChallanDate;
+            orderMaster.ChallanDate = vmSalesOrder.ChallanDate?? DateTime.Now;
             orderMaster.DriverName = vmSalesOrder.DriverName;
             orderMaster.DriverMobileNo = vmSalesOrder.DriverMobileNo;
             orderMaster.TrackNo = vmSalesOrder.TrackNo;
