@@ -10,7 +10,7 @@ namespace KGERP.Service.Interface
     {
         Task<EmployeeVmSalary> GetEmployeesSalary(string month);
         Task<EmployeeVmSalary> SavePaymentSalary(EmployeeVmSalary model);
-        Task<EmployeeVm> GetEmployees(EmployeeVm employeeVm);
+        Task<EmployeeVm> GetEmployees(EmployeeVm filterEmployee);
        
         Task<int> AddSalary(EmployeeVm model);
        
