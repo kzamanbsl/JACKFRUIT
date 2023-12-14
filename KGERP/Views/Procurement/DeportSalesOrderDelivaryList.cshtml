@@ -125,9 +125,11 @@
                                             </td>
                                             <td>
                                                 <a target="_blank" href="~/Procurement/DeportSalesOrderDelivaryChallan?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Challan">@item.ChallanNo</a>
-                                                @if (item.ChallanNo!=null &&  item.Status < (int)EnumSOStatus.Received)
+
+                                                @if (item.ChallanNo != null && item.Status < (int)EnumSOStatus.Received)
                                                 {
-                                                    <a href="" target="_blank" id="@item.OrderMasterId" class="linkPointer" data-toggle="modal" data-target="#editSOChallanModal" title="Edit Challan" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    <span>&nbsp;| &nbsp;</span>
+                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick="makeChallanEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOChallanModal" title="Edit Challan" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                 }
                                             </td>
                                             <td>@item.POPaymentMethodName</td>
@@ -258,7 +260,7 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h4 class="modal-title"><b>Delivary Challan Edit (<span id="SOCIdText"></span>)</b></h4>
+                    <h4 class="modal-title"><b>Delivary Challan Edit (<span id="SOChallanIdText"></span>)</b></h4>
                 </div>
 
                 <div class="modal-body">
@@ -266,9 +268,9 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidOrderMasterId" })
-                    @Html.HiddenFor(model => model.ActionId, new { id = "SOEditActionId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOEditCompanyFK" })
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "ChallanOrderMasterId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "ChallanEditActionId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "ChallanEditCompanyFK" })
 
                     <div class="row">
                         <div class="col-md-4">
@@ -282,7 +284,7 @@
                         <div class="col-md-4">
                             <label for="message-text" class="col-form-label">Challan Date:</label>
                             <div class="form-group">
-                                <input name="ChallanDate" asp-for="ChallanDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Challan Date" autocomplete="off" id="txtChallanDate">
+                                <input name="ChallanDate" asp-for="ChallanDate" type="text" required="required" class="datePicker form-control" id="txtChallanDate" placeholder="Challan Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -381,7 +383,6 @@
         </div>
     </div>
 }
-
 
 @using (Html.BeginForm("SubmitDeportOrderMaster", "Procurement", FormMethod.Post))
 {
@@ -579,6 +580,32 @@
                  });
             }
 
+        function makeChallanEditble(rowId) {
+
+          $.ajax({
+                 type: "POST",
+                 url: "@Url.Action("GetDeportOrderMasterById", "Procurement")",
+                 datatype: "Json",
+                 data: { orderMasterId: rowId },
+                 success: function (data) {
+
+                     $('#SOChallanIdText').text(data.OrderNo);
+                     $("#ChallanOrderMasterId").val(data.OrderMasterId);
+                     $('#ChallanEditActionId').val(2);
+                     $("#ChallanEditCompanyFK").val(data.CompanyFK);
+
+                     $("#txtChallanNo").val(data.ChallanNo);
+
+                     var challanDate = DateCustom(data.ChallanDate);
+                     $('#txtChallanDate').val(challanDate);
+
+                     $('#txtDriverName').val(data.DriverName);
+                     $('#txtDriverMobileNo').val(data.DriverMobileNo);
+                     $('#txtTrackNo').val(data.TrackNo);
+                     $('#txtTrackFair').val(data.TrackFair);
+                 }
+          });
+     }
     </script>
 }
 
