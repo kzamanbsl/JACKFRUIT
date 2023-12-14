@@ -192,7 +192,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Invoice Date:</label>
-                                <input name="OrderDate" asp-for="OrderDate" type="text"  value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
+                                <input name="OrderDate" asp-for="OrderDate" type="text"  value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Delivery Date:</label>
-                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate"  value="@DateTime.Now.ToString("dd/MM/yyyy")" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
+                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate"  value="@DateTime.Now.ToString("dd/MM/yyyy")" type="text" required="required" class="datepicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.ExpectedDeliveryDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                         <div class="col-md-4">
                             <label for="message-text" class="col-form-label">Challan Date:</label>
                             <div class="form-group">
-                                <input name="ChallanDate" asp-for="ChallanDate" type="text"  value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datePicker form-control" id="txtChallanDate" placeholder="Challan Date" autocomplete="off">
+                                <input name="ChallanDate" asp-for="ChallanDate" type="text"  value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" id="txtChallanDate" placeholder="Challan Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -436,12 +436,15 @@
 
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
+            //todayHighlight: true,
+            //autoclose: true,
             showOn: 'both',
             buttonText: "<i class='fa fa-calendar'></i>",
             changeMonth: true,
             changeYear: true,
             yearRange: "2001:+50"
         });
+
 
         function resetForm() {
 
@@ -488,6 +491,8 @@
             }).focus(function () {
                 $(this).autocomplete("search");
             });
+
+
 
         function makeCloseable(rowId, actionId) {
 

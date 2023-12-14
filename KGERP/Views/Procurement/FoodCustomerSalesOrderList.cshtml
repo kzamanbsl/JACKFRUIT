@@ -203,7 +203,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Invoice Date:</label>
-                                <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
+                                <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datepicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Delivery Date:</label>
-                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
+                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datepicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.ExpectedDeliveryDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
