@@ -63,6 +63,7 @@ namespace KGERP.Service.Implementation
                                                    .AsEnumerable());
 
             //model.DataList=model.DataList.Distinct(c=>c.Id).ToList();
+
             return model;
         }
 
