@@ -234,23 +234,7 @@
     };
 
     $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("CommonZonesList", "Configuration")",
-            datatype: "Json",
-            data: { companyId: @CompanyInfo.CompanyId},
-            success: function (data) {
-                var items = "";
-                if (data) {
-                    $("#ddlZone").empty();
-                    $("#ddlZone").append("<option >-- Select Zone --</option>");
-                    $(data).each(function (index, item) {
-                        $("#ddlZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                    });
-
-                }
-            }
-        });
+       
 
     });
     $('#ddlZone').change(function () {
@@ -334,7 +318,7 @@
                   $("#ddlSubZone").empty();
                   //$("#ddlCommon_TerritoryFk").append("<option value=''>==Select Territory==</option>");
                   $(data).each(function (index, item) {
-                      $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                          $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                   });
 
               }

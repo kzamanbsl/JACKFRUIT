@@ -39,11 +39,11 @@ namespace KGERP.Service.Implementation
                                                    from t5 in t5_Join.DefaultIfEmpty()
                                                    
                                                    where t1.Active ==true
-                                                   && filterEmployee.ZoneId>0?t5.ZoneId== filterEmployee.ZoneId: t1.Active==true 
-                                                   && filterEmployee.ZoneDivisionId>0?t5.ZoneDivisionId== filterEmployee.ZoneDivisionId: t1.Active == true
-                                                   && filterEmployee.RegionId>0?t5.RegionId== filterEmployee.RegionId: t1.Active == true
-                                                   && filterEmployee.AreaId>0?t5.AreaId == filterEmployee.AreaId : t1.Active == true
-                                                   && filterEmployee.SubZoneId>0?t5.TerritoryId == filterEmployee.SubZoneId : t1.Active == true
+                                                   && (filterEmployee.ZoneId>0?t5.ZoneId== filterEmployee.ZoneId: t1.Active==true)
+                                                   && (filterEmployee.ZoneDivisionId>0?t5.ZoneDivisionId== filterEmployee.ZoneDivisionId: t1.Active == true)
+                                                   && (filterEmployee.RegionId>0?t5.RegionId== filterEmployee.RegionId: t1.Active == true)
+                                                   && (filterEmployee.AreaId>0?t5.AreaId == filterEmployee.AreaId : t1.Active == true)
+                                                   && (filterEmployee.SubZoneId>0?t5.TerritoryId == filterEmployee.SubZoneId : t1.Active == true)
                                                    select new EmployeeVm
                                                    {
                                                        Id = t1.Id,

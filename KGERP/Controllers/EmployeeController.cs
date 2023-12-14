@@ -21,11 +21,13 @@ using System.Linq.Dynamic;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -60,19 +62,30 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-           
+
             EmployeeVm model = new EmployeeVm();
             model = await _employeeService.GetEmployees(model);
+            model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
             model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             return View(model);
-        } 
+        }
 
         [HttpPost]
         public async Task<ActionResult> Index(EmployeeVm filterEmployee)
         {
-           
+
             EmployeeVm model = new EmployeeVm();
             model = await _employeeService.GetEmployees(filterEmployee);
+            model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
+            model.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0), "Value", "Text");
+            model.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0), "Value", "Text");
+            model.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0, filterEmployee.RegionId ?? 0), "Value", "Text");
+            model.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0, filterEmployee.RegionId ?? 0, filterEmployee.AreaId ?? 0).Where(x => (int)x.Value != 0), "Value", "Text");
+
+            model.ZoneId = filterEmployee.ZoneId;
+            model.ZoneDivisionId = filterEmployee.ZoneDivisionId;
+            model.RegionId = filterEmployee.RegionId;
+            model.AreaId = filterEmployee.AreaId;
             model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             return View(model);
         }
