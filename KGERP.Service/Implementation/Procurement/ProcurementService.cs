@@ -4005,7 +4005,7 @@ namespace KGERP.Service.Implementation.Procurement
             if (vmSalesOrder.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Change Challan Info!");
 
             orderMaster.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrder.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrder.ChallanDate ?? DateTime.Now);
-            orderMaster.ChallanDate = vmSalesOrder.ChallanDate?? DateTime.Now;
+            orderMaster.ChallanDate = vmSalesOrder.ChallanDate ?? DateTime.Now;
             orderMaster.DriverName = vmSalesOrder.DriverName;
             orderMaster.DriverMobileNo = vmSalesOrder.DriverMobileNo;
             orderMaster.TrackNo = vmSalesOrder.TrackNo;
@@ -4165,7 +4165,7 @@ namespace KGERP.Service.Implementation.Procurement
                                               DriverName = t1.DriverName,
                                               DriverMobileNo = t1.DriverMobileNo,
                                               TrackNo = t1.TrackNo,
-                                              TrackFair = t1.TrackFair??0,
+                                              TrackFair = t1.TrackFair ?? 0,
 
                                               CreatedBy = t1.CreatedBy,
                                               CreatedDate = t1.CreateDate
@@ -4409,7 +4409,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
-                                                              
+
 
                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
             if (vStatus != -1 && vStatus != null)
@@ -4703,6 +4703,31 @@ namespace KGERP.Service.Implementation.Procurement
             return result;
         }
 
+        public async Task<long> DealerDelivaryChallanEdit(VMSalesOrder vmSalesOrder)
+        {
+            long result = -1;
+            OrderMaster orderMaster = await _db.OrderMasters.FindAsync(vmSalesOrder.OrderMasterId);
+            if (vmSalesOrder.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Change Challan Info!");
+
+            orderMaster.ChallanNo = await GetDealerDelivaryChallanNo(vmSalesOrder.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrder.ChallanDate ?? DateTime.Now);
+            orderMaster.ChallanDate = vmSalesOrder.ChallanDate ?? DateTime.Now;
+            orderMaster.DriverName = vmSalesOrder.DriverName;
+            orderMaster.DriverMobileNo = vmSalesOrder.DriverMobileNo;
+            orderMaster.TrackNo = vmSalesOrder.TrackNo;
+            orderMaster.TrackFair = vmSalesOrder.TrackFair;
+
+            orderMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            orderMaster.ModifiedDate = DateTime.Now;
+
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = vmSalesOrder.OrderMasterId;
+            }
+
+            return result;
+        }
+
         public async Task<VMSalesOrderSlave> GetDealerSalesOrderDetails(int companyId, int orderMasterId)
 
         {
@@ -4842,6 +4867,13 @@ namespace KGERP.Service.Implementation.Procurement
                                               CompanyAddress = t3.Address,
                                               CompanyEmail = t3.Email,
                                               CompanyPhone = t3.Phone,
+
+                                              ChallanNo = t1.ChallanNo,
+                                              ChallanDate = t1.ChallanDate,
+                                              DriverName = t1.DriverName,
+                                              DriverMobileNo = t1.DriverMobileNo,
+                                              TrackNo = t1.TrackNo,
+                                              TrackFair = t1.TrackFair ?? 0,
 
                                               CreatedBy = t1.CreatedBy,
                                               CreatedDate = t1.CreateDate
@@ -5076,6 +5108,10 @@ namespace KGERP.Service.Implementation.Procurement
                                                               ExpectedDeliveryDate = t1.ExpectedDeliveryDate,
                                                               ChallanNo = t1.ChallanNo,
                                                               ChallanDate = t1.ChallanDate,
+                                                              DriverName = t1.DriverName,
+                                                              DriverMobileNo = t1.DriverMobileNo,
+                                                              TrackNo = t1.TrackNo,
+                                                              TrackFair = t1.TrackFair ?? 0,
                                                               CourierNo = t1.CourierNo,
                                                               FinalDestination = t1.FinalDestination,
                                                               CourierCharge = t1.CourierCharge,
@@ -5118,7 +5154,6 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmSalesOrder;
         }
-
 
         public async Task<VMSalesOrder> GetDealerOrderMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {

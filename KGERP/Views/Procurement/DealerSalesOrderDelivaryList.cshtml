@@ -125,9 +125,14 @@
                                             </td>
                                             <td>
                                                 <a target="_blank" href="~/Procurement/DealerSalesOrderDelivaryChallan?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Challan">@item.ChallanNo</a>
+                                                @if (item.ChallanNo != null && item.Status < (int)EnumSOStatus.Received)
+                                                {
+                                                    <span>&nbsp;| &nbsp;</span>
+                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick="makeChallanEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOChallanModal" title="Edit Challan" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                }
                                             </td>
                                             <td>@item.POPaymentMethodName</td>
-                                            
+
                                             <td>@item.EnumStatusName</td>
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
@@ -187,7 +192,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Invoice Date:</label>
-                                <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
+                                <input name="OrderDate" asp-for="OrderDate" type="text" required="required" class="datepicker form-control" id="txtOrderDate" placeholder="Invoice Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -213,7 +218,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Delivery Date:</label>
-                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
+                                <input name="ExpectedDeliveryDate" asp-for="ExpectedDeliveryDate" type="text" required="required" class="datepicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
                                 @Html.ValidationMessageFor(model => model.ExpectedDeliveryDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -246,6 +251,98 @@
                                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-8">
+                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" style="width:100%" id="btnsave" class="btn btn-primary"><i class="fa fa-floppy-o"></i>&nbsp;Update</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DealerDelivaryChallanEdit", "Procurement", FormMethod.Post))
+{
+    <div class="modal fade" id="editSOChallanModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h4 class="modal-title"><b>Delivary Challan Edit (<span id="SOChallanIdText"></span>)</b></h4>
+                </div>
+
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.OrderMasterId, new { id = "ChallanOrderMasterId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "ChallanEditActionId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "ChallanEditCompanyFK" })
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Challan No:</label>
+                            <div class="form-group">
+                                <input name="ChallanNo" asp-for="ChallanNo" value="@Model.ChallanNo" type="text" required="required" class="form-control" placeholder="Challan No" autocomplete="off" id="txtChallanNo" readonly="readonly">
+                                @Html.ValidationMessageFor(model => model.ChallanNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Challan Date:</label>
+                            <div class="form-group">
+                                <input name="ChallanDate" asp-for="ChallanDate" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" id="txtChallanDate" placeholder="Challan Date" autocomplete="off">
+                                @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Driver Name:</label>
+                            <div class="form-group">
+                                <input name="DriverName" asp-for="DriverName" type="text" required="required" class="form-control" placeholder="Driver Name" autocomplete="off" id="txtDriverName">
+                                @Html.ValidationMessageFor(model => model.DriverName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Driver Mobile No:</label>
+                            <div class="form-group">
+                                <input name="DriverMobileNo" asp-for="DriverMobileNo" type="text" required="required" class="form-control" placeholder="Driver Mobile No" autocomplete="off" id="txtDriverMobileNo">
+                                @Html.ValidationMessageFor(model => model.DriverMobileNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Track No:</label>
+                            <div class="form-group">
+                                <input name="TrackNo" asp-for="TrackNo" type="text" required="required" class="form-control" placeholder="Track No" autocomplete="off" id="txtTrackNo">
+                                @Html.ValidationMessageFor(model => model.TrackNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Track Fair:</label>
+                            <div class="form-group">
+                                <input name="TrackFair" asp-for="TrackFair" type="number" min="1" required="required" class="form-control" placeholder="Track Fair" autocomplete="off" id="txtTrackFair">
+                                @Html.ValidationMessageFor(model => model.TrackFair, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -466,6 +563,9 @@
 
         function DateCustom(orderDate) {
 
+            if (orderDate == null) {
+                return null;
+            }
             var dateString = orderDate.substr(6);
             var currentTime = new Date(parseInt(dateString));
             var month = currentTime.getMonth() + 1;
@@ -510,6 +610,32 @@
                  });
             }
 
+               function makeChallanEditble(rowId) {
+
+     $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetDealerOrderMasterById", "Procurement")",
+            datatype: "Json",
+            data: { orderMasterId: rowId },
+            success: function (data) {
+
+                $('#SOChallanIdText').text(data.OrderNo);
+                $("#ChallanOrderMasterId").val(data.OrderMasterId);
+                $('#ChallanEditActionId').val(2);
+                $("#ChallanEditCompanyFK").val(data.CompanyFK);
+
+                $("#txtChallanNo").val(data.ChallanNo);
+
+                var challanDate = DateCustom(data.ChallanDate);
+                $('#txtChallanDate').val(challanDate);
+
+                $('#txtDriverName').val(data.DriverName);
+                $('#txtDriverMobileNo').val(data.DriverMobileNo);
+                $('#txtTrackNo').val(data.TrackNo);
+                $('#txtTrackFair').val(data.TrackFair);
+            }
+     });
+}
     </script>
 }
 
