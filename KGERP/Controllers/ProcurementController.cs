@@ -2061,6 +2061,14 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(DealerSalesOrderDelivaryList), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DealerDelivaryChallanEdit(VMSalesOrder vmSalesOrder)
+        {
+            var result = await _service.DealerDelivaryChallanEdit(vmSalesOrder);
+            return RedirectToAction(nameof(DealerSalesOrderDelivaryList), new { companyId = vmSalesOrder.CompanyFK });
+        }
+
+
         [HttpGet]
         public async Task<ActionResult> DealerSalesOrderDelivaryList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
