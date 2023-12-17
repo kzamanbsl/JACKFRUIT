@@ -2210,7 +2210,13 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(Dpt2DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
         }
-
+        
+        [HttpPost]
+        public async Task<ActionResult> SubmitDpt2DealerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
+            return RedirectToAction(nameof(Dpt2DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
+        }
         #endregion
 
         #region Food Customer Sales
