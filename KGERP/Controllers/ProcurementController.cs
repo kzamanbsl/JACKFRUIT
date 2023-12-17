@@ -2182,10 +2182,10 @@ namespace KGERP.Controllers
 
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.UserDataAccessModel =  _Configurationservice.GetUserDataAccessModelByEmployeeId().Result;
+            vmSalesOrderSlave.UserDataAccessModel =await   _Configurationservice.GetUserDataAccessModelByEmployeeId();
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length>0)
             {
-                vmSalesOrderSlave.CustomerList = new SelectList(_Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds).Result, "Value", "Text");
+                vmSalesOrderSlave.CustomerList = new SelectList(await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds), "Value", "Text");
 
             }
             return View(vmSalesOrderSlave);
