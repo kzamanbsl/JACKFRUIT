@@ -4200,8 +4200,14 @@ namespace KGERP.Service.Implementation.Procurement
 
             List<OrderDetailHistory> history = new List<OrderDetailHistory>();
             //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+
+            var soRMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DeportId > 0 && x.OrderNo.Contains("-R") && !x.IsOpening) + 1;
+            string soRCid = order.OrderNo + "-R" + soRMax.ToString();
+            var ids = details.Select(x => x.Qty).Intersect(vmSalesOrderSlave.DetailDataList.Select(x => (x.QtyCtn * (double)x.Consumption) + x.QtyPcs));
+
             foreach (var item in details)
             {
+                //History Added
                 history.Add(new OrderDetailHistory
                 {
                     OrderDetailHistoryId = 0,
@@ -4236,16 +4242,14 @@ namespace KGERP.Service.Implementation.Procurement
                     CompanyId = item.CompanyId
 
                 });
-            }
 
-            foreach (var dt in details)
-            {
-                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
-                dt.Qty = ((obj.QtyCtn * (double)obj.Consumption) + obj.QtyPcs);
-                dt.Amount = (dt.Qty * dt.UnitPrice);//obj.qty
-                dt.OfferQty = ((obj.OfferCtn * (double)obj.Consumption) + obj.OfferPcs);
-                dt.ModifiedBy = userName;
-                dt.ModifedDate = DateTime.Now;
+                //Order Detail Qty and Amount Update
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == item.OrderDetailId);
+                item.Qty = ((obj.QtyCtn * (double)obj.Consumption) + obj.QtyPcs);
+                item.Amount = (item.Qty * item.UnitPrice);//obj.qty
+                item.OfferQty = ((obj.OfferCtn * (double)obj.Consumption) + obj.OfferPcs);
+                item.ModifiedBy = userName;
+                item.ModifedDate = DateTime.Now;
             }
 
             using (var scope = _db.Database.BeginTransaction())
@@ -4257,6 +4261,7 @@ namespace KGERP.Service.Implementation.Procurement
                 }
                 scope.Commit();
             }
+
             return result;
         }
 
