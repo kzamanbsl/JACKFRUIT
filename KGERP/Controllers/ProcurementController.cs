@@ -2167,7 +2167,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Dpt2DealerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        public async Task<ActionResult> DptToDealerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
         {
             VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
 
@@ -2182,7 +2182,7 @@ namespace KGERP.Controllers
 
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+            vmSalesOrderSlave.UserDataAccessModel =  _Configurationservice.GetUserDataAccessModelByEmployeeId().Result;
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length>0)
             {
                 vmSalesOrderSlave.CustomerList = new SelectList(_Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds).Result, "Value", "Text");
@@ -2192,7 +2192,7 @@ namespace KGERP.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult> Dpt2DealerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        public async Task<ActionResult> DptToDealerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
 
             if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
@@ -2208,14 +2208,14 @@ namespace KGERP.Controllers
             {
                 await _service.DealerOrderDetailEdit(vmSalesOrderSlave);
             }
-            return RedirectToAction(nameof(Dpt2DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+            return RedirectToAction(nameof(DptToDealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
         }
         
         [HttpPost]
-        public async Task<ActionResult> SubmitDpt2DealerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        public async Task<ActionResult> SubmitDptToDealerOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
             vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
-            return RedirectToAction(nameof(Dpt2DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
+            return RedirectToAction(nameof(DptToDealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
         #endregion
 
