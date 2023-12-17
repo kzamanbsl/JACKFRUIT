@@ -267,10 +267,14 @@ namespace KGERP.Service.Implementation.Configuration
                 var deportIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
                 model.DeportIds = deportIds;
 
+                //var deportId = _db.Vendors.FirstOrDefault(c => c.EmployeeId == model.UserName).VendorId;
+                //model.DealerIds = _db.Vendors?.Where(c => c.ParentId== deportId && c.VendorTypeId==(int)Provider.Dealer && c.IsActive==true)?.Select(s => s.VendorId).ToArray();
+                //model.CustomerIds = _db.Vendors?.Where(c => deportIds.Contains((int)c.ParentId) && c.VendorTypeId == (int)Provider.Customer && c.IsActive == true)?.Select(s => s.VendorId).ToArray();
+                
                 if (territories?.Count() > 0)
                 {
                     var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
-                    var vendors = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
+                    var vendors =    _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
                     model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
                     model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
                 }

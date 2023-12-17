@@ -1,4 +1,5 @@
-﻿using KG.Core.Services.Configuration;
+﻿using DocumentFormat.OpenXml.EMMA;
+using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
@@ -2165,6 +2166,50 @@ namespace KGERP.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Dpt2DealerSalesOrderSlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId == 0)
+            {
+                vmSalesOrderSlave.CompanyFK = companyId;
+                vmSalesOrderSlave.Status = (int)EnumSOStatus.Draft;
+            }
+            else
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetDealerSalesOrderDetails(companyId, orderMasterId));
+
+            }
+            //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
+            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+            if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length>0)
+            {
+                vmSalesOrderSlave.CustomerList = new SelectList(_Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds).Result, "Value", "Text");
+
+            }
+            return View(vmSalesOrderSlave);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> Dpt2DealerSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+
+            if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmSalesOrderSlave.OrderMasterId == 0)
+                {
+                    vmSalesOrderSlave.OrderMasterId = await _service.DealerOrderMasterAdd(vmSalesOrderSlave);
+
+                }
+                await _service.DealerOrderDetailAdd(vmSalesOrderSlave);
+            }
+            else if (vmSalesOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DealerOrderDetailEdit(vmSalesOrderSlave);
+            }
+            return RedirectToAction(nameof(Dpt2DealerSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK, orderMasterId = vmSalesOrderSlave.OrderMasterId });
+        }
 
         #endregion
 
