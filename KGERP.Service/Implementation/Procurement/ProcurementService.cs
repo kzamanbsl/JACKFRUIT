@@ -3,6 +3,7 @@ using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -4198,12 +4199,32 @@ namespace KGERP.Service.Implementation.Procurement
             List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Delivary!");
 
+            #region OrderNo Change
+            var changedDetail = new VMSalesOrderSlave();
+            foreach (var dt in details)
+            {
+                VMSalesOrderSlave exist = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c =>
+                c.OrderDetailId == dt.OrderDetailId && c.FProductId == dt.ProductId
+                && (dt.Qty != ((c.QtyCtn * (double)c.Consumption) + c.QtyPcs) || dt.OfferQty != ((c.OfferCtn * (double)c.Consumption) + c.OfferPcs))
+                );
+                if (exist != null)
+                {
+                    changedDetail = exist;
+                    break;
+                }
+            };
+
+            if (changedDetail != null && changedDetail.OrderDetailId > 0 && changedDetail.FProductId > 0)
+            {
+                var soRMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DeportId > 0 && x.OrderNo.Contains("-R") && !x.IsOpening) + 1;
+                string soRCid = order.OrderNo + "-R" + soRMax.ToString();
+                order.OrderNo = soRCid;
+            }
+            #endregion
+
+
             List<OrderDetailHistory> history = new List<OrderDetailHistory>();
             //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
-
-            var soRMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DeportId > 0 && x.OrderNo.Contains("-R") && !x.IsOpening) + 1;
-            string soRCid = order.OrderNo + "-R" + soRMax.ToString();
-            var ids = details.Select(x => x.Qty).Intersect(vmSalesOrderSlave.DetailDataList.Select(x => (x.QtyCtn * (double)x.Consumption) + x.QtyPcs));
 
             foreach (var item in details)
             {
@@ -4911,10 +4932,35 @@ namespace KGERP.Service.Implementation.Procurement
             List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Delivary!");
 
+            #region OrderNo Change
+            var changedDetail = new VMSalesOrderSlave();
+            foreach (var dt in details)
+            {
+                VMSalesOrderSlave exist = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c =>
+                c.OrderDetailId == dt.OrderDetailId && c.FProductId == dt.ProductId
+                && (dt.Qty != ((c.QtyCtn * (double)c.Consumption) + c.QtyPcs) || dt.OfferQty != ((c.OfferCtn * (double)c.Consumption) + c.OfferPcs))
+                );
+                if (exist != null)
+                {
+                    changedDetail = exist;
+                    break;
+                }
+            };
+
+            if (changedDetail != null && changedDetail.OrderDetailId > 0 && changedDetail.FProductId > 0)
+            {
+                var soRMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DealerId > 0 && x.OrderNo.Contains("-R") && !x.IsOpening) + 1;
+                string soRCid = order.OrderNo + "-R" + soRMax.ToString();
+                order.OrderNo = soRCid;
+            }
+            #endregion
+
             List<OrderDetailHistory> history = new List<OrderDetailHistory>();
             //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+
             foreach (var item in details)
             {
+                //History Added
                 history.Add(new OrderDetailHistory
                 {
                     OrderDetailHistoryId = 0,
@@ -4949,16 +4995,14 @@ namespace KGERP.Service.Implementation.Procurement
                     CompanyId = item.CompanyId
 
                 });
-            }
 
-            foreach (var dt in details)
-            {
-                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == dt.OrderDetailId);
-                dt.Qty = ((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs);
-                dt.Amount = (((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs) * dt.UnitPrice);
-                dt.OfferQty = ((double)(obj.OfferCtn * obj.Consumption) + obj.OfferPcs);
-                dt.ModifiedBy = userName;
-                dt.ModifedDate = DateTime.Now;
+                //Order Detail Qty and Amount Update
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == item.OrderDetailId);
+                item.Qty = ((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs);
+                item.Amount = (((double)(obj.QtyCtn * obj.Consumption) + obj.QtyPcs) * item.UnitPrice);
+                item.OfferQty = ((double)(obj.OfferCtn * obj.Consumption) + obj.OfferPcs);
+                item.ModifiedBy = userName;
+                item.ModifedDate = DateTime.Now;
             }
 
             using (var scope = _db.Database.BeginTransaction())
