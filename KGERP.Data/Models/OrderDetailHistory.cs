@@ -23,6 +23,7 @@ namespace KGERP.Data.Models
         public Nullable<int> ProductSerial { get; set; }
         public int ProductId { get; set; }
         public double Qty { get; set; }
+        public double TPPrice { get; set; }
         public double UnitPrice { get; set; }
         public double Amount { get; set; }
         public double OfferQty { get; set; }

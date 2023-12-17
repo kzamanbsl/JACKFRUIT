@@ -28,6 +28,7 @@ namespace KGERP.Data.Models
         public Nullable<int> ProductSerial { get; set; }
         public int ProductId { get; set; }
         public double Qty { get; set; }
+        public double TPPrice { get; set; }
         public double UnitPrice { get; set; }
         public double Amount { get; set; }
         public double OfferQty { get; set; }
@@ -50,8 +51,8 @@ namespace KGERP.Data.Models
         public Nullable<int> PromotionalOfferId { get; set; }
     
         public virtual OrderMaster OrderMaster { get; set; }
+        public virtual Product Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
-        public virtual Product Product { get; set; }
     }
 }
