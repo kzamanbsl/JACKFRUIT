@@ -267,124 +267,141 @@ namespace KGERP.Service.Implementation.Configuration
                 var deportIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
                 model.DeportIds = deportIds;
 
-                //var deportId = _db.Vendors.FirstOrDefault(c => c.EmployeeId == model.UserName).VendorId;
-                //model.DealerIds = _db.Vendors?.Where(c => c.ParentId== deportId && c.VendorTypeId==(int)Provider.Dealer && c.IsActive==true)?.Select(s => s.VendorId).ToArray();
-                //model.CustomerIds = _db.Vendors?.Where(c => deportIds.Contains((int)c.ParentId) && c.VendorTypeId == (int)Provider.Customer && c.IsActive == true)?.Select(s => s.VendorId).ToArray();
-                
-                if (territories?.Count() > 0)
-                {
-                    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
-                    var vendors =    _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (areas?.Count() > 0)
-                {
-                    var areaIds = areas.Select(c => c.AreaId).ToArray();
-                    var vendors = _db.Vendors.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (regions?.Count() > 0)
-                {
-                    var regionIds = regions.Select(c => c.RegionId).ToArray();
-                    var vendors = _db.Vendors.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (zoneDivisions?.Count() > 0)
-                {
-                    var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
-                    var vendors = _db.Vendors.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (zones?.Count() > 0)
-                {
-                    var zoneIds = zones.Select(c => c.ZoneId).ToArray();
-                    var vendors = _db.Vendors.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
+                var dealerIds = _db.Vendors?.Where(c => deportIds.Contains(c.ParentId ?? 0) && c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true)?.Select(s => s.VendorId).ToArray();
+                model.DealerIds = dealerIds;
+                model.CustomerIds = _db.Vendors?.Where(c => dealerIds.Contains((int)c.ParentId) && c.VendorTypeId == (int)Provider.Customer && c.IsActive == true)?.Select(s => s.VendorId).ToArray();
+
+                #region Dealer and Customer Ids Get
+
+                //if (territories?.Count() > 0)
+                //{
+                //    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
+                //    var vendors =    _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
+                //    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (areas?.Count() > 0)
+                //{
+                //    var areaIds = areas.Select(c => c.AreaId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                //    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (regions?.Count() > 0)
+                //{
+                //    var regionIds = regions.Select(c => c.RegionId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
+                //    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (zoneDivisions?.Count() > 0)
+                //{
+                //    var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
+                //    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (zones?.Count() > 0)
+                //{
+                //    var zoneIds = zones.Select(c => c.ZoneId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
+                //    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                #endregion
 
             }
             else if (model.UserTypeId == (int)EnumUserType.Dealer)
             {
-                var dealerIds = _db.Vendors.Where(c => c.EmployeeId == model.UserName).Select(s => s.VendorId).ToArray();
+                var dealers = _db.Vendors.Where(c => c.EmployeeId == model.UserName).ToArray();
+                model.DeportIds = dealers.Length > 0 ? dealers.Select(c => c.ParentId ?? 0).ToArray() : new int[0];
+                var dealerIds = dealers.Length > 0 ? dealers.Select(s => s.VendorId).ToArray() : new int[0];
                 model.DealerIds = dealerIds;
+                model.CustomerIds = _db.Vendors?.Where(c => dealerIds.Contains((int)c.ParentId) && c.VendorTypeId == (int)Provider.Customer && c.IsActive == true)?.Select(s => s.VendorId).ToArray();
 
-                if (territories?.Count() > 0)
-                {
-                    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
-                    var vendors = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (areas?.Count() > 0)
-                {
-                    var areaIds = areas.Select(c => c.AreaId).ToArray();
-                    var vendors = _db.Vendors.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (regions?.Count() > 0)
-                {
-                    var regionIds = regions.Select(c => c.RegionId).ToArray();
-                    var vendors = _db.Vendors.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (zoneDivisions?.Count() > 0)
-                {
-                    var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
-                    var vendors = _db.Vendors.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
-                else if (zones?.Count() > 0)
-                {
-                    var zoneIds = zones.Select(c => c.ZoneId).ToArray();
-                    var vendors = _db.Vendors.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
-                }
+                #region Customer Ids Get
+                //if (territories?.Count() > 0)
+                //{
+                //    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (areas?.Count() > 0)
+                //{
+                //    var areaIds = areas.Select(c => c.AreaId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (regions?.Count() > 0)
+                //{
+                //    var regionIds = regions.Select(c => c.RegionId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (zoneDivisions?.Count() > 0)
+                //{
+                //    var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                //else if (zones?.Count() > 0)
+                //{
+                //    var zoneIds = zones.Select(c => c.ZoneId).ToArray();
+                //    var vendors = _db.Vendors.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
+                //    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                //}
+                #endregion
             }
             else if (model.UserTypeId == (int)EnumUserType.Employee)
             {
+                int[] subZoneIds = new int[0];
+
                 if (territories?.Count() > 0)
                 {
-                    var subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
-                    var vendors = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
-                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                    subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
                 }
                 else if (areas?.Count() > 0)
                 {
                     var areaIds = areas.Select(c => c.AreaId).ToArray();
-                    var vendors = _db.Vendors.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
-                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                    var territorys = _db.SubZones.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                    subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
                 }
                 else if (regions?.Count() > 0)
                 {
                     var regionIds = regions.Select(c => c.RegionId).ToArray();
-                    var vendors = _db.Vendors.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
-                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                    var areaIds = _db.Areas.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).Select(s => s.AreaId).ToList();
+                    var territorys = _db.SubZones.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                    subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
                 }
                 else if (zoneDivisions?.Count() > 0)
                 {
                     var zoneDivisionIds = zoneDivisions.Select(c => c.ZoneDivisionId).ToArray();
-                    var vendors = _db.Vendors.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
-                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                    var regionIds = _db.Regions.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).Select(s => s.RegionId).ToList();
+                    var areaIds = _db.Areas.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).Select(s => s.AreaId).ToList();
+                    var territorys = _db.SubZones.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                    subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
                 }
                 else if (zones?.Count() > 0)
                 {
                     var zoneIds = zones.Select(c => c.ZoneId).ToArray();
-                    var vendors = _db.Vendors.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
-                    model.DeportIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Deport)?.Select(s => s.VendorId).ToArray();
-                    model.DealerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).ToArray();
-                    model.CustomerIds = vendors?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                    var zoneDivisionIds = _db.ZoneDivisions.Where(c => zoneIds.Contains((int)c.ZoneId) && c.IsActive == true).Select(s => s.ZoneDivisionId).ToList();
+                    var regionIds = _db.Regions.Where(c => zoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).Select(s => s.RegionId).ToList();
+                    var areaIds = _db.Areas.Where(c => regionIds.Contains((int)c.RegionId) && c.IsActive == true).Select(s => s.AreaId).ToList();
+                    var territorys = _db.SubZones.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                    subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
+                }
+                if (subZoneIds.Length > 0)
+                {
+                    var customers = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
+                    var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
+                    model.CustomerIds = customerIds;
+
+                    var dealerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.ParentId ?? 0).ToArray();
+                    model.DealerIds = dealerIds.Length > 0 ? dealerIds : new int[0];
+
+                    var dealers = _db.Vendors.Where(c => dealerIds.Contains(c.VendorId) && c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
+                    var deportIds = dealers.Select(s => s.ParentId ?? 0).ToArray();
+                    model.DeportIds = deportIds;
                 }
             }
 
@@ -5463,13 +5480,13 @@ namespace KGERP.Service.Implementation.Configuration
                                                    }).FirstOrDefault());
 
             vmCommonDeport.ChildList = from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.ParentId == deportId)
-                                      
-                                       select new  VMCommonSupplier
+
+                                       select new VMCommonSupplier
                                        {
-                                           Name=t1.Name,
-                                           Phone=t1.Phone,
-                                           Address=t1.Address,
-                                           Propietor=t1.Propietor
+                                           Name = t1.Name,
+                                           Phone = t1.Phone,
+                                           Address = t1.Address,
+                                           Propietor = t1.Propietor
 
                                        };
 
@@ -5821,10 +5838,10 @@ namespace KGERP.Service.Implementation.Configuration
             vmCommonDealer.ChildList = from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.ParentId == dealerId)
                                        select new VMCommonSupplier
                                        {
-                                           Name=t1.Name,
-                                           Phone=t1.Phone,
-                                           Address=t1.Address,
-                                           Propietor=t1.Propietor
+                                           Name = t1.Name,
+                                           Phone = t1.Phone,
+                                           Address = t1.Address,
+                                           Propietor = t1.Propietor
                                        };
             return vmCommonDealer;
         }
