@@ -430,7 +430,7 @@ namespace KGERP.Service.Implementation.Procurement
             List<VMCommonCustomer> vmCommonCustomerList =
                 await Task.Run(() => (_db.Vendors
                 .Where(x => x.IsActive && x.ZoneId == zoneId && x.VendorTypeId == (int)Provider.Customer))
-                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = x.Code + " -" + x.Name })
+                .Select(x => new VMCommonCustomer() { ID = x.VendorId, Name = /*x.Code + " -" +*/ x.Name })
                 .ToListAsync());
 
 

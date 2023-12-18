@@ -1344,8 +1344,26 @@ namespace KGERP.Service.Implementation.Configuration
 
             }).ToList();
         }
+        public List<object> GetEmployeesBySubzones(int companyId = 0, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0,int subZone=0)
+        {
+            var list = new List<object>();
+              var list1 = (from t1 in _db.EmployeeServicePointMaps
+                        join t2 in _db.Employees.Where(x => x.Active) on t1.EmployeeId equals t2.Id
+                        where t1.IsActive == true && t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId &&
+                              t1.RegionId == regionId && t1.AreaId == areaId && t1.TerritoryId == subZone
+                        select new
+                        {
+                           Value=t2.Id,
+                           Text=t2.Name
+                        }).ToList();
 
-        public async Task<VMCommonProductCategory> GetSingleProductCategory(int id)
+
+            list.AddRange(list1.Cast<object>());
+
+
+            return list;
+        }
+            public async Task<VMCommonProductCategory> GetSingleProductCategory(int id)
         {
             var v = await Task.Run(() => (from t1 in _db.ProductCategories
                                           where t1.ProductCategoryId == id && t1.IsActive == true
@@ -4612,6 +4630,23 @@ namespace KGERP.Service.Implementation.Configuration
 
                      }).FirstOrDefault();
             return v;
+        }
+        public List<object> CommonCustomerListBySunZones(int zoneId = 0, int zoneDivision = 0, int regionId = 0,int area=0, int subZone=0)
+        {
+            var list = new List<object>();
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0&& area > 0 && subZone > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true
+                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId == area && c.SubZoneId == subZone).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+
+            
+
+            return list;
         }
 
         public VMCommonSupplier GetRSCustomerByID(int id)

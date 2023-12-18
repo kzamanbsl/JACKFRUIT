@@ -150,15 +150,48 @@
                                 </div>
 
                                 <div class="row">
-
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Zone:</label>
                                             @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                         </div>
+                                    </div> 
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Division:</label>
+                                            @Html.DropDownListFor(model => model.ZoneDivisionFk, Model.ZoneDivisionList as SelectList, "==Select Division==", new { id = "ddlZoneDivisionFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ZoneDivisionFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Region:</label>
+                                            @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, "==Select Region==", new { id = "ddlRegionFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.RegionFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Area:</label>
+                                            @Html.DropDownListFor(model => model.AreaFk, Model.AreaList as SelectList, "==Select Area==", new { id = "ddlAreaFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.AreaFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Territory:</label>
+                                            @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Customer:</label>
                                             @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -166,7 +199,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Employee:</label>
+                                            @Html.DropDownListFor(model => model.SalePersonId, Model.SalesPersonList as SelectList, "==Select Employee==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.SalePersonId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div> <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Stock From:</label>
                                             @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Stock From==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -1058,12 +1097,127 @@
 
         });
 
+        $('#ddlZoneFk').on('change', function () {
+            var zoneId = $("#ddlZoneFk :selected").val();
 
-        //$(function () {
-        //    $('#ddlModalZoneId,#ddlModalZoneDivisionId').select2({
-        //        dropdownParent: $('#addCustomerModal')
-        //    });
-        //});
+            /*zoneDivisionChange(0, zoneId);*/
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlZoneDivisionFk").empty();
+                        //$("#ddlModalZoneDivisionId").append("<option value=''>==Select Division==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlZoneDivisionFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                }
+            });
+        });
+
+        $("#ddlZoneDivisionFk").on('change', function () {
+            var zoneId = $("#ddlZoneFk :selected").val();
+            var zoneDivisionId = $("#ddlZoneDivisionFk :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetRegionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId, zoneDivisionId: zoneDivisionId },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlRegionFk").empty();
+                        //$("#ddlModalRegionId").append("<option value=''>==Select Region==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlRegionFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                }
+            });
+
+
+        });
+        $("#ddlRegionFk").on("change", function () {
+            var zoneId = $("#ddlZoneFk :selected").val();
+            var zoneDivisionId = $("#ddlZoneDivisionFk :selected").val();
+            var regionId = $("#ddlRegionFk :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAreaList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlAreaFk").empty();
+                        $(data).each(function (index, item) {
+                            $("#ddlAreaFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+
+                    }
+                }
+            });
+        });
+        $("#ddlAreaFk").on("change", function () {
+            var zoneId = $("#ddlZoneFk :selected").val();
+            var zoneDivisionId = $("#ddlZoneDivisionFk :selected").val();
+            var regionId = $("#ddlRegionFk :selected").val();
+            var areaId = $("#ddlAreaFk :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetSubZoneList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@Model.CompanyFK, zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlSubZoneFk").empty();
+                        //$("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlSubZoneFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                           
+                        });
+                        
+                    }
+                }
+            });
+
+
+        });
+
+        $("#ddlSubZoneFk").on("change", function () {
+            var zoneId = $("#ddlZoneFk :selected").val();
+            var zoneDivisionId = $("#ddlZoneDivisionFk :selected").val();
+            var regionId = $("#ddlRegionFk :selected").val();
+            var areaId = $("#ddlAreaFk :selected").val();
+            var subZone = $("#ddlSubZoneFk :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetCustomerBySubZones", "Configuration")",
+                datatype: "Json",
+                data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId, subZoneId: subZone },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlCustomerId").empty();
+                        $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                           
+                        });
+                        
+                    }
+                }
+            });
+
+
+        });
+
+
+       
 
     </script>
 }

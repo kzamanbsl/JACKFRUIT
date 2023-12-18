@@ -344,6 +344,7 @@ namespace KGERP.Service.Implementation.Procurement
         public int ZoneFk { get; set; }
         public int ZoneDivisionFk { get; set; }
         public int RegionFk { get; set; }
+        public int AreaFk { get; set; }
         public string OfficerNAme { get; set; }
         public decimal CashDiscountPercent { get; set; }
         public decimal SpecialDiscount { get; set; }
@@ -363,11 +364,13 @@ namespace KGERP.Service.Implementation.Procurement
         public List<VMSalesOrderSlave> DetailDataList { get; set; } = new List<VMSalesOrderSlave>();
         public SelectList ProductCategoryList { get; set; } = new SelectList(new List<object>());
         public SelectList ProductSubCategoryList { get; set; } = new SelectList(new List<object>());
+        public SelectList SalesPersonList { get; set; } = new SelectList(new List<object>());
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());
+        public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
 
     }

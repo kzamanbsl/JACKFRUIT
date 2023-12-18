@@ -1448,6 +1448,13 @@ namespace KGERP.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult GetCustomerBySubZones(int zoneId, int zoneDivisionId, int regionId,int areaId,int subZoneId)
+        {
+            var Deport = new SelectList(_service.CommonCustomerListBySunZones(zoneId, zoneDivisionId, regionId, areaId, subZoneId), "Value", "Text");
+
+            return Json(Deport, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult RSCustomerByIDGet(int id)
         {
             var model = _service.GetRSCustomerByID(id);
@@ -2455,8 +2462,15 @@ namespace KGERP.Controllers
             vmCommonProduct.GetProductCategoryList = await _service.GetProductCategory(companyId, productType);
             return View(vmCommonProduct);
         }
-        
+
         #endregion
+
+        [HttpGet]
+        public async Task<ActionResult> GetEmployeeListBySubZone( int zoneId = 0, int zoneDivisionId = 0, int regionId = 0,int areaId=0,int subzoneId=0)
+        {
+            var employeeList = await Task.Run(() => new SelectList(_service.CommonCustomerListBySunZones(zoneId, zoneDivisionId, regionId, areaId, subzoneId), "Value", "Text"));
+            return Json(employeeList, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public async Task<ActionResult> CommonClient(int companyId)
