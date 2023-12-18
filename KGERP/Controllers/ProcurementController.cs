@@ -2022,6 +2022,7 @@ namespace KGERP.Controllers
             vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.Status = vStatus ?? -1;
+            vmSalesOrder.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
 
             return View(vmSalesOrder);
         }
@@ -2187,6 +2188,12 @@ namespace KGERP.Controllers
             {
                 vmSalesOrderSlave.CustomerList = new SelectList(await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds), "Value", "Text");
 
+            }
+
+            vmSalesOrderSlave.StockInfoTypeId =(int) StockInfoTypeEnum.Deport;
+            if(vmSalesOrderSlave.UserDataAccessModel.DeportIds?.Length > 0)
+            {
+                vmSalesOrderSlave.StockInfoId= vmSalesOrderSlave.UserDataAccessModel.DeportIds[0];
             }
             return View(vmSalesOrderSlave);
         }

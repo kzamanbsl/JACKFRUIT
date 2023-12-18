@@ -743,7 +743,7 @@
                       $("#txtOrderQuantity").val(data.Qty);
                       $('#txtDealerPrice').val(data.UnitPrice);
                       //$('#txtDealerPrice').val(data.UnitPrice);
-                      $('#totalAmount').val(data.Qty * data.UnitPrice);
+                      $('#totalAmount').val((data.Qty * data.UnitPrice).toFixed(2));
 
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);
