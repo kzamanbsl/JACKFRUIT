@@ -836,7 +836,7 @@
                 var dealerId = $("#ddlStockInfoId").val();
                 $.ajax({
                     type: "GET",
-                    url: "@Url.Action("CustomerListByDealerIdGet", "Procurement")",
+                    url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
                     datatype: "Json",
                     data: { dealerId: dealerId },
                     success: function (data) {

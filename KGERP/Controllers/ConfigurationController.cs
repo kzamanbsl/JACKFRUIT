@@ -1455,6 +1455,15 @@ namespace KGERP.Controllers
 
             return Json(Deport, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetCustomerByDealerId(int dealerId)
+        {
+            var customers = new SelectList(_service.CommonCustomerListByDealerId(dealerId), "Value", "Text");
+
+            return Json(customers, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult RSCustomerByIDGet(int id)
         {
             var model = _service.GetRSCustomerByID(id);
