@@ -3940,13 +3940,15 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long dateTime = DateTime.Now.Ticks;
             long result = -1;
-
+            var productTPPrice = (double)_db.Products.AsNoTracking().FirstOrDefault(c => c.ProductId == (vmSalesOrderSlave.ProductId ?? 0))?.TPPrice;
+            
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = (double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs,
                 OfferQty = (double)(vmSalesOrderSlave.OfferCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs,
+                TPPrice = productTPPrice,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = (((double)(vmSalesOrderSlave.QtyCtn * vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs) * vmSalesOrderSlave.UnitPrice),
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -4665,6 +4667,7 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long dateTime = DateTime.Now.Ticks;
             long result = -1;
+            var productTPPrice = (double)_db.Products.AsNoTracking().FirstOrDefault(c => c.ProductId == (vmSalesOrderSlave.ProductId ?? 0))?.DeportPrice;
 
             OrderDetail orderDetail = new OrderDetail
             {
@@ -4672,6 +4675,7 @@ namespace KGERP.Service.Implementation.Procurement
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs),
                 OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs),
+                TPPrice = productTPPrice,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = vmSalesOrderSlave.TotalAmount,
                 Comsumption = vmSalesOrderSlave.Consumption,
@@ -5372,6 +5376,7 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long dateTime = DateTime.Now.Ticks;
             long result = -1;
+            var productTPPrice = (double)_db.Products.AsNoTracking().FirstOrDefault(c => c.ProductId == (vmSalesOrderSlave.ProductId ?? 0))?.DealerPrice;
 
             OrderDetail orderDetail = new OrderDetail
             {
@@ -5379,6 +5384,7 @@ namespace KGERP.Service.Implementation.Procurement
                 ProductId = vmSalesOrderSlave.ProductId ?? 0,
                 Qty = ((vmSalesOrderSlave.QtyCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.QtyPcs),
                 OfferQty = ((vmSalesOrderSlave.OfferCtn * (double)vmSalesOrderSlave.Consumption) + vmSalesOrderSlave.OfferPcs),
+                TPPrice = productTPPrice,
                 UnitPrice = vmSalesOrderSlave.UnitPrice,
                 Amount = vmSalesOrderSlave.TotalAmount,
                 Comsumption = vmSalesOrderSlave.Consumption,
