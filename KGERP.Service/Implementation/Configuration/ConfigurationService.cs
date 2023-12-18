@@ -1344,7 +1344,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             }).ToList();
         }
-        public List<object> GetEmployeesBySubzones(int companyId = 0, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0,int subZone=0)
+        public List<object> GetEmployeesBySubzones( int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0,int subZone=0)
         {
             var list = new List<object>();
               var list1 = (from t1 in _db.EmployeeServicePointMaps

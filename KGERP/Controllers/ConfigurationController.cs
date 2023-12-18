@@ -2468,7 +2468,7 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> GetEmployeeListBySubZone( int zoneId = 0, int zoneDivisionId = 0, int regionId = 0,int areaId=0,int subzoneId=0)
         {
-            var employeeList = await Task.Run(() => new SelectList(_service.CommonCustomerListBySunZones(zoneId, zoneDivisionId, regionId, areaId, subzoneId), "Value", "Text"));
+            var employeeList = await Task.Run(() => new SelectList(_service.GetEmployeesBySubzones(zoneId, zoneDivisionId, regionId, areaId, subzoneId), "Value", "Text"));
             return Json(employeeList, JsonRequestBehavior.AllowGet);
         }
 

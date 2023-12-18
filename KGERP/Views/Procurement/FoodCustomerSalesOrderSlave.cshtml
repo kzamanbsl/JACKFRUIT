@@ -202,7 +202,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Employee:</label>
-                                            @Html.DropDownListFor(model => model.SalePersonId, Model.SalesPersonList as SelectList, "==Select Employee==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.SalePersonId, Model.SalesPersonList as SelectList, "==Select Employee==", new { id = "ddlEmployeeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.SalePersonId, "", new { @class = "text-danger" })
                                         </div>
                                     </div> <div class="col-md-3">
@@ -1206,6 +1206,24 @@
                         $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                           
+                        });
+                        
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetEmployeeListBySubZone", "Configuration")",
+                datatype: "Json",
+                data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId, subzoneId: subZone },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlEmployeeId").empty();
+                        $("#ddlEmployeeId").append("<option value=''>==Select Customer==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlEmployeeId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                            
                         });
                         
