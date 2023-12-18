@@ -4378,9 +4378,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList = (up.RegionIds?.Length > 0 && up.AreaIds?.Length <= 0) ?
-                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -4457,9 +4455,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList = (up.RegionIds?.Length > 0 && up.AreaIds?.Length <= 0) ?
-                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -4529,9 +4525,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList =vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -5111,9 +5105,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList =vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -5191,9 +5183,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -5265,9 +5255,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
             {
-                vmSalesOrder.DataList = up.SubZoneIds?.Length > 0 ?
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId) && q.SalePersonId == up.EmployeeId) :
-                    vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
