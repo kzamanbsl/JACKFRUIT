@@ -697,18 +697,18 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                             <div class="box-footer">
                                 <div class="row">
-                                    
-                                        <div class="col-md-3 col-sm-3">
-                                            <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                        <div class="col-md-9 col-sm-9">
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i>Add</button>
-                                        </div>
-                                   
+
+                                    <div class="col-md-3 col-sm-3">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i>Add</button>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -731,11 +731,13 @@
 @section scripts {
 
     <script type="text/javascript">
+
         let customerPrice = null;
         let consumption = 1;
-        var normal= 0;
+        var normal = 0;
+
         $(document).ready(function () {
-            let unitPrice = 0;
+
             var orderMasterIdInit = "@Model.OrderMasterId";
 
             if (orderMasterIdInit > 0) {
@@ -829,6 +831,28 @@
                 });
             });
 
+            $("#ddlStockInfoId").change(function () {
+
+                var dealerId = $("#ddlStockInfoId").val();
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
+                    datatype: "Json",
+                    data: { dealerId: dealerId },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlCustomerId").empty();
+                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+            });
+
             $("#ddlPaymentMethodEnumFK").change(function () {
 
                 var paymethod = $("#ddlPaymentMethodEnumFK").val();
@@ -865,8 +889,6 @@
             $("#SpcDis").val(0);
             $("#disPercentage").val(0);
         });
-
-
 
 
         function makeEditble(rowId) {
@@ -974,11 +996,12 @@
             $("#totalAmount").val(0);
 
         });
+
+
         $('#ddlModalZoneId').on('change', function () {
             var zoneId = $("#ddlModalZoneId :selected").val();
 
             /*zoneDivisionChange(0, zoneId);*/
-
 
             $.ajax({
                 type: "GET",
@@ -997,6 +1020,7 @@
                 }
             });
         });
+
 
         $("#ddlModalZoneDivisionId").on('change', function () {
             var zoneId = $("#ddlModalZoneId :selected").val();
@@ -1018,8 +1042,8 @@
                 }
             });
 
-
         });
+
         $("#ddlModalRegionId").on("change", function () {
             var zoneId = $("#ddlModalZoneId :selected").val();
             var zoneDivisionId = $("#ddlModalZoneDivisionId :selected").val();
@@ -1040,6 +1064,7 @@
                 }
             });
         });
+
         $("#ddlModalAreaId").on("change", function () {
             var zoneId = $("#ddlModalZoneId :selected").val();
             var zoneDivisionId = $("#ddlModalZoneDivisionId :selected").val();
@@ -1064,8 +1089,6 @@
                     }
                 }
             });
-
-
         });
 
     </script>

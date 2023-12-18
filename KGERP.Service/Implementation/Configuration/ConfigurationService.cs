@@ -4649,6 +4649,21 @@ namespace KGERP.Service.Implementation.Configuration
             return list;
         }
 
+        public List<object> CommonCustomerListByDealerId(int dealerId)
+        {
+            var list = new List<object>();
+            if (dealerId > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true && c.ParentId == dealerId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                }
+            }
+
+            return list;
+        }
+
         public VMCommonSupplier GetRSCustomerByID(int id)
         {
             var v = (from t1 in _db.Vendors.Where(x => x.VendorId == id)
