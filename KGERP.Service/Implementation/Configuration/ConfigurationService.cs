@@ -354,7 +354,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
             else if (model.UserTypeId == (int)EnumUserType.Employee)
             {
-                int[] subZoneIds = new int[0];
+                int[] subZoneIds = Array.Empty<int>();
 
                 if (territories?.Count() > 0)
                 {
@@ -390,7 +390,7 @@ namespace KGERP.Service.Implementation.Configuration
                     var territorys = _db.SubZones.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
                     subZoneIds = territories.Select(c => c.SubZoneId).ToArray();
                 }
-                if (subZoneIds.Length > 0)
+                if (subZoneIds.Length>0)
                 {
                     var customers = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
                     var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).ToArray();
