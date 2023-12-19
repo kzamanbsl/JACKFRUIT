@@ -162,7 +162,8 @@
                                     <div class="col-md-4">
                                         <label for="message-text" class="col-form-label">Challan Date:</label>
                                         <div class="form-group">
-                                            <input name="ChallanDate" asp-for="ChallanDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Challan Date" autocomplete="off" id="txtChallanDate">
+                                            <input name="ChallanDate" asp-for="ChallanDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" readonly class=" datepicker-min" placeholder="Challan Date" autocomplete="off" id="txtChallanDate">
+                                            <button type="button" class="ui-datepicker-trigger"><i class="fa fa-calendar"></i></button> 
                                             @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -367,6 +368,17 @@
                 if ($(this).parents('form') && $(this).attr('required')) {
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }
+            });
+
+            $(".datepicker-min").datepicker({
+                dateFormat: 'dd/mm/yy',
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true,
+                minDate: new Date(2023, 11 - 1, 1)
+                //maxDate: new Date(2023, 12 - 1, 31),
+                //showOn: "button",
+                //buttonImage: '<i class="fas fa-calendar-alt"></i>'
             });
 
             $('.quantityValue').trigger('keyup');
