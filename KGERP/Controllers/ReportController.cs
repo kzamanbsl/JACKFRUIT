@@ -5269,7 +5269,7 @@ namespace KGERP.Controllers
             {
                 model.SubZoneFk = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={3}&RegionId={5}&AreaId={6}&SubZoneId={7}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.RegionId, model.AreaId, model.SubZoneFk);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={4}&RegionId={5}&AreaId={6}&SubZoneId={7}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.RegionId, model.AreaId, model.SubZoneFk);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {

@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-07T06:04:14.0047739Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-12-19T09:05:48.6094388Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -40,7 +40,7 @@
           <QueryParameter Name="@AreaId">
             <Value>=Parameters!AreaId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@SubzoneId">
+          <QueryParameter Name="@SubZoneId">
             <Value>=Parameters!SubZoneId.Value</Value>
           </QueryParameter>
         </QueryParameters>
@@ -52,36 +52,16 @@
           <DataField>VendorId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyLogo">
-          <DataField>CompanyLogo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="CustomerType">
           <DataField>CustomerType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ZoneName">
           <DataField>ZoneName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CompanyPhone">
-          <DataField>CompanyPhone</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Name">
           <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyEmail">
-          <DataField>CompanyEmail</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ContactName">
@@ -1087,7 +1067,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SecurityAmount.Value</Value>
+                                  <Value>=format(Fields!SecurityAmount.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
