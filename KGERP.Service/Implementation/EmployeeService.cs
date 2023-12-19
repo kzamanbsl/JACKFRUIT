@@ -256,7 +256,7 @@ namespace KGERP.Service.Implementation
                 BankName = employee.Bank?.Name,
                 BankBranchId = employee.BankBranchId,
                 BankBranchName = employee.BankBranch?.Name,
-                BankAccount = employee.EmployeeId,
+                BankAccount = employee.BankAccount,
                 ShiftId = employee.ShiftId,
                 ShiftName = employee.Shift?.Name,
                 GradeId = employee.GradeId,

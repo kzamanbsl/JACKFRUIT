@@ -845,24 +845,6 @@
                         }
                     }
                 });
-
-                $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                    datatype: "Json",
-                    data: { zoneId: zoneFk },
-                    success: function (data) {
-
-                        if (data) {
-                            $("#ddlStockInfoId").empty();
-                            $("#ddlStockInfoId").append("<option value=''>==Select Stock From==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-
-                        }
-                    }
-                });
             });
 
             $("#ddlPaymentMethodEnumFK").change(function () {
@@ -1162,7 +1144,31 @@
                     }
                 }
             });
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("DealerListByArea", "Configuration")",
+                datatype: "Json",
+                data:
+                {
+                    zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: 0
+                },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlStockInfoId").empty();
+                        $("#ddlStockInfoId").append("<option value=''>==Select Stock From==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlStockInfoId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+
+                    }
+                }
+            });
         });
+
+
         $("#ddlAreaFk").on("change", function () {
             var zoneId = $("#ddlZoneFk :selected").val();
             var zoneDivisionId = $("#ddlZoneDivisionFk :selected").val();
@@ -1179,9 +1185,9 @@
                         //$("#ddlSubZoneId").append("<option value=''>==Select Territory==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlSubZoneFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                           
+
                         });
-                        
+
                     }
                 }
             });
@@ -1206,9 +1212,9 @@
                         $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                           
+
                         });
-                        
+
                     }
                 }
             });
@@ -1224,9 +1230,9 @@
                         $("#ddlEmployeeId").append("<option value=''>==Select Customer==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlEmployeeId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                           
+
                         });
-                        
+
                     }
                 }
             });
@@ -1235,7 +1241,7 @@
         });
 
 
-       
+
 
     </script>
 }
