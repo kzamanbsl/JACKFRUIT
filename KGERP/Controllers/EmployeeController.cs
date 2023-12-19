@@ -76,16 +76,17 @@ namespace KGERP.Controllers
 
             EmployeeVm model = new EmployeeVm();
             model = await _employeeService.GetEmployees(filterEmployee);
-            model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
-            model.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0), "Value", "Text");
-            model.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0), "Value", "Text");
-            model.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0, filterEmployee.RegionId ?? 0), "Value", "Text");
-            model.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0, filterEmployee.RegionId ?? 0, filterEmployee.AreaId ?? 0).Where(x => (int)x.Value != 0), "Value", "Text");
+           model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
+           model.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0), "Value", "Text");
+           if (filterEmployee.RegionId > 0) model.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0), "Value", "Text");
+           if (filterEmployee.AreaId > 0) model.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0, filterEmployee.RegionId ?? 0), "Value", "Text");
+           if (filterEmployee.SubZoneId > 0) model.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(CompanyInfo.CompanyId, filterEmployee.ZoneId ?? 0, filterEmployee.ZoneDivisionId ?? 0, filterEmployee.RegionId ?? 0, filterEmployee.AreaId ?? 0).Where(x => (int)x.Value != 0), "Value", "Text");
 
             model.ZoneId = filterEmployee.ZoneId;
             model.ZoneDivisionId = filterEmployee.ZoneDivisionId;
-            model.RegionId = filterEmployee.RegionId;
-            model.AreaId = filterEmployee.AreaId;
+            if (filterEmployee.RegionId > 0) model.RegionId = filterEmployee.RegionId;
+            if (filterEmployee.AreaId > 0) model.AreaId = filterEmployee.AreaId;
+            if (filterEmployee.SubZoneId > 0) model.SubZoneId = filterEmployee.SubZoneId;
             model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             return View(model);
         }

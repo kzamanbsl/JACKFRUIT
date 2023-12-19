@@ -3630,25 +3630,25 @@ namespace KGERP.Service.Implementation.Configuration
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-            if (zoneId > 0 && zoneDivision > 0 && list.Count == 0)
-            {
-                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
-                                 && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision).ToList();
-                foreach (var x in v)
-                {
-                    list.Add(new { Text = x.Name, Value = x.VendorId });
-                }
+            //if (zoneId > 0 && zoneDivision > 0 && list.Count == 0)
+            //{
+            //    var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
+            //                     && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision).ToList();
+            //    foreach (var x in v)
+            //    {
+            //        list.Add(new { Text = x.Name, Value = x.VendorId });
+            //    }
 
-            }
-            if (zoneId > 0 && list.Count == 0)
-            {
-                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
-                                          && c.ZoneId == zoneId).ToList();
-                foreach (var x in v)
-                {
-                    list.Add(new { Text = x.Name, Value = x.VendorId });
-                }
-            }
+            //}
+            //if (zoneId > 0 && list.Count == 0)
+            //{
+            //    var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true
+            //                              && c.ZoneId == zoneId).ToList();
+            //    foreach (var x in v)
+            //    {
+            //        list.Add(new { Text = x.Name, Value = x.VendorId });
+            //    }
+            //}
             if (zoneId == 0 && zoneDivision == 0 && regionId == 0 && areaId == 0 && list.Count == 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
