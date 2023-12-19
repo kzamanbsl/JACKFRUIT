@@ -97,8 +97,8 @@
                                                         @*@Html.ActionLink("Delivery Challan", "POwiseGoodsReceived", new { companyId = item.CompanyFK }, new { @title = "You can see all goods quantity that already Delivered to customer", @class = "InlineBtn", @target = "_blank" })
                                                             <br />*@
                                                         @Html.ActionLink("Invoices", "CommonDeportOrderMasterList", new { companyId = item.CompanyFK, deportId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
-                                                        <br />
-                                                        @Html.ActionLink("Collection", "DeportOrderCollectionSlave", new { companyId = item.CompanyFK, deportId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        @*<br />
+                                                        @Html.ActionLink("Collection", "DeportOrderCollectionSlave", new { companyId = item.CompanyFK, deportId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })*@
                                                         <br />
                                                         @Html.ActionLink("Ledger", "InvoiceWiseDeportLedgerOpening", new { companyId = item.CompanyFK, deportId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
                                                     </td>

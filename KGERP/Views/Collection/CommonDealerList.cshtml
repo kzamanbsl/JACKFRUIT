@@ -96,8 +96,8 @@
                                                             <br />*@
 
                                                         @Html.ActionLink("Invoices", "CommonDealerOrderMasterList", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
-                                                        <br />
-                                                        @Html.ActionLink("Collection", "DealerOrderCollectionSlave", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })
+                                                        @*<br />
+                                                        @Html.ActionLink("Collection", "DealerOrderCollectionSlave", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @class = "InlineBtn", @target = "_blank" })*@
                                                         <br />
                                                         @Html.ActionLink("Ledger", "InvoiceWiseDealerLedgerOpening", new { companyId = item.CompanyFK, dealerId = item.ID }, new { @target = "_blank", @class = "InlineBtn" })
 

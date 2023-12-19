@@ -7,8 +7,3 @@
 
 Date: 17-12-2023
 ================
- *OrderDetail
-	+TPPrice
-
- *OrderDetailHistory
-	+TPPrice
