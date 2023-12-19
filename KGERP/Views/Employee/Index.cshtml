@@ -79,7 +79,14 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+
+                                        <label></label>
+                                        <button style="margin-top:25px" type="button" class="btn btn-secondary" onclick="resetDdl()">Reset</button>
+                                    </div>
+                                </div>
                                 <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
@@ -234,71 +241,108 @@
     };
 
     $(document).ready(function () {
-       
+
+
 
     });
     $('#ddlZone').change(function () {
         var zoneId = $("#ddlZone").val();
 
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("GetZoneDivisionList", "Configuration")",
-            datatype: "Json",
-            data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId },
-            success: function (data) {
-                var items = "";
-                if (data) {
-                    $("#ddlZoneDivision").empty();
-                    $(data).each(function (index, item) {
-                        $("#ddlZoneDivision").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                    });
+        if (zoneId == '') {
+            $('#ddlZoneDivision').val('').trigger('change');
+            return false;
+        } else {
 
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetZoneDivisionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId },
+                success: function (data) {
+                    var items = "";
+                    if (data) {
+                        $("#ddlZoneDivision").empty();
+                        $("#ddlZoneDivision").append("<option value=''>==Select Division==</option>");
+                        $(data).each(function (index, item) {
+                            if (item.Value > 0) {
+                                $("#ddlZoneDivision").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+
+                            }
+                        });
+
+                    }
                 }
-            }
+            });
+        }
         });
-    });
-
+    
+   
     $('#ddlZoneDivision').change(function () {
 
         var zoneId = $("#ddlZone").val();
         var zoneDivisonId = $("#ddlZoneDivision").val();
 
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("GetRegionList", "Configuration")",
-            datatype: "Json",
-            data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisonId },
-            success: function (data) {
-                var items = "";
-                if (data) {
-                    $("#ddlRegion").empty();
-                    $(data).each(function (index, item) {
-                        $("#ddlRegion").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                    });
+        if (zoneDivisonId == '') {
+            $('#ddlRegion').val('').trigger('change');
+            return false;
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetRegionList", "Configuration")",
+                datatype: "Json",
+                data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisonId },
+                success: function (data) {
+                    var items = "";
+                    if (data) {
+                        $("#ddlRegion").empty();
+                        $("#ddlRegion").append("<option value=''>==Select Region==</option>");
 
+                        $(data).each(function (index, item) {
+                            if (item.Value > 0)
+                            {
+                                $("#ddlRegion").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+
+                            }
+                        });
+
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
     });
 
     $('#ddlRegion').change(function () {
         var zoneValue = $("#ddlZone").val();
         var zoneDivisonId = $("#ddlZoneDivision").val();
         var regionValue = $("#ddlRegion").val();
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("GetAreaList", "Configuration")",
-            datatype: "Json",
-            data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue },
-            success: function (data) {
-                if (data) {
-                    $("#ddlArea").empty();
-                    $(data).each(function (index, item) {
-                        $("#ddlArea").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                    });
+
+        if (regionValue == '') {
+            $('#ddlArea').val("").trigger('change');
+
+            return false;
+        } else {
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAreaList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlArea").empty();
+                        $("#ddlArea").append("<option value=''>==Select Area==</option>");
+                        $(data).each(function (index, item) {
+                            if (item.Value > 0) {
+                                $("#ddlArea").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
 
     });
 
@@ -308,23 +352,42 @@
       var regionValue = $("#ddlRegion").val();
         var areaValue = $("#ddlArea").val();
 
-      $.ajax({
-          type: "GET",
-          url: "@Url.Action("GetSubZoneList", "Configuration")",
-          datatype: "Json",
-          data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue, areaId: areaValue },
-          success: function (data) {
-              if (data) {
-                  $("#ddlSubZone").empty();
-                  //$("#ddlCommon_TerritoryFk").append("<option value=''>==Select Territory==</option>");
-                  $(data).each(function (index, item) {
-                          $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                  });
 
-              }
-          }
-      });
-  });
+        if (areaValue == '') {
+            $('#ddlSubZone').val("").trigger('change');
+            return false;
+        } else {
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetSubZoneList", "Configuration")",
+                datatype: "Json",
+                data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue, areaId: areaValue },
+                success: function (data) {
+                    if (data) {
+                        $("#ddlSubZone").empty();
+                        $("#ddlSubZone").append("<option value=''>==Select Territory==</option>");
+                        $(data).each(function (index, item) {
+                            if (item.Value > 0) {
+                                $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+    });
+
+    function resetDdl()
+    {
+        $('#ddlZone').val("").trigger('change');
+        
+        //$('#ddlRegion').val("").trigger('change');
+        //$('#ddlArea').val("").trigger('change');
+        //$('#ddlSubZone').val("").trigger('change');
+    }
 </script>
 
 }
