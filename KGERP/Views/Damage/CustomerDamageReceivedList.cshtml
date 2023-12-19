@@ -24,11 +24,11 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">
-            @*<a href="~/Procurement/DealerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
+        @*<li class="active">
+            <a href="~/Procurement/DealerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
                 <span class="fs fs-plus"></span> New Sales Invoice
-            </a>*@
-        </li>
+            </a>
+        </li>*@
     </ol>
 </section>
 
@@ -87,8 +87,8 @@
                                     <tr>
                                         <th>SL</th>
                                         <th>Date</th>
-                                        <th>Dealer</th>
-                                        <th>Customer</th>
+                                        <th>From Customer</th>
+                                        <th>To Dealer</th>\
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
@@ -112,8 +112,8 @@
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.DealerName</td>
                                             <td>@item.CustomerName</td>
+                                            <td>@item.DealerName</td>
                                             <td>@item.StatusName</td>
                                             <td>
                                                 @if (item.StatusId == EnumDamageStatus.Received || item.StatusId == EnumDamageStatus.Submitted)

@@ -570,9 +570,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
             {
-                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
-                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0) && q.CollectedById == up.EmployeeId) :
-                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -707,15 +705,13 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             if (up.UserTypeId == (int)EnumUserType.Deport)
             {
-                damageMasterModel.DataList = up.DeportIds?.Length > 0  && up.DealerIds?.Length > 0 ?
+                damageMasterModel.DataList = up.DeportIds?.Length > 0 && up.DealerIds?.Length > 0 ?
                     damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0)) :
                     damageMasterModel.DataList.Where(q => q.DamageMasterId <= 0);
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
             {
-                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
-                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0) && q.CollectedById == up.EmployeeId) :
-                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -725,7 +721,6 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             return damageMasterModel;
         }
-
         public async Task<DamageMasterModel> GetCustomerDamageMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             DamageMasterModel damageMasterModel = new DamageMasterModel();
@@ -1156,9 +1151,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                damageMasterModel.DataList = up.RegionIds?.Length > 0 ?
-                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0) && q.CollectedById == up.EmployeeId) :
-                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0));
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -1296,9 +1289,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DealerIds?.Length > 0)
             {
-                damageMasterModel.DataList = up.SubZoneIds?.Length > 0 ?
-                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0) && q.CollectedById == up.EmployeeId) :
-                    damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => up.DealerIds.Contains(q.FromDealerId ?? 0));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -1497,9 +1488,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                damageMasterModel.DataList = up.RegionIds?.Length > 0 ?
-                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0) && q.CollectedById == up.EmployeeId) :
-                    damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0));
+                damageMasterModel.DataList = damageMasterModel.DataList.Where(q => up.DeportIds.Contains(q.FromDeportId ?? 0));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
