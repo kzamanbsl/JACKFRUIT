@@ -121,7 +121,17 @@
                                                 {
                                                     <a id="@item.DamageMasterId" onclick=" makeEditble(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#editDamageMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                    <a target="_blank" href="~/Damage/DamageMasterSlaveCustomer?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    
+                                                    if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
+                                                    {
+                                                        <a target="_blank" href="~/Damage/SRDamageMasterSlaveCustomer?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a target="_blank" href="~/Damage/DamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    }
+
                                                 }
                                                 else if (item.StatusId == EnumDamageStatus.Received)
                                                 {

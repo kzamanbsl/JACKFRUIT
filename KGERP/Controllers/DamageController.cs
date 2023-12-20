@@ -82,6 +82,7 @@ namespace KGERP.Controllers
 
             DamageMasterModel damageMasterModel = new DamageMasterModel();
             damageMasterModel = await _service.GetDamageMasterListCustomer(companyId, fromDate, toDate, vStatus);
+            damageMasterModel.UserDataAccessModel = await configurationService.GetUserDataAccessModelByEmployeeId();
 
             damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
