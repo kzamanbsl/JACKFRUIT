@@ -285,8 +285,8 @@
                                         {
 
                                             <tr>
-                                                @(totalPrice+=@item.TotalPrice)
-                                                <td style="padding:5px">
+                                                
+                                                <td style="padding:5px" @(totalPrice+=@item.TotalPrice)>
                                                     @(++sl)
                                                 </td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>

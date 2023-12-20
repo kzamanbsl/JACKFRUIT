@@ -646,6 +646,8 @@ namespace KGERP.Controllers
             {
                 vStatus = -1;
             }
+            damageMasterModel.UserDataAccessModel = await configurationService.GetUserDataAccessModelByEmployeeId();
+
             damageMasterModel.StatusId = (EnumDamageStatus)vStatus;
             damageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
             damageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
@@ -669,7 +671,62 @@ namespace KGERP.Controllers
 
         #endregion
 
-     
+        #region 2.2 Depo To Azlan Damage
+        [HttpGet]
+        public async Task<ActionResult> DptToAzlanDamageMasterSlave(int companyId = 0, int damageMasterId = 0)
+        {
+            DamageMasterModel demageMasterModel = new DamageMasterModel();
+
+            if (damageMasterId == 0)
+            {
+                demageMasterModel.CompanyFK = companyId;
+                demageMasterModel.StatusId = (int)EnumDamageStatus.Draft;
+            }
+            else
+            {
+                demageMasterModel = await _service.GetDamageMasterDetailDepo(companyId, damageMasterId);
+
+            }
+            //demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.UserDataAccessModel = await configurationService.GetUserDataAccessModelByEmployeeId();
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
+            demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            if (demageMasterModel.UserDataAccessModel.DeportIds?.Length > 0)
+            {
+                demageMasterModel.CustomerList = await configurationService.GetDeportListByDeportIds(demageMasterModel.UserDataAccessModel.DeportIds);
+                demageMasterModel.FromDeportId = demageMasterModel.UserDataAccessModel.DeportIds[0];
+            }
+            return View(demageMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DptToAzlanDamageMasterSlave(DamageMasterModel demageMasterModel)
+        {
+
+            if (demageMasterModel.ActionEum == ActionEnum.Add)
+            {
+                if (demageMasterModel.DamageMasterId == 0)
+                {
+                    demageMasterModel.DamageMasterId = await _service.DamageMasterAddDepo(demageMasterModel);
+
+                }
+                await _service.DamageDetailAddDepo(demageMasterModel);
+            }
+            else if (demageMasterModel.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DamageDetailEditDepo(demageMasterModel);
+            }
+            return RedirectToAction(nameof(DptToAzlanDamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DptToAzlanSubmitDamageMaster(DamageMasterModel demageMasterModel)
+        {
+            demageMasterModel.DamageMasterId = await _service.SubmitDamageMasterDepo(demageMasterModel.DamageMasterId);
+            return RedirectToAction(nameof(DptToAzlanDamageMasterSlave), new { companyId = demageMasterModel.CompanyFK });
+        }
+
+        #endregion
         #endregion
 
         #region 3. Factory Receive Circle

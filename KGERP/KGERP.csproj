@@ -5639,6 +5639,7 @@
     <Content Include="Views\Procurement\DptToDealerSalesOrderSlave.cshtml" />
     <Content Include="Views\Damage\SRDamageMasterSlaveCustomer.cshtml" />
     <Content Include="Views\Damage\DlrToDptDamageMasterSlave.cshtml" />
+    <Content Include="Views\Damage\DptToAzlanDamageMasterSlave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

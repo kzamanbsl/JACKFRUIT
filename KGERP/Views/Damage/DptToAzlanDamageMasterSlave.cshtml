@@ -23,22 +23,22 @@
         @if (Model.DamageMasterId > 0)
         {
             <span>
-                Dealer Damage Entry
+                Depo To Azlan Damage Entry
             </span>
         }
         else
         {
-    <span>
-        Dealer Damage Entry
-    </span>
+            <span>
+                Depo To Azlan Damage Entry
+            </span>
         }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Dealer Damage Entry</li>
+        <li class="active">Damage</li>
     </ol>
 </section>
-@using (Html.BeginForm("DamageMasterSlave", "Damage", FormMethod.Post, new { id = "damageMasterSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DptToAzlanDamageMasterSlave", "Damage", FormMethod.Post, new { id = "damageMasterSlaveDepoFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -53,6 +53,7 @@
                 @*@Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })*@
                 @*<span id="hiddenUnitPrice" hidden="hidden"></span>*@
                 <div class="box-danger">
+
                     <div class="box-body">
                         @if (Model.DamageMasterId > 0)
                         {
@@ -69,29 +70,7 @@
                                         <td>@Model.StatusName</td>
                                     </tr>
                                     <tr>
-                                        <th>From Dealer </th>
-                                        <th>:</th>
-                                        <td>@Model.DealerName</td>
-
-                                        <th>Dealer Phone</th>
-                                        <th>:</th>
-                                        <td>@Model.DealerPhone</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Dealer Email</th>
-                                        <th>:</th>
-                                        <td>@Model.DealerEmail</td>
-                                        <th>Dealer Address</th>
-                                        <th>:</th>
-                                        <td>@Model.DealerAddress</td>
-                                    </tr>
-                                    <tr>
-                                        <th>To Store House</th>
-                                        <th>:</th>
-                                        <td>@Model.StockInfoName</td>
-                                    </tr>
-                                    <tr>
-                                        <th>To Depo</th>
+                                        <th>From Depo</th>
                                         <th>:</th>
                                         <td>@Model.DeportName</td>
 
@@ -106,6 +85,11 @@
                                         <th>Depo Address</th>
                                         <th>:</th>
                                         <td>@Model.DeportAddress</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Store House</th>
+                                        <th>:</th>
+                                        <td>@Model.StockInfoName</td>
                                     </tr>
 
                                     <tr>
@@ -134,45 +118,29 @@
                                             @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-md-3">
+                                    @*<div class="col-md-3">
                                         <div class="form-group">
                                             <label>Zone:</label>
                                             @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>From Dealer:</label>
-                                            @Html.DropDownListFor(model => model.FromDealerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.FromDealerId, "", new { @class = "text-danger" })
+                                            <label>From Deport:</label>
+                                            @Html.DropDownListFor(model => model.FromDeportId, Model.CustomerList as SelectList, "==Select Deport==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.FromDeportId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Damage To:</label>
-                                            @Html.DropDownListFor(model => model.DamageToId, Model.EnumStockInfoTypeList as SelectList, "==Select Sales From==", new { id = "ddlDealerDamageToFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DamageToId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3" id="toDepoId" style="display:none;">
-                                        <div class="form-group">
-                                            <label>To Depo:</label>
-                                            @Html.DropDownListFor(model => model.ToDeportId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlToDeportId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ToDeportId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 " id="wareHouseId" style="display:none;">
+                                    <div class="col-md-3 " id="wareHouseId">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">To Warehouse:</label>
-                                            @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "form-control searchingDropdown", style = "width:100%" , required = "required" })
+                                            @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -204,8 +172,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Damage Type:</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.DealerDamageTypeId, Model.DamageTypeList as SelectList, "==Select Type==", new { id = "ddlDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.DealerDamageTypeId, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.DetailModel.DepoDamageTypeId, Model.DamageTypeList as SelectList, "==Select Type==", new { id = "ddlDepoDamageTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DepoDamageTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -221,8 +189,8 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Dealer Price:</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Dealer Price" })
+                                            <label>Deport Price:</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Deport Price" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -273,7 +241,7 @@
                                             <th style="padding:5px;text-align:left;">Product</th>
                                             <th style="padding:5px;text-align:left;">Damage Type</th>
                                             <th style="padding:5px;text-align:center;">Quantity</th>
-                                            <th style="padding:5px;text-align:right;">Dealer Price</th>
+                                            <th style="padding:5px;text-align:right;">Deport Price</th>
                                             <th style="padding:5px;text-align:right;">Total Price</th>
 
                                             @if (Model.StatusId == (int)EnumDamageStatus.Draft)
@@ -287,13 +255,12 @@
                                         {
 
                                             <tr>
-                                                
-                                                <td style="padding:5px" @(totalPrice+=@item.TotalPrice)>
-                                                    @(++sl)
-                                                </td>
+                                               
+                                                <td style="padding:5px"  @(totalPrice+=item.TotalPrice)>
+                                                 @(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ProductName</td>
-                                                <td style="padding:5px;text-align:left;">@item.DamageTypeName</td>
-                                                <td style="padding:5px;text-align:center;">@(String.Format("{0:0.00}", item.DamageInCtn) + " Ctn and " +String.Format("{0:0.00}", item.DamageInPcs)+ " Pcs")</td>
+                                                <td style="padding:5px;text-align:left;">@item.DepoDamageTypeName</td>
+                                                <td style="padding:5px;text-align:center;">@(item.DamageInCtn+" Ctn and "+item.DamageInPcs+" Pcs")</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 @{ if (Model.StatusId == (int)EnumDamageStatus.Draft)
@@ -309,15 +276,12 @@
                                         }
                                     </tbody>
 
-                                    <tfoot>
+                                    <tr>
+                                        <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
+                                        <th id="grandTotalPrice" style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))</th>
+                                        <th></th>
+                                    </tr>
 
-                                        <tr>
-                                            
-                                            <th style="padding:5px;text-align:right;" colspan="5">Grand Total:</th>
-                                            <th id="grandTotalPrice" style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice)))</th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         }
@@ -352,7 +316,7 @@
     </section>
 }
 
-@using (Html.BeginForm("SubmitDamageMaster", "Damage", FormMethod.Post, new { id = "submitDamageMastersFromSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DptToAzlanSubmitDamageMaster", "Damage", FormMethod.Post, new { id = "submitDepoDamageMastersFromSlaveFormId", @class = "formValidator" }))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -389,7 +353,7 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteDamageDetailById", "Damage", FormMethod.Post, new { id = "deleteDamageSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteDamageDetailByIdDepo", "Damage", FormMethod.Post, new { id = "deleteDepoDamageSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -488,36 +452,15 @@
 
                             //alert(response.responseText);
                         }
-             });
-
-            $("#ddlDealerDamageToFk").change(function () {
-                var stockInfoTypeId = $("#ddlDealerDamageToFk").val();
-                var deport = @((int)EnumDealerDamageTo.Deport);
-
-                if (Number(stockInfoTypeId) == deport) {
-                    document.getElementById('toDepoId').style.display = 'block';
-                    document.getElementById('wareHouseId').style.display = 'none';
-
-                    // Make the "To Depo" dropdown required
-                    $("#ddlToDeportId").prop("required", true);
-
-                    // Remove the "required" attribute from the "To Warehouse" dropdown
-                    $("#ddlStockInfoId").prop("required", false);
-                } else {
-                    document.getElementById('toDepoId').style.display = 'none';
-                    document.getElementById('wareHouseId').style.display = 'block';
-
-                    // Make the "To Warehouse" dropdown required
-                    $("#ddlStockInfoId").prop("required", true);
-
-                    // Remove the "required" attribute from the "To Depo" dropdown
-                    $("#ddlToDeportId").prop("required", false);
-                }
-            });
+                    });
 
 
 
-             $("#ddlZoneFk").change(function () {
+
+
+
+
+            $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
                $.ajax({
@@ -557,7 +500,6 @@
                 });
             })
 
-
             $("#ddlPaymentMethodEnumFK").change(function () {
 
                 var paymethod = $("#ddlPaymentMethodEnumFK").val();
@@ -576,7 +518,7 @@
             $.ajax({
 
                   type: "POST",
-                  url: "@Url.Action("SingleDamageDetails", "Damage")",
+                  url: "@Url.Action("SingleDamageDetailsDepo", "Damage")",
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
@@ -590,7 +532,7 @@
                       $("#txtProductName").val(data.ProductId).trigger('change');
                       $("#ddlRProductFK").val(data.ProductId);
                       $("#txtDamageQuantity").val(data.DamageQty);
-                      $("#ddlDamageTypeId").val(data.DealerDamageTypeId).trigger('change');
+                      $("#ddlDepoDamageTypeId").val(data.DepoDamageTypeId).trigger('change');
                       $("#hidDamageDetailId").val(data.DamageDetailId);
                       $("#txtremarks").text(data.Remarks);
                       $('.txtUnitName').text(data.UnitName);
@@ -646,7 +588,7 @@
 
                                /* var customerTypeFK = $("#hidCustomerTypeFk").val();*/
                                 if (unitPrice == 0) {
-                                    $("#txtUnitPrice").val(data.DealerPrice);
+                                    $("#txtUnitPrice").val(data.DeportPrice);
 
                                 } else {
                                     $("#txtUnitPrice").val(unitPrice);
