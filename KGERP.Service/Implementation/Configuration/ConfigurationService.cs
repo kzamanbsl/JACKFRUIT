@@ -5475,7 +5475,26 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Common Deport
+        public async Task<SelectList> GetDeportListByDeportIds(int[] deportIds)
+        {
+            List<object> deportList = new List<object>();
 
+            if (deportIds?.Length <= 0 || deportIds == null)
+            {
+                return new SelectList(deportList, "Value", "Text");
+            }
+
+            await Task.Run(() => (_db.Vendors.Where(x => x.IsActive && x.VendorTypeId == (int)Provider.Deport && deportIds.Contains(x.VendorId)))
+            .ToList()
+            .ForEach(x => deportList.Add(new
+            {
+                Value = x.VendorId,
+                Text = x.Name
+            })));
+
+            var deportSelectList = new SelectList(deportList, "Value", "Text");
+            return deportSelectList;
+        }
         public async Task<VMCommonSupplier> GetDeportById(int deportId)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();

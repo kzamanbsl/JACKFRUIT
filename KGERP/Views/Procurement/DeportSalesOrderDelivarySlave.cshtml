@@ -17,7 +17,21 @@
         max-width: 100%;
     }
 </style>
+@*<style>
+    .ui-datepicker-trigger {
+        background: none;
+        border: none;
+        padding: 0;
+        margin-left: 5px;
+        cursor: pointer;
+    }
 
+        .ui-datepicker-trigger::after {
+            content: '\f073'; /* Unicode character for calendar icon from Font Awesome */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+</style>*@
 <section class="content-header">
     <h1>
         @if (Model.OrderMasterId > 0)
@@ -375,10 +389,10 @@
                 todayHighlight: true,
                 autoclose: true,
                 clearBtn: true,
-                minDate: new Date(2023, 11 - 1, 1)
-                //maxDate: new Date(2023, 12 - 1, 31),
-                //showOn: "button",
-                //buttonImage: '<i class="fas fa-calendar-alt"></i>'
+                minDate: new Date(2023, 11 - 1, 1),
+                maxDate: new Date(2023, 12 - 1, 31),
+            //    showOn: "button",
+            //    buttonImage: `<button type="button" class="ui-datepicker-trigger"><i class="fa fa-calendar"></i></button>`
             });
 
             $('.quantityValue').trigger('keyup');

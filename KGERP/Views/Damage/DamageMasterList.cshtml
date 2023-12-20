@@ -123,11 +123,18 @@
                                                 {
                                                     <a id="@item.DamageMasterId" onclick=" makeEditble(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#editDamageMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                    <a target="_blank" href="~/Damage/DamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId"  title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
+                                                    {
+                                                        <a target="_blank" href="~/Damage/DlrToDptDamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a target="_blank" href="~/Damage/DamageMasterSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    }
                                                 }
                                                 else if (item.StatusId == EnumDamageStatus.Received && item.ToDeportId != null && item.ToStockInfoId == null)
                                                 {
-                                                    <a target="_blank" href="~/Damage/DealerDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId"  title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a target="_blank" href="~/Damage/DealerDamageReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.DamageMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
                                                 }
                                                 else if (item.StatusId == EnumDamageStatus.Received && item.ToDeportId == null && item.ToStockInfoId != null)
@@ -245,7 +252,7 @@
                         <div class="col-md-3 " id="wareHouseId" style="display:none;">
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">To Warehouse:</label>
-                                @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new {id="ddlToStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.DropDownListFor(model => model.ToStockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { id = "ddlToStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.ToStockInfoId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -619,7 +626,7 @@
 
 
         function DeportDropdown(deportId, zoneFk) {
-            
+
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",

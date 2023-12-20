@@ -208,6 +208,66 @@ namespace KGERP.Controllers
         }
         #endregion
 
+        #region 0.3 SR Damage Entry
+        [HttpGet]
+        public async Task<ActionResult> SRDamageMasterSlaveCustomer(int companyId = 0, int damageMasterId = 0)
+        {
+            DamageMasterModel demageMasterModel = new DamageMasterModel();
+
+            if (damageMasterId == 0)
+            {
+                demageMasterModel.CompanyFK = companyId;
+                demageMasterModel.StatusId = (int)EnumDamageStatus.Draft;
+            }
+            else
+            {
+                demageMasterModel = await _service.GetDamageMasterDetailCustomer(companyId, damageMasterId);
+
+            }
+            //demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
+
+            demageMasterModel.UserDataAccessModel = await configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (demageMasterModel.UserDataAccessModel.DealerIds?.Length > 0)
+            {
+                demageMasterModel.StockInfoList = await configurationService.GetDealerListByDealerIds(demageMasterModel.UserDataAccessModel.DealerIds);
+                demageMasterModel.CustomerList = new SelectList( configurationService.CommonCustomerListByDealerId(demageMasterModel.UserDataAccessModel.DealerIds[0]), "Value", "Text");
+                demageMasterModel.ToDealerId = demageMasterModel.UserDataAccessModel.DealerIds[0];
+            }
+            return View(demageMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SRDamageMasterSlaveCustomer(DamageMasterModel demageMasterModel)
+        {
+
+            if (demageMasterModel.ActionEum == ActionEnum.Add)
+            {
+                if (demageMasterModel.DamageMasterId == 0)
+                {
+                    demageMasterModel.DamageMasterId = await _service.DamageMasterAddCustomer(demageMasterModel);
+
+                }
+                await _service.DamageDetailAdd(demageMasterModel);
+            }
+            else if (demageMasterModel.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DamageDetailEdit(demageMasterModel);
+            }
+            return RedirectToAction(nameof(SRDamageMasterSlaveCustomer), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> SRSubmitDamageMasterCustomer(DamageMasterModel demageMasterModel)
+
+
+        {
+            demageMasterModel.DamageMasterId = await _service.SubmitDamageMaster(demageMasterModel.DamageMasterId);
+            return RedirectToAction(nameof(SRDamageMasterSlaveCustomer), new { companyId = demageMasterModel.CompanyFK });
+        }
+
+        #endregion 
         #endregion
 
         #region 1. Dealer Damage Circle
@@ -315,6 +375,7 @@ namespace KGERP.Controllers
 
             DamageMasterModel damageMasterModel = new DamageMasterModel();
             damageMasterModel = await _service.GetDamageMasterList(companyId, fromDate, toDate, vStatus);
+            damageMasterModel.UserDataAccessModel = await configurationService.GetUserDataAccessModelByEmployeeId();
 
             damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -344,7 +405,73 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.2  Dealer Damage Received Circle
+        #region 1.2 Dealer To Deport Damage Entry
+        [HttpGet]
+        public async Task<ActionResult> DlrToDptDamageMasterSlave(int companyId = 0, int damageMasterId = 0)
+        {
+            DamageMasterModel demageMasterModel = new DamageMasterModel();
+
+            if (damageMasterId == 0)
+            {
+                demageMasterModel.CompanyFK = companyId;
+                demageMasterModel.StatusId = (int)EnumDamageStatus.Draft;
+            }
+            else
+            {
+                demageMasterModel = await _service.GetDamageMasterDetail(companyId, damageMasterId);
+
+            }
+            //demageMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            //demageMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            demageMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
+            demageMasterModel.UserDataAccessModel = await configurationService.GetUserDataAccessModelByEmployeeId();
+
+            if (demageMasterModel.UserDataAccessModel.DealerIds?.Length > 0)
+            {
+                //dealer List 
+                demageMasterModel.CustomerList = await configurationService.GetDealerListByDealerIds(demageMasterModel.UserDataAccessModel.DealerIds);
+                demageMasterModel.FromDealerId = demageMasterModel.UserDataAccessModel.DealerIds[0];
+            }    
+            if (demageMasterModel.UserDataAccessModel.DeportIds?.Length > 0)
+            {
+                demageMasterModel.StockInfoList = await configurationService.GetDeportListByDeportIds(demageMasterModel.UserDataAccessModel.DeportIds); 
+            }
+
+            return View(demageMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DlrToDptDamageMasterSlave(DamageMasterModel demageMasterModel)
+        {
+
+            if (demageMasterModel.ActionEum == ActionEnum.Add)
+            {
+                if (demageMasterModel.DamageMasterId == 0)
+                {
+                    demageMasterModel.DamageMasterId = await _service.DamageMasterAdd(demageMasterModel);
+
+                }
+                await _service.DamageDetailAdd(demageMasterModel);
+            }
+            else if (demageMasterModel.ActionEum == ActionEnum.Edit)
+            {
+                await _service.DamageDetailEdit(demageMasterModel);
+            }
+            return RedirectToAction(nameof(DlrToDptDamageMasterSlave), new { companyId = demageMasterModel.CompanyFK, damageMasterId = demageMasterModel.DamageMasterId });
+        }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult> DlrToDptSubmitDamageMaster(DamageMasterModel demageMasterModel)
+        {
+            demageMasterModel.DamageMasterId = await _service.SubmitDamageMaster(demageMasterModel.DamageMasterId);
+            return RedirectToAction(nameof(DlrToDptDamageMasterSlave), new { companyId = demageMasterModel.CompanyFK });
+        }
+
+        #endregion
+
+        #region 1.3  Dealer Damage Received Circle
 
         [HttpGet]
         public async Task<ActionResult> DealerDamageReceivedSlave(int companyId = 0, int damageMasterId = 0)
