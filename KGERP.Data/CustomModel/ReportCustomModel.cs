@@ -85,6 +85,8 @@ namespace KGERP.Data.CustomModel
 
         [DisplayName("Product")]
         public int? ProductId { get; set; }
+        public int? DeportId { get; set; }
+        public int? DealerId { get; set; }
         public int? CustomerId { get; set; }
         public int? StockInfoTypeId { get; set; }
         public int SalaryTag { get; set; } = 0;
@@ -153,6 +155,8 @@ namespace KGERP.Data.CustomModel
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());
         public SelectList AreaList { get; set; } = new SelectList(new List<object>());
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
+        public SelectList DeportList { get; set; } = new SelectList(new List<object>());
+        public SelectList DealerList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> AttendanceStatus
         {

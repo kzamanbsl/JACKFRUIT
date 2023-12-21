@@ -6,7 +6,7 @@
 </div>
 <br />
 
-@using (Html.BeginForm("DeportProductStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+@using (Html.BeginForm("DeportDamageStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
 {
 
     @Html.AntiForgeryToken()
@@ -39,8 +39,8 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label>Deport:</label>
-                @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Deport==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -60,7 +60,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Subcategory:</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, "== Select Subcategory ==", new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,7 +69,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Product:</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "== Select Product ==", new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -114,10 +114,10 @@
             success: function (data) {
 
                 if (data) {
-                    $("#ddlCustomerId").empty();
-                    $("#ddlCustomerId").append("<option value=''>==Select Deport==</option>");
+                    $("#ddlDeportId").empty();
+                    $("#ddlDeportId").append("<option value=''>==Select Deport==</option>");
                     $(data).each(function (index, item) {
-                        $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        $("#ddlDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                     });
 
                 }
@@ -152,23 +152,26 @@
         $("#ddlCommonProductSubCategoryFk").change(function () {
 
             var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetCommonProduct", "WareHouse")",
-                datatype: "Json",
-                data: { id: productSubCategoryFk },
-                success: function (data) {
-                    var items = "";
-                    if (data) {
-                        $("#ddlCommonProductFk").empty();
-                        $("#ddlCommonProductFk").append("<option value=''>==Select Item==</option>");
-                        $(data).each(function (index, item) {
-                            $("#ddlCommonProductFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        });
+            if (productSubCategoryFk != (null | 0))
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetCommonProduct", "WareHouse")",
+                    datatype: "Json",
+                    data: { id: productSubCategoryFk },
+                    success: function (data) {
+                        var items = "";
+                        if (data) {
+                            $("#ddlCommonProductFk").empty();
+                            $("#ddlCommonProductFk").append("<option value=''>==Select Item==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlCommonProductFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
 
+                        }
                     }
-                }
-            });
+                });
+            }
         });
 
     </script>
