@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-23T08:54:01.7415408Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-12-21T04:55:02.9318390Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -164,7 +164,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   <Width>0.6243in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.54168in</Width>
+                  <Width>1.42293in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.44792in</Width>
@@ -1014,9 +1014,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
             </TablixRowHierarchy>
             <DataSetName>ProductListDSet</DataSetName>
             <Top>0.0625in</Top>
-            <Left>0.97375in</Left>
+            <Left>0.94875in</Left>
             <Height>0.5in</Height>
-            <Width>7.19512in</Width>
+            <Width>7.07638in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1027,7 +1027,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Height>0.66667in</Height>
         <Style />
       </Body>
-      <Width>8.26679in</Width>
+      <Width>8.21471in</Width>
       <Page>
         <PageHeader>
           <Height>1.14097in</Height>
@@ -1039,7 +1039,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Value>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</Value>
               <Sizing>FitProportional</Sizing>
               <Top>0.02215in</Top>
-              <Left>0.97097in</Left>
+              <Left>0.94597in</Left>
               <Height>1.03938in</Height>
               <Width>1.01458in</Width>
               <ToolTip>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</ToolTip>
@@ -1111,7 +1111,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Customer List</Value>
+                      <Value>Product List</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1127,7 +1127,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox26</rd:DefaultName>
               <Top>0.02215in</Top>
-              <Left>1.98556in</Left>
+              <Left>1.96056in</Left>
               <Height>1.03938in</Height>
               <Width>4.8354in</Width>
               <ZIndex>1</ZIndex>
@@ -1170,7 +1170,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
               <Top>0.02215in</Top>
-              <Left>6.82095in</Left>
+              <Left>6.79595in</Left>
               <Height>0.22917in</Height>
               <Width>1.34792in</Width>
               <ZIndex>2</ZIndex>

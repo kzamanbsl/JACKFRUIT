@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-19T09:05:48.6094388Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-12-21T04:42:54.9470692Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -226,7 +226,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   <Width>1.44279in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.36507in</Width>
+                  <Width>1.22508in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.2571in</Width>
@@ -241,7 +241,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   <Width>0.85946in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.24487in</Width>
+                  <Width>1.1407in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.9375in</Width>
@@ -1164,7 +1164,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
             <Top>0.10292in</Top>
             <Left>0.99751in</Left>
             <Height>0.4625in</Height>
-            <Width>10.46128in</Width>
+            <Width>10.21712in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1318,7 +1318,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Height>1.63in</Height>
         <Style />
       </Body>
-      <Width>11.48501in</Width>
+      <Width>11.45879in</Width>
       <Page>
         <PageHeader>
           <Height>1.14167in</Height>
@@ -1387,7 +1387,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Deport List</Value>
+                      <Value>Dealer List</Value>
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1445,7 +1445,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
               <Top>0.01389in</Top>
-              <Left>9.96377in</Left>
+              <Left>9.94711in</Left>
               <Height>0.22917in</Height>
               <Width>1.47292in</Width>
               <ZIndex>1</ZIndex>
