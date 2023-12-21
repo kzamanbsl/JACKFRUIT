@@ -6,7 +6,7 @@
 </div>
 <br />
 
-@using (Html.BeginForm("FoodProductStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+@using (Html.BeginForm("AzlanDamageStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
 {
 
     @Html.AntiForgeryToken()
@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Subcategory:</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, "== Select SubCategory ==", new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Product:</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "== Select  Product==", new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -150,9 +150,10 @@
         });
 
 
-        $("#ddlCommonProductSubCategoryFk").change(function () {
+    $("#ddlCommonProductSubCategoryFk").change(function () {
 
-            var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
+        var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
+        if (productSubCategoryFk != (null || 0)) {
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetCommonProduct", "WareHouse")",
@@ -170,7 +171,8 @@
                     }
                 }
             });
-        });
+        }
+    });
 
     </script>
 }

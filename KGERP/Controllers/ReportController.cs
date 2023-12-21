@@ -5634,7 +5634,7 @@ namespace KGERP.Controllers
                 StrToDate = DateTime.Now.ToShortDateString(),
                 Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
-                ReportName = "Product Stock Report"
+                ReportName = "Azlan Damage Stock Report"
             };
             return View(cm);
         }
@@ -5646,7 +5646,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+            model.ReportName = CompanyInfo.ReportPrefix + "AzlanDamageStockReport";
             if (model.StockId == null)
             {
                 model.StockId = 0;
@@ -5700,7 +5700,8 @@ namespace KGERP.Controllers
                 StrToDate = DateTime.Now.ToShortDateString(),
                 Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
-                ReportName = "Product Stock Report"
+                SelectZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text"),
+                ReportName = "Deport Damage Stock Report"
             };
             return View(cm);
         }
@@ -5712,10 +5713,14 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
-            if (model.StockId == null)
+            model.ReportName = CompanyInfo.ReportPrefix + "DeportDamageStockReport";
+            if (model.ZoneId == null)
             {
-                model.StockId = 0;
+                model.ZoneId = 0;
+            }
+            if (model.DeportId == null)
+            {
+                model.DeportId = 0;
             }
             if (model.ProductId == null)
             {
@@ -5737,7 +5742,7 @@ namespace KGERP.Controllers
             {
                 model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&ZoneId={8}&DeportId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneId,model.DeportId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5765,7 +5770,9 @@ namespace KGERP.Controllers
                 StrToDate = DateTime.Now.ToShortDateString(),
                 Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
-                ReportName = "Product Stock Report"
+                SelectZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text"),
+
+                ReportName = "Dealer Damage Stock Report"
             };
             return View(cm);
         }
@@ -5777,23 +5784,16 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
-            if (model.StockId == null)
-            {
-                model.StockId = 0;
-            }
-            if (model.ProductId == null)
-            {
-                model.ProductId = 0;
-            }
-            if (model.ProductCategoryId == null)
-            {
-                model.ProductCategoryId = 0;
-            }
-            if (model.ProductSubCategoryId == null)
-            {
-                model.ProductSubCategoryId = 0;
-            }
+            model.ReportName = CompanyInfo.ReportPrefix + "DealerDamageStockReport";
+            
+            if (model.ZoneId == null) model.ZoneId = 0;
+            if (model.DeportId == null)model.DeportId = 0;
+            if (model.DealerId == null)model.DealerId = 0;
+            if (model.CustomerId == null) model.CustomerId = 0; 
+            if (model.ProductId == null) model.ProductId = 0;
+            if (model.ProductCategoryId == null)model.ProductCategoryId = 0;
+            if (model.ProductSubCategoryId == null) model.ProductSubCategoryId = 0;
+
             if (string.IsNullOrEmpty(model.StrFromDate))
             {
                 model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
@@ -5802,7 +5802,7 @@ namespace KGERP.Controllers
             {
                 model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&ZoneId={8}&DeportId={9}&DealerId={10}&CustomerId={11}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneId, model.DeportId, model.DealerId, model.CustomerId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {

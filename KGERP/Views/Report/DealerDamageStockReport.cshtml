@@ -6,7 +6,7 @@
 </div>
 <br />
 
-@using (Html.BeginForm("DealerProductStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+@using (Html.BeginForm("DealerDamageStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
 {
 
     @Html.AntiForgeryToken()
@@ -29,6 +29,8 @@
             </div>
             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-3">
             <div class="form-group">
                 <label>Zone:</label>
@@ -38,14 +40,31 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
+                <label>Deport:</label>
+                @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="col-md-3">
+            <div class="form-group">
                 <label>Dealer:</label>
+                @Html.DropDownListFor(model => model.DealerId, Model.DealerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.DealerId, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Customer:</label>
                 @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
         </div>
 
     </div>
-
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
@@ -60,7 +79,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Subcategory:</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList,"==Select Subcategory==", new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,7 +88,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Product:</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "==Select Product==", new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -107,14 +126,53 @@
             var zoneFk = $("#ddlZoneFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                url: "@Url.Action("GetDeportLisByZoneId", "Procurement")",
                 datatype: "Json",
                 data: { zoneId: zoneFk },
                 success: function (data) {
 
                     if (data) {
+                        $("#ddlDeportId").empty();
+                        $("#ddlDeportId").append("<option value=''>==Select Deport==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlDeportId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                }
+            });
+        });
+        $("#ddlDeportId").change(function () {
+            var deportId = $("#ddlDeportId").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetDealerListByParentId", "Configuration")",
+                datatype: "Json",
+                data: { id: deportId },
+                success: function (data) {
+
+                    if (data) {
+                        $("#ddlDealerId").empty();
+                        $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                }
+            });
+        });
+
+        $("#ddlDealerId").change(function () {
+            var dealerId = $("#ddlDealerId").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
+                datatype: "Json",
+                data: { dealerId: dealerId },
+                success: function (data) {
+
+                    if (data) {
                         $("#ddlCustomerId").empty();
-                        $("#ddlCustomerId").append("<option value=''>==Select Dealer==</option>");
+                        $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });

@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-21T04:51:47.9211779Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-12-21T08:46:28.6460993Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -43,97 +43,52 @@
           <QueryParameter Name="@Common_ProductFK">
             <Value>=Parameters!Common_ProductFK.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@StockInfoId">
-            <Value>=Parameters!StockInfoId.Value</Value>
+          <QueryParameter Name="@ZoneId">
+            <Value>=Parameters!ZoneId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DeportId">
+            <Value>=Parameters!DeportId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_ProductStockList</CommandText>
+        <CommandText>sp_DeportDamageStockList</CommandText>
       </Query>
       <Fields>
-        <Field Name="ReportTitle">
-          <DataField>ReportTitle</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProductCategoryName">
-          <DataField>ProductCategoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProductName">
-          <DataField>ProductName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProductSubCategoryName">
-          <DataField>ProductSubCategoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProductCategoryId">
-          <DataField>ProductCategoryId</DataField>
+        <Field Name="DistrictId">
+          <DataField>DistrictId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ProductSubCategoryId">
-          <DataField>ProductSubCategoryId</DataField>
+        <Field Name="UpazilaId">
+          <DataField>UpazilaId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Consumption">
-          <DataField>Consumption</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="UnitName">
-          <DataField>UnitName</DataField>
+        <Field Name="Name">
+          <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ProductId">
-          <DataField>ProductId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="ShortName">
+          <DataField>ShortName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TPPrice">
-          <DataField>TPPrice</DataField>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FacCarryingCommission">
+          <DataField>FacCarryingCommission</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="UnitId">
-          <DataField>UnitId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="DeportPrice">
-          <DataField>DeportPrice</DataField>
+        <Field Name="DepoCarryingCommission">
+          <DataField>DepoCarryingCommission</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="UnitPrice">
-          <DataField>UnitPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="IsActive">
+          <DataField>IsActive</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="DealerPrice">
-          <DataField>DealerPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="CustomerPrice">
-          <DataField>CustomerPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="SalesQty">
-          <DataField>SalesQty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="ReceiveQty">
-          <DataField>ReceiveQty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="ReceiveQtyCtn">
-          <DataField>ReceiveQtyCtn</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="CurrentStockQty">
-          <DataField>CurrentStockQty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="SalesQtyCtn">
-          <DataField>SalesQtyCtn</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="CurrentStockQtyCtn">
-          <DataField>CurrentStockQtyCtn</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+        <Field Name="MarketingOfficerId">
+          <DataField>MarketingOfficerId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -251,14 +206,6 @@ order By OrderBy Desc</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>Category: </Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!ProductCategoryName.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -905,7 +852,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProductName.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -941,7 +888,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!ReceiveQtyCtn.Value,"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.000;(#,0.000)</Format>
@@ -978,7 +925,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(((Fields!ReceiveQty.Value)-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1014,7 +961,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!SalesQtyCtn.Value,"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1052,7 +999,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(((Fields!SalesQty.Value)-(Fields!SalesQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1089,7 +1036,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!CurrentStockQtyCtn.Value,"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1127,7 +1074,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(((Fields!CurrentStockQty.Value)-(Fields!CurrentStockQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1164,7 +1111,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!DeportPrice.Value,"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1201,7 +1148,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Fields!DeportPrice.Value *Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1243,14 +1190,6 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProductCategoryName.Value</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
                                   <Value> Total = </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
@@ -1290,7 +1229,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!ReceiveQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1330,7 +1269,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!ReceiveQty.Value-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1369,7 +1308,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!SalesQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1409,7 +1348,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!SalesQty.Value-(Fields!SalesQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1448,7 +1387,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1487,7 +1426,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!CurrentStockQty.Value-(Fields!CurrentStockQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1526,7 +1465,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!DeportPrice.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1565,7 +1504,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!DeportPrice.Value *Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1648,7 +1587,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!ReceiveQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1687,7 +1626,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!ReceiveQty.Value-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1726,7 +1665,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!SalesQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1765,7 +1704,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!SalesQty.Value-(Fields!SalesQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1804,7 +1743,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!CurrentStockQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1843,7 +1782,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!CurrentStockQty.Value-(Fields!CurrentStockQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1882,7 +1821,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!DeportPrice.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1921,7 +1860,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!DeportPrice.Value*Fields!CurrentStockQty.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1970,46 +1909,12 @@ order By OrderBy Desc</CommandText>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
-                <TablixMember>
-                  <Group Name="ProductSubCategory">
-                    <GroupExpressions>
-                      <GroupExpression>=Fields!ProductCategoryId.Value</GroupExpression>
-                    </GroupExpressions>
-                  </Group>
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!ProductCategoryId.Value</Value>
-                    </SortExpression>
-                  </SortExpressions>
-                  <TablixMembers>
-                    <TablixMember>
-                      <KeepWithGroup>After</KeepWithGroup>
-                      <RepeatOnNewPage>true</RepeatOnNewPage>
-                    </TablixMember>
-                    <TablixMember>
-                      <KeepWithGroup>After</KeepWithGroup>
-                      <RepeatOnNewPage>true</RepeatOnNewPage>
-                    </TablixMember>
-                    <TablixMember>
-                      <KeepWithGroup>After</KeepWithGroup>
-                      <RepeatOnNewPage>true</RepeatOnNewPage>
-                    </TablixMember>
-                    <TablixMember>
-                      <Group Name="Details" />
-                      <SortExpressions>
-                        <SortExpression>
-                          <Value>=Fields!ProductCategoryId.Value</Value>
-                        </SortExpression>
-                      </SortExpressions>
-                    </TablixMember>
-                    <TablixMember>
-                      <KeepWithGroup>Before</KeepWithGroup>
-                    </TablixMember>
-                  </TablixMembers>
-                </TablixMember>
-                <TablixMember>
-                  <KeepWithGroup>Before</KeepWithGroup>
-                </TablixMember>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>ProductStockReportDSet</DataSetName>
@@ -2215,7 +2120,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>ReportTitle</Label>
-                      <Value>=First(Fields!ReportTitle.Value, "ProductStockReportDSet")</Value>
+                      <Value />
                       <Style>
                         <FontFamily>times New Roman</FontFamily>
                         <FontSize>11pt</FontSize>
@@ -2383,15 +2288,19 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Common Product FK</Prompt>
     </ReportParameter>
-    <ReportParameter Name="StockInfoId">
+    <ReportParameter Name="ZoneId">
       <DataType>Integer</DataType>
-      <Prompt>StockInfoId</Prompt>
+      <Prompt>Zone Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DeportId">
+      <DataType>Integer</DataType>
+      <Prompt>Deport Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2424,9 +2333,14 @@ order By OrderBy Desc</CommandText>
           <ParameterName>Common_ProductFK</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
+          <ColumnIndex>3</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>StockInfoId</ParameterName>
+          <ParameterName>ZoneId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>DeportId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

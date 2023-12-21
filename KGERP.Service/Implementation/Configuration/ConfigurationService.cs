@@ -5819,6 +5819,18 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Common Dealer
+        public async Task<SelectList>GetDealerListByParentId(int? parentId)
+        {
+            if (parentId <=0) return null;
+            var dealerList = await _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.ParentId == parentId)
+                .Select(x=> new 
+                {
+                    Value= x.VendorId,
+                    Text=x.Name
+                }).ToListAsync();
+            var selectList = new SelectList(dealerList, "Value", "Text");
+            return selectList;
+        }
         public async Task<SelectList> GetDealerListByDealerIds(int[] dealerIds)
         {
             List<object> dealerList = new List<object>();

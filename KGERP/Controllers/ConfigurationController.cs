@@ -1889,6 +1889,12 @@ namespace KGERP.Controllers
             var model = _service.GetCommonDealerById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }  
+        [HttpGet]
+        public async Task<JsonResult> GetDealerListByParentId(int id)
+        {
+            var model =await  _service.GetDealerListByParentId(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }  
 
         [HttpGet]
         public JsonResult DealerListByArea(int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0)
