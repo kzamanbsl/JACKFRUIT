@@ -2373,17 +2373,31 @@ namespace KGERP.Controllers
             if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length>0)
             {
                 vmSalesOrderSlave.CustomerList = _Configurationservice.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
-
+                
+                vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+                vmSalesOrderSlave.ZoneDivisionList = new SelectList(_Configurationservice.GetZoneDivisionSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0]), "Value", "Text");
+                vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetRegionSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0], vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0]), "Value", "Text");
+                vmSalesOrderSlave.AreaList = new SelectList(_Configurationservice.GetAreaSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0], vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0], vmSalesOrderSlave.UserDataAccessModel.RegionIds[0]), "Value", "Text");
+                vmSalesOrderSlave.SubZoneList = new SelectList(_Configurationservice.GetSubZoneSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0], vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0], vmSalesOrderSlave.UserDataAccessModel.RegionIds[0], vmSalesOrderSlave.UserDataAccessModel.AreaIds[0]), "Value", "Text");
+                vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier()
+                {
+                    ZoneId = vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0],
+                    ZoneDivisionId = vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0],
+                    RegionId = vmSalesOrderSlave.UserDataAccessModel.RegionIds[0],
+                    AreaId = vmSalesOrderSlave.UserDataAccessModel.AreaIds[0],
+                    SubZoneId = vmSalesOrderSlave.UserDataAccessModel.SubZoneIds[0]
+                };
+               
             }
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length > 0)
             {
                 vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
             }
-            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
+          
+           
+
+
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
-
-
             return View(vmSalesOrderSlave);
         }
 

@@ -5757,7 +5757,8 @@ namespace KGERP.Controllers
                 return File(client.DownloadData(reportUrl), "application/msword", "ProductStockReport.doc");
             }
             return View();
-        } [HttpGet]
+        }
+        [HttpGet]
         [SessionExpire]
         public ActionResult DealerDamageStockReport(int companyId)
         {
