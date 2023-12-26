@@ -5701,7 +5701,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             VMProductStock vmProductStock = new VMProductStock();
 
-            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DeportProductStockList {0},{1},{2},{3},{4},{5},{6}",
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DeportProductStockByProductId {0},{1},{2},{3},{4},{5},{6}",
                 companyId, strFromDate, strToDate, 0, 0, productId, stockInfoId).FirstOrDefault();
 
             return vmProductStock;
@@ -5728,7 +5728,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             VMProductStock vmProductStock = new VMProductStock();
 
-            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DealerProductStockList {0},{1},{2},{3},{4},{5},{6},{7}",
+            vmProductStock = _db.Database.SqlQuery<VMProductStock>("EXEC sp_DealerProductStockByProductId {0},{1},{2},{3},{4},{5},{6},{7}",
                 companyId, strFromDate, strToDate, 0, 0, productId, stockInfoTypeId, stockInfoId).FirstOrDefault();
 
             return vmProductStock;
