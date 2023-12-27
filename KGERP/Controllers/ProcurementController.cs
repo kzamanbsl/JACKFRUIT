@@ -2369,35 +2369,40 @@ namespace KGERP.Controllers
 
             }
             vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
-
-            if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length>0)
+            if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length > 0)
             {
                 vmSalesOrderSlave.CustomerList = _Configurationservice.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
-                
-                vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-                vmSalesOrderSlave.ZoneDivisionList = new SelectList(_Configurationservice.GetZoneDivisionSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0]), "Value", "Text");
-                vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetRegionSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0], vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0]), "Value", "Text");
-                vmSalesOrderSlave.AreaList = new SelectList(_Configurationservice.GetAreaSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0], vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0], vmSalesOrderSlave.UserDataAccessModel.RegionIds[0]), "Value", "Text");
-                vmSalesOrderSlave.SubZoneList = new SelectList(_Configurationservice.GetSubZoneSelectList(companyId, vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0], vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0], vmSalesOrderSlave.UserDataAccessModel.RegionIds[0], vmSalesOrderSlave.UserDataAccessModel.AreaIds[0]), "Value", "Text");
-                vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier()
-                {
-                    ZoneId = vmSalesOrderSlave.UserDataAccessModel.ZoneIds[0],
-                    ZoneDivisionId = vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds[0],
-                    RegionId = vmSalesOrderSlave.UserDataAccessModel.RegionIds[0],
-                    AreaId = vmSalesOrderSlave.UserDataAccessModel.AreaIds[0],
-                    SubZoneId = vmSalesOrderSlave.UserDataAccessModel.SubZoneIds[0]
-                };
-               
             }
+
+            var zoneIds = vmSalesOrderSlave.UserDataAccessModel.ZoneIds;
+            var zoneDivisionIds = vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds;
+            var regionIds = vmSalesOrderSlave.UserDataAccessModel.RegionIds;
+            var areaIds = vmSalesOrderSlave.UserDataAccessModel.AreaIds;
+            var subZoneIds = vmSalesOrderSlave.UserDataAccessModel.SubZoneIds;
+
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            if (zoneDivisionIds?.Length > 0) vmSalesOrderSlave.ZoneDivisionList = new SelectList(_Configurationservice.GetZoneDivisionSelectList(companyId, zoneIds?[0]), "Value", "Text");
+            if(regionIds?.Length>0) vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetRegionSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0]), "Value", "Text");
+            if (areaIds?.Length > 0) vmSalesOrderSlave.AreaList = new SelectList(_Configurationservice.GetAreaSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0], regionIds?[0]), "Value", "Text");
+            if (subZoneIds?.Length > 0) vmSalesOrderSlave.SubZoneList = new SelectList(_Configurationservice.GetSubZoneSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0], regionIds?[0], areaIds?[0]), "Value", "Text");
+
+            vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier
+            {
+                ZoneId = zoneIds?[0] ?? 0,
+                ZoneDivisionId = zoneDivisionIds?[0] ?? 0,
+                RegionId = regionIds?[0] ?? 0,
+                AreaId = areaIds?[0] ?? 0,
+                SubZoneId = subZoneIds?[0] ?? 0
+            };
+
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length > 0)
             {
                 vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
             }
-          
-           
-
 
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier.PaymentType = "Cash";
+            vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Customer;
             return View(vmSalesOrderSlave);
         }
 

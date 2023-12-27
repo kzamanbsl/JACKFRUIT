@@ -173,6 +173,14 @@
                                             @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label></label>
+                                            <div id="customerDetails_Div">
+
+                                            </div>
+                                        </div>
+                                    </div>
 
 
                                 </div>
@@ -599,7 +607,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Division:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "--Select ZoneDivision--", new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneDivisionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -607,14 +615,14 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Region:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlModalRegionId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, new { id = "ddlModalRegionId", @class = "form-control ", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.RegionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Area:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.CommonSupplier.AreaList as SelectList, "--Select Area--", new { id = "ddlModalAreaId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.AreaList as SelectList, new { id = "ddlModalAreaId", @class = "form-control ", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.AreaId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -625,7 +633,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Territory:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.SubZoneId, Model.SubZoneList as SelectList, "-- Select Territory--", new { id = "ddlModalSubZoneId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.SubZoneId, Model.SubZoneList as SelectList, new { id = "ddlModalSubZoneId", @class = "form-control ", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.SubZoneId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -1061,6 +1069,31 @@
                         });
 
                     }
+                }
+            });
+        });
+        $("#ddlCustomerId").on("change", function () {
+            var customerId = $("#ddlCustomerId :selected").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("CommonCustomerByIDGet", "Configuration")",
+                datatype: "Json",
+                data: { id: customerId },
+                success: function (data) {
+                    if (data) {
+                        if (data.ID > 0) {
+                            $("#customerDetails_Div").html(`
+                        <Strong>Phone :</Strong> ${data.Phone} <br/>
+                        <Strong>Address :</Strong> ${data.Address} <br/>`);
+                        }
+                        else {
+                            $("#customerDetails_Div").html('');
+                        }
+
+                    }
+                },
+                error: function(error){
+                    $("#customerDetails_Div").html('');
                 }
             });
         });

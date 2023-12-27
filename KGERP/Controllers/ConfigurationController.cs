@@ -1735,11 +1735,10 @@ namespace KGERP.Controllers
 
             return RedirectToAction("FoodCustomerSalesOrderSlave", "Procurement");
         } 
+        
         [HttpPost]
         public async Task<ActionResult> SRAddCustomer(VMSalesOrderSlave vmSalesOrderSlave)
         {
-
-
             if (vmSalesOrderSlave.CommonSupplier.ActionEum == ActionEnum.Add)
             {
                 //Add 
@@ -1747,7 +1746,7 @@ namespace KGERP.Controllers
                 await _service.CustomerAdd(vmSalesOrderSlave.CommonSupplier);
             }
 
-            return RedirectToAction("SRSalesOrderSlave", "Procurement");
+            return RedirectToAction("SRSalesOrderSlave", "Procurement",new { companyId = CompanyInfo.CompanyId });
         }
 
         #endregion

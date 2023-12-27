@@ -5216,6 +5216,12 @@ namespace KGERP.Service.Implementation.Configuration
 
             }
 
+            #region User Data Clean
+            var employeeId = System.Web.HttpContext.Current.Session["Id"];
+            string sessionKey = "UserData" + employeeId.ToString();
+            System.Web.HttpContext.Current.Session.Remove(sessionKey);
+            #endregion 
+
             return result;
         }
 
