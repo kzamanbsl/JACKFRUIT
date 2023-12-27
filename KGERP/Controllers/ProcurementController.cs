@@ -2394,15 +2394,14 @@ namespace KGERP.Controllers
                 AreaId = areaIds?[0] ?? 0,
                 SubZoneId = subZoneIds?[0] ?? 0
             };
-
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length > 0)
             {
                 vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
             }
-
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
-            vmSalesOrderSlave.CommonSupplier.PaymentType = "Cash";
-            vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Customer;
+            vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";
+            vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Retail;
+            vmSalesOrderSlave.CommonSupplier.CustomerStatus = (int)CustomerStatusEnum.CashCustomer;
             return View(vmSalesOrderSlave);
         }
 

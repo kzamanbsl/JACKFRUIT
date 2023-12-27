@@ -562,6 +562,10 @@
                                 @Html.HiddenFor(model => model.ID, new { id = "customerId" })
                                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                                @Html.HiddenFor(model => model.CommonSupplier.ZoneId, new { id = "zoneFK" })
+                                @Html.HiddenFor(model => model.CommonSupplier.ZoneDivisionId, new { id = "zoneDivisionFK" })
+                                @Html.HiddenFor(model => model.CommonSupplier.RegionId, new { id = "regionFK" })
+                                @Html.HiddenFor(model => model.CommonSupplier.AreaId, new { id = "areaFK" })
 
                                 <div class="row">
 
@@ -599,7 +603,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Zone:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId",  @class = "form-control ", required = "true" , @disabled= "disabled" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -607,7 +611,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Division:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" , @disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneDivisionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -615,14 +619,14 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Region:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, new { id = "ddlModalRegionId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, new { id = "ddlModalRegionId", @class = "form-control ", required = "true", @disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.RegionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Area:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.AreaList as SelectList, new { id = "ddlModalAreaId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.AreaList as SelectList, new { id = "ddlModalAreaId", @class = "form-control ", required = "true", @disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.AreaId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -639,6 +643,13 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Dealer:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ParentId, Model.StockInfoList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="message-text" class="col-form-label">Proprietor:</label>
                                             @Html.TextBoxFor(model => model.CommonSupplier.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
@@ -651,6 +662,14 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ContactPerson, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                   
+
+
+
+                                </div>
+
+                                <div class="row">
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">NID No:</label>
@@ -658,12 +677,6 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.NID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
-
-
-                                </div>
-
-                                <div class="row">
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -686,6 +699,11 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.SecurityAmount, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    
+
+                                </div>
+                                <div class="row">
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Credit Limit:</label>
@@ -693,14 +711,10 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.CreditLimit, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-md-12">
+                                    <div class="col-md-9">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Address:</label>
-                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" })
+                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress",@rows=1, @class = "form-control", @placeholder = "Address" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.Address, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -842,23 +856,29 @@
             $("#ddlStockInfoId").change(function () {
 
                 var dealerId = $("#ddlStockInfoId").val();
-                $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
-                    datatype: "Json",
-                    data: { dealerId: dealerId },
-                    success: function (data) {
 
-                        if (data) {
-                            $("#ddlCustomerId").empty();
-                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
+                if (dealerId == (null | 0)) {
+                    return null;
+                }
+                else {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
+                        datatype: "Json",
+                        data: { dealerId: dealerId },
+                        success: function (data) {
 
+                            if (data) {
+                                $("#ddlCustomerId").empty();
+                                $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                                $(data).each(function (index, item) {
+                                    $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                });
+
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
 
             $("#ddlPaymentMethodEnumFK").change(function () {
@@ -877,6 +897,7 @@
             {
                 var dealerValue = parseFloat($('#ddlStockInfoId option:eq(1)').val());
                 $('#ddlStockInfoId').val(dealerValue).trigger('change');
+                $('#ddlDealerId').val(dealerValue).trigger('change');
             //    $('#ddlStockInfoId').attr('disabled', true);
             }
             $('#txtDiscountAmount').on('keyup change', function () {
