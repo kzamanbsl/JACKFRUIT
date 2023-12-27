@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace KGERP.Controllers
 {
@@ -5165,8 +5166,6 @@ namespace KGERP.Controllers
             return View();
         }
 
-
-
         // GET: Deport List Report
         [HttpGet]
         [SessionExpire]
@@ -5203,7 +5202,7 @@ namespace KGERP.Controllers
             {
                 model.RegionId = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={4}&RegionId={5}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId,model.RegionId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&ZoneId={3}&ZoneDivisionId={4}&RegionId={5}", reportName, model.ReportType, model.CompanyId, model.ZoneId, model.ZoneDivisionId, model.RegionId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5290,6 +5289,16 @@ namespace KGERP.Controllers
             return View(cm);
         }
 
+        // GET: Deport Dealer List Report
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> DeportDealerListReport()
+        {
+            var loginInfo = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            var dptId = loginInfo.DeportIds!=null ? loginInfo.DeportIds[0] : 0;
+            return RedirectToAction("CommonDeportById", "Configuration", new { deportId = dptId });
+        }
+
         // GET: Customer List Report
         [HttpGet]
         [SessionExpire]
@@ -5354,6 +5363,16 @@ namespace KGERP.Controllers
             ReportCustomModel cm = new ReportCustomModel() { CompanyId = model.CompanyId, FromDate = DateTime.Now, ToDate = DateTime.Now };
 
             return View(cm);
+        }
+
+        // GET: Dealer Customer List Report
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> DealerCustomerListReport()
+        {
+            var loginInfo = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            var dlrId = loginInfo.DealerIds != null ? loginInfo.DealerIds[0] : 0;
+            return RedirectToAction("CommonDealerById", "Configuration", new { dealerId = dlrId });
         }
 
         // Company Product Stock Report
@@ -5575,6 +5594,7 @@ namespace KGERP.Controllers
 
 
         #endregion
+
         #region Azlan Damage Food
 
         // Customer Damage Receipt Report
@@ -5742,7 +5762,7 @@ namespace KGERP.Controllers
             {
                 model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&ZoneId={8}&DeportId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneId,model.DeportId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&Common_ProductCategoryFk={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&ZoneId={8}&DeportId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId, model.ZoneId, model.DeportId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5786,13 +5806,13 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             client.Credentials = nwc;
             model.ReportName = CompanyInfo.ReportPrefix + "DealerDamageStockReport";
-            
+
             if (model.ZoneId == null) model.ZoneId = 0;
-            if (model.DeportId == null)model.DeportId = 0;
-            if (model.DealerId == null)model.DealerId = 0;
-            if (model.CustomerId == null) model.CustomerId = 0; 
+            if (model.DeportId == null) model.DeportId = 0;
+            if (model.DealerId == null) model.DealerId = 0;
+            if (model.CustomerId == null) model.CustomerId = 0;
             if (model.ProductId == null) model.ProductId = 0;
-            if (model.ProductCategoryId == null)model.ProductCategoryId = 0;
+            if (model.ProductCategoryId == null) model.ProductCategoryId = 0;
             if (model.ProductSubCategoryId == null) model.ProductSubCategoryId = 0;
 
             if (string.IsNullOrEmpty(model.StrFromDate))

@@ -1874,11 +1874,11 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonDealerById(int deportId)
+        public async Task<ActionResult> CommonDealerById(int dealerId)
         {
 
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
-            vmCommonDealer = await Task.Run(() => _service.GetDealerById(deportId));
+            vmCommonDealer = await Task.Run(() => _service.GetDealerById(dealerId));
             return View(vmCommonDealer);
         }
 
@@ -1888,6 +1888,7 @@ namespace KGERP.Controllers
             var model = _service.GetCommonDealerById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
         }  
+
         [HttpGet]
         public async Task<JsonResult> GetDealerListByParentId(int id)
         {
