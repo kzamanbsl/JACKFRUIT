@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.EMMA;
-using KG.Core.Services.Configuration;
+﻿using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;

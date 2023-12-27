@@ -390,7 +390,7 @@ namespace KGERP.Service.Implementation.Configuration
                     var territorys = _db.SubZones.Where(c => areaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
                     subZoneIds = territories.Select(c => c.SubZoneId).Distinct().ToArray();
                 }
-                if (subZoneIds.Length>0)
+                if (subZoneIds.Length > 0)
                 {
                     var customers = _db.Vendors.Where(c => subZoneIds.Contains((int)c.SubZoneId) && c.IsActive == true).ToList();
                     var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).Distinct().ToArray();
@@ -1344,18 +1344,18 @@ namespace KGERP.Service.Implementation.Configuration
 
             }).ToList();
         }
-        public List<object> GetEmployeesBySubzones( int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0,int subZone=0)
+        public List<object> GetEmployeesBySubzones(int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZone = 0)
         {
             var list = new List<object>();
-              var list1 = (from t1 in _db.EmployeeServicePointMaps
-                        join t2 in _db.Employees.Where(x => x.Active) on t1.EmployeeId equals t2.Id
-                        where t1.IsActive == true && t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId &&
-                              t1.RegionId == regionId && t1.AreaId == areaId && t1.TerritoryId == subZone
-                        select new
-                        {
-                           Value=t2.Id,
-                           Text=t2.Name
-                        }).ToList();
+            var list1 = (from t1 in _db.EmployeeServicePointMaps
+                         join t2 in _db.Employees.Where(x => x.Active) on t1.EmployeeId equals t2.Id
+                         where t1.IsActive == true && t1.ZoneId == zoneId && t1.ZoneDivisionId == zoneDivisionId &&
+                               t1.RegionId == regionId && t1.AreaId == areaId && t1.TerritoryId == subZone
+                         select new
+                         {
+                             Value = t2.Id,
+                             Text = t2.Name
+                         }).ToList();
 
 
             list.AddRange(list1.Cast<object>());
@@ -1363,7 +1363,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             return list;
         }
-            public async Task<VMCommonProductCategory> GetSingleProductCategory(int id)
+        public async Task<VMCommonProductCategory> GetSingleProductCategory(int id)
         {
             var v = await Task.Run(() => (from t1 in _db.ProductCategories
                                           where t1.ProductCategoryId == id && t1.IsActive == true
@@ -4631,10 +4631,10 @@ namespace KGERP.Service.Implementation.Configuration
                      }).FirstOrDefault();
             return v;
         }
-        public List<object> CommonCustomerListBySunZones(int zoneId = 0, int zoneDivision = 0, int regionId = 0,int area=0, int subZone=0)
+        public List<object> CommonCustomerListBySunZones(int zoneId = 0, int zoneDivision = 0, int regionId = 0, int area = 0, int subZone = 0)
         {
             var list = new List<object>();
-            if (zoneId > 0 && zoneDivision > 0 && regionId > 0&& area > 0 && subZone > 0)
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && area > 0 && subZone > 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true
                                   && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId == area && c.SubZoneId == subZone).ToList();
@@ -4644,7 +4644,7 @@ namespace KGERP.Service.Implementation.Configuration
                 }
             }
 
-            
+
 
             return list;
         }
@@ -5504,6 +5504,12 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<VMCommonSupplier> GetDeportById(int deportId)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            if (deportId <= 0)
+            {
+                vmCommonDeport.ChildList = new List<VMCommonSupplier>();
+                return vmCommonDeport;
+            }
+
             vmCommonDeport = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.VendorId == deportId)
                                                        //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
                                                        //join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
@@ -5825,14 +5831,14 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Common Dealer
-        public async Task<SelectList>GetDealerListByParentId(int? parentId)
+        public async Task<SelectList> GetDealerListByParentId(int? parentId)
         {
-            if (parentId <=0) return null;
+            if (parentId <= 0) return null;
             var dealerList = await _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.ParentId == parentId)
-                .Select(x=> new 
+                .Select(x => new
                 {
-                    Value= x.VendorId,
-                    Text=x.Name
+                    Value = x.VendorId,
+                    Text = x.Name
                 }).ToListAsync();
             var selectList = new SelectList(dealerList, "Value", "Text");
             return selectList;
@@ -5860,6 +5866,11 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<VMCommonSupplier> GetDealerById(int dealerId)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            if (dealerId <= 0)
+            {
+                vmCommonDealer.ChildList = new List<VMCommonSupplier>();
+                return vmCommonDealer;
+            }
 
             vmCommonDealer = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.VendorId == dealerId)
                                                        //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def

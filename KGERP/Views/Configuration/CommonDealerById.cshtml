@@ -303,37 +303,28 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    @foreach (var dealer in Model.ChildList)
-                    {
-
-                        <tr>
-                            <td style="padding-left:10px">@( ++sl)</td>
-                            <td style="padding-left:10px">@dealer.Name</td>
-                            <td style="padding-left:10px">@dealer.Propietor</td>
-                            <td style="padding-left:10px">@dealer.Phone</td>
-                            <td style="padding-left:10px">@dealer.Address</td>
-
-                        </tr>
-
-                    }
-                    @if (Model.ChildList.Count() <= 0)
+                    @if (Model.ChildList == null || Model.ChildList.Count() <= 0)
                     {
                         <tr>
                             <td colspan="5" style="text-align:center">No Data Found</td>
                         </tr>
-
+                    }
+                    else
+                    {
+                        foreach (var dealer in Model.ChildList)
+                        {
+                            <tr>
+                                <td style="padding-left:10px">@( ++sl)</td>
+                                <td style="padding-left:10px">@dealer.Name</td>
+                                <td style="padding-left:10px">@dealer.Propietor</td>
+                                <td style="padding-left:10px">@dealer.Phone</td>
+                                <td style="padding-left:10px">@dealer.Address</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
-
-
-
-
         </div>
-
-
-
     </div>
     <!-- /.content -->
     <!-- /.content-wrapper -->
