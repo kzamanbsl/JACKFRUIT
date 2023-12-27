@@ -1,4 +1,4 @@
-﻿using KGERP.Service.Implementation.Configuration;
+﻿using KGERP.Data.CustomModel;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Collections.Generic;

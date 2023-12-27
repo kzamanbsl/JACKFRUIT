@@ -100,6 +100,7 @@
     <Compile Include="CustomModel\SoreProductQty.cs" />
     <Compile Include="CustomModel\TeamLeaveBalanceCustomModel.cs" />
     <Compile Include="CustomModel\MonthlyTargetCM.cs" />
+    <Compile Include="CustomModel\UserDataAccessModel.cs" />
     <Compile Include="CustomModel\WorkCustomModel.cs" />
     <Compile Include="CustomViewModel\EmployeeLeaveBalanceCustomModel.cs" />
     <Compile Include="Models\Accounting_ChequeInfo.cs">

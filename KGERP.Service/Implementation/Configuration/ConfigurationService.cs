@@ -7,6 +7,7 @@ using System.Linq.Dynamic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.ServiceModel;

@@ -1,0 +1,83 @@
+﻿@model KGERP.Data.CustomModel.ReportCustomModel
+
+<div class="row">
+    <div class="col-md-12" style="background-color: lightblue;">
+        <span style="font-size:20px;color:#000000">Deport Dealer List Report</span>
+    </div>
+</div>
+<br />
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("DeportListReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+            {
+
+                <div class="box">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="box-danger">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @Html.HiddenFor(model => model.CompanyId, new { @id = "hfCompanyId" })
+                            @Html.HiddenFor(model => model.DeportId)
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Deport:</label>
+                                        @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-2" style="margin-top:24px;">
+                                    @*<a class="btn btn-sm btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Configuration/CommonDeportById?deportId=@Model.DeportId">
+                                            <i class="fa fa-print"></i>Print
+                                        </a>*@
+                                    <button type="button" class="btn btn-sm btn-warning" style="width:100%;" target="_blank" onclick="makePrint();">
+                                    Print</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    $(document).ready(function () {
+
+    });
+
+    $('#ddlDeportId').change(function () {
+        var deportId = $("#ddlDeportId").val();
+        $("#DeportId").val(deportId);
+    });
+
+      function makePrint() {
+          var deportId = $("#DeportId").val();
+          $.ajax({
+                  type: "GET",
+                  url: "@Url.Action("CommonDeportById", "Configuration")",
+                  datatype: "Json",
+                  data: { deportId: deportId },
+                  success: function (data) {
+
+                  }
+           });
+      }
+
+</script>
+
+
+
+

@@ -1,4 +1,5 @@
-﻿using KGERP.Data.Models;
+﻿using KGERP.Data.CustomModel;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using System;
 using System.Collections.Generic;

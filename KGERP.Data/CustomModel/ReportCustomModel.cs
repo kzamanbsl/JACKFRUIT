@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-
 namespace KGERP.Data.CustomModel
 {
     public class ReportCustomModel
@@ -104,28 +103,6 @@ namespace KGERP.Data.CustomModel
         public List<SelectModel> Vendors { get; set; }
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
 
-        public List<SelectModel> Months
-        {
-            get
-            {
-                return new List<SelectModel> {
-                    new SelectModel { Text="January",Value=1},
-                    new SelectModel { Text="February",Value=2},
-                    new SelectModel { Text="March",Value=3},
-                    new SelectModel { Text="April",Value=4},
-                    new SelectModel { Text="May",Value=5},
-                    new SelectModel { Text="June",Value=6},
-                    new SelectModel { Text="July",Value=7},
-                    new SelectModel { Text="August",Value=8},
-                    new SelectModel { Text="September",Value=9},
-                    new SelectModel { Text="October",Value=10},
-                    new SelectModel { Text="November",Value=11},
-                     new SelectModel { Text="December",Value=12},
-                };
-            }
-            set { }
-        }
-
         public List<SelectModel> Stocks { get; set; }
         public List<SelectModel> Companies { get; set; }
         public List<SelectModel> VoucherTypes { get; set; }
@@ -158,6 +135,8 @@ namespace KGERP.Data.CustomModel
         public SelectList DeportList { get; set; } = new SelectList(new List<object>());
         public SelectList DealerList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
+        public List<SelectModel> Departments { get; set; }
+        public List<SelectModel> Designations { get; set; }
         public List<SelectModel> AttendanceStatus
         {
             get
@@ -179,9 +158,29 @@ namespace KGERP.Data.CustomModel
             }
             set { }
         }
-        public List<SelectModel> Departments { get; set; }
-        public List<SelectModel> Designations { get; set; }
-     
+        public List<SelectModel> Months
+        {
+            get
+            {
+                return new List<SelectModel> {
+                    new SelectModel { Text="January",Value=1},
+                    new SelectModel { Text="February",Value=2},
+                    new SelectModel { Text="March",Value=3},
+                    new SelectModel { Text="April",Value=4},
+                    new SelectModel { Text="May",Value=5},
+                    new SelectModel { Text="June",Value=6},
+                    new SelectModel { Text="July",Value=7},
+                    new SelectModel { Text="August",Value=8},
+                    new SelectModel { Text="September",Value=9},
+                    new SelectModel { Text="October",Value=10},
+                    new SelectModel { Text="November",Value=11},
+                     new SelectModel { Text="December",Value=12},
+                };
+            }
+            set { }
+        }
+
+        public UserDataAccessModel UserDataAccessModel { get; set; }
     }
 
 }
