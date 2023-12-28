@@ -104,68 +104,68 @@
         });
 
         $("#ddlSubZoneFk").change(function () {
-                var subZoneFk = $("#ddlSubZoneFk").val();
-                $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
-                    datatype: "Json",
-                    data: { subZoneId: subZoneFk},
-                    success: function (data) {
+            var subZoneFk = $("#ddlSubZoneFk").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
+                datatype: "Json",
+                data: { subZoneId: subZoneFk },
+                success: function (data) {
 
                     var items = "";
-                        if (data) {
-                            $("#ddlCustomerId").empty();
-                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-                        }
+                    if (data) {
+                        $("#ddlCustomerId").empty();
+                        $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
                     }
-                });
-             })
+                }
+            });
+        });
 
         $("#ddlCommon_ProductCategoryFk").change(function () {
 
-                var productCategoryFk = $("#ddlCommon_ProductCategoryFk").val();
-                     $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetCommonProductSubCategory", "WareHouse")",
-                        datatype: "Json",
-                        data: { id: productCategoryFk},
-                        success: function (data) {
-                        var items = "";
-                        if (data) {
-                            $("#ddlCommonProductSubCategoryFk").empty();
-                            $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Subcategory==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlCommonProductSubCategoryFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
+            var productCategoryFk = $("#ddlCommon_ProductCategoryFk").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetCommonProductSubCategory", "WareHouse")",
+                datatype: "Json",
+                data: { id: productCategoryFk },
+                success: function (data) {
+                    var items = "";
+                    if (data) {
+                        $("#ddlCommonProductSubCategoryFk").empty();
+                        $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Subcategory==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlCommonProductSubCategoryFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
 
-                        }
                     }
-                });
-            })
+                }
+            });
+        });
 
         $("#ddlCommonProductSubCategoryFk").change(function () {
 
-                var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
-                     $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetCommonProduct", "WareHouse")",
-                        datatype: "Json",
-                        data: {  id : productSubCategoryFk},
-                        success: function (data) {
-                        var items = "";
-                        if (data) {
-                            $("#ddlCommonProductFk").empty();
-                            $("#ddlCommonProductFk").append("<option value=''>==Select Item==</option>");
-                            $(data).each(function (index, item) {
-                                $("#ddlCommonProductFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                            });
-                        }
+            var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetCommonProduct", "WareHouse")",
+                datatype: "Json",
+                data: { id: productSubCategoryFk },
+                success: function (data) {
+                    var items = "";
+                    if (data) {
+                        $("#ddlCommonProductFk").empty();
+                        $("#ddlCommonProductFk").append("<option value=''>==Select Item==</option>");
+                        $(data).each(function (index, item) {
+                            $("#ddlCommonProductFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
                     }
-                });
-            })
+                }
+            });
+        });
 
     </script>
 }
