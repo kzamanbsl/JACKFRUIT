@@ -1,0 +1,103 @@
+﻿@model KGERP.Data.CustomModel.ReportCustomModel
+@using KGERP.Utility
+
+<div class="row">
+    <div class="col-md-12" style="background-color: lightblue;">
+        <span style="font-size:20px;color:#000000">Deport Dealer List Report</span>
+    </div>
+</div>
+<br />
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("CommonDealerById", "Configuration", FormMethod.Post, new { @id = "idForm" }))
+            {
+
+                <div class="box">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="box-danger">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @Html.HiddenFor(model => model.CompanyId, new { @id = "hfCompanyId" })
+                            <div class="row">
+
+
+                                @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Deport:</label>
+                                            @Html.DropDownListFor(model => model.DeportId, Model.DeportList as SelectList, "==Select Deport==", new { id = "ddlDeportId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Dealer:</label>
+                                            @Html.DropDownListFor(model => model.DealerId, Model.DealerList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.DealerId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-8"></div>
+                                }
+
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-2" style="margin-top:24px;">
+                                    @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
+                                    {
+                                        <a class="btn btn-warning linkPointer" target="_blank" href="~/Configuration/CommonDealerById?dealerId=@Model.DealerId">
+                                            <i class="fa fa-print"></i> Print
+                                        </a>
+                                    }
+                                    @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
+                                    {
+                                        <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-right" formtarget="_blank" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    $("#ddlDeportId").change(function () {
+
+        var dptId = $("#ddlDeportId").val();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetDealerListByParentId", "Configuration")",
+            datatype: "Json",
+            data: { id: dptId },
+            success: function (data) {
+
+                if (data) {
+                    $("#ddlDealerId").empty();
+                    $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+
+                }
+            }
+        });
+    });
+
+</script>
+
+
+
+

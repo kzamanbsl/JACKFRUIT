@@ -5303,8 +5303,6 @@ namespace KGERP.Controllers
             {
                 model.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
             }
-
-            //return RedirectToAction("CommonDeportById", "Configuration", new { deportId = dptId });
             return View(model);
         }
 
@@ -5379,9 +5377,16 @@ namespace KGERP.Controllers
         [SessionExpire]
         public async Task<ActionResult> DealerCustomerListReport()
         {
-            var loginInfo = await _configurationService.GetUserDataAccessModelByEmployeeId();
-            var dlrId = loginInfo.DealerIds != null ? loginInfo.DealerIds[0] : 0;
-            return RedirectToAction("CommonDealerById", "Configuration", new { dealerId = dlrId });
+            var model = new ReportCustomModel();
+            model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            var dlrId = model.UserDataAccessModel?.DealerIds != null ? model.UserDataAccessModel.DealerIds[0] : 0;
+            model.DealerId = dlrId;
+
+            if (dlrId <= 0)
+            {
+                model.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
+            }
+            return View(model);
         }
 
         // Company Product Stock Report

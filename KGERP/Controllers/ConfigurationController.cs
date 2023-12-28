@@ -1892,6 +1892,15 @@ namespace KGERP.Controllers
             return View(vmCommonDealer);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> CommonDealerById(ReportCustomModel model)
+        {
+
+            VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
+            vmCommonDealer = await Task.Run(() => _service.GetDealerById(model.DealerId ?? 0));
+            return View(vmCommonDealer);
+        }
+
         [HttpGet]
         public JsonResult CommonDealerByIdGet(int id)
         {
