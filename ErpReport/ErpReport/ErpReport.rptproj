@@ -70,6 +70,7 @@
     <Report Include="AFTest_Employee.rdl" />
     <Report Include="AFTest_ProductStockReport.rdl" />
     <Report Include="AF_AzlanDamageStockReport.rdl" />
+    <Report Include="AF_AzlanDateWiseStockDetailReport.rdl" />
     <Report Include="AF_BankOrCashBook.rdl" />
     <Report Include="AF_CustomerDamageReceiptInvoice.rdl" />
     <Report Include="AF_CustomerList.rdl" />

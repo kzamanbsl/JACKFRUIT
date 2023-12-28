@@ -3,149 +3,158 @@
   <am:AuthoringMetadata>
     <am:CreatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.7.34009.444</am:Version>
+      <am:Version>17.5.33627.172</am:Version>
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-28T10:09:44.2618750Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-12-28T10:06:19.9598581Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ProductListDS">
+    <DataSource Name="DateWiseStockDetailDS">
       <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
-      <rd:DataSourceID>5865f9d0-e42e-4dbc-a216-f4566211f83f</rd:DataSourceID>
+      <rd:DataSourceID>e8d59079-d484-427b-ba99-b5b46f8cc3d7</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ProductListDSet">
+    <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>ProductListDS</DataSourceName>
+        <DataSourceName>DateWiseStockDetailDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductType">
-            <Value>=Parameters!ProductType.Value</Value>
+        </QueryParameters>
+        <CommandText>SELECT Name,
+       (select Url from UrlInfo where UrlType = 1) + 'Images/Logo/' + CompanyLogo AS CompanyLogo,
+       Address,
+	   Phone 
+FROM  Company 
+WHERE CompanyId = @CompanyId </CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogo">
+          <DataField>CompanyLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Address">
+          <DataField>Address</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DateWiseSaleDetailDataSet">
+      <Query>
+        <DataSourceName>DateWiseStockDetailDS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@CompanyId">
+            <Value>=Parameters!CompanyId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CustomerId">
+            <Value>=Parameters!CustomerId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductId">
+            <Value>=Parameters!ProductId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SubZoneId">
+            <Value>=Parameters!SubZoneId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductCategoryId">
             <Value>=Parameters!ProductCategoryId.Value</Value>
-            <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
           <QueryParameter Name="@ProductSubCategoryId">
             <Value>=Parameters!ProductSubCategoryId.Value</Value>
-            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@StrFromDate">
+            <Value>=Parameters!StrFromDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@StrToDate">
+            <Value>=Parameters!StrToDate.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_ProductList</CommandText>
+        <CommandText>spDateWiseSaleDetailsReport</CommandText>
       </Query>
       <Fields>
-        <Field Name="ProductCategory">
-          <DataField>ProductCategory</DataField>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ProductCategoryOrderNo">
-          <DataField>ProductCategoryOrderNo</DataField>
+        <Field Name="CompanyId">
+          <DataField>CompanyId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ProductSubCategory">
-          <DataField>ProductSubCategory</DataField>
+        <Field Name="CompanyLogo">
+          <DataField>CompanyLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Address">
+          <DataField>Address</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OrderDate">
+          <DataField>OrderDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CustomerName">
+          <DataField>CustomerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DeliveredQty">
+          <DataField>DeliveredQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="UnitPrice">
+          <DataField>UnitPrice</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="InvoiceNo">
+          <DataField>InvoiceNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Carrying">
+          <DataField>Carrying</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ChallanNo">
+          <DataField>ChallanNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DeliveryDate">
+          <DataField>DeliveryDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="SalesOfficerName">
+          <DataField>SalesOfficerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ProductName">
           <DataField>ProductName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ProductCode">
-          <DataField>ProductCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ShortName">
-          <DataField>ShortName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="UnitPrice">
-          <DataField>UnitPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="DeportPrice">
-          <DataField>DeportPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="PackSize">
-          <DataField>PackSize</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="DealerPrice">
-          <DataField>DealerPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Qty">
-          <DataField>Qty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="CustomerPrice">
-          <DataField>CustomerPrice</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Company">
-          <DataField>Company</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Consumption">
-          <DataField>Consumption</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyLogo">
-          <DataField>CompanyLogo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="CompanyDataSet">
-      <Query>
-        <DataSourceName>ProductListDS</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@CompanyId">
-            <Value>=Parameters!CompanyId.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <CommandText>select 
-Name as Company,
-(select Url from UrlInfo where UrlType=1)+'Images/Logo/'+CompanyLogo as CompanyLogo, 
-[Address] as CompanyAddress,
-Phone CompanyPhone,
-Email CompanyEmail
-from Company Where CompanyId=@CompanyId</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="Company">
-          <DataField>Company</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyLogo">
-          <DataField>CompanyLogo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyPhone">
-          <DataField>CompanyPhone</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyEmail">
-          <DataField>CompanyEmail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="OrderDeliverId">
+          <DataField>OrderDeliverId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -158,28 +167,16 @@ from Company Where CompanyId=@CompanyId</CommandText>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.32292in</Width>
+                  <Width>2.55024in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6243in</Width>
+                  <Width>1.43704in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.42293in</Width>
+                  <Width>1.60371in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.44792in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.51112in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.60416in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.57292in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.65625in</Width>
+                  <Width>1.53261in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -188,121 +185,271 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox1">
+                        <Textbox Name="SalesOfficerName1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SL</Value>
+                                  <Value>=Fields!SalesOfficerName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <rd:DefaultName>SalesOfficerName1</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ChallanNo">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ChallanNo.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ChallanNo</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox6">
+                        <Textbox Name="DeliveryDate1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value> Code</Value>
+                                  <Value>=Format(Fields!DeliveryDate.Value, "dd-MMM-yyyy")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <rd:DefaultName>DeliveryDate1</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>3</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="OrderNo">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!OrderNo.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>OrderNo</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox7">
+                        <Textbox Name="Textbox22">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Product Name</Value>
+                                  <Value />
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox23">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox4">
@@ -312,75 +459,75 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Unit</Value>
+                                  <Value>Customer Name</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox4</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox3">
+                        <Textbox Name="CustomerName">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Cons</Value>
+                                  <Value>=Fields!CustomerName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <rd:DefaultName>CustomerName</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>3</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox9">
@@ -390,32 +537,28 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Deport Price</Value>
+                                  <Value>Item Description</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>Lavender</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -429,31 +572,30 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Dealer Price</Value>
+                                  <Value>Quantity</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox10</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>Lavender</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -467,32 +609,355 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Customer Price</Value>
+                                  <Value>Unit Price</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox12</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightSteelBlue</BackgroundColor>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>Lavender</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Amount</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>Lavender</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ProductName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ProductName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ProductName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DeliveredQty">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DeliveredQty.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DeliveredQty</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="UnitPrice">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>UnitPrice</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DeliveredQty1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!DeliveredQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DeliveredQty1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox32</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total Amount</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Code">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(SUM(Fields!DeliveredQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Code</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -511,121 +976,50 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Label>SL</Label>
-                                  <Value>=rownumber("ProductSubCategory")</Value>
+                                  <Value> Grand Total </Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox2</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>3</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ProductCode">
+                        <Textbox Name="CompanyLogo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Label>Code</Label>
-                                  <Value>=Fields!ProductCode.Value</Value>
+                                  <Value>=format(SUM(Fields!DeliveredQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ProductCode</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>DimGray</Color>
-                              <Style>Solid</Style>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ProductName">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ProductName.Value</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ProductName</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>DimGray</Color>
-                              <Style>Solid</Style>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Qty">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Qty.Value</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -634,35 +1028,39 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Qty</rd:DefaultName>
+                          <rd:DefaultName>CompanyLogo</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Consumption">
+                        <Textbox Name="Textbox1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Consumption.Value</Value>
+                                  <Value>Total Quantity</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -671,35 +1069,34 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Consumption</rd:DefaultName>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="DeportPrice">
+                        <Textbox Name="Textbox7">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DeportPrice.Value</Value>
+                                  <Value>=SUM(Fields!DeliveredQty.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -708,35 +1105,34 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>DeportPrice</rd:DefaultName>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="DealerPrice">
+                        <Textbox Name="Textbox8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DealerPrice.Value</Value>
+                                  <Value>Gross Total Amount</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -745,35 +1141,34 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>DealerPrice</rd:DefaultName>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="CustomerPrice">
+                        <Textbox Name="Textbox6">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CustomerPrice.Value</Value>
+                                  <Value>=format(SUM(Fields!DeliveredQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -782,18 +1177,16 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>CustomerPrice</rd:DefaultName>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>DimGray</Color>
+                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
-                              <Width>0.5pt</Width>
                             </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -808,215 +1201,70 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
                 <TablixMember>
-                  <TablixHeader>
-                    <Size>0.77083in</Size>
-                    <CellContents>
-                      <Textbox Name="Textbox15">
-                        <CanGrow>true</CanGrow>
-                        <KeepTogether>true</KeepTogether>
-                        <Paragraphs>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Value>Category</Value>
-                                <Style>
-                                  <FontFamily>Arial</FontFamily>
-                                  <FontSize>8pt</FontSize>
-                                  <FontWeight>Bold</FontWeight>
-                                </Style>
-                              </TextRun>
-                            </TextRuns>
-                            <Style>
-                              <TextAlign>Center</TextAlign>
-                            </Style>
-                          </Paragraph>
-                        </Paragraphs>
-                        <rd:DefaultName>Textbox15</rd:DefaultName>
-                        <Style>
-                          <Border>
-                            <Color>DimGray</Color>
-                            <Style>Solid</Style>
-                            <Width>0.5pt</Width>
-                          </Border>
-                          <BackgroundColor>LightSteelBlue</BackgroundColor>
-                          <VerticalAlign>Middle</VerticalAlign>
-                          <PaddingLeft>2pt</PaddingLeft>
-                          <PaddingRight>2pt</PaddingRight>
-                          <PaddingTop>1pt</PaddingTop>
-                          <PaddingBottom>1pt</PaddingBottom>
-                        </Style>
-                      </Textbox>
-                    </CellContents>
-                  </TablixHeader>
-                  <TablixMembers>
-                    <TablixMember>
-                      <TablixHeader>
-                        <Size>1.14303in</Size>
-                        <CellContents>
-                          <Textbox Name="Textbox13">
-                            <CanGrow>true</CanGrow>
-                            <KeepTogether>true</KeepTogether>
-                            <Paragraphs>
-                              <Paragraph>
-                                <TextRuns>
-                                  <TextRun>
-                                    <Value>Sub Category</Value>
-                                    <Style>
-                                      <FontFamily>Arial</FontFamily>
-                                      <FontSize>8pt</FontSize>
-                                      <FontWeight>Bold</FontWeight>
-                                    </Style>
-                                  </TextRun>
-                                </TextRuns>
-                                <Style>
-                                  <TextAlign>Center</TextAlign>
-                                </Style>
-                              </Paragraph>
-                            </Paragraphs>
-                            <rd:DefaultName>Textbox13</rd:DefaultName>
-                            <Style>
-                              <Border>
-                                <Color>DimGray</Color>
-                                <Style>Solid</Style>
-                                <Width>0.5pt</Width>
-                              </Border>
-                              <BackgroundColor>LightSteelBlue</BackgroundColor>
-                              <VerticalAlign>Middle</VerticalAlign>
-                              <PaddingLeft>2pt</PaddingLeft>
-                              <PaddingRight>2pt</PaddingRight>
-                              <PaddingTop>1pt</PaddingTop>
-                              <PaddingBottom>1pt</PaddingBottom>
-                            </Style>
-                          </Textbox>
-                        </CellContents>
-                      </TablixHeader>
-                      <TablixMembers>
-                        <TablixMember />
-                      </TablixMembers>
-                    </TablixMember>
-                  </TablixMembers>
-                  <KeepWithGroup>After</KeepWithGroup>
-                </TablixMember>
-                <TablixMember>
-                  <Group Name="ProductCategory">
+                  <Group Name="SalesOfficerName">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!ProductCategory.Value</GroupExpression>
+                      <GroupExpression>=Fields!SalesOfficerName.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!ProductCategoryOrderNo.Value</Value>
+                      <Value>=Fields!SalesOfficerName.Value</Value>
                     </SortExpression>
                   </SortExpressions>
-                  <TablixHeader>
-                    <Size>0.77083in</Size>
-                    <CellContents>
-                      <Textbox Name="ProductCategory">
-                        <CanGrow>true</CanGrow>
-                        <KeepTogether>true</KeepTogether>
-                        <Paragraphs>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Label>Categroy</Label>
-                                <Value>=Fields!ProductCategory.Value</Value>
-                                <Style>
-                                  <FontFamily>Arial</FontFamily>
-                                  <FontSize>8pt</FontSize>
-                                </Style>
-                              </TextRun>
-                            </TextRuns>
-                            <Style />
-                          </Paragraph>
-                        </Paragraphs>
-                        <rd:DefaultName>ProductCategory</rd:DefaultName>
-                        <Style>
-                          <Border>
-                            <Color>DimGray</Color>
-                            <Style>Solid</Style>
-                            <Width>0.5pt</Width>
-                          </Border>
-                          <VerticalAlign>Top</VerticalAlign>
-                          <PaddingLeft>2pt</PaddingLeft>
-                          <PaddingRight>2pt</PaddingRight>
-                          <PaddingTop>1pt</PaddingTop>
-                          <PaddingBottom>1pt</PaddingBottom>
-                        </Style>
-                      </Textbox>
-                    </CellContents>
-                  </TablixHeader>
                   <TablixMembers>
+                    <TablixMember />
                     <TablixMember>
-                      <Group Name="ProductSubCategory">
+                      <Group Name="OrderDeliverId">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!ProductSubCategory.Value</GroupExpression>
+                          <GroupExpression>=Fields!OrderDeliverId.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!ProductSubCategory.Value</Value>
+                          <Value>=Fields!OrderDeliverId.Value</Value>
                         </SortExpression>
                       </SortExpressions>
-                      <TablixHeader>
-                        <Size>1.14303in</Size>
-                        <CellContents>
-                          <Textbox Name="ProductSubCategory">
-                            <CanGrow>true</CanGrow>
-                            <KeepTogether>true</KeepTogether>
-                            <Paragraphs>
-                              <Paragraph>
-                                <TextRuns>
-                                  <TextRun>
-                                    <Value>=Fields!ProductSubCategory.Value</Value>
-                                    <Style>
-                                      <FontFamily>Arial</FontFamily>
-                                      <FontSize>8pt</FontSize>
-                                    </Style>
-                                  </TextRun>
-                                </TextRuns>
-                                <Style />
-                              </Paragraph>
-                            </Paragraphs>
-                            <rd:DefaultName>ProductSubCategory</rd:DefaultName>
-                            <Style>
-                              <Border>
-                                <Color>DimGray</Color>
-                                <Style>Solid</Style>
-                                <Width>0.5pt</Width>
-                              </Border>
-                              <VerticalAlign>Top</VerticalAlign>
-                              <PaddingLeft>2pt</PaddingLeft>
-                              <PaddingRight>2pt</PaddingRight>
-                              <PaddingTop>1pt</PaddingTop>
-                              <PaddingBottom>1pt</PaddingBottom>
-                            </Style>
-                          </Textbox>
-                        </CellContents>
-                      </TablixHeader>
                       <TablixMembers>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
                         <TablixMember>
                           <Group Name="Details" />
                         </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>Before</KeepWithGroup>
+                        </TablixMember>
                       </TablixMembers>
+                    </TablixMember>
+                    <TablixMember>
+                      <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ProductListDSet</DataSetName>
+            <DataSetName>DateWiseSaleDetailDataSet</DataSetName>
             <Top>0.0625in</Top>
-            <Left>0.94875in</Left>
-            <Height>0.5in</Height>
-            <Width>7.07638in</Width>
+            <Left>0.875in</Left>
+            <Height>2.25in</Height>
+            <Width>7.1236in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1024,51 +1272,28 @@ from Company Where CompanyId=@CompanyId</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>0.66667in</Height>
+        <Height>2.55166in</Height>
         <Style />
       </Body>
-      <Width>8.21471in</Width>
+      <Width>8.29721in</Width>
       <Page>
         <PageHeader>
-          <Height>1.14097in</Height>
+          <Height>0.98181in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Image Name="CompanyLogo">
-              <Source>External</Source>
-              <Value>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.02215in</Top>
-              <Left>0.94597in</Left>
-              <Height>1.03938in</Height>
-              <Width>1.01458in</Width>
-              <ToolTip>=First(Fields!CompanyLogo.Value, "CompanyDataSet")</ToolTip>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox27">
+            <Textbox Name="Textbox82">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
               <Paragraphs>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value xml:space="preserve"> </Value>
+                      <Label>Company</Label>
+                      <Value>=First(Fields!Name.Value, "CompanyDSet")</Value>
                       <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>18pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Label>CompanyName</Label>
-                      <Value>=First(Fields!Company.Value, "CompanyDataSet")</Value>
-                      <Style>
-                        <FontFamily>times New Roman</FontFamily>
-                        <FontSize>14pt</FontSize>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>16pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
@@ -1080,12 +1305,28 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Label>CompanyAddress</Label>
-                      <Value>=First(Fields!CompanyAddress.Value, "CompanyDataSet")</Value>
+                      <Label>Address</Label>
+                      <Value>=First(Fields!Address.Value, "CompanyDSet")</Value>
                       <Style>
-                        <FontFamily>times New Roman</FontFamily>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>14pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Label>Month</Label>
+                      <Value>Date Wise Stock Details</Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
                         <FontSize>12pt</FontSize>
                         <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -1096,27 +1337,30 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value />
+                      <Value>=Parameters!StrFromDate.Value</Value>
                       <Style>
-                        <FontFamily>times New Roman</FontFamily>
-                        <FontSize>4pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
                       </Style>
                     </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-                <Paragraph>
-                  <TextRuns>
                     <TextRun>
-                      <Value>Product List</Value>
+                      <Value> to </Value>
                       <Style>
-                        <FontFamily>times New Roman</FontFamily>
-                        <FontSize>14pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <TextDecoration>Underline</TextDecoration>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!StrToDate.Value</Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -1125,12 +1369,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <rd:DefaultName>Textbox26</rd:DefaultName>
-              <Top>0.02215in</Top>
-              <Left>1.96056in</Left>
-              <Height>1.03938in</Height>
-              <Width>4.8354in</Width>
-              <ZIndex>1</ZIndex>
+              <rd:DefaultName>Textbox82</rd:DefaultName>
+              <Left>1.87708in</Left>
+              <Height>0.92973in</Height>
+              <Width>4.91248in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1141,6 +1383,20 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
+            <Image Name="Image1">
+              <Source>External</Source>
+              <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
+              <Sizing>FitProportional</Sizing>
+              <Left>0.875in</Left>
+              <Height>0.92973in</Height>
+              <Width>1.00208in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
             <Textbox Name="Textbox83">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -1169,10 +1425,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
-              <Top>0.02215in</Top>
-              <Left>6.79595in</Left>
+              <Left>6.80345in</Left>
               <Height>0.22917in</Height>
-              <Width>1.34792in</Width>
+              <Width>1.47292in</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -1192,7 +1447,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.32292in</Height>
+          <Height>0.29167in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <Style>
@@ -1209,38 +1464,42 @@ from Company Where CompanyId=@CompanyId</CommandText>
   </ReportSections>
   <ReportParameters>
     <ReportParameter Name="CompanyId">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <Prompt>Company Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProductType">
+    <ReportParameter Name="StrFromDate">
       <DataType>String</DataType>
-      <Prompt>Product Type</Prompt>
-      <ValidValues>
-        <ParameterValues>
-          <ParameterValue>
-            <Value>F</Value>
-            <Label>Finish Product</Label>
-          </ParameterValue>
-          <ParameterValue>
-            <Value>R</Value>
-            <Label>Raw Materials</Label>
-          </ParameterValue>
-        </ParameterValues>
-      </ValidValues>
+      <Prompt>Str From Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="StrToDate">
+      <DataType>String</DataType>
+      <Prompt>Str To Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CustomerId">
+      <DataType>Integer</DataType>
+      <Prompt>Customer Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductId">
+      <DataType>Integer</DataType>
+      <Prompt>Product Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SubZoneId">
+      <DataType>Integer</DataType>
+      <Prompt>Sub Zone Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductCategoryId">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <Prompt>Product Category Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductSubCategoryId">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <Prompt>Product Sub Category Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfColumns>2</NumberOfColumns>
+      <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1249,17 +1508,37 @@ from Company Where CompanyId=@CompanyId</CommandText>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>0</RowIndex>
-          <ParameterName>ProductType</ParameterName>
+          <RowIndex>1</RowIndex>
+          <ParameterName>StrFromDate</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>0</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>StrToDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>CustomerId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>ProductId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>SubZoneId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>ProductCategoryId</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>3</ColumnIndex>
-          <RowIndex>0</RowIndex>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>ProductSubCategoryId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
@@ -1300,6 +1579,7 @@ cULfWiybg4sguvfooV4+c+CZBl2hQkUVrbPuMNTfDOowfNmocWM1a8fEfjKMqiRb9uwqO5S1y+uCoTVq
 By0ELQcxIXCR6X/WsokA+YG46S71cG0Q5wD+NlfqbSIOw/+j/x9kePA/+veS4cH/6N9Lhgf/o38vGR78j/6tJO/9H86TX3lH8s6vAAAAAElFTkSuQmCC</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>0707937f-dd27-499f-908f-d85910a4ceff</rd:ReportID>
+  <rd:ReportID>b6249b54-df30-450e-a2c8-518ff51f4d44</rd:ReportID>
 </Report>
