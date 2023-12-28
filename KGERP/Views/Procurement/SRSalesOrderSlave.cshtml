@@ -55,6 +55,7 @@
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.CustomerTypeFk, new { id = "hidCustomerTypeFk" })
                 @Html.HiddenFor(model => model.Consumption, new { id = "ProductConsumption" })
+                @Html.HiddenFor(model => model.StockInfoTypeId, new { id = "stockInfoTypeId" })
                 <span id="hiddenUnitPrice" hidden="hidden"></span>
                 <div class="box-danger">
 
@@ -1009,10 +1010,10 @@
                             $('#dealerSalesOrderSlaveFormId').validate({ onsubmit: false });
                             $('#soCreateBtn').prop("disabled", true);
                             $('#stockAvailable').css("color","red");
-                            
+
                         } else {
                             $('#soCreateBtn').prop("disabled", false);
-                            $('#stockAvailable').css("color", "black"); 
+                            $('#stockAvailable').css("color", "black");
                         }
 
                         if (customerPrice == null) {
@@ -1158,7 +1159,7 @@
             });
         });
 
-        
-       
+
+
     </script>
 }

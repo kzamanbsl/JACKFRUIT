@@ -2248,7 +2248,7 @@ namespace KGERP.Controllers
             vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
-           
+            vmSalesOrderSlave.StockInfoTypeId = (int)StockInfoTypeEnum.Dealer;
 
             return View(vmSalesOrderSlave);
         }
@@ -2414,6 +2414,8 @@ namespace KGERP.Controllers
             vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";
             vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Retail;
             vmSalesOrderSlave.CommonSupplier.CustomerStatus = (int)CustomerStatusEnum.CashCustomer;
+            vmSalesOrderSlave.StockInfoTypeId = (int)StockInfoTypeEnum.Dealer;
+
             return View(vmSalesOrderSlave);
         }
 

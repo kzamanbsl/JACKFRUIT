@@ -55,6 +55,7 @@
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.CustomerTypeFk, new { id = "hidCustomerTypeFk" })
                 @Html.HiddenFor(model => model.Consumption, new { id = "ProductConsumption" })
+                @Html.HiddenFor(model => model.StockInfoTypeId, new { id = "stockInfoTypeId" })
                 <span id="hiddenUnitPrice" hidden="hidden"></span>
                 <div class="box-danger">
 
@@ -959,7 +960,7 @@
         $('#txtProductName').on('change', function () {
             var productId = $(this).val();
             var stockInfoIdVal = $("#ddlStockInfoId").val();
-            //var stockInfoTypeIdVal =@((int)StockInfoTypeEnum.Deport);
+
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetDealerProductStockByProductId", "Procurement")",
