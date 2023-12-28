@@ -641,7 +641,7 @@
                 },
                 success: function (data) {
                     $("#ddlParentId").empty();
-                    $("#ddlParentId").append("<option value=''>==Select Deport==</option>");
+                    $("#ddlParentId").append("<option value=''>==Select Dealer==</option>");
                     $(data).each(function (index, item) {
                         $("#ddlParentId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                     });

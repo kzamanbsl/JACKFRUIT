@@ -817,20 +817,20 @@
             var stockInfoTypeIdVal = $("#ddlStockInfoTypeFk").val();
             var stockInfoIdVal = $("#ddlStockInfoId").val();
 
-            
+
                 $.ajax({
                     type: "GET",
-                    url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                    url: (stockInfoTypeIdVal ==1) ? "@Url.Action("GetFoodProductStockByProductId", "Procurement")": "@Url.Action("GetDeportProductStockByProductId", "Procurement")",
                     datatype: "Json",
-                    data: { companyId: "@Model.CompanyFK", productId: productId },
+                    data: { companyId: "@Model.CompanyFK", productId: productId, stockInfoId: stockInfoIdVal },
                     success: function (data) {
                         if (data) {
 
-                            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Company)) {
+                          
                                 $('#tblStockAvailable').show();
                                 $('.txtUnitName').text(data.UnitName);
                                 $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
-                            }
+                            
 
                             if (dealerPrice == -1) {
                                 $("#txtDealerPrice").val(data.DealerPrice);
@@ -855,7 +855,7 @@
             $("#txtOrderPcs").val(0);
             $("#totalAmount").val(0);
 
-            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Deport)) {
+            @*if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Deport)) {
                 $.ajax({
                     type: "GET",
                     url: "@Url.Action("GetDeportProductStockByProductId", "Procurement")",
@@ -872,7 +872,7 @@
                         }
                     }
                 });
-            }
+            }*@
 
 
         });

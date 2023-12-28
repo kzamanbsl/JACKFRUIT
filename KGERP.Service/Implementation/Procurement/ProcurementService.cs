@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -3778,6 +3779,7 @@ namespace KGERP.Service.Implementation.Procurement
         #region Common Method
         public async Task<long> FoodOrderMasterSubmit(long? id = 0, decimal? discountAmount = 0)
         {
+
             long result = -1;
 
             OrderMaster orderMasters = await _db.OrderMasters.FindAsync(id);
@@ -3786,6 +3788,58 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 throw new Exception("Sorry! Order not found!");
             }
+
+            #region Stock Check
+
+            var orderDetails = _db.OrderDetails.Where(x => x.OrderMasterId == orderMasters.OrderMasterId).AsNoTracking().ToList();
+            
+            if (orderDetails == null|| orderDetails.Count<=0)
+            {
+                throw new Exception("Sorry! Order Details not found!");
+            }
+            var productIds = orderDetails.Select(x => x.ProductId).Distinct().ToList();
+            var productStocks = new List<VMProductStock>();
+            
+            foreach(var pId in productIds)
+            {
+                var stock = new VMProductStock();
+               if (orderMasters.DealerId>0)
+                {
+                     stock = GetDeportProductStockByProductId(CompanyInfo.CompanyId, pId,  orderMasters.StockInfoId ?? 0);
+
+                } else if (orderMasters.DeportId>0)
+                {
+                     stock = GetFoodProductStockByProductId(CompanyInfo.CompanyId, pId,  orderMasters.StockInfoId ?? 0);
+
+                }
+                else if(orderMasters.CustomerId > 0)
+                {
+                    if (orderMasters.StockInfoTypeId > 2) orderMasters.StockInfoTypeId = 0;
+                    stock = GetDealerProductStockByProductId(CompanyInfo.CompanyId, pId, orderMasters.StockInfoTypeId ?? 0, orderMasters.StockInfoId ?? 0);
+
+                }
+                
+
+                    productStocks.Add(stock);
+                var salesProduct = orderDetails.Where(c => c.ProductId==pId);
+                var salesProductQty = salesProduct.Sum(c => c.Qty+c.OfferQty);
+                var salesProductCons = salesProduct.FirstOrDefault().Comsumption;
+                var salesProductQtyCtn = Math.Floor(salesProductQty/ salesProductCons??1);
+                var salesProductQtySum = orderDetails.Sum(c => c.Qty+c.OfferQty);
+
+                if(stock.CurrentStockQty< (decimal)salesProductQty)
+                {
+                    throw new Exception($"Sorry! This {stock.ProductName} Stock Qty is " +
+                        $"{stock.CurrentStockQtyCtn} Ctn and {(stock.CurrentStockQty- (decimal)(stock.CurrentStockQtyCtn*stock.Consumption))} Pcs " +
+                        $"and Sales Order Qty is {salesProductQtyCtn} Ctn and {(salesProductQty - (salesProductQtyCtn * salesProductCons))} Pcs. " +
+                        $"Sales Can't Possible.");
+                   
+                }
+               
+            }
+
+            #endregion
+
 
             if (orderMasters.Status == (int)EnumSOStatus.Draft)
             {
@@ -5329,7 +5383,8 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                StockInfoTypeId = (int)StockInfoTypeEnum.Dealer,////Sale from Dealer
+                //StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId>0 ? vmSalesOrderSlave.StockInfoTypeId: 0,
+                StockInfoTypeId =(int) StockInfoTypeEnum.Dealer,
                 StockInfoId = (int)vmSalesOrderSlave.StockInfoId,
                 IsActive = true,
                 OrderStatus = "N",
@@ -5378,6 +5433,7 @@ namespace KGERP.Service.Implementation.Procurement
             long dateTime = DateTime.Now.Ticks;
             long result = -1;
             var productTPPrice = (double)_db.Products.AsNoTracking().FirstOrDefault(c => c.ProductId == (vmSalesOrderSlave.ProductId ?? 0))?.DealerPrice;
+
 
             OrderDetail orderDetail = new OrderDetail
             {
@@ -5725,7 +5781,7 @@ namespace KGERP.Service.Implementation.Procurement
             //@StockInfoId int
 
             var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
-            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); ;
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); 
 
             VMProductStock vmProductStock = new VMProductStock();
 

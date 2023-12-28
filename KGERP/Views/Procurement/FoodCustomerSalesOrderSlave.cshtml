@@ -156,7 +156,7 @@
                                             @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Division:</label>
@@ -170,7 +170,7 @@
                                             @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, "==Select Region==", new { id = "ddlRegionFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.RegionFk, "", new { @class = "text-danger" })
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Area:</label>
@@ -668,6 +668,13 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Dealer:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ParentId, Model.CommonSupplier.DealerList as SelectList, "==Select Dealer==", new { id = "ddlModalDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ParentId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="message-text" class="col-form-label">Proprietor:</label>
                                             @Html.TextBoxFor(model => model.CommonSupplier.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
@@ -680,6 +687,14 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ContactPerson, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
+
+
+
+                                </div>
+
+                                <div class="row">
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">NID No:</label>
@@ -687,12 +702,6 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.NID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
-
-
-                                </div>
-
-                                <div class="row">
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -715,6 +724,11 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.SecurityAmount, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
+
+                                </div>
+                                <div class="row">
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Credit Limit:</label>
@@ -723,10 +737,7 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="row">
-                                   
-                                    <div class="col-md-12">
+                                    <div class="col-md-9">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Address:</label>
                                             @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" })
@@ -734,7 +745,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="box-footer">
                                 <div class="row">
@@ -1076,7 +1087,25 @@
                 }
             });
 
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("DealerListByArea", "Configuration")",
+                datatype: "JSON",
+                data:
+                {
+                    zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId
+                },
+                success: function (data) {
+                    $("#ddlModalDealerId").empty();
+                    $("#ddlModalDealerId").append("<option value=''>==Select Dealer==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlModalDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                    
+                }
 
+
+            });
         });
 
         $('#ddlZoneFk').on('change', function () {

@@ -290,9 +290,11 @@
                                         <table class="table" id="tblStockAvailable">
                                             <tr>
                                                 <th>Available Stock: </th>
-                                                <th id="stockAvailable"></th>
+                                                <th id="stockAvailable"> </th>
                                             </tr>
+
                                         </table>
+
                                     </div>
                                     <div class="col-md-4">
 
@@ -603,7 +605,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Zone:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId",  @class = "form-control ", required = "true" , @disabled= "disabled" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId", @class = "form-control ", required = "true", @disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -611,7 +613,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Division:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" , @disabled = "disabled" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true", @disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneDivisionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -645,7 +647,7 @@
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Dealer:</label>
                                             @Html.DropDownListFor(model => model.CommonSupplier.ParentId, Model.StockInfoList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ParentId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -662,7 +664,7 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ContactPerson, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                   
+
 
 
 
@@ -699,7 +701,7 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.SecurityAmount, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    
+
 
                                 </div>
                                 <div class="row">
@@ -714,7 +716,7 @@
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Address:</label>
-                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress",@rows=1, @class = "form-control", @placeholder = "Address" })
+                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress", @rows = 1, @class = "form-control", @placeholder = "Address" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.Address, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -1001,6 +1003,17 @@
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);
                         $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+                        var ctnAndPcs = data.CurrentStockQtyPcs + data.CurrentStockQtyCtn;
+
+                        if (ctnAndPcs < 1) {
+                            $('#dealerSalesOrderSlaveFormId').validate({ onsubmit: false });
+                            $('#soCreateBtn').prop("disabled", true);
+                            $('#stockAvailable').css("color","red");
+                            
+                        } else {
+                            $('#soCreateBtn').prop("disabled", false);
+                            $('#stockAvailable').css("color", "black"); 
+                        }
 
                         if (customerPrice == null) {
                             $("#txtCustomerPrice").val(data.CustomerPrice);
@@ -1145,5 +1158,7 @@
             });
         });
 
+        
+       
     </script>
 }

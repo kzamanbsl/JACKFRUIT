@@ -2248,7 +2248,7 @@ namespace KGERP.Controllers
             vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
-
+           
 
             return View(vmSalesOrderSlave);
         }
