@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DocumentFormat.OpenXml.EMMA;
+using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
@@ -442,15 +443,15 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonZone), new { companyId = vmCommonZone.CompanyFK });
         }
-        
+
         [HttpPost]
-        public async Task<JsonResult> IsZoneExist(string zoneName,int id)
+        public async Task<JsonResult> IsZoneExist(string zoneName, int id)
         {
             if (string.IsNullOrEmpty(zoneName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateZoneName(zoneName,id);
+            var isDuplicate = await _service.CheckDuplicateZoneName(zoneName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
@@ -511,15 +512,15 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CommonZoneDivision), new { companyId = vmCommonZoneDivision.CompanyFK, zoneId = vmCommonZoneDivision.ZoneId });
         }
-      
+
         [HttpPost]
-        public async Task<JsonResult> IsZoneDivisionExist(int zoneId,string zoneDivisionName, int id)
+        public async Task<JsonResult> IsZoneDivisionExist(int zoneId, string zoneDivisionName, int id)
         {
             if (string.IsNullOrEmpty(zoneDivisionName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateZoneDivisionName(zoneId,zoneDivisionName, id);
+            var isDuplicate = await _service.CheckDuplicateZoneDivisionName(zoneId, zoneDivisionName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
         }
@@ -578,13 +579,13 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> IsRegionNameExist(int zoneId,int zoneDivisionId,string regionName,int id)
+        public async Task<JsonResult> IsRegionNameExist(int zoneId, int zoneDivisionId, string regionName, int id)
         {
             if (string.IsNullOrEmpty(regionName))
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var isDuplicate = await _service.CheckDuplicateRegionName( zoneId,zoneDivisionId, regionName, id);
+            var isDuplicate = await _service.CheckDuplicateRegionName(zoneId, zoneDivisionId, regionName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
@@ -594,7 +595,7 @@ namespace KGERP.Controllers
         #region Common Area
 
         [HttpGet]
-        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId=0)
+        public async Task<ActionResult> GetAreaList(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0)
         {
             var model = await Task.Run(() => _service.GetAreaSelectList(companyId, zoneId, zoneDivisionId, regionId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
@@ -602,7 +603,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId=0)
+        public async Task<ActionResult> CommonArea(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0)
         {
 
             VMCommonArea vmCommonArea = new VMCommonArea();
@@ -641,7 +642,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, zoneDivisionId = vmCommonArea.ZoneDivisionId, regionId=vmCommonArea.RegionId });
+            return RedirectToAction(nameof(CommonArea), new { companyId = vmCommonArea.CompanyFK, zoneId = vmCommonArea.ZoneId, zoneDivisionId = vmCommonArea.ZoneDivisionId, regionId = vmCommonArea.RegionId });
         }
 
         [HttpPost]
@@ -652,7 +653,7 @@ namespace KGERP.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
 
-            var isDuplicate = await _service.CheckDuplicateAreaName(zoneId, zoneDivisionId,regionId, areaName, id);
+            var isDuplicate = await _service.CheckDuplicateAreaName(zoneId, zoneDivisionId, regionId, areaName, id);
 
             return Json(isDuplicate, JsonRequestBehavior.AllowGet);
 
@@ -664,13 +665,13 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0)
         {
-            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, zoneDivisionId,regionId,areaId));
+            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, zoneDivisionId, regionId, areaId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0,  int areaId = 0)
+        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0)
         {
 
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
@@ -1024,9 +1025,9 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task< JsonResult> IsSubCategoryExits(string name, int categoryId,int id)
+        public async Task<JsonResult> IsSubCategoryExits(string name, int categoryId, int id)
         {
-            if(name == null)
+            if (name == null)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
 
@@ -1085,7 +1086,7 @@ namespace KGERP.Controllers
         }
 
 
-        public async Task<JsonResult> IsProductExist(int categoryId,int subCategoryId,string productName,int id)
+        public async Task<JsonResult> IsProductExist(int categoryId, int subCategoryId, string productName, int id)
         {
             if (string.IsNullOrEmpty(productName))
             {
@@ -1449,7 +1450,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetCustomerBySubZones(int zoneId, int zoneDivisionId, int regionId,int areaId,int subZoneId)
+        public JsonResult GetCustomerBySubZones(int zoneId, int zoneDivisionId, int regionId, int areaId, int subZoneId)
         {
             var Deport = new SelectList(_service.CommonCustomerListBySunZones(zoneId, zoneDivisionId, regionId, areaId, subZoneId), "Value", "Text");
 
@@ -1636,7 +1637,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int zoneDivisionId = 0,int regionId=0, int areaId = 0, int subZoneId = 0)
+        public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
@@ -1720,7 +1721,7 @@ namespace KGERP.Controllers
             var result = await _ftpService.DeletePermanentlyVendor(docId);
             return Json(result);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> AddCustomer(VMSalesOrderSlave vmSalesOrderSlave)
         {
@@ -1734,8 +1735,8 @@ namespace KGERP.Controllers
             }
 
             return RedirectToAction("FoodCustomerSalesOrderSlave", "Procurement");
-        } 
-        
+        }
+
         [HttpPost]
         public async Task<ActionResult> SRAddCustomer(VMSalesOrderSlave vmSalesOrderSlave)
         {
@@ -1746,7 +1747,7 @@ namespace KGERP.Controllers
                 await _service.CustomerAdd(vmSalesOrderSlave.CommonSupplier);
             }
 
-            return RedirectToAction("SRSalesOrderSlave", "Procurement",new { companyId = CompanyInfo.CompanyId });
+            return RedirectToAction("SRSalesOrderSlave", "Procurement", new { companyId = CompanyInfo.CompanyId });
         }
 
         #endregion
@@ -1808,17 +1809,26 @@ namespace KGERP.Controllers
             return View(vmCommonDeport);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> CommonDeportById(ReportCustomModel model)
+        {
+
+            VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
+            vmCommonDeport = await Task.Run(() => _service.GetDeportById(model.DeportId ?? 0));
+            return View(vmCommonDeport);
+        }
+
         [HttpGet]
         public JsonResult CommonDeportByIdGet(int id)
         {
             var model = _service.GetCommonDeportById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
-        }    
-        
+        }
+
         [HttpGet]
-        public JsonResult GetDeportByRegion(int zoneId,int zoneDivision, int regionId)
+        public JsonResult GetDeportByRegion(int zoneId, int zoneDivision, int regionId)
         {
-            var Deport = new SelectList(_service.CommonDeportListByRegion(zoneId,zoneDivision,regionId), "Value", "Text");
+            var Deport = new SelectList(_service.CommonDeportListByRegion(zoneId, zoneDivision, regionId), "Value", "Text");
 
             return Json(Deport, JsonRequestBehavior.AllowGet);
         }
@@ -1887,22 +1897,22 @@ namespace KGERP.Controllers
         {
             var model = _service.GetCommonDealerById(id);
             return Json(model, JsonRequestBehavior.AllowGet);
-        }  
+        }
 
         [HttpGet]
         public async Task<JsonResult> GetDealerListByParentId(int id)
         {
-            var model =await  _service.GetDealerListByParentId(id);
+            var model = await _service.GetDealerListByParentId(id);
             return Json(model, JsonRequestBehavior.AllowGet);
-        }  
+        }
 
         [HttpGet]
         public JsonResult DealerListByArea(int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0)
         {
-            var model  = new SelectList( _service.CommonDealerListByArea(zoneId, zoneDivisionId, regionId,areaId), "Value", "Text"); 
-          
+            var model = new SelectList(_service.CommonDealerListByArea(zoneId, zoneDivisionId, regionId, areaId), "Value", "Text");
+
             return Json(model, JsonRequestBehavior.AllowGet);
-        } 
+        }
         #endregion
 
         #region Geolocation
@@ -2481,7 +2491,7 @@ namespace KGERP.Controllers
         #endregion
 
         [HttpGet]
-        public async Task<ActionResult> GetEmployeeListBySubZone( int zoneId = 0, int zoneDivisionId = 0, int regionId = 0,int areaId=0,int subzoneId=0)
+        public async Task<ActionResult> GetEmployeeListBySubZone(int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subzoneId = 0)
         {
             var employeeList = await Task.Run(() => new SelectList(_service.GetEmployeesBySubzones(zoneId, zoneDivisionId, regionId, areaId, subzoneId), "Value", "Text"));
             return Json(employeeList, JsonRequestBehavior.AllowGet);

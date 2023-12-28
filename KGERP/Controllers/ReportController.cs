@@ -5297,13 +5297,11 @@ namespace KGERP.Controllers
             var model = new ReportCustomModel();
             model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             var dptId = model.UserDataAccessModel?.DeportIds != null ? model.UserDataAccessModel.DeportIds[0] : 0;
-            if (dptId > 0)
+            model.DeportId = dptId;
+
+            if (dptId <= 0)
             {
-                model.DeportId = dptId;
-            }
-            else
-            {
-                model.DeportList= new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
+                model.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
             }
 
             //return RedirectToAction("CommonDeportById", "Configuration", new { deportId = dptId });
