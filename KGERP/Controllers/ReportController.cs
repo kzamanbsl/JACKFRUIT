@@ -5488,17 +5488,9 @@ namespace KGERP.Controllers
             client.Credentials = nwc;
             model.ReportName = CompanyInfo.ReportPrefix + reportName;
 
-            if (model.CustomerId == null)
+            if (model.StockId == null)
             {
-                model.CustomerId = 0;
-            }
-            if (model.ProductId == null)
-            {
-                model.ProductId = 0;
-            }
-            if (model.SubZoneFk == null)
-            {
-                model.SubZoneFk = 0;
+                model.StockId = 0;
             }
             if (model.ProductCategoryId == null)
             {
@@ -5508,7 +5500,12 @@ namespace KGERP.Controllers
             {
                 model.ProductSubCategoryId = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&CustomerId={5}&ProductId={6}&SubZoneId={7}&ProductCategoryId={8}&ProductSubCategoryId={9}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.CustomerId, model.ProductId, model.SubZoneFk, model.ProductCategoryId, model.ProductSubCategoryId);
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&StockId={5}&ProductCategoryId={6}&ProductSubCategoryId={7}&ProductId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.StockId, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
