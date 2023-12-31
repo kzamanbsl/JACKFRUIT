@@ -34,17 +34,14 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <label>Territory</label>
-                @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                <label for="message-text" class="col-form-label">Warehouse:</label>
+                @Html.DropDownListFor(model => model.StockId, new SelectList(Model.Stocks, "Value", "Text"), "---Select Warehouse---", new { @class = "dropdownsize form-control searchingDropdown" })
+                @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="form-group">
-                <label>Customer</label>
-                @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-            </div>
+
         </div>
     </div>
 
@@ -53,7 +50,7 @@
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Category</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductCategoryId, new SelectList(Model.ProductCategoryList, "Value", "Text"), "---Select Category---", new { id = "ddlCommon_ProductCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductCategoryId, new SelectList(Model.ProductCategoryList, "Value", "Text"), new { id = "ddlCommon_ProductCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -80,6 +77,7 @@
                 <option value="EXCEL">EXCEL</option>
                 <option value="WORD">WORD</option>
             </select>
+            &nbsp;
             <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-right" formtarget="_blank" />
             @*<input type="submit" style="margin-top:20px" formtarget="_blank" value="Report" class="btn btn-success" />*@
         </div>
@@ -103,33 +101,12 @@
             });
         });
 
-        $("#ddlSubZoneFk").change(function () {
-            var subZoneFk = $("#ddlSubZoneFk").val();
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
-                datatype: "Json",
-                data: { subZoneId: subZoneFk },
-                success: function (data) {
-
-                    var items = "";
-                    if (data) {
-                        $("#ddlCustomerId").empty();
-                        $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
-                        $(data).each(function (index, item) {
-                            $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        });
-                    }
-                }
-            });
-        });
-
         $("#ddlCommon_ProductCategoryFk").change(function () {
 
             var productCategoryFk = $("#ddlCommon_ProductCategoryFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetCommonProductSubCategory", "WareHouse")",
+                url: "@Url.Action("GetCommonProductSubCategory", "Warehouse")",
                 datatype: "Json",
                 data: { id: productCategoryFk },
                 success: function (data) {
@@ -151,7 +128,7 @@
             var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetCommonProduct", "WareHouse")",
+                url: "@Url.Action("GetCommonProduct", "Warehouse")",
                 datatype: "Json",
                 data: { id: productSubCategoryFk },
                 success: function (data) {
