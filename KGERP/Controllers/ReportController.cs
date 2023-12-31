@@ -5471,7 +5471,7 @@ namespace KGERP.Controllers
                 ToDate = DateTime.Now,
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
-                SubZoneList = new SelectList(_procurementService.SubZonesDropDownList(companyId), "Value", "Text"),
+                Stocks = _stockInfoService.GetStockInfoSelectModels(companyId),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 ReportName = CompanyInfo.ReportPrefix + reportName,
             };
