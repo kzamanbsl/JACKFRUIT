@@ -3,6 +3,7 @@ using KGERP.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using Remotion.Data.Linq.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -46,18 +47,22 @@ namespace KGERP.Controllers
 
             if (ModelState.IsValid && string.IsNullOrEmpty(model.EmployeeName) && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Password))
             {
-                ViewBag.Error = "Invalid Request!";
-                model = GetUsers();
-                return View(model);
+                //ViewBag.Error = "Invalid Request!";
+                //model = GetUsers();
+                //return View(model);
+                throw new Exception("Invalid Request!");
+
             }
 
             #region User Name is already Exist 
             var isUserName = IsUserNameExist(model.UserName);
             if (isUserName)
             {
-                ViewBag.Error = "User Name already exist!";
-                model = GetUsers();
-                return View(model);
+                //ViewBag.Error = "User Name already exist!";
+                //model = GetUsers();
+                //return View(model);
+                throw new Exception("User Name already exist!");
+
             }
             #endregion
 
@@ -66,9 +71,10 @@ namespace KGERP.Controllers
             if (isExist)
             {
                 //ModelState.AddModelError("EmailExist", "Email already exist");
-                ViewBag.Error = "Email already exist!";
-                model = GetUsers();
-                return View(model);
+                //ViewBag.Error = "Email already exist!";
+                //model = GetUsers();
+                //return View(model);
+                throw new Exception("Email already exist!");
             }
             #endregion
 
@@ -115,16 +121,19 @@ namespace KGERP.Controllers
                  vendor = _context.Vendors.FirstOrDefault(c=>c.VendorId== model.DeportId);
                 if (vendor == null)
                 {
-                    ViewBag.Error = "Deport Not Found!";
-                    model = GetUsers();
-                    return View(model);
+                    //ViewBag.Error = "Deport Not Found!";
+                    //model = GetUsers();
+                    //return View(model);
+                    throw new Exception("Deport Not Found!");
                 }
 
                 if (!string.IsNullOrEmpty(vendor.EmployeeId))
                 {
-                    ViewBag.Error = "Deport as a user already exist!";
-                    model = GetUsers();
-                    return View(model);
+                    //ViewBag.Error = "Deport as a user already exist!";
+                    //model = GetUsers();
+                    //return View(model);
+                    throw new Exception("Deport as a user already exist!");
+
                 }
 
                 vendor.EmployeeId = user.UserName;
@@ -135,15 +144,18 @@ namespace KGERP.Controllers
                  vendor = _context.Vendors.FirstOrDefault(c => c.VendorId == model.DealerId);
                 if (vendor == null)
                 {
-                    ViewBag.Error = "Dealer Not Found!";
-                    model = GetUsers();
-                    return View(model);
+                    //ViewBag.Error = "Dealer Not Found!";
+                    //model = GetUsers();
+                    //return View(model);
+                    throw new Exception("Dealer Not Found!");
                 }
                 if (!string.IsNullOrEmpty(vendor.EmployeeId))
                 {
-                    ViewBag.Error = "Dealer as a user already exist!";
-                    model = GetUsers();
-                    return View(model);
+                    //ViewBag.Error = "Dealer as a user already exist!";
+                    //model = GetUsers();
+                    //return View(model);
+                    throw new Exception("Dealer as a user already exist!!");
+
                 }
                 vendor.EmployeeId = user.UserName;
             }

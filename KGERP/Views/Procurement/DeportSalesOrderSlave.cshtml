@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Deport Sales Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var stockInfoId=StockInfoTypeEnum.Company;
 }
 
 <style type="text/css">
@@ -946,7 +947,7 @@
                         $('.txtUnitName').text(data.UnitName);
                         //$('#ProductConsumption').val(data.Consumption);
                         //$('#txtDeportPrice').val(data.DeportPrice);
-                        $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+                        $('#stockAvailable').text((data.CurrentStockQtyCtn).toFixed(2) + ' ctn and ' + (data.CurrentStockQtyPcs).toFixed(2) + ' pcs');
 
                         if (unitPrice == null) {
                             $("#txtDeportPrice").val(data.DeportPrice);

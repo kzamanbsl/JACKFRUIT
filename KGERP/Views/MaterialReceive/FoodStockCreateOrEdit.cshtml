@@ -98,7 +98,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Warehouse:</label>
-                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfos, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Supplier:</label>
-                                            @Html.DropDownListFor(model => model.Common_SupplierFK, new SelectList(Model.Vendors, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown" })
+                                            @Html.DropDownListFor(model => model.Common_SupplierFK, new SelectList(Model.Vendors, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown"  })
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

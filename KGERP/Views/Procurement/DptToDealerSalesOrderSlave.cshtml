@@ -763,7 +763,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
+                    url: "@Url.Action("GetDeportProductStockByProductId", "Procurement")",
                     datatype: "Json",
                     data: { companyId: "@Model.CompanyFK", productId: productId },
                     success: function (data) {
@@ -772,11 +772,11 @@
                             if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Company)) {
                                 $('#tblStockAvailable').show();
                                 $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+                                $('#stockAvailable').text((data.CurrentStockQtyCtn).toFixed(2) + ' ctn and ' + (data.CurrentStockQtyPcs).toFixed(2) + ' pcs');
                             }
 
                             if (dealerPrice == -1) {
-                                $("#txtDealerPrice").val(data.DealerPrice);
+                                $("#txtDealerPrice").val(data.UnitPrice);
 
                             } else {
                                 $("#txtDealerPrice").val(dealerPrice);

@@ -971,7 +971,7 @@
                     if (data) {
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);
-                        $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+                        $('#stockAvailable').text((data.CurrentStockQtyCtn).toFixed(2) + ' ctn and ' + (data.CurrentStockQtyPcs).toFixed(2) + ' pcs');
 
                         if (customerPrice == null) {
                             $("#txtCustomerPrice").val(data.CustomerPrice);

@@ -3814,8 +3814,8 @@ namespace KGERP.Service.Implementation.Procurement
                 }
                 else if(orderMasters.CustomerId > 0)
                 {
-                    if (orderMasters.StockInfoTypeId > 2) orderMasters.StockInfoTypeId = 0;
-                    stock = GetDealerProductStockByProductId(CompanyInfo.CompanyId, pId, orderMasters.StockInfoTypeId ?? 0, orderMasters.StockInfoId ?? 0);
+                    
+                    stock = GetDealerProductStockByProductId(CompanyInfo.CompanyId, pId, (orderMasters.StockInfoTypeId>2 ? 0: orderMasters.StockInfoTypeId) ?? 0, orderMasters.StockInfoId ?? 0 );
 
                 }
                 
