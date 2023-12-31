@@ -1,4 +1,5 @@
-﻿using KGERP.Data.Models;
+﻿using DocumentFormat.OpenXml.EMMA;
+using KGERP.Data.Models;
 using KGERP.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
@@ -31,9 +32,9 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> Registration()
         {
-            var model = GetUsers();
-            var userDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
-            model.UserDataAccessModel = userDataAccessModel;
+            var model =await GetUsers();
+            //var userDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            //model.UserDataAccessModel = userDataAccessModel;
             model.UserName = GenaratEemployeeId();
             return View(model);
         }
@@ -42,27 +43,23 @@ namespace KGERP.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] UserModel model)
-        public ActionResult Registration(UserModel model)
+        public async Task<ActionResult> Registration(UserModel model)
         {
 
             if (ModelState.IsValid && string.IsNullOrEmpty(model.EmployeeName) && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Password))
             {
-                //ViewBag.Error = "Invalid Request!";
-                //model = GetUsers();
-                //return View(model);
-                throw new Exception("Invalid Request!");
-
+                ViewBag.Error = "Invalid Request!";
+                model =await GetUsers();
+                return View(model);
             }
 
             #region User Name is already Exist 
             var isUserName = IsUserNameExist(model.UserName);
             if (isUserName)
             {
-                //ViewBag.Error = "User Name already exist!";
-                //model = GetUsers();
-                //return View(model);
-                throw new Exception("User Name already exist!");
-
+                ViewBag.Error = "User Name already exist!";
+                model =await GetUsers();
+                return View(model);
             }
             #endregion
 
@@ -71,10 +68,9 @@ namespace KGERP.Controllers
             if (isExist)
             {
                 //ModelState.AddModelError("EmailExist", "Email already exist");
-                //ViewBag.Error = "Email already exist!";
-                //model = GetUsers();
-                //return View(model);
-                throw new Exception("Email already exist!");
+                ViewBag.Error = "Email already exist!";
+                model =await GetUsers();
+                return View(model);
             }
             #endregion
 
@@ -116,24 +112,21 @@ namespace KGERP.Controllers
             #region Deport or Dealer User Name Add
 
             Vendor vendor = null;
-            if (model.UserTypeId==(int)EnumUserType.Deport && model.DeportId>0)
+            if (model.UserTypeId == (int)EnumUserType.Deport && model.DeportId > 0)
             {
-                 vendor = _context.Vendors.FirstOrDefault(c=>c.VendorId== model.DeportId);
+                vendor = _context.Vendors.FirstOrDefault(c => c.VendorId == model.DeportId);
                 if (vendor == null)
                 {
-                    //ViewBag.Error = "Deport Not Found!";
-                    //model = GetUsers();
-                    //return View(model);
-                    throw new Exception("Deport Not Found!");
+                    ViewBag.Error = "Deport Not Found!";
+                    model =await GetUsers();
+                    return View(model);
                 }
 
                 if (!string.IsNullOrEmpty(vendor.EmployeeId))
                 {
-                    //ViewBag.Error = "Deport as a user already exist!";
-                    //model = GetUsers();
-                    //return View(model);
-                    throw new Exception("Deport as a user already exist!");
-
+                    ViewBag.Error = "Deport as a user already exist!";
+                    model =await GetUsers();
+                    return View(model);
                 }
 
                 vendor.EmployeeId = user.UserName;
@@ -141,21 +134,18 @@ namespace KGERP.Controllers
 
             if (model.UserTypeId == (int)EnumUserType.Dealer && model.DealerId > 0)
             {
-                 vendor = _context.Vendors.FirstOrDefault(c => c.VendorId == model.DealerId);
+                vendor = _context.Vendors.FirstOrDefault(c => c.VendorId == model.DealerId);
                 if (vendor == null)
                 {
-                    //ViewBag.Error = "Dealer Not Found!";
-                    //model = GetUsers();
-                    //return View(model);
-                    throw new Exception("Dealer Not Found!");
+                    ViewBag.Error = "Dealer Not Found!";
+                    model =await GetUsers();
+                    return View(model);
                 }
                 if (!string.IsNullOrEmpty(vendor.EmployeeId))
                 {
-                    //ViewBag.Error = "Dealer as a user already exist!";
-                    //model = GetUsers();
-                    //return View(model);
-                    throw new Exception("Dealer as a user already exist!!");
-
+                    ViewBag.Error = "Dealer as a user already exist!";
+                    model =await GetUsers();
+                    return View(model);
                 }
                 vendor.EmployeeId = user.UserName;
             }
@@ -166,7 +156,7 @@ namespace KGERP.Controllers
             {
                 _context.Employees.Add(employee);
                 _context.Users.Add(user);
-                
+
                 if (_context.SaveChanges() > 0)
                 {
                     ViewBag.Message = "Registration successfully done!";
@@ -178,10 +168,10 @@ namespace KGERP.Controllers
             #endregion
             //var dto = GetUsers();
             //return View(dto);
-            return RedirectToAction("Registration","User");
+            return RedirectToAction("Registration", "User");
         }
 
-        private UserModel GetUsers()
+        private async Task<UserModel> GetUsers()
         {
             ERPEntities _db = new ERPEntities();
 
@@ -202,6 +192,10 @@ namespace KGERP.Controllers
 
                                   }).OrderByDescending(x => x.UserId).AsEnumerable();
             userModel.DataList = userModel.DataList.Where(c => c.UserName != CompanyInfo.ProjectAdminUserId);
+
+            var userDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            userModel.UserDataAccessModel = userDataAccessModel;
+
             return userModel;
         }
 

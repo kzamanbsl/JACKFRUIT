@@ -291,3 +291,6 @@ ERROR 2023-12-07 15:37:25,714 358024ms UserController         Login             
 ERROR 2023-12-18 14:36:55,180 103256ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\RunningWork\JACKFRUIT\KGERP\Controllers\UserController.cs:line 339
+ERROR 2023-12-31 15:54:11,620 64098ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\RunningWork\JACKFRUIT\KGERP\Controllers\UserController.cs:line 345
