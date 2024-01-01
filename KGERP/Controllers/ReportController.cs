@@ -5603,6 +5603,79 @@ namespace KGERP.Controllers
             return View();
         }
 
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult DeportDateWiseStockDetailReport(int companyId)
+        {
+            var reportName = "DeportDateWiseStockDetailReport";
+            Session["CompanyId"] = companyId;
+
+            ReportCustomModel cm = new ReportCustomModel()
+            {
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text"),
+                ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
+                ReportName = CompanyInfo.ReportPrefix + reportName,
+            };
+            return View(cm);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult DeportDateWiseStockDetailReport(ReportCustomModel model)
+        {
+            var reportName = "DeportDateWiseStockDetailReport";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            model.ReportName = CompanyInfo.ReportPrefix + reportName;
+
+            if (model.DeportId == null)
+            {
+                model.DeportId = 0;
+            }
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&DeportId={5}&ProductCategoryId={6}&ProductSubCategoryId={7}&ProductId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.DeportId, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", reportName + ".xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
+            }
+            return View();
+        }
+
         // Dealer Product Stock Report
         [HttpGet]
         [SessionExpire]
@@ -5679,6 +5752,78 @@ namespace KGERP.Controllers
             return View();
         }
 
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult DealerDateWiseStockDetailReport(int companyId)
+        {
+            var reportName = "DealerDateWiseStockDetailReport";
+            Session["CompanyId"] = companyId;
+
+            ReportCustomModel cm = new ReportCustomModel()
+            {
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text"),
+                ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
+                ReportName = CompanyInfo.ReportPrefix + reportName,
+            };
+            return View(cm);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult DealerDateWiseStockDetailReport(ReportCustomModel model)
+        {
+            var reportName = "DealerDateWiseStockDetailReport";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            model.ReportName = CompanyInfo.ReportPrefix + reportName;
+
+            if (model.DealerId == null)
+            {
+                model.DealerId = 0;
+            }
+            if (model.ProductCategoryId == null)
+            {
+                model.ProductCategoryId = 0;
+            }
+            if (model.ProductSubCategoryId == null)
+            {
+                model.ProductSubCategoryId = 0;
+            }
+            if (model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
+            if (string.IsNullOrEmpty(model.StrFromDate))
+            {
+                model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(model.StrToDate))
+            {
+                model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&DealerId={5}&ProductCategoryId={6}&ProductSubCategoryId={7}&ProductId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.DealerId, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", reportName + ".xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
+            }
+            return View();
+        }
 
 
         #endregion

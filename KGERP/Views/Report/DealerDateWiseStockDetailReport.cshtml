@@ -1,75 +1,73 @@
 ﻿@model KGERP.Data.CustomModel.ReportCustomModel
 <div class="row">
     <div class="col-md-12" style="background-color:lightblue">
-        @Html.Label("Dealer Product Stock Report", new { @style = "font-size:20px" })
+        @Html.Label("Dealer Date Wise Stock Details", new { @style = "font-size:20px" })
     </div>
 </div>
 <br />
 
-@using (Html.BeginForm("DealerProductStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+@using (Html.BeginForm("DealerDateWiseStockDetailReport", "Report", FormMethod.Post, new { @id = "idForm" }))
 {
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.CompanyId, new { @id = "hfCompanyId" })
-    <div class="row">
+<div class="row">
 
-        <div class="col-md-3">
-            @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
-            <br />
-            <div style="display:flex">
-                @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
-            </div>
-            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+    <div class="col-md-3">
+        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+        <br />
+        <div style="display:flex">
+            @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
         </div>
-        <div class="col-md-3">
-            @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
-            <br />
-            <div style="display:flex">
-                @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
-            </div>
-            @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Zone:</label>
-                @Html.DropDownListFor(model => model.ZoneId, Model.SelectZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Dealer:</label>
-                @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
 
     </div>
+    <div class="col-md-3">
+        @Html.Label("ToDate", htmlAttributes: new { @class = "control-label" })
+        <br />
+        <div style="display:flex">
+            @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
+        </div>
+        @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="message-text" class="col-form-label">Deport:</label>
+            @Html.DropDownListFor(model => model.DeportId, new SelectList(Model.DeportList, "Value", "Text"), "---Select Deport---", new {@id="ddlDeportId", @class = "dropdownsize form-control searchingDropdown" })
+            @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="message-text" class="col-form-label">Dealer:</label>
+            @Html.DropDownListFor(model => model.DealerId, new SelectList(Model.DealerList, "Value", "Text"), new { @id = "ddlDealerId", @class = "dropdownsize form-control searchingDropdown" })
+            @Html.ValidationMessageFor(model => model.DealerId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
 
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
-                <label for="message-text" class="col-form-label">Category:</label>
+                <label for="message-text" class="col-form-label">Category</label>
                 <br />
                 @Html.DropDownListFor(model => model.ProductCategoryId, new SelectList(Model.ProductCategoryList, "Value", "Text"), new { id = "ddlCommon_ProductCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="form-group">
-                <label for="message-text" class="col-form-label">Subcategory:</label>
+                <label for="message-text" class="col-form-label">Subcategory</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductSubCategoryId, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="form-group">
-                <label for="message-text" class="col-form-label">Product:</label>
+                <label for="message-text" class="col-form-label">Item</label>
                 <br />
-                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
+                @Html.DropDownListFor(model => model.ProductId, Model.ProductList as SelectList, "---Select Item---", new { id = "ddlCommonProductFk", @class = "searchingDropdown  customStyle", @style = "width: 100%;" })
                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -82,6 +80,7 @@
             </select>
             &nbsp;
             <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-right" formtarget="_blank" />
+            @*<input type="submit" style="margin-top:20px" formtarget="_blank" value="Report" class="btn btn-success" />*@
         </div>
     </div>
 
@@ -91,7 +90,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-    <script>
+<script>
         $(document).ready(function () {
             $('.datepicker').datepicker({
                 dateFormat: "mm/dd/yy",
@@ -103,33 +102,33 @@
             });
         });
 
-        $("#ddlZoneFk").change(function () {
-            var zoneFk = $("#ddlZoneFk").val();
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
-                datatype: "Json",
-                data: { zoneId: zoneFk },
-                success: function (data) {
+    $("#ddlDeportId").change(function () {
 
-                    if (data) {
-                        $("#ddlCustomerId").empty();
-                        $("#ddlCustomerId").append("<option value=''>==Select Dealer==</option>");
-                        $(data).each(function (index, item) {
-                            $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        });
-                    }
+        var dptId = $("#ddlDeportId").val();
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetDealerListByParentId", "Configuration")",
+            datatype: "Json",
+            data: { id: dptId },
+            success: function (data) {
+                var items = "";
+                if (data) {
+                    $("#ddlDealerId").empty();
+                    $("#ddlDealerId").append("<option value=''>==Select Dealer==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlDealerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
                 }
-            });
+            }
         });
-
+    });
 
         $("#ddlCommon_ProductCategoryFk").change(function () {
 
             var productCategoryFk = $("#ddlCommon_ProductCategoryFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetCommonProductSubCategory", "WareHouse")",
+                url: "@Url.Action("GetCommonProductSubCategory", "Warehouse")",
                 datatype: "Json",
                 data: { id: productCategoryFk },
                 success: function (data) {
@@ -146,13 +145,12 @@
             });
         });
 
-
         $("#ddlCommonProductSubCategoryFk").change(function () {
 
             var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetCommonProduct", "WareHouse")",
+                url: "@Url.Action("GetCommonProduct", "Warehouse")",
                 datatype: "Json",
                 data: { id: productSubCategoryFk },
                 success: function (data) {
@@ -163,13 +161,12 @@
                         $(data).each(function (index, item) {
                             $("#ddlCommonProductFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });
-
                     }
                 }
             });
         });
 
-    </script>
+</script>
 }
 
 
