@@ -493,7 +493,6 @@ namespace KGERP.Service.Implementation.Configuration
         public string Description { get; set; }
         public int Common_ProductCategoryFk { get; set; }
         public string CategoryName { get; set; }
-        public int CategoryId { get; set; }
         public string ProductType { get; set; }
         public bool IsLock { get; set; }
         public decimal? BaseCommissionRate { get; set; }

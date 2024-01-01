@@ -42,15 +42,10 @@
 
                                 <div class="form-group" style="padding:0px">
                                     <label for="message-text" class="col-form-label">Category:</label>
-                                    @Html.DropDownListFor(model => model.CategoryId, Model.ProductCategory as SelectList, "--Select Product Category--", new { @class = "form-control searchingDropdown", @name = "Brand", @id = "txtCategoryName", required = "true" })
+                                    @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategory as SelectList, "--Select Product Category--", new { @class = "form-control searchingDropdown", @name = "Brand", @id = "txtCategoryName", required = "true" })
                                     @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
                                     @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                 </div>
-
-                                @*<div class="form-group">
-                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "---Select Category---", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
-                                    </div>*@
 
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Sbucategory:</label>
@@ -99,7 +94,7 @@
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>
-                                                        <input type="hidden" id="commonProductCategoryFk_@item.ID" name="User_MenuFk" value="@item.Common_ProductCategoryFk" />
+                                                        <input type="hidden" id="commonProductCategoryFk_@item.ID" value="@item.Common_ProductCategoryFk" />
                                                         <input type="hidden" id="tdCategoryName_@item.ID" value="@item.CategoryName" />
                                                         @item.CategoryName
                                                     </td>
@@ -155,7 +150,7 @@
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this subcategory?</h3>
+                        <h3>Are you sure to delete this Subcategory?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">

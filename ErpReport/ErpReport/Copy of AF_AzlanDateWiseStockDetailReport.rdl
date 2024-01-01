@@ -9,13 +9,13 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-01T03:52:45.5711374Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2023-12-31T10:21:37.4141898Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DateWiseStockDetailDSTest">
-      <DataSourceReference>AFTestDataSource</DataSourceReference>
+    <DataSource Name="DateWiseStockDetailDS">
+      <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>e8d59079-d484-427b-ba99-b5b46f8cc3d7</rd:DataSourceID>
     </DataSource>
@@ -23,7 +23,7 @@
   <DataSets>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>DateWiseStockDetailDSTest</DataSourceName>
+        <DataSourceName>DateWiseStockDetailDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -57,7 +57,7 @@ WHERE CompanyId = @CompanyId </CommandText>
     </DataSet>
     <DataSet Name="DateWiseSaleDetailDataSet">
       <Query>
-        <DataSourceName>DateWiseStockDetailDSTest</DataSourceName>
+        <DataSourceName>DateWiseStockDetailDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -272,7 +272,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ReceiveNo1">
+                        <Textbox Name="OrderNo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -290,13 +290,13 @@ WHERE CompanyId = @CompanyId </CommandText>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ReceiveNo1</rd:DefaultName>
+                          <rd:DefaultName>OrderNo</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>Lavender</BackgroundColor>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -307,7 +307,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox46">
+                        <Textbox Name="Textbox22">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -322,18 +322,16 @@ WHERE CompanyId = @CompanyId </CommandText>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox46</rd:DefaultName>
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>Lavender</BackgroundColor>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -344,7 +342,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox47">
+                        <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -359,18 +357,16 @@ WHERE CompanyId = @CompanyId </CommandText>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox47</rd:DefaultName>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>Lavender</BackgroundColor>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -381,7 +377,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox48">
+                        <Textbox Name="Textbox24">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -396,18 +392,16 @@ WHERE CompanyId = @CompanyId </CommandText>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox48</rd:DefaultName>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>Lavender</BackgroundColor>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1112,30 +1106,42 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixMembers>
                     <TablixMember />
                     <TablixMember>
-                      <Group Name="ReceivedDate">
+                      <Group Name="MaterialReceiveId">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!ReceivedDate.Value</GroupExpression>
+                          <GroupExpression>=Fields!MaterialReceiveId.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!ReceivedDate.Value</Value>
+                          <Value>=Fields!MaterialReceiveId.Value</Value>
                         </SortExpression>
                       </SortExpressions>
                       <TablixMembers>
-                        <TablixMember />
-                        <TablixMember />
-                        <TablixMember />
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
                         <TablixMember>
                           <Group Name="Details" />
                         </TablixMember>
-                        <TablixMember />
+                        <TablixMember>
+                          <KeepWithGroup>Before</KeepWithGroup>
+                        </TablixMember>
                       </TablixMembers>
                     </TablixMember>
-                    <TablixMember />
+                    <TablixMember>
+                      <KeepWithGroup>Before</KeepWithGroup>
+                    </TablixMember>
                   </TablixMembers>
                 </TablixMember>
-                <TablixMember />
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DateWiseSaleDetailDataSet</DataSetName>
@@ -1150,10 +1156,10 @@ WHERE CompanyId = @CompanyId </CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.3125in</Height>
+        <Height>2.12458in</Height>
         <Style />
       </Body>
-      <Width>8.20762in</Width>
+      <Width>8.29721in</Width>
       <Page>
         <PageHeader>
           <Height>0.98181in</Height>
@@ -1250,7 +1256,7 @@ WHERE CompanyId = @CompanyId </CommandText>
               <rd:DefaultName>Textbox82</rd:DefaultName>
               <Left>1.87708in</Left>
               <Height>0.92973in</Height>
-              <Width>4.85693in</Width>
+              <Width>4.91248in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1303,9 +1309,9 @@ WHERE CompanyId = @CompanyId </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
-              <Left>6.76595in</Left>
+              <Left>6.80345in</Left>
               <Height>0.22917in</Height>
-              <Width>1.44167in</Width>
+              <Width>1.47292in</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>

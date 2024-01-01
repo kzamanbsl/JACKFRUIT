@@ -3344,7 +3344,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var result = -1;
             #region IsExist
-            var isExist = _db.ProductSubCategories.FirstOrDefault(c => c.Name.Equals(vmCommonProductSubCategory.Name) && c.ProductCategoryId == vmCommonProductSubCategory.CategoryId && c.IsActive == true);
+            var isExist = _db.ProductSubCategories.FirstOrDefault(c => c.Name.Equals(vmCommonProductSubCategory.Name) && c.ProductCategoryId == vmCommonProductSubCategory.Common_ProductCategoryFk && c.IsActive == true);
 
             if (isExist?.ProductSubCategoryId > 0)
             {
@@ -3356,7 +3356,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 Name = vmCommonProductSubCategory.Name,
                 Code = vmCommonProductSubCategory.Code,
-                ProductCategoryId = vmCommonProductSubCategory.CategoryId,
+                ProductCategoryId = vmCommonProductSubCategory.Common_ProductCategoryFk,
                 BaseCommissionRate = vmCommonProductSubCategory.BaseCommissionRate,
                 ProductType = vmCommonProductSubCategory.ProductType,
                 CompanyId = vmCommonProductSubCategory.CompanyFK,
@@ -3429,7 +3429,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             var result = -1;
 
-            var isExist = await _db.ProductSubCategories.FirstOrDefaultAsync(c => c.Name.Equals(vmCommonProductSubCategory.Name) && c.ProductCategoryId == vmCommonProductSubCategory.Common_ProductCategoryFk && c.ProductSubCategoryId != vmCommonProductSubCategory.CategoryId && c.IsActive == true);
+            var isExist = await _db.ProductSubCategories.FirstOrDefaultAsync(c => c.Name.Equals(vmCommonProductSubCategory.Name) && c.ProductCategoryId == vmCommonProductSubCategory.Common_ProductCategoryFk && c.ProductSubCategoryId != vmCommonProductSubCategory.ID && c.IsActive == true);
 
             if (isExist?.ProductSubCategoryId > 0)
             {
