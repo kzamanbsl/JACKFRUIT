@@ -107,7 +107,6 @@
     <Report Include="CompanyMenuReport.rdl" />
     <Report Include="CompanyWiseMonthlyCRReport.rdl" />
     <Report Include="CompanyWiseSMSReport.rdl" />
-    <Report Include="Copy of AF_AzlanDateWiseStockDetailReport.rdl" />
     <Report Include="CreditCustomerInformation.rdl" />
     <Report Include="Customer.rdl" />
     <Report Include="CustomerBaseMonthlyCRReport.rdl" />
