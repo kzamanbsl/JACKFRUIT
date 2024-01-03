@@ -1652,6 +1652,10 @@ namespace KGERP.Controllers
             vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             vmCommonCustomer.UserDataAccessModel = await _service.GetUserDataAccessModelByEmployeeId();
 
+            vmCommonCustomer.PaymentType = "Special";
+            vmCommonCustomer.CustomerTypeFk = (int)CustomerType.Retail;
+            vmCommonCustomer.CustomerStatus = (int)CustomerStatusEnum.CashCustomer;
+
             return View(vmCommonCustomer);
         }
 

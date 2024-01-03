@@ -2164,7 +2164,7 @@ namespace KGERP.Service.Implementation.Configuration
             List<SelectModel> selectModelList = new List<SelectModel>();
             SelectModel selectModel = new SelectModel
             {
-                Text = "==Select ZoneDivision==",
+                Text = "==Select Zone Division==",
                 Value = 0,
             };
             selectModelList.Add(selectModel);
