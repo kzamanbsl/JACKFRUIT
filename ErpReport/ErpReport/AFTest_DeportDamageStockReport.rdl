@@ -9,12 +9,12 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-03T04:52:00.5394945Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T07:27:30.8838012Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DealerDamageStockReportDS">
+    <DataSource Name="DeportDamageStockReportDS">
       <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>67be62a9-c711-4edd-b132-14d9323d34ee</rd:DataSourceID>
@@ -23,7 +23,7 @@
   <DataSets>
     <DataSet Name="DealerDamageStockReportDSet">
       <Query>
-        <DataSourceName>DealerDamageStockReportDS</DataSourceName>
+        <DataSourceName>DeportDamageStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@StrFromDate">
             <Value>=Parameters!StrFromDate.Value</Value>
@@ -49,15 +49,9 @@
           <QueryParameter Name="@DeportId">
             <Value>=Parameters!DeportId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@DealerId">
-            <Value>=Parameters!DealerId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@CustomerId">
-            <Value>=Parameters!CustomerId.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_DealerDamageStockList</CommandText>
+        <CommandText>sp_DeportDamageStockList</CommandText>
       </Query>
       <Fields>
         <Field Name="ReportTitle">
@@ -152,7 +146,7 @@
     </DataSet>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>DealerDamageStockReportDS</DataSourceName>
+        <DataSourceName>DeportDamageStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -186,7 +180,7 @@ WHERE CompanyId = @CompanyId </CommandText>
     </DataSet>
     <DataSet Name="SignatoryDataSet">
       <Query>
-        <DataSourceName>DealerDamageStockReportDS</DataSourceName>
+        <DataSourceName>DeportDamageStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -257,7 +251,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value> Category: </Value>
+                                  <Value> Category:  </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -265,7 +259,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!ProductCategoryId.Value</Value>
+                                  <Value>=Fields!ProductCategoryName.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -354,7 +348,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Dealer Damage Qty</Value>
+                                  <Value>Deport Damage Qty</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -394,7 +388,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Customer Damage Qty</Value>
+                                  <Value>Dealer Damage Qty</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2052,10 +2046,6 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Common Product FK</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DealerId">
-      <DataType>Integer</DataType>
-      <Prompt>Dealer Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ZoneId">
       <DataType>Integer</DataType>
       <Prompt>Zone Id</Prompt>
@@ -2063,10 +2053,6 @@ order By OrderBy Desc</CommandText>
     <ReportParameter Name="DeportId">
       <DataType>Integer</DataType>
       <Prompt>Deport Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CustomerId">
-      <DataType>Integer</DataType>
-      <Prompt>Customer Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -2105,11 +2091,6 @@ order By OrderBy Desc</CommandText>
           <ParameterName>Common_ProductFK</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>DealerId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>ZoneId</ParameterName>
@@ -2118,11 +2099,6 @@ order By OrderBy Desc</CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>DeportId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>3</RowIndex>
-          <ParameterName>CustomerId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

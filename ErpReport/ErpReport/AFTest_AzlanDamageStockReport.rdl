@@ -9,21 +9,21 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-03T04:52:00.5394945Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T09:36:22.9859211Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DealerDamageStockReportDS">
+    <DataSource Name="AzlanDamageStockReportDS">
       <DataSourceReference>AFTestDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>67be62a9-c711-4edd-b132-14d9323d34ee</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DealerDamageStockReportDSet">
+    <DataSet Name="AzlanDamageStockReportDSet">
       <Query>
-        <DataSourceName>DealerDamageStockReportDS</DataSourceName>
+        <DataSourceName>AzlanDamageStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@StrFromDate">
             <Value>=Parameters!StrFromDate.Value</Value>
@@ -43,21 +43,12 @@
           <QueryParameter Name="@Common_ProductFK">
             <Value>=Parameters!Common_ProductFK.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ZoneId">
-            <Value>=Parameters!ZoneId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@DeportId">
-            <Value>=Parameters!DeportId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@DealerId">
-            <Value>=Parameters!DealerId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@CustomerId">
-            <Value>=Parameters!CustomerId.Value</Value>
+          <QueryParameter Name="@StockInfoId">
+            <Value>=Parameters!StockInfoId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_DealerDamageStockList</CommandText>
+        <CommandText>sp_AzlanDamageStockList</CommandText>
       </Query>
       <Fields>
         <Field Name="ReportTitle">
@@ -68,16 +59,8 @@
           <DataField>DamageFromId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="DamageFrom">
-          <DataField>DamageFrom</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ProductCategoryName">
           <DataField>ProductCategoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DamageTo">
-          <DataField>DamageTo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ProductName">
@@ -108,24 +91,28 @@
           <DataField>ProductId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="TPPrice">
-          <DataField>TPPrice</DataField>
+        <Field Name="DeportPrice">
+          <DataField>DeportPrice</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DealerPrice">
+          <DataField>DealerPrice</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="UnitId">
           <DataField>UnitId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="UnitPrice">
-          <DataField>UnitPrice</DataField>
+        <Field Name="CustomerPrice">
+          <DataField>CustomerPrice</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="CustomerDamageCtn">
-          <DataField>CustomerDamageCtn</DataField>
+        <Field Name="DeportDamageCtn">
+          <DataField>DeportDamageCtn</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="CustomerDamagePcs">
-          <DataField>CustomerDamagePcs</DataField>
+        <Field Name="DeportDamagePcs">
+          <DataField>DeportDamagePcs</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="DealerDamageCtn">
@@ -152,7 +139,7 @@
     </DataSet>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>DealerDamageStockReportDS</DataSourceName>
+        <DataSourceName>AzlanDamageStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -186,7 +173,7 @@ WHERE CompanyId = @CompanyId </CommandText>
     </DataSet>
     <DataSet Name="SignatoryDataSet">
       <Query>
-        <DataSourceName>DealerDamageStockReportDS</DataSourceName>
+        <DataSourceName>AzlanDamageStockReportDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -257,7 +244,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value> Category: </Value>
+                                  <Value> Category:  </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -265,7 +252,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!ProductCategoryId.Value</Value>
+                                  <Value>=Fields!ProductCategoryName.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -354,7 +341,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Dealer Damage Qty</Value>
+                                  <Value>Deport Damage Qty</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -394,7 +381,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Customer Damage Qty</Value>
+                                  <Value>Dealer Damage Qty</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -920,7 +907,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!CustomerDamageCtn.Value,"#,##0.00")</Value>
+                                  <Value>=format(Fields!DeportDamageCtn.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -957,7 +944,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Format(Fields!CustomerDamagePcs.Value, "#,##0.00")</Value>
+                                  <Value>=Format(Fields!DeportDamagePcs.Value, "#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -994,7 +981,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!UnitPrice.Value,"#,##0.00")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value=2,format(Fields!DealerPrice.Value,"#,##0.00"),format(Fields!DeportPrice.Value,"#,##0.00"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1198,7 +1185,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!CustomerDamageCtn.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DeportDamageCtn.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1237,7 +1224,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Format(Sum(Fields!CustomerDamagePcs.Value), "#,##0.00")</Value>
+                                  <Value>=Format(Sum(Fields!DeportDamagePcs.Value), "#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1276,7 +1263,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value=2,Sum(format(Fields!DealerPrice.Value,"#,##0.00")),Sum(format(Fields!DeportPrice.Value,"#,##0.00")))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1476,7 +1463,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!CustomerDamageCtn.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DeportDamageCtn.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1515,7 +1502,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Format(Sum(Fields!CustomerDamagePcs.Value), "#,##0.00")</Value>
+                                  <Value>=Format(Sum(Fields!DeportDamagePcs.Value), "#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1554,7 +1541,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value=2,Sum(format(Fields!DealerPrice.Value,"#,##0.00")),Sum(format(Fields!DeportPrice.Value,"#,##0.00")))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1682,7 +1669,7 @@ order By OrderBy Desc</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>DealerDamageStockReportDSet</DataSetName>
+            <DataSetName>AzlanDamageStockReportDSet</DataSetName>
             <Top>0.15875cm</Top>
             <Left>1.43571in</Left>
             <Height>1.45417in</Height>
@@ -1886,7 +1873,7 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>ReportTitle</Label>
-                      <Value>=First(Fields!ReportTitle.Value, "DealerDamageStockReportDSet")</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "AzlanDamageStockReportDSet")</Value>
                       <Style>
                         <FontFamily>Times New Roman</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -1950,7 +1937,7 @@ order By OrderBy Desc</CommandText>
               <Source>External</Source>
               <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
               <Sizing>FitProportional</Sizing>
-              <Top>0.03855in</Top>
+              <Top>0.08787in</Top>
               <Left>0.5132in</Left>
               <Height>0.925in</Height>
               <Width>0.97083in</Width>
@@ -2052,21 +2039,9 @@ order By OrderBy Desc</CommandText>
       <DataType>Integer</DataType>
       <Prompt>Common Product FK</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DealerId">
+    <ReportParameter Name="StockInfoId">
       <DataType>Integer</DataType>
-      <Prompt>Dealer Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ZoneId">
-      <DataType>Integer</DataType>
-      <Prompt>Zone Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DeportId">
-      <DataType>Integer</DataType>
-      <Prompt>Deport Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CustomerId">
-      <DataType>Integer</DataType>
-      <Prompt>Customer Id</Prompt>
+      <Prompt>Stock Info Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -2105,24 +2080,9 @@ order By OrderBy Desc</CommandText>
           <ParameterName>Common_ProductFK</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>DealerId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>3</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>ZoneId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
-          <ParameterName>DeportId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
-          <ParameterName>CustomerId</ParameterName>
+          <ParameterName>StockInfoId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
