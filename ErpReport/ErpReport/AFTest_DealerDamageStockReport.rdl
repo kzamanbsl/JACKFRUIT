@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-02T10:53:18.0864972Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T03:48:28.5755992Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -122,6 +122,10 @@
         </Field>
         <Field Name="CustomerDamageCtn">
           <DataField>CustomerDamageCtn</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDamagePcs">
+          <DataField>CustomerDamagePcs</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="DealerDamageCtn">
@@ -253,7 +257,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Category: </Value>
+                                  <Value> Category: </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -261,7 +265,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!ProductCategoryName.Value</Value>
+                                  <Value>=Fields!ProductSubCategoryName.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -802,6 +806,12 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
                                   <Value>=Fields!ProductName.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
@@ -874,7 +884,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value = 2, Format(Fields!DamageQty.Value - (Fields!DealerDamageCtn.Value * Fields!Consumption.Value), "#,##0.00"), "")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value = 2, Format(Fields!DealerDamagePcs.Value, "#,##0.00"), "")</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -947,7 +957,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value = 1, Format(Fields!DamageQty.Value - (Fields!CustomerDamageCtn.Value * Fields!Consumption.Value), "#,##0.00"), "")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value = 1, Format(Fields!CustomerDamagePcs.Value, "#,##0.00"), "")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1021,7 +1031,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Fields!UnitPrice.Value *Fields!DamageQty.Value),"#,##0.00")</Value>
+                                  <Value>=format(Fields!TotalPrice.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1149,7 +1159,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value = 2, Format(Sum(Fields!DamageQty.Value - (Fields!DealerDamageCtn.Value * Fields!Consumption.Value)), "#,##0.00"), "")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value = 2, Format(Sum(Fields!DealerDamagePcs.Value), "#,##0.00"), "")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1227,7 +1237,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value = 1, Format(Sum(Fields!DamageQty.Value - (Fields!CustomerDamageCtn.Value * Fields!Consumption.Value)), "#,##0.00"), "")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value = 1, Format(Sum(Fields!CustomerDamagePcs.Value), "#,##0.00"), "")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1305,7 +1315,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value *Fields!DamageQty.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!TotalPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1427,7 +1437,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value = 2, Format(Sum(Fields!DamageQty.Value - (Fields!DealerDamageCtn.Value * Fields!Consumption.Value)), "#,##0.00"), "")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value = 2, Format(Sum(Fields!DealerDamagePcs.Value), "#,##0.00"), "")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1505,7 +1515,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value = 1, Format(Sum(Fields!DamageQty.Value - (Fields!CustomerDamageCtn.Value * Fields!Consumption.Value)), "#,##0.00"), "")</Value>
+                                  <Value>=IIF(Fields!DamageFromId.Value = 1, Format(Sum(Fields!CustomerDamagePcs.Value), "#,##0.00"), "")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1583,7 +1593,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!UnitPrice.Value *Fields!DamageQty.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!TotalPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1676,7 +1686,7 @@ order By OrderBy Desc</CommandText>
             <Top>0.15875cm</Top>
             <Left>1.43571in</Left>
             <Height>1.45417in</Height>
-            <Width>8.25859in</Width>
+            <Width>8.25858in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
