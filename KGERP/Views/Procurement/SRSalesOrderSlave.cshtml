@@ -571,8 +571,7 @@
                                 @Html.HiddenFor(model => model.CommonSupplier.AreaId, new { id = "areaFK" })
 
                                 <div class="row">
-
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Customer Name:</label>
                                             @Html.TextBoxFor(model => model.CommonSupplier.Name, new { id = "txtCustomerName", @class = "form-control", @placeholder = "Customer Name", required = "required" })
@@ -593,13 +592,69 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.Email, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Proprietor:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Contact Person:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ContactPerson, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">NID No:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID No" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.NID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Customer Type:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.CustomerTypeFk, Model.CommonSupplier.CustomerTypeList as SelectList, "--Customer Type--", new { id = "ddCustomerTypeFk", @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CustomerTypeFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Customer Status:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.CustomerStatus, Model.CommonSupplier.CustomerStatusEnumList as SelectList, "--Select Customer Status--", new { id = "ddlCustomerStatus", @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CustomerStatus, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Payment Type:</label>
                                             @Html.DropDownListFor(model => model.CommonSupplier.PaymentType, Model.CommonSupplier.PaymentTypeList as SelectList, "--Payment Type--", new { id = "txtPaymentType", @class = "form-control", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.PaymentType, "", new { @class = "text-danger" })
                                         </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Security Amount:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.SecurityAmount, new { id = "txtSecurityAmount", @class = "form-control", @placeholder = "Security Amount" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.SecurityAmount, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Credit Limit:</label>
+                                            @Html.TextBoxFor(model => model.CommonSupplier.CreditLimit, new { id = "txtCreditLimit", @class = "form-control", @placeholder = "Credit Limit" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CreditLimit, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -651,73 +706,11 @@
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ParentId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Proprietor:</label>
-                                            @Html.TextBoxFor(model => model.CommonSupplier.Propietor, new { id = "txtProprietor", @class = "form-control", @placeholder = "Propietor" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.Propietor, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Contact Person:</label>
-                                            @Html.TextBoxFor(model => model.CommonSupplier.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.ContactPerson, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
 
-
-
-
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">NID No:</label>
-                                            @Html.TextBoxFor(model => model.CommonSupplier.NID, new { id = "txtNID", @class = "form-control", @placeholder = "NID No" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.NID, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Customer Type:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.CustomerTypeFk, Model.CommonSupplier.CustomerTypeList as SelectList, "--Customer Type--", new { id = "ddCustomerTypeFk", @class = "form-control", required = "true" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CustomerTypeFk, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Customer Status:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.CustomerStatus, Model.CommonSupplier.CustomerStatusEnumList as SelectList, "--Select Customer Status--", new { id = "ddlCustomerStatus", @class = "form-control", required = "true" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CustomerStatus, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Security Amount:</label>
-                                            @Html.TextBoxFor(model => model.CommonSupplier.SecurityAmount, new { id = "txtSecurityAmount", @class = "form-control", @placeholder = "Security Amount" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.SecurityAmount, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Credit Limit:</label>
-                                            @Html.TextBoxFor(model => model.CommonSupplier.CreditLimit, new { id = "txtCreditLimit", @class = "form-control", @placeholder = "Credit Limit" })
-                                            @Html.ValidationMessageFor(model => model.CommonSupplier.CreditLimit, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Address:</label>
-                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress", @rows = 1, @class = "form-control", @placeholder = "Address" })
+                                            @Html.TextAreaFor(model => model.CommonSupplier.Address, new { id = "txtAddress", @rows = "1", @class = "form-control", @placeholder = "Address" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.Address, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
