@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-21T04:51:47.9211779Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T10:21:37.4962870Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -2282,7 +2282,7 @@ order By OrderBy Desc</CommandText>
               <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
               <Sizing>FitProportional</Sizing>
               <Top>0.03855in</Top>
-              <Left>1.0132in</Left>
+              <Left>1.02708in</Left>
               <Height>0.925in</Height>
               <Width>0.97083in</Width>
               <ZIndex>1</ZIndex>

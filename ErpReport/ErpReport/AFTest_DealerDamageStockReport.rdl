@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-03T04:52:00.5394945Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T10:26:26.8597133Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -265,7 +265,7 @@ order By OrderBy Desc</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!ProductCategoryId.Value</Value>
+                                  <Value>=Fields!ProductCategoryName.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
