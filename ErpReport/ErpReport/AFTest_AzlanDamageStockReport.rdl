@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-03T09:36:22.9859211Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T10:28:08.1288581Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -1263,7 +1263,10 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value=2,Sum(format(Fields!DealerPrice.Value,"#,##0.00")),Sum(format(Fields!DeportPrice.Value,"#,##0.00")))</Value>
+                                  <Value>=format(Sum(IIF(Fields!DamageFromId.Value = 2, 
+         Fields!DealerPrice.Value,
+        Fields!DeportPrice.Value)
+       ),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1541,7 +1544,10 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Fields!DamageFromId.Value=2,Sum(format(Fields!DealerPrice.Value,"#,##0.00")),Sum(format(Fields!DeportPrice.Value,"#,##0.00")))</Value>
+                                  <Value>=format(Sum(IIF(Fields!DamageFromId.Value = 2, 
+         Fields!DealerPrice.Value,
+        Fields!DeportPrice.Value)
+       ),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
