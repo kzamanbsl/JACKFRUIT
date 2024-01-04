@@ -3592,6 +3592,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.Erp.ConvertedProductDetail' does n
             <PropertyRef Name="DamageMasterId" />
           </Key>
           <Property Name="DamageMasterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DamageNo" Type="nvarchar" MaxLength="20" />
           <Property Name="OperationDate" Type="datetime" Nullable="false" />
           <Property Name="DamageFromId" Type="int" Nullable="false" />
           <Property Name="FromDeportId" Type="int" />
@@ -6412,18 +6413,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DamageMaster_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="CollectedById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DemageDetail_DemageMaster">
           <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="1" />
           <End Role="DamageDetail" Type="Self.DamageDetail" Multiplicity="*" />
@@ -6445,90 +6434,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             </Principal>
             <Dependent Role="DamageDetail">
               <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_Customer">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="FromCustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_StockInfo">
-          <End Role="StockInfo" Type="Self.StockInfo" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="ToStockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_ToDealerVendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="ToDealerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_ToDeportVendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="ToDeportId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_VendorDealer">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="FromDealerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DemageMaster_VendorDeport">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="DamageMaster" Type="Self.DamageMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="DamageMaster">
-              <PropertyRef Name="FromDeportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9829,10 +9734,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
             <End Role="Product" EntitySet="Product" />
             <End Role="DamageDetailHistory" EntitySet="DamageDetailHistory" />
           </AssociationSet>
-          <AssociationSet Name="FK_DamageMaster_Employee" Association="Self.FK_DamageMaster_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
           <AssociationSet Name="FK_DemageDetail_DemageMaster" Association="Self.FK_DemageDetail_DemageMaster">
             <End Role="DamageMaster" EntitySet="DamageMaster" />
             <End Role="DamageDetail" EntitySet="DamageDetail" />
@@ -9840,34 +9741,6 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <AssociationSet Name="FK_DemageDetail_Product" Association="Self.FK_DemageDetail_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="DamageDetail" EntitySet="DamageDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_Company" Association="Self.FK_DemageMaster_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_Customer" Association="Self.FK_DemageMaster_Customer">
-            <End Role="Vendor" EntitySet="Vendor" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_StockInfo" Association="Self.FK_DemageMaster_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfo" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_ToDealerVendor" Association="Self.FK_DemageMaster_ToDealerVendor">
-            <End Role="Vendor" EntitySet="Vendor" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_ToDeportVendor" Association="Self.FK_DemageMaster_ToDeportVendor">
-            <End Role="Vendor" EntitySet="Vendor" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_VendorDealer" Association="Self.FK_DemageMaster_VendorDealer">
-            <End Role="Vendor" EntitySet="Vendor" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DemageMaster_VendorDeport" Association="Self.FK_DemageMaster_VendorDeport">
-            <End Role="Vendor" EntitySet="Vendor" />
-            <End Role="DamageMaster" EntitySet="DamageMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_DemandItem_Demand" Association="Self.FK_DemandItem_Demand">
             <End Role="Demand" EntitySet="Demand" />
@@ -19074,6 +18947,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <NavigationProperty Name="Vendor4" Relationship="ERPModel.FK_DemageMaster_VendorDeport" FromRole="DamageMaster" ToRole="Vendor" />
           <Property Name="CollectedById" Type="Int64" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_DamageMaster_Employee" FromRole="DamageMaster" ToRole="Employee" />
+          <Property Name="DamageNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_DemageMaster_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -26544,6 +26418,7 @@ warning 6002: The table/view 'AzlanFoodDb_Dev.dbo.vwTeamLeaderList' does not hav
           <EntitySetMapping Name="DamageMasters">
             <EntityTypeMapping TypeName="ERPModel.DamageMaster">
               <MappingFragment StoreEntitySet="DamageMaster">
+                <ScalarProperty Name="DamageNo" ColumnName="DamageNo" />
                 <ScalarProperty Name="CollectedById" ColumnName="CollectedById" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />

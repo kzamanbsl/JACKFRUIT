@@ -85,7 +85,8 @@
                             <table id="KgErpDataTable" class="table table-striped" style="width:100%; background-color:#ddd;">
                                 <thead>
                                     <tr>
-                                        <th>SL</th>
+                                        <th>SL</th> 
+                                        <th>Damage No</th>
                                         <th>Date</th>
                                         <th>From Dealer</th>
                                         <th>To Store House</th>
@@ -110,7 +111,8 @@
                                         #endregion
 
                                         <tr>
-                                            <th>@(++sl)</th>
+                                            <th>@(++sl)</th> 
+                                            <th>@(item.DamageNo)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.DealerName</td>
                                             <td>@item.StockInfoName</td>

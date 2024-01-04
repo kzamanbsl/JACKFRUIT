@@ -9,6 +9,7 @@ namespace KGERP.Service.ServiceModel
     public class DamageMasterModel : BaseVM
     {
         public int DamageMasterId { get; set; }
+        public string DamageNo { get; set; }
         public System.DateTime OperationDate { get; set; }
         
         public Nullable<int> FromDeportId { get; set; }

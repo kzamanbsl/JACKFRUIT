@@ -1,6 +1,7 @@
 ﻿using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -108,9 +109,22 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 model.DamageFromId = EnumDamageFrom.Depo;
             }
+
+            var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId==(int)EnumDamageFrom.Customer) + 1;
+
+           
+            string dmCdr = @"CDR-" +
+                                DateTime.Now.ToString("yy") +
+                         
+                                
+                                DateTime.Now.ToString("MM") +
+                                DateTime.Now.ToString("dd") + "-" +
+                                dmMax.ToString();
+
             DamageMaster demageMaster = new DamageMaster
             {
                 DamageMasterId = model.DamageMasterId,
+                DamageNo= dmCdr,
                 OperationDate = model.OperationDate,
 
                 DamageFromId = (int)model.DamageFromId,
@@ -152,6 +166,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
                                                                    OperationDate = t1.OperationDate,
                                                                    FromCustomerId = t1.FromCustomerId,
@@ -289,9 +304,18 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 model.DamageFromId = EnumDamageFrom.Depo;
             }
+
+            var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId == (int)EnumDamageFrom.Dealer) + 1;
+            string dmDldr = @"DLDR-" +
+                            DateTime.Now.ToString("yy") + 
+                            DateTime.Now.ToString("MM") +
+                            DateTime.Now.ToString("dd") +
+                            "-" + dmMax.ToString();
+
             DamageMaster demageMaster = new DamageMaster
             {
                 DamageMasterId = model.DamageMasterId,
+                DamageNo= dmDldr,
                 OperationDate = model.OperationDate,
 
                 DamageFromId = (int)model.DamageFromId,
@@ -536,6 +560,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
                                                                    OperationDate = t1.OperationDate,
                                                                    FromDealerId = t1.FromDealerId,
@@ -666,6 +691,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    OperationDate = t1.OperationDate,
 
                                                                    DealerName = t3.Name,
@@ -742,6 +768,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    OperationDate = t1.OperationDate,
                                                                    DealerName = t3.Name,
                                                                    DealerAddress = t3.Address,
@@ -877,9 +904,17 @@ namespace KGERP.Service.Implementation.ProdMaster
             {
                 model.DamageFromId = EnumDamageFrom.Depo;
             }
+            var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId == (int)EnumDamageFrom.Depo) + 1;
+            string dmDpdr = @"DPDR-" +
+                            DateTime.Now.ToString("yy") +
+                            DateTime.Now.ToString("MM") +
+                            DateTime.Now.ToString("dd") +
+                            "-" + dmMax.ToString();
+
             DamageMaster demageMaster = new DamageMaster
             {
                 DamageMasterId = model.DamageMasterId,
+                DamageNo=dmDpdr,
                 OperationDate = model.OperationDate,
 
                 DamageFromId = (int)model.DamageFromId,
@@ -1119,6 +1154,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    StatusId = (EnumDamageStatus)t1.StatusId,
                                                                    OperationDate = t1.OperationDate,
                                                                    FromDeportId = t1.FromDeportId,
@@ -1249,6 +1285,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    OperationDate = t1.OperationDate,
 
                                                                    DealerName = t3.Name,
@@ -1444,6 +1481,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                                select new DamageMasterModel
                                                                {
                                                                    DamageMasterId = t1.DamageMasterId,
+                                                                   DamageNo=t1.DamageNo,
                                                                    OperationDate = t1.OperationDate,
 
                                                                    DeportName = t3.Name,

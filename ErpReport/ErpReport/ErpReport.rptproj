@@ -65,14 +65,12 @@
     <Report Include="ActiveCustomer.rdl" />
     <Report Include="AdditiveMaterialPOTemplate.rdl" />
     <Report Include="AdvancedAttendanceSearchReport.rdl" />
-    <Report Include="AFTest_AzlanDamageStockReport.rdl" />
-    <Report Include="AFTest_DealerDamageStockReport.rdl" />
     <Report Include="AFTest_DealerProductStockReport.rdl" />
-    <Report Include="AFTest_DeportDamageStockReport.rdl" />
     <Report Include="AFTest_DeportProductStockReport.rdl" />
     <Report Include="AFTest_Employee.rdl" />
     <Report Include="AFTest_ProductStockReport.rdl" />
     <Report Include="AF_AzlanDamageStockReport.rdl" />
+    <Report Include="AF_AzlanDateWiseDamageStockDetailReport.rdl" />
     <Report Include="AF_AzlanDateWiseStockDetailReport.rdl" />
     <Report Include="AF_BankOrCashBook.rdl" />
     <Report Include="AF_CustomerDamageReceiptInvoice.rdl" />

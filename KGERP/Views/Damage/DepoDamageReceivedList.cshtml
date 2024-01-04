@@ -86,6 +86,7 @@
                                 <thead>
                                     <tr>
                                         <th>SL</th>
+                                        <th>Damage No</th>
                                         <th>Date</th>
                                         <th>From Depo</th>
                                         <th>To Store House</th>
@@ -110,7 +111,8 @@
                                         #endregion
 
                                         <tr>
-                                            <th>@(++sl)</th>
+                                            <th>@(++sl)</th>  
+                                            <th>@(item.DamageNo)</th>
                                             <td>@item.OperationDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.DeportName</td>
                                             <td>@item.StockInfoName</td>
