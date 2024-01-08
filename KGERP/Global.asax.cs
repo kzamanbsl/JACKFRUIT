@@ -57,6 +57,7 @@ namespace KGERP
 
         public bool IsReleased = true;
 
+        //Custom Error Handdle
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
