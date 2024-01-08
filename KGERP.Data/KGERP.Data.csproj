@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="CustomModel\ClientsModel.cs" />
     <Compile Include="CustomModel\CrmViewModel.cs" />
-    <Compile Include="CustomModel\DashBoardViewModel.cs" />
+    <Compile Include="CustomModel\DashboardViewModel.cs" />
     <Compile Include="CustomModel\ReportGroupSaleSummaryModel.cs" />
     <Compile Include="CustomModel\ReportCustomModel.cs" />
     <Compile Include="CustomModel\AccountHeadCustomModel.cs" />

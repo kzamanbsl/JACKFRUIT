@@ -1,4 +1,6 @@
-﻿using KGERP.Service.Implementation.Dashboard_service;
+﻿using KGERP.Data.CustomModel;
+using KGERP.Service.Implementation.Dashboard_service;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace KGERP.Controllers
@@ -11,9 +13,9 @@ namespace KGERP.Controllers
             this.dashboardService = dashboardService;
         }
         // GET: Seed
-        public ActionResult Index(int companyId)
+        public async Task<ActionResult> Index(int companyId)
         {
-            var vendor = dashboardService.AllCount(companyId);
+            DashboardViewModel vendor = await dashboardService.AllCount(companyId);
             return View(vendor);
             
         }

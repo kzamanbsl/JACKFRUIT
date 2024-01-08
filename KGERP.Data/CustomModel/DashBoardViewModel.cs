@@ -1,7 +1,7 @@
 ﻿
 namespace KGERP.Data.CustomModel
 {
-    public class DashBoardViewModel
+    public class DashboardViewModel
     {
         public int TotalDeport { get; set; }
         public int TotalDealer { get; set; }
@@ -17,7 +17,7 @@ namespace KGERP.Data.CustomModel
         public decimal MonthSaleCollection { get; set; }
         public decimal TotalMonthPurchaseAmmount { get; set; }
         public double TotalMonthSeleAmmount { get; set; }
-
+        public UserDataAccessModel UserDataAccessModel { get; set; }
 
     }
 }
