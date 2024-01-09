@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.8.34316.72</am:Version>
+      <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-11-27T08:37:03.8491637Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-09T09:32:49.2809226Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -73,7 +73,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>DeportDamageReceiptInvoice</CommandText>
+        <CommandText>sp_DeportDamageReceiptInvoice</CommandText>
       </Query>
       <Fields>
         <Field Name="DamageMasterId">
@@ -96,24 +96,20 @@ from Company Where CompanyId=@CompanyId</CommandText>
           <DataField>UnitPrice</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="ProductName">
-          <DataField>ProductName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="TotalPrice">
+          <DataField>TotalPrice</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="DamageTypeId">
           <DataField>DamageTypeId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="damageTypeName">
-          <DataField>damageTypeName</DataField>
+        <Field Name="DamageTypeName">
+          <DataField>DamageTypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SubCategoryName">
-          <DataField>SubCategoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="damageRemark">
-          <DataField>damageRemark</DataField>
+        <Field Name="DamageRemark">
+          <DataField>DamageRemark</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="QtyInCtn">
@@ -123,6 +119,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Field Name="QtyInPcs">
           <DataField>QtyInPcs</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SubCategoryName">
+          <DataField>SubCategoryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ProductSubCategoryId">
           <DataField>ProductSubCategoryId</DataField>
@@ -139,10 +143,6 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Field Name="UnitName">
           <DataField>UnitName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalPrice">
-          <DataField>TotalPrice</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="TotalAsWord">
           <DataField>TotalAsWord</DataField>
@@ -162,7 +162,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>DeportDamageReceiptInvoiceHeader</CommandText>
+        <CommandText>sp_DeportDamageReceiptInvoiceHeader</CommandText>
       </Query>
       <Fields>
         <Field Name="VendorName">
@@ -191,18 +191,6 @@ from Company Where CompanyId=@CompanyId</CommandText>
         </Field>
         <Field Name="ContactPersion">
           <DataField>ContactPersion</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="invoiceDate">
-          <DataField>invoiceDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="CreatedBy">
-          <DataField>createdBy</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StockInfoName">
-          <DataField>StockInfoName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ZoneName">
@@ -239,6 +227,22 @@ from Company Where CompanyId=@CompanyId</CommandText>
         </Field>
         <Field Name="SubZoneMobilePersonal">
           <DataField>SubZoneMobilePersonal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="InvoiceNo">
+          <DataField>InvoiceNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="InvoiceDate">
+          <DataField>InvoiceDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="StockInfoName">
+          <DataField>StockInfoName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CreatedBy">
+          <DataField>CreatedBy</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -344,14 +348,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="OrderNo">
+                        <Textbox Name="InvoiceNo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!InvoiceNo.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -363,7 +367,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>OrderNo</rd:DefaultName>
+                          <rd:DefaultName>InvoiceNo</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -446,14 +450,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="invoiceDate">
+                        <Textbox Name="InvoiceDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!invoiceDate.Value</Value>
+                                  <Value>=Fields!InvoiceDate.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -465,7 +469,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>invoiceDate</rd:DefaultName>
+                          <rd:DefaultName>InvoiceDate</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -2392,21 +2396,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="damageTypeName">
+                        <Textbox Name="DamageTypeName">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value xml:space="preserve"> </Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!damageTypeName.Value</Value>
+                                  <Value>=Fields!DamageTypeName.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2418,7 +2415,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>damageTypeName</rd:DefaultName>
+                          <rd:DefaultName>DamageTypeName</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2478,21 +2475,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="damageRemark">
+                        <Textbox Name="DamageRemark">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value xml:space="preserve"> </Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!damageRemark.Value</Value>
+                                  <Value>=Fields!DamageRemark.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2504,7 +2494,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>damageRemark</rd:DefaultName>
+                          <rd:DefaultName>DamageRemark</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2517,6 +2507,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>

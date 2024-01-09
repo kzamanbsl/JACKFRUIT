@@ -761,7 +761,7 @@ namespace KGERP.Controllers
             if (!toDate.HasValue) toDate = DateTime.Now;
 
             DamageMasterModel damageMasterModel = new DamageMasterModel();
-            damageMasterModel = await _service.GetDealerToFacMasterReceivedList(companyId, fromDate, toDate, vStatus);
+            damageMasterModel = await _service.GetDealerToFacMasterReceivedList (companyId, fromDate, toDate, vStatus);
 
             damageMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             damageMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");

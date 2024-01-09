@@ -42,6 +42,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
+                                                          DamageNo=t1.DamageNo,
                                                           OperationDate = t1.OperationDate,
                                                           DealerName = t3.Name,
                                                           DealerAddress = t3.Address,
@@ -235,6 +236,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
+                                                          DamageNo=t1.DamageNo,
                                                           OperationDate = t1.OperationDate,
                                                           DealerName = t2.Name,
                                                           DealerAddress = t2.Address,
@@ -844,6 +846,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
+                                                          DamageNo=t1.DamageNo,
                                                           OperationDate = t1.OperationDate,
 
                                                           DeportName = t3.Name,
@@ -1354,6 +1357,7 @@ namespace KGERP.Service.Implementation.ProdMaster
                                                       select new DamageMasterModel
                                                       {
                                                           DamageMasterId = t1.DamageMasterId,
+                                                          DamageNo=t1.DamageNo,
                                                           OperationDate = t1.OperationDate,
 
                                                           DeportName = t3.Name,
