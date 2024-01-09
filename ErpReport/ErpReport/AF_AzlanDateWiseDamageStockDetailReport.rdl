@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-04T08:32:17.0352204Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-09T10:47:15.5398773Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -85,32 +85,32 @@ WHERE CompanyId = @CompanyId </CommandText>
         <CommandText>sp_AzlanDateWiseDamageStockDetails</CommandText>
       </Query>
       <Fields>
-        <Field Name="MaterialReceiveId">
-          <DataField>MaterialReceiveId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
+        <Field Name="DamageMasterId">
+          <DataField>DamageMasterId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ReceiveNo">
-          <DataField>ReceiveNo</DataField>
+        <Field Name="DamageFromId">
+          <DataField>DamageFromId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DamageNo">
+          <DataField>DamageNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ReceivedDate">
-          <DataField>ReceivedDate</DataField>
+        <Field Name="OperationDate">
+          <DataField>OperationDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="SupplierName">
-          <DataField>SupplierName</DataField>
+        <Field Name="DamageFrom">
+          <DataField>DamageFrom</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SupplierCode">
-          <DataField>SupplierCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="DamageQty">
+          <DataField>DamageQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="ReceiveQty">
-          <DataField>ReceiveQty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="ReceiveQtyCtn">
-          <DataField>ReceiveQtyCtn</DataField>
+        <Field Name="DamageQtyCtn">
+          <DataField>DamageQtyCtn</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="ProductId">
@@ -161,14 +161,14 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SupplierName1">
+                        <Textbox Name="DamageFrom">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SupplierName.Value</Value>
+                                  <Value>=Fields!DamageFrom.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -181,7 +181,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SupplierName1</rd:DefaultName>
+                          <rd:DefaultName>DamageFrom</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -195,6 +195,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>5</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -208,7 +209,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ReceivedDate1">
+                        <Textbox Name="OperationDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -216,7 +217,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Label>Date</Label>
-                                  <Value>=Format(Fields!ReceivedDate.Value, "dd-MMM-yyyy")</Value>
+                                  <Value>=Fields!OperationDate.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -229,7 +230,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ReceivedDate1</rd:DefaultName>
+                          <rd:DefaultName>OperationDate</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -243,6 +244,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>5</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -263,7 +265,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ReceiveNo.Value</Value>
+                                  <Value>=Fields!DamageNo.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -290,6 +292,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>5</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -336,6 +339,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -491,6 +495,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -677,6 +682,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -688,7 +694,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!ReceiveQtyCtn.Value,"#,##0.00")</Value>
+                                  <Value>=format(Fields!DamageQtyCtn.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -723,7 +729,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Fields!ReceiveQty.Value-(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value>=format((Fields!DamageQty.Value-(Fields!DamageQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -793,7 +799,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!DamageQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -859,6 +865,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>4</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -873,7 +880,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!DamageQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -940,6 +947,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>4</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -954,7 +962,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!DamageQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1021,6 +1029,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>4</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -1035,7 +1044,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!DamageQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1113,7 +1122,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!DamageQtyCtn.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1150,7 +1159,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Sum(Fields!ReceiveQty.Value)-Sum(Fields!ReceiveQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
+                                  <Value>=format((Sum(Fields!DamageQty.Value)-Sum(Fields!DamageQtyCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1224,7 +1233,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!DamageQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1268,9 +1277,9 @@ WHERE CompanyId = @CompanyId </CommandText>
             <TablixRowHierarchy>
               <TablixMembers>
                 <TablixMember>
-                  <Group Name="SupplierName">
+                  <Group Name="DamageFrom">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!SupplierName.Value</GroupExpression>
+                      <GroupExpression>=Fields!DamageFrom.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
@@ -1281,9 +1290,9 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixMembers>
                     <TablixMember />
                     <TablixMember>
-                      <Group Name="ReceivedDate">
+                      <Group Name="OperationDate">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!ReceivedDate.Value</GroupExpression>
+                          <GroupExpression>=Fields!OperationDate.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
@@ -1294,9 +1303,9 @@ WHERE CompanyId = @CompanyId </CommandText>
                       <TablixMembers>
                         <TablixMember />
                         <TablixMember>
-                          <Group Name="ReceiveNo">
+                          <Group Name="DamageNo">
                             <GroupExpressions>
-                              <GroupExpression>=Fields!ReceiveNo.Value</GroupExpression>
+                              <GroupExpression>=Fields!DamageNo.Value</GroupExpression>
                             </GroupExpressions>
                           </Group>
                           <SortExpressions>

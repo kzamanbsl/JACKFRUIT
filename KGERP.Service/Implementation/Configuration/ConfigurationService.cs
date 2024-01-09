@@ -5515,13 +5515,13 @@ namespace KGERP.Service.Implementation.Configuration
                                                        //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
                                                        //join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
-                                                   from t5 in t5_Join.DefaultIfEmpty()
+                                                   //join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
+                                                   //from t5 in t5_Join.DefaultIfEmpty()
                                                    join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_join
                                                    from t6 in t6_join.DefaultIfEmpty()
                                                    join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_join
                                                    from t7 in t7_join.DefaultIfEmpty()
-                                                   join t8 in _db.Regions on t1.ZoneId equals t8.RegionId into t8_join
+                                                   join t8 in _db.Regions on t1.RegionId equals t8.RegionId into t8_join
                                                    from t8 in t8_join.DefaultIfEmpty()
                                                    join t9 in _db.Companies on t1.CompanyId equals t9.CompanyId into t9_join
                                                    from t9 in t9_join.DefaultIfEmpty()
@@ -5879,8 +5879,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                        //join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                        //from t3 in t3_def.DefaultIfEmpty()
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                   join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
-                                                   from t5 in t5_def.DefaultIfEmpty()
+                                                   //join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                   //from t5 in t5_def.DefaultIfEmpty()
                                                    join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                    from t6 in t6_def.DefaultIfEmpty()
                                                    join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
