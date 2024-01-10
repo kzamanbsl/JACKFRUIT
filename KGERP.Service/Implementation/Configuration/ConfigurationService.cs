@@ -1923,6 +1923,26 @@ namespace KGERP.Service.Implementation.Configuration
             return vmCommonZone;
         }
 
+        public async Task<List<SelectModelType>> GetZoneListByZoneIds(int[] zoneIds)
+        {
+            List<SelectModelType> zoneList = new List<SelectModelType>();
+
+            if (zoneIds?.Length <= 0 || zoneIds == null)
+            {
+                return zoneList;
+            }
+
+            await Task.Run(() => (_db.Zones.Where(x => x.IsActive && zoneIds.Contains(x.ZoneId)))
+            .ToList()
+            .ForEach(x => zoneList.Add(new SelectModelType()
+            {
+                Value = x.ZoneId,
+                Text = x.Name
+            })));
+
+            return zoneList;
+        }
+
         public async Task<int> ZoneAdd(VMCommonZone vmCommonZone)
         {
             var result = -1;
