@@ -11,6 +11,7 @@ namespace KGERP.Data.CustomModel
         public decimal TotalPurcaseAmmount { get; set; }
         public int TotalSale { get; set; }
         public double TotalSaleAmmount { get; set; }
+        public double TotalDamageAmmount { get; set; }
         public decimal Payment { get; set; }
         public decimal Collection { get; set; }
         public decimal MonthPurchasePayment { get; set; }

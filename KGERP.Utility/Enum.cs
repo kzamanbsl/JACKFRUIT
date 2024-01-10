@@ -46,14 +46,14 @@
     {
         Customer = 1,
         Dealer,
-        Depo,
+        Deport,
         Factory
     }
     public enum EnumDamageFrom
     {
         Customer = 1,
         Dealer,
-        Depo,
+        Deport,
         Factory
     }
     public enum EnumDamageStatus
@@ -75,11 +75,11 @@
         Factory_Broken,
         Factory_CutByRat,
 
-        Depo_DateExpired,
-        Depo_AirLess,
-        Depo_Soggy,
-        Depo_Broken,
-        Depo_CutByRat,
+        Deport_DateExpired,
+        Deport_AirLess,
+        Deport_Soggy,
+        Deport_Broken,
+        Deport_CutByRat,
 
         Dealer_DateExpired,
         Dealer_AirLess,
@@ -88,7 +88,7 @@
         Dealer_CutByRat,
     }
 
-    public enum EnumDamageTypeDepo
+    public enum EnumDamageTypeDeport
     {
         Factory_DateExpired = 1,
         Factory_AirLess,
@@ -96,11 +96,11 @@
         Factory_Broken,
         Factory_CutByRat,
 
-        Depo_DateExpired,
-        Depo_AirLess,
-        Depo_Soggy,
-        Depo_Broken,
-        Depo_CutByRat,
+        Deport_DateExpired,
+        Deport_AirLess,
+        Deport_Soggy,
+        Deport_Broken,
+        Deport_CutByRat,
 
         Dealer_DateExpired,
         Dealer_AirLess,
@@ -117,11 +117,11 @@
         Factory_Broken,
         Factory_CutByRat,
 
-        Depo_DateExpired,
-        Depo_AirLess,
-        Depo_Soggy,
-        Depo_Broken,
-        Depo_CutByRat,
+        Deport_DateExpired,
+        Deport_AirLess,
+        Deport_Soggy,
+        Deport_Broken,
+        Deport_CutByRat,
 
         Dealer_DateExpired,
         Dealer_AirLess,

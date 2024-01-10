@@ -66,7 +66,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList EnumDamageStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageStatus>(), "Value", "Text"); } }
         public SelectList EnumDamageFromList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageFrom>(), "Value", "Text"); } }
         public SelectList DealerDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeDealer>(), "Value", "Text"); } }
-        public SelectList DepoDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeDepo>(), "Value", "Text"); } }
+        public SelectList DepoDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeDeport>(), "Value", "Text"); } }
         public SelectList FactoryDamageTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDamageTypeFactory>(), "Value", "Text"); } }
         public SelectList EnumStockInfoTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<StockInfoTypeDealerDDEnum>(), "Value", "Text"); } }
         public SelectList EnumDealerDamageToList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumDealerDamageTo>(), "Value", "Text"); } }

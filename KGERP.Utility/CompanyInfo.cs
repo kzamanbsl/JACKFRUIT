@@ -14,7 +14,7 @@
         public static string CompanyName = "Azlan Agro Foods Ltd";
         public static string CompanyAdminUserId = "AZ00001";
         public static string CompanyShortName = "AF";
-        public static string CompanyLogoUrl = "/Content/img/SIMGroupLogo.png";
+        public static string CompanyLogoUrl = "/Content/img/JfERPLogo.png";
         public static string CompanyMenuName = "Azlan Agro Foods Ltd";
         public static string ReportPrefix = "AF_";
         //public static string ReportPrefix = "AFTest_";

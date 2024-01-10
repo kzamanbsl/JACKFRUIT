@@ -34,10 +34,20 @@ namespace KGERP.Service.Implementation.Dashboard_service
             //                          select t2.PurchaseAmount).DefaultIfEmpty(0).Sum();
 
             vm.TotalSale = _context.OrderMasters.Where(x => x.CompanyId == companyId && x.OrderDate == DateTime.Today && x.StockInfoTypeId==(int)StockInfoTypeEnum.Company && x.IsActive==true ).Count();
+            
             vm.TotalSaleAmmount = (from t1 in _context.OrderMasters
                                    join t2 in _context.OrderDetails on t1.OrderMasterId equals t2.OrderMasterId
                                    where t1.CompanyId == companyId && t1.OrderDate == DateTime.Today && t1.StockInfoTypeId == (int)StockInfoTypeEnum.Company && t1.IsActive==true
                                    select t2.Amount).DefaultIfEmpty(0).Sum();
+
+            vm.TotalDamageAmmount = (from t1 in _context.DamageMasters
+                                   join t2 in _context.DamageDetails on t1.DamageMasterId equals t2.DamageMasterId
+                                   where t1.CompanyId == companyId && t1.OperationDate == DateTime.Today 
+                                   && t1.DamageFromId == (int)EnumDamageFrom.Customer && t1.StatusId != (int)EnumDamageStatus.Received
+                                   && t1.DamageFromId == (int)EnumDamageFrom.Dealer && t1.StatusId != (int)EnumDamageStatus.Received
+                                   && t1.DamageFromId == (int)EnumDamageFrom.Deport && t1.StatusId != (int)EnumDamageStatus.Received
+                                   && t1.IsActive == true && t2.IsActive == true
+                                     select t2.TotalPrice).DefaultIfEmpty(0).Sum();
 
             //vm.Payment = (decimal)(from t1 in _context.Vendors
             //                       join t2 in _context.Payments on t1.VendorId equals t2.VendorId

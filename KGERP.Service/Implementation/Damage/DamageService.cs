@@ -108,7 +108,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (model.FromDeportId != null)
             {
-                model.DamageFromId = EnumDamageFrom.Depo;
+                model.DamageFromId = EnumDamageFrom.Deport;
             }
 
             var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId==(int)EnumDamageFrom.Customer) + 1;
@@ -304,7 +304,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (model.FromDeportId != null)
             {
-                model.DamageFromId = EnumDamageFrom.Depo;
+                model.DamageFromId = EnumDamageFrom.Deport;
             }
 
             var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId == (int)EnumDamageFrom.Dealer) + 1;
@@ -905,9 +905,9 @@ namespace KGERP.Service.Implementation.ProdMaster
             }
             else if (model.FromDeportId != null)
             {
-                model.DamageFromId = EnumDamageFrom.Depo;
+                model.DamageFromId = EnumDamageFrom.Deport;
             }
-            var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId == (int)EnumDamageFrom.Depo) + 1;
+            var dmMax = _db.DamageMasters.Count(x => x.CompanyId == model.CompanyFK && x.DamageMasterId > 0 && x.DamageFromId == (int)EnumDamageFrom.Deport) + 1;
             string dmDpdr = @"DPDR-" +
                             DateTime.Now.ToString("yy") +
                             DateTime.Now.ToString("MM") +
@@ -1146,7 +1146,7 @@ namespace KGERP.Service.Implementation.ProdMaster
             damageMasterModel.CompanyFK = companyId;
             damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
-                                                          && x.DamageFromId == (int)EnumDamageFrom.Depo
+                                                          && x.DamageFromId == (int)EnumDamageFrom.Deport
                                                           && x.ToStockInfoId != null
                                                           && x.FromDeportId != null
                                                           && x.OperationDate >= fromDate && x.OperationDate <= toDate)
@@ -1472,7 +1472,7 @@ namespace KGERP.Service.Implementation.ProdMaster
 
             damageMasterModel.DataList = await Task.Run(() => (from t1 in _db.DamageMasters.Where(x => x.IsActive
                                                           && x.CompanyId == companyId
-                                                          && x.DamageFromId == (int)EnumDamageFrom.Depo
+                                                          && x.DamageFromId == (int)EnumDamageFrom.Deport
                                                           && x.ToStockInfoId != null
                                                           && x.FromDeportId != null
                                                           && x.OperationDate >= fromDate && x.OperationDate <= toDate
