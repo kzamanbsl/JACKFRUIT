@@ -269,7 +269,7 @@ namespace KGERP.Service.Implementation.Procurement
         public string DriverMobileNo { get; set; }
         public string TrackNo { get; set; }
         public decimal TrackFair { get; set; }
-
+        public bool IsOpening { get; set; }
         public IEnumerable<VMSalesOrder> DataList { get; set; }= new List<VMSalesOrder>();
 
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());

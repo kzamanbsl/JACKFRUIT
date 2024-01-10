@@ -3953,7 +3953,7 @@ namespace KGERP.Service.Implementation.Procurement
                 //SalePersonId = salePerson?.EmployeeId ?? null,
                 SalePersonId = (long?)salePersonId,
                 Remarks = vmSalesOrderSlave.Remarks,
-
+                IsOpening= vmSalesOrderSlave.IsOpening,
                 CompanyId = (int)((vmSalesOrderSlave.CompanyFK ?? 0) > 0 ? vmSalesOrderSlave.CompanyFK : CompanyInfo.CompanyId),
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
@@ -4387,7 +4387,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.DeportId > 0
                                                           && x.StockInfoTypeId == (int)StockInfoTypeEnum.Company
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
+                                                          //&& !x.IsOpening
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DeportId equals t2.VendorId
@@ -4456,7 +4456,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.DeportId > 0
                                                           && x.StockInfoTypeId == (int)StockInfoTypeEnum.Company
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
+                                                          //&& !x.IsOpening
                                                           && x.Status >= (int)EnumSOStatus.Submitted
                                                           && x.Status < (int)EnumSOStatus.Received)
 
@@ -4533,7 +4533,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.DeportId > 0
                                                           && x.StockInfoTypeId == (int)StockInfoTypeEnum.Company
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
+                                                          //&& !x.IsOpening
                                                           && x.Status >= (int)EnumSOStatus.Delivered
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
