@@ -3789,59 +3789,66 @@ namespace KGERP.Service.Implementation.Procurement
                 throw new Exception("Sorry! Order not found!");
             }
 
-            #region Stock Check
-
-            var orderDetails = _db.OrderDetails.Where(x => x.OrderMasterId == orderMasters.OrderMasterId).AsNoTracking().ToList();
-            
-            if (orderDetails == null|| orderDetails.Count<=0)
+            if (orderMasters.IsOpening == false)
             {
-                throw new Exception("Sorry! Order Details not found!");
-            }
-            var productIds = orderDetails.Select(x => x.ProductId).Distinct().ToList();
-            var productStocks = new List<VMProductStock>();
-            
-            foreach(var pId in productIds)
-            {
-                var stock = new VMProductStock();
-               if (orderMasters.DealerId>0)
-                {
-                     stock = GetDeportProductStockByProductId(CompanyInfo.CompanyId, pId,  orderMasters.StockInfoId ?? 0);
+                #region Stock Check
 
-                } else if (orderMasters.DeportId>0)
-                {
-                     stock = GetFoodProductStockByProductId(CompanyInfo.CompanyId, pId,  orderMasters.StockInfoId ?? 0);
+                var orderDetails = _db.OrderDetails.Where(x => x.OrderMasterId == orderMasters.OrderMasterId).AsNoTracking().ToList();
 
+                if (orderDetails == null || orderDetails.Count <= 0)
+                {
+                    throw new Exception("Sorry! Order Details not found!");
                 }
-                else if(orderMasters.CustomerId > 0)
-                {
-                    
-                    stock = GetDealerProductStockByProductId(CompanyInfo.CompanyId, pId, (orderMasters.StockInfoTypeId>2 ? 0: orderMasters.StockInfoTypeId) ?? 0, orderMasters.StockInfoId ?? 0 );
+                var productIds = orderDetails.Select(x => x.ProductId).Distinct().ToList();
+                var productStocks = new List<VMProductStock>();
 
-                }
-                
+                foreach (var pId in productIds)
+                {
+                    var stock = new VMProductStock();
+                    if (orderMasters.DealerId > 0)
+                    {
+                        stock = GetDeportProductStockByProductId(CompanyInfo.CompanyId, pId, orderMasters.StockInfoId ?? 0);
+
+                    }
+                    else if (orderMasters.DeportId > 0)
+                    {
+                        stock = GetFoodProductStockByProductId(CompanyInfo.CompanyId, pId, orderMasters.StockInfoId ?? 0);
+
+                    }
+                    else if (orderMasters.CustomerId > 0)
+                    {
+
+                        stock = GetDealerProductStockByProductId(CompanyInfo.CompanyId, pId, (orderMasters.StockInfoTypeId > 2 ? 0 : orderMasters.StockInfoTypeId) ?? 0, orderMasters.StockInfoId ?? 0);
+
+                    }
+
 
                     productStocks.Add(stock);
-                var salesProduct = orderDetails.Where(c => c.ProductId==pId);
-                var salesProductQty = salesProduct.Sum(c => c.Qty+c.OfferQty);
-                var salesProductCons = salesProduct.FirstOrDefault().Comsumption;
-                var salesProductQtyCtn = Math.Floor(salesProductQty/ salesProductCons??1);
-                var salesProductQtySum = orderDetails.Sum(c => c.Qty+c.OfferQty);
+                    var salesProduct = orderDetails.Where(c => c.ProductId == pId);
+                    var salesProductQty = salesProduct.Sum(c => c.Qty + c.OfferQty);
+                    var salesProductCons = salesProduct.FirstOrDefault().Comsumption;
+                    var salesProductQtyCtn = Math.Floor(salesProductQty / salesProductCons ?? 1);
+                    var salesProductQtySum = orderDetails.Sum(c => c.Qty + c.OfferQty);
 
-                if(stock.CurrentStockQty< (decimal)salesProductQty)
-                {
-                    throw new Exception($"Sorry! This {stock.ProductName} Stock Qty is " +
-                        $"{stock.CurrentStockQtyCtn} Ctn and {(stock.CurrentStockQty- (decimal)(stock.CurrentStockQtyCtn*stock.Consumption))} Pcs " +
-                        $"and Sales Order Qty is {salesProductQtyCtn} Ctn and {(salesProductQty - (salesProductQtyCtn * salesProductCons))} Pcs. " +
-                        $"Sales Can't Possible.");
-                   
+                    if (stock.CurrentStockQty < (decimal)salesProductQty)
+                    {
+                        throw new Exception($"Sorry! This {stock.ProductName} Stock Qty is " +
+                                            $"{stock.CurrentStockQtyCtn} Ctn and {(stock.CurrentStockQty - (decimal)(stock.CurrentStockQtyCtn * stock.Consumption))} Pcs " +
+                                            $"and Sales Order Qty is {salesProductQtyCtn} Ctn and {(salesProductQty - (salesProductQtyCtn * salesProductCons))} Pcs. " +
+                                            $"Sales Can't Possible.");
+
+                    }
+
                 }
-               
+
+                #endregion
             }
 
-            #endregion
-
-
-            if (orderMasters.Status == (int)EnumSOStatus.Draft)
+            if (orderMasters.IsOpening == true && orderMasters.Status == (int)EnumSOStatus.Draft)
+            {
+                orderMasters.Status = (int)EnumSOStatus.Received;
+            }
+            else if (orderMasters.Status == (int)EnumSOStatus.Draft)
             {
                 orderMasters.Status = (int)EnumSOStatus.Submitted;
 
@@ -3953,7 +3960,7 @@ namespace KGERP.Service.Implementation.Procurement
                 //SalePersonId = salePerson?.EmployeeId ?? null,
                 SalePersonId = (long?)salePersonId,
                 Remarks = vmSalesOrderSlave.Remarks,
-                IsOpening= vmSalesOrderSlave.IsOpening,
+                IsOpening = vmSalesOrderSlave.IsOpening,
                 CompanyId = (int)((vmSalesOrderSlave.CompanyFK ?? 0) > 0 ? vmSalesOrderSlave.CompanyFK : CompanyInfo.CompanyId),
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
@@ -3996,7 +4003,7 @@ namespace KGERP.Service.Implementation.Procurement
             long dateTime = DateTime.Now.Ticks;
             long result = -1;
             var productTPPrice = (double)_db.Products.AsNoTracking().FirstOrDefault(c => c.ProductId == (vmSalesOrderSlave.ProductId ?? 0))?.TPPrice;
-            
+
             OrderDetail orderDetail = new OrderDetail
             {
                 OrderMasterId = vmSalesOrderSlave.OrderMasterId,
@@ -4410,7 +4417,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
                                                               SalePersonId = t1.SalePersonId ?? 0,
-
+                                                              IsOpening = t1.IsOpening,
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -4486,7 +4493,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
                                                               SalePersonId = t1.SalePersonId ?? 0,
-
+                                                              IsOpening = t1.IsOpening,
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -4557,7 +4564,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
                                                               SalePersonId = t1.SalePersonId ?? 0,
-
+                                                              IsOpening = t1.IsOpening,
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -4582,7 +4589,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList =vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DeportIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -4669,7 +4676,7 @@ namespace KGERP.Service.Implementation.Procurement
                 //SalePersonId = salePerson?.EmployeeId ?? null,
                 SalePersonId = (long?)salePersonId,
                 Remarks = vmSalesOrderSlave.Remarks,
-
+                IsOpening = vmSalesOrderSlave.IsOpening,
                 CompanyId = (int)((vmSalesOrderSlave.CompanyFK ?? 0) > 0 ? vmSalesOrderSlave.CompanyFK : CompanyInfo.CompanyId),
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
@@ -5114,7 +5121,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.DealerId > 0
                                                           && (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
+                                                          //&& !x.IsOpening
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
                                                           join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
@@ -5139,7 +5146,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
                                                               SalePersonId = t1.SalePersonId ?? 0,
-
+                                                              IsOpening = t1.IsOpening,
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5164,7 +5171,7 @@ namespace KGERP.Service.Implementation.Procurement
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && up.DeportIds?.Length > 0)
             {
-                vmSalesOrder.DataList =vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
+                vmSalesOrder.DataList = vmSalesOrder.DataList.Where(q => up.DealerIds.Contains(q.CustomerId));
             }
             else if (up.UserTypeId == (int)EnumUserType.Employee && (up.ZoneIds?.Length > 0 || up.ZoneDivisionIds?.Length > 0 || up.RegionIds?.Length > 0 || up.AreaIds?.Length > 0 || up.SubZoneIds?.Length > 0))
             {
@@ -5185,7 +5192,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.DealerId > 0
                                                           && (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
+                                                          //&& !x.IsOpening
                                                           && x.Status >= (int)EnumSOStatus.Submitted
                                                           && x.Status < (int)EnumSOStatus.Received)
 
@@ -5217,7 +5224,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
                                                               SalePersonId = t1.SalePersonId ?? 0,
-
+                                                              IsOpening = t1.IsOpening,
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5263,7 +5270,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           && x.DealerId > 0
                                                           && (x.StockInfoTypeId == (int)StockInfoTypeEnum.Company || x.StockInfoTypeId == (int)StockInfoTypeEnum.Deport)
                                                           && x.OrderDate >= fromDate && x.OrderDate <= toDate
-                                                          && !x.IsOpening
+                                                          //&& !x.IsOpening
                                                           && x.Status >= (int)EnumSOStatus.Delivered
                                                           && x.Status < (int)EnumSOStatus.Closed)
 
@@ -5289,7 +5296,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                               CourierCharge = t1.CourierCharge,
                                                               Status = t1.Status,
                                                               SalePersonId = t1.SalePersonId ?? 0,
-
+                                                              IsOpening = t1.IsOpening,
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy,
@@ -5383,7 +5390,7 @@ namespace KGERP.Service.Implementation.Procurement
                 FinalDestination = vmSalesOrderSlave.FinalDestination,
                 CourierCharge = vmSalesOrderSlave.CourierCharge,
                 CurrentPayable = Convert.ToDecimal(vmSalesOrderSlave.PayableAmount),
-                StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId>0 ? vmSalesOrderSlave.StockInfoTypeId: (int)StockInfoTypeEnum.Dealer,
+                StockInfoTypeId = vmSalesOrderSlave.StockInfoTypeId > 0 ? vmSalesOrderSlave.StockInfoTypeId : (int)StockInfoTypeEnum.Dealer,
                 StockInfoId = (int)vmSalesOrderSlave.StockInfoId,
                 IsActive = true,
                 OrderStatus = "N",
@@ -5780,7 +5787,7 @@ namespace KGERP.Service.Implementation.Procurement
             //@StockInfoId int
 
             var strFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
-            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"); 
+            var strToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
 
             VMProductStock vmProductStock = new VMProductStock();
 

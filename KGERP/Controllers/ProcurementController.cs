@@ -10,10 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Drawing;
 using System.Linq;
-using System.Linq.Dynamic;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -29,17 +26,17 @@ namespace KGERP.Controllers
         private readonly IProductService _productService;
         private readonly IStockInfoService _stockInfoService;
         private readonly AccountingService _accountingService;
-        private readonly ConfigurationService _Configurationservice;
+        private readonly ConfigurationService _configurationService;
 
         private readonly ERPEntities _db = new ERPEntities();
-        public ProcurementController(ProcurementService configurationService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, AccountingService accountingService, ConfigurationService configurationservice)
+        public ProcurementController(ProcurementService service, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, AccountingService accountingService, ConfigurationService configurationService)
         {
-            this._orderMasterService = orderMasterService;
-            _service = configurationService;
+            _orderMasterService = orderMasterService;
+            _service = service;
             _productService = productService;
             _stockInfoService = stockInfoService;
             _accountingService = accountingService;
-            _Configurationservice = configurationservice;
+            _configurationService = configurationService;
         }
 
         public JsonResult GetAutoCompleteSupplierGet(string prefix, int companyId)
@@ -1683,7 +1680,7 @@ namespace KGERP.Controllers
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
             //vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.CustomerList = new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
+            vmSalesOrderSlave.CustomerList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
 
             return View(vmSalesOrderSlave);
         }
@@ -1912,9 +1909,6 @@ namespace KGERP.Controllers
 
         }
 
-
-
-
         #endregion
 
         #region Dealer Sales
@@ -2023,7 +2017,7 @@ namespace KGERP.Controllers
             vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.Status = vStatus ?? -1;
-            vmSalesOrder.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+            vmSalesOrder.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
 
             return View(vmSalesOrder);
         }
@@ -2184,10 +2178,10 @@ namespace KGERP.Controllers
 
             }
             //vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+            vmSalesOrderSlave.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length > 0)
             {
-                vmSalesOrderSlave.CustomerList = new SelectList(await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds), "Value", "Text");
+                vmSalesOrderSlave.CustomerList = new SelectList(await _configurationService.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds), "Value", "Text");
 
             }
 
@@ -2243,11 +2237,11 @@ namespace KGERP.Controllers
                 vmSalesOrderSlave = await Task.Run(() => _service.GetFoodCustomerSalesOrderDetails(companyId, orderMasterId));
 
             }
-            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+            vmSalesOrderSlave.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
 
             vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
-            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_configurationService.CommonCustomerPaymentType(), "Value", "Text");
             vmSalesOrderSlave.StockInfoTypeId = (int)StockInfoTypeEnum.Dealer;
             vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";
             vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Retail;
@@ -2372,10 +2366,10 @@ namespace KGERP.Controllers
 
             }
 
-            vmSalesOrderSlave.UserDataAccessModel = await _Configurationservice.GetUserDataAccessModelByEmployeeId();
+            vmSalesOrderSlave.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length > 0)
             {
-                vmSalesOrderSlave.CustomerList = _Configurationservice.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
+                vmSalesOrderSlave.CustomerList = _configurationService.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
             }
 
             var zoneIds = vmSalesOrderSlave.UserDataAccessModel.ZoneIds;
@@ -2385,10 +2379,10 @@ namespace KGERP.Controllers
             var subZoneIds = vmSalesOrderSlave.UserDataAccessModel.SubZoneIds;
 
             vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
-            if (zoneDivisionIds?.Length > 0) vmSalesOrderSlave.ZoneDivisionList = new SelectList(_Configurationservice.GetZoneDivisionSelectList(companyId, zoneIds?[0]), "Value", "Text");
-            if (regionIds?.Length > 0) vmSalesOrderSlave.RegionList = new SelectList(_Configurationservice.GetRegionSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0]), "Value", "Text");
-            if (areaIds?.Length > 0) vmSalesOrderSlave.AreaList = new SelectList(_Configurationservice.GetAreaSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0], regionIds?[0]), "Value", "Text");
-            if (subZoneIds?.Length > 0) vmSalesOrderSlave.SubZoneList = new SelectList(_Configurationservice.GetSubZoneSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0], regionIds?[0], areaIds?[0]), "Value", "Text");
+            if (zoneDivisionIds?.Length > 0) vmSalesOrderSlave.ZoneDivisionList = new SelectList(_configurationService.GetZoneDivisionSelectList(companyId, zoneIds?[0]), "Value", "Text");
+            if (regionIds?.Length > 0) vmSalesOrderSlave.RegionList = new SelectList(_configurationService.GetRegionSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0]), "Value", "Text");
+            if (areaIds?.Length > 0) vmSalesOrderSlave.AreaList = new SelectList(_configurationService.GetAreaSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0], regionIds?[0]), "Value", "Text");
+            if (subZoneIds?.Length > 0) vmSalesOrderSlave.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(companyId, zoneIds?[0], zoneDivisionIds?[0], regionIds?[0], areaIds?[0]), "Value", "Text");
 
             vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier
             {
@@ -2401,7 +2395,7 @@ namespace KGERP.Controllers
 
             if (vmSalesOrderSlave.UserDataAccessModel.DealerIds?.Length > 0)
             {
-                vmSalesOrderSlave.StockInfoList = await _Configurationservice.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
+                vmSalesOrderSlave.StockInfoList = await _configurationService.GetDealerListByDealerIds(vmSalesOrderSlave.UserDataAccessModel.DealerIds);
             }
             else
             {
@@ -2409,10 +2403,10 @@ namespace KGERP.Controllers
                 var zoneDivisionId = zoneDivisionIds?[0] ?? 0;
                 var regionId = regionIds?[0] ?? 0;
                 var areaId = areaIds?[0] ?? 0;
-                vmSalesOrderSlave.StockInfoList = new SelectList(_Configurationservice.CommonDealerListByArea(zoneId, zoneDivisionId, regionId, areaId), "Value", "Text");
+                vmSalesOrderSlave.StockInfoList = new SelectList(_configurationService.CommonDealerListByArea(zoneId, zoneDivisionId, regionId, areaId), "Value", "Text");
             }
 
-            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_Configurationservice.CommonCustomerPaymentType(), "Value", "Text");
+            vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_configurationService.CommonCustomerPaymentType(), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";
             vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Retail;
             vmSalesOrderSlave.CommonSupplier.CustomerStatus = (int)CustomerStatusEnum.CashCustomer;
@@ -2492,7 +2486,7 @@ namespace KGERP.Controllers
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
 
             vendorDepositModel.CompanyFK = companyId;
-            vendorDepositModel.DeportList = new SelectList(_Configurationservice.CommonDeportDropDownList(), "Value", "Text");
+            vendorDepositModel.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
             return View(vendorDepositModel);
         }
 
@@ -2523,7 +2517,7 @@ namespace KGERP.Controllers
             vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Dealer);
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vendorDepositModel.CompanyFK = companyId;
-            vendorDepositModel.DealerList = new SelectList(_Configurationservice.CommonDealerDropDownList(), "Value", "Text");
+            vendorDepositModel.DealerList = new SelectList(_configurationService.CommonDealerDropDownList(), "Value", "Text");
             return View(vendorDepositModel);
         }
 
@@ -2554,7 +2548,7 @@ namespace KGERP.Controllers
             vendorDepositModel.VendorTypeName = Enum.GetName(typeof(Provider), Provider.Customer);
             vendorDepositModel.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vendorDepositModel.CompanyFK = companyId;
-            vendorDepositModel.CustomerList = new SelectList(_Configurationservice.CommonCustomerDropDownList(), "Value", "Text");
+            vendorDepositModel.CustomerList = new SelectList(_configurationService.CommonCustomerDropDownList(), "Value", "Text");
 
             return View(vendorDepositModel);
         }

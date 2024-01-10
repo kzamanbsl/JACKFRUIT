@@ -133,7 +133,13 @@
                                             </td>
                                             <td>@item.POPaymentMethodName</td>
 
-                                            <td>@item.EnumStatusName</td>
+                                            <td>
+                                                @item.EnumStatusName
+                                                @if (item.IsOpening == true)
+                                                {
+                                                    <span>(Opening)</span>
+                                                }
+                                            </td>
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {

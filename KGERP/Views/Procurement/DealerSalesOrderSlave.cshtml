@@ -180,11 +180,19 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-10">
                                         <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Remarks:</label>
+                                            <label class="col-form-label">Remarks:</label>
                                             @Html.TextAreaFor(model => model.Remarks, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label class="col-form-label">Is Opening:</label>
+                                            <br />
+                                            @Html.CheckBoxFor(model => model.IsOpening)
                                         </div>
                                     </div>
                                 </div>
