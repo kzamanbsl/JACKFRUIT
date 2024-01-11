@@ -760,40 +760,6 @@
             var stockInfoTypeIdVal = $("#ddlStockInfoTypeFk").val();
             var stockInfoIdVal = $("#ddlStockInfoId").val();
 
-
-                @*$.ajax({
-                    type: "GET",
-                    url: "@Url.Action("GetDeportProductStockByProductId", "Procurement")",
-                    datatype: "Json",
-                    data: { companyId: "@Model.CompanyFK", productId: productId },
-                    success: function (data) {
-                        if (data) {
-
-                            if (stockInfoTypeIdVal == @((int)StockInfoTypeEnum.Company)) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption)) + ' pcs');
-                            }
-
-                            if (dealerPrice == -1) {
-                                $("#txtDealerPrice").val(data.UnitPrice);
-
-                            } else {
-                                $("#txtDealerPrice").val(dealerPrice);
-                                dealerPrice = -1;
-                            }
-                            if (consumption == 1) {
-
-                                $("#ProductConsumption").val(data.Consumption);
-                            } else {
-                                $("#ProductConsumption").val(consumption);
-                                consumption = 1;
-                            }
-
-                        //    var unitQty = $("#txtOrderQuantity").val();
-                        }
-                    }
-                });*@
             $("#txtOrderCtn").val(0);
             $("#txtOrderPcs").val(0);
             $("#totalAmount").val(0);
@@ -811,12 +777,25 @@
                             $('.txtUnitName').text(data.UnitName);
                             $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption)) + ' pcs');
 
-                            var unitQty = $("#txtOrderQuantity").val();
+                            if (dealerPrice == -1) {
+                                $("#txtDealerPrice").val(data.DealerPrice);
+
+                            } else {
+                                $("#txtDealerPrice").val(dealerPrice);
+                                dealerPrice = -1;
+                            }
+                            if (consumption == 1) {
+
+                                $("#ProductConsumption").val(data.Consumption);
+                            } else {
+                                $("#ProductConsumption").val(consumption);
+                                consumption = 1;
+                            }
+                            //var unitQty = $("#txtOrderQuantity").val();
                         }
                     }
                 });
             }
-
 
         });
 
