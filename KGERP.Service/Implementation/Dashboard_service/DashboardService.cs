@@ -33,11 +33,11 @@ namespace KGERP.Service.Implementation.Dashboard_service
             //                          where t1.CompanyId == companyId && t1.PurchaseDate == DateTime.Today && t1.IsActive
             //                          select t2.PurchaseAmount).DefaultIfEmpty(0).Sum();
 
-            vm.TotalSale = _context.OrderMasters.Where(x => x.CompanyId == companyId && x.OrderDate == DateTime.Today && x.StockInfoTypeId==(int)StockInfoTypeEnum.Company && x.IsActive==true ).Count();
+            vm.TotalSale = _context.OrderMasters.Where(x => x.CompanyId == companyId && x.OrderDate == DateTime.Today && x.StockInfoTypeId==(int)StockInfoTypeEnum.Company && x.IsActive==true && x.IsOpening==false).Count();
             
             vm.TotalSaleAmmount = (from t1 in _context.OrderMasters
                                    join t2 in _context.OrderDetails on t1.OrderMasterId equals t2.OrderMasterId
-                                   where t1.CompanyId == companyId && t1.OrderDate == DateTime.Today && t1.StockInfoTypeId == (int)StockInfoTypeEnum.Company && t1.IsActive==true
+                                   where t1.CompanyId == companyId && t1.OrderDate == DateTime.Today && t1.StockInfoTypeId == (int)StockInfoTypeEnum.Company && t1.IsActive==true && t1.IsOpening == false
                                    select t2.Amount).DefaultIfEmpty(0).Sum();
 
             vm.TotalDamageAmmount = (from t1 in _context.DamageMasters
@@ -69,7 +69,8 @@ namespace KGERP.Service.Implementation.Dashboard_service
 
             vm.TotalMonthSeleAmmount = (from t1 in _context.OrderMasters
                                         join t2 in _context.OrderDetails on t1.OrderMasterId equals t2.OrderMasterId
-                                        where t1.CompanyId == companyId && t1.IsActive==true && t2.IsActive==true && t1.OrderDate >= enddate && t1.OrderDate <= DateTime.Now
+                                        where t1.CompanyId == companyId && t1.IsActive==true && t1.IsOpening == false 
+                                        && t2.IsActive==true && t1.OrderDate >= enddate && t1.OrderDate <= DateTime.Now
                                         select t2.Amount).DefaultIfEmpty(0).Sum();
 
 
