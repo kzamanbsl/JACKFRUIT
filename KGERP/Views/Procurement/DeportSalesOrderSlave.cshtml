@@ -955,7 +955,7 @@
                         $('.txtUnitName').text(data.UnitName);
                         //$('#ProductConsumption').val(data.Consumption);
                         //$('#txtDeportPrice').val(data.DeportPrice);
-                        $('#stockAvailable').text((data.CurrentStockQtyCtn).toFixed(2) + ' ctn and ' + (data.CurrentStockQtyPcs).toFixed(2) + ' pcs');
+                        $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption)) + ' pcs');
 
                         if (unitPrice == null) {
                             $("#txtDeportPrice").val(data.DeportPrice);

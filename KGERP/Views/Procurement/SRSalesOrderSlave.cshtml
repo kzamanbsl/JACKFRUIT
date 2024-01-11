@@ -996,7 +996,7 @@
                     if (data) {
                         $('#tblStockAvailable').show();
                         $('.txtUnitName').text(data.UnitName);
-                        $('#stockAvailable').text((data.CurrentStockQtyCtn).toFixed(2) + ' ctn and ' + (data.CurrentStockQtyPcs).toFixed(2) + ' pcs');
+                        $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption)) + ' pcs');
                         var ctnAndPcs = data.CurrentStockQtyPcs + data.CurrentStockQtyCtn;
 
                         if (ctnAndPcs < 1) {

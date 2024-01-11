@@ -837,7 +837,7 @@
 
                                 $('#tblStockAvailable').show();
                                 $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStockQtyCtn + ' ctn and ' + data.CurrentStockQtyPcs + ' pcs');
+                            $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption )) + ' pcs');
 
 
                             if (dealerPrice == -1) {
