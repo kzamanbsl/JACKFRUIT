@@ -69,7 +69,7 @@ namespace KGERP.Service.Implementation.Dashboard_service
 
             vm.TotalMonthSeleAmmount = (from t1 in _context.OrderMasters
                                         join t2 in _context.OrderDetails on t1.OrderMasterId equals t2.OrderMasterId
-                                        where t1.CompanyId == companyId && t1.IsActive==true && t1.IsOpening == false 
+                                        where t1.CompanyId == companyId && t1.StockInfoTypeId == (int)StockInfoTypeEnum.Company && t1.IsActive==true && t1.IsOpening == false 
                                         && t2.IsActive==true && t1.OrderDate >= enddate && t1.OrderDate <= DateTime.Now
                                         select t2.Amount).DefaultIfEmpty(0).Sum();
 
