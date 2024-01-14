@@ -7,16 +7,16 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.8.34316.72</am:Version>
+      <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-05T04:47:38.2349110Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-14T04:17:17.5274189Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="GeneralLedgerDS">
       <Transaction>true</Transaction>
-      <DataSourceReference>AFTestDataSource</DataSourceReference>
+      <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>cdcb2f2c-7ca3-4782-8265-294164a2cd50</rd:DataSourceID>
     </DataSource>
@@ -2818,7 +2818,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!TotalPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!Amount.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2842,7 +2842,6 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3113,8 +3112,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
             <DataSetName>SODataSet</DataSetName>
             <Top>2.82571in</Top>
             <Left>0.98542in</Left>
-            <Height>1.10416in</Height>
-            <Width>6.9586in</Width>
+            <Height>1.10415in</Height>
+            <Width>6.95858in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>

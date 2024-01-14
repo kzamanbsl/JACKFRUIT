@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-10T03:42:06.1714230Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-11T11:56:10.9055534Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -65,8 +65,8 @@ WHERE CompanyId = @CompanyId </CommandText>
           <QueryParameter Name="@ProductId">
             <Value>=Parameters!ProductId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@StockId">
-            <Value>=Parameters!StockId.Value</Value>
+          <QueryParameter Name="@DealerId">
+            <Value>=Parameters!DealerId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductCategoryId">
             <Value>=Parameters!ProductCategoryId.Value</Value>
@@ -82,7 +82,7 @@ WHERE CompanyId = @CompanyId </CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_AzlanDateWiseDamageStockDetails</CommandText>
+        <CommandText>sp_DealerDateWiseDamageStockDetails</CommandText>
       </Query>
       <Fields>
         <Field Name="DamageMasterId">
@@ -449,7 +449,6 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1562,9 +1561,9 @@ WHERE CompanyId = @CompanyId </CommandText>
       <DataType>Integer</DataType>
       <Prompt>Product Sub Category Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="StockId">
+    <ReportParameter Name="DealerId">
       <DataType>Integer</DataType>
-      <Prompt>Stock Id</Prompt>
+      <Prompt>Dealer Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -1603,9 +1602,9 @@ WHERE CompanyId = @CompanyId </CommandText>
           <ParameterName>ProductSubCategoryId</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>5</RowIndex>
-          <ParameterName>StockId</ParameterName>
+          <ParameterName>DealerId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

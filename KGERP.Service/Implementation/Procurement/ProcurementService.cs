@@ -3805,17 +3805,17 @@ namespace KGERP.Service.Implementation.Procurement
                 foreach (var pId in productIds)
                 {
                     var stock = new VMProductStock();
-                    if (orderMasters.DealerId > 0)
+                    if (orderMasters.StockInfoTypeId ==(int)StockInfoTypeEnum.Deport)
                     {
                         stock = GetDeportProductStockByProductId(CompanyInfo.CompanyId, pId, orderMasters.StockInfoId ?? 0);
 
                     }
-                    else if (orderMasters.DeportId > 0)
+                    else if (orderMasters.StockInfoTypeId == (int)StockInfoTypeEnum.Company)
                     {
                         stock = GetFoodProductStockByProductId(CompanyInfo.CompanyId, pId, orderMasters.StockInfoId ?? 0);
 
                     }
-                    else if (orderMasters.CustomerId > 0)
+                    else if (orderMasters.StockInfoTypeId == (int)StockInfoTypeEnum.Dealer)
                     {
 
                         stock = GetDealerProductStockByProductId(CompanyInfo.CompanyId, pId, (orderMasters.StockInfoTypeId > 2 ? 0 : orderMasters.StockInfoTypeId) ?? 0, orderMasters.StockInfoId ?? 0);
@@ -3847,6 +3847,7 @@ namespace KGERP.Service.Implementation.Procurement
             if (orderMasters.IsOpening == true && orderMasters.Status == (int)EnumSOStatus.Draft)
             {
                 orderMasters.Status = (int)EnumSOStatus.Received;
+                
             }
             else if (orderMasters.Status == (int)EnumSOStatus.Draft)
             {
