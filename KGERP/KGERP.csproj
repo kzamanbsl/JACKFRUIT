@@ -5607,7 +5607,7 @@
     <Content Include="Views\Damage\DamageMasterSlave.cshtml" />
     <Content Include="Views\Report\FoodProductStockReport.cshtml" />
     <Content Include="Views\Report\DeportProductStockReport.cshtml" />
-    <Content Include="Views\Report\DealerProductStockReport.cshtml" />
+    <Content Include="Views\Report\DealerProductSalesReport.cshtml" />
     <Content Include="Views\Report\ProductListReport.cshtml" />
     <Content Include="Views\Report\DealerListReport.cshtml" />
     <Content Include="Views\Report\DeportListReport.cshtml" />
@@ -5643,11 +5643,14 @@
     <Content Include="Views\Report\DeportDealerListReport.cshtml" />
     <Content Include="Views\Report\DealerCustomerListReport.cshtml" />
     <Content Include="Views\Report\AzlanDateWiseStockDetailReport.cshtml" />
-    <Content Include="Views\Report\DeportDateWiseStockDetailReport.cshtml" />
-    <Content Include="Views\Report\DealerDateWiseStockDetailReport.cshtml" />
+    <Content Include="Views\Report\DeportDateWiseSalesDetailReport.cshtml" />
+    <Content Include="Views\Report\DealerDateWiseSalesDetailReport.cshtml" />
     <Content Include="Views\Report\AzlanDateWiseDamageStockDetailReport.cshtml" />
     <Content Include="Views\Report\DeportDateWiseDamageStockDetailReport.cshtml" />
     <Content Include="Views\Report\DealerDateWiseDamageStockDetailReport.cshtml" />
+    <Content Include="Views\Report\FoodProductSalesReport.cshtml" />
+    <Content Include="Views\Report\DeportProductSalesReport.cshtml" />
+    <Content Include="Views\Report\AzlanDateWiseSalesDetailReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

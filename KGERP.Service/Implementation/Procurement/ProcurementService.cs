@@ -3793,7 +3793,7 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 #region Stock Check
 
-                var orderDetails = _db.OrderDetails.Where(x => x.OrderMasterId == orderMasters.OrderMasterId).AsNoTracking().ToList();
+                var orderDetails = _db.OrderDetails.Where(x => x.OrderMasterId == orderMasters.OrderMasterId && x.IsActive==true).AsNoTracking().ToList();
 
                 if (orderDetails == null || orderDetails.Count <= 0)
                 {
@@ -3922,7 +3922,7 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long result = -1;
 
-            var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DeportId > 0 && !x.IsOpening) + 1;
+            var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DeportId > 0 /*&& !x.IsOpening*/) + 1;
 
             //var saleSetting = await _db.SaleSettings.FirstOrDefaultAsync(c => c.CompanyId == vmSalesOrderSlave.CompanyFK);
 
@@ -4632,8 +4632,10 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long result = -1;
 
-            var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DealerId > 0 && !x.IsOpening) + 1;
-
+            var soMax = -1;
+            
+                 soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DealerId > 0 /*&& !x.IsOpening*/) + 1;
+            
             //var saleSetting = await _db.SaleSettings.FirstOrDefaultAsync(c => c.CompanyId == vmSalesOrderSlave.CompanyFK);
             //var stockInfoId = System.Web.HttpContext.Current.Session["StockInfoId"];
 
@@ -5365,7 +5367,7 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long result = -1;
 
-            var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.CustomerId > 0 && !x.IsOpening) + 1;
+            var soMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.CustomerId > 0 /*&& !x.IsOpening*/) + 1;
 
             // var salePerson = await _db.SubZones.FindAsync(vmSalesOrderSlave.SubZoneFk);
             var salePersonId = System.Web.HttpContext.Current.Session["Id"];//Employee Id

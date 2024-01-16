@@ -1,12 +1,12 @@
 ﻿@model KGERP.Data.CustomModel.ReportCustomModel
 <div class="row">
     <div class="col-md-12" style="background-color:lightblue">
-        @Html.Label("Dealer Product Stock Report", new { @style = "font-size:20px" })
+        @Html.Label("Azlan Product Sales Report", new { @style = "font-size:20px" })
     </div>
 </div>
 <br />
 
-@using (Html.BeginForm("DealerProductStockReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+@using (Html.BeginForm("FoodProductSalesReport", "Report", FormMethod.Post, new { @id = "idForm" }))
 {
 
     @Html.AntiForgeryToken()
@@ -29,18 +29,20 @@
             </div>
             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
         </div>
+
+        @*<div class="col-md-3">
+                <div class="form-group">
+                    <label>Territory</label>
+                    @Html.DropDownListFor(model => model.SubZoneFk, Model.SubZoneList as SelectList, "==Select Territory==", new { id = "ddlSubZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
+                    @Html.ValidationMessageFor(model => model.SubZoneFk, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
         <div class="col-md-3">
             <div class="form-group">
-                <label>Zone:</label>
-                @Html.DropDownListFor(model => model.ZoneId, Model.SelectZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Dealer:</label>
-                @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Dealer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                <label>Store:</label>
+                @Html.DropDownListFor(model => model.StockId, Model.Stocklist as SelectList, "==Select Stock==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -103,18 +105,19 @@
             });
         });
 
-        $("#ddlZoneFk").change(function () {
-            var zoneFk = $("#ddlZoneFk").val();
+        $("#ddlSubZoneFk").change(function () {
+            var subZoneFk = $("#ddlSubZoneFk").val();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetDealerLisByZoneId", "Procurement")",
+                url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
                 datatype: "Json",
-                data: { zoneId: zoneFk },
+                data: { subZoneId: subZoneFk },
                 success: function (data) {
 
+                    var items = "";
                     if (data) {
                         $("#ddlCustomerId").empty();
-                        $("#ddlCustomerId").append("<option value=''>==Select Dealer==</option>");
+                        $("#ddlCustomerId").append("<option value=''>==Select Supplier==</option>");
                         $(data).each(function (index, item) {
                             $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                         });

@@ -1,12 +1,12 @@
 ﻿@model KGERP.Data.CustomModel.ReportCustomModel
 <div class="row">
     <div class="col-md-12" style="background-color:lightblue">
-        @Html.Label("Deport Date Wise Stock Details", new { @style = "font-size:20px" })
+        @Html.Label("Azlan Date Wise Sales Details", new { @style = "font-size:20px" })
     </div>
 </div>
 <br />
 
-@using (Html.BeginForm("DeportDateWiseStockDetailReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+@using (Html.BeginForm("AzlanDateWiseSalesDetailReport", "Report", FormMethod.Post, new { @id = "idForm" }))
 {
 
     @Html.AntiForgeryToken()
@@ -34,9 +34,9 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <label for="message-text" class="col-form-label">Deport:</label>
-                @Html.DropDownListFor(model => model.DeportId, new SelectList(Model.DeportList, "Value", "Text"), "---Select Deport---", new { @class = "dropdownsize form-control searchingDropdown" })
-                @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+                <label for="message-text" class="col-form-label">Warehouse:</label>
+                @Html.DropDownListFor(model => model.StockId, new SelectList(Model.Stocks, "Value", "Text"), "---Select Warehouse---", new { @class = "dropdownsize form-control searchingDropdown" })
+                @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -79,7 +79,6 @@
             </select>
             &nbsp;
             <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-success pull-right" formtarget="_blank" />
-            @*<input type="submit" style="margin-top:20px" formtarget="_blank" value="Report" class="btn btn-success" />*@
         </div>
     </div>
 

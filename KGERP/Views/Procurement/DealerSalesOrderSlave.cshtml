@@ -783,6 +783,10 @@
 
 
                             if (dealerPrice == -1) {
+
+                                if (data.DealerPrice == null) {
+                                    data.DealerPrice = 0.00;
+                                }
                                 $("#txtDealerPrice").val(data.DealerPrice);
 
                             } else {
