@@ -3847,6 +3847,7 @@ namespace KGERP.Service.Implementation.Procurement
             if (orderMasters.IsOpening == true && orderMasters.Status == (int)EnumSOStatus.Draft)
             {
                 orderMasters.Status = (int)EnumSOStatus.Received;
+
                 
             }
             else if (orderMasters.Status == (int)EnumSOStatus.Draft)

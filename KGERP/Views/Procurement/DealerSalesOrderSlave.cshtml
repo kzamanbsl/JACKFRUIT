@@ -192,7 +192,8 @@
                                         <div class="form-group">
                                             <label class="col-form-label">Is Opening:</label>
                                             <br />
-                                            @Html.CheckBoxFor(model => model.IsOpening)
+                                            @Html.CheckBoxFor(model => model.IsOpening, new { Id = "isOpening" } )
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -781,6 +782,17 @@
                             $('.txtUnitName').text(data.UnitName);
                             $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption )) + ' pcs');
 
+                            var ctnAndPcs = data.CurrentStockQtyPcs + data.CurrentStockQtyCtn;
+                            var isOpeningChecked = $("#isOpening").is(":checked");
+                            if (ctnAndPcs < 1 && isOpeningChecked == false) {
+                                $('#dealerSalesOrderSlaveFormId').validate({ onsubmit: false });
+                                $('#soCreateBtn').prop("disabled", true);
+                                $('#stockAvailable').css("color", "red");
+
+                            } else {
+                                $('#soCreateBtn').prop("disabled", false);
+                                $('#stockAvailable').css("color", "black");
+                            }
 
                             if (dealerPrice == -1) {
 

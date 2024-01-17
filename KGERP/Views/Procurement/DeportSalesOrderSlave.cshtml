@@ -171,7 +171,7 @@
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Is Opening:</label>
                                             <br />
-                                            @Html.CheckBoxFor(model => model.IsOpening)
+                                            @Html.CheckBoxFor(model => model.IsOpening, new {Id= "isOpening" })
                                         </div>
                                     </div>
                                 </div>
@@ -556,7 +556,7 @@
         $(document).ready(function () {
 
             var orderMasterIdInit = "@Model.OrderMasterId";
-
+            
             if (orderMasterIdInit > 0) {
                 $('#txtProductName').focus();
             }
@@ -607,136 +607,6 @@
                 }
             });
 
-
-            @*$("#txtProductName").autocomplete({
-                source: function (request, response) {
-
-                    $.ajax({
-                        url:"@Url.Action("AutoCompleteProductGet", "Configuration")",
-                        data: { companyId: "@Model.CompanyFK", prefix: request.term, productType : "R" },
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-
-                            //alert(response.responseText);
-                        }
-                    });
-                },
-
-                  select: function (e, i) {
-
-                    $("#ddlRProductFK").val(i.item.val);
-                    $("#txtOrderQuantity").val(i.item.qty);
-                    $('#txtUnitPrice').val(i.item.price);
-                    $('#totalAmount').val(i.item.qty * i.item.price);
-
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetFoodProductStockByProductId", "Procurement")",
-                        datatype: "Json",
-                        data: { companyId: "@Model.CompanyFK", productId: i.item.val },
-                        success: function (data) {
-
-                            if (data) {
-                                $('#tblStockAvailable').show();
-                                $('.txtUnitName').text(data.UnitName);
-                                $('#stockAvailable').text(data.CurrentStock + ' ' + data.UnitName);
-
-                                var customerTypeFK = $("#hidCustomerTypeFk").val();
-                                $("#txtUnitPrice").val(data.UnitPrice);
-                                var unitQty =$("#txtOrderQuantity").val();
-                                $('#totalAmount').val(unitQty * data.UnitPrice);
-                            }
-                        }
-                    });
-
-                $('#txtPackQuantity').focus();
-                $('#txtPackQuantity').select();
-
-                },
-                minLength: 1,
-                cache: true
-
-            }).focus(function () {
-
-                $(this).autocomplete("search");
-            });*@
-
-            //$('#txtOrderDate').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#ddlPaymentMethodEnumFK').focus();
-            //    }
-            //});
-
-            //$('#ddlDeportId').change(function (event) {
-
-            //    $('#txtDeliveryDate').focus();
-            //});
-
-            //$('#txtDeliveryDate').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtFinalDestination').focus();
-            //    }
-            //});
-
-            //$('#txtFinalDestination').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtCourierNo').focus();
-            //    }
-            //});
-
-            //$('#txtCourierNo').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtCourierCharge').focus();
-            //        $('#txtCourierCharge').select();
-            //    }
-            //});
-
-            //$('#txtCourierCharge').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtDescription').focus();
-            //    }
-            //});
-
-            //$('#txtDescription').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtProductName').focus();
-            //    }
-            //});
-
-            //$('#txtPackQuantity').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtConsumption').focus();
-            //    }
-            //});
-
-            //$('#txtConsumption').keypress(function (event) {
-
-            //    if (event.keyCode == 13) {
-            //        $('#txtUnitPrice').focus();
-            //        $('#txtUnitPrice').select();
-
-            //    }
-            //});
             $("#txtDeportPrice ,#txtOrderCtn , #txtOrderPcs ").on('keyup change',function () {
 
                 var qtyCtn = parseFloat($("#txtOrderCtn").val());
@@ -749,50 +619,6 @@
                 $("#SpcDis").val(0);
                 $("#disPercentage").val(0);
             });
-
-            //$("#txtDeportPrice").on('input',function () {
-
-            //    var qtyCtn = parseFloat($("#txtOrderCtn").val());
-            //    var qtyPcs = parseFloat($("#txtOrderPcs").val());
-            //    var consumption = parseFloat($("#ProductConsumption").val());
-            //    var deportPrice = parseFloat($("#txtDeportPrice").val());
-            //    var tAmount = (((qtyCtn * consumption) + qtyPcs) * deportPrice).toFixed(2);
-
-            //    $("#totalAmount").val(tAmount);
-            //    $("#SpcDis").val(0);
-            //    $("#disPercentage").val(0);
-            //});
-
-
-            //$("").keyup(function () {
-
-
-            //    var qtyCtn = parseFloat($("#txtOrderCtn").val());
-            //    var qtyPcs = parseFloat($("#txtOrderPcs").val());
-            //    var consumption = parseFloat($("#ProductConsumption").val());
-            //    var deportPrice = parseFloat($("#txtDeportPrice").val());
-            //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
-
-            //    $("#totalAmount").val(tAmount);
-
-            //});
-
-            //$("").keyup(function () {
-
-
-            //    var qtyCtn = parseFloat($("#txtOrderCtn").val());
-            //    var qtyPcs = parseFloat($("#txtOrderPcs").val());
-            //    var consumption = parseFloat($("#ProductConsumption").val());
-            //    var deportPrice = parseFloat($("#txtDeportPrice").val());
-            //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
-
-            //    $("#totalAmount").val(tAmount);
-
-            //});
-
-
-
-
 
             $("#ddlZoneFk").change(function () {
 
@@ -833,55 +659,7 @@
             });
         });
 
-        //$("#txtUnitPrice").keyup(function () {
-
-        //    var qtyCtn = $("#txtOrderCtn").val();
-        //    var qtyPcs = $("#txtOrderPcs").val();
-        //    var deportPrice = $("#txtDeportPrice").val();
-        //    var consumption = $("#ProductConsumption").val();
-        //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
-        //    $("#totalAmount").val(tAmount);
-        //    $("#SpcDis").val(0);
-        //    $("#disPercentage").val(0);
-        //});
-
-        //$("#txtOrderQuantity").keyup(function () {
-
-        //    var qtyCtn = $("#txtOrderCtn").val();
-        //    var qtyPcs = $("#txtOrderPcs").val();
-        //    var deportPrice = $("#txtDeportPrice").val();
-        //    var consumption = $("#ProductConsumption").val();
-        //    var tAmount = ((qtyCtn * consumption) + qtyPcs) * deportPrice;
-        //    $("#totalAmount").val(tAmount);
-        //});
-
-        //$("#disPercentage").keyup(function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-        //    var Unit = $("#txtUnitPrice").val();
-        //    var PerCentage = $("#disPercentage").val();
-        //    var ammount = qty * Unit;
-        //    var discountprice = ammount * (PerCentage / 100);
-        //    var totalPriceAfterTotalDisPercen = ammount - discountprice;
-        //    $("#SpcDis").val(discountprice);
-        //    $("#totalAmount").val(totalPriceAfterTotalDisPercen);
-
-        //});
-
-        //$("#SpcDis").keyup(function () {
-
-        //    var qty = $("#txtOrderQuantity").val();
-
-        //    var Unit = $("#txtUnitPrice").val();
-        //    var specialDis = $("#SpcDis").val();
-        //    var ammount = qty * Unit;
-        //    var percentage = ((specialDis / ammount) * 100);
-        //    var totalPriceAfterTotalspecial = ammount - specialDis;
-        //    $("#disPercentage").val(percentage);
-        //    $("#totalAmount").val(totalPriceAfterTotalspecial);
-
-        //});
-
+       
         function makeEditble(rowId) {
 
             $.ajax({
@@ -956,6 +734,20 @@
                         //$('#ProductConsumption').val(data.Consumption);
                         //$('#txtDeportPrice').val(data.DeportPrice);
                         $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption)) + ' pcs');
+                        var ctnAndPcs = data.CurrentStockQtyPcs + data.CurrentStockQtyCtn;
+                        var isOpeningChecked = $("#isOpening").is(":checked");
+                       
+                        if (ctnAndPcs < 1 && isOpeningChecked == false) {
+                            $('#deportSalesOrderSlaveFormId').validate({ onsubmit: false });
+                            $('#soCreateBtn').prop("disabled", true);
+                            $('#stockAvailable').css("color", "red");
+
+                        } else {
+                            $('#soCreateBtn').prop("disabled", false);
+                            $('#stockAvailable').css("color", "black");
+                        }
+
+
 
                         if (unitPrice == null) {
                             $("#txtDeportPrice").val(data.DeportPrice);
