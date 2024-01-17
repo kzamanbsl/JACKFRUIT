@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-17T10:54:03.7740706Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-17T12:30:12.1727992Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -82,7 +82,7 @@ WHERE CompanyId = @CompanyId </CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_AzlanDateWiseSalesDetails</CommandText>
+        <CommandText>sp_DeportDateWiseSalesDetails</CommandText>
       </Query>
       <Fields>
         <Field Name="ReportTitle">

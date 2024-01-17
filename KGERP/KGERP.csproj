@@ -5651,6 +5651,10 @@
     <Content Include="Views\Report\FoodProductSalesReport.cshtml" />
     <Content Include="Views\Report\DeportProductSalesReport.cshtml" />
     <Content Include="Views\Report\AzlanDateWiseSalesDetailReport.cshtml" />
+    <Content Include="Views\Report\DeportDateWiseStockDetailReport.cshtml" />
+    <Content Include="Views\Report\DealerDateWiseStockDetailReport.cshtml" />
+    <Content Include="Views\Report\DealerProductStockReport.cshtml" />
+    <Content Include="Views\Procurement\DeportSalesOrderDelivaryGetpass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

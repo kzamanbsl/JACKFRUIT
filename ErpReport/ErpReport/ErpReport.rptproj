@@ -81,6 +81,7 @@
     <Report Include="AF_DealerDamageReceiptInvoice.rdl" />
     <Report Include="AF_DealerDamageStockReport.rdl" />
     <Report Include="AF_DealerDateWiseDamageStockDetailReport.rdl" />
+    <Report Include="AF_DealerDateWiseSalesDetailReport.rdl" />
     <Report Include="AF_DealerDateWiseStockDetailReport.rdl" />
     <Report Include="AF_DealerList.rdl" />
     <Report Include="AF_DealerProductStockReport.rdl" />
@@ -88,8 +89,10 @@
     <Report Include="AF_DeportDamageReceiptInvoice.rdl" />
     <Report Include="AF_DeportDamageStockReport.rdl" />
     <Report Include="AF_DeportDateWiseDamageStockDetailReport.rdl" />
+    <Report Include="AF_DeportDateWiseSalesDetailReport.rdl" />
     <Report Include="AF_DeportDateWiseStockDetailReport.rdl" />
     <Report Include="AF_DeportList.rdl" />
+    <Report Include="AF_DeportProductSalesReport.rdl" />
     <Report Include="AF_DeportProductStockReport.rdl" />
     <Report Include="AF_DeportSalesInvoiceReport.rdl" />
     <Report Include="AF_Employee.rdl" />
