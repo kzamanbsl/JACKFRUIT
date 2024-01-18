@@ -61,6 +61,7 @@
                         {
                             @Html.HiddenFor(model => model.StockInfoTypeId, new { id = "ddlStockInfoTypeFk" })
                             @Html.HiddenFor(model => model.StockInfoId, new { id = "ddlStockInfoId" })
+                            @Html.HiddenFor(model => model.IsOpening, new { id = "hidIsOpening" })
 
                             <div class="col-md-1"> </div>
                             <div class="col-md-10">
@@ -192,8 +193,8 @@
                                         <div class="form-group">
                                             <label class="col-form-label">Is Opening:</label>
                                             <br />
-                                            @Html.CheckBoxFor(model => model.IsOpening, new { Id = "isOpening" } )
-                                           
+                                            @Html.CheckBoxFor(model => model.IsOpening, new { Id = "isOpening" })
+
                                         </div>
                                     </div>
                                 </div>
@@ -362,53 +363,53 @@
 
                                     <tfoot>
                                         @*<tr>
-                                                <th></th>
-                                                <th colspan="2">Total:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>
+                            <th></th>
+                            <th colspan="2">Total:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Total Discount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Total Discount:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.TotalDiscountAmount) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Total After Discount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Total After Discount:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice) - Model.TotalDiscountAmount)) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>
 
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="2">Courier Charge:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>*@
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Courier Charge:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", Model.CourierCharge) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>*@
                                         @*<tr>
-                                                <th></th>
-                                                <th colspan="5">Total Amount:</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice))) </th>
-                                                @if (Model.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <th></th>
-                                                }
-                                            </tr>*@
+                            <th></th>
+                            <th colspan="5">Total Amount:</th>
+                            <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", (Convert.ToDecimal(totalPrice))) </th>
+                            @if (Model.Status == (int)EnumSOStatus.Draft)
+                            {
+                                <th></th>
+                            }
+                        </tr>*@
 
                                         <tr>
                                             <th></th>
@@ -784,14 +785,16 @@
 
                             var ctnAndPcs = data.CurrentStockQtyPcs + data.CurrentStockQtyCtn;
                             var isOpeningChecked = $("#isOpening").is(":checked");
-                            if (ctnAndPcs < 1 && isOpeningChecked == false) {
-                                $('#dealerSalesOrderSlaveFormId').validate({ onsubmit: false });
+                            var isopeningMasterId = $('#hidIsOpening').val();
+
+                            if (ctnAndPcs > 0 || isOpeningChecked == true || isopeningMasterId == "True") {
+                                $('#soCreateBtn').prop("disabled", false);
+                                $('#stockAvailable').css("color", "black");
+                            } else {
+                                $('#deportSalesOrderSlaveFormId').validate({ onsubmit: false });
                                 $('#soCreateBtn').prop("disabled", true);
                                 $('#stockAvailable').css("color", "red");
 
-                            } else {
-                                $('#soCreateBtn').prop("disabled", false);
-                                $('#stockAvailable').css("color", "black");
                             }
 
                             if (dealerPrice == -1) {

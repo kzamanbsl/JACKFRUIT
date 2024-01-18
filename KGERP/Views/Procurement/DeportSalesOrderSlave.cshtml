@@ -48,7 +48,8 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.CustomerTypeFk, new { id = "hidCustomerTypeFk" })
-
+                @*@Html.HiddenFor(model => model.IsOpening, new { id = "hidIsOpening" })*@
+                
                 <div class="box-danger">
 
                     <div class="box-body">
@@ -56,6 +57,8 @@
                         {
                             <div class="col-md-1"> </div>
                             <div class="col-md-10">
+                                @Html.HiddenFor(model => model.IsOpening, new { id = "hidIsOpening" })
+
                                 <table class="table">
                                     <tr>
                                         <th style="width:18%">Sales From</th>
@@ -556,7 +559,7 @@
         $(document).ready(function () {
 
             var orderMasterIdInit = "@Model.OrderMasterId";
-            
+
             if (orderMasterIdInit > 0) {
                 $('#txtProductName').focus();
             }
@@ -659,7 +662,7 @@
             });
         });
 
-       
+
         function makeEditble(rowId) {
 
             $.ajax({
@@ -736,15 +739,17 @@
                         $('#stockAvailable').text(Math.floor(data.CurrentStockQtyCtn) + ' ctn and ' + (data.CurrentStockQty - (Math.floor(data.CurrentStockQtyCtn) * data.Consumption)) + ' pcs');
                         var ctnAndPcs = data.CurrentStockQtyPcs + data.CurrentStockQtyCtn;
                         var isOpeningChecked = $("#isOpening").is(":checked");
-                       
-                        if (ctnAndPcs < 1 && isOpeningChecked == false) {
+                        var isopeningMasterId = $('#hidIsOpening').val();
+
+                        if (ctnAndPcs > 0 || isOpeningChecked == true || isopeningMasterId == "True") {
+                        $('#soCreateBtn').prop("disabled", false);
+                        $('#stockAvailable').css("color", "black");
+                        } else
+                        {
                             $('#deportSalesOrderSlaveFormId').validate({ onsubmit: false });
                             $('#soCreateBtn').prop("disabled", true);
                             $('#stockAvailable').css("color", "red");
 
-                        } else {
-                            $('#soCreateBtn').prop("disabled", false);
-                            $('#stockAvailable').css("color", "black");
                         }
 
 

@@ -74,6 +74,10 @@
 
 
         @@media print {
+            #footerLink {
+                display: none;
+            }
+
             .trclass {
                 background-color: #C0C0C0 !important;
                 -webkit-print-color-adjust: exact;
@@ -107,17 +111,13 @@
                 display: none !important;
             }
         }
-        /*div.divfooter {
-                        margin-top: 15px;
-                        bottom: 0;
-                        display: inherit;
-                    }*/
-        /*#divfooter {
-                        display: block !important;
-                    }*/
-        }
     </style>
-
+    <style media="print">
+    @@page {
+  size: auto;
+  margin: 20px;
+       }
+    </style>
     <script>
         function printDiv() {
             window.print();
@@ -130,6 +130,9 @@
     <span id="print" style="float: right; position: fixed;right: 0; vertical-align: top; display: inline-block;" onclick="printDiv()" class="btn btn-default">
         Print
     </span>
+
+    <br />
+
     <div id="page">
         <img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="@CompanyInfo.CompanyLogoUrl" />
         <div style="min-height: 900px;">
@@ -288,57 +291,59 @@
 
         </div>
 
-        <div id="divfooter" class="divfooter text-center footer">
-            <table style="width:100%">
-                <thead>
-                    <tr>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+        @*<div id="divfooter" class="divfooter text-center footer">
+                <table style="width:100%">
+                    <thead>
+                        <tr>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
 
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b>Prepared by</b>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;">
+                                    <b>Prepared by</b>
 
-                            </span>
-                        </td>
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b> Customer's Signature </b>
-                            </span>
+                                </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;">
+                                    <b> Customer's Signature </b>
+                                </span>
 
-                        </td>
+                            </td>
 
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b>Checked by</b>
-                            </span>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;">
+                                    <b>Checked by</b>
+                                </span>
 
-                        </td>
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;text-align:right;">
-                                <b> Authorized Signature</b>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;text-align:right;">
+                                    <b> Authorized Signature</b>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>*@
 
 
 
     </div>
- 
+
     <div class="page-break"></div>
 
     <span id="print" style="float: right; position: fixed;right: 0; vertical-align: top; display: inline-block;" onclick="printDiv()" class="btn btn-default">
         Print
     </span>
+    <br />
+
     <div id="page">
         <img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="@CompanyInfo.CompanyLogoUrl" />
         <div style="min-height: 900px;">
@@ -495,47 +500,47 @@
             </table>
         </div>
 
-        <div id="divfooter" class="divfooter text-center footer">
-            <table style="width:100%">
-                <thead>
-                    <tr>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                        <td style="width: 25%"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+        @*<div id="divfooter" class="divfooter text-center footer">
+                <table style="width:100%">
+                    <thead>
+                        <tr>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
 
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b>Prepared by</b>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;">
+                                    <b>Prepared by</b>
 
-                            </span>
-                        </td>
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b> Customer's Signature </b>
-                            </span>
+                                </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;">
+                                    <b> Customer's Signature </b>
+                                </span>
 
-                        </td>
+                            </td>
 
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;">
-                                <b>Checked by</b>
-                            </span>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;">
+                                    <b>Checked by</b>
+                                </span>
 
-                        </td>
-                        <td style="text-align: center;">
-                            <span style="border-top: 2px solid #000000;text-align:right;">
-                                <b> Authorized Signature</b>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <span style="border-top: 2px solid #000000;text-align:right;">
+                                    <b> Authorized Signature</b>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>*@
 
 
 
@@ -588,8 +593,9 @@
                 });
             });
         }
+
     </script>
-    
+
 </body>
 
 

@@ -4154,7 +4154,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           StockInfoTypeId = t1.StockInfoTypeId ?? 0,
                                                           StockInfoId = t1.StockInfoId ?? 0,
                                                           StockInfoName = t6.Name,
-
+                                                          IsOpening=t1.IsOpening,
                                                           CreatedDate = t1.CreateDate,
                                                           CreatedBy = t1.CreatedBy,
 
@@ -4843,6 +4843,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                           StockInfoName = t6.Name ?? t7.Name,
                                                           CreditLimit = t2.CreditLimit,
                                                           OrderNo = t1.OrderNo,
+                                                          IsOpening=t1.IsOpening,
                                                           Status = t1.Status,
                                                           OrderDate = t1.OrderDate,
                                                           CourierCharge = t1.CourierCharge,
