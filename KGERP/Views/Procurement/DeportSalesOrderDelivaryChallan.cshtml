@@ -1,7 +1,8 @@
 ﻿@model KGERP.Service.Implementation.Procurement.VMSalesOrderSlave
 @{
     Layout = null;
-    int sl = 0;
+    int challanSl = 0;
+    int gatePassSl = 0;
 }
 
 @using KGERP.Utility
@@ -113,10 +114,10 @@
         }
     </style>
     <style media="print">
-    @@page {
-  size: auto;
-  margin: 20px;
-       }
+        @@page {
+            size: auto;
+            margin: 20px;
+        }
     </style>
     <script>
         function printDiv() {
@@ -264,7 +265,7 @@
                     <tr>
                         <th style="text-align: left;padding-left:5px;">SL</th>
                         <th style="text-align: left;padding-left:5px;">Product</th>
-                        <th style="text-align: center;padding-left:5px;"> Pack Quantity</th>
+                        <th style="text-align: center;padding-left:5px;">Pack Quantity</th>
                         <th style="text-align: center;padding-left:5px;">Offer Quantity</th>
                         <th style="text-align: center;padding-left:5px;">Total Delivered</th>
 
@@ -273,12 +274,16 @@
                 <tbody>
                     @foreach (var item in Model.DetailDataList)
                     {
+                        //var salesCtn = (int)Math.Round((item.Qty / item.Consumption ?? 1));
+                        //var salesPcs = (item.Qty-(salesCtn*(item.Consumption??1)));
+                        //var offerCtn = (int)Math.Round((item.OfferCtn / item.Consumption ?? 1));
+                        //var offerPcs = 0;
                         <tr>
-                            <td style="text-align: center">@(++sl)</td>
+                            <td style="text-align: center">@(++challanSl)</td>
                             <td style="text-align: left;padding-left:5px;">@item.ProductName</td>
-                            <td style="text-align: center">@item.Qty<span></span></td>
-                            <th style="text-align: center">@item.OfferQty <span></span></th>
-                            <th style="text-align: center">@(item.Qty+item.OfferQty) <span></span></th>
+                            <td style="text-align: center; font-weight: normal; ">@item.StockInCtn Ctn and @item.StockInPcs Pcs</td>
+                            <th style="text-align: center; font-weight: normal; ">@item.OfferInCtn Ctn and @item.OfferInPcs Pcs</th>
+                            <th style="text-align: center; font-weight: normal; ">@(item.StockInCtn+item.OfferInCtn) Ctn and @(item.StockInPcs+item.OfferInPcs) Pcs</th>
                         </tr>
                     }
                 </tbody>
@@ -374,7 +379,7 @@
             <div class="text-center">
                 <table style="width:100%">
                     <tr style="text-align:center">
-                        <td style="border-bottom:double;font-size:22px"><b>Delivery Get Pass</b></td>
+                        <td style="border-bottom:double;font-size:22px"><b>Delivery Gate Pass</b></td>
                     </tr>
                 </table>
             </div>
@@ -475,7 +480,7 @@
                     <tr>
                         <th style="text-align: left;padding-left:5px;">SL</th>
                         <th style="text-align: left;padding-left:5px;">Product</th>
-                        <th style="text-align: center;padding-left:5px;"> Pack Quantity</th>
+                        <th style="text-align: center;padding-left:5px;">Pack Quantity</th>
                         <th style="text-align: center;padding-left:5px;">Offer Quantity</th>
                         <th style="text-align: center;padding-left:5px;">Total Delivered</th>
 
@@ -485,11 +490,11 @@
                     @foreach (var item in Model.DetailDataList)
                     {
                         <tr>
-                            <td style="text-align: center">@(++sl)</td>
+                            <td style="text-align: center">@(++gatePassSl)</td>
                             <td style="text-align: left;padding-left:5px;">@item.ProductName</td>
-                            <td style="text-align: center">@item.Qty<span></span></td>
-                            <th style="text-align: center">@item.OfferQty <span></span></th>
-                            <th style="text-align: center">@(item.Qty+item.OfferQty) <span></span></th>
+                            <td style="text-align: center; font-weight: normal; ">@item.StockInCtn Ctn and @item.StockInPcs Pcs</td>
+                            <th style="text-align: center; font-weight:normal; ">@item.OfferInCtn Ctn and @item.OfferInPcs Pcs</th>
+                            <th style="text-align: center; font-weight: normal; ">@(item.StockInCtn + item.OfferInCtn) Ctn and @(item.StockInPcs + item.OfferInPcs) Pcs</th>
                         </tr>
                     }
                 </tbody>

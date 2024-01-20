@@ -4189,7 +4189,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                         Remarks = t1.Remarks
 
-                                                                    }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
+                                                                    }).AsEnumerable());
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
 
@@ -4922,7 +4922,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                                         ProductDiscountUnit = t1.DiscountUnit,
                                                                         ProductDiscountTotal = t1.DiscountAmount,
                                                                         Remarks = t1.Remarks,
-                                                                    }).OrderByDescending(x => x.OrderDetailId).AsEnumerable());
+                                                                    }).AsEnumerable());
 
             vmSalesOrderSlave.TotalDiscountAmount = (decimal)vmSalesOrderSlave.DataListSlave.Select(d => d.ProductDiscountTotal).Sum();
 
