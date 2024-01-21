@@ -151,16 +151,19 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.Status >= (int)EnumSOStatus.Submitted)
-                                                {
-                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DealerSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId">
-                                                        <i class="fa fa-print"></i>Print
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <span>Print</span>
-                                                }
+                                                <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DealerSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId">
+                                                    <i class="fa fa-print"></i>Print
+                                                </a>
+                                                @*@if (item.Status >= (int)EnumSOStatus.Submitted)
+                                                    {
+                                                        <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DealerSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId">
+                                                            <i class="fa fa-print"></i>Print
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Print</span>
+                                                    }*@
                                             </td>
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)

@@ -16,7 +16,8 @@
             <h3 style="font-size: 40px;"><b style="color: black;">Welcome</b> <b style="color: black;">To</b> <b style="color: #007f3d;">@CompanyInfo.CompanyName</b></h3>
         </div>
         <br />
-        @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && (Model.UserDataAccessModel.DeportIds == null || Model.UserDataAccessModel.DeportIds?.Length <= 0))
+        @*@if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && (Model.UserDataAccessModel.DeportIds == null || Model.UserDataAccessModel.DeportIds?.Length <= 0))*@
+        @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Management || (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && Model.UserDataAccessModel.UserName == "AZ00001" ))
         {
             <div class="row">
 

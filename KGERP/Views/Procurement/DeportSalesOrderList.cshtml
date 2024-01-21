@@ -140,16 +140,19 @@
                                                 <a target="_blank" href="~/Procurement/DeportSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                             </td>
                                             <td>
-                                                @if (item.Status >= (int)EnumSOStatus.Submitted)
-                                                {
-                                                    <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DeportSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReport">
-                                                        <i class="fa fa-print"></i>Print
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <span>Print</span>
-                                                }
+                                                <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DeportSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReport">
+                                                    <i class="fa fa-print"></i>Print
+                                                </a>
+                                                @*@if (item.Status >= (int)EnumSOStatus.Submitted)
+                                                    {
+                                                        <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/DeportSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId&reportName=SalesInvoiceReport">
+                                                            <i class="fa fa-print"></i>Print
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Print</span>
+                                                    }*@
                                             </td>
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
