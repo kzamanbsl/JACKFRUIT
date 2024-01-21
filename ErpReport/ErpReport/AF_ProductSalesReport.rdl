@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-17T07:28:17.1982058Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-18T09:48:11.3057183Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -1083,7 +1083,7 @@ order By OrderBy Desc</CommandText>
         <Height>2.28729in</Height>
         <Style />
       </Body>
-      <Width>11.45819in</Width>
+      <Width>11.06444in</Width>
       <Page>
         <PageHeader>
           <Height>1.26287in</Height>
@@ -1264,8 +1264,8 @@ order By OrderBy Desc</CommandText>
             </Border>
           </Style>
         </PageFooter>
-        <PageHeight>8.27in</PageHeight>
-        <PageWidth>11.69in</PageWidth>
+        <PageHeight>11.69in</PageHeight>
+        <PageWidth>8.27in</PageWidth>
         <Style />
       </Page>
     </ReportSection>

@@ -4719,75 +4719,83 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<VMCommonSupplier> GetCustomer(int companyId, int zoneId, int subZoneId)
         {
+            UserDataAccessModel userDataAccessModel = await GetUserDataAccessModelByEmployeeId();
+            int[] customerIds = (userDataAccessModel.CustomerIds != null && userDataAccessModel.CustomerIds.Length > 0) ? userDataAccessModel.CustomerIds : Array.Empty<int>();
+            int[] zoneIds = (userDataAccessModel.ZoneIds != null && userDataAccessModel.ZoneIds.Length > 0) ? userDataAccessModel.ZoneIds : Array.Empty<int>();
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
             vmCommonCustomer.CompanyFK = companyId;
-            vmCommonCustomer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.CompanyId == companyId)
+            vmCommonCustomer.DataList = await (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Customer && x.CompanyId == companyId)
 
-                                                              join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
-                                                              from t2 in t2_def.DefaultIfEmpty()
-                                                              join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
-                                                              from t3 in t3_def.DefaultIfEmpty()
-                                                              join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
-                                                              from t4 in t4_def.DefaultIfEmpty()
-                                                              join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
-                                                              from t8 in t8_def.DefaultIfEmpty()
+                                               join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId into t2_def
+                                               from t2 in t2_def.DefaultIfEmpty()
+                                               join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
+                                               from t3 in t3_def.DefaultIfEmpty()
+                                               join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId into t4_def
+                                               from t4 in t4_def.DefaultIfEmpty()
+                                               join t8 in _db.Countries on t1.CountryId equals t8.CountryId into t8_def
+                                               from t8 in t8_def.DefaultIfEmpty()
 
 
-                                                              join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
-                                                              from t6 in t6_def.DefaultIfEmpty()
-                                                              join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
-                                                              from t7 in t7_def.DefaultIfEmpty()
-                                                              join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
-                                                              from t9 in t9_def.DefaultIfEmpty()
-                                                              join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
-                                                              from t10 in t10_def.DefaultIfEmpty()
-                                                              join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
-                                                              from t5 in t5_def.DefaultIfEmpty()
-                                                              join t11 in _db.Vendors on t1.ParentId equals t11.VendorId into t11_def
-                                                              from t11 in t11_def.DefaultIfEmpty()
+                                               join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
+                                               from t6 in t6_def.DefaultIfEmpty()
+                                               join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
+                                               from t7 in t7_def.DefaultIfEmpty()
+                                               join t9 in _db.Regions on t1.RegionId equals t9.RegionId into t9_def
+                                               from t9 in t9_def.DefaultIfEmpty()
+                                               join t10 in _db.Areas on t1.AreaId equals t10.AreaId into t10_def
+                                               from t10 in t10_def.DefaultIfEmpty()
+                                               join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                               from t5 in t5_def.DefaultIfEmpty()
+                                               join t11 in _db.Vendors on t1.ParentId equals t11.VendorId into t11_def
+                                               from t11 in t11_def.DefaultIfEmpty()
 
-                                                              where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
-                                                                     (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
-                                                              t1.VendorId > 0)
-                                                              select new VMCommonSupplier
-                                                              {
-                                                                  ID = t1.VendorId,
-                                                                  Name = t1.Name,
-                                                                  Email = t1.Email,
-                                                                  ContactPerson = t1.ContactName,
-                                                                  Address = t1.Address,
-                                                                  Code = t1.Code,
-                                                                  Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
-                                                                  Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
-                                                                  District = t3.Name,
-                                                                  Upazila = t2.Name,
-                                                                  Division = t4.Name,
-                                                                  Country = t8.CountryName,
-                                                                  CreatedBy = t1.CreatedBy,
-                                                                  Remarks = t1.Remarks,
-                                                                  CompanyFK = t1.CompanyId,
-                                                                  Phone = t1.Phone,
-                                                                  ZoneId = t1.ZoneId ?? 0,
-                                                                  ZoneName = t6.Name,
-                                                                  ZoneDivisionId = t1.ZoneDivisionId,
-                                                                  ZoneDivisionName = t7.Name,
-                                                                  RegionId = t1.RegionId,
-                                                                  RegionName = t9.Name,
-                                                                  AreaId = t1.AreaId,
-                                                                  AreaName = t10.Name,
-                                                                  SubZoneId = t1.SubZoneId ?? 0,
-                                                                  SubZoneName = t5.Name,
-                                                                  DealerName = t11.Name,
+                                               where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
+                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
+                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && customerIds.ToList().Count() > 0) ? customerIds.Contains(t1.VendorId) :
+                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && customerIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
+                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && customerIds.ToList().Count() > 0) ? customerIds.Contains(t1.VendorId) :
+                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && customerIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
+                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee && zoneIds.ToList().Count() > 0 && customerIds.ToList().Count() > 0) ? customerIds.Contains(t1.VendorId) :
+                                               t1.VendorId > 0)
+                                               select new VMCommonSupplier
+                                               {
+                                                   ID = t1.VendorId,
+                                                   Name = t1.Name,
+                                                   Email = t1.Email,
+                                                   ContactPerson = t1.ContactName,
+                                                   Address = t1.Address,
+                                                   Code = t1.Code,
+                                                   Common_DistrictsFk = t2.DistrictId > 0 ? t2.DistrictId : 0,
+                                                   Common_UpazilasFk = t1.UpazilaId.Value > 0 ? t1.UpazilaId.Value : 0,
+                                                   District = t3.Name,
+                                                   Upazila = t2.Name,
+                                                   Division = t4.Name,
+                                                   Country = t8.CountryName,
+                                                   CreatedBy = t1.CreatedBy,
+                                                   Remarks = t1.Remarks,
+                                                   CompanyFK = t1.CompanyId,
+                                                   Phone = t1.Phone,
+                                                   ZoneId = t1.ZoneId ?? 0,
+                                                   ZoneName = t6.Name,
+                                                   ZoneDivisionId = t1.ZoneDivisionId,
+                                                   ZoneDivisionName = t7.Name,
+                                                   RegionId = t1.RegionId,
+                                                   RegionName = t9.Name,
+                                                   AreaId = t1.AreaId,
+                                                   AreaName = t10.Name,
+                                                   SubZoneId = t1.SubZoneId ?? 0,
+                                                   SubZoneName = t5.Name,
+                                                   DealerName = t11.Name,
 
-                                                                  ZoneIncharge = t6.ZoneIncharge,
-                                                                  CreditLimit = t1.CreditLimit,
-                                                                  NID = t1.NID,
-                                                                  CustomerTypeFk = t1.CustomerTypeFK,
-                                                                  SecurityAmount = t1.SecurityAmount,
-                                                                  CustomerStatus = t1.CustomerStatus ?? 1,
-                                                                  PaymentType = t1.CustomerType,
-                                                                  Propietor = t1.Propietor
-                                                              }).OrderByDescending(x => x.ID).AsEnumerable());
+                                                   ZoneIncharge = t6.ZoneIncharge,
+                                                   CreditLimit = t1.CreditLimit,
+                                                   NID = t1.NID,
+                                                   CustomerTypeFk = t1.CustomerTypeFK,
+                                                   SecurityAmount = t1.SecurityAmount,
+                                                   CustomerStatus = t1.CustomerStatus ?? 1,
+                                                   PaymentType = t1.CustomerType,
+                                                   Propietor = t1.Propietor
+                                               }).OrderByDescending(x => x.ID).ToListAsync();
 
 
 
@@ -5535,8 +5543,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                        //join t2 in _db.Upazilas on t1.UpazilaId equals t2.UpazilaId
                                                        //join t3 in _db.Districts on t2.DistrictId equals t3.DistrictId
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                   //join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
-                                                   //from t5 in t5_Join.DefaultIfEmpty()
+                                                       //join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_Join
+                                                       //from t5 in t5_Join.DefaultIfEmpty()
                                                    join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_join
                                                    from t6 in t6_join.DefaultIfEmpty()
                                                    join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_join
@@ -5643,6 +5651,10 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<VMCommonSupplier> GetDeport(int companyId, int zoneId, int subZoneId)
         {
+            UserDataAccessModel userDataAccessModel = await GetUserDataAccessModelByEmployeeId();
+            int[] deportIds = (userDataAccessModel.CustomerIds != null && userDataAccessModel.DeportIds.Length > 0) ? userDataAccessModel.DeportIds : Array.Empty<int>();
+            int[] zoneIds = (userDataAccessModel.ZoneIds != null && userDataAccessModel.ZoneIds.Length > 0) ? userDataAccessModel.ZoneIds : Array.Empty<int>();
+            
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport.CompanyFK = companyId;
             vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
@@ -5670,6 +5682,11 @@ namespace KGERP.Service.Implementation.Configuration
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
+                                                             (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && deportIds.ToList().Count() > 0) ? deportIds.Contains(t1.VendorId) :
+                                                            (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && deportIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
+                                                           (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && deportIds.ToList().Count() > 0) ? deportIds.Contains(t1.VendorId) :
+                                                           (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && deportIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
+                                                           (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee && zoneIds.ToList().Count() > 0 && deportIds.ToList().Count() > 0) ? deportIds.Contains(t1.VendorId) :
                                                               t1.VendorId > 0)
                                                             select new VMCommonSupplier
                                                             {
@@ -5899,8 +5916,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                        //join t3 in _db.Districts on t1.DistrictId equals t3.DistrictId into t3_def
                                                        //from t3 in t3_def.DefaultIfEmpty()
                                                        //join t4 in _db.Divisions on t3.DivisionId equals t4.DivisionId
-                                                   //join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
-                                                   //from t5 in t5_def.DefaultIfEmpty()
+                                                       //join t5 in _db.SubZones on t1.SubZoneId equals t5.SubZoneId into t5_def
+                                                       //from t5 in t5_def.DefaultIfEmpty()
                                                    join t6 in _db.Zones on t1.ZoneId equals t6.ZoneId into t6_def
                                                    from t6 in t6_def.DefaultIfEmpty()
                                                    join t7 in _db.ZoneDivisions on t1.ZoneDivisionId equals t7.ZoneDivisionId into t7_def
@@ -6012,6 +6029,9 @@ namespace KGERP.Service.Implementation.Configuration
         }
         public async Task<VMCommonSupplier> GetDealer(int companyId, int zoneId, int subZoneId)
         {
+            UserDataAccessModel userDataAccessModel = await GetUserDataAccessModelByEmployeeId();
+            int[] dealerIds = (userDataAccessModel.DealerIds != null && userDataAccessModel.DealerIds.Length > 0) ? userDataAccessModel.DealerIds : Array.Empty<int>();
+            int[] zoneIds = (userDataAccessModel.ZoneIds != null && userDataAccessModel.ZoneIds.Length > 0) ? userDataAccessModel.ZoneIds : Array.Empty<int>();
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
             vmCommonDealer.CompanyFK = companyId;
             vmCommonDealer.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Dealer && x.CompanyId == companyId)
@@ -6038,7 +6058,12 @@ namespace KGERP.Service.Implementation.Configuration
 
                                                             where ((zoneId > 0) && (subZoneId == 0) ? t1.ZoneId == zoneId :
                                                                      (zoneId > 0) && (subZoneId > 0) ? t1.SubZoneId == subZoneId :
-                                                              t1.VendorId > 0)
+                                                                       (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && dealerIds.ToList().Count() > 0) ? dealerIds.Contains(t1.VendorId) :
+                                                     (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && dealerIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
+                                                     (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && dealerIds.ToList().Count() > 0) ? dealerIds.Contains(t1.VendorId) :
+                                                     (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && dealerIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
+                                                     (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee && zoneIds.ToList().Count() > 0 && dealerIds.ToList().Count() > 0) ? dealerIds.Contains(t1.VendorId) : 
+                                                             t1.VendorId > 0)
                                                             select new VMCommonSupplier
                                                             {
                                                                 ID = t1.VendorId,

@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-17T12:30:12.1727992Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-18T09:23:26.4185022Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -68,8 +68,8 @@ WHERE CompanyId = @CompanyId </CommandText>
           <QueryParameter Name="@StrToDate">
             <Value>=Parameters!StrToDate.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@StockId">
-            <Value>=Parameters!StockId.Value</Value>
+          <QueryParameter Name="@DeportId">
+            <Value>=Parameters!DeportId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductCategoryId">
             <Value>=Parameters!ProductCategoryId.Value</Value>
@@ -1508,10 +1508,6 @@ WHERE CompanyId = @CompanyId </CommandText>
       <DataType>String</DataType>
       <Prompt>Str To Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="StockId">
-      <DataType>Integer</DataType>
-      <Prompt>Stock Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ProductCategoryId">
       <DataType>Integer</DataType>
       <Prompt>Product Category Id</Prompt>
@@ -1523,6 +1519,10 @@ WHERE CompanyId = @CompanyId </CommandText>
     <ReportParameter Name="ProductId">
       <DataType>Integer</DataType>
       <Prompt>Product Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DeportId">
+      <DataType>Integer</DataType>
+      <Prompt>Deport Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -1546,11 +1546,6 @@ WHERE CompanyId = @CompanyId </CommandText>
           <ParameterName>StrToDate</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>StockId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>ProductCategoryId</ParameterName>
@@ -1564,6 +1559,11 @@ WHERE CompanyId = @CompanyId </CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>ProductId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>DeportId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

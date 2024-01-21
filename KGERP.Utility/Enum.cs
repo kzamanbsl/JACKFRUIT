@@ -138,6 +138,7 @@
 
     #endregion
 
+    //Application User Type
     public enum EnumUserType
     {
         Employee = 1,

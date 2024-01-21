@@ -1640,7 +1640,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CommonCustomer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonCustomer = new VMCommonSupplier();
-            vmCommonCustomer = await Task.Run(() => _service.GetCustomer(companyId, zoneId, subZoneId));
+            vmCommonCustomer = await  _service.GetCustomer(companyId, zoneId, subZoneId);
             vmCommonCustomer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
             vmCommonCustomer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
             vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
@@ -1762,7 +1762,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CommonDeport(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
-            vmCommonDeport = await Task.Run(() => _service.GetDeport(companyId, zoneId, subZoneId));
+            vmCommonDeport = await _service.GetDeport(companyId, zoneId, subZoneId);
             vmCommonDeport.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
             vmCommonDeport.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
             vmCommonDeport.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
@@ -1844,7 +1844,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> CommonDealer(int companyId, int zoneId = 0, int zoneDivisionId = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             VMCommonSupplier vmCommonDealer = new VMCommonSupplier();
-            vmCommonDealer = await Task.Run(() => _service.GetDealer(companyId, zoneId, subZoneId));
+            vmCommonDealer = await _service.GetDealer(companyId, zoneId, subZoneId);
             //vmCommonDealer.DeportList = new SelectList(_service.CommonDeportDropDownList(), "Value", "Text");
             vmCommonDealer.DivisionList = new SelectList(_service.CommonDivisionsDropDownList(), "Value", "Text");
             vmCommonDealer.DistrictList = new SelectList(_service.CommonDistrictsDropDownList(), "Value", "Text");
