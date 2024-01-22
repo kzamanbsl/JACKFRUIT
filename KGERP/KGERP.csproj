@@ -5655,6 +5655,8 @@
     <Content Include="Views\Report\DealerDateWiseStockDetailReport.cshtml" />
     <Content Include="Views\Report\DealerProductStockReport.cshtml" />
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryGetpass.cshtml" />
+    <Content Include="Views\Report\SRSalesSummaryReport.cshtml" />
+    <Content Include="Views\Report\SRSalesDetailReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

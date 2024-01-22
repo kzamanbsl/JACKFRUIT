@@ -1,0 +1,381 @@
+﻿@model KGERP.Data.CustomModel.ReportCustomModel
+@using KGERP.Utility
+
+<div class="row">
+    <div class="col-md-12" style="background-color: lightblue;">
+        <span style="font-size:20px;color:#000000">SR Sales Summary Report</span>
+    </div>
+</div>
+<br />
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            @using (Html.BeginForm("SRSalesSummaryReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+            {
+
+                <div class="box">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="box-danger">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @Html.HiddenFor(model => model.CompanyId, new { @id = "hfCompanyId" })
+                            @Html.HiddenFor(model => model.EmployeeId, new { @id = "hfEmployeeId" })
+                            @Html.HiddenFor(model => model.UserDataAccessModel.UserTypeId, new { @id = "hfUserTypeId" })
+                            @Html.HiddenFor(model => model.UserDataAccessModel.UserName, new { @id = "hfUserName" })
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    <div style="display:flex">
+                                        @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    <div style="display:flex">
+                                        @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @if (Model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee || Model.UserDataAccessModel.UserName == "AZ00001")
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Zone", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.ZoneId, Model.ZoneList, "-- Select Zone -- ", new { @class = "form-control searchingDropdown disable", id = "ddlZone" })
+                                            @Html.ValidationMessageFor(model => model.ZoneId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Division", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "-- Select Division -- ", new { @class = "form-control searchingDropdown disable", id = "ddlZoneDivision" })
+                                            @Html.ValidationMessageFor(model => model.ZoneDivisionId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Region", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.RegionId, Model.RegionList as SelectList, "-- Select Region -- ", new { @class = "form-control searchingDropdown disable", id = "ddlRegion" })
+                                            @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Area", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.AreaId, Model.AreaList as SelectList, "-- Select Area -- ", new { @class = "form-control searchingDropdown", id = "ddlArea" })
+                                            @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Territory", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.SubZoneId, Model.SubZoneList as SelectList, "-- Select Territory -- ", new { @class = "form-control searchingDropdown", id = "ddlSubZone" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Sales Person", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.Employees, "Text", "Value"), "-- Select Employee -- ", new { @class = "form-control searchingDropdown", id = "ddlEmployeeId" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+
+                                            <label></label>
+                                            <button style="margin-top:25px" type="button" class="btn btn-secondary" onclick="resetDdl()">Reset</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2" style="padding: 0px 5px 0px 8px" ;>
+                                        <div class="form-group ">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">EXPORT</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-10"></div>
+                                    <div class="col-md-2" style="padding: 0px 5px 0px 8px;">
+                                        <div class="form-group ">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">EXPORT</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+<script>
+
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: "mm/dd/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+        var employeeId = $('#hfUserTypeId').val();
+        console.log(employeeId);
+        var userName = $('#hfUserName').val();
+        var zoneId = $('#ddlZone');
+        var zoneDivisionId = $('#ddlZoneDivision');
+        var regionId = $('#ddlRegion');
+        var areaId = $('#ddlArea');
+
+        if (userName == "AZ00001" || employeeId == 2) {
+            $('.disable').attr("disabled", false);
+        } else if (employeeId == 4|3) {
+
+            $('.disable').attr("disabled", true);
+            if (employeeId == 4 && areaId.val()>0) {
+                areaId.attr("disabled", true);
+            }
+        } else {
+
+        }
+
+
+
+    });
+    $('#ddlZone').change(function () {
+    var zoneId = $("#ddlZone").val();
+
+    if (zoneId == '') {
+        $('#ddlZoneDivision').val('').trigger('change');
+        return false;
+    } else {
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetZoneDivisionList", "Configuration")",
+            datatype: "Json",
+            data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId },
+            success: function (data) {
+                var items = "";
+                if (data) {
+                    $("#ddlZoneDivision").empty();
+                    $("#ddlZoneDivision").append("<option value=''>==Select Division==</option>");
+                    $(data).each(function (index, item) {
+                        if (item.Value > 0) {
+                            $("#ddlZoneDivision").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+    });
+
+
+$('#ddlZoneDivision').change(function () {
+
+    var zoneId = $("#ddlZone").val();
+    var zoneDivisonId = $("#ddlZoneDivision").val();
+
+    if (zoneDivisonId == '') {
+        $('#ddlRegion').val('').trigger('change');
+        return false;
+    } else {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetRegionList", "Configuration")",
+            datatype: "Json",
+            data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisonId },
+            success: function (data) {
+                var items = "";
+                if (data) {
+                    $("#ddlRegion").empty();
+                    $("#ddlRegion").append("<option value=''>==Select Region==</option>");
+
+                    $(data).each(function (index, item) {
+                        if (item.Value > 0)
+                        {
+                            $("#ddlRegion").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+
+});
+
+$('#ddlRegion').change(function () {
+    var zoneValue = $("#ddlZone").val();
+    var zoneDivisonId = $("#ddlZoneDivision").val();
+    var regionValue = $("#ddlRegion").val();
+
+    if (regionValue == '') {
+        $('#ddlArea').val("").trigger('change');
+
+        return false;
+    } else {
+
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetAreaList", "Configuration")",
+            datatype: "Json",
+            data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue },
+            success: function (data) {
+                if (data) {
+                    $("#ddlArea").empty();
+                    $("#ddlArea").append("<option value=''>==Select Area==</option>");
+                    $(data).each(function (index, item) {
+                        if (item.Value > 0) {
+                            $("#ddlArea").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+});
+
+$('#ddlArea').change(function () {
+    var zoneValue = $("#ddlZone").val();
+    var zoneDivisonId = $("#ddlZoneDivision").val();
+  var regionValue = $("#ddlRegion").val();
+    var areaValue = $("#ddlArea").val();
+
+
+    if (areaValue == '') {
+        $('#ddlSubZone').val("").trigger('change');
+        return false;
+    } else {
+
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetSubZoneList", "Configuration")",
+            datatype: "Json",
+            data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue, areaId: areaValue },
+            success: function (data) {
+                if (data) {
+                    $("#ddlSubZone").empty();
+                    $("#ddlSubZone").append("<option value=''>==Select Territory==</option>");
+                    $(data).each(function (index, item) {
+                        if (item.Value > 0) {
+                            $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+});
+    $("#ddlSubZone").on("change", function () {
+        var zoneId = $("#ddlZone :selected").val();
+        var zoneDivisionId = $("#ddlZoneDivision :selected").val();
+        var regionId = $("#ddlRegion :selected").val();
+        var areaId = $("#ddlArea :selected").val();
+        var subZone = $("#ddlSubZone :selected").val();
+        @*$.ajax({
+            type: "GET",
+            url: "@Url.Action("GetCustomerBySubZones", "Configuration")",
+            datatype: "Json",
+            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId, subZoneId: subZone },
+            success: function (data) {
+                if (data) {
+                    $("#ddlCustomerId").empty();
+                    $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+
+                    });
+
+                }
+            }
+        });*@
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetEmployeeListBySubZone", "Configuration")",
+            datatype: "Json",
+            data: { zoneId: zoneId, zoneDivisionId: zoneDivisionId, regionId: regionId, areaId: areaId, subzoneId: subZone },
+            success: function (data) {
+                if (data) {
+                    $("#ddlEmployeeId").empty();
+                    $("#ddlEmployeeId").append("<option value=''>==Select Employee==</option>");
+                    $(data).each(function (index, item) {
+                        $("#ddlEmployeeId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+
+                    });
+
+                }
+            }
+        });
+
+
+    });
+
+    function resetDdl() {
+        $('#ddlZone').val("").trigger('change');
+
+        //$('#ddlRegion').val("").trigger('change');
+        //$('#ddlArea').val("").trigger('change');
+        //$('#ddlSubZone').val("").trigger('change');
+    }
+
+
+
+</script>
+
+
+
+
