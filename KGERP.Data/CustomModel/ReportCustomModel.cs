@@ -73,7 +73,7 @@ namespace KGERP.Data.CustomModel
         public int? VendorId { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
         public string AsOnDate { get; set; }
-        public long EmployeeId { get; set; }
+        public long? EmployeeId { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
 

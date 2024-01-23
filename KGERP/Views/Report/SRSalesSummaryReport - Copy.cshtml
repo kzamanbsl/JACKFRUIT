@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-md-12" style="background-color: lightblue;">
-        <span style="font-size:20px;color:#000000">SR Sales Details Report</span>
+        <span style="font-size:20px;color:#000000">SR Sales Summary Report</span>
     </div>
 </div>
 <br />
@@ -11,7 +11,7 @@
     <div class="row">
 
         <div class="col-md-12">
-            @using (Html.BeginForm("SRSalesDetailReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+            @using (Html.BeginForm("SRSalesSummaryReport", "Report", FormMethod.Post, new { @id = "idForm" }))
             {
 
                 <div class="box">
@@ -126,8 +126,6 @@
                             }
                             else
                             {
-                                @Html.HiddenFor(model => model.UserDataAccessModel.EmployeeId, new { @id = "hfEmployeeId" })
-
                                 <div class="row">
                                     <div class="col-md-10"></div>
                                     <div class="col-md-2" style="padding: 0px 5px 0px 8px;">
@@ -161,21 +159,19 @@
             yearRange: "2001:+50"
         });
 
-        var employeeTypeId = $('#hfUserTypeId').val();
+        var employeeId = $('#hfUserTypeId').val();
         var userName = $('#hfUserName').val();
         var zoneId = $('#ddlZone');
         var zoneDivisionId = $('#ddlZoneDivision');
         var regionId = $('#ddlRegion');
         var areaId = $('#ddlArea');
 
-        if (userName == "AZ00001" || employeeTypeId == @((int)EnumUserType.Management)) {
+        if (userName == "AZ00001" || employeeId == @((int)EnumUserType.Management)) {
             $('.disable').attr("disabled", false);
-        } else if ((employeeTypeId == @((int)EnumUserType.Dealer)) || (employeeTypeId == @((int)EnumUserType.Deport))) {
+        } else if ((employeeId == @((int)EnumUserType.Dealer))||(employeeId == @((int)EnumUserType.Deport))) {
 
             $('.disable').attr("disabled", true);
-            $('#ddlSubZone').prop("required", true);
-
-            if ((employeeTypeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
+            if ((employeeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
                 areaId.attr("disabled", true);
             }
         } else {
@@ -375,3 +371,7 @@ $('#ddlArea').change(function () {
 
 
 </script>
+
+
+
+

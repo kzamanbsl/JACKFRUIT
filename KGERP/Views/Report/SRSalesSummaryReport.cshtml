@@ -21,7 +21,6 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             @Html.HiddenFor(model => model.CompanyId, new { @id = "hfCompanyId" })
-                            @Html.HiddenFor(model => model.EmployeeId, new { @id = "hfEmployeeId" })
                             @Html.HiddenFor(model => model.UserDataAccessModel.UserTypeId, new { @id = "hfUserTypeId" })
                             @Html.HiddenFor(model => model.UserDataAccessModel.UserName, new { @id = "hfUserName" })
                             <div class="row">
@@ -105,9 +104,7 @@
                                             @Html.Label("Sales Person", htmlAttributes: new { @class = "control-label" })
                                             <br />
                                             @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.Employees, "Text", "Value"), "-- Select Employee -- ", new { @class = "form-control searchingDropdown", id = "ddlEmployeeId" })
-                                            @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
-
-
+                                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-2"></div>
@@ -122,19 +119,21 @@
                                     <div class="col-md-2" style="padding: 0px 5px 0px 8px" ;>
                                         <div class="form-group ">
                                             <label>&nbsp;</label>
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">EXPORT</button>
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block" formtarget="_blank">EXPORT</button>
                                         </div>
                                     </div>
                                 </div>
                             }
                             else
                             {
+                                @Html.HiddenFor(model => model.UserDataAccessModel.EmployeeId, new { @id = "hfEmployeeId" })
+
                                 <div class="row">
                                     <div class="col-md-10"></div>
                                     <div class="col-md-2" style="padding: 0px 5px 0px 8px;">
                                         <div class="form-group ">
                                             <label>&nbsp;</label>
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">EXPORT</button>
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block" formtarget="_blank">EXPORT</button>
                                         </div>
                                     </div>
 
@@ -163,19 +162,19 @@
         });
 
         var employeeId = $('#hfUserTypeId').val();
-        console.log(employeeId);
         var userName = $('#hfUserName').val();
         var zoneId = $('#ddlZone');
         var zoneDivisionId = $('#ddlZoneDivision');
         var regionId = $('#ddlRegion');
         var areaId = $('#ddlArea');
 
-        if (userName == "AZ00001" || employeeId == 2) {
+        if (userName == "AZ00001" || employeeId == @((int)EnumUserType.Management)) {
             $('.disable').attr("disabled", false);
-        } else if (employeeId == 4|3) {
+        } else if ((employeeId == @((int)EnumUserType.Dealer))||(employeeId == @((int)EnumUserType.Deport))) {
 
             $('.disable').attr("disabled", true);
-            if (employeeId == 4 && areaId.val()>0) {
+            $('#ddlSubZone').prop("required", true);
+            if ((employeeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
                 areaId.attr("disabled", true);
             }
         } else {
