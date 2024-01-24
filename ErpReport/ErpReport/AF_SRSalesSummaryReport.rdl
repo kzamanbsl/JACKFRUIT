@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-23T08:20:26.9906043Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-24T08:29:07.1475430Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -400,7 +400,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=RowNumber("SalesTo")</Value>
+                                  <Value>=RowNumber(nothing)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -528,7 +528,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!TotalAmount.Value, "#,##0.00")</Value>
+                                  <Value>=format(Fields!TotalAmount.Value-Fields!DiscountAmount.Value, "#,##0.00")</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -645,7 +645,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!TotalAmount.Value), "#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!TotalAmount.Value)-Sum(Fields!DiscountAmount.Value), "#,##0.00")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -758,7 +758,7 @@ order By OrderBy Desc</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!TotalAmount.Value), "#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!TotalAmount.Value)-Sum(Fields!DiscountAmount.Value), "#,##0.00")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -846,7 +846,7 @@ order By OrderBy Desc</CommandText>
             <Top>0.34452in</Top>
             <Left>0.71641in</Left>
             <Height>1.25in</Height>
-            <Width>6.15914in</Width>
+            <Width>6.15915in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
