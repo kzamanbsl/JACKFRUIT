@@ -32,7 +32,7 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> Registration()
         {
-            var model =await GetUsers();
+            var model = await GetUsers();
             //var userDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             //model.UserDataAccessModel = userDataAccessModel;
             model.UserName = GenaratEemployeeId();
@@ -49,7 +49,7 @@ namespace KGERP.Controllers
             if (ModelState.IsValid && string.IsNullOrEmpty(model.EmployeeName) && string.IsNullOrEmpty(model.UserName) && string.IsNullOrEmpty(model.Password))
             {
                 ViewBag.Error = "Invalid Request!";
-                model =await GetUsers();
+                model = await GetUsers();
                 return View(model);
             }
 
@@ -58,7 +58,7 @@ namespace KGERP.Controllers
             if (isUserName)
             {
                 ViewBag.Error = "User Name already exist!";
-                model =await GetUsers();
+                model = await GetUsers();
                 return View(model);
             }
             #endregion
@@ -69,7 +69,7 @@ namespace KGERP.Controllers
             {
                 //ModelState.AddModelError("EmailExist", "Email already exist");
                 ViewBag.Error = "Email already exist!";
-                model =await GetUsers();
+                model = await GetUsers();
                 return View(model);
             }
             #endregion
@@ -118,14 +118,14 @@ namespace KGERP.Controllers
                 if (vendor == null)
                 {
                     ViewBag.Error = "Deport Not Found!";
-                    model =await GetUsers();
+                    model = await GetUsers();
                     return View(model);
                 }
 
                 if (!string.IsNullOrEmpty(vendor.EmployeeId))
                 {
                     ViewBag.Error = "Deport as a user already exist!";
-                    model =await GetUsers();
+                    model = await GetUsers();
                     return View(model);
                 }
 
@@ -138,13 +138,13 @@ namespace KGERP.Controllers
                 if (vendor == null)
                 {
                     ViewBag.Error = "Dealer Not Found!";
-                    model =await GetUsers();
+                    model = await GetUsers();
                     return View(model);
                 }
                 if (!string.IsNullOrEmpty(vendor.EmployeeId))
                 {
                     ViewBag.Error = "Dealer as a user already exist!";
-                    model =await GetUsers();
+                    model = await GetUsers();
                     return View(model);
                 }
                 vendor.EmployeeId = user.UserName;
@@ -177,7 +177,7 @@ namespace KGERP.Controllers
 
             UserModel userModel = new UserModel();
 
-            userModel.DataList = (from t1 in _db.Users.Where(c=>c.UserTypeId!=(int)EnumUserType.Employee)
+            userModel.DataList = (from t1 in _db.Users.Where(c => c.UserTypeId != (int)EnumUserType.Employee)
                                   join t2 in _db.Employees on t1.UserName equals t2.EmployeeId
                                   select new UserModel
                                   {
@@ -204,13 +204,30 @@ namespace KGERP.Controllers
             string employeeId = string.Empty;
             Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
+            //EmployeeVm lastEmployee = (from t1 in _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ"))
+            //                            join t2 in _context.Users on t1.EmployeeId equals t2.UserName
+            //                            where t2.UserTypeId == (int)EnumUserType.Employee
+            //                            select new EmployeeVm
+            //                            {
+            //                                Id = t1.Id,
+            //                                EmployeeName = t1.Name,
+            //                                EmployeeId = t1.EmployeeId,
+            //                                MobileNo = t1.MobileNo,
+            //                                UserId = t2.UserId,
+            //                                Email = t1.Email,
+
+            //                            }).OrderByDescending(x => x.Id).FirstOrDefault();
+
             if (lastEmployee == null)
             {
                 employeeId = CompanyInfo.CompanyAdminUserId;
             }
             else
             {
-                employeeId = lastEmployee.EmployeeId;
+                // employeeId = lastEmployee.EmployeeId;
+                string str = lastEmployee.EmployeeId.Substring(0, 7);
+                employeeId = str;
+
             }
 
             string prefix = employeeId.Substring(0, 2);
@@ -297,7 +314,7 @@ namespace KGERP.Controllers
             #endregion
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index","Employee");
+            return RedirectToAction("Index", "Employee");
         }
 
         //Verify Account  
