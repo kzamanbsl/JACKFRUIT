@@ -63,6 +63,7 @@ namespace KGERP.Data.CustomModel
         public Nullable<int> ZoneDivisionId { get; set; }
         public Nullable<int> RegionId { get; set; }
         public Nullable<int> AreaId { get; set; }
+        public Nullable<int> SubZoneId { get; set; }
         public int? SubZoneFk { get; set; }
         public int ProjectId { get; set; }
         public int? VoucherTypeId { get; set; }
@@ -72,7 +73,7 @@ namespace KGERP.Data.CustomModel
         public int? VendorId { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
         public string AsOnDate { get; set; }
-        public long EmployeeId { get; set; }
+        public long? EmployeeId { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
 
@@ -99,7 +100,7 @@ namespace KGERP.Data.CustomModel
 
 
         public List<SelectModel> Years { get; set; }
-        public List<SelectModel> Employees { get; set; }
+        public List<SelectModel> Employees { get; set; }= new List<SelectModel> { };
         public List<SelectModel> Vendors { get; set; }
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
 
@@ -126,7 +127,7 @@ namespace KGERP.Data.CustomModel
         public SelectList GroupList { get; set; } = new SelectList(new List<object>());
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());
         public SelectList Stocklist { get; set; } = new SelectList(new List<object>());
-        public List<SelectModelType> ZoneList { get; set; } = new List<SelectModelType> { };
+        public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneDivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList SelectZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList RegionList { get; set; } = new SelectList(new List<object>());

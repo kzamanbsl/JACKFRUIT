@@ -9,12 +9,12 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-23T07:13:02.4095579Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-24T08:14:33.9280317Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DateWiseStockDetailDS">
+    <DataSource Name="SRDateWiseSaleDetailDS">
       <DataSourceReference>AFDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>e8d59079-d484-427b-ba99-b5b46f8cc3d7</rd:DataSourceID>
@@ -23,7 +23,7 @@
   <DataSets>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>DateWiseStockDetailDS</DataSourceName>
+        <DataSourceName>SRDateWiseSaleDetailDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -55,24 +55,12 @@ WHERE CompanyId = @CompanyId </CommandText>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="DateWiseSaleDetailDataSet">
+    <DataSet Name="SRDateWiseSaleDetailDataSet">
       <Query>
-        <DataSourceName>DateWiseStockDetailDS</DataSourceName>
+        <DataSourceName>SRDateWiseSaleDetailDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductId">
-            <Value>=Parameters!ProductId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@DeportId">
-            <Value>=Parameters!DeportId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductCategoryId">
-            <Value>=Parameters!ProductCategoryId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductSubCategoryId">
-            <Value>=Parameters!ProductSubCategoryId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@StrFromDate">
             <Value>=Parameters!StrFromDate.Value</Value>
@@ -80,61 +68,67 @@ WHERE CompanyId = @CompanyId </CommandText>
           <QueryParameter Name="@StrToDate">
             <Value>=Parameters!StrToDate.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@SubZoneId">
+            <Value>=Parameters!SubZoneId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@EmployeeId">
+            <Value>=Parameters!EmployeeId.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_DeportDateWiseStockDetails</CommandText>
+        <CommandText>sp_SRDateWiseSalesDetails</CommandText>
       </Query>
       <Fields>
-        <Field Name="OrderMasterId">
-          <DataField>OrderMasterId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SalesTo">
+          <DataField>SalesTo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="OrderNo">
           <DataField>OrderNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="OrderDate">
-          <DataField>OrderDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="DeportName">
-          <DataField>DeportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DeportCode">
-          <DataField>DeportCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Qty">
-          <DataField>Qty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="ReceiveQty">
-          <DataField>ReceiveQty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="OfferQty">
-          <DataField>OfferQty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="ReceiveQtyCtn">
-          <DataField>ReceiveQtyCtn</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
         <Field Name="ProductId">
           <DataField>ProductId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Comsumption">
-          <DataField>Comsumption</DataField>
+        <Field Name="OrderDate">
+          <DataField>OrderDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Consumption">
+          <DataField>Consumption</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ProductSaleQty">
+          <DataField>ProductSaleQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ProductCtn">
+          <DataField>ProductCtn</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="DiscountAmount">
+          <DataField>DiscountAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="UnitPrice">
           <DataField>UnitPrice</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="ProductName">
-          <DataField>ProductName</DataField>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="Product_Name">
+          <DataField>Product_Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -148,19 +142,22 @@ WHERE CompanyId = @CompanyId </CommandText>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>2.51899in</Width>
+                  <Width>2.11968in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.11412in</Width>
+                  <Width>0.93356in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.09375in</Width>
+                  <Width>0.95486in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.91621in</Width>
+                  <Width>0.89236in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.50136in</Width>
+                  <Width>0.8294in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.18538in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -169,62 +166,15 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SupplierName1">
+                        <Textbox Name="EmployeeName">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DeportName.Value</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>12pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>SupplierName1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <BackgroundColor>WhiteSmoke</BackgroundColor>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>5</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell />
-                    <TablixCell />
-                    <TablixCell />
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ReceivedDate1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Label>Date</Label>
-                                  <Value>=Format(Fields!OrderDate.Value, "dd-MMM-yyyy")</Value>
+                                  <Label>EmployeeName</Label>
+                                  <Value>=Fields!EmployeeName.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -237,7 +187,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ReceivedDate1</rd:DefaultName>
+                          <rd:DefaultName>EmployeeName</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -250,9 +200,10 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>5</ColSpan>
+                        <ColSpan>6</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -264,7 +215,55 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ReceiveNo1">
+                        <Textbox Name="OrderDate">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Format(Fields!OrderDate.Value, "dd-MM-yyyy")</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>OrderDate</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>WhiteSmoke</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>6</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="OrderNo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -284,7 +283,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ReceiveNo1</rd:DefaultName>
+                          <rd:DefaultName>OrderNo</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -297,9 +296,10 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>5</ColSpan>
+                        <ColSpan>6</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -385,6 +385,43 @@ WHERE CompanyId = @CompanyId </CommandText>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox8">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Cons</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>Gainsboro</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox178">
@@ -577,6 +614,43 @@ WHERE CompanyId = @CompanyId </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>Gainsboro</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox4">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -656,14 +730,14 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ProductName">
+                        <Textbox Name="Product_Name">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProductName.Value</Value>
+                                  <Value>=Fields!Product_Name.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -673,7 +747,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ProductName</rd:DefaultName>
+                          <rd:DefaultName>Product_Name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -696,7 +770,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!ReceiveQtyCtn.Value,"#,##0.00")</Value>
+                                  <Value>=format(Fields!ProductCtn.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -731,7 +805,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Fields!ReceiveQty.Value-(Fields!ReceiveQtyCtn.Value*Fields!Comsumption.Value)),"#,##0.00")</Value>
+                                  <Value>=format((Fields!ProductSaleQty.Value-(Fields!ProductCtn.Value*Fields!Consumption.Value)),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -744,6 +818,41 @@ WHERE CompanyId = @CompanyId </CommandText>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>ReceiveQty</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Consumption">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Consumption.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Consumption</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -801,7 +910,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(Sum(Fields!ProductSaleQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -866,9 +975,10 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                        <ColSpan>5</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -881,7 +991,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!ProductSaleQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -895,6 +1005,170 @@ WHERE CompanyId = @CompanyId </CommandText>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>UnitPrice3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Discount Amount</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>5</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(SUM(Fields!DiscountAmount.Value),"#,##0.00")</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox27">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Gross Amount</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>5</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox31">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(SUM(Fields!ProductSaleQty.Value * Fields!UnitPrice.Value)-Sum(Fields!DiscountAmount.Value),"#,##0.00")</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox31</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -947,9 +1221,10 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                        <ColSpan>5</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -962,7 +1237,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!ProductSaleQty.Value * Fields!UnitPrice.Value)-Sum(Fields!DiscountAmount.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -976,87 +1251,6 @@ WHERE CompanyId = @CompanyId </CommandText>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>UnitPrice2</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox133">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Grand Total (Supplier)</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox133</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>4</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell />
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="UnitPrice1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>UnitPrice1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1121,7 +1315,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQtyCtn.Value),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1158,7 +1352,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format((Sum(Fields!ReceiveQty.Value)-Sum(Fields!ReceiveQtyCtn.Value*Fields!Comsumption.Value)),"#,##0.00")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1184,45 +1378,11 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>3</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox8">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Gross Total Amount</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox8</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <BackgroundColor>Gainsboro</BackgroundColor>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox6">
@@ -1232,7 +1392,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(SUM(Fields!ReceiveQty.Value * Fields!UnitPrice.Value),"#,##0.00")</Value>
+                                  <Value>=format(SUM(Fields!ProductSaleQty.Value * Fields!UnitPrice.Value)-Sum(Fields!DiscountAmount.Value),"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1271,19 +1431,20 @@ WHERE CompanyId = @CompanyId </CommandText>
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
                 <TablixMember>
-                  <Group Name="DeportName">
+                  <Group Name="EmployeeName">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!DeportName.Value</GroupExpression>
+                      <GroupExpression>=Fields!EmployeeName.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!DeportName.Value</Value>
+                      <Value>=Fields!OrderDate.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixMembers>
@@ -1296,11 +1457,13 @@ WHERE CompanyId = @CompanyId </CommandText>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!OrderDate.Value</Value>
+                          <Value>=Fields!EmployeeName.Value</Value>
                         </SortExpression>
                       </SortExpressions>
                       <TablixMembers>
-                        <TablixMember />
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
                         <TablixMember>
                           <Group Name="OrderNo">
                             <GroupExpressions>
@@ -1331,9 +1494,14 @@ WHERE CompanyId = @CompanyId </CommandText>
                             <TablixMember>
                               <KeepWithGroup>Before</KeepWithGroup>
                             </TablixMember>
+                            <TablixMember>
+                              <KeepWithGroup>Before</KeepWithGroup>
+                            </TablixMember>
+                            <TablixMember>
+                              <KeepWithGroup>Before</KeepWithGroup>
+                            </TablixMember>
                           </TablixMembers>
                         </TablixMember>
-                        <TablixMember />
                       </TablixMembers>
                     </TablixMember>
                     <TablixMember />
@@ -1342,11 +1510,11 @@ WHERE CompanyId = @CompanyId </CommandText>
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>DateWiseSaleDetailDataSet</DataSetName>
-            <Top>0.0625in</Top>
-            <Left>0.875in</Left>
-            <Height>2.5in</Height>
-            <Width>7.14443in</Width>
+            <DataSetName>SRDateWiseSaleDetailDataSet</DataSetName>
+            <Top>0.06944in</Top>
+            <Left>0.66875in</Left>
+            <Height>2.75in</Height>
+            <Width>6.91525in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1354,13 +1522,13 @@ WHERE CompanyId = @CompanyId </CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.5625in</Height>
+        <Height>2.81944in</Height>
         <Style />
       </Body>
-      <Width>8.25901in</Width>
+      <Width>8.24025in</Width>
       <Page>
         <PageHeader>
-          <Height>0.98181in</Height>
+          <Height>1.40542in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1403,7 +1571,7 @@ WHERE CompanyId = @CompanyId </CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>Month</Label>
-                      <Value>Deport Date Wise Stock Details</Value>
+                      <Value>Date Wise Sales Details</Value>
                       <Style>
                         <FontFamily>Times New Roman</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -1452,9 +1620,10 @@ WHERE CompanyId = @CompanyId </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox82</rd:DefaultName>
-              <Left>1.87708in</Left>
-              <Height>0.92973in</Height>
-              <Width>4.85693in</Width>
+              <Top>0.79375cm</Top>
+              <Left>1.70902in</Left>
+              <Height>0.94015in</Height>
+              <Width>5.25624in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1469,8 +1638,9 @@ WHERE CompanyId = @CompanyId </CommandText>
               <Source>External</Source>
               <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
               <Sizing>FitProportional</Sizing>
-              <Left>0.875in</Left>
-              <Height>0.92973in</Height>
+              <Top>0.86431cm</Top>
+              <Left>0.6375in</Left>
+              <Height>0.94015in</Height>
               <Width>1.00208in</Width>
               <ZIndex>1</ZIndex>
               <Style>
@@ -1507,7 +1677,8 @@ WHERE CompanyId = @CompanyId </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
-              <Left>6.76595in</Left>
+              <Top>0.17638cm</Top>
+              <Left>6.6979in</Left>
               <Height>0.22917in</Height>
               <Width>1.44167in</Width>
               <ZIndex>2</ZIndex>
@@ -1557,27 +1728,19 @@ WHERE CompanyId = @CompanyId </CommandText>
       <DataType>String</DataType>
       <Prompt>Str To Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProductId">
+    <ReportParameter Name="SubZoneId">
       <DataType>Integer</DataType>
-      <Prompt>Product Id</Prompt>
+      <Prompt>Sub Zone Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProductCategoryId">
+    <ReportParameter Name="EmployeeId">
       <DataType>Integer</DataType>
-      <Prompt>Product Category Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductSubCategoryId">
-      <DataType>Integer</DataType>
-      <Prompt>Product Sub Category Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DeportId">
-      <DataType>Integer</DataType>
-      <Prompt>Deport Id</Prompt>
+      <Prompt>Employee Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>6</NumberOfRows>
+      <NumberOfRows>8</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1586,33 +1749,23 @@ WHERE CompanyId = @CompanyId </CommandText>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <RowIndex>0</RowIndex>
           <ParameterName>StrFromDate</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>StrToDate</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
-          <ParameterName>ProductId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
           <RowIndex>4</RowIndex>
-          <ParameterName>ProductCategoryId</ParameterName>
+          <ParameterName>SubZoneId</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>4</RowIndex>
-          <ParameterName>ProductSubCategoryId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>5</RowIndex>
-          <ParameterName>DeportId</ParameterName>
+          <ParameterName>EmployeeId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

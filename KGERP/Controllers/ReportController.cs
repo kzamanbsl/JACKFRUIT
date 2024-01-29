@@ -13,6 +13,8 @@ using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
 using DocumentFormat.OpenXml.EMMA;
+using System.Linq.Dynamic;
+using System.Linq;
 
 namespace KGERP.Controllers
 {
@@ -914,7 +916,7 @@ namespace KGERP.Controllers
                 CompanyName = company.Name + " (" + company.ShortName + ")",
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
-                ZoneList = _configurationService.ZoneDropDownList(companyId),
+                ZoneList = new SelectList(_configurationService.ZoneDropDownList(companyId), "Value", "Text")
             };
             return View(cm);
         }
@@ -3273,7 +3275,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&EmployeeId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId, model.StrFromDate, model.StrToDate);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&EmployeeId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId??0, model.StrFromDate, model.StrToDate);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -3312,7 +3314,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&MarketingOfficerId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId, model.StrFromDate, model.StrToDate);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&MarketingOfficerId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId??0, model.StrFromDate, model.StrToDate);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5304,7 +5306,10 @@ namespace KGERP.Controllers
                 model.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
             }
             return View(model);
-        }
+        } 
+
+
+       
 
         // GET: Customer List Report
         [HttpGet]
@@ -6324,14 +6329,7 @@ namespace KGERP.Controllers
             {
                 model.ProductCategoryId = 0;
             }
-            if (model.ProductSubCategoryId == null)
-            {
-                model.ProductSubCategoryId = 0;
-            }
-            if (model.ProductId == null)
-            {
-                model.ProductId = 0;
-            }
+            
             if (string.IsNullOrEmpty(model.StrFromDate))
             {
                 model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
@@ -6341,7 +6339,7 @@ namespace KGERP.Controllers
                 model.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&DealerId={5}&ProductCategoryId={6}&ProductSubCategoryId={7}&ProductId={8}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.DealerId, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&DealerId={5}&ProductCategoryId={6}&ProductSubCategoryId={7}&ProductId={8}", model.ReportName, model.ReportType, CompanyInfo.CompanyId, model.StrFromDate, model.StrToDate, model.DealerId, model.ProductCategoryId, model.ProductSubCategoryId, model.ProductId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -6359,7 +6357,191 @@ namespace KGERP.Controllers
         }
 
 
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> SRSalesSummaryReport()
+        {
+            var model = new ReportCustomModel();
+            model.StrFromDate = DateTime.Now.ToShortDateString();
+            model.StrToDate = DateTime.Now.ToShortDateString();
+            model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            
+            model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
 
+            if (model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee||model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Management || model.UserDataAccessModel.UserName != "AZ00001")
+            {
+                var zoneIds = model.UserDataAccessModel.ZoneIds?[0]??0 ;
+                var zoneDivisionIds = model.UserDataAccessModel.ZoneDivisionIds?[0] ?? 0;
+                var regionIds = model.UserDataAccessModel.RegionIds?[0] ?? 0;
+                var areaIds = model.UserDataAccessModel.AreaIds?[0] ?? 0;
+                model.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(CompanyInfo.CompanyId, zoneIds), "Value", "Text");
+                model.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds), "Value", "Text");
+                model.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds, regionIds), "Value", "Text");
+                if (model.UserDataAccessModel?.AreaIds!=null)
+                {
+                    model.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds, regionIds, areaIds), "Value", "Text");
+                    model.AreaId = areaIds;
+                }
+                model.ZoneId = zoneIds;
+                model.ZoneDivisionId = zoneDivisionIds;
+                model.RegionId = regionIds;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> SRSalesSummaryReport(ReportCustomModel reportCustom)
+        {
+            var reportName = "SRSalesSummaryReport";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            reportCustom.ReportName = CompanyInfo.ReportPrefix + reportName;
+
+            if (reportCustom.SubZoneId == null)
+            {
+                reportCustom.SubZoneId = 0;
+            }
+            if (reportCustom.EmployeeId <= 0 || reportCustom.EmployeeId == null)
+            {
+                if (reportCustom.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && reportCustom.UserDataAccessModel.UserName != "AZ00001")
+                {
+                    reportCustom.EmployeeId = reportCustom.UserDataAccessModel.EmployeeId;
+                }
+                else
+                {
+                    reportCustom.EmployeeId = 0;
+
+                }
+
+            }
+            if (reportCustom.ProductSubCategoryId == null)
+            {
+                reportCustom.ProductSubCategoryId = 0;
+            }
+            if (reportCustom.ProductId == null)
+            {
+                reportCustom.ProductId = 0;
+            }
+            if (reportCustom.ReportType == null)
+            {
+                reportCustom.ReportType = "PDF";
+            }
+            if (string.IsNullOrEmpty(reportCustom.StrFromDate))
+            {
+                reportCustom.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(reportCustom.StrToDate))
+            {
+                reportCustom.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&StrFromDate={2}&StrToDate={3}&CompanyId={4}&SubZoneId={5}&EmployeeId={6}", reportCustom.ReportName, reportCustom.ReportType,  reportCustom.StrFromDate, reportCustom.StrToDate, CompanyInfo.CompanyId, reportCustom.SubZoneId, reportCustom.EmployeeId);
+
+            if (reportCustom.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", reportName + ".xls");
+            }
+            if (reportCustom.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (reportCustom.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
+            }
+            return View();
+        }
+        
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> SRSalesDetailReport()
+        {
+            var model = new ReportCustomModel();
+            model.StrFromDate = DateTime.Now.ToShortDateString();
+            model.StrToDate = DateTime.Now.ToShortDateString();
+            model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
+            model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
+
+            if (model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee || model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Management || model.UserDataAccessModel.UserName != "AZ00001")
+            {
+                var zoneIds = model.UserDataAccessModel.ZoneIds?[0] ?? 0;
+                var zoneDivisionIds = model.UserDataAccessModel.ZoneDivisionIds?[0] ?? 0;
+                var regionIds = model.UserDataAccessModel.RegionIds?[0] ?? 0;
+                var areaIds = model.UserDataAccessModel.AreaIds?[0] ?? 0;
+                model.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(CompanyInfo.CompanyId, zoneIds), "Value", "Text");
+                model.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds), "Value", "Text");
+                model.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds, regionIds), "Value", "Text");
+                if (model.UserDataAccessModel?.AreaIds != null)
+                {
+                    model.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds, regionIds, areaIds), "Value", "Text");
+                    model.AreaId = areaIds;
+                }
+                model.ZoneId = zoneIds;
+                model.ZoneDivisionId = zoneDivisionIds;
+                model.RegionId = regionIds;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> SRSalesDetailReport(ReportCustomModel reportCustom)
+        {
+            var reportName = "SRDateWiseSalesDetailReport";
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            reportCustom.ReportName = CompanyInfo.ReportPrefix + reportName;
+
+            if (reportCustom.SubZoneId == null)
+            {
+                reportCustom.SubZoneId = 0;
+            }
+            if (reportCustom.EmployeeId <= 0 || reportCustom.EmployeeId==null)
+            {
+                if (reportCustom.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && reportCustom.UserDataAccessModel.UserName != "AZ00001")
+                {
+                    reportCustom.EmployeeId = reportCustom.UserDataAccessModel.EmployeeId;
+                }
+                else
+                {
+                    reportCustom.EmployeeId = 0;
+
+                }
+                
+            }
+            if (reportCustom.ReportType == null)
+            {
+                reportCustom.ReportType = "PDF";
+            }
+            if (string.IsNullOrEmpty(reportCustom.StrFromDate))
+            {
+                reportCustom.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
+            }
+            if (string.IsNullOrEmpty(reportCustom.StrToDate))
+            {
+                reportCustom.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&SubZoneId={5}&EmployeeId={6}", reportCustom.ReportName, reportCustom.ReportType, CompanyInfo.CompanyId, reportCustom.StrFromDate, reportCustom.StrToDate,  reportCustom.SubZoneId, reportCustom.EmployeeId);
+
+            if (reportCustom.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", reportName + ".xls");
+            }
+            if (reportCustom.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (reportCustom.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", reportName + ".doc");
+            }
+            return View();
+        }
 
 
         #endregion

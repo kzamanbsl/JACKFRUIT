@@ -99,6 +99,8 @@
     <Report Include="AF_ProductList.rdl" />
     <Report Include="AF_ProductSalesReport.rdl" />
     <Report Include="AF_ProductStockReport.rdl" />
+    <Report Include="AF_SRDateWiseSalesDetailReport.rdl" />
+    <Report Include="AF_SRSalesSummaryReport.rdl" />
     <Report Include="BalanceSheet.rdl" />
     <Report Include="BalanceSheetGeneralReport.rdl" />
     <Report Include="BalanceSheetNote.rdl" />
