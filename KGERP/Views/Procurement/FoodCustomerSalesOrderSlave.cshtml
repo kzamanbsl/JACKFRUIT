@@ -912,7 +912,7 @@
                       $("#txtOrderCtn").val(data.StockInCtn);
                       $("#txtOrderPcs").val(data.StockInPcs);
                       $('#txtCustomerPrice').val(data.UnitPrice);
-                      $('#totalAmount').val(data.Qty*data.UnitPrice);
+                      $('#totalAmount').val((data.Qty * data.UnitPrice).toFixed(2));
                       $('#txtDiscountAmount').val(data.DiscountAmount);
                       $("#hidOrderDetailId").val(data.OrderDetailId)
                       $('.txtUnitName').text(data.UnitName);

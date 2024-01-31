@@ -2367,10 +2367,6 @@ namespace KGERP.Controllers
             }
 
             vmSalesOrderSlave.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
-            if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length > 0)
-            {
-                vmSalesOrderSlave.CustomerList = _configurationService.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
-            }
 
             var zoneIds = vmSalesOrderSlave.UserDataAccessModel.ZoneIds;
             var zoneDivisionIds = vmSalesOrderSlave.UserDataAccessModel.ZoneDivisionIds;
@@ -2405,7 +2401,14 @@ namespace KGERP.Controllers
                 var areaId = areaIds?[0] ?? 0;
                 vmSalesOrderSlave.StockInfoList = new SelectList(_configurationService.CommonDealerListByArea(zoneId, zoneDivisionId, regionId, areaId), "Value", "Text");
             }
-
+            if (vmSalesOrderSlave.CommonSupplier.SubZoneId > 0)
+            {
+                vmSalesOrderSlave.CustomerList = new SelectList(_configurationService.CommonCustomerListBySunZones(0, 0, 0, 0, vmSalesOrderSlave.CommonSupplier.SubZoneId ?? 0));
+            }
+            else if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length > 0)
+            {
+                vmSalesOrderSlave.CustomerList = _configurationService.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
+            }
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_configurationService.CommonCustomerPaymentType(), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";
             vmSalesOrderSlave.CommonSupplier.CustomerTypeFk = (int)CustomerType.Retail;

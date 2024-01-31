@@ -493,3 +493,12 @@ ERROR 2024-01-23 10:45:13,747 209333ms UserController         Login             
    at System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl)
+ERROR 2024-01-31 12:26:36,811 2986038ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\JACKFRUIT\KGERP\Controllers\UserController.cs:line 362
+ERROR 2024-01-31 12:26:48,384 2997610ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\JACKFRUIT\KGERP\Controllers\UserController.cs:line 362
+ERROR 2024-01-31 12:27:01,794 3011021ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\JACKFRUIT\KGERP\Controllers\UserController.cs:line 362

@@ -1452,9 +1452,9 @@ namespace KGERP.Controllers
         [HttpGet]
         public JsonResult GetCustomerBySubZones(int zoneId, int zoneDivisionId, int regionId, int areaId, int subZoneId)
         {
-            var Deport = new SelectList(_service.CommonCustomerListBySunZones(zoneId, zoneDivisionId, regionId, areaId, subZoneId), "Value", "Text");
+            var customers = new SelectList(_service.CommonCustomerListBySunZones(zoneId, zoneDivisionId, regionId, areaId, subZoneId), "Value", "Text");
 
-            return Json(Deport, JsonRequestBehavior.AllowGet);
+            return Json(customers, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

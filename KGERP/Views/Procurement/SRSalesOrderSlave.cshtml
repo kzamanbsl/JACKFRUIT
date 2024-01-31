@@ -159,22 +159,28 @@
                                                 @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                             </div>
                                         </div>*@
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Sales From (Dealer): </label>
                                             @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Sales From==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Territory:</label>
+                                            @Html.DropDownListFor(model => model.CommonSupplier.SubZoneId, Model.SubZoneList as SelectList, new { id = "ddlFormSubZoneId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.CommonSupplier.SubZoneId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Customer:</label>
                                             @Html.DropDownListFor(model => model.CustomerId, Model.CustomerList as SelectList, "==Select Customer==", new { id = "ddlCustomerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label></label>
                                             <div id="customerDetails_Div">
@@ -217,7 +223,6 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Order Ctn:</label>
-
                                             @Html.TextBoxFor(model => model.QtyCtn, new { id = "txtOrderCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Ctn", required = "Required" })
                                             @Html.ValidationMessageFor(model => model.QtyCtn, "", new { @class = "text-danger" })
 
@@ -226,7 +231,6 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Order Pcs:</label>
-
                                             @Html.TextBoxFor(model => model.QtyPcs, new { id = "txtOrderPcs", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Order Pcs" })
                                             @Html.ValidationMessageFor(model => model.QtyPcs, "", new { @class = "text-danger" })
 
@@ -236,7 +240,6 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Free Ctn:</label>
-
                                             @Html.TextBoxFor(model => model.OfferCtn, new { id = "txtOfferCtn", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Offer Ctn", required = "Required" })
                                             @Html.ValidationMessageFor(model => model.OfferCtn, "", new { @class = "text-danger" })
 
@@ -808,7 +811,6 @@
                 }
             });
 
-
             $("#ddlZoneFk").change(function () {
 
                 var zoneFk = $("#ddlZoneFk").val();
@@ -849,34 +851,6 @@
                 });
             });
 
-            $("#ddlStockInfoId").change(function () {
-
-                var dealerId = $("#ddlStockInfoId").val();
-
-                if (dealerId == (null | 0)) {
-                    return null;
-                }
-                else {
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
-                        datatype: "Json",
-                        data: { dealerId: dealerId },
-                        success: function (data) {
-
-                            if (data) {
-                                $("#ddlCustomerId").empty();
-                                $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
-                                $(data).each(function (index, item) {
-                                    $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                                });
-
-                            }
-                        }
-                    });
-                }
-            });
-
             $("#ddlPaymentMethodEnumFK").change(function () {
 
                 var paymethod = $("#ddlPaymentMethodEnumFK").val();
@@ -889,6 +863,7 @@
             });
 
             var dealerList = $('#ddlStockInfoId option');
+
             if (dealerList.length == 2)
             {
                 var dealerValue = parseFloat($('#ddlStockInfoId option:eq(1)').val());
@@ -896,10 +871,67 @@
                 $('#ddlDealerId').val(dealerValue).trigger('change');
             //    $('#ddlStockInfoId').attr('disabled', true);
             }
+
             $('#txtDiscountAmount').on('keyup change', function () {
                 var discountAmount = $(this).val();
                 $('#hidDiscountAmount').val(discountAmount);
             });
+        });
+
+        $("#ddlStockInfoId").change(function () {
+
+            var dealerId = $("#ddlStockInfoId").val();
+
+            if (dealerId == (null | 0)) {
+                return null;
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetCustomerByDealerId", "Configuration")",
+                    datatype: "Json",
+                    data: { dealerId: dealerId },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlCustomerId").empty();
+                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#ddlFormSubZoneId").change(function () {
+
+            var subZoenId = $("#ddlFormSubZoneId").val();
+
+            if (subZoenId == (null | 0)) {
+                return null;
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetCustomerBySubZones", "Configuration")",
+                    datatype: "Json",
+                    data: { zoneId: 0, zoneDivisionId: 0, regionId: 0, areaId: 0, subZoneId: subZoenId },
+                    success: function (data) {
+
+                        if (data) {
+                            $("#ddlCustomerId").empty();
+                            $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                            });
+
+                        }
+                    }
+                });
+            }
         });
 
         $("#txtCustomerPrice ,#txtOrderCtn , #txtOrderPcs ").on('keyup change', function () {
@@ -1100,6 +1132,7 @@
                 }
             });
         });
+
         $("#ddlCustomerId").on("change", function () {
             var customerId = $("#ddlCustomerId :selected").val();
             $.ajax({

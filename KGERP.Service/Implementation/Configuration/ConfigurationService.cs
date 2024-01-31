@@ -4652,20 +4652,27 @@ namespace KGERP.Service.Implementation.Configuration
                      }).FirstOrDefault();
             return v;
         }
-        public List<object> CommonCustomerListBySunZones(int zoneId = 0, int zoneDivision = 0, int regionId = 0, int area = 0, int subZone = 0)
+        public List<object> CommonCustomerListBySunZones(int zoneId = 0, int zoneDivision = 0, int regionId = 0, int areaId = 0, int subZoneId = 0)
         {
             var list = new List<object>();
-            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && area > 0 && subZone > 0)
+            if (zoneId > 0 && zoneDivision > 0 && regionId > 0 && areaId > 0 && subZoneId > 0)
             {
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true
-                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId == area && c.SubZoneId == subZone).ToList();
+                                  && c.ZoneId == zoneId && c.ZoneDivisionId == zoneDivision && c.RegionId == regionId && c.AreaId == areaId && c.SubZoneId == subZoneId).ToList();
                 foreach (var x in v)
                 {
                     list.Add(new { Text = x.Name, Value = x.VendorId });
                 }
             }
-
-
+            else if (subZoneId > 0)
+            {
+                var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true
+                                  && c.SubZoneId == subZoneId).ToList();
+                foreach (var x in v)
+                {
+                    list.Add(new { Text = x.Name + " - " + x.Address, Value = x.VendorId });
+                }
+            }
 
             return list;
         }
@@ -4678,7 +4685,7 @@ namespace KGERP.Service.Implementation.Configuration
                 var v = _db.Vendors.Where(c => c.VendorTypeId == (int)Provider.Customer && c.IsActive == true && c.ParentId == dealerId).ToList();
                 foreach (var x in v)
                 {
-                    list.Add(new { Text = x.Name, Value = x.VendorId });
+                    list.Add(new { Text = x.Name + " - " + x.Address, Value = x.VendorId });
                 }
             }
 
@@ -5654,7 +5661,7 @@ namespace KGERP.Service.Implementation.Configuration
             UserDataAccessModel userDataAccessModel = await GetUserDataAccessModelByEmployeeId();
             int[] deportIds = (userDataAccessModel.CustomerIds != null && userDataAccessModel.DeportIds.Length > 0) ? userDataAccessModel.DeportIds : Array.Empty<int>();
             int[] zoneIds = (userDataAccessModel.ZoneIds != null && userDataAccessModel.ZoneIds.Length > 0) ? userDataAccessModel.ZoneIds : Array.Empty<int>();
-            
+
             VMCommonSupplier vmCommonDeport = new VMCommonSupplier();
             vmCommonDeport.CompanyFK = companyId;
             vmCommonDeport.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.IsActive == true && x.VendorTypeId == (int)Provider.Deport && x.CompanyId == companyId)
@@ -6062,7 +6069,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport && dealerIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && dealerIds.ToList().Count() > 0) ? dealerIds.Contains(t1.VendorId) :
                                                      (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer && dealerIds.ToList().Count() <= 0) ? t1.VendorId <= 0 :
-                                                     (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee && zoneIds.ToList().Count() > 0 && dealerIds.ToList().Count() > 0) ? dealerIds.Contains(t1.VendorId) : 
+                                                     (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee && zoneIds.ToList().Count() > 0 && dealerIds.ToList().Count() > 0) ? dealerIds.Contains(t1.VendorId) :
                                                              t1.VendorId > 0)
                                                             select new VMCommonSupplier
                                                             {
