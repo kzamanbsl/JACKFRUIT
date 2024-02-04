@@ -1,0 +1,449 @@
+﻿@model KGERP.Service.Implementation.Procurement.VMSalesOrderSlave
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "SR Sales Order Delivary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+    double totalPrice = 0;
+    double discountPrice = 0;
+    decimal dis = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+@*<style>
+    .ui-datepicker-trigger {
+        background: none;
+        border: none;
+        padding: 0;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+        .ui-datepicker-trigger::after {
+            content: '\f073'; /* Unicode character for calendar icon from Font Awesome */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+</style>*@
+<section class="content-header">
+    <h1>
+        @if (Model.OrderMasterId > 0)
+        {
+            <span>
+                Sales Invoice History of: &nbsp; @Model.OrderNo
+            </span>
+        }
+        else
+        {
+            <span>
+                Deport Sales Invoice
+            </span>
+        }
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Deport Sales Invoice</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("SRSalesOrderDelivarySlave", "Procurement", FormMethod.Post, new { id = "deportSalesOrderSlaveFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidOrderMasterId" })
+                @Html.HiddenFor(model => model.OrderDetailId, new { id = "hidOrderDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.CustomerTypeFk, new { id = "hidCustomerTypeFk" })
+                @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+
+                <div class="box-danger">
+
+                    <div class="box-body">
+                        @if (Model.OrderMasterId > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-10">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:18%">Sales From</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.StockInfoName</td>
+
+                                            <th style="width:18%"> Date</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.OrderDate.ToShortDateString()</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Customer :</th>
+                                            <th>:</th>
+                                            <td>@Model.CommonCustomerName</td>
+
+                                            <th>Customer Phone</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerPhone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Customer Email</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerEmail</td>
+                                            <th>Customer Address</th>
+                                            <th>:</th>
+                                            <td>@Model.CustomerAddress</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Zone</th>
+                                            <th>:</th>
+                                            <td>@Model.ZoneName</td>
+
+                                            <th>Zone Incharge</th>
+                                            <th>:</th>
+                                            <td>@Model.ZoneIncharge</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Remarks</th>
+                                            <th>:</th>
+                                            <td>@Model.Remarks</td>
+
+                                            <th>Created By</th>
+                                            <th>:</th>
+                                            <td>@Model.CreatedBy</td>
+                                        </tr>
+
+                                        @*@if (Model.Status >= (int)EnumSOStatus.Delivered)
+                                        {
+                                            <tr>
+                                                <th>Challan No</th>
+                                                <th>:</th>
+                                                <td>@Model.ChallanNo</td>
+
+                                                <th>Challan Date</th>
+                                                <th>:</th>
+                                                <td>
+                                                    @Model.ChallanDate
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Driver Name</th>
+                                                <th>:</th>
+                                                <td>@Model.DriverName</td>
+
+                                                <th>Driver Mobile No</th>
+                                                <th>:</th>
+                                                <td>@Model.DriverMobileNo</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Track No</th>
+                                                <th>:</th>
+                                                <td>@Model.TrackNo</td>
+
+                                                <th>Track Fair</th>
+                                                <th>:</th>
+                                                <td>@String.Format("{0:0.00}", Model.TrackFair)</td>
+                                            </tr>
+                                        }*@
+                                    </table>
+                                </div>
+                                <div class="col-md-1"> </div>
+                            </div>
+
+                            @*if (Model.Status == (int)EnumSOStatus.Submitted)
+                            {
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="message-text" class="col-form-label">Challan No:</label>
+                                        <div class="form-group">
+                                            <input name="ChallanNo" asp-for="ChallanNo" value="@Model.ChallanNo" type="text" required="required" class="form-control" placeholder="Challan No" autocomplete="off" id="txtChallanNo" readonly="readonly">
+                                            @Html.ValidationMessageFor(model => model.ChallanNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="message-text" class="col-form-label">Challan Date:</label>
+                                        <div class="form-group">
+                                            <input name="ChallanDate" asp-for="ChallanDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" readonly class=" datepicker-min" placeholder="Challan Date" autocomplete="off" id="txtChallanDate">
+                                            <button type="button" class="ui-datepicker-trigger"><i class="fa fa-calendar"></i></button> 
+                                            @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="message-text" class="col-form-label">Driver Name:</label>
+                                        <div class="form-group">
+                                            <input name="DriverName" asp-for="DriverName" type="text" required="required" class="form-control" placeholder="Driver Name" autocomplete="off" id="txtDriverName">
+                                            @Html.ValidationMessageFor(model => model.DriverName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="message-text" class="col-form-label">Driver Mobile No:</label>
+                                        <div class="form-group">
+                                            <input name="DriverMobileNo" asp-for="DriverMobileNo" type="text" required="required" class="form-control" placeholder="Driver Mobile No" autocomplete="off" id="txtDriverMobileNo">
+                                            @Html.ValidationMessageFor(model => model.DriverMobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="message-text" class="col-form-label">Track No:</label>
+                                        <div class="form-group">
+                                            <input name="TrackNo" asp-for="TrackNo" type="text" required="required" class="form-control" placeholder="Track No" autocomplete="off" id="txtTrackNo">
+                                            @Html.ValidationMessageFor(model => model.TrackNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="message-text" class="col-form-label">Track Fair:</label>
+                                        <div class="form-group">
+                                            <input name="TrackFair" asp-for="TrackFair" type="number" min="1" required="required" class="form-control" placeholder="Track Fair" autocomplete="off" id="txtTrackFair">
+                                            @Html.ValidationMessageFor(model => model.TrackFair, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }*@
+
+                            <div class="row">
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="bg-success">
+                                                <th style="padding:5px;text-align:center;">SL</th>
+                                                <th style="padding:5px;text-align:center;">Product</th>
+                                                <th style="padding:5px;text-align:center;">Cons</th>
+                                                <th style="padding:5px;text-align:center;">Qty Ctn</th>
+                                                <th style="padding:5px;text-align:center;">Qty Pcs</th>
+                                                <th style="padding:5px;text-align:center;">Free Ctn</th>
+                                                <th style="padding:5px;text-align:center;">Free Pcs</th>
+                                                <th style="padding:5px;text-align:center;">Sale Price</th>
+                                                <th style="padding:5px;text-align:center;">Total Qty</th>
+                                                <th style="padding:5px;text-align:center;">Total Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int i = 0;
+                                            }
+                                            @foreach (var item in Model.DetailDataList)
+                                            {
+                                                totalPrice += @item.TotalAmount;
+                                                discountPrice = totalPrice - Convert.ToDouble(@item.ProductDiscountTotal);
+                                                dis += @item.ProductDiscountTotal;
+
+                                                <tr>
+                                                    <td style="padding: 10px; text-align: left;">
+
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].OrderDetailId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].OrderMasterId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].FProductId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].UnitPrice)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].TotalPrice)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].Consumption)
+                                                        
+
+                                                        @(++sl)
+                                                    </td>
+                                                    <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                    <td style="padding:5px;text-align:center;">@item.Consumption</td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].QtyCtn,item.StockInCtn.ToString(), new { id = i + "_QtyCtn", @class = "form-control quantityCtn" })
+                                                            
+                                                         }
+                                                        else
+                                                        {
+                                                          @item.StockInCtn 
+                                                        }
+
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].QtyPcs,item.StockInPcs.ToString(), new { id = i + "_QtyPcs", @class = "form-control quantityPcs" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.StockInPcs
+                                                        }
+
+                                                    </td>
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferCtn,item.OfferInCtn.ToString(), new { id = i + "_OfferCtn", @class = "form-control offerQuantityCtn" })
+                                                        
+                                                        
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.OfferInCtn 
+                                                        }
+
+                                                    </td> 
+                                                    
+                                                    <td style="padding:5px;text-align:center;">
+                                                        @if (Model.Status == (int)EnumSOStatus.Submitted)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].OfferPcs,item.OfferInPcs.ToString(), new { id = i + "_OfferPcs", @class = "form-control offerQuantityPcs" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.OfferInPcs 
+                                                        }
+
+                                                    </td>
+                                                    <td class="unitPrice" style="padding:5px;text-align:right; font-weight:bold">
+                                                        @String.Format("{0:0.00}", item.UnitPrice)
+                                                        @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
+                                                    </td>
+                                                    <td class="totalQty" style="padding:5px;text-align:right; font-weight:bold">
+                                                        @String.Format("{0:0.00}", (item.Qty + item.OfferQty))
+                                                        @*@Html.TextBoxFor(model => model.DetailDataList[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })*@
+                                                    </td>
+                                                    <td class="totalPrice" style="padding:5px;text-align:right; font-weight:bold">
+                                                        @String.Format("{0:0.00}", item.TotalPrice)
+                                                    </td>
+                                                </tr>
+                                                i++;
+                                            }
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="8">Total Amount:</th>
+                                                <th id="grandTotal" style="padding:5px;text-align:right;">@String.Format("{0:0.00}", ((Convert.ToDecimal(totalPrice)) + Convert.ToDecimal(Model.CourierCharge)) - Model.TotalDiscountAmount) </th>
+                                                @if (Model.Status == (int)EnumSOStatus.Draft)
+                                                {
+                                                    <th></th>
+                                                }
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+
+                    @if (Model.OrderMasterId > 0 && Model.Status == (int)EnumSOStatus.Submitted)
+                    {
+                        <div class="box-footer">
+
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block">Delivary</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#datePickerById').datepicker({
+                format: "yyyy-mm-dd",
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true
+            }).on('changeDate', function (ev) {
+                if ($(this).parents('form') && $(this).attr('required')) {
+                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+                }
+            });
+
+            $(".datepicker-min").datepicker({
+                dateFormat: 'dd/mm/yy',
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true,
+                minDate: new Date(2023, 11 - 1, 1),
+                maxDate: new Date(2023, 12 - 1, 31),
+            //    showOn: "button",
+            //    buttonImage: `<button type="button" class="ui-datepicker-trigger"><i class="fa fa-calendar"></i></button>`
+            });
+
+            $('.quantityValue').trigger('keyup');
+
+
+        });
+
+        $(document).on('change', '.offerQuantityValue input', function () {
+            alert('okk');
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue input').val()) || 0;
+            var offerQty = parseFloat($row.find('.offerQuantityValue input').val()) || 0;
+            var totalPrice = $row.find('.totalPrice');
+            totalPrice.text(quantity * offerQty);
+        });
+        $('.offerQuantityValue').keyup(function () {
+
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue').val()) || 0;
+            var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
+            var totalQty = $row.find('.totalQty');
+
+            totalQty.text(quantity + offerQty);
+
+        });
+        $('.quantityValue').keyup(function () {
+
+            var $row = $(this).closest('tr');
+            var quantity = parseFloat($row.find('.quantityValue').val()) || 0;
+            var offerQty = parseFloat($row.find('.offerQuantityValue').val()) || 0;
+            var unitPrice = parseFloat($row.find('.unitPrice').text());
+            var totalQty = $row.find('.totalQty');
+            var totalPrice = $row.find('.totalPrice');
+            var totalValue = (quantity * unitPrice).toFixed(2);
+
+            totalPrice.text(totalValue);
+            totalQty.text(quantity + offerQty);
+            var totalPrices = $('.totalPrice').map(function () {
+                return parseFloat($(this).text());
+            }).get();
+
+            // Calculate the sum of the extracted values
+            var sum = totalPrices.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+            $('#grandTotal').text(sum.toFixed(2));
+
+        });
+
+
+
+
+    </script>
+}

@@ -303,6 +303,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderDetailHistory> OrderDetailHistories { get; set; }
+        public virtual DbSet<SROrderDetailHistory> SROrderDetailHistories { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

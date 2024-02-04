@@ -5657,6 +5657,7 @@
     <Content Include="Views\Procurement\DeportSalesOrderDelivaryGetpass.cshtml" />
     <Content Include="Views\Report\SRSalesSummaryReport.cshtml" />
     <Content Include="Views\Report\SRSalesDetailReport.cshtml" />
+    <Content Include="Views\Procurement\SRSalesOrderDelivarySlave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

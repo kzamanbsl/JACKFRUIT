@@ -12,15 +12,9 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderDetail
+    public partial class SROrderDetailHistory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OrderDetail()
-        {
-            this.OrderDetailHistories = new HashSet<OrderDetailHistory>();
-            this.SROrderDetailHistories = new HashSet<SROrderDetailHistory>();
-        }
-    
+        public long OrderDetailHistoryId { get; set; }
         public long OrderDetailId { get; set; }
         public long OrderMasterId { get; set; }
         public Nullable<int> DemandItemId { get; set; }
@@ -51,11 +45,8 @@ namespace KGERP.Data.Models
         public decimal DiscountAmount { get; set; }
         public Nullable<int> PromotionalOfferId { get; set; }
     
+        public virtual OrderDetail OrderDetail { get; set; }
         public virtual OrderMaster OrderMaster { get; set; }
         public virtual Product Product { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetailHistory> OrderDetailHistories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SROrderDetailHistory> SROrderDetailHistories { get; set; }
     }
 }

@@ -5718,7 +5718,116 @@ namespace KGERP.Service.Implementation.Procurement
 
             return vmCommonCustomerList;
         }
+        public async Task<long> SRSalesOrderDelivary(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            long result = -1;
+            if (vmSalesOrderSlave.OrderMasterId <= 0) throw new Exception("Sorry! Order not found for Delivary!");
+            if (vmSalesOrderSlave.DetailDataList.Count() <= 0) throw new Exception("Sorry! Order Detail not found for Delivary!");
 
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+            //vmSalesOrderSlave.ChallanNo = await GetDeportDelivaryChallanNo(vmSalesOrderSlave.CompanyFK ?? CompanyInfo.CompanyId, vmSalesOrderSlave.ChallanDate ?? DateTime.Now);
+
+            OrderMaster order = _db.OrderMasters.FirstOrDefault(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId);
+            order.Status = (int)EnumSOStatus.Delivered;
+            order.ChallanNo = vmSalesOrderSlave.ChallanNo;
+            order.ChallanDate = vmSalesOrderSlave.ChallanDate;
+            order.DriverName = vmSalesOrderSlave.DriverName;
+            order.DriverMobileNo = vmSalesOrderSlave.DriverMobileNo;
+            order.TrackNo = vmSalesOrderSlave.TrackNo;
+            order.TrackFair = vmSalesOrderSlave.TrackFair;
+
+            order.ModifiedBy = userName;
+            order.ModifiedDate = DateTime.Now;
+
+            List<OrderDetail> details = _db.OrderDetails.Where(c => c.OrderMasterId == vmSalesOrderSlave.OrderMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Order not found for Delivary!");
+
+            #region OrderNo Change
+            //var changedDetail = new VMSalesOrderSlave();
+            //foreach (var dt in details)
+            //{
+            //    VMSalesOrderSlave exist = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c =>
+            //    c.OrderDetailId == dt.OrderDetailId && c.FProductId == dt.ProductId
+            //    && (dt.Qty != ((c.QtyCtn * (double)c.Consumption) + c.QtyPcs) || dt.OfferQty != ((c.OfferCtn * (double)c.Consumption) + c.OfferPcs))
+            //    );
+            //    if (exist != null)
+            //    {
+            //        changedDetail = exist;
+            //        break;
+            //    }
+            //};
+
+            //if (changedDetail != null && changedDetail.OrderDetailId > 0 && changedDetail.FProductId > 0)
+            //{
+            //    var soRMax = _db.OrderMasters.Count(x => x.CompanyId == vmSalesOrderSlave.CompanyFK && x.DeportId > 0 && x.OrderNo.Contains("-R") && !x.IsOpening) + 1;
+            //    string soRCid = order.OrderNo + "-R" + soRMax.ToString();
+            //    order.OrderNo = soRCid;
+            //}
+            #endregion
+
+
+            List<SROrderDetailHistory> history = new List<SROrderDetailHistory>();
+            //history = ObjectConverter<OrderDetail, OrderDetailHistory>.ConvertList(details).ToList();
+
+            foreach (var item in details)
+            {
+                //History Added
+                history.Add(new SROrderDetailHistory
+                {
+                    OrderDetailHistoryId = 0,
+                    OrderDetailId = item.OrderDetailId,
+                    OrderMasterId = item.OrderMasterId,
+                    DemandItemId = item.DemandItemId,
+                    CustomerId = item.CustomerId,
+                    OrderDate = item.OrderDate,
+                    ProductSerial = item.ProductSerial,
+                    ProductId = item.ProductId,
+                    Qty = item.Qty,
+                    OfferQty = item.OfferQty,
+                    UnitPrice = item.UnitPrice,
+                    Amount = item.Amount,
+                    SpecialBaseCommission = item.SpecialBaseCommission,
+                    Remarks = item.Remarks,
+                    StyleNo = item.StyleNo,
+                    Comsumption = item.Comsumption,
+                    PackQuantity = item.PackQuantity,
+                    DiscountRate = item.DiscountRate,
+                    DiscountUnit = item.DiscountUnit,
+                    DiscountAmount = item.DiscountAmount,
+                    PromotionalOfferId = item.PromotionalOfferId,
+                    AvgParchaseRate = item.AvgParchaseRate,
+                    IsActive = item.IsActive,
+                    Status = item.Status,
+
+                    CreatedBy = item.CreatedBy,
+                    CreateDate = item.CreateDate,
+                    ModifiedBy = item.ModifiedBy,
+                    ModifedDate = item.ModifedDate,
+                    CompanyId = item.CompanyId
+
+                });
+
+                //Order Detail Qty and Amount Update
+                var obj = vmSalesOrderSlave.DetailDataList.FirstOrDefault(c => c.OrderDetailId == item.OrderDetailId);
+                item.Qty = ((obj.QtyCtn * (double)obj.Consumption) + obj.QtyPcs);
+                item.Amount = (item.Qty * item.UnitPrice);//obj.qty
+                item.OfferQty = ((obj.OfferCtn * (double)obj.Consumption) + obj.OfferPcs);
+                item.ModifiedBy = userName;
+                item.ModifedDate = DateTime.Now;
+            }
+
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                _db.SROrderDetailHistories.AddRange(history);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = vmSalesOrderSlave.OrderMasterId;
+                }
+                scope.Commit();
+            }
+
+            return result;
+        }
         #endregion
 
         #region Get Stocks

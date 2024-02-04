@@ -130,8 +130,18 @@
                                                 {
                                                     <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                     <a href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                    <a target="_blank" href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
                                                 }
+                                                @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Delivered)
+                                                {
+                                                    <a target="_blank" href="~/Procurement/SRSalesOrderDelivarySlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                }
+                                                else if(item.Status == (int)EnumSOStatus.Draft)
+                                                {
+                                                    <a target="_blank" href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+                                                }
+
                                             </td>
                                             <td>
                                                 <a class="btn btn-sm btn-xs btn-warning linkPointer" style="width:100%;" target="_blank" href="~/Report/CustomerSalesInvoiceReport?companyId=@Model.CompanyFK&orderMasterId=@item.OrderMasterId">

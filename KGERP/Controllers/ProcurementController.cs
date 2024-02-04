@@ -2445,6 +2445,30 @@ namespace KGERP.Controllers
             vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
             return RedirectToAction(nameof(SRSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
+
+        [HttpGet]
+        public async Task<ActionResult> SRSalesOrderDelivarySlave(int companyId = 0, int orderMasterId = 0)
+        {
+            VMSalesOrderSlave vmSalesOrderSlave = new VMSalesOrderSlave();
+
+            if (orderMasterId > 0)
+            {
+                vmSalesOrderSlave = await Task.Run(() => _service.GetFoodCustomerSalesOrderDetails(companyId, orderMasterId));
+                vmSalesOrderSlave.DetailDataList = vmSalesOrderSlave.DataListSlave.ToList();
+            }
+
+            return View(vmSalesOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SRSalesOrderDelivarySlave(VMSalesOrderSlave vmSalesOrderSlave)
+        {
+            var result = await _service.SRSalesOrderDelivary(vmSalesOrderSlave);
+            return RedirectToAction(nameof(FoodCustomerSalesOrderList), new { companyId = vmSalesOrderSlave.CompanyFK });
+        }
+
+
+
         #endregion
 
         #region Get Stocks

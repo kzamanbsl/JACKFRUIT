@@ -802,6 +802,9 @@
     <Compile Include="Models\SmsType.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SROrderDetailHistory.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\State.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
