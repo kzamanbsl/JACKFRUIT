@@ -158,6 +158,10 @@
 
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+        });
+
         $(document.body).on("change", "#txtUnitName", function () {
             var unitId = $("#unitId").val();
             if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 };
@@ -172,10 +176,6 @@
                     return;
                 }
             });
-        });
-
-        $(document).ready(function () {
-            $('.formValidator').bootstrapValidator();
         });
 
 
