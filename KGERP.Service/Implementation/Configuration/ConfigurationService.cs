@@ -4670,7 +4670,7 @@ namespace KGERP.Service.Implementation.Configuration
                                   && c.SubZoneId == subZoneId).ToList();
                 foreach (var x in v)
                 {
-                    list.Add(new { Text = x.Name + " - " + x.Address, Value = x.VendorId });
+                    list.Add(new { Text = x.Name + " - " + x.Propietor, Value = x.VendorId });
                 }
             }
 

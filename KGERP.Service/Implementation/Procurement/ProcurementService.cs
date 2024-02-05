@@ -5672,7 +5672,7 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                               CompanyFK = t1.CompanyId,
                                                               CompanyId = t1.CompanyId,
-                                                              CreatedBy = t1.CreatedBy,
+                                                              CreatedBy = t1.CreatedBy
 
                                                           }).OrderByDescending(x => x.OrderMasterId).AsEnumerable());
 

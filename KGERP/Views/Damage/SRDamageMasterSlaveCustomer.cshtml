@@ -144,6 +144,12 @@
                                             @Html.DropDownListFor(model => model.ToDealerId, Model.StockInfoList as SelectList, "==Select Dealer==", new { id = "ddlDealerId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ToDealerId, "", new { @class = "text-danger" })
                                         </div>
+                                    </div><div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Territory:</label>
+                                            @Html.DropDownListFor(model => model.SubZoneFK, Model.SubZoneList as SelectList, new { id = "ddlFormSubZoneId", @class = "form-control ", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneFK, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -276,7 +282,7 @@
                                                 <td style="padding:5px;text-align:left;">@item.DepoDamageTypeName</td>
                                                 <td style="padding:5px;text-align:center;">@(item.DamageInCtn+" Ctn and "+item.DamageInPcs+" Pcs")</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
-                                                
+
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 @{ if (Model.StatusId == (int)EnumDamageStatus.Draft)
                                                     {
@@ -416,7 +422,8 @@
 
     <script type="text/javascript">
         let unitPrice = 0;
-        var normal= 0;
+        var normal = 0;
+        var isDocumentReady = true;
         $(document).ready(function () {
             let unitPrice = 0;
             var damageMasterId = "@Model.DamageMasterId";
@@ -618,6 +625,11 @@
 
         });
         $("#ddlDealerId").change(function () {
+            if (isDocumentReady) {
+                isDocumentReady = false;
+                return null;
+            }
+
 
             var dealerId = $("#ddlDealerId").val();
             $.ajax({
@@ -638,5 +650,33 @@
                 }
             });
         });
+
+         $("#ddlFormSubZoneId").change(function () {
+
+     var subZoenId = $("#ddlFormSubZoneId").val();
+
+     if (subZoenId == (null | 0)) {
+         return null;
+     }
+     else {
+         $.ajax({
+             type: "GET",
+             url: "@Url.Action("GetCustomerBySubZones", "Configuration")",
+             datatype: "Json",
+             data: { zoneId: 0, zoneDivisionId: 0, regionId: 0, areaId: 0, subZoneId: subZoenId },
+             success: function (data) {
+
+                 if (data) {
+                     $("#ddlCustomerId").empty();
+                     $("#ddlCustomerId").append("<option value=''>==Select Customer==</option>");
+                     $(data).each(function (index, item) {
+                         $("#ddlCustomerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                     });
+
+                 }
+             }
+         });
+     }
+ });
     </script>
 }

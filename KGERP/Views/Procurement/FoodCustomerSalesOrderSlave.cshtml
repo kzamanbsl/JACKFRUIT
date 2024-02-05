@@ -154,28 +154,28 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Zone:</label>
-                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.ZoneFk, Model.ZoneList as SelectList, "==Select Zone==", new { id = "ddlZoneFk", @class = "form-control searchingDropdown disable", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ZoneFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Division:</label>
-                                            @Html.DropDownListFor(model => model.ZoneDivisionFk, Model.ZoneDivisionList as SelectList, "==Select Division==", new { id = "ddlZoneDivisionFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.ZoneDivisionFk, Model.ZoneDivisionList as SelectList, "==Select Division==", new { id = "ddlZoneDivisionFk", @class = "form-control searchingDropdown disable", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ZoneDivisionFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Region:</label>
-                                            @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, "==Select Region==", new { id = "ddlRegionFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.RegionFk, Model.RegionList as SelectList, "==Select Region==", new { id = "ddlRegionFk", @class = "form-control searchingDropdown disable", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.RegionFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Area:</label>
-                                            @Html.DropDownListFor(model => model.AreaFk, Model.AreaList as SelectList, "==Select Area==", new { id = "ddlAreaFk", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.AreaFk, Model.AreaList as SelectList, "==Select Area==", new { id = "ddlAreaFk", @class = "form-control searchingDropdown disable", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.AreaFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -687,7 +687,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Zone:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneId, Model.ZoneList as SelectList, "--Select Zone--", new { id = "ddlModalZoneId", @class = "form-control disable", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -695,7 +695,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Division:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "--Select ZoneDivision--", new { id = "ddlModalZoneDivisionId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.ZoneDivisionId, Model.ZoneDivisionList as SelectList, "--Select ZoneDivision--", new { id = "ddlModalZoneDivisionId", @class = "form-control disable", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.ZoneDivisionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -703,14 +703,14 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Region:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlModalRegionId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.RegionId, Model.RegionList as SelectList, "--Select Region--", new { id = "ddlModalRegionId", @class = "form-control disable", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.RegionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Area:</label>
-                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.CommonSupplier.AreaList as SelectList, "--Select Area--", new { id = "ddlModalAreaId", @class = "form-control ", required = "true" })
+                                            @Html.DropDownListFor(model => model.CommonSupplier.AreaId, Model.CommonSupplier.AreaList as SelectList, "--Select Area--", new { id = "ddlModalAreaId", @class = "form-control disable", required = "true" })
                                             @Html.ValidationMessageFor(model => model.CommonSupplier.AreaId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -784,6 +784,28 @@
             if (orderMasterIdInit > 0) {
                 $('#txtProductName').focus();
             }
+
+
+            @*var employeeId = @((int)Model.UserDataAccessModel.UserTypeId);
+            var userName = "@((string)Model.UserDataAccessModel.UserName)";
+            var zoneId = $("#ddlZoneFk").val();
+            var areaId = $('#ddlArea');
+            var areaId = $('#ddlArea');
+
+            if (userName == "AZ00001" || employeeId == @((int)EnumUserType.Management)) {
+                $('.disable').attr("disabled", false);
+            } else if ((employeeId == @((int)EnumUserType.Dealer)) || (employeeId == @((int)EnumUserType.Deport))) {
+
+                $('.disable').attr("disabled", true);
+                $('#ddlSubZone').prop("required", true);
+                if ((employeeId == @((int)EnumUserType.Dealer)) && areaId.val() > 0) {
+                    areaId.attr("disabled", true);
+                }
+            } else {
+
+            }*@
+
+
 
             $('#dealerSalesOrderSlaveFormId').on('keyup keypress', function (e) {
 

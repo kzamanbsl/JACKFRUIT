@@ -42,6 +42,7 @@ namespace KGERP.Service.ServiceModel
         public string DamageFromName { get { return BaseFunctionalities.GetEnumDescription(this.DamageFromId); } }
 
         public int? ZoneFk { get; set; }
+        public int? SubZoneFK { get; set; }
         public string Remarks { get; set; }
         public int CompanyId { get; set; }
         public bool IsActive { get; set; }

@@ -2332,7 +2332,7 @@ namespace KGERP.Controllers
             vmSalesOrder.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             vmSalesOrder.Status = vStatus ?? -1;
-
+            vmSalesOrder.UserDataAccessModel =await  _configurationService.GetUserDataAccessModelByEmployeeId();
             return View(vmSalesOrder);
         }
 
@@ -2403,11 +2403,11 @@ namespace KGERP.Controllers
             }
             if (vmSalesOrderSlave.CommonSupplier.SubZoneId > 0)
             {
-                vmSalesOrderSlave.CustomerList = new SelectList(_configurationService.CommonCustomerListBySunZones(0, 0, 0, 0, vmSalesOrderSlave.CommonSupplier.SubZoneId ?? 0));
+                vmSalesOrderSlave.CustomerList = new SelectList(_configurationService.CommonCustomerListBySunZones(0, 0, 0, 0, vmSalesOrderSlave.CommonSupplier.SubZoneId ?? 0), "Value", "Text");
             }
             else if (vmSalesOrderSlave.UserDataAccessModel.CustomerIds?.Length > 0)
             {
-                vmSalesOrderSlave.CustomerList = _configurationService.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds);
+                vmSalesOrderSlave.CustomerList = new SelectList(_configurationService.GetCustomerListByCustomerIds(vmSalesOrderSlave.UserDataAccessModel.CustomerIds), "Value", "Text");
             }
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_configurationService.CommonCustomerPaymentType(), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";

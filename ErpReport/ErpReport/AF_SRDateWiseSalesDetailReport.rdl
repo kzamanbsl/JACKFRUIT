@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.8.34330.188</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-24T08:14:33.9280317Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-02-05T09:56:37.7444567Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -271,6 +271,23 @@ WHERE CompanyId = @CompanyId </CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!OrderNo.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>    - </Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Label>CustomerName</Label>
+                                  <Value>=Fields!SalesTo.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -1514,7 +1531,7 @@ WHERE CompanyId = @CompanyId </CommandText>
             <Top>0.06944in</Top>
             <Left>0.66875in</Left>
             <Height>2.75in</Height>
-            <Width>6.91525in</Width>
+            <Width>6.91524in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

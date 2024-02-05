@@ -758,7 +758,7 @@
         let customerPrice = null;
         let consumption = 1;
         var normal = 0;
-
+        var documentReady = true;
         $(document).ready(function () {
 
             var orderMasterIdInit = "@Model.OrderMasterId";
@@ -884,7 +884,8 @@
 
             var dealerId = $("#ddlStockInfoId").val();
 
-            if (dealerId == (null | 0)) {
+            if (dealerId == (null | 0) || documentReady == true) {
+                documentReady = false;
                 return null;
             }
             else {

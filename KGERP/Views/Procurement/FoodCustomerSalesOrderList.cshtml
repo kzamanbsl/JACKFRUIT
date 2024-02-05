@@ -25,9 +25,20 @@
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
-            <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
-                <span class="fs fs-plus"></span> New Sales Invoice
-            </a>
+            @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
+            {
+                <a href="~/Procurement/SRSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
+                    <span class="fs fs-plus"></span> New Sales Invoice
+                </a>
+
+            }
+            else if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Management || Model.UserDataAccessModel.UserName == "AZ00001")
+            {
+                <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
+                    <span class="fs fs-plus"></span> New Sales Invoice
+                </a>
+            }
+
         </li>
     </ol>
 </section>
@@ -128,7 +139,7 @@
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {
-                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-pencil"  aria-hidden="true"></i></a>
                                                     <a href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
 
                                                 }
