@@ -15,6 +15,7 @@ using KGERP.Service.Implementation.Procurement;
 using DocumentFormat.OpenXml.EMMA;
 using System.Linq.Dynamic;
 using System.Linq;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -6734,7 +6735,7 @@ namespace KGERP.Controllers
         }
         [HttpGet]
         [SessionExpire]
-        public ActionResult DealerDamageStockReport(int companyId)
+        public async Task< ActionResult> DealerDamageStockReport(int companyId)
         {
             ReportCustomModel cm = new ReportCustomModel()
             {
@@ -6746,10 +6747,18 @@ namespace KGERP.Controllers
                 Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 SelectZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text"),
-
+                
                 ReportName = "Dealer Damage Stock Report"
             };
-            return View(cm);
+            cm.UserDataAccessModel= await _configurationService.GetUserDataAccessModelByEmployeeId();
+            if (cm.UserDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                cm.ZoneList= new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
+                cm.DealerList = await _configurationService.GetDealerListByDealerIds(cm.UserDataAccessModel.DealerIds);
+                cm.DealerId = cm.UserDataAccessModel.DealerIds[0];
+
+            }
+                return View(cm);
         }
 
         [HttpPost]

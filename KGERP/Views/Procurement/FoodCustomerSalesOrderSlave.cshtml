@@ -786,24 +786,25 @@
             }
 
 
-            @*var employeeId = @((int)Model.UserDataAccessModel.UserTypeId);
-            var userName = "@((string)Model.UserDataAccessModel.UserName)";
-            var zoneId = $("#ddlZoneFk").val();
-            var areaId = $('#ddlArea');
-            var areaId = $('#ddlArea');
+            var employeeid = @((int)Model.UserDataAccessModel.UserTypeId);
+            var username = "@((string)Model.UserDataAccessModel.UserName)";
+            @*var zoneid = $("#ddlzonefk").val(@((int)Model.ZoneFk)).trigger('change');
+            var zoneDivisionid = $("#ddlZoneDivisionFk").val(@((int)Model.ZoneDivisionFk)).trigger('change');
+            var regionid = $("#ddlRegionFk").val(@((int)Model.RegionFk)).trigger('change');*@
+            var areaid = $('#ddlAreaFK').val();
 
-            if (userName == "AZ00001" || employeeId == @((int)EnumUserType.Management)) {
+            if (username == "az00001" || employeeid == @((int)EnumUserType.Management)) {
                 $('.disable').attr("disabled", false);
-            } else if ((employeeId == @((int)EnumUserType.Dealer)) || (employeeId == @((int)EnumUserType.Deport))) {
+            } else if ((employeeid == @((int)EnumUserType.Dealer)) || (employeeid == @((int)EnumUserType.Deport))) {
 
                 $('.disable').attr("disabled", true);
-                $('#ddlSubZone').prop("required", true);
-                if ((employeeId == @((int)EnumUserType.Dealer)) && areaId.val() > 0) {
-                    areaId.attr("disabled", true);
+                $('#ddlsubzone').prop("required", true);
+                if ((employeeid == @((int)EnumUserType.Dealer)&& areaid>0) ) {
+                    areaid.attr("disabled", true);
                 }
             } else {
 
-            }*@
+            }
 
 
 

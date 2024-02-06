@@ -2238,9 +2238,26 @@ namespace KGERP.Controllers
 
             }
             vmSalesOrderSlave.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
-
-            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.CommonSupplier = new VMCommonSupplier();
+            vmSalesOrderSlave.ZoneList = new SelectList(_service.ZonesDropDownList(companyId), "Value", "Text");
+            if (vmSalesOrderSlave.UserDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                 vmSalesOrderSlave.ZoneFk= vmSalesOrderSlave.UserDataAccessModel?.ZoneIds[0]??0;
+                vmSalesOrderSlave.ZoneDivisionFk= vmSalesOrderSlave.UserDataAccessModel?.ZoneDivisionIds[0]??0;
+                vmSalesOrderSlave.RegionFk= vmSalesOrderSlave.UserDataAccessModel?.RegionIds[0]??0;
+                vmSalesOrderSlave.AreaFk= vmSalesOrderSlave.UserDataAccessModel?.AreaIds[0]??0;
+                vmSalesOrderSlave.CommonSupplier.ZoneId= vmSalesOrderSlave.ZoneFk;
+                vmSalesOrderSlave.CommonSupplier.ZoneDivisionId= vmSalesOrderSlave.ZoneDivisionFk;
+                vmSalesOrderSlave.CommonSupplier.RegionId= vmSalesOrderSlave.RegionFk;
+                vmSalesOrderSlave.CommonSupplier.AreaId= vmSalesOrderSlave.AreaFk;
+                vmSalesOrderSlave.ZoneDivisionList = new SelectList(_configurationService.GetZoneDivisionSelectList(companyId, vmSalesOrderSlave.ZoneFk), "Value", "Text");
+                vmSalesOrderSlave.RegionList = new SelectList(_configurationService.GetRegionSelectList(companyId, vmSalesOrderSlave.ZoneFk, vmSalesOrderSlave.ZoneDivisionFk), "Value", "Text");
+                vmSalesOrderSlave.AreaList = new SelectList(_configurationService.GetAreaSelectList(companyId, vmSalesOrderSlave.ZoneFk, vmSalesOrderSlave.ZoneDivisionFk, vmSalesOrderSlave.RegionFk), "Value", "Text");
+                vmSalesOrderSlave.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(companyId, vmSalesOrderSlave.ZoneFk, vmSalesOrderSlave.ZoneDivisionFk, vmSalesOrderSlave.RegionFk, vmSalesOrderSlave.AreaFk), "Value", "Text");
+
+
+            }
+
             vmSalesOrderSlave.CommonSupplier.PaymentTypeList = new SelectList(_configurationService.CommonCustomerPaymentType(), "Value", "Text");
             vmSalesOrderSlave.StockInfoTypeId = (int)StockInfoTypeEnum.Dealer;
             vmSalesOrderSlave.CommonSupplier.PaymentType = "Special";
