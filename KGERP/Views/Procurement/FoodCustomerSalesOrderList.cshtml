@@ -106,7 +106,7 @@
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Print</th>
-                                        <th>Change Status</th>
+                                        @*<th>Change Status</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,18 +139,16 @@
                                             <td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {
-                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-pencil"  aria-hidden="true"></i></a>
-                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                    <a target="_blank"  href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Edit" @*class="btn-sm bg-info m-2"*@> <span class="glyphicon glyphicon-edit"></span></a> <br />
+                                                    <a  href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer " data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    <a target="_blank" class="p-1" href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details">  <i class="fa fa-square-pen"></i></a>
+
 
                                                 }
                                                 @if (item.Status == (int)EnumSOStatus.Submitted || item.Status == (int)EnumSOStatus.Delivered)
                                                 {
                                                     <a target="_blank" href="~/Procurement/SRSalesOrderDelivarySlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-                                                }
-                                                else if(item.Status == (int)EnumSOStatus.Draft)
-                                                {
-                                                    <a target="_blank" href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-
                                                 }
 
                                             </td>
@@ -169,7 +167,7 @@
                                                         <span>Print</span>
                                                     }*@
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {
                                                     <a id="@item.OrderMasterId" onclick="makeSubmitble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitFoodCustomerOrderModal" title="@statusTitle" data-placement="top">
@@ -188,7 +186,7 @@
                                                     <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Closed</i></span>
                                                 }
 
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>

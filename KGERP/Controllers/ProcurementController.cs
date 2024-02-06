@@ -2443,6 +2443,11 @@ namespace KGERP.Controllers
         public async Task<ActionResult> SubmitSrOrderMasterFromSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
             vmSalesOrderSlave.OrderMasterId = await _service.FoodOrderMasterSubmit(vmSalesOrderSlave.OrderMasterId, vmSalesOrderSlave.DiscountAmount);
+            if(vmSalesOrderSlave.Status==(int)EnumSOStatus.Submitted)
+            {
+                return RedirectToAction(nameof(SRSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK , orderMasterId = vmSalesOrderSlave.OrderMasterId });
+            }
+
             return RedirectToAction(nameof(SRSalesOrderSlave), new { companyId = vmSalesOrderSlave.CompanyFK });
         }
 

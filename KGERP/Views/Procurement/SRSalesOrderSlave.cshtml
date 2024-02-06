@@ -486,6 +486,7 @@
                     @Html.HiddenFor(model => model.OrderMasterId, new { id = "hidSubmitOrderMasterId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
                     @Html.HiddenFor(model => model.DiscountAmount, new { id = "hidDiscountAmount" })
+                    @Html.HiddenFor(model => model.Status, new { id = "hidStatus" })
 
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -762,7 +763,7 @@
         $(document).ready(function () {
 
             var orderMasterIdInit = "@Model.OrderMasterId";
-
+            $('#hidStatus').val(@((int)Model.Status));
             if (orderMasterIdInit > 0) {
                 $('#txtProductName').focus();
             }
