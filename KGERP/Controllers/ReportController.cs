@@ -3276,7 +3276,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&EmployeeId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId??0, model.StrFromDate, model.StrToDate);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&EmployeeId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId ?? 0, model.StrFromDate, model.StrToDate);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -3315,7 +3315,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&MarketingOfficerId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId??0, model.StrFromDate, model.StrToDate);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&MarketingOfficerId={3}&StrFromDate={4}&StrToDate={5}", model.ReportName, model.ReportType, model.CompanyId, model.EmployeeId ?? 0, model.StrFromDate, model.StrToDate);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -5307,10 +5307,10 @@ namespace KGERP.Controllers
                 model.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
             }
             return View(model);
-        } 
+        }
 
 
-       
+
 
         // GET: Customer List Report
         [HttpGet]
@@ -5550,7 +5550,7 @@ namespace KGERP.Controllers
                 ToDate = DateTime.Now,
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
-               
+
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 ReportName = "Deport Product Stock Report"
             };
@@ -5560,7 +5560,7 @@ namespace KGERP.Controllers
             }
             else if (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport)
             {
-                cm.SelectZoneList = new SelectList( await _configurationService.GetZoneListByZoneIds(userDataAccessModel.ZoneIds), "Value", "Text");
+                cm.SelectZoneList = new SelectList(await _configurationService.GetZoneListByZoneIds(userDataAccessModel.ZoneIds), "Value", "Text");
                 cm.ZoneId = userDataAccessModel.ZoneIds[0];
 
                 cm.CustomerList = await _configurationService.GetDeportListByDeportIds(userDataAccessModel.DeportIds);
@@ -5639,11 +5639,11 @@ namespace KGERP.Controllers
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 ReportName = CompanyInfo.ReportPrefix + reportName,
             };
-            if (userDataAccessModel.UserTypeId == (int) EnumUserType.Employee)
+            if (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
             {
                 cm.DeportList = new SelectList(_configurationService.CommonDeportDropDownList(), "Value", "Text");
             }
-            else if(userDataAccessModel.UserTypeId == (int)EnumUserType.Deport)
+            else if (userDataAccessModel.UserTypeId == (int)EnumUserType.Deport)
             {
                 cm.DeportList = await _configurationService.GetDeportListByDeportIds(userDataAccessModel.DeportIds);
                 cm.DeportId = userDataAccessModel.DeportIds[0];
@@ -5706,7 +5706,7 @@ namespace KGERP.Controllers
         // Dealer Product Stock Report
         [HttpGet]
         [SessionExpire]
-        public async  Task<ActionResult> DealerProductStockReport(int companyId)
+        public async Task<ActionResult> DealerProductStockReport(int companyId)
         {
             UserDataAccessModel userDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
             ReportCustomModel cm = new ReportCustomModel()
@@ -5719,18 +5719,17 @@ namespace KGERP.Controllers
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 ReportName = "Dealer Product Stock Report"
             };
+            cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
 
-            if (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
+            if (userDataAccessModel.UserTypeId == (int)EnumUserType.Employee || userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer|| userDataAccessModel.UserName!="AZ00001")
             {
-                cm.SelectZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
-            }
-            else if (userDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
-            {
+
                 cm.SelectZoneList = new SelectList(await _configurationService.GetZoneListByZoneIds(userDataAccessModel.ZoneIds), "Value", "Text");
-                cm.ZoneId = userDataAccessModel.ZoneIds[0];
-
+                var zoneId= userDataAccessModel?.ZoneIds[0];
+                cm.ZoneId = zoneId;
                 cm.CustomerList = await _configurationService.GetDealerListByDealerIds(userDataAccessModel.DealerIds);
-                cm.CustomerId = userDataAccessModel.DealerIds[0];
+                var customerId = userDataAccessModel?.DealerIds[0];
+                cm.CustomerId = customerId;
             }
             return View(cm);
         }
@@ -6330,7 +6329,7 @@ namespace KGERP.Controllers
             {
                 model.ProductCategoryId = 0;
             }
-            
+
             if (string.IsNullOrEmpty(model.StrFromDate))
             {
                 model.StrFromDate = DateTime.Now.AddYears(-10).ToString("dd/MM/yyyy");
@@ -6366,19 +6365,19 @@ namespace KGERP.Controllers
             model.StrFromDate = DateTime.Now.ToShortDateString();
             model.StrToDate = DateTime.Now.ToShortDateString();
             model.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
-            
+
             model.ZoneList = new SelectList(_configurationService.CommonZonesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
 
-            if (model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee||model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Management || model.UserDataAccessModel.UserName != "AZ00001")
+            if (model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee || model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Management || model.UserDataAccessModel.UserName != "AZ00001")
             {
-                var zoneIds = model.UserDataAccessModel.ZoneIds?[0]??0 ;
+                var zoneIds = model.UserDataAccessModel.ZoneIds?[0] ?? 0;
                 var zoneDivisionIds = model.UserDataAccessModel.ZoneDivisionIds?[0] ?? 0;
                 var regionIds = model.UserDataAccessModel.RegionIds?[0] ?? 0;
                 var areaIds = model.UserDataAccessModel.AreaIds?[0] ?? 0;
                 model.ZoneDivisionList = new SelectList(_configurationService.CommonZoneDivisionDropDownList(CompanyInfo.CompanyId, zoneIds), "Value", "Text");
                 model.RegionList = new SelectList(_configurationService.CommonRegionDropDownList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds), "Value", "Text");
                 model.AreaList = new SelectList(_configurationService.CommonAreaDropDownList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds, regionIds), "Value", "Text");
-                if (model.UserDataAccessModel?.AreaIds!=null)
+                if (model.UserDataAccessModel?.AreaIds != null)
                 {
                     model.SubZoneList = new SelectList(_configurationService.GetSubZoneSelectList(CompanyInfo.CompanyId, zoneIds, zoneDivisionIds, regionIds, areaIds), "Value", "Text");
                     model.AreaId = areaIds;
@@ -6438,7 +6437,7 @@ namespace KGERP.Controllers
                 reportCustom.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&StrFromDate={2}&StrToDate={3}&CompanyId={4}&SubZoneId={5}&EmployeeId={6}", reportCustom.ReportName, reportCustom.ReportType,  reportCustom.StrFromDate, reportCustom.StrToDate, CompanyInfo.CompanyId, reportCustom.SubZoneId, reportCustom.EmployeeId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&StrFromDate={2}&StrToDate={3}&CompanyId={4}&SubZoneId={5}&EmployeeId={6}", reportCustom.ReportName, reportCustom.ReportType, reportCustom.StrFromDate, reportCustom.StrToDate, CompanyInfo.CompanyId, reportCustom.SubZoneId, reportCustom.EmployeeId);
 
             if (reportCustom.ReportType.Equals(ReportType.EXCEL))
             {
@@ -6454,7 +6453,7 @@ namespace KGERP.Controllers
             }
             return View();
         }
-        
+
         [HttpGet]
         [SessionExpire]
         public async Task<ActionResult> SRSalesDetailReport()
@@ -6501,7 +6500,7 @@ namespace KGERP.Controllers
             {
                 reportCustom.SubZoneId = 0;
             }
-            if (reportCustom.EmployeeId <= 0 || reportCustom.EmployeeId==null)
+            if (reportCustom.EmployeeId <= 0 || reportCustom.EmployeeId == null)
             {
                 if (reportCustom.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && reportCustom.UserDataAccessModel.UserName != "AZ00001")
                 {
@@ -6512,7 +6511,7 @@ namespace KGERP.Controllers
                     reportCustom.EmployeeId = 0;
 
                 }
-                
+
             }
             if (reportCustom.ReportType == null)
             {
@@ -6527,7 +6526,7 @@ namespace KGERP.Controllers
                 reportCustom.StrToDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             }
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&SubZoneId={5}&EmployeeId={6}", reportCustom.ReportName, reportCustom.ReportType, CompanyInfo.CompanyId, reportCustom.StrFromDate, reportCustom.StrToDate,  reportCustom.SubZoneId, reportCustom.EmployeeId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&SubZoneId={5}&EmployeeId={6}", reportCustom.ReportName, reportCustom.ReportType, CompanyInfo.CompanyId, reportCustom.StrFromDate, reportCustom.StrToDate, reportCustom.SubZoneId, reportCustom.EmployeeId);
 
             if (reportCustom.ReportType.Equals(ReportType.EXCEL))
             {
@@ -6735,7 +6734,7 @@ namespace KGERP.Controllers
         }
         [HttpGet]
         [SessionExpire]
-        public async Task< ActionResult> DealerDamageStockReport(int companyId)
+        public async Task<ActionResult> DealerDamageStockReport(int companyId)
         {
             ReportCustomModel cm = new ReportCustomModel()
             {
@@ -6747,18 +6746,26 @@ namespace KGERP.Controllers
                 Stocklist = new SelectList(_procurementService.StockInfoesDropDownList(companyId), "Value", "Text"),
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 SelectZoneList = new SelectList(_configurationService.CommonZonesDropDownList(companyId), "Value", "Text"),
-                
+
                 ReportName = "Dealer Damage Stock Report"
             };
-            cm.UserDataAccessModel= await _configurationService.GetUserDataAccessModelByEmployeeId();
+            cm.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+
             if (cm.UserDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
             {
-                cm.ZoneList= new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
-                cm.DealerList = await _configurationService.GetDealerListByDealerIds(cm.UserDataAccessModel.DealerIds);
-                cm.DealerId = cm.UserDataAccessModel.DealerIds[0];
 
+                cm.DealerList = await _configurationService.GetDealerListByDealerIds(cm.UserDataAccessModel?.DealerIds);
+                cm.DeportList = await _configurationService.GetDeportListByDeportIds(cm.UserDataAccessModel?.DeportIds);
+                cm.CustomerList = _configurationService.GetCustomerListByCustomerIds(cm.UserDataAccessModel?.CustomerIds);
+                cm.DealerId = cm.UserDataAccessModel?.DealerIds[0];
+                cm.DeportId = cm.UserDataAccessModel?.DeportIds[0];
+                cm.ZoneId = cm.UserDataAccessModel?.ZoneIds[0];
             }
-                return View(cm);
+            else
+            {
+                cm.ZoneList = new SelectList(_procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            }
+            return View(cm);
         }
 
         [HttpPost]
@@ -6953,7 +6960,7 @@ namespace KGERP.Controllers
 
         [HttpGet]
         [SessionExpire]
-        public ActionResult DealerDateWiseDamageStockDetailReport(int companyId)
+        public async Task<ActionResult> DealerDateWiseDamageStockDetailReport(int companyId)
         {
             var reportName = "DealerDateWiseDamageStockDetailReport";
             Session["CompanyId"] = companyId;
@@ -6969,6 +6976,15 @@ namespace KGERP.Controllers
                 ProductCategoryList = _voucherTypeService.GetProductCategory(companyId),
                 ReportName = CompanyInfo.ReportPrefix + reportName,
             };
+            cm.UserDataAccessModel = await _configurationService.GetUserDataAccessModelByEmployeeId();
+            if (cm.UserDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
+            {
+                cm.DealerList = await _configurationService.GetDealerListByDealerIds(cm.UserDataAccessModel?.DealerIds);
+                cm.DeportList = await _configurationService.GetDeportListByDeportIds(cm.UserDataAccessModel?.DeportIds);
+                cm.DealerId = cm.UserDataAccessModel?.DealerIds[0];
+                cm.DeportId = cm.UserDataAccessModel?.DeportIds[0];
+
+            }
             return View(cm);
         }
 

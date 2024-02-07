@@ -122,7 +122,7 @@
                                                 @if (item.StatusId == EnumDamageStatus.Draft || item.StatusId == EnumDamageStatus.Submitted)
                                                 {
                                                     <a id="@item.DamageMasterId" onclick=" makeEditble(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#editDamageMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                    <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    <a id="@item.DamageMasterId" onclick="makeDeletale(@item.DamageMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top" @*style="color:red"*@><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     
                                                     if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
                                                     {

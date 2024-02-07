@@ -1,4 +1,6 @@
 ﻿@model KGERP.Data.CustomModel.ReportCustomModel
+@using KGERP.Utility
+
 <div class="row">
     <div class="col-md-12" style="background-color:lightblue">
         @Html.Label("Dealer Date Wise Damage Stock Details", new { @style = "font-size:20px" })
@@ -11,40 +13,47 @@
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.CompanyId, new { @id = "hfCompanyId" })
-<div class="row">
+    @Html.HiddenFor(model => model.UserDataAccessModel.UserTypeId, new { @id = "hfUserTypeId" })
+    @Html.HiddenFor(model => model.UserDataAccessModel.UserTypeId, new { @id = "hfUserName" })
+    <div class="row">
+        @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Dealer)
+        {
+            @Html.HiddenFor(model => model.DeportId, new { @id = "hfDeportId" })
+            @Html.HiddenFor(model => model.DealerId, new { @id = "hfDealerId" })
+        }
 
-    <div class="col-md-3">
-        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
-        <br />
-        <div style="display:flex">
-            @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
-        </div>
-        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+        <div class="col-md-3">
+            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+            <br />
+            <div style="display:flex">
+                @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
 
-    </div>
-    <div class="col-md-3">
-        @Html.Label("ToDate", htmlAttributes: new { @class = "control-label" })
-        <br />
-        <div style="display:flex">
-            @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
         </div>
-        @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label for="message-text" class="col-form-label">Deport:</label>
-            @Html.DropDownListFor(model => model.DeportId, new SelectList(Model.DeportList, "Value", "Text"), "---Select Deport---", new {@id="ddlDeportId", @class = "dropdownsize form-control searchingDropdown" })
-            @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+        <div class="col-md-3">
+            @Html.Label("ToDate", htmlAttributes: new { @class = "control-label" })
+            <br />
+            <div style="display:flex">
+                @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Deport:</label>
+                @Html.DropDownListFor(model => model.DeportId, new SelectList(Model.DeportList, "Value", "Text"), "---Select Deport---", new { @id = "ddlDeportId", @class = "dropdownsize form-control searchingDropdown disable" })
+                @Html.ValidationMessageFor(model => model.DeportId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Dealer:</label>
+                @Html.DropDownListFor(model => model.DealerId, new SelectList(Model.DealerList, "Value", "Text"), new { @id = "ddlDealerId", @class = "dropdownsize form-control searchingDropdown disable" })
+                @Html.ValidationMessageFor(model => model.DealerId, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label for="message-text" class="col-form-label">Dealer:</label>
-            @Html.DropDownListFor(model => model.DealerId, new SelectList(Model.DealerList, "Value", "Text"), new { @id = "ddlDealerId", @class = "dropdownsize form-control searchingDropdown" })
-            @Html.ValidationMessageFor(model => model.DealerId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
 
     <div class="row">
         <div class="col-md-3">
@@ -90,7 +99,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-<script>
+    <script>
         $(document).ready(function () {
             $('.datepicker').datepicker({
                 dateFormat: "mm/dd/yy",
@@ -100,6 +109,24 @@
                 changeYear: true,
                 yearRange: "2001:+50"
             });
+
+
+        var employeeId = $('#hfUserTypeId').val();
+        var userName = $('#hfUserName').val();
+
+
+        if (userName == "AZ00001" || employeeId == @((int)EnumUserType.Management)) {
+            $('.disable').attr("disabled", false);
+        } else if ((employeeId == @((int)EnumUserType.Dealer))||(employeeId == @((int)EnumUserType.Deport))) {
+
+            $('.disable').attr("disabled", true);
+            $('#ddlSubZone').prop("required", true);
+            if ((employeeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
+                areaId.attr("disabled", true);
+            }
+        } else {
+
+        }
         });
 
     $("#ddlDeportId").change(function () {
@@ -166,7 +193,7 @@
             });
         });
 
-</script>
+    </script>
 }
 
 

@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            @if (Model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee || Model.UserDataAccessModel.UserName == "AZ00001")
+                            @if (Model.UserDataAccessModel?.SubZoneIds == null|| Model.UserDataAccessModel.UserName == "AZ00001")
                             {
                                 <div class="row">
                                     <div class="col-md-3">
@@ -124,20 +124,30 @@
                                     </div>
                                 </div>
                             }
-                            else
+                            else if(Model.UserDataAccessModel?.SubZoneIds?.Count() > 0 && Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
                             {
                                 @Html.HiddenFor(model => model.UserDataAccessModel.EmployeeId, new { @id = "hfEmployeeId" })
 
-                                <div class="row">
-                                    <div class="col-md-10"></div>
-                                    <div class="col-md-2" style="padding: 0px 5px 0px 8px;">
-                                        <div class="form-group ">
-                                            <label>&nbsp;</label>
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block" formtarget="_blank">EXPORT</button>
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.Label("Territory", htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.DropDownListFor(model => model.SubZoneId, Model.SubZoneList as SelectList, "-- Select Territory -- ", new { @class = "form-control searchingDropdown", id = "ddlSubZone" })
+                                    @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+
 
                                 </div>
+                            </div>
+                            <div class="col-md-7"></div>
+                            <div class="col-md-2" style="padding: 0px 5px 0px 8px;">
+                                <div class="form-group ">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block" formtarget="_blank">EXPORT</button>
+                                </div>
+                            </div>
+
+                        </div>
                             }
                         </div>
                     </div>
@@ -173,7 +183,7 @@
         } else if ((employeeId == @((int)EnumUserType.Dealer))||(employeeId == @((int)EnumUserType.Deport))) {
 
             $('.disable').attr("disabled", true);
-            $('#ddlSubZone').prop("required", true);
+            //$('#ddlSubZone').prop("required", true);
             if ((employeeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
                 areaId.attr("disabled", true);
             }

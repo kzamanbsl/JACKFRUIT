@@ -42,9 +42,11 @@
                                 </div>
                             </div>
 
-                            @if (Model.UserDataAccessModel.UserTypeId != (int)EnumUserType.Employee || Model.UserDataAccessModel.UserName == "AZ00001")
+                            @if (Model.UserDataAccessModel?.SubZoneIds == null || Model.UserDataAccessModel.UserName == "AZ00001")
+
                             {
                                 <div class="row">
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             @Html.Label("Zone", htmlAttributes: new { @class = "control-label" })
@@ -124,12 +126,22 @@
                                     </div>
                                 </div>
                             }
-                            else
+                            else if (Model.UserDataAccessModel.SubZoneIds.Count() > 0 && Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee)
                             {
                                 @Html.HiddenFor(model => model.UserDataAccessModel.EmployeeId, new { @id = "hfEmployeeId" })
 
                                 <div class="row">
-                                    <div class="col-md-10"></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Territory", htmlAttributes: new { @class = "control-label" })
+                                            <br />
+                                            @Html.DropDownListFor(model => model.SubZoneId, Model.SubZoneList as SelectList, "-- Select Territory -- ", new { @class = "form-control searchingDropdown", id = "ddlSubZone" })
+                                            @Html.ValidationMessageFor(model => model.SubZoneId, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7"></div>
                                     <div class="col-md-2" style="padding: 0px 5px 0px 8px;">
                                         <div class="form-group ">
                                             <label>&nbsp;</label>
@@ -153,7 +165,7 @@
 
     $(document).ready(function () {
         $('.datepicker').datepicker({
-            dateFormat: "mm/dd/yy",
+                                dateFormat: "mm/dd/yy",
             showOn: 'both',
             buttonText: "<i class='fa fa-calendar'></i>",
             changeMonth: true,
@@ -161,170 +173,170 @@
             yearRange: "2001:+50"
         });
 
-        var employeeTypeId = $('#hfUserTypeId').val();
-        var userName = $('#hfUserName').val();
-        var zoneId = $('#ddlZone');
-        var zoneDivisionId = $('#ddlZoneDivision');
-        var regionId = $('#ddlRegion');
-        var areaId = $('#ddlArea');
+                                var employeeTypeId = $('#hfUserTypeId').val();
+                                var userName = $('#hfUserName').val();
+                                var zoneId = $('#ddlZone');
+                                var zoneDivisionId = $('#ddlZoneDivision');
+                                var regionId = $('#ddlRegion');
+                                var areaId = $('#ddlArea');
+                                @*var employeeSubZoneId =@((int)Model.UserDataAccessModel?.SubZoneIds?[0]);*@
+                                if (userName == "AZ00001" || employeeTypeId == @((int)EnumUserType.Management)) {
+                                   $('.disable').attr("disabled", false);
+                                } else if ((employeeTypeId == @((int)EnumUserType.Dealer)) || (employeeTypeId == @((int)EnumUserType.Deport))) {
 
-        if (userName == "AZ00001" || employeeTypeId == @((int)EnumUserType.Management)) {
-            $('.disable').attr("disabled", false);
-        } else if ((employeeTypeId == @((int)EnumUserType.Dealer)) || (employeeTypeId == @((int)EnumUserType.Deport))) {
+                                         $('.disable').attr("disabled", true);
+                                    /* $('#ddlSubZone').prop("required", true);*/
 
-            $('.disable').attr("disabled", true);
-            $('#ddlSubZone').prop("required", true);
-
-            if ((employeeTypeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
-                areaId.attr("disabled", true);
-            }
-        } else {
-
-        }
+                                    if ((employeeTypeId == @((int)EnumUserType.Dealer)) && areaId.val()>0) {
+                                        areaId.attr("disabled", true);
+                                    }
+                                } else if (employeeTypeId == @((int)EnumUserType.Employee)){
+                                      /*$('#ddlSubZone').prop("required", true);*/
+                                }
 
 
 
-    });
+                            });
     $('#ddlZone').change(function () {
-    var zoneId = $("#ddlZone").val();
+                                var zoneId = $("#ddlZone").val();
 
-    if (zoneId == '') {
+                                if (zoneId == '') {
         $('#ddlZoneDivision').val('').trigger('change');
-        return false;
-    } else {
+                                    return false;
+                                } else {
 
         $.ajax({
-            type: "GET",
+                                    type: "GET",
             url: "@Url.Action("GetZoneDivisionList", "Configuration")",
             datatype: "Json",
             data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId },
             success: function (data) {
-                var items = "";
-                if (data) {
+                                            var items = "";
+                                            if (data) {
                     $("#ddlZoneDivision").empty();
                     $("#ddlZoneDivision").append("<option value=''>==Select Division==</option>");
                     $(data).each(function (index, item) {
-                        if (item.Value > 0) {
+                                                    if (item.Value > 0) {
                             $("#ddlZoneDivision").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
 
-                        }
-                    });
+                                                    }
+                                                });
 
-                }
-            }
-        });
-    }
-    });
+                                            }
+                                        }
+                                    });
+                                }
+                            });
 
 
 $('#ddlZoneDivision').change(function () {
 
-    var zoneId = $("#ddlZone").val();
-    var zoneDivisonId = $("#ddlZoneDivision").val();
+                                var zoneId = $("#ddlZone").val();
+                                var zoneDivisonId = $("#ddlZoneDivision").val();
 
-    if (zoneDivisonId == '') {
+                                if (zoneDivisonId == '') {
         $('#ddlRegion').val('').trigger('change');
-        return false;
-    } else {
+                                    return false;
+                                } else {
         $.ajax({
-            type: "GET",
+                                    type: "GET",
             url: "@Url.Action("GetRegionList", "Configuration")",
             datatype: "Json",
             data: { companyId: @CompanyInfo.CompanyId, zoneId: zoneId, zoneDivisionId: zoneDivisonId },
             success: function (data) {
-                var items = "";
-                if (data) {
+                                            var items = "";
+                                            if (data) {
                     $("#ddlRegion").empty();
                     $("#ddlRegion").append("<option value=''>==Select Region==</option>");
 
                     $(data).each(function (index, item) {
-                        if (item.Value > 0)
-                        {
+                                                    if (item.Value > 0)
+                                                    {
                             $("#ddlRegion").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
 
-                        }
-                    });
+                                                    }
+                                                });
 
-                }
-            }
-        });
-    }
+                                            }
+                                        }
+                                    });
+                                }
 
 
-});
+                            });
 
 $('#ddlRegion').change(function () {
-    var zoneValue = $("#ddlZone").val();
-    var zoneDivisonId = $("#ddlZoneDivision").val();
-    var regionValue = $("#ddlRegion").val();
+                                var zoneValue = $("#ddlZone").val();
+                                var zoneDivisonId = $("#ddlZoneDivision").val();
+                                var regionValue = $("#ddlRegion").val();
 
-    if (regionValue == '') {
+                                if (regionValue == '') {
         $('#ddlArea').val("").trigger('change');
 
-        return false;
-    } else {
+                                    return false;
+                                } else {
 
 
         $.ajax({
-            type: "GET",
+                                    type: "GET",
             url: "@Url.Action("GetAreaList", "Configuration")",
             datatype: "Json",
             data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue },
             success: function (data) {
-                if (data) {
+                                            if (data) {
                     $("#ddlArea").empty();
                     $("#ddlArea").append("<option value=''>==Select Area==</option>");
                     $(data).each(function (index, item) {
-                        if (item.Value > 0) {
+                                                    if (item.Value > 0) {
                             $("#ddlArea").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        }
-                    });
-                }
-            }
-        });
-    }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
 
-});
+                            });
 
 $('#ddlArea').change(function () {
-    var zoneValue = $("#ddlZone").val();
-    var zoneDivisonId = $("#ddlZoneDivision").val();
-  var regionValue = $("#ddlRegion").val();
-    var areaValue = $("#ddlArea").val();
+                                var zoneValue = $("#ddlZone").val();
+                                var zoneDivisonId = $("#ddlZoneDivision").val();
+                                var regionValue = $("#ddlRegion").val();
+                                var areaValue = $("#ddlArea").val();
 
 
-    if (areaValue == '') {
+                                if (areaValue == '') {
         $('#ddlSubZone').val("").trigger('change');
-        return false;
-    } else {
+                                    return false;
+                                } else {
 
 
         $.ajax({
-            type: "GET",
+                                    type: "GET",
             url: "@Url.Action("GetSubZoneList", "Configuration")",
             datatype: "Json",
             data: { companyId:@CompanyInfo.CompanyId, zoneId: zoneValue, zoneDivisionId: zoneDivisonId, regionId: regionValue, areaId: areaValue },
             success: function (data) {
-                if (data) {
+                                            if (data) {
                     $("#ddlSubZone").empty();
                     $("#ddlSubZone").append("<option value=''>==Select Territory==</option>");
                     $(data).each(function (index, item) {
-                        if (item.Value > 0) {
+                                                    if (item.Value > 0) {
                             $("#ddlSubZone").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        }
-                    });
+                                                    }
+                                                });
 
-                }
-            }
-        });
-    }
-});
+                                            }
+                                        }
+                                    });
+                                }
+                            });
     $("#ddlSubZone").on("change", function () {
-        var zoneId = $("#ddlZone :selected").val();
-        var zoneDivisionId = $("#ddlZoneDivision :selected").val();
-        var regionId = $("#ddlRegion :selected").val();
-        var areaId = $("#ddlArea :selected").val();
-        var subZone = $("#ddlSubZone :selected").val();
+                                var zoneId = $("#ddlZone :selected").val();
+                                var zoneDivisionId = $("#ddlZoneDivision :selected").val();
+                                var regionId = $("#ddlRegion :selected").val();
+                                var areaId = $("#ddlArea :selected").val();
+                                var subZone = $("#ddlSubZone :selected").val();
         @*$.ajax({
             type: "GET",
             url: "@Url.Action("GetCustomerBySubZones", "Configuration")",

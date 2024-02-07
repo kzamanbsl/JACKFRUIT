@@ -356,6 +356,7 @@ namespace KGERP.Service.Implementation.Configuration
             else if (model.UserTypeId == (int)EnumUserType.Employee)
             {
                 int[] subZoneIds = Array.Empty<int>();
+                
 
                 if (territories?.Count() > 0)
                 {
@@ -403,6 +404,57 @@ namespace KGERP.Service.Implementation.Configuration
                     var dealers = _db.Vendors.Where(c => dealerIds.Contains(c.VendorId) && c.VendorTypeId == (int)Provider.Dealer && c.IsActive == true).ToList();
                     var deportIds = dealers.Select(s => s.ParentId ?? 0).Distinct().ToArray();
                     model.DeportIds = deportIds;
+                }
+                else
+                {
+                    if (areas.Count() > 0)
+                    {
+                        var customers = _db.Vendors.Where(c => model.AreaIds.Contains((int)c.AreaId) && c.IsActive == true).ToList();
+                        var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.CustomerIds = customerIds;
+
+                        var dealerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.DealerIds = dealerIds.Length > 0 ? dealerIds : Array.Empty<int>();
+
+                        var deportIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList().Distinct();
+                        model.DeportIds = deportIds.Select(c => c.VendorId).ToArray();
+                    }
+                    else if (regions.Count() > 0)
+                    {
+                        var customers = _db.Vendors.Where(c => model.RegionIds.Contains((int)c.RegionId) && c.IsActive == true).ToList();
+                        var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.CustomerIds = customerIds;
+
+                        var dealerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.DealerIds = dealerIds.Length > 0 ? dealerIds : Array.Empty<int>();
+
+                        var deportIds = customers?.Where(c =>  c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList().Distinct();
+                        model.DeportIds = deportIds.Select(c => c.VendorId).ToArray();
+                    }
+                    else if (zoneDivisions.Count() > 0)
+                    {
+                        var customers = _db.Vendors.Where(c => model.ZoneDivisionIds.Contains((int)c.ZoneDivisionId) && c.IsActive == true).ToList();
+                        var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.CustomerIds = customerIds;
+
+                        var dealerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.DealerIds = dealerIds.Length > 0 ? dealerIds : Array.Empty<int>();
+
+                        var deportIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList().Distinct();
+                        model.DeportIds = deportIds.Select(c => c.VendorId).ToArray();
+                    }
+                    else if (zones.Count() > 0)
+                    {
+                        var customers = _db.Vendors.Where(c => model.ZoneIds.Contains((int)c.ZoneId) && c.IsActive == true).ToList();
+                        var customerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Customer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.CustomerIds = customerIds;
+
+                        var dealerIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Dealer)?.Select(s => s.VendorId).Distinct().ToArray();
+                        model.DealerIds = dealerIds.Length > 0 ? dealerIds : Array.Empty<int>();
+
+                        var deportIds = customers?.Where(c => c.VendorTypeId == (int)Provider.Deport && c.IsActive == true).ToList().Distinct();
+                        model.DeportIds = deportIds.Select(c => c.VendorId).ToArray();
+                    }
                 }
             }
 

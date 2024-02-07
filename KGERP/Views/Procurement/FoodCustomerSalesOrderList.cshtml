@@ -104,7 +104,7 @@
                                         <th>Delivery Date</th>
                                         <th>Payment Method</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th style="min-width:60px;text-align:center">Action</th>
                                         <th>Print</th>
                                         @*<th>Change Status</th>*@
                                     </tr>
@@ -136,12 +136,12 @@
                                             </td>
                                             <td>@item.POPaymentMethodName</td>
                                             <td>@item.EnumStatusName</td>
-                                            <td>
+                                            <td style="min-width: 60px;text-align:center">
                                                 @if (item.Status == (int)EnumSOStatus.Draft || item.Status == (int)EnumSOStatus.Submitted)
                                                 {
                                                     <a href="" target="_blank" id="@item.OrderMasterId" onclick=" makeEditble(@item.OrderMasterId)" class="linkPointer" data-toggle="modal" data-target="#editSOMasterModal" title="Edit Master" data-placement="top"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                    <a target="_blank"  href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Edit" @*class="btn-sm bg-info m-2"*@> <span class="glyphicon glyphicon-edit"></span></a> <br />
-                                                    <a  href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer " data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    <a target="_blank"  href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Edit" @*class="btn-sm bg-info m-2"*@> <span class="glyphicon glyphicon-edit"></span></a> <br/>
+                                                    <a  href="" target="_blank" id="@item.OrderMasterId" onclick="makeDeletale(@item.OrderMasterId)" class="linkPointer " data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top" @*style="color:red"*@><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     <a target="_blank" class="p-1" href="~/Procurement/SRSalesOrderSlave?companyId=@item.CompanyFK&orderMasterId=@item.OrderMasterId" title="Details">  <i class="fa fa-square-pen"></i></a>
 
 
