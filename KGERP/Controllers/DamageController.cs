@@ -236,7 +236,7 @@ namespace KGERP.Controllers
                 demageMasterModel.CustomerList = new SelectList( configurationService.CommonCustomerListByDealerId(demageMasterModel.UserDataAccessModel.DealerIds[0]), "Value", "Text");
                 demageMasterModel.ToDealerId = demageMasterModel.UserDataAccessModel.DealerIds[0];
             }
-            demageMasterModel.SubZoneFK = demageMasterModel.UserDataAccessModel?.SubZoneIds[0];
+            demageMasterModel.SubZoneFK = demageMasterModel.UserDataAccessModel?.SubZoneIds is null?0: demageMasterModel.UserDataAccessModel?.SubZoneIds[0];
             if (demageMasterModel.SubZoneFK > 0)
             {
                 demageMasterModel.CustomerList = new SelectList(configurationService.CommonCustomerListBySunZones(0, 0, 0, 0, demageMasterModel.SubZoneFK??0), "Value", "Text");

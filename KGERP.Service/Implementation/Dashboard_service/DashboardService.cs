@@ -26,12 +26,22 @@ namespace KGERP.Service.Implementation.Dashboard_service
             vm.TotalVendor = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Customer && x.IsActive == true).Count();
             vm.TotalDeport = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Deport && x.IsActive == true).Count();
             vm.TotalDealer = _context.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)Provider.Dealer && x.IsActive == true).Count();
-           
+
             //vm.TotalPurchase = _context.PurchaseOrders.Where(x => x.CompanyId == companyId && x.PurchaseDate == DateTime.Today && x.IsActive).Count();
             //vm.TotalPurcaseAmmount = (from t1 in _context.PurchaseOrders
             //                          join t2 in _context.PurchaseOrderDetails on t1.PurchaseOrderId equals t2.PurchaseOrderId
             //                          where t1.CompanyId == companyId && t1.PurchaseDate == DateTime.Today && t1.IsActive
             //                          select t2.PurchaseAmount).DefaultIfEmpty(0).Sum();
+            #region Employee Dashboard
+            if (vm.UserDataAccessModel.UserTypeId==(int)EnumUserType.Employee && (vm.UserDataAccessModel?.SubZoneIds?.Length ?? 0) > 0)
+            {
+                //vm.TodaySaleAmount=(decimal) (from t1 in _context.OrderMasters
+                //                    join t2 in _context.OrderDetails on t1.OrderMasterId equals t2.OrderMasterId
+                //                    where t1.CompanyId == companyId && t1.OrderDate == DateTime.Today && t1.SalePersonId == (int)vm.UserDataAccessModel.EmployeeId && t1.IsActive == true && t1.IsOpening == false
+                //                    select t2.Amount).DefaultIfEmpty(0).Sum());
+            }
+
+            #endregion
 
             vm.TotalSale = _context.OrderMasters.Where(x => x.CompanyId == companyId && x.OrderDate == DateTime.Today && x.StockInfoTypeId==(int)StockInfoTypeEnum.Company && x.IsActive==true && x.IsOpening==false).Count();
             

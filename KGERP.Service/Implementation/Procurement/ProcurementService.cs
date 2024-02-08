@@ -4826,8 +4826,10 @@ namespace KGERP.Service.Implementation.Procurement
             vmSalesOrderSlave = await Task.Run(() => (from t1 in _db.OrderMasters.Where(x => x.IsActive && x.OrderMasterId == orderMasterId && x.CompanyId == companyId)
                                                       join t2 in _db.Vendors on t1.DealerId equals t2.VendorId
                                                       join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
-                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId
-                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId
+                                                      join t4 in _db.ZoneDivisions on t2.ZoneDivisionId equals t4.ZoneDivisionId into t4_Join
+                                                      from t4 in t4_Join.DefaultIfEmpty()
+                                                      join t5 in _db.Zones on t2.ZoneId equals t5.ZoneId into t5_Join
+                                                      from t5 in t5_Join.DefaultIfEmpty()
 
                                                       //join t6 in _db.StockInfoes on t1.StockInfoId equals t6.StockInfoId into t6_Join
                                                       //from t6 in t6_Join.DefaultIfEmpty()
@@ -4897,9 +4899,12 @@ namespace KGERP.Service.Implementation.Procurement
 
             vmSalesOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.OrderDetails.Where(x => x.IsActive && x.OrderMasterId == orderMasterId)
                                                                     join t3 in _db.Products on t1.ProductId equals t3.ProductId
-                                                                    join t4 in _db.ProductSubCategories on t3.ProductSubCategoryId equals t4.ProductSubCategoryId
-                                                                    join t5 in _db.ProductCategories on t4.ProductCategoryId equals t5.ProductCategoryId
-                                                                    join t6 in _db.Units on t3.UnitId equals t6.UnitId
+                                                                    join t4 in _db.ProductSubCategories on t3.ProductSubCategoryId equals t4.ProductSubCategoryId into t4_Join
+                                                                    from t4 in t4_Join.DefaultIfEmpty()
+                                                                    join t5 in _db.ProductCategories on t4.ProductCategoryId equals t5.ProductCategoryId into t5_Join
+                                                                    from t5 in t5_Join.DefaultIfEmpty()
+                                                                    join t6 in _db.Units on t3.UnitId equals t6.UnitId into t6_Join
+                                                                    from t6 in t6_Join.DefaultIfEmpty()
                                                                     select new VMSalesOrderSlave
                                                                     {
                                                                         ProductName = t4.Name + " " + t3.ProductName,

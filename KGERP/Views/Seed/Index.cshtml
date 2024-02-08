@@ -17,7 +17,7 @@
         </div>
         <br />
         @*@if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && (Model.UserDataAccessModel.DeportIds == null || Model.UserDataAccessModel.DeportIds?.Length <= 0))*@
-        @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Management || (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && Model.UserDataAccessModel.UserName == "AZ00001" ))
+        @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Management || (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Employee && Model.UserDataAccessModel.UserName == "AZ00001"))
         {
             <div class="row">
 
@@ -132,61 +132,146 @@
             </div>
 
             @*<div class="row">
-                <div class="col-lg-3 col-6">
-                    <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
-                        <div class="inner">
-                            <h2> <b>@Model.Collection</b> </h2>
-                            <p> Today's Collection</p>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.Collection</b> </h2>
+                                <p> Today's Collection</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd-outline"></i>
+                            </div>
+                            <a href="/Collection/CommonCustomerList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: #ed1c24;">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-social-usd-outline"></i>
-                        </div>
-                        <a href="/Collection/CommonCustomerList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: #ed1c24;">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
-                        <div class="inner">
-                            <h2> <b>@Model.MonthSaleCollection</b> </h2>
-                            <p> Last Month Collection</p>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.MonthSaleCollection</b> </h2>
+                                <p> Last Month Collection</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd-outline"></i>
+                            </div>
+                            <a href="/Collection/CommonCustomerList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-social-usd-outline"></i>
-                        </div>
-                        <a href="/Collection/CommonCustomerList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-6">
-                    <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
-                        <div class="inner">
-                            <h2> <b>@Model.Payment</b> </h2>
-                            <p> Today's Payment</p>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.Payment</b> </h2>
+                                <p> Today's Payment</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd-outline"></i>
+                            </div>
+                            <a href="/Collection/CommonSupplierList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-social-usd-outline"></i>
-                        </div>
-                        <a href="/Collection/CommonSupplierList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-6">
-                    <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
-                        <div class="inner">
-                            <h2> <b>@Model.MonthPurchasePayment</b> </h2>
-                            <p> Last Month Payment</p>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.MonthPurchasePayment</b> </h2>
+                                <p> Last Month Payment</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd"></i>
+                            </div>
+                            <a href="/Procurement/ProcurementSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-social-usd"></i>
-                        </div>
-                        <a href="/Procurement/ProcurementSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
 
             @*<a href="/Report/MonthlyTopsheet?companyId=@CompanyInfo.CompanyId"><strong>Go To Top Sheet</strong> </a>*@
 
         }
+        
+        @*@if (Model.UserDataAccessModel?.UserTypeId == (int)EnumUserType.Employee &&( Model.UserDataAccessModel?.SubZoneIds?.Length??0) > 0 && Model.UserDataAccessModel?.UserName != "AZ00001")
+        {
+            <div class="">
+                <div class="row  justify-content-center">
+                    <div class="col-lg-4 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2><b>@Model.TodaySaleQty</b>  <sup style="font-size: 20px"></sup></h2>
+                                <p>Today's Sale Quantity</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion  ion-android-cart"></i>
+                            </div>
+                            <a href="/Procurement/DeportSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2><b>@Model.WeeklySaleQty</b>  <sup style="font-size: 20px"></sup></h2>
+                                <p>Weekly Sale Quantity</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion  ion-android-cart"></i>
+                            </div>
+                            <a href="/Procurement/DeportSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2><b>@Model.MonthlySaleQty</b>  <sup style="font-size: 20px"></sup></h2>
+                                <p>Monthly Sale Quantity</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion  ion-android-cart"></i>
+                            </div>
+                            <a href="/Procurement/DeportSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: forestgreen;">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.TodaySaleAmount</b> </h2>
+                                <p> Today's Sale Amount</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd"></i>
+                            </div>
+                            <a href="/Procurement/DeportSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: #ed1c24;">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.WeeklySaleAmount</b> </h2>
+                                <p> Weekly Sale Amount</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd"></i>
+                            </div>
+                            <a href="/Procurement/DeportSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: #ed1c24;">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                        <div class="small-box " style=" box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);">
+                            <div class="inner">
+                                <h2> <b>@Model.MonthlySaleAmount</b> </h2>
+                                <p> Monthly Sale Amount</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-social-usd"></i>
+                            </div>
+                            <a href="/Procurement/DeportSalesOrderList?companyId=@CompanyInfo.CompanyId" class="small-box-footer" style="background-color: #ed1c24;">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        }*@
     </center>
 </div>
 

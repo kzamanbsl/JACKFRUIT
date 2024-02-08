@@ -25,9 +25,19 @@
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
-            <a href="~/Procurement/DealerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
-                <span class="fs fs-plus"></span> New Sales Invoice
-            </a>
+            @if (Model.UserDataAccessModel.UserTypeId == (int)EnumUserType.Deport)
+            {
+                <a href="~/Procurement/DptToDealerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
+                    <span class="fs fs-plus"></span> New Sales Invoice
+                </a>
+            }
+            else
+            {
+                <a href="~/Procurement/DealerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
+                    <span class="fs fs-plus"></span> New Sales Invoice
+                </a>
+            }
+            
         </li>
     </ol>
 </section>
