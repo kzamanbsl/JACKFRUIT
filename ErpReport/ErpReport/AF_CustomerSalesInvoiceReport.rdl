@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.8.34316.72</am:Version>
+      <am:Version>17.9.34607.119</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-12-04T09:20:10.4109390Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-02-25T05:15:42.6845753Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -3011,7 +3011,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
             <DataSetName>SODataSet</DataSetName>
             <Top>2.83959in</Top>
             <Left>0.98542in</Left>
-            <Height>1.09375in</Height>
+            <Height>1.09374in</Height>
             <Width>6.66697in</Width>
             <ZIndex>1</ZIndex>
             <Style>
@@ -3592,9 +3592,65 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.32292in</Height>
+          <Height>0.65625in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox32">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>“</Value>
+                      <Style>
+                        <FontSize>11pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>সরবরাহকৃত পণ্য দ্রুত আপনার প্রয়োজনে এবং আপনার চাহিদা অনুযায়ী ইনভয়েস করা হয়েছে” </Value>
+                      <Style>
+                        <FontFamily>Nirmala UI</FontFamily>
+                        <FontSize>11pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>দ্রুত সময়ে এই পণ্য বিক্রি করার জন্য অনুরোধ করা হইলো, যাতে উক্ত পণ্য ড্যামেজ না হয়।</Value>
+                      <Style>
+                        <FontFamily>Nirmala UI</FontFamily>
+                        <FontSize>11pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox27</rd:DefaultName>
+              <Top>0.07914in</Top>
+              <Left>0.03151in</Left>
+              <Height>0.48548in</Height>
+              <Width>8.11668in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
           <Style>
             <Border>
               <Style>None</Style>
