@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.9.34607.119</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-02-25T05:01:04.5321665Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-02-27T04:17:15.3022072Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -3539,7 +3539,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Height>5.85002in</Height>
         <Style />
       </Body>
-      <Width>8.19557in</Width>
+      <Width>8.20599in</Width>
       <Page>
         <PageHeader>
           <Height>1.08966in</Height>
@@ -3615,6 +3615,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
+              <Top>0.0875in</Top>
               <Left>2.02708in</Left>
               <Height>0.96813in</Height>
               <Width>4.5448in</Width>
@@ -3632,7 +3633,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Source>External</Source>
               <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
               <Sizing>FitProportional</Sizing>
-              <Top>0.02022in</Top>
+              <Top>0.10772in</Top>
               <Left>0.98542in</Left>
               <Height>0.94792in</Height>
               <Width>1in</Width>
@@ -3671,7 +3672,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
-              <Top>0.025in</Top>
+              <Top>0.1125in</Top>
               <Left>6.57188in</Left>
               <Height>0.22917in</Height>
               <Width>1.47292in</Width>
@@ -3694,7 +3695,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.61742in</Height>
+          <Height>0.62159in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3707,14 +3708,14 @@ from Company Where CompanyId=@CompanyId</CommandText>
                     <TextRun>
                       <Value>“</Value>
                       <Style>
-                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>সরবরাহকৃত পণ্য দ্রুত আপনার প্রয়োজনে এবং আপনার চাহিদা অনুযায়ী ইনভয়েস করা হয়েছে” </Value>
                       <Style>
                         <FontFamily>Nirmala UI</FontFamily>
-                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -3728,7 +3729,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                       <Value>দ্রুত সময়ে এই পণ্য বিক্রি করার জন্য অনুরোধ করা হইলো, যাতে উক্ত পণ্য ড্যামেজ না হয়।</Value>
                       <Style>
                         <FontFamily>Nirmala UI</FontFamily>
-                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -3738,8 +3739,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox27</rd:DefaultName>
-              <Top>0.05278in</Top>
-              <Height>0.48548in</Height>
+              <Left>0.025in</Left>
+              <Height>0.62159in</Height>
               <Width>8.11668in</Width>
               <Style>
                 <Border>
