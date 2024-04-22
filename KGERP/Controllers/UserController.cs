@@ -202,7 +202,7 @@ namespace KGERP.Controllers
         private string GenaratEemployeeId()
         {
             string employeeId = string.Empty;
-            Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+            Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ") && c.EmployeeId.Length == 7).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
             //EmployeeVm lastEmployee = (from t1 in _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ"))
             //                            join t2 in _context.Users on t1.EmployeeId equals t2.UserName

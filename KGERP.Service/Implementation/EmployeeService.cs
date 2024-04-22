@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KGERP.Service.Implementation
@@ -175,7 +176,7 @@ namespace KGERP.Service.Implementation
             if (id <= 0)
             {
                 //Employee lastEmployee = context.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
-                Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+                Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ") && c.EmployeeId.Length == 7).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
                 if (lastEmployee == null)
                 {
