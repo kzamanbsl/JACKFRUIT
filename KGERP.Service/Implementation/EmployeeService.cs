@@ -382,8 +382,6 @@ namespace KGERP.Service.Implementation
             long? managerId = null;
             bool result = false;
 
-
-
             if (id > 0)
             {
                 var updateEmployee = _context.Employees.FirstOrDefault(x => x.Id == id);
@@ -503,8 +501,7 @@ namespace KGERP.Service.Implementation
             else
             {
 
-
-                Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ")).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
+                Employee lastEmployee = _context.Employees.Where(c => c.EmployeeId.StartsWith("AZ") && c.EmployeeId.Length == 7).OrderByDescending(x => x.EmployeeId).FirstOrDefault();
 
                 if (lastEmployee == null)
                 {
